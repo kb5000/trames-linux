@@ -15,7 +15,11 @@ jobs:
         with:
           toolchain: nightly-2026-10-16
       - run: cargo build --workspace --release --locked
+      - run: cargo test -p trames-kvm --locked -- --ignored --test-threads=1
+      - run: TRAMES_KVM_TRANSPORT=mmio cargo test -p trames-kvm --locked -- --ignored --test-threads=1
       - run: bash scripts/validate-hardware.sh
+      - run: python3 scripts/validate-session.py
+      - run: TRAMES_KVM_TRANSPORT=mmio TRAMES_VALIDATION_OUTPUT=target/validation/session-mmio python3 scripts/validate-session.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:

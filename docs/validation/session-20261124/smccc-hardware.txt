@@ -1,0 +1,17 @@
+Unchanged state/table tests (reused):
+running 4 tests
+test aarch64::engine::hardware_checkpoints::completed_syscalls_resume_without_register_resets_or_extra_smccc_runs ... ok
+test aarch64::engine::hardware_checkpoints::every_restore_pc_and_completed_doorbell_has_a_complete_user_checkpoint ... ok
+test aarch64::engine::hardware_checkpoints::hardware_step_can_pause_inside_a_real_partial_el1_save ... ok
+test aarch64::engine::hardware_checkpoints::sparse_table_retirement_releases_empty_subtrees ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 5 filtered out; finished in 0.03s
+
+Final memory/context/range tests:
+running 4 tests
+test byte_borrow_revokes_cached_stage_two_and_wakes_without_polling ... ok
+test canonical_pages_fork_cow_protection_and_unmap_reuse ... ok
+test deadline_state_and_preentry_kick_survive_worker_migration ... ok
+test host_managed_ranges_keep_canonical_bytes_and_fork_cow ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.17s

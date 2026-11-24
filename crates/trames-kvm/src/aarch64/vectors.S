@@ -2,21 +2,22 @@
 // Product-owned EL1 adapter; guest application instructions are never patched.
 .section .text.trames_kvm,"ax"
 .balign 2048
-.global trames_kvm_vectors_start
-trames_kvm_vectors_start:
+.macro trames_adapter name, high
+.global \name\()_vectors_start
+\name\()_vectors_start:
 .rept 8
-    b .Ladapter_fault
+    b .Ladapter_fault_\@
     .space 124
 .endr
-    b .Lsave
+    b .Lsave_\@
     .space 124
 .rept 7
-    b .Ladapter_fault
+    b .Ladapter_fault_\@
     .space 124
 .endr
 
-.global trames_kvm_resume
-trames_kvm_resume:
+.global \name\()_resume
+\name\()_resume:
     clrex
     ldr x0, [sp, #864]
     cbz x0, 1f
@@ -80,7 +81,9 @@ trames_kvm_resume:
     ldp x0, x1, [sp]
     eret
 
-.Lsave:
+.global \name\()_saving
+\name\()_saving:
+.Lsave_\@:
     stp x0, x1, [sp, #0]
     stp x2, x3, [sp, #16]
     stp x4, x5, [sp, #32]
@@ -137,30 +140,43 @@ trames_kvm_resume:
     mov x1, #2
     csel x0, x0, x1, eq
     str x0, [sp, #832]
-    b .Lnotify
-.Ladapter_fault:
+    b .Lnotify_\@
+.Ladapter_fault_\@:
     mrs x0, esr_el1
     str x0, [sp, #816]
     mrs x0, far_el1
     str x0, [sp, #824]
     mov x0, #3
     str x0, [sp, #832]
-.Lnotify:
+.Lnotify_\@:
     mov x0, #1
     str x0, [sp, #856]
     ldr x0, [sp, #840]
-    cbz x0, .Lmmio
+    cbz x0, .Lmmio_\@
     movz x0, #0x5452
     movk x0, #0x8600, lsl #16
     hvc #0
-    b trames_kvm_resume
-.Lmmio:
+.global \name\()_hvc_return
+\name\()_hvc_return:
+    b \name\()_resume
+.Lmmio_\@:
+    .if \high
+    movn x1, #0x2fff
+    .else
     mov x1, #0xd000
+    .endif
     mov w0, #1
     str w0, [x1]
-    b trames_kvm_resume
-.global trames_kvm_vectors_end
-trames_kvm_vectors_end:
+.global \name\()_mmio_return
+\name\()_mmio_return:
+    b \name\()_resume
+.global \name\()_vectors_end
+\name\()_vectors_end:
+
+.endm
+trames_adapter trames_kvm, 0
+.balign 2048
+trames_adapter trames_engine, 1
 
 // Original, separately loaded fixture instructions. There is no rewriting.
 .balign 4

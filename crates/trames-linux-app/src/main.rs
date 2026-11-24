@@ -1,24 +1,31 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+// Shared namespace resources form a recursive Send graph, as in the Mac product.
+#![recursion_limit = "512"]
 use std::{process::ExitCode, time::Duration};
 use trames_kvm::{Doctor, ProbeOptions};
+mod foreground;
 
 const RUNTIME: &str = include_str!("../../../runtime-version.json");
 const HELP: &str = "Trames Linux 0.1.0 — KVM bring-up\n\
 Usage:\n  trames doctor [--json] [--require-kvm]\n  \
 trames probe [--json] [--transport auto|smccc|mmio] [--iterations N] [--deadline-ms N]\n\
+  trames run [--cpus N] [--timeout-ms N] [--rootfs DIR] -- ELF [ARG...]\n\
 The probe runs original EL0 fixtures through a private EL1 adapter.\n\
-General ELF/rootfs sessions and media providers are not implemented yet.\n";
+Foreground ELF/rootfs sessions use the shared runtime. Media providers are pending.\n";
 
-fn run() -> Result<(), Box<dyn std::error::Error>> {
+fn run() -> Result<u8, Box<dyn std::error::Error>> {
     let mut args = std::env::args().skip(1);
     let command = args.next().unwrap_or_else(|| "help".into());
     if matches!(command.as_str(), "help" | "--help" | "-h") {
         print!("{HELP}");
-        return Ok(());
+        return Ok(0);
     }
     if command == "--version" {
         println!("trames-linux {}", env!("CARGO_PKG_VERSION"));
-        return Ok(());
+        return Ok(0);
+    }
+    if command == "run" {
+        return foreground::run(args.collect());
     }
     if !matches!(command.as_str(), "doctor" | "probe") {
         return Err(format!("unknown command {command:?}\n{HELP}").into());
@@ -86,11 +93,11 @@ fn run() -> Result<(), Box<dyn std::error::Error>> {
             println!("4 KiB permissions, canonical RAM, GPR/SIMD/TLS, fault resume and deadline verified");
         }
     }
-    Ok(())
+    Ok(0)
 }
 fn main() -> ExitCode {
     match run() {
-        Ok(()) => ExitCode::SUCCESS,
+        Ok(code) => ExitCode::from(code),
         Err(error) => {
             eprintln!("trames: {error}");
             ExitCode::from(2)

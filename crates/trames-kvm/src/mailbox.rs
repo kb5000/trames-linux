@@ -17,6 +17,15 @@ pub(crate) struct Mailbox {
 }
 const _: () = {
     assert!(std::mem::size_of::<Aarch64State>() == 816);
+    assert!(std::mem::offset_of!(Aarch64State, registers) == 0);
+    assert!(std::mem::offset_of!(Aarch64State, sp) == 248);
+    assert!(std::mem::offset_of!(Aarch64State, pc) == 256);
+    assert!(std::mem::offset_of!(Aarch64State, nzcv) == 264);
+    assert!(std::mem::offset_of!(Aarch64State, tpidr_el0) == 272);
+    assert!(std::mem::offset_of!(Aarch64State, tpidr2_el0) == 280);
+    assert!(std::mem::offset_of!(Aarch64State, fpcr) == 288);
+    assert!(std::mem::offset_of!(Aarch64State, fpsr) == 292);
+    assert!(std::mem::offset_of!(Aarch64State, vectors) == 304);
     assert!(std::mem::offset_of!(Mailbox, syndrome) == 816);
     assert!(std::mem::offset_of!(Mailbox, address) == 824);
     assert!(std::mem::offset_of!(Mailbox, event) == 832);

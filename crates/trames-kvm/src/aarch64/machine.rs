@@ -125,10 +125,10 @@ struct Machine {
     run: *mut kvm_run,
     _thread_affine: PhantomData<Rc<()>>,
 }
-fn core_register(offset: usize) -> u64 {
+pub(super) fn core_register(offset: usize) -> u64 {
     KVM_REG_ARM64 | KVM_REG_SIZE_U64 | KVM_REG_ARM_CORE as u64 | (offset / 4) as u64
 }
-fn system_register(op0: u64, op1: u64, crn: u64, crm: u64, op2: u64) -> u64 {
+pub(super) fn system_register(op0: u64, op1: u64, crn: u64, crm: u64, op2: u64) -> u64 {
     KVM_REG_ARM64
         | KVM_REG_SIZE_U64
         | KVM_REG_ARM64_SYSREG as u64
@@ -138,7 +138,7 @@ fn system_register(op0: u64, op1: u64, crn: u64, crm: u64, op2: u64) -> u64 {
         | crm << 3
         | op2
 }
-fn set(cpu: &VcpuFd, id: u64, value: u64) -> Result<()> {
+pub(super) fn set(cpu: &VcpuFd, id: u64, value: u64) -> Result<()> {
     cpu.set_one_reg(id, &value.to_ne_bytes())
         .map(|_| ())
         .map_err(|e| Error::context(&format!("set KVM register {id:#x}"), e))

@@ -26,14 +26,17 @@ unsafe extern "C" fn handler(_: i32, info: *mut libc::siginfo_t, _: *mut libc::c
     // SAFETY: SA_SIGINFO supplies a live siginfo_t. This reserved signal accepts
     // only our one-shot timers, tagged so late delivery cannot hit a new vCPU.
     let token = unsafe {
-        if (*info).si_code != libc::SI_TIMER {
+        if (*info).si_code == libc::SI_TKILL {
+            0
+        } else if (*info).si_code != libc::SI_TIMER {
             return;
+        } else {
+            (*info).si_value().sival_ptr as usize
         }
-        (*info).si_value().sival_ptr as usize
     };
     let _ = ACTIVE.try_with(|active| {
         let (pointer, expected) = active.get();
-        if !pointer.is_null() && token == expected {
+        if !pointer.is_null() && (token == 0 || token == expected) {
             // SAFETY: arm retains the run mapping and blocks/drains this signal
             // before the pointer is cleared or the vCPU can be destroyed.
             unsafe { pointer.write_volatile(1) };
@@ -165,6 +168,45 @@ impl Drop for Deadline {
             };
             libc::sigtimedwait(&mask, ptr::null_mut(), &zero);
             libc::pthread_sigmask(libc::SIG_SETMASK, &self.old_mask, ptr::null_mut());
+        }
+    }
+}
+
+/// A retained kick handle never accesses the run mapping on a foreign thread.
+/// The mutex covers only thread-identity retirement and pthread_kill, never RUN.
+#[cfg(target_arch = "aarch64")]
+pub(crate) struct Interrupt {
+    owner: std::sync::Mutex<Option<libc::pthread_t>>,
+    requested: std::sync::atomic::AtomicBool,
+    signal: i32,
+}
+#[cfg(target_arch = "aarch64")]
+impl Interrupt {
+    pub fn new() -> Result<std::sync::Arc<Self>> {
+        Ok(std::sync::Arc::new(Self {
+            owner: std::sync::Mutex::new(Some(unsafe { libc::pthread_self() })),
+            requested: std::sync::atomic::AtomicBool::new(false),
+            signal: reserved_signal()?,
+        }))
+    }
+    pub fn take_request(&self) -> bool {
+        self.requested.swap(false, Ordering::AcqRel)
+    }
+    pub fn retire(&self) {
+        *self.owner.lock().unwrap() = None;
+    }
+}
+#[cfg(target_arch = "aarch64")]
+impl trames_execution::ExecutionInterrupt for Interrupt {
+    fn request_exit(&self) {
+        let owner = self.owner.lock().unwrap();
+        if let Some(thread) = *owner {
+            self.requested.store(true, Ordering::Release);
+            // The retained live owner prevents pthread identifier reuse until
+            // this call completes. The thread-local signal handler owns the byte.
+            unsafe {
+                libc::pthread_kill(thread, self.signal);
+            }
         }
     }
 }

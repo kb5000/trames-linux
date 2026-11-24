@@ -13,6 +13,9 @@ path = "src/main.rs"
 [dependencies]
 trames-kvm = { path = "../trames-kvm" }
 serde_json.workspace = true
+trames-session.workspace = true
+trames-linux-abi.workspace = true
+trames-vfs.workspace = true
 
 [lints]
 workspace = true

@@ -74,3 +74,62 @@ instruction counts. Full asynchronous preemption-state capture, interruption
 inside partial EL1 save/restore, external kick handles and task migration must
 be completed in the shared-engine integration batch. L0 only asserts that a
 syscall-free loop can be interrupted and its execution slot returned.
+
+## Shared-session engine (second batch)
+
+`kernel::Cpu` owns movable `Aarch64State` and negotiated API flags. `Engine`
+lazily owns one creator-thread vCPU and its sparse stage-1 tables. All workers
+in this host process retain the same KVM VM, so exported physical storage keeps
+one GPA identity across tasks, mm objects and workers. VM/CPU IDs are retired
+before reuse; original runtime scheduling and resource objects remain in charge.
+
+The production adapter uses TTBR0 for 48-bit guest user addresses and TTBR1 for
+private EL1 controls at the top of the upper address space. User ELF mappings
+never collide with low adapter fixture addresses. Both translation granules are
+4 KiB; guest VA is independent of the bounded physical arena addresses.
+
+Each 64 MiB demand-zero memfd arena has one KVM slot and two shared mappings:
+
+```text
+runtime SharedPage/HardwareRange -> canonical host RW alias -> same memfd bytes
+KVM stage-2 backing              -> hardware alias         -> same memfd bytes
+```
+
+The existing page/range borrow gate mprotects only the hardware alias to NONE
+before returning a Rust host reference. Linux's MMU invalidation withdraws KVM
+access synchronously; the canonical alias stays in place. ARM64's EFAULT return
+does not provide a portable fault GPA, so an active-lease queue returns an
+original `HardwareWait`. Release restores the alias and fires readiness. A lease
+generation closes release-before-wait races; an EFAULT repeated without lease
+progress is a host error. There is no polling/resource service thread.
+
+The arena remains mapped while any page, range or PTE owner retains it. First
+exports replace the runtime's original bytes once, not with a persistent shadow.
+COW/admission stays in `View::export_hardware_page` and the common accounting.
+PTE invalidation precedes physical-owner retirement; no stopped private table can
+be reused without the required TLBI. Empty sparse subtrees retire on unmap.
+Final allocations punch their memfd extent only after every byte/PTE owner drops,
+then return it to the bounded pool. Data-only host writes do not flush code;
+executable exports retain code-publication metadata at the existing write hook.
+
+Normal SMCCC notifications already complete the ARM64 HVC instruction, and the
+ARM64 run path has no userspace hypercall completion callback. The saved mailbox
+can be replaced and the branch to full restore reused without register ioctls.
+MMIO uses an immediate-exit RUN to complete its pending store before handoff.
+See the Linux [SMCCC handler](https://github.com/torvalds/linux/blob/master/arch/arm64/kvm/hypercalls.c)
+and [ARM64 RUN path](https://github.com/torvalds/linux/blob/master/arch/arm64/kvm/arm.c).
+
+On asynchronous interruption, a stopped EL0 bank is read through cold register
+ioctls. A partial restore still has its complete mailbox. A partial save/vector
+finishes bounded private code to return the pending SVC/fault rather than losing
+it as a yield. The post-HVC and post-MMIO branches are restore checkpoints too.
+Tests cover every restore instruction address, an actual hardware-stepped partial
+save, normal-path RUN/reset counts, and real task migration. External kicks retain
+only a mutex-protected live pthread identity and a pending request; the handler
+updates its own TLS run byte, and retirement makes old handles inert.
+
+The shared runtime normalizes data/instruction faults, Linux signals and the
+negotiated HLT bridge registry. Unsupported external-pointer imports and debugger
+single-step fail explicitly. The current VM has no GPU/PCM/video device; the
+common FD/image/synchronization API and Linux providers remain a separate required
+product batch. No raw pointer import is allowed to bypass the hardware borrow gate.

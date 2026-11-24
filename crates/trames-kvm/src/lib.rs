@@ -3,6 +3,7 @@
 use serde::Serialize;
 use std::{fmt, time::Duration};
 pub use trames_execution::Aarch64State;
+pub mod kernel;
 
 #[cfg(any(all(target_os = "linux", target_arch = "aarch64"), test))]
 mod aarch64;
@@ -12,6 +13,8 @@ mod deadline;
 mod linux;
 #[cfg(any(all(target_os = "linux", target_arch = "aarch64"), test))]
 mod mailbox;
+#[cfg(all(target_os = "linux", target_arch = "aarch64"))]
+mod storage;
 
 #[derive(Debug)]
 pub struct Error(pub(crate) String);

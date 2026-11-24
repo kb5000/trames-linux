@@ -1,0 +1,168 @@
+[
+  {
+    "name": "native/basic",
+    "passed": true,
+    "code": 0,
+    "stdout": "basic: ok\n",
+    "stderr": "",
+    "seconds": 0.0025722889995449805
+  },
+  {
+    "name": "kvm-1/basic",
+    "passed": true,
+    "code": 0,
+    "stdout": "basic: ok\n",
+    "stderr": "",
+    "seconds": 0.01597114500054886
+  },
+  {
+    "name": "kvm-4/basic",
+    "passed": true,
+    "code": 0,
+    "stdout": "basic: ok\n",
+    "stderr": "",
+    "seconds": 0.011027103999367682
+  },
+  {
+    "name": "native/memory",
+    "passed": true,
+    "code": 0,
+    "stdout": "memory: ok\n",
+    "stderr": "",
+    "seconds": 0.0021011139997426653
+  },
+  {
+    "name": "kvm-1/memory",
+    "passed": true,
+    "code": 0,
+    "stdout": "memory: ok\n",
+    "stderr": "",
+    "seconds": 0.011904023000170127
+  },
+  {
+    "name": "kvm-4/memory",
+    "passed": true,
+    "code": 0,
+    "stdout": "memory: ok\n",
+    "stderr": "",
+    "seconds": 0.01202095700045902
+  },
+  {
+    "name": "native/fork",
+    "passed": true,
+    "code": 0,
+    "stdout": "fork: ok\n",
+    "stderr": "",
+    "seconds": 0.0009210770003846847
+  },
+  {
+    "name": "kvm-1/fork",
+    "passed": true,
+    "code": 0,
+    "stdout": "fork: ok\n",
+    "stderr": "",
+    "seconds": 0.017394518999935826
+  },
+  {
+    "name": "kvm-4/fork",
+    "passed": true,
+    "code": 0,
+    "stdout": "fork: ok\n",
+    "stderr": "",
+    "seconds": 0.028332627999589022
+  },
+  {
+    "name": "native/threads",
+    "passed": true,
+    "code": 0,
+    "stdout": "threads: ok\n",
+    "stderr": "",
+    "seconds": 0.001347753999652923
+  },
+  {
+    "name": "kvm-1/threads",
+    "passed": true,
+    "code": 0,
+    "stdout": "threads: ok\n",
+    "stderr": "",
+    "seconds": 0.021125785999174695
+  },
+  {
+    "name": "kvm-4/threads",
+    "passed": true,
+    "code": 0,
+    "stdout": "threads: ok\n",
+    "stderr": "",
+    "seconds": 0.05203855800027668
+  },
+  {
+    "name": "native/exit",
+    "passed": true,
+    "code": 37,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.0023035189997244743
+  },
+  {
+    "name": "kvm-1/exit",
+    "passed": true,
+    "code": 37,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.009772209999937331
+  },
+  {
+    "name": "kvm-4/exit",
+    "passed": true,
+    "code": 37,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.012692412999967928
+  },
+  {
+    "name": "deadline/spin",
+    "passed": true,
+    "code": 2,
+    "seconds": 0.10495331199945213,
+    "stderr": "trames: session cancelled by its host\n"
+  },
+  {
+    "name": "deadline/sleep",
+    "passed": true,
+    "code": 2,
+    "seconds": 0.1111332680002306,
+    "stderr": "trames: session cancelled by its host\n"
+  },
+  {
+    "name": "dynamic-rootfs/basic",
+    "passed": true,
+    "code": 0,
+    "stdout": "basic: ok\n",
+    "stderr": "",
+    "seconds": 0.032803111000248464
+  },
+  {
+    "name": "dynamic-rootfs/memory",
+    "passed": true,
+    "code": 0,
+    "stdout": "memory: ok\n",
+    "stderr": "",
+    "seconds": 0.03464556699964305
+  },
+  {
+    "name": "dynamic-rootfs/fork",
+    "passed": true,
+    "code": 0,
+    "stdout": "fork: ok\n",
+    "stderr": "",
+    "seconds": 0.044402553000509215
+  },
+  {
+    "name": "dynamic-rootfs/threads",
+    "passed": true,
+    "code": 0,
+    "stdout": "threads: ok\n",
+    "stderr": "",
+    "seconds": 0.06862056799946004
+  }
+]

@@ -20,26 +20,41 @@ Both transports passed on the existing nested ARM64 Linux debug VM. See the
 prototype, not all L0 gates. The VM has no GPU, desktop session, PCM device or
 video device; it cannot establish hardware media readiness.
 
-## Next dependency batch: shared engine, memory and asynchronous exits
+## Delivered second batch: shared engine and foreground sessions
 
-Implement the complete dependency set before consolidated validation:
+- The shared runtime `Cpu`/`Engine` and hardware memory contracts are connected;
+  the runtime pin remains the same clean shared commit, with no runtime fork.
+- Canonical memfd pages/ranges, sparse 4 KiB tables, synchronous hardware-alias
+  revocation, readiness handoff, COW and storage/table retirement are implemented.
+- Task state migrates independently of its worker-local vCPU. Asynchronous EL0
+  capture, partial EL1 save completion, restore recovery, kick retirement and
+  pending MMIO completion are implemented. Normal SMCCC exits keep a single RUN
+  and avoid per-register resets on continuation.
+- Foreground static/dynamic ELF and explicit rootfs mounts use the existing
+  syscall/process/signal/thread/clock/VFS paths. One/four-vCPU native comparisons,
+  real page-fault signal recovery, fork/COW, pipes, TLS/futex threads and running/
+  sleeping cancellation are included in the hardware validation batch.
 
-1. Connect `HardwareStorage`/`HardwareRange` to canonical runtime backing. Keep
-   stable arena registration bounded; handle map/unmap/protect, borrow/revoke,
-   COW, reclaim and reuse with the existing ownership rules. Verify adjacent
-   4 KiB pages remain independent throughout; do not introduce a second byte store.
-2. Implement the runtime `Cpu`/worker-local `Engine` contract. Normalize syscall,
-   page fault, invalid instruction, breakpoint and native bridge entries. Use
-   shared Linux dispatch, ELF loading, signal frames, memory and resource objects.
-3. Complete state capture at asynchronous exits, including partial EL1
-   save/restore and pending MMIO/hypercall completion before parking/migration.
-   Add external interrupt lifetime/entry gates and worker handoff. Blocking work
-   returns its execution slot; short calls stay on the current worker.
-4. Audit the real KVM CPU profile, HWCAP/auxv and unsupported instruction state.
-   Baseline L0 does not advertise SVE/SME or promise exact instruction counts.
-5. Add foreground ELF/rootfs CLI execution and explicit headless capability
-   reporting. Validate static ELF, fault/signal/TLS/FP, mmap/COW/futex and worker
-   handoff in the actual 4 KiB VM; compare affected cases to native Linux.
+See the [shared-session validation record](validation/session-20261124.md).
+These cases establish an execution foundation, not a complete compatibility or
+product release. The baseline advertises FP/ASIMD only; exact instruction budgets,
+SVE/SME and debugger single-step remain unsupported.
+
+## Next dependency batch: common resource contract and Linux providers
+
+1. Complete the platform-neutral image/native-handle/FD/ownership/synchronization
+   contract and migrate all shared callers. KVM cannot safely import an arbitrary
+   RW pointer as a revocable second alias; external imports need a retained FD
+   and offset geometry or another equally explicit ownership mechanism.
+2. Implement Linux Vulkan, presentation, video and PCM providers as detailed
+   below. Keep Apple consumers working and keep headless execution independent
+   of device initialization. Probe real hardware before claiming capability.
+3. Expand runtime compatibility, signal/restart, exec, shared mappings, resource
+   pressure, terminal/stdio and teardown validation in complete dependency batches.
+   Add debugger single-step and only advertise extended CPU state after support.
+4. Measure bare-metal distributions, CPU time, asynchronous register capture,
+   mapping synchronization and ordinary workloads. Optimize observed costs with
+   the shared ownership rules; nested-VM timing cannot predict bare-metal limits.
 
 ## Shared API and Linux providers
 
@@ -65,8 +80,8 @@ still needed for those tests.
 
 ## Subsequent gates
 
-- Finish the accepted L0–L2 ownership, scheduler, process and compatibility gates;
-  the current probe cannot claim those passes.
+- Finish the remaining accepted L0–L2 and broader compatibility/resource gates;
+  the recorded fixtures cannot claim untested corpus or application passes.
 - Complete real application graphics/audio/video, native comparisons, resources,
   performance and packaging before the ARM64 product release.
 - Add amd64 as a separate guest-ABI/runtime and KVM architecture batch. Common
