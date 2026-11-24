@@ -1,0 +1,24 @@
+[workspace]
+resolver = "2"
+members = ["crates/trames-kvm", "crates/trames-linux-app"]
+exclude = ["runtime"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.101"
+license = "GPL-3.0-or-later"
+repository = "https://github.com/kb5000/trames-linux"
+
+[workspace.dependencies]
+trames-execution = { path = "runtime/crates/trames-execution" }
+serde = { version = "=1.0.229", features = ["derive"] }
+serde_json = "=1.0.151"
+libc = "=0.2.190"
+
+[workspace.lints.rust]
+unsafe_op_in_unsafe_fn = "deny"
+
+[profile.release]
+overflow-checks = true
+lto = "thin"

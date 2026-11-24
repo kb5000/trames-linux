@@ -1,0 +1,24 @@
+name: Required KVM hardware checks
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  arm64-kvm:
+    runs-on: [self-hosted, Linux, ARM64, trames-kvm]
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: nightly-2026-10-16
+      - run: cargo build --workspace --release --locked
+      - run: bash scripts/validate-hardware.sh
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: kvm-hardware-results
+          path: target/validation/
+          if-no-files-found: error

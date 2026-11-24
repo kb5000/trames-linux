@@ -1,0 +1,41 @@
+{
+  "probe": {
+    "canonical_memory": true,
+    "deadline_elapsed_ns": 10235112,
+    "deadline_interrupted": true,
+    "el1_isolated": true,
+    "elapsed_ns": 336971300,
+    "guest_page_size": 4096,
+    "hardware_executed": true,
+    "host": {
+      "arm_ipa_bits": 40,
+      "backend_implemented": true,
+      "host_arch": "aarch64",
+      "host_os": "linux",
+      "host_page_size": 4096,
+      "immediate_exit": true,
+      "issues": [],
+      "kvm_api_version": 12,
+      "max_vcpus": 512,
+      "memory_slots": 32767,
+      "smccc_forwarding": true,
+      "user_memory": true
+    },
+    "kvm_run_calls": 10000,
+    "measurement_scope": "SVC+EL1+KVM exit+full-state validation+mailbox reply, excluding warm-up; host environment recorded separately",
+    "ns_per_round_trip": 33697.13,
+    "permission_fault": true,
+    "permission_resume": true,
+    "ram_bytes": 65536,
+    "ram_slots": 1,
+    "registers_preserved": true,
+    "syscall_round_trips": 10000,
+    "transport": "mmio",
+    "unmapped_fault": true,
+    "warmup_round_trips": 16
+  },
+  "runtime": {
+    "commit": "42e58346041335df8ef995119abc7f6cfab555ca",
+    "repository": "https://github.com/kb5000/trames-runtime"
+  }
+}

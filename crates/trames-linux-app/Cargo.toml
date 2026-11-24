@@ -1,0 +1,18 @@
+[package]
+name = "trames-linux-app"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[[bin]]
+name = "trames"
+path = "src/main.rs"
+
+[dependencies]
+trames-kvm = { path = "../trames-kvm" }
+serde_json.workspace = true
+
+[lints]
+workspace = true

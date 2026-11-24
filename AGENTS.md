@@ -1,0 +1,62 @@
+# 工程原则
+
+## Guest 内存、并发与原生函数
+
+以下原则来自项目所有者 2026-10-14 与 2026-10-20 的要求：
+
+- 原生函数与 CPU 解释器使用统一的 guest 内存访问、权限和并发模型。
+  减少重复地址转换、权限检查和借用；原生执行不额外叠加权限策略。
+- 保留原函数的线程安全责任。对于原本线程不安全的函数，不额外添加
+  算法级或全局锁来让它线程安全。允许真机 CPU 模型允许的竞态结果随
+  运行变化；不创造 guest 竞态错误码，也不保证确定性的操作获胜顺序。
+- guest 和主要宿主同为 AArch64；普通访存优先利用宿主 ARM 的原子性和
+  弱内存顺序。不为普通读写、额度或元数据维护额外模拟更强的一致性，
+  不叠加已由硬件或现有借用边界覆盖的检查、屏障和同步。
+- 原算法已有的锁、原子操作，以及 CPU 原子性和内存次序要求应保留。
+  底层访存同步不应把整个函数或原生调用串行化。
+- 原生函数优先在执行 guest 的同一宿主线程运行；短系统调用逐步采用相同原则。
+  只对实际共享的资源及必要的状态变更同步，避免把正常调用转交协调线程。
+  选择并发机制时，对照共享内存加对象级锁/原子操作、现有 worker 之间的消息队列/
+  总线与原版协调器三条路径；消息组不额外创建协调/资源服务线程。区分通信成本、
+  资源处理及全体暂停成本，不凭线程数量推断性能。
+- 生产并发路径优先直接共享资源；单字段计数、状态位等能用原子表达时优先原子，
+  多字段不变量按对象同步。只在实际同步操作需要时使用 acquire/release，不添加普通
+  访存屏障。不引入忙等/轮询消息总线或新的协调/服务线程；阻塞任务应交还执行槽。
+- 生产代码允许受控的 unsafe Rust/C。遇到疑似未定义行为，应具体分析
+  它会影响什么，包括 guest 状态、宿主内存、其他线程和编译器变换，
+  不仅凭 unsafe 或 UB 标签否定实现。若实际影响可限定在允许的 guest
+  结果内、宿主边界仍有效，可以采用相应底层实现并记录其编译器和架构
+  条件。无法界定后果的 UB，或一次运行未出问题，不能作为无害的依据。
+
+现有实现和限制见 [区域访存](runtime/docs/architecture/region-memory.md) 与
+[原生 allocator](https://github.com/kb5000/trames-ipad/blob/main/docs/architecture/native-allocator.md)。
+
+## Linux 产品边界
+
+- 保留原始应用和库指令，不改写已装载的 svc/syscall，不依赖 libc wrapper 或 JIT patch。
+- KVM 仅负责 CPU/MMU/退出 transport；Linux syscall、进程和资源语义共用 runtime，
+  不以完整 guest Linux kernel 替换共享内核。
+- 普通指令直接硬件执行，短系统调用在原 worker 继续；HVC/SMCCC 与 MMIO 使用同一
+  mailbox 契约。不额外创建协调器、资源服务线程或轮询总线。
+- arm64 是首个后端，通用 OS/transport 接口不得写死 guest 架构；后续 amd64 使用自己的
+  入口/寄存器适配。runtime pin 必须对应真实提交，不包含另一路迭代的 dirty 工作树。
+- 完整 4 KiB host/guest 环境、GPU/显示、音频和视频是产品核心交付要求。KVM 低层原型
+  通过不等于这些产品能力已经完成；无 KVM 的构建 job 不能冒充硬件验收。
+- 原生 API 能力与 headless 运行分开，compute 不依赖启动桌面或 presenter。
+
+## 验证与构建
+
+- 按改动范围验证；代码未变的通过结果直接复用，只重跑受影响项目和失败项。
+- 不因文档、记录或测试等待方式的调整重复触发完整 CPU、Linux、网络和图形验收。
+- 完整检查留到合入或正式发版节点。测试 IPA 可以使用已验证且源码未变的 guest 产物。
+
+## Development flow
+
+- Keep one development line per repository on `main`. Merge validated changes
+  promptly; do not maintain stacked or parallel long-lived draft PRs. If repository
+  rules require a PR, keep it short-lived and target `main`.
+- After completing and validating changes, commit and push them directly to
+  `main`, including paired runtime pins. Do not leave validated work local-only
+  unless the owner explicitly asks to hold the push.
+- Preserve tested commit identities and paired runtime pins when integrating.
+  Prefer fast-forward integration; do not rewrite published history for cleanup.
