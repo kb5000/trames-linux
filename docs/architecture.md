@@ -88,6 +88,12 @@ private EL1 controls at the top of the upper address space. User ELF mappings
 never collide with low adapter fixture addresses. Both translation granules are
 4 KiB; guest VA is independent of the bounded physical arena addresses.
 
+The unprotected ARM64 KVM profile also provides per-vCPU TLB/I-cache context
+isolation when a different vCPU of the same VM is loaded on a physical CPU
+(`vcpu_prepare_mmu` in the linked ARM64 kernel source). The backend relies on
+that existing boundary for its private roots, and issues guest TLBI when it
+changes a stopped worker's mappings. It does not add an ordinary-entry flush.
+
 Each 64 MiB demand-zero memfd arena has one KVM slot and two shared mappings:
 
 ```text
