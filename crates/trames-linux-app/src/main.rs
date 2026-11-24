@@ -6,15 +6,21 @@ use trames_kvm::{Doctor, ProbeOptions};
 mod foreground;
 
 const RUNTIME: &str = include_str!("../../../runtime-version.json");
-const HELP: &str = "Trames Linux 0.1.0 — KVM bring-up\n\
+const HELP: &str = "Trames Linux 0.1.0\n\
 Usage:\n  trames doctor [--json] [--require-kvm]\n  \
 trames probe [--json] [--transport auto|smccc|mmio] [--iterations N] [--deadline-ms N]\n\
   trames run [--cpus N] [--timeout-ms N] [--rootfs DIR] -- ELF [ARG...]\n\
-The probe runs original EL0 fixtures through a private EL1 adapter.\n\
-Foreground ELF/rootfs sessions use the shared runtime. Media providers are pending.\n";
+The probe checks KVM execution and host requirements.\n\
+  trames shell --rootfs DIR [--cpus N] [--timeout-ms N]\n\
+  trames exec [--rootfs DIR] [--setenv K=V] [--cwd DIR] [-t] -- ELF [ARG...]\n\
+  trames exec --socket PATH [-t] [--setenv K=V] -- COMMAND [ARG...]\n\
+  trames session ls|attach --socket PATH [ID|--json|-q]\n\
+Run an ELF program or open a shell in an explicit root filesystem. GUI, audio and video are not available yet.\n";
 
 fn run() -> Result<u8, Box<dyn std::error::Error>> {
-    let mut args = std::env::args().skip(1);
+    let (selected, args) =
+        trames_cli_common::arguments::selection(std::env::args().skip(1).collect())?;
+    let mut args = args.into_iter();
     let command = args.next().unwrap_or_else(|| "help".into());
     if matches!(command.as_str(), "help" | "--help" | "-h") {
         print!("{HELP}");
@@ -24,8 +30,41 @@ fn run() -> Result<u8, Box<dyn std::error::Error>> {
         println!("trames-linux {}", env!("CARGO_PKG_VERSION"));
         return Ok(0);
     }
-    if command == "run" {
-        return foreground::run(args.collect());
+    if selected.is_some() {
+        return Err(
+            "named environments are not configured; use --rootfs DIR or --socket PATH".into(),
+        );
+    }
+    if command == "exec" {
+        let args: Vec<_> = args.collect();
+        if args.first().is_some_and(|a| a == "--socket") {
+            let socket = args.get(1).ok_or("missing exec socket")?;
+            let request = trames_cli_common::arguments::parse_exec(&args[2..], false)?;
+            return Ok(trames_cli_common::exec::run(
+                std::path::Path::new(socket),
+                request,
+            )?);
+        }
+        return foreground::run(args, false);
+    }
+    if command == "run" || command == "shell" {
+        return foreground::run(args.collect(), command == "shell");
+    }
+    if command == "session" {
+        let args: Vec<_> = args.collect();
+        let op = args.first().map(String::as_str).unwrap_or("ls");
+        if args.get(1).is_none_or(|a| a != "--socket") {
+            return Err("usage: trames session ls|attach --socket PATH [ID|--json|-q]".into());
+        }
+        let socket = std::path::Path::new(args.get(2).ok_or("missing session socket")?);
+        match op {
+            "ls" | "list" => trames_cli_common::console::list(socket, &args[3..])?,
+            "attach" if args.len() == 4 => {
+                trames_cli_common::console::attach(socket, args[3].parse()?)?
+            }
+            _ => return Err("usage: trames session ls|attach --socket PATH [ID|--json|-q]".into()),
+        }
+        return Ok(0);
     }
     if !matches!(command.as_str(), "doctor" | "probe") {
         return Err(format!("unknown command {command:?}\n{HELP}").into());

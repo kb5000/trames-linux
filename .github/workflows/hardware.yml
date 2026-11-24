@@ -29,6 +29,8 @@ jobs:
       - run: bash scripts/validate-hardware.sh
       - run: python3 scripts/validate-session.py
       - run: TRAMES_KVM_TRANSPORT=mmio TRAMES_VALIDATION_OUTPUT=target/validation/session-mmio python3 scripts/validate-session.py
+      - run: TRAMES_VALIDATION_OUTPUT=target/validation/cli python3 scripts/validate-cli.py
+      - run: TRAMES_KVM_TRANSPORT=mmio TRAMES_VALIDATION_OUTPUT=target/validation/cli-mmio python3 scripts/validate-cli.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:

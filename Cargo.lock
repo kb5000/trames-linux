@@ -654,6 +654,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "trames-cli-common"
+version = "0.1.0"
+dependencies = [
+ "libc",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
 name = "trames-elf"
 version = "1.3.0"
 dependencies = [
@@ -726,6 +735,7 @@ name = "trames-linux-app"
 version = "0.1.0"
 dependencies = [
  "serde_json",
+ "trames-cli-common",
  "trames-kvm",
  "trames-linux",
  "trames-session",

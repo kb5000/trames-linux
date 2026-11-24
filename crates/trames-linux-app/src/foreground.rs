@@ -2,28 +2,73 @@
 use std::{
     io::{self, Write},
     sync::Arc,
-    time::{Duration, Instant},
+    time::Instant,
 };
-use trames_linux_abi::{GuestOutput, OutputFd};
+use trames_cli_common::{
+    arguments::Foreground,
+    signals::Signals,
+    terminal::{window_size, RawTerminal},
+};
+use trames_linux_abi::{GuestOutput, OutputFd, TerminalEvent};
 struct Output {
     source: Arc<dyn trames_vfs::ConsoleIo>,
     deadline: Option<Instant>,
+    signals: Signals,
+    pty: bool,
+    window: Option<(u16, u16)>,
 }
 impl GuestOutput for Output {
     fn source_console(&mut self) -> Arc<dyn trames_vfs::ConsoleIo> {
         self.source.clone()
     }
     fn cancellation_requested(&self) -> bool {
-        self.deadline.is_some_and(|d| Instant::now() >= d)
+        self.signals.stopping() || self.deadline.is_some_and(|d| Instant::now() >= d)
     }
     fn waits_for_host(&self) -> bool {
-        self.deadline.is_some()
+        true
     }
     fn host_interest(&mut self, wait: &mut trames_linux_abi::HostWait) -> io::Result<()> {
+        wait.watch(&self.signals, false)?;
         if let Some(deadline) = self.deadline {
             wait.until(deadline);
         }
         Ok(())
+    }
+    fn poll_host(&mut self, _: &trames_vfs::Vfs) -> io::Result<trames_linux_abi::HostState> {
+        self.signals.drain();
+        Ok(trames_linux_abi::HostState::from_cancelled(
+            self.cancellation_requested(),
+        ))
+    }
+    fn stdin_ready(&mut self) -> io::Result<bool> {
+        Ok(self.source.poll(trames_vfs::ConsoleStream::Input, 1).0 != 0)
+    }
+    fn poll_stdin(&mut self, bytes: &mut [u8]) -> io::Result<usize> {
+        if !self.stdin_ready()? {
+            return Err(io::ErrorKind::WouldBlock.into());
+        }
+        let input = self.source.read(bytes.len()).map_err(|e| match e.0 {
+            11 => io::Error::from(io::ErrorKind::WouldBlock),
+            4 => io::Error::from(io::ErrorKind::Interrupted),
+            32 => io::Error::from(io::ErrorKind::BrokenPipe),
+            code => io::Error::from_raw_os_error(code as i32),
+        })?;
+        bytes[..input.len()].copy_from_slice(&input);
+        Ok(input.len())
+    }
+    fn terminal_event(&mut self) -> Option<TerminalEvent> {
+        if !self.pty {
+            return None;
+        }
+        let size = window_size()?;
+        if self.window == Some(size) {
+            return None;
+        }
+        self.window = Some(size);
+        Some(TerminalEvent::Resize {
+            rows: size.0,
+            columns: size.1,
+        })
     }
     fn write(&mut self, fd: OutputFd, bytes: &[u8]) -> io::Result<usize> {
         match fd {
@@ -32,41 +77,31 @@ impl GuestOutput for Output {
         }
     }
 }
-pub fn run(args: Vec<String>) -> Result<u8, Box<dyn std::error::Error>> {
-    let mut args = args.into_iter();
-    let mut cpus = 1;
-    let mut timeout = None;
-    let mut root = None;
-    loop {
-        match args.next().as_deref() {
-            Some("--") => break,
-            Some("--cpus") => {
-                cpus = args.next().ok_or("missing CPU count")?.parse::<usize>()?;
-                if !(1..=32).contains(&cpus) {
-                    return Err("CPU count must be 1..=32".into());
-                }
-            }
-            Some("--timeout-ms") => {
-                let ms = args.next().ok_or("missing timeout")?.parse::<u64>()?;
-                if ms == 0 || ms > 86_400_000 {
-                    return Err("timeout must be 1..=86400000 ms".into());
-                }
-                timeout = Some(Duration::from_millis(ms));
-            }
-            Some("--rootfs") => root = Some(args.next().ok_or("missing rootfs directory")?),
-            _ => {
-                return Err(
-                    "usage: trames run [--cpus N] [--timeout-ms N] [--rootfs DIR] -- ELF [ARG...]"
-                        .into(),
-                )
-            }
+pub fn run(args: Vec<String>, shell: bool) -> Result<u8, Box<dyn std::error::Error>> {
+    use std::io::IsTerminal;
+    let no_pty = args
+        .iter()
+        .take_while(|a| a.as_str() != "--")
+        .any(|a| a == "--no-pty");
+    let mut command = Foreground::parse(
+        args,
+        if shell {
+            Some(&["/bin/sh", "-l"])
+        } else {
+            None
+        },
+    )?;
+    if shell {
+        if command.rootfs.is_none() {
+            return Err("shell requires --rootfs DIR".into());
         }
+        command.request.tty |= !no_pty && io::stdin().is_terminal();
     }
-    let program = args.next().ok_or("missing ELF program after --")?;
-    // Never read an ELF or mount a host directory on an unsupported machine.
+    let program = command.request.argv.first().unwrap().clone();
+    // Probe before reading an ELF or mounting a host directory on unsupported hosts.
     trames_kvm::Doctor::inspect().require_probe()?;
     let mut vfs = trames_vfs::Vfs::default();
-    let (bytes, guest_name) = if let Some(root) = root {
+    let (bytes, guest_name) = if let Some(root) = command.rootfs {
         if !program.starts_with('/') {
             return Err("with --rootfs the program must be an absolute guest path".into());
         }
@@ -78,19 +113,51 @@ pub fn run(args: Vec<String>) -> Result<u8, Box<dyn std::error::Error>> {
         vfs.import_executable(b"/program", bytes.clone())?;
         (bytes, "/program".into())
     };
-    let argv: Vec<_> = std::iter::once(guest_name).chain(args).collect();
-    let envp = vec![
+    if let Some(cwd) = command.request.cwd {
+        vfs.chdir(cwd.as_bytes())?;
+    }
+    let argv: Vec<_> = std::iter::once(guest_name)
+        .chain(command.request.argv.into_iter().skip(1))
+        .collect();
+    let mut envp = vec![
         "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin".into(),
         "LANG=C".into(),
     ];
+    for entry in command.request.environment {
+        let key = entry.split_once('=').unwrap().0;
+        envp.retain(|old: &String| old.split_once('=').is_none_or(|(k, _)| k != key));
+        envp.push(entry);
+    }
+    if command.request.tty && !envp.iter().any(|s| s.starts_with("TERM=")) {
+        envp.push("TERM=xterm-256color".into());
+    }
     let mut runtime = trames_session::Runtime::<trames_kvm::kernel::Cpu>::load_with_vfs(
         &bytes, &argv, &envp, vfs,
     )?;
-    runtime.cpu_count = cpus;
+    runtime.cpu_count = command.cpus;
+    if command.request.tty {
+        let mut terminal = trames_session::Terminal::default();
+        if let Some((rows, columns)) = window_size() {
+            terminal.window[..2].copy_from_slice(&rows.to_le_bytes());
+            terminal.window[2..4].copy_from_slice(&columns.to_le_bytes());
+        }
+        runtime.enable_terminal(terminal)?;
+    }
     let mut output = Output {
         source: Arc::new(trames_vfs::NativeConsole::stdio()),
-        deadline: timeout.map(|t| Instant::now() + t),
+        deadline: command.timeout.map(|t| Instant::now() + t),
+        signals: Signals::install()?,
+        pty: command.request.tty,
+        window: None,
     };
-    let exit = runtime.run(&mut output, u64::MAX)?;
-    Ok(exit.code)
+    let _raw = RawTerminal::enter(command.request.tty)?;
+    let result = runtime.run(&mut output, u64::MAX);
+    if let Some(signal) = output.signals.take_signal() {
+        return Ok((128 + signal) as u8);
+    }
+    let exit = result?;
+    Ok(output
+        .signals
+        .take_signal()
+        .map_or(exit.code, |signal| (128 + signal) as u8))
 }

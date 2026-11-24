@@ -55,6 +55,21 @@ SVE/SME and debugger single-step remain unsupported.
 See the [resource validation record](validation/resources-20261125.md).
 Presentation, PCM and hardware video providers remain open.
 
+## Delivered fourth batch: shared host CLI and Linux terminal sessions
+
+- Independent trames-cli repository, one pinned common source used by Mac, Linux
+  and the existing interpreter wrapper; no runtime/CPU/GUI dependency in that library.
+- Literal argv/environment, original session/exec clients, raw terminal ownership
+  and signal self-pipes replace duplicated host frontend code.
+- Linux explicit-rootfs shell/exec, PTY input/size/restoration, cancellation exit
+  codes and compatible socket clients are implemented. Named persistent Linux
+  environments and native media providers remain open.
+- Root-mount cwd rendering and target-musl DNS linking prerequisites are fixed
+  in the shared runtime. Original foreground workload comparisons still pass.
+
+See [CLI architecture](architecture/host-cli.md) and
+[validation](validation/cli-20261125.md).
+
 ## Next dependency batch: Linux providers
 
 1. Implement Linux Vulkan image imports/exports, presentation, video and PCM providers as detailed

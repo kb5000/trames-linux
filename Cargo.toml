@@ -1,7 +1,7 @@
 [workspace]
 resolver = "2"
 members = ["crates/trames-kvm", "crates/trames-linux-app"]
-exclude = ["runtime"]
+exclude = ["runtime", "cli"]
 
 [workspace.package]
 version = "0.1.0"
@@ -11,6 +11,7 @@ license = "GPL-3.0-or-later"
 repository = "https://github.com/kb5000/trames-linux"
 
 [workspace.dependencies]
+trames-cli-common = { path = "cli/crates/trames-cli-common" }
 trames-graphics = { path = "runtime/crates/trames-graphics" }
 trames-vulkan = { path = "runtime/crates/trames-vulkan" }
 trames-execution = { path = "runtime/crates/trames-execution" }
