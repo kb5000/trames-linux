@@ -213,3 +213,138 @@ fn host_managed_ranges_keep_canonical_bytes_and_fork_cow() {
     assert_eq!(memory.read_array::<8>(data).unwrap(), 101u64.to_le_bytes());
     assert_eq!(child.read_array::<8>(data).unwrap(), 2u64.to_le_bytes());
 }
+
+#[test]
+#[ignore = "requires real ARM64 Linux KVM and 4KiB host pages"]
+fn fd_backed_native_image_keeps_original_bytes_after_image_release() {
+    let image = trames_graphics::Context
+        .allocate(trames_graphics::Format::Rgba8, 65, 37)
+        .unwrap();
+    let info = image.info();
+    let len = info.size.next_multiple_of(4096);
+    let mapping = image.shared_mapping().unwrap();
+    assert!(mapping.file_descriptor().is_some());
+    let pointer = mapping.pointer();
+    let (mut cpu, mut memory) =
+        setup(&[0xf9400141, 0x91000421, 0xf9000141, 0xd4000001, 0x17fffffc]);
+    memory.unmap(DATA, 4096).unwrap();
+    memory
+        .map_backed(
+            DATA,
+            image.cpu_pages(0, len).unwrap(),
+            true,
+            Permissions::RW,
+            false,
+        )
+        .unwrap();
+    drop(image);
+    drop(mapping);
+    let mut engine = Engine::default();
+    syscall(&mut cpu, &mut engine, &mut memory);
+    assert_eq!(unsafe { pointer.cast::<u64>().read_volatile() }, 1);
+    let mut child = memory.try_fork().unwrap();
+    let mut child_cpu = cpu.clone();
+    syscall(&mut child_cpu, &mut Engine::default(), &mut child);
+    // External image mappings keep their shared backing across fork.
+    assert_eq!(memory.read_array::<8>(DATA).unwrap(), 2u64.to_le_bytes());
+    assert_eq!(unsafe { pointer.cast::<u64>().read_volatile() }, 2);
+}
+
+#[test]
+#[ignore = "requires real ARM64 Linux KVM and 4KiB host pages"]
+fn duplicate_fd_aliases_share_revoke_counts_and_neighbor_pages_stay_live() {
+    use std::{os::fd::AsRawFd, sync::Arc};
+    use trames_memory::{CpuMemory, SharedMapping};
+    let mapping = SharedMapping::anonymous_file(8192, 65536).unwrap();
+    let fd = Arc::new(
+        mapping
+            .file_descriptor()
+            .unwrap()
+            .try_clone_to_owned()
+            .unwrap(),
+    );
+    let offset = mapping.file_offset().unwrap();
+    let raw = unsafe {
+        libc::mmap(
+            std::ptr::null_mut(),
+            8192,
+            libc::PROT_READ | libc::PROT_WRITE,
+            libc::MAP_SHARED,
+            fd.as_raw_fd(),
+            offset as _,
+        )
+    };
+    assert_ne!(raw, libc::MAP_FAILED);
+    assert_ne!(raw as usize, mapping.pointer() as usize);
+    struct Owner {
+        pointer: usize,
+        _fd: Arc<std::os::fd::OwnedFd>,
+    }
+    impl Drop for Owner {
+        fn drop(&mut self) {
+            unsafe {
+                libc::munmap(self.pointer as *mut _, 8192);
+            }
+        }
+    }
+    let owner = Owner {
+        pointer: raw as usize,
+        _fd: fd.clone(),
+    };
+    let other = unsafe {
+        SharedMapping::from_allocation(raw.cast(), 8192, owner).with_file_descriptor(fd, offset)
+    }
+    .unwrap();
+    let words = [0xf9400141, 0x91000421, 0xf9000141, 0xd4000001, 0x17fffffc];
+    let (mut cpu, mut memory) = setup(&words);
+    memory.map(DATA + 4096, 4096, Permissions::RW).unwrap();
+    memory.import_mapping(DATA, 8192, mapping.clone()).unwrap();
+    let mut engine = Engine::default();
+    syscall(&mut cpu, &mut engine, &mut memory);
+    cpu.set_x(10, DATA + 4096);
+    syscall(&mut cpu, &mut engine, &mut memory); // retain the neighbor too
+    let (mut second_cpu, mut second_memory) = setup(&words);
+    second_memory
+        .import_mapping(DATA, 4096, other.clone())
+        .unwrap();
+    let mut second_engine = Engine::default();
+    syscall(&mut second_cpu, &mut second_engine, &mut second_memory);
+    let mut registry = Registry::default();
+    Cpu::prepare_hardware_memory(&mut memory, &mut registry).unwrap();
+    let mut view = memory.parallel_view(&mut registry).unwrap();
+    view.enable_hardware();
+    let a = view.retained_hardware_page(DATA).unwrap().0;
+    let mut registry2 = Registry::default();
+    Cpu::prepare_hardware_memory(&mut second_memory, &mut registry2).unwrap();
+    let mut view2 = second_memory.parallel_view(&mut registry2).unwrap();
+    view2.enable_hardware();
+    let b = view2.retained_hardware_page(DATA).unwrap().0;
+    assert_eq!(a.physical_address(), b.physical_address());
+    assert_ne!(a.pointer(), b.pointer());
+    a.begin_host_access();
+    b.begin_host_access();
+    a.end_host_access();
+    // The neighbor is independently accessible while the first 4KiB page is borrowed.
+    assert!(matches!(
+        cpu.run_parallel(&mut engine, &mut view, u64::MAX),
+        SliceOutcome::Syscall { .. }
+    ));
+    cpu.set_x(10, DATA);
+    assert!(matches!(
+        cpu.run_parallel(&mut engine, &mut view, u64::MAX),
+        SliceOutcome::Yield { .. }
+    ));
+    let wait = Cpu::take_hardware_wait(&mut engine).unwrap();
+    assert!(!wait.ready());
+    b.end_host_access();
+    assert!(wait.ready());
+    let begin = std::time::Instant::now();
+    loop {
+        match cpu.run_parallel(&mut engine, &mut view, u64::MAX) {
+            SliceOutcome::Syscall { .. } => break,
+            SliceOutcome::Yield { .. } if begin.elapsed() < std::time::Duration::from_secs(2) => {}
+            other => panic!("fd alias resume: {other:?}"),
+        }
+    }
+    assert_eq!(u64::from_le_bytes(view.read_array::<8>(DATA).unwrap()), 3);
+}

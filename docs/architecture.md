@@ -139,3 +139,23 @@ negotiated HLT bridge registry. Unsupported external-pointer imports and debugge
 single-step fail explicitly. The current VM has no GPU/PCM/video device; the
 common FD/image/synchronization API and Linux providers remain a separate required
 product batch. No raw pointer import is allowed to bypass the hardware borrow gate.
+
+## Shared-file imports (third batch)
+
+Native image and dedicated Vulkan host-buffer mappings can export retained
+sealed-file geometry through the shared runtime. KVM imports a revocable
+MAP_SHARED alias of those exact bytes, while CPU/native access keeps the original
+canonical address. Ordinary imported loads/stores execute original instructions.
+
+Imports deduplicate file pages by device/inode/offset across duplicate descriptors
+and different canonical VAs. Disjoint windows use at most 64 MiB per RAM slot;
+all aliases of one file page share one host-borrow counter and hardware alias.
+Revoking one 4 KiB page leaves its neighbor live. Release withdraws the RAM slot
+before unmapping; slots and FDs remain retained while page tables can refer to
+those pages. Executable publication uses the existing ARM cache path.
+
+Raw RW pointers and opaque device FDs do not prove a stable second CPU alias.
+Unsealed, unsupported or nonidentical native mappings are rejected without
+copying or replacing their bytes. A normal memfd export never claims DMA-BUF
+provenance. See the runtime native resource contract and
+[validation](validation/resources-20261125.md) for the tested subset.

@@ -22,3 +22,7 @@ trames-accel.workspace = true
 
 [lints]
 workspace = true
+
+[target.'cfg(all(target_os = "linux", target_arch = "aarch64"))'.dev-dependencies]
+trames-graphics.workspace = true
+trames-vulkan.workspace = true

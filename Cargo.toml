@@ -11,6 +11,8 @@ license = "GPL-3.0-or-later"
 repository = "https://github.com/kb5000/trames-linux"
 
 [workspace.dependencies]
+trames-graphics = { path = "runtime/crates/trames-graphics" }
+trames-vulkan = { path = "runtime/crates/trames-vulkan" }
 trames-execution = { path = "runtime/crates/trames-execution" }
 trames-engine = { path = "runtime/crates/trames-engine" }
 trames-memory = { path = "runtime/crates/trames-memory" }

@@ -1,6 +1,6 @@
 # Implementation ledger
 
-Updated 2026-11-24. The [accepted product plan](https://github.com/kb5000/trames-ipad/blob/e93f62b9/docs/roadmap/trames-linux-kvm.md)
+Updated 2026-11-25. The [accepted product plan](https://github.com/kb5000/trames-ipad/blob/e93f62b9/docs/roadmap/trames-linux-kvm.md)
 defines the full scope. This ledger tracks implementation, without changing its
 graphics/audio/video or complete 4 KiB release requirements.
 
@@ -40,19 +40,30 @@ These cases establish an execution foundation, not a complete compatibility or
 product release. The baseline advertises FP/ASIMD only; exact instruction budgets,
 SVE/SME and debugger single-step remain unsupported.
 
-## Next dependency batch: common resource contract and Linux providers
+## Delivered third batch: resource contracts and explicit shared-file imports
 
-1. Complete the platform-neutral image/native-handle/FD/ownership/synchronization
-   contract and migrate all shared callers. KVM cannot safely import an arbitrary
-   RW pointer as a revocable second alias; external imports need a retained FD
-   and offset geometry or another equally explicit ownership mechanism.
-2. Implement Linux Vulkan, presentation, video and PCM providers as detailed
+- Shared images expose tagged Metal/Vulkan/DMA-BUF capabilities, owned fence FDs
+  and explicit per-plane geometry. Apple consumers use checked Metal extraction.
+- Linux linear images and dedicated Vulkan host-import buffers retain sealed-file
+  bytes, real host granules, native leases and one shared byte-borrow domain.
+- KVM imports those original bytes through revocable aliases, deduplicates repeated
+  file pages and keeps 4 KiB neighbor access independent. There is no shadow copy.
+- Both transports pass bidirectional native Vulkan buffer/KVM execution with zero
+  coherent transfer scans, plus ordinary native/KVM workload comparisons. Vulkan
+  used lavapipe; this establishes API/memory interop, not hardware GPU readiness.
+
+See the [resource validation record](validation/resources-20261125.md).
+Presentation, PCM and hardware video providers remain open.
+
+## Next dependency batch: Linux providers
+
+1. Implement Linux Vulkan image imports/exports, presentation, video and PCM providers as detailed
    below. Keep Apple consumers working and keep headless execution independent
    of device initialization. Probe real hardware before claiming capability.
-3. Expand runtime compatibility, signal/restart, exec, shared mappings, resource
+2. Expand runtime compatibility, signal/restart, exec, shared mappings, resource
    pressure, terminal/stdio and teardown validation in complete dependency batches.
    Add debugger single-step and only advertise extended CPU state after support.
-4. Measure bare-metal distributions, CPU time, asynchronous register capture,
+3. Measure bare-metal distributions, CPU time, asynchronous register capture,
    mapping synchronization and ordinary workloads. Optimize observed costs with
    the shared ownership rules; nested-VM timing cannot predict bare-metal limits.
 

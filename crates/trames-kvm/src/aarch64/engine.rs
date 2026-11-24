@@ -470,8 +470,14 @@ impl Executor {
             // allocator supplies stable fresh zero bytes under the same gate.
             unsafe { memory.export_hardware_range(va, || vm.range()) }?;
         }
-        let (owner, info) =
-            unsafe { memory.export_hardware_page(va, access, |bytes| vm.page(bytes)) }?;
+        let (owner, info) = unsafe {
+            memory.export_hardware_page_with_mapping(
+                va,
+                access,
+                |bytes| vm.page(bytes),
+                |mapping| vm.import(mapping),
+            )
+        }?;
         if !info.permissions.read {
             return Err(MemoryError::Permission {
                 address: m.address,
@@ -480,7 +486,8 @@ impl Executor {
             .into());
         }
         if info.permissions.execute {
-            self.vm.publish_code(owner.physical_address())?;
+            self.vm
+                .publish_code(owner.physical_address(), owner.pointer())?;
         }
         self.tables
             .pte(&self.vm, va, owner.physical_address() | Self::flags(info))?;

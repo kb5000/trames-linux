@@ -4,7 +4,7 @@ use crate::{Error, Result};
 use kvm_bindings::*;
 use kvm_ioctls::{Kvm, VmFd};
 use std::{
-    collections::BTreeSet,
+    collections::{BTreeMap, BTreeSet},
     os::fd::{AsRawFd, FromRawFd, OwnedFd},
     ptr::{self, NonNull},
     sync::{
@@ -17,6 +17,8 @@ use trames_memory::{HardwareRange, HardwareStorage, HardwareWait, MemoryError};
 pub(crate) const PAGE: usize = 4096;
 const ARENA: usize = 64 << 20;
 const GPA_BASE: u64 = 0x4000_0000;
+mod imports;
+use imports::ImportedChunk;
 static CURRENT: Mutex<Weak<Vm>> = Mutex::new(Weak::new());
 
 pub(crate) struct Vm {
@@ -24,6 +26,7 @@ pub(crate) struct Vm {
     pub kvm: Kvm,
     pub smccc: bool,
     arenas: Mutex<Vec<Weak<Arena>>>,
+    imports: Mutex<BTreeMap<(u64, u64, u64), Weak<ImportedChunk>>>,
     slots: Mutex<BTreeSet<u32>>,
     cpus: Mutex<BTreeSet<u64>>,
     leases: Mutex<Leases>,
@@ -57,6 +60,7 @@ impl Vm {
             kvm,
             smccc,
             arenas: Mutex::new(Vec::new()),
+            imports: Mutex::new(BTreeMap::new()),
             slots: Mutex::new((0..maximum as u32).collect()),
             cpus: Mutex::new(BTreeSet::new()),
             leases: Mutex::new(Leases::default()),
@@ -134,23 +138,36 @@ impl Vm {
         (wait, leases.generation)
     }
     pub fn slot_count(&self) -> usize {
-        self.arenas
+        let private = self
+            .arenas
             .lock()
             .unwrap()
             .iter()
             .filter(|a| a.strong_count() != 0)
-            .count()
+            .count();
+        private
+            + self
+                .imports
+                .lock()
+                .unwrap()
+                .values()
+                .filter(|chunk| chunk.strong_count() != 0)
+                .count()
     }
-    pub fn publish_code(&self, gpa: u64) -> Result<()> {
+    pub fn publish_code(&self, gpa: u64, pointer: *mut u8) -> Result<()> {
         let arenas = self.arenas.lock().unwrap();
-        let arena = arenas
+        if let Some(arena) = arenas
             .iter()
             .filter_map(Weak::upgrade)
             .find(|a| (a.gpa..a.gpa + ARENA as u64).contains(&gpa))
-            .ok_or_else(|| Error("executable mapping has no retained KVM arena".into()))?;
-        let offset = (gpa - arena.gpa) as usize;
-        arena.executable[offset / PAGE].store(true, Ordering::Relaxed);
-        publish(unsafe { arena.host.pointer.as_ptr().add(offset) }, PAGE);
+        {
+            let offset = (gpa - arena.gpa) as usize;
+            arena.executable[offset / PAGE].store(true, Ordering::Relaxed);
+        } else {
+            drop(arenas);
+            self.publish_imported_code(gpa)?;
+        }
+        publish(pointer, PAGE);
         Ok(())
     }
 }
@@ -351,54 +368,10 @@ unsafe impl HardwareStorage for Allocation {
         }
     }
     fn begin_host_access(&self) {
-        let mut hosts = self.hosts.lock().unwrap();
-        if *hosts == 0 {
-            if let Some(vm) = self.arena.vm.upgrade() {
-                // Publish the lease before revocation can make a RUN return
-                // EFAULT. No Rust guest reference exists until this returns.
-                {
-                    let mut leases = vm.leases.lock().unwrap();
-                    leases.count += 1;
-                    leases.generation = leases.generation.wrapping_add(1);
-                }
-                assert_eq!(
-                    unsafe { libc::mprotect(self.hardware().cast(), self.length, libc::PROT_NONE) },
-                    0,
-                    "cannot revoke KVM byte access"
-                );
-            }
-        }
-        *hosts += 1;
+        begin_alias(&self.arena.vm, &self.hosts, self.hardware(), self.length);
     }
     fn end_host_access(&self) {
-        let mut hosts = self.hosts.lock().unwrap();
-        assert!(*hosts != 0);
-        *hosts -= 1;
-        if *hosts == 0 {
-            if let Some(vm) = self.arena.vm.upgrade() {
-                assert_eq!(
-                    unsafe {
-                        libc::mprotect(
-                            self.hardware().cast(),
-                            self.length,
-                            libc::PROT_READ | libc::PROT_WRITE,
-                        )
-                    },
-                    0,
-                    "cannot restore KVM byte access"
-                );
-                let waiters = {
-                    let mut leases = vm.leases.lock().unwrap();
-                    leases.count -= 1;
-                    leases.generation = leases.generation.wrapping_add(1);
-                    std::mem::take(&mut leases.waiters)
-                };
-                drop(hosts);
-                for wait in waiters {
-                    wait.fire();
-                }
-            }
-        }
+        end_alias(&self.arena.vm, &self.hosts, self.hardware(), self.length);
     }
 }
 // SAFETY: complete stable initialized range; residency is kernel metadata only.
@@ -479,5 +452,50 @@ pub(crate) fn publish(pointer: *mut u8, length: usize) {
             core::arch::asm!("ic ivau, {0}",in(reg)a,options(nostack));
         }
         core::arch::asm!("dsb ish", "isb", options(nostack));
+    }
+}
+
+fn begin_alias(weak: &Weak<Vm>, hosts: &Mutex<usize>, pointer: *mut u8, length: usize) {
+    let mut hosts = hosts.lock().unwrap();
+    if *hosts == 0 {
+        if let Some(vm) = weak.upgrade() {
+            {
+                let mut leases = vm.leases.lock().unwrap();
+                leases.count += 1;
+                leases.generation = leases.generation.wrapping_add(1);
+            }
+            assert_eq!(
+                unsafe { libc::mprotect(pointer.cast(), length, libc::PROT_NONE) },
+                0,
+                "cannot revoke KVM byte access"
+            );
+        }
+    }
+    *hosts += 1;
+}
+fn end_alias(weak: &Weak<Vm>, hosts: &Mutex<usize>, pointer: *mut u8, length: usize) {
+    let mut hosts = hosts.lock().unwrap();
+    assert!(*hosts != 0);
+    *hosts -= 1;
+    if *hosts == 0 {
+        if let Some(vm) = weak.upgrade() {
+            assert_eq!(
+                unsafe {
+                    libc::mprotect(pointer.cast(), length, libc::PROT_READ | libc::PROT_WRITE)
+                },
+                0,
+                "cannot restore KVM byte access"
+            );
+            let waiters = {
+                let mut leases = vm.leases.lock().unwrap();
+                leases.count -= 1;
+                leases.generation = leases.generation.wrapping_add(1);
+                std::mem::take(&mut leases.waiters)
+            };
+            drop(hosts);
+            for wait in waiters {
+                wait.fire();
+            }
+        }
     }
 }

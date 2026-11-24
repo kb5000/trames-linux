@@ -1,6 +1,11 @@
 name: Required KVM hardware checks
 on:
   workflow_dispatch:
+    inputs:
+      vulkan_host_import:
+        description: Also require host Vulkan external_memory_host interop
+        type: boolean
+        default: false
 permissions:
   contents: read
 jobs:
@@ -15,8 +20,12 @@ jobs:
         with:
           toolchain: nightly-2026-10-16
       - run: cargo build --workspace --release --locked
-      - run: cargo test -p trames-kvm --locked -- --ignored --test-threads=1
-      - run: TRAMES_KVM_TRANSPORT=mmio cargo test -p trames-kvm --locked -- --ignored --test-threads=1
+      - run: cargo test -p trames-kvm --lib --test hardware --locked -- --ignored --test-threads=1
+      - run: TRAMES_KVM_TRANSPORT=mmio cargo test -p trames-kvm --lib --test hardware --locked -- --ignored --test-threads=1
+      - if: inputs.vulkan_host_import
+        run: cargo test -p trames-kvm --test vulkan --locked -- --ignored --test-threads=1
+      - if: inputs.vulkan_host_import
+        run: TRAMES_KVM_TRANSPORT=mmio cargo test -p trames-kvm --test vulkan --locked -- --ignored --test-threads=1
       - run: bash scripts/validate-hardware.sh
       - run: python3 scripts/validate-session.py
       - run: TRAMES_KVM_TRANSPORT=mmio TRAMES_VALIDATION_OUTPUT=target/validation/session-mmio python3 scripts/validate-session.py
