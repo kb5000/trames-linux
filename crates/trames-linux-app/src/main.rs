@@ -9,13 +9,13 @@ const RUNTIME: &str = include_str!("../../../runtime-version.json");
 const HELP: &str = "Trames Linux 0.1.0\n\
 Usage:\n  trames doctor [--json] [--require-kvm]\n  \
 trames probe [--json] [--transport auto|smccc|mmio] [--iterations N] [--deadline-ms N]\n\
-  trames run [--cpus N] [--timeout-ms N] [--rootfs DIR] -- ELF [ARG...]\n\
+  trames run [--cpus N] [--timeout-ms N] [--rootfs DIR] [--audio] [--audio-input] -- ELF [ARG...]\n\
 The probe checks KVM execution and host requirements.\n\
   trames shell --rootfs DIR [--cpus N] [--timeout-ms N]\n\
   trames exec [--rootfs DIR] [--setenv K=V] [--cwd DIR] [-t] -- ELF [ARG...]\n\
   trames exec --socket PATH [-t] [--setenv K=V] -- COMMAND [ARG...]\n\
   trames session ls|attach --socket PATH [ID|--json|-q]\n\
-Run an ELF program or open a shell in an explicit root filesystem. GUI, audio and video are not available yet.\n";
+Run an ELF program or open a shell in an explicit root filesystem. Enable PCM output with --audio and capture with --audio-input. GUI and video remain under development.\n";
 
 fn run() -> Result<u8, Box<dyn std::error::Error>> {
     let (selected, args) =

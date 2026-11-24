@@ -77,8 +77,34 @@ impl GuestOutput for Output {
         }
     }
 }
+// Product capabilities stay in the product adapter, independent of shared CLI.
+fn audio_options(args: Vec<String>) -> (Vec<String>, trames_session::RuntimeOptions) {
+    let mut out = vec![];
+    let mut options = trames_session::RuntimeOptions::default();
+    let mut args = args.into_iter();
+    while let Some(arg) = args.next() {
+        match arg.as_str() {
+            "--" => {
+                out.push(arg);
+                out.extend(args);
+                break;
+            }
+            "--audio" => options.audio_output = true,
+            "--audio-input" => options.audio_input = true,
+            "--rootfs" | "--cpus" | "--timeout-ms" | "--setenv" | "--cwd" | "-w" => {
+                out.push(arg);
+                if let Some(value) = args.next() {
+                    out.push(value);
+                }
+            }
+            _ => out.push(arg),
+        }
+    }
+    (out, options)
+}
 pub fn run(args: Vec<String>, shell: bool) -> Result<u8, Box<dyn std::error::Error>> {
     use std::io::IsTerminal;
+    let (args, options) = audio_options(args);
     let no_pty = args
         .iter()
         .take_while(|a| a.as_str() != "--")
@@ -131,8 +157,8 @@ pub fn run(args: Vec<String>, shell: bool) -> Result<u8, Box<dyn std::error::Err
     if command.request.tty && !envp.iter().any(|s| s.starts_with("TERM=")) {
         envp.push("TERM=xterm-256color".into());
     }
-    let mut runtime = trames_session::Runtime::<trames_kvm::kernel::Cpu>::load_with_vfs(
-        &bytes, &argv, &envp, vfs,
+    let mut runtime = trames_session::Runtime::<trames_kvm::kernel::Cpu>::load_with_options(
+        &bytes, &argv, &envp, vfs, options,
     )?;
     runtime.cpu_count = command.cpus;
     if command.request.tty {
@@ -160,4 +186,29 @@ pub fn run(args: Vec<String>, shell: bool) -> Result<u8, Box<dyn std::error::Err
         .signals
         .take_signal()
         .map_or(exit.code, |signal| (128 + signal) as u8))
+}
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn audio_flags_preserve_literal_argv_and_option_values() {
+        let (args, options) = super::audio_options(
+            [
+                "--audio",
+                "--cwd",
+                "--audio-input",
+                "--",
+                "app",
+                "--audio-input",
+            ]
+            .map(String::from)
+            .into(),
+        );
+        assert!(options.audio_output);
+        assert!(!options.audio_input);
+        assert_eq!(
+            args,
+            ["--cwd", "--audio-input", "--", "app", "--audio-input"]
+        );
+    }
 }

@@ -22,8 +22,8 @@ Linux process/syscall semantics, ELF loading, signals, VFS and scheduling.
 - Baseline GPR/FP/SIMD/TLS state, deadline/kick, partial EL1 save/restore recovery,
   task migration and negotiated native-bridge trap normalization.
 
-The current product is a foreground execution foundation. Graphics/audio/video
-providers, persistent environment management, debugger single-step and extended
+The current product includes foreground execution and an opt-in ALSA PCM provider.
+Graphics presentation/video providers, persistent environment management, debugger single-step and extended
 SVE/SME state are still pending. Raw external `SharedMapping` imports require
 an FD/alias contract; the backend refuses unsupported imports. Complete runtime
 and media 4 KiB operation remains a release gate, beyond these tested workloads.
@@ -45,6 +45,7 @@ target/release/trames doctor --json --require-kvm
 target/release/trames run --cpus 4 -- ./hello-static arg1
 target/release/trames run --rootfs /path/to/rootfs --cpus 4 -- /bin/sh -c 'echo hello'
 target/release/trames run --timeout-ms 1000 -- ./bounded-workload
+TRAMES_AUDIO_OUTPUT_DEVICE=default target/release/trames run --audio --rootfs /path/to/rootfs -- /usr/bin/aplay example.wav
 ```
 
 Without `--rootfs`, the specified host ELF is imported as `/program` into a fresh
@@ -60,6 +61,12 @@ choices fail. Normal SMCCC notifications resume through the mailbox with one
 RUN and no register resets. MMIO completes its pending operation before handing
 state to another task. Asynchronous EL0 state capture remains a cold register
 read path and needs further performance work.
+
+The audio rootfs needs the shared guest ALSA terminal plugin/configuration. Playback
+and capture default off; `--audio-input` grants capture separately. See the
+[PCM setup and limits](docs/architecture/audio.md). Standard host ALSA plugins
+can route to PipeWire; a direct PipeWire provider and physical audio acceptance
+remain pending.
 
 macOS and other unsupported hosts can build/run diagnosis and unit checks;
 execution fails explicitly. The baseline guest profile advertises only FP/ASIMD,
@@ -81,6 +88,7 @@ On real supported KVM hardware:
 cargo test -p trames-kvm --locked -- --ignored --test-threads=1
 TRAMES_KVM_TRANSPORT=mmio cargo test -p trames-kvm --locked -- --ignored --test-threads=1
 bash scripts/validate-hardware.sh
+python3 scripts/validate-audio.py # needs libasound2-dev; software PCM checks
 python3 scripts/validate-session.py
 TRAMES_KVM_TRANSPORT=mmio TRAMES_VALIDATION_OUTPUT=target/validation/session-mmio python3 scripts/validate-session.py
 ```

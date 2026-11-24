@@ -53,7 +53,8 @@ SVE/SME and debugger single-step remain unsupported.
   used lavapipe; this establishes API/memory interop, not hardware GPU readiness.
 
 See the [resource validation record](validation/resources-20261125.md).
-Presentation, PCM and hardware video providers remain open.
+Presentation and hardware video providers remain open. The fifth batch below
+adds software-validated Linux PCM.
 
 ## Delivered fourth batch: shared host CLI and Linux terminal sessions
 
@@ -70,9 +71,25 @@ Presentation, PCM and hardware video providers remain open.
 See [CLI architecture](architecture/host-cli.md) and
 [validation](validation/cli-20261125.md).
 
+## Delivered fifth batch: Linux PCM and native readiness
+
+- Shared guest ALSA profile and unchanged original instructions now reach an
+  on-demand native Linux libasound provider; Apple retains its existing provider.
+- Explicit playback/capture flags, exact PCM geometry, nonblocking samples,
+  controls/status and native error propagation are connected across all callers.
+- Existing idle executors drive ALSA descriptor readiness into the original guest
+  eventfd. Controls/close retire descriptor registrations, including FD reuse and
+  multiple streams on one endpoint. No Trames service thread or timer is added.
+- FFI signatures/constants are compiled against real ALSA headers in CI; the
+  checks do not execute in the product. Software PCM and KVM/native comparisons
+  are recorded separately from still-pending physical sound/clock acceptance.
+
+See [PCM architecture](architecture/audio.md) and
+[validation](validation/audio-20261125.md).
+
 ## Next dependency batch: Linux providers
 
-1. Implement Linux Vulkan image imports/exports, presentation, video and PCM providers as detailed
+1. Complete Linux Vulkan image imports/exports, presentation, video and PCM hardware validation as detailed
    below. Keep Apple consumers working and keep headless execution independent
    of device initialization. Probe real hardware before claiming capability.
 2. Expand runtime compatibility, signal/restart, exec, shared mappings, resource
@@ -95,8 +112,10 @@ delivery, alongside the shared-engine work:
 - Implement libva/VA-API and selected SoC V4L2 providers with negotiated structured
   VA/bitstream modes and DMA-BUF import. Validate H.264 hardware decode/display;
   validate the selected encode path separately.
-- Implement the existing ALSA guest PCM front end with PipeWire/ALSA playback
-  and capture, poll/xrun/device loss, timing and A/V synchronization.
+- The existing guest PCM front end now has a native ALSA provider for playback
+  and capture. Complete real device poll/xrun/device-loss recovery, latency,
+  clock calibration and A/V synchronization. PipeWire currently uses host ALSA
+  plugins; direct PipeWire support remains a separate provider choice.
 
 GPU alignment must remain independent of CPU pages. Validate API buffers,
 image import/export and fallbacks with real 4096-byte host/guest pages. A host
