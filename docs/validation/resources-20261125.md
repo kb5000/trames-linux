@@ -49,6 +49,17 @@ then rebuilt; the final [doctor record](resources-20261125/doctor.json) and
 Unaffected functional passes were reused. A disk-full test build was resolved by
 removing this task's disposable incremental cache, then rerunning failed checks.
 
+## Post-push verification
+
+The trames-linux [three-platform CI](https://github.com/kb5000/trames-linux/actions/runs/45444247216)
+passed on Linux amd64, Linux arm64 and macOS for commit
+`cbd5d5c2cd54289c468ead75e4d79de60587e765`.
+The runtime [Linux full CI](https://github.com/kb5000/trames-runtime/actions/runs/45443561922)
+passed. Local macOS `cargo test --workspace --all-features --locked` passed for
+that exact runtime commit, and Mac product all-target/all-feature strict Clippy
+passed. Remaining hosted Mac/iOS jobs were still queued due to runner capacity
+when these local results were recorded; no cloud pass is inferred for them.
+
 ## Reproduction and remaining gates
 
 Use the pinned toolchain. On an ARM64/4 KiB KVM host, run product strict checks,
