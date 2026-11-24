@@ -16,7 +16,7 @@ mod mailbox;
 #[derive(Debug)]
 pub struct Error(pub(crate) String);
 impl Error {
-    #[cfg(target_os = "linux")]
+    #[cfg(all(target_os = "linux", any(target_arch = "aarch64", test)))]
     pub(crate) fn context(operation: &str, error: impl fmt::Display) -> Self {
         Self(format!("{operation}: {error}"))
     }
