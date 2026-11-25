@@ -6,12 +6,14 @@
 #include <string.h>
 #include <xcb/xcb.h>
 static xcb_window_t find(xcb_connection_t* c,xcb_window_t root,const char* name) {
-    xcb_query_tree_reply_t* tree=xcb_query_tree_reply(c,xcb_query_tree(c,root),NULL);assert(tree);
+    xcb_query_tree_reply_t* tree=xcb_query_tree_reply(c,xcb_query_tree(c,root),NULL);if(!tree)return 0;
     int n=xcb_query_tree_children_length(tree);xcb_window_t* children=xcb_query_tree_children(tree);xcb_window_t result=0;
     for(int i=0;i<n;i++) {
         xcb_get_property_reply_t* p=xcb_get_property_reply(c,xcb_get_property(c,0,children[i],XCB_ATOM_WM_NAME,XCB_ATOM_STRING,0,256),NULL);
         if(p && (size_t)xcb_get_property_value_length(p)==strlen(name) && !memcmp(xcb_get_property_value(p),name,strlen(name))){result=children[i];}
         free(p);
+        // A real window manager may reparent the client beneath a frame window.
+        if(!result)result=find(c,children[i],name);
         if(result)break;
     }
     free(tree);return result;
