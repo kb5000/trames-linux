@@ -1,0 +1,1 @@
+probe: /home/main.guest/trames-linux-wsi-qualified/tests/fixtures/x11-probe.c:21: main: Assertion `window' failed.

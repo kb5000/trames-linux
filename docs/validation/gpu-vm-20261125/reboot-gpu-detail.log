@@ -1,0 +1,14 @@
+Nov 25 15:05:41 trames-gpu systemd[496]: Started trames-gpu-cube.service - /usr/local/bin/trames-gpu-env vkcube-wayland --c 1800.
+Nov 25 15:05:41 trames-gpu (-gpu-env)[618]: trames-gpu-cube.service: Failed to execute /usr/local/bin/trames-gpu-env: Exec format error
+Nov 25 15:05:41 trames-gpu systemd[496]: trames-gpu-cube.service: Main process exited, code=exited, status=203/EXEC
+Nov 25 15:05:41 trames-gpu systemd[496]: trames-gpu-cube.service: Failed with result 'exit-code'.
+               color operations: yes
+               presentation clock: CLOCK_MONOTONIC, id 1
+               presentation clock resolution: 0.000000001 s
+[15:04:58.223] Loading module '/usr/lib/aarch64-linux-gnu/weston/desktop-shell.so'
+[15:04:58.224] Loading module '/usr/lib/aarch64-linux-gnu/libweston-13/xwayland.so'
+[15:04:58.244] Registered plugin API 'weston_xwayland_v3' of size 32
+[15:04:58.244] Registered plugin API 'weston_xwayland_surface_v1' of size 16
+[15:04:58.244] xserver listening on display :0
+[15:04:58.244] launching '/usr/libexec/weston-keyboard'
+[15:04:58.245] launching '/usr/libexec/weston-desktop-shell'

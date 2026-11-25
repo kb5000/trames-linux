@@ -1,0 +1,27 @@
+active
+               640x480@60.0 4:3, 25.2 MHz
+               640x480@59.9, 25.2 MHz
+[14:58:27.841] associating input device event0 with output Virtual-1 (none by udev)
+[14:58:27.841] associating input device event1 with output Virtual-1 (none by udev)
+[14:58:27.841] associating input device event2 with output Virtual-1 (none by udev)
+[14:58:27.841] associating input device event3 with output Virtual-1 (none by udev)
+[14:58:27.841] Output 'Virtual-1' enabled with head(s) Virtual-1
+[14:58:27.841] Compositor capabilities:
+               arbitrary surface rotation: yes
+               screen capture uses y-flip: yes
+               cursor planes: yes
+               arbitrary resolutions: no
+               view mask clipping: yes
+               explicit sync: yes
+               color operations: yes
+               presentation clock: CLOCK_MONOTONIC, id 1
+               presentation clock resolution: 0.000000001 s
+[14:58:27.841] Loading module '/usr/lib/aarch64-linux-gnu/weston/desktop-shell.so'
+[14:58:27.842] Loading module '/usr/lib/aarch64-linux-gnu/libweston-13/xwayland.so'
+[14:58:27.845] Registered plugin API 'weston_xwayland_v3' of size 32
+[14:58:27.845] Registered plugin API 'weston_xwayland_surface_v1' of size 16
+[14:58:27.845] xserver listening on display :0
+[14:58:27.845] launching '/usr/libexec/weston-keyboard'
+[14:58:27.846] launching '/usr/libexec/weston-desktop-shell'
+srwxr-xr-x 1 trames trames 0 Nov 25 14:58 /run/user/1000/wayland-0
+Selected GPU 0: Virtio-GPU Venus (Apple M6), type: IntegratedGpu

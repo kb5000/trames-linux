@@ -1,0 +1,23 @@
+{
+  "checked_at": "2026-11-25T15:11:24.392423+00:00",
+  "host_available_bytes": 51609600000,
+  "cleanup_reclaimed_bytes": 45029384192,
+  "removed_build_profiles": 14,
+  "vm_name": "Trames Linux GPU",
+  "vm_uuid": "B02C19E9-0E54-4F63-9E27-500DD0BE149F",
+  "vm_path": "/Users/main/Library/Containers/com.utmapp.UTM/Data/Documents/Trames Linux GPU.utm",
+  "virtual_disk_bytes": 17179869184,
+  "allocated_disk_bytes": 1974792192,
+  "cpu_cores": 2,
+  "memory_bytes": 4294967296,
+  "guest_page_bytes": 4096,
+  "gpu_accelerated": true,
+  "nested_kvm_available": false,
+  "guest_kernel": "6.8.0-146-generic",
+  "guest_os": "Ubuntu 24.04.5 LTS",
+  "mesa": "25.2.8-0ubuntu0.24.04.5",
+  "renderer": "Virtio-GPU Venus (Apple M6)",
+  "existing_lima_kvm_retained": true,
+  "debug_log_enabled": false,
+  "controller_sha256": "f7cf91dfc4e7d11f99fb78ede908b4598c6eb33d04d1ade1da059a6eeafa0a82"
+}

@@ -1,0 +1,27 @@
+{
+  "cases": [
+    {
+      "id": "vulkan-headless",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "id": "vulkan-wayland",
+      "exit_code": 0,
+      "passed": false
+    },
+    {
+      "id": "vulkan-xwayland-pixels",
+      "passed": false
+    }
+  ],
+  "passed": 1,
+  "planned": 3,
+  "icd": "/usr/share/vulkan/icd.d/virtio_icd.json",
+  "host_page_bytes": 4096,
+  "nested_kvm_available": false,
+  "fixture_hashes": {
+    "native": "359224f60cc723aa25f5310485d5c6f428100507e1c7bc3ce29db57cf4145268",
+    "probe": "24fc8ca772f53cf9e49ea264502cdc131c6b82d318b4e4d3c5da05ae7246fd56"
+  }
+}

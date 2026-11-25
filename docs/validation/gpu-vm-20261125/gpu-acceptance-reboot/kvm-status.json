@@ -1,0 +1,6 @@
+{
+  "doctor_exit_code": 2,
+  "nested_kvm_available": false,
+  "runner_sha256": "44f1f61e8e3db16e57af99f128d8a4be8566a81894cb1bf1697ac13a5e370834",
+  "page_size": 4096
+}

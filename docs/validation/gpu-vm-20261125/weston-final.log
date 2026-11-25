@@ -1,0 +1,1155 @@
+Date: 2026-11-25 UTC
+[14:57:26.365] weston 13.0.0
+               https://wayland.freedesktop.org
+               Bug reports to: https://gitlab.freedesktop.org/wayland/weston/issues/
+               Build: 13.0.0
+[14:57:26.365] Command line: /usr/bin/weston --backend=drm --renderer=gl --socket=wayland-0 --xwayland --log=/home/trames/weston.log
+[14:57:26.365] OS: Linux, 6.8.0-146-generic, #146-Ubuntu SMP PREEMPT_DYNAMIC Thu Sep  3 16:20:48 UTC 2026, aarch64
+[14:57:26.365] Flight recorder: enabled
+[14:57:26.365] Using config file '/home/trames/.config/weston.ini'
+[14:57:26.365] Output repaint window is 7 ms maximum.
+[14:57:26.365] Loading module '/usr/lib/aarch64-linux-gnu/libweston-13/drm-backend.so'
+[14:57:26.366] initializing drm backend
+[14:57:26.366] Trying libseat launcher...
+[14:57:26.366] [libseat/backend/seatd.c:64] Could not connect to socket /run/seatd.sock: No such file or directory
+[14:57:26.366] [libseat/libseat.c:76] Backend 'seatd' failed to open seat, skipping
+[14:57:26.366] [libseat/backend/logind.c:317] Could not activate session: Permission denied
+[14:57:26.366] [libseat/libseat.c:76] Backend 'logind' failed to open seat, skipping
+[14:57:26.367] [seatd/seat.c:39] Created VT-bound seat seat0
+[14:57:26.367] [seatd/server.c:145] New client connected (pid: 3991, uid: 1000, gid: 1000)
+[14:57:26.367] [libseat/backend/seatd.c:633] Started embedded seatd
+[14:57:26.367] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:57:26.367] [seatd/seat.c:61] Could not open tty0 to update VT: Permission denied
+[14:57:26.367] [seatd/seat.c:170] Added client 0 to seat0
+[14:57:26.367] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:57:26.367] [seatd/seat.c:72] Could not open terminal for VT 0: Permission denied
+[14:57:26.367] [seatd/seat.c:461] Could not open VT for client
+[14:57:26.367] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:57:26.367] [seatd/seat.c:86] Could not open terminal to clean up VT 0: Permission denied
+[14:57:26.367] [libseat/libseat.c:73] Seat opened with backend 'builtin'
+[14:57:26.367] libseat: session control granted
+[14:57:26.367] [seatd/seat.c:222] Could open device: client is not active
+[14:57:26.367] [seatd/client.c:238] Could not open device: Operation not permitted
+[14:57:26.367] no drm device found
+[14:57:26.367] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:57:26.367] [seatd/seat.c:86] Could not open terminal to clean up VT 0: Permission denied
+[14:57:26.367] [seatd/seat.c:524] Closed client 0 on seat0
+[14:57:26.367] [seatd/seat.c:192] Removed client 0 from seat0
+[14:57:26.367] fatal: failed to create compositor backend
+[14:57:26.367] [seatd/client.c:471] Client disconnected
+[14:57:26.367] [libseat/backend/seatd.c:645] Stopped embedded seatd
+Date: 2026-11-25 UTC
+[14:57:29.447] weston 13.0.0
+               https://wayland.freedesktop.org
+               Bug reports to: https://gitlab.freedesktop.org/wayland/weston/issues/
+               Build: 13.0.0
+[14:57:29.447] Command line: /usr/bin/weston --backend=drm --renderer=gl --socket=wayland-0 --xwayland --log=/home/trames/weston.log
+[14:57:29.447] OS: Linux, 6.8.0-146-generic, #146-Ubuntu SMP PREEMPT_DYNAMIC Thu Sep  3 16:20:48 UTC 2026, aarch64
+[14:57:29.447] Flight recorder: enabled
+[14:57:29.448] Using config file '/home/trames/.config/weston.ini'
+[14:57:29.448] Output repaint window is 7 ms maximum.
+[14:57:29.448] Loading module '/usr/lib/aarch64-linux-gnu/libweston-13/drm-backend.so'
+[14:57:29.449] initializing drm backend
+[14:57:29.449] Trying libseat launcher...
+[14:57:29.449] [libseat/backend/seatd.c:64] Could not connect to socket /run/seatd.sock: No such file or directory
+[14:57:29.449] [libseat/libseat.c:76] Backend 'seatd' failed to open seat, skipping
+[14:57:29.450] [libseat/backend/logind.c:317] Could not activate session: Permission denied
+[14:57:29.450] [libseat/libseat.c:76] Backend 'logind' failed to open seat, skipping
+[14:57:29.451] [seatd/seat.c:39] Created VT-bound seat seat0
+[14:57:29.451] [seatd/server.c:145] New client connected (pid: 3997, uid: 1000, gid: 1000)
+[14:57:29.451] [libseat/backend/seatd.c:633] Started embedded seatd
+[14:57:29.451] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:57:29.451] [seatd/seat.c:61] Could not open tty0 to update VT: Permission denied
+[14:57:29.451] [seatd/seat.c:170] Added client 0 to seat0
+[14:57:29.451] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:57:29.451] [seatd/seat.c:72] Could not open terminal for VT 0: Permission denied
+[14:57:29.451] [seatd/seat.c:461] Could not open VT for client
+[14:57:29.451] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:57:29.451] [seatd/seat.c:86] Could not open terminal to clean up VT 0: Permission denied
+[14:57:29.451] [libseat/libseat.c:73] Seat opened with backend 'builtin'
+[14:57:29.451] libseat: session control granted
+[14:57:29.451] [seatd/seat.c:222] Could open device: client is not active
+[14:57:29.451] [seatd/client.c:238] Could not open device: Operation not permitted
+[14:57:29.451] no drm device found
+[14:57:29.451] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:57:29.451] [seatd/seat.c:86] Could not open terminal to clean up VT 0: Permission denied
+[14:57:29.451] [seatd/seat.c:524] Closed client 0 on seat0
+[14:57:29.451] [seatd/seat.c:192] Removed client 0 from seat0
+[14:57:29.451] fatal: failed to create compositor backend
+[14:57:29.451] [seatd/client.c:471] Client disconnected
+[14:57:29.451] [libseat/backend/seatd.c:645] Stopped embedded seatd
+Date: 2026-11-25 UTC
+[14:57:32.693] weston 13.0.0
+               https://wayland.freedesktop.org
+               Bug reports to: https://gitlab.freedesktop.org/wayland/weston/issues/
+               Build: 13.0.0
+[14:57:32.693] Command line: /usr/bin/weston --backend=drm --renderer=gl --socket=wayland-0 --xwayland --log=/home/trames/weston.log
+[14:57:32.693] OS: Linux, 6.8.0-146-generic, #146-Ubuntu SMP PREEMPT_DYNAMIC Thu Sep  3 16:20:48 UTC 2026, aarch64
+[14:57:32.693] Flight recorder: enabled
+[14:57:32.693] Using config file '/home/trames/.config/weston.ini'
+[14:57:32.693] Output repaint window is 7 ms maximum.
+[14:57:32.693] Loading module '/usr/lib/aarch64-linux-gnu/libweston-13/drm-backend.so'
+[14:57:32.694] initializing drm backend
+[14:57:32.694] Trying libseat launcher...
+[14:57:32.694] [libseat/backend/seatd.c:64] Could not connect to socket /run/seatd.sock: No such file or directory
+[14:57:32.694] [libseat/libseat.c:76] Backend 'seatd' failed to open seat, skipping
+[14:57:32.695] [libseat/backend/logind.c:317] Could not activate session: Permission denied
+[14:57:32.695] [libseat/libseat.c:76] Backend 'logind' failed to open seat, skipping
+[14:57:32.696] [seatd/seat.c:39] Created VT-bound seat seat0
+[14:57:32.696] [seatd/server.c:145] New client connected (pid: 4002, uid: 1000, gid: 1000)
+[14:57:32.696] [libseat/backend/seatd.c:633] Started embedded seatd
+[14:57:32.696] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:57:32.696] [seatd/seat.c:61] Could not open tty0 to update VT: Permission denied
+[14:57:32.696] [seatd/seat.c:170] Added client 0 to seat0
+[14:57:32.696] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:57:32.696] [seatd/seat.c:72] Could not open terminal for VT 0: Permission denied
+[14:57:32.696] [seatd/seat.c:461] Could not open VT for client
+[14:57:32.696] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:57:32.696] [seatd/seat.c:86] Could not open terminal to clean up VT 0: Permission denied
+[14:57:32.696] [libseat/libseat.c:73] Seat opened with backend 'builtin'
+[14:57:32.696] libseat: session control granted
+[14:57:32.696] [seatd/seat.c:222] Could open device: client is not active
+[14:57:32.696] [seatd/client.c:238] Could not open device: Operation not permitted
+[14:57:32.696] no drm device found
+[14:57:32.696] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:57:32.696] [seatd/seat.c:86] Could not open terminal to clean up VT 0: Permission denied
+[14:57:32.696] [seatd/seat.c:524] Closed client 0 on seat0
+[14:57:32.696] [seatd/seat.c:192] Removed client 0 from seat0
+[14:57:32.696] fatal: failed to create compositor backend
+[14:57:32.696] [seatd/client.c:471] Client disconnected
+[14:57:32.696] [libseat/backend/seatd.c:645] Stopped embedded seatd
+Date: 2026-11-25 UTC
+[14:57:35.950] weston 13.0.0
+               https://wayland.freedesktop.org
+               Bug reports to: https://gitlab.freedesktop.org/wayland/weston/issues/
+               Build: 13.0.0
+[14:57:35.950] Command line: /usr/bin/weston --backend=drm --renderer=gl --socket=wayland-0 --xwayland --log=/home/trames/weston.log
+[14:57:35.950] OS: Linux, 6.8.0-146-generic, #146-Ubuntu SMP PREEMPT_DYNAMIC Thu Sep  3 16:20:48 UTC 2026, aarch64
+[14:57:35.950] Flight recorder: enabled
+[14:57:35.950] Using config file '/home/trames/.config/weston.ini'
+[14:57:35.950] Output repaint window is 7 ms maximum.
+[14:57:35.950] Loading module '/usr/lib/aarch64-linux-gnu/libweston-13/drm-backend.so'
+[14:57:35.951] initializing drm backend
+[14:57:35.951] Trying libseat launcher...
+[14:57:35.951] [libseat/backend/seatd.c:64] Could not connect to socket /run/seatd.sock: No such file or directory
+[14:57:35.951] [libseat/libseat.c:76] Backend 'seatd' failed to open seat, skipping
+[14:57:35.953] [libseat/backend/logind.c:317] Could not activate session: Permission denied
+[14:57:35.953] [libseat/libseat.c:76] Backend 'logind' failed to open seat, skipping
+[14:57:35.953] [seatd/seat.c:39] Created VT-bound seat seat0
+[14:57:35.953] [seatd/server.c:145] New client connected (pid: 4007, uid: 1000, gid: 1000)
+[14:57:35.953] [libseat/backend/seatd.c:633] Started embedded seatd
+[14:57:35.953] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:57:35.953] [seatd/seat.c:61] Could not open tty0 to update VT: Permission denied
+[14:57:35.953] [seatd/seat.c:170] Added client 0 to seat0
+[14:57:35.953] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:57:35.953] [seatd/seat.c:72] Could not open terminal for VT 0: Permission denied
+[14:57:35.953] [seatd/seat.c:461] Could not open VT for client
+[14:57:35.953] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:57:35.953] [seatd/seat.c:86] Could not open terminal to clean up VT 0: Permission denied
+[14:57:35.953] [libseat/libseat.c:73] Seat opened with backend 'builtin'
+[14:57:35.953] libseat: session control granted
+[14:57:35.954] [seatd/seat.c:222] Could open device: client is not active
+[14:57:35.954] [seatd/client.c:238] Could not open device: Operation not permitted
+[14:57:35.954] no drm device found
+[14:57:35.954] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:57:35.954] [seatd/seat.c:86] Could not open terminal to clean up VT 0: Permission denied
+[14:57:35.954] [seatd/seat.c:524] Closed client 0 on seat0
+[14:57:35.954] [seatd/seat.c:192] Removed client 0 from seat0
+[14:57:35.954] fatal: failed to create compositor backend
+[14:57:35.954] [seatd/client.c:471] Client disconnected
+[14:57:35.954] [libseat/backend/seatd.c:645] Stopped embedded seatd
+Date: 2026-11-25 UTC
+[14:57:39.182] weston 13.0.0
+               https://wayland.freedesktop.org
+               Bug reports to: https://gitlab.freedesktop.org/wayland/weston/issues/
+               Build: 13.0.0
+[14:57:39.182] Command line: /usr/bin/weston --backend=drm --renderer=gl --socket=wayland-0 --xwayland --log=/home/trames/weston.log
+[14:57:39.182] OS: Linux, 6.8.0-146-generic, #146-Ubuntu SMP PREEMPT_DYNAMIC Thu Sep  3 16:20:48 UTC 2026, aarch64
+[14:57:39.182] Flight recorder: enabled
+[14:57:39.182] Using config file '/home/trames/.config/weston.ini'
+[14:57:39.182] Output repaint window is 7 ms maximum.
+[14:57:39.182] Loading module '/usr/lib/aarch64-linux-gnu/libweston-13/drm-backend.so'
+[14:57:39.183] initializing drm backend
+[14:57:39.183] Trying libseat launcher...
+[14:57:39.183] [libseat/backend/seatd.c:64] Could not connect to socket /run/seatd.sock: No such file or directory
+[14:57:39.183] [libseat/libseat.c:76] Backend 'seatd' failed to open seat, skipping
+[14:57:39.184] [libseat/backend/logind.c:317] Could not activate session: Permission denied
+[14:57:39.184] [libseat/libseat.c:76] Backend 'logind' failed to open seat, skipping
+[14:57:39.185] [seatd/seat.c:39] Created VT-bound seat seat0
+[14:57:39.185] [seatd/server.c:145] New client connected (pid: 4012, uid: 1000, gid: 1000)
+[14:57:39.185] [libseat/backend/seatd.c:633] Started embedded seatd
+[14:57:39.185] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:57:39.185] [seatd/seat.c:61] Could not open tty0 to update VT: Permission denied
+[14:57:39.185] [seatd/seat.c:170] Added client 0 to seat0
+[14:57:39.185] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:57:39.185] [seatd/seat.c:72] Could not open terminal for VT 0: Permission denied
+[14:57:39.185] [seatd/seat.c:461] Could not open VT for client
+[14:57:39.185] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:57:39.185] [seatd/seat.c:86] Could not open terminal to clean up VT 0: Permission denied
+[14:57:39.185] [libseat/libseat.c:73] Seat opened with backend 'builtin'
+[14:57:39.185] libseat: session control granted
+[14:57:39.186] [seatd/seat.c:222] Could open device: client is not active
+[14:57:39.186] [seatd/client.c:238] Could not open device: Operation not permitted
+[14:57:39.186] no drm device found
+[14:57:39.186] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:57:39.186] [seatd/seat.c:86] Could not open terminal to clean up VT 0: Permission denied
+[14:57:39.186] [seatd/seat.c:524] Closed client 0 on seat0
+[14:57:39.186] [seatd/seat.c:192] Removed client 0 from seat0
+[14:57:39.186] fatal: failed to create compositor backend
+[14:57:39.186] [seatd/client.c:471] Client disconnected
+[14:57:39.186] [libseat/backend/seatd.c:645] Stopped embedded seatd
+Date: 2026-11-25 UTC
+[14:57:42.434] weston 13.0.0
+               https://wayland.freedesktop.org
+               Bug reports to: https://gitlab.freedesktop.org/wayland/weston/issues/
+               Build: 13.0.0
+[14:57:42.434] Command line: /usr/bin/weston --backend=drm --renderer=gl --socket=wayland-0 --xwayland --log=/home/trames/weston.log
+[14:57:42.434] OS: Linux, 6.8.0-146-generic, #146-Ubuntu SMP PREEMPT_DYNAMIC Thu Sep  3 16:20:48 UTC 2026, aarch64
+[14:57:42.434] Flight recorder: enabled
+[14:57:42.434] Using config file '/home/trames/.config/weston.ini'
+[14:57:42.434] Output repaint window is 7 ms maximum.
+[14:57:42.434] Loading module '/usr/lib/aarch64-linux-gnu/libweston-13/drm-backend.so'
+[14:57:42.434] initializing drm backend
+[14:57:42.434] Trying libseat launcher...
+[14:57:42.434] [libseat/backend/seatd.c:64] Could not connect to socket /run/seatd.sock: No such file or directory
+[14:57:42.434] [libseat/libseat.c:76] Backend 'seatd' failed to open seat, skipping
+[14:57:42.436] [libseat/backend/logind.c:317] Could not activate session: Permission denied
+[14:57:42.436] [libseat/libseat.c:76] Backend 'logind' failed to open seat, skipping
+[14:57:42.436] [seatd/seat.c:39] Created VT-bound seat seat0
+[14:57:42.436] [seatd/server.c:145] New client connected (pid: 4017, uid: 1000, gid: 1000)
+[14:57:42.436] [libseat/backend/seatd.c:633] Started embedded seatd
+[14:57:42.436] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:57:42.436] [seatd/seat.c:61] Could not open tty0 to update VT: Permission denied
+[14:57:42.436] [seatd/seat.c:170] Added client 0 to seat0
+[14:57:42.436] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:57:42.436] [seatd/seat.c:72] Could not open terminal for VT 0: Permission denied
+[14:57:42.436] [seatd/seat.c:461] Could not open VT for client
+[14:57:42.436] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:57:42.436] [seatd/seat.c:86] Could not open terminal to clean up VT 0: Permission denied
+[14:57:42.436] [libseat/libseat.c:73] Seat opened with backend 'builtin'
+[14:57:42.436] libseat: session control granted
+[14:57:42.437] [seatd/seat.c:222] Could open device: client is not active
+[14:57:42.437] [seatd/client.c:238] Could not open device: Operation not permitted
+[14:57:42.437] no drm device found
+[14:57:42.437] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:57:42.437] [seatd/seat.c:86] Could not open terminal to clean up VT 0: Permission denied
+[14:57:42.437] [seatd/seat.c:524] Closed client 0 on seat0
+[14:57:42.437] [seatd/seat.c:192] Removed client 0 from seat0
+[14:57:42.437] fatal: failed to create compositor backend
+[14:57:42.437] [seatd/client.c:471] Client disconnected
+[14:57:42.437] [libseat/backend/seatd.c:645] Stopped embedded seatd
+Date: 2026-11-25 UTC
+[14:57:45.693] weston 13.0.0
+               https://wayland.freedesktop.org
+               Bug reports to: https://gitlab.freedesktop.org/wayland/weston/issues/
+               Build: 13.0.0
+[14:57:45.693] Command line: /usr/bin/weston --backend=drm --renderer=gl --socket=wayland-0 --xwayland --log=/home/trames/weston.log
+[14:57:45.693] OS: Linux, 6.8.0-146-generic, #146-Ubuntu SMP PREEMPT_DYNAMIC Thu Sep  3 16:20:48 UTC 2026, aarch64
+[14:57:45.693] Flight recorder: enabled
+[14:57:45.693] Using config file '/home/trames/.config/weston.ini'
+[14:57:45.693] Output repaint window is 7 ms maximum.
+[14:57:45.693] Loading module '/usr/lib/aarch64-linux-gnu/libweston-13/drm-backend.so'
+[14:57:45.695] initializing drm backend
+[14:57:45.695] Trying libseat launcher...
+[14:57:45.695] [libseat/backend/seatd.c:64] Could not connect to socket /run/seatd.sock: No such file or directory
+[14:57:45.695] [libseat/libseat.c:76] Backend 'seatd' failed to open seat, skipping
+[14:57:45.697] [libseat/backend/logind.c:317] Could not activate session: Permission denied
+[14:57:45.697] [libseat/libseat.c:76] Backend 'logind' failed to open seat, skipping
+[14:57:45.698] [seatd/seat.c:39] Created VT-bound seat seat0
+[14:57:45.698] [seatd/server.c:145] New client connected (pid: 4022, uid: 1000, gid: 1000)
+[14:57:45.698] [libseat/backend/seatd.c:633] Started embedded seatd
+[14:57:45.698] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:57:45.698] [seatd/seat.c:61] Could not open tty0 to update VT: Permission denied
+[14:57:45.698] [seatd/seat.c:170] Added client 0 to seat0
+[14:57:45.698] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:57:45.698] [seatd/seat.c:72] Could not open terminal for VT 0: Permission denied
+[14:57:45.698] [seatd/seat.c:461] Could not open VT for client
+[14:57:45.698] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:57:45.698] [seatd/seat.c:86] Could not open terminal to clean up VT 0: Permission denied
+[14:57:45.698] [libseat/libseat.c:73] Seat opened with backend 'builtin'
+[14:57:45.698] libseat: session control granted
+[14:57:45.698] [seatd/seat.c:222] Could open device: client is not active
+[14:57:45.698] [seatd/client.c:238] Could not open device: Operation not permitted
+[14:57:45.699] no drm device found
+[14:57:45.699] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:57:45.699] [seatd/seat.c:86] Could not open terminal to clean up VT 0: Permission denied
+[14:57:45.699] [seatd/seat.c:524] Closed client 0 on seat0
+[14:57:45.699] [seatd/seat.c:192] Removed client 0 from seat0
+[14:57:45.699] [seatd/client.c:471] Client disconnected
+[14:57:45.699] fatal: failed to create compositor backend
+[14:57:45.699] [libseat/backend/seatd.c:645] Stopped embedded seatd
+Date: 2026-11-25 UTC
+[14:57:48.931] weston 13.0.0
+               https://wayland.freedesktop.org
+               Bug reports to: https://gitlab.freedesktop.org/wayland/weston/issues/
+               Build: 13.0.0
+[14:57:48.931] Command line: /usr/bin/weston --backend=drm --renderer=gl --socket=wayland-0 --xwayland --log=/home/trames/weston.log
+[14:57:48.931] OS: Linux, 6.8.0-146-generic, #146-Ubuntu SMP PREEMPT_DYNAMIC Thu Sep  3 16:20:48 UTC 2026, aarch64
+[14:57:48.931] Flight recorder: enabled
+[14:57:48.931] Using config file '/home/trames/.config/weston.ini'
+[14:57:48.931] Output repaint window is 7 ms maximum.
+[14:57:48.931] Loading module '/usr/lib/aarch64-linux-gnu/libweston-13/drm-backend.so'
+[14:57:48.932] initializing drm backend
+[14:57:48.932] Trying libseat launcher...
+[14:57:48.932] [libseat/backend/seatd.c:64] Could not connect to socket /run/seatd.sock: No such file or directory
+[14:57:48.932] [libseat/libseat.c:76] Backend 'seatd' failed to open seat, skipping
+[14:57:48.933] [libseat/backend/logind.c:317] Could not activate session: Permission denied
+[14:57:48.933] [libseat/libseat.c:76] Backend 'logind' failed to open seat, skipping
+[14:57:48.933] [seatd/seat.c:39] Created VT-bound seat seat0
+[14:57:48.933] [seatd/server.c:145] New client connected (pid: 4027, uid: 1000, gid: 1000)
+[14:57:48.933] [libseat/backend/seatd.c:633] Started embedded seatd
+[14:57:48.933] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:57:48.933] [seatd/seat.c:61] Could not open tty0 to update VT: Permission denied
+[14:57:48.933] [seatd/seat.c:170] Added client 0 to seat0
+[14:57:48.933] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:57:48.933] [seatd/seat.c:72] Could not open terminal for VT 0: Permission denied
+[14:57:48.933] [seatd/seat.c:461] Could not open VT for client
+[14:57:48.933] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:57:48.933] [seatd/seat.c:86] Could not open terminal to clean up VT 0: Permission denied
+[14:57:48.933] [libseat/libseat.c:73] Seat opened with backend 'builtin'
+[14:57:48.933] libseat: session control granted
+[14:57:48.934] [seatd/seat.c:222] Could open device: client is not active
+[14:57:48.934] [seatd/client.c:238] Could not open device: Operation not permitted
+[14:57:48.934] no drm device found
+[14:57:48.934] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:57:48.934] [seatd/seat.c:86] Could not open terminal to clean up VT 0: Permission denied
+[14:57:48.934] [seatd/seat.c:524] Closed client 0 on seat0
+[14:57:48.934] [seatd/seat.c:192] Removed client 0 from seat0
+[14:57:48.934] fatal: failed to create compositor backend
+[14:57:48.934] [seatd/client.c:471] Client disconnected
+[14:57:48.934] [libseat/backend/seatd.c:645] Stopped embedded seatd
+Date: 2026-11-25 UTC
+[14:57:52.198] weston 13.0.0
+               https://wayland.freedesktop.org
+               Bug reports to: https://gitlab.freedesktop.org/wayland/weston/issues/
+               Build: 13.0.0
+[14:57:52.198] Command line: /usr/bin/weston --backend=drm --renderer=gl --socket=wayland-0 --xwayland --log=/home/trames/weston.log
+[14:57:52.198] OS: Linux, 6.8.0-146-generic, #146-Ubuntu SMP PREEMPT_DYNAMIC Thu Sep  3 16:20:48 UTC 2026, aarch64
+[14:57:52.198] Flight recorder: enabled
+[14:57:52.198] Using config file '/home/trames/.config/weston.ini'
+[14:57:52.198] Output repaint window is 7 ms maximum.
+[14:57:52.198] Loading module '/usr/lib/aarch64-linux-gnu/libweston-13/drm-backend.so'
+[14:57:52.199] initializing drm backend
+[14:57:52.199] Trying libseat launcher...
+[14:57:52.199] [libseat/backend/seatd.c:64] Could not connect to socket /run/seatd.sock: No such file or directory
+[14:57:52.199] [libseat/libseat.c:76] Backend 'seatd' failed to open seat, skipping
+[14:57:52.200] [libseat/backend/logind.c:317] Could not activate session: Permission denied
+[14:57:52.200] [libseat/libseat.c:76] Backend 'logind' failed to open seat, skipping
+[14:57:52.200] [seatd/seat.c:39] Created VT-bound seat seat0
+[14:57:52.200] [seatd/server.c:145] New client connected (pid: 4032, uid: 1000, gid: 1000)
+[14:57:52.200] [libseat/backend/seatd.c:633] Started embedded seatd
+[14:57:52.200] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:57:52.200] [seatd/seat.c:61] Could not open tty0 to update VT: Permission denied
+[14:57:52.200] [seatd/seat.c:170] Added client 0 to seat0
+[14:57:52.200] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:57:52.200] [seatd/seat.c:72] Could not open terminal for VT 0: Permission denied
+[14:57:52.200] [seatd/seat.c:461] Could not open VT for client
+[14:57:52.200] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:57:52.200] [seatd/seat.c:86] Could not open terminal to clean up VT 0: Permission denied
+[14:57:52.200] [libseat/libseat.c:73] Seat opened with backend 'builtin'
+[14:57:52.200] libseat: session control granted
+[14:57:52.201] [seatd/seat.c:222] Could open device: client is not active
+[14:57:52.201] [seatd/client.c:238] Could not open device: Operation not permitted
+[14:57:52.201] no drm device found
+[14:57:52.201] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:57:52.201] [seatd/seat.c:86] Could not open terminal to clean up VT 0: Permission denied
+[14:57:52.201] [seatd/seat.c:524] Closed client 0 on seat0
+[14:57:52.201] [seatd/seat.c:192] Removed client 0 from seat0
+[14:57:52.201] fatal: failed to create compositor backend
+[14:57:52.201] [seatd/client.c:471] Client disconnected
+[14:57:52.201] [libseat/backend/seatd.c:645] Stopped embedded seatd
+Date: 2026-11-25 UTC
+[14:57:55.430] weston 13.0.0
+               https://wayland.freedesktop.org
+               Bug reports to: https://gitlab.freedesktop.org/wayland/weston/issues/
+               Build: 13.0.0
+[14:57:55.430] Command line: /usr/bin/weston --backend=drm --renderer=gl --socket=wayland-0 --xwayland --log=/home/trames/weston.log
+[14:57:55.430] OS: Linux, 6.8.0-146-generic, #146-Ubuntu SMP PREEMPT_DYNAMIC Thu Sep  3 16:20:48 UTC 2026, aarch64
+[14:57:55.430] Flight recorder: enabled
+[14:57:55.430] Using config file '/home/trames/.config/weston.ini'
+[14:57:55.431] Output repaint window is 7 ms maximum.
+[14:57:55.431] Loading module '/usr/lib/aarch64-linux-gnu/libweston-13/drm-backend.so'
+[14:57:55.431] initializing drm backend
+[14:57:55.431] Trying libseat launcher...
+[14:57:55.431] [libseat/backend/seatd.c:64] Could not connect to socket /run/seatd.sock: No such file or directory
+[14:57:55.431] [libseat/libseat.c:76] Backend 'seatd' failed to open seat, skipping
+[14:57:55.432] [libseat/backend/logind.c:317] Could not activate session: Permission denied
+[14:57:55.432] [libseat/libseat.c:76] Backend 'logind' failed to open seat, skipping
+[14:57:55.433] [seatd/seat.c:39] Created VT-bound seat seat0
+[14:57:55.433] [seatd/server.c:145] New client connected (pid: 4037, uid: 1000, gid: 1000)
+[14:57:55.433] [libseat/backend/seatd.c:633] Started embedded seatd
+[14:57:55.433] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:57:55.433] [seatd/seat.c:61] Could not open tty0 to update VT: Permission denied
+[14:57:55.433] [seatd/seat.c:170] Added client 0 to seat0
+[14:57:55.433] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:57:55.433] [seatd/seat.c:72] Could not open terminal for VT 0: Permission denied
+[14:57:55.433] [seatd/seat.c:461] Could not open VT for client
+[14:57:55.433] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:57:55.433] [seatd/seat.c:86] Could not open terminal to clean up VT 0: Permission denied
+[14:57:55.433] [libseat/libseat.c:73] Seat opened with backend 'builtin'
+[14:57:55.433] libseat: session control granted
+[14:57:55.433] [seatd/seat.c:222] Could open device: client is not active
+[14:57:55.433] [seatd/client.c:238] Could not open device: Operation not permitted
+[14:57:55.434] no drm device found
+[14:57:55.434] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:57:55.434] [seatd/seat.c:86] Could not open terminal to clean up VT 0: Permission denied
+[14:57:55.434] [seatd/seat.c:524] Closed client 0 on seat0
+[14:57:55.434] [seatd/seat.c:192] Removed client 0 from seat0
+[14:57:55.434] fatal: failed to create compositor backend
+[14:57:55.434] [seatd/client.c:471] Client disconnected
+[14:57:55.434] [libseat/backend/seatd.c:645] Stopped embedded seatd
+Date: 2026-11-25 UTC
+[14:57:58.688] weston 13.0.0
+               https://wayland.freedesktop.org
+               Bug reports to: https://gitlab.freedesktop.org/wayland/weston/issues/
+               Build: 13.0.0
+[14:57:58.688] Command line: /usr/bin/weston --backend=drm --renderer=gl --socket=wayland-0 --xwayland --log=/home/trames/weston.log
+[14:57:58.688] OS: Linux, 6.8.0-146-generic, #146-Ubuntu SMP PREEMPT_DYNAMIC Thu Sep  3 16:20:48 UTC 2026, aarch64
+[14:57:58.688] Flight recorder: enabled
+[14:57:58.688] Using config file '/home/trames/.config/weston.ini'
+[14:57:58.688] Output repaint window is 7 ms maximum.
+[14:57:58.688] Loading module '/usr/lib/aarch64-linux-gnu/libweston-13/drm-backend.so'
+[14:57:58.689] initializing drm backend
+[14:57:58.689] Trying libseat launcher...
+[14:57:58.689] [libseat/backend/seatd.c:64] Could not connect to socket /run/seatd.sock: No such file or directory
+[14:57:58.689] [libseat/libseat.c:76] Backend 'seatd' failed to open seat, skipping
+[14:57:58.690] [libseat/backend/logind.c:317] Could not activate session: Permission denied
+[14:57:58.690] [libseat/libseat.c:76] Backend 'logind' failed to open seat, skipping
+[14:57:58.691] [seatd/seat.c:39] Created VT-bound seat seat0
+[14:57:58.691] [seatd/server.c:145] New client connected (pid: 4042, uid: 1000, gid: 1000)
+[14:57:58.691] [libseat/backend/seatd.c:633] Started embedded seatd
+[14:57:58.691] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:57:58.691] [seatd/seat.c:61] Could not open tty0 to update VT: Permission denied
+[14:57:58.691] [seatd/seat.c:170] Added client 0 to seat0
+[14:57:58.691] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:57:58.691] [seatd/seat.c:72] Could not open terminal for VT 0: Permission denied
+[14:57:58.691] [seatd/seat.c:461] Could not open VT for client
+[14:57:58.691] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:57:58.691] [seatd/seat.c:86] Could not open terminal to clean up VT 0: Permission denied
+[14:57:58.691] [libseat/libseat.c:73] Seat opened with backend 'builtin'
+[14:57:58.691] libseat: session control granted
+[14:57:58.691] [seatd/seat.c:222] Could open device: client is not active
+[14:57:58.691] [seatd/client.c:238] Could not open device: Operation not permitted
+[14:57:58.691] no drm device found
+[14:57:58.692] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:57:58.692] [seatd/seat.c:86] Could not open terminal to clean up VT 0: Permission denied
+[14:57:58.692] [seatd/seat.c:524] Closed client 0 on seat0
+[14:57:58.692] [seatd/seat.c:192] Removed client 0 from seat0
+[14:57:58.692] fatal: failed to create compositor backend
+[14:57:58.692] [seatd/client.c:471] Client disconnected
+[14:57:58.692] [libseat/backend/seatd.c:645] Stopped embedded seatd
+Date: 2026-11-25 UTC
+[14:58:01.943] weston 13.0.0
+               https://wayland.freedesktop.org
+               Bug reports to: https://gitlab.freedesktop.org/wayland/weston/issues/
+               Build: 13.0.0
+[14:58:01.943] Command line: /usr/bin/weston --backend=drm --renderer=gl --socket=wayland-0 --xwayland --log=/home/trames/weston.log
+[14:58:01.943] OS: Linux, 6.8.0-146-generic, #146-Ubuntu SMP PREEMPT_DYNAMIC Thu Sep  3 16:20:48 UTC 2026, aarch64
+[14:58:01.943] Flight recorder: enabled
+[14:58:01.943] Using config file '/home/trames/.config/weston.ini'
+[14:58:01.943] Output repaint window is 7 ms maximum.
+[14:58:01.943] Loading module '/usr/lib/aarch64-linux-gnu/libweston-13/drm-backend.so'
+[14:58:01.944] initializing drm backend
+[14:58:01.944] Trying libseat launcher...
+[14:58:01.944] [libseat/backend/seatd.c:64] Could not connect to socket /run/seatd.sock: No such file or directory
+[14:58:01.944] [libseat/libseat.c:76] Backend 'seatd' failed to open seat, skipping
+[14:58:01.946] [libseat/backend/logind.c:317] Could not activate session: Permission denied
+[14:58:01.946] [libseat/libseat.c:76] Backend 'logind' failed to open seat, skipping
+[14:58:01.946] [seatd/seat.c:39] Created VT-bound seat seat0
+[14:58:01.946] [seatd/server.c:145] New client connected (pid: 4047, uid: 1000, gid: 1000)
+[14:58:01.946] [libseat/backend/seatd.c:633] Started embedded seatd
+[14:58:01.946] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:58:01.946] [seatd/seat.c:61] Could not open tty0 to update VT: Permission denied
+[14:58:01.946] [seatd/seat.c:170] Added client 0 to seat0
+[14:58:01.946] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:58:01.946] [seatd/seat.c:72] Could not open terminal for VT 0: Permission denied
+[14:58:01.946] [seatd/seat.c:461] Could not open VT for client
+[14:58:01.946] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:58:01.946] [seatd/seat.c:86] Could not open terminal to clean up VT 0: Permission denied
+[14:58:01.946] [libseat/libseat.c:73] Seat opened with backend 'builtin'
+[14:58:01.946] libseat: session control granted
+[14:58:01.947] [seatd/seat.c:222] Could open device: client is not active
+[14:58:01.947] [seatd/client.c:238] Could not open device: Operation not permitted
+[14:58:01.947] no drm device found
+[14:58:01.947] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:58:01.947] [seatd/seat.c:86] Could not open terminal to clean up VT 0: Permission denied
+[14:58:01.947] [seatd/seat.c:524] Closed client 0 on seat0
+[14:58:01.947] [seatd/seat.c:192] Removed client 0 from seat0
+[14:58:01.947] fatal: failed to create compositor backend
+[14:58:01.947] [seatd/client.c:471] Client disconnected
+[14:58:01.947] [libseat/backend/seatd.c:645] Stopped embedded seatd
+Date: 2026-11-25 UTC
+[14:58:05.189] weston 13.0.0
+               https://wayland.freedesktop.org
+               Bug reports to: https://gitlab.freedesktop.org/wayland/weston/issues/
+               Build: 13.0.0
+[14:58:05.189] Command line: /usr/bin/weston --backend=drm --renderer=gl --socket=wayland-0 --xwayland --log=/home/trames/weston.log
+[14:58:05.189] OS: Linux, 6.8.0-146-generic, #146-Ubuntu SMP PREEMPT_DYNAMIC Thu Sep  3 16:20:48 UTC 2026, aarch64
+[14:58:05.189] Flight recorder: enabled
+[14:58:05.190] Using config file '/home/trames/.config/weston.ini'
+[14:58:05.190] Output repaint window is 7 ms maximum.
+[14:58:05.190] Loading module '/usr/lib/aarch64-linux-gnu/libweston-13/drm-backend.so'
+[14:58:05.190] initializing drm backend
+[14:58:05.190] Trying libseat launcher...
+[14:58:05.190] [libseat/backend/seatd.c:64] Could not connect to socket /run/seatd.sock: No such file or directory
+[14:58:05.190] [libseat/libseat.c:76] Backend 'seatd' failed to open seat, skipping
+[14:58:05.191] [libseat/backend/logind.c:317] Could not activate session: Permission denied
+[14:58:05.191] [libseat/libseat.c:76] Backend 'logind' failed to open seat, skipping
+[14:58:05.192] [seatd/seat.c:39] Created VT-bound seat seat0
+[14:58:05.192] [seatd/server.c:145] New client connected (pid: 4052, uid: 1000, gid: 1000)
+[14:58:05.192] [libseat/backend/seatd.c:633] Started embedded seatd
+[14:58:05.192] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:58:05.192] [seatd/seat.c:61] Could not open tty0 to update VT: Permission denied
+[14:58:05.192] [seatd/seat.c:170] Added client 0 to seat0
+[14:58:05.192] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:58:05.192] [seatd/seat.c:72] Could not open terminal for VT 0: Permission denied
+[14:58:05.192] [seatd/seat.c:461] Could not open VT for client
+[14:58:05.192] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:58:05.192] [seatd/seat.c:86] Could not open terminal to clean up VT 0: Permission denied
+[14:58:05.192] [libseat/libseat.c:73] Seat opened with backend 'builtin'
+[14:58:05.192] libseat: session control granted
+[14:58:05.193] [seatd/seat.c:222] Could open device: client is not active
+[14:58:05.193] [seatd/client.c:238] Could not open device: Operation not permitted
+[14:58:05.193] no drm device found
+[14:58:05.193] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:58:05.193] [seatd/seat.c:86] Could not open terminal to clean up VT 0: Permission denied
+[14:58:05.193] [seatd/seat.c:524] Closed client 0 on seat0
+[14:58:05.193] [seatd/seat.c:192] Removed client 0 from seat0
+[14:58:05.193] fatal: failed to create compositor backend
+[14:58:05.193] [seatd/client.c:471] Client disconnected
+[14:58:05.193] [libseat/backend/seatd.c:645] Stopped embedded seatd
+Date: 2026-11-25 UTC
+[14:58:08.439] weston 13.0.0
+               https://wayland.freedesktop.org
+               Bug reports to: https://gitlab.freedesktop.org/wayland/weston/issues/
+               Build: 13.0.0
+[14:58:08.439] Command line: /usr/bin/weston --backend=drm --renderer=gl --socket=wayland-0 --xwayland --log=/home/trames/weston.log
+[14:58:08.439] OS: Linux, 6.8.0-146-generic, #146-Ubuntu SMP PREEMPT_DYNAMIC Thu Sep  3 16:20:48 UTC 2026, aarch64
+[14:58:08.439] Flight recorder: enabled
+[14:58:08.439] Using config file '/home/trames/.config/weston.ini'
+[14:58:08.439] Output repaint window is 7 ms maximum.
+[14:58:08.439] Loading module '/usr/lib/aarch64-linux-gnu/libweston-13/drm-backend.so'
+[14:58:08.440] initializing drm backend
+[14:58:08.440] Trying libseat launcher...
+[14:58:08.440] [libseat/backend/seatd.c:64] Could not connect to socket /run/seatd.sock: No such file or directory
+[14:58:08.440] [libseat/libseat.c:76] Backend 'seatd' failed to open seat, skipping
+[14:58:08.442] [libseat/backend/logind.c:317] Could not activate session: Permission denied
+[14:58:08.442] [libseat/libseat.c:76] Backend 'logind' failed to open seat, skipping
+[14:58:08.442] [seatd/seat.c:39] Created VT-bound seat seat0
+[14:58:08.442] [seatd/server.c:145] New client connected (pid: 4057, uid: 1000, gid: 1000)
+[14:58:08.442] [libseat/backend/seatd.c:633] Started embedded seatd
+[14:58:08.442] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:58:08.442] [seatd/seat.c:61] Could not open tty0 to update VT: Permission denied
+[14:58:08.442] [seatd/seat.c:170] Added client 0 to seat0
+[14:58:08.442] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:58:08.442] [seatd/seat.c:72] Could not open terminal for VT 0: Permission denied
+[14:58:08.442] [seatd/seat.c:461] Could not open VT for client
+[14:58:08.442] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:58:08.442] [seatd/seat.c:86] Could not open terminal to clean up VT 0: Permission denied
+[14:58:08.442] [libseat/libseat.c:73] Seat opened with backend 'builtin'
+[14:58:08.442] libseat: session control granted
+[14:58:08.443] [seatd/seat.c:222] Could open device: client is not active
+[14:58:08.443] [seatd/client.c:238] Could not open device: Operation not permitted
+[14:58:08.443] no drm device found
+[14:58:08.443] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:58:08.443] [seatd/seat.c:86] Could not open terminal to clean up VT 0: Permission denied
+[14:58:08.443] [seatd/seat.c:524] Closed client 0 on seat0
+[14:58:08.443] [seatd/seat.c:192] Removed client 0 from seat0
+[14:58:08.443] fatal: failed to create compositor backend
+[14:58:08.443] [seatd/client.c:471] Client disconnected
+[14:58:08.443] [libseat/backend/seatd.c:645] Stopped embedded seatd
+Date: 2026-11-25 UTC
+[14:58:11.684] weston 13.0.0
+               https://wayland.freedesktop.org
+               Bug reports to: https://gitlab.freedesktop.org/wayland/weston/issues/
+               Build: 13.0.0
+[14:58:11.684] Command line: /usr/bin/weston --backend=drm --renderer=gl --socket=wayland-0 --xwayland --log=/home/trames/weston.log
+[14:58:11.685] OS: Linux, 6.8.0-146-generic, #146-Ubuntu SMP PREEMPT_DYNAMIC Thu Sep  3 16:20:48 UTC 2026, aarch64
+[14:58:11.685] Flight recorder: enabled
+[14:58:11.685] Using config file '/home/trames/.config/weston.ini'
+[14:58:11.685] Output repaint window is 7 ms maximum.
+[14:58:11.685] Loading module '/usr/lib/aarch64-linux-gnu/libweston-13/drm-backend.so'
+[14:58:11.685] initializing drm backend
+[14:58:11.685] Trying libseat launcher...
+[14:58:11.685] [libseat/backend/seatd.c:64] Could not connect to socket /run/seatd.sock: No such file or directory
+[14:58:11.685] [libseat/libseat.c:76] Backend 'seatd' failed to open seat, skipping
+[14:58:11.686] [libseat/backend/logind.c:317] Could not activate session: Permission denied
+[14:58:11.687] [libseat/libseat.c:76] Backend 'logind' failed to open seat, skipping
+[14:58:11.687] [seatd/seat.c:39] Created VT-bound seat seat0
+[14:58:11.687] [seatd/server.c:145] New client connected (pid: 4064, uid: 1000, gid: 1000)
+[14:58:11.687] [libseat/backend/seatd.c:633] Started embedded seatd
+[14:58:11.687] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:58:11.687] [seatd/seat.c:61] Could not open tty0 to update VT: Permission denied
+[14:58:11.687] [seatd/seat.c:170] Added client 0 to seat0
+[14:58:11.687] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:58:11.687] [seatd/seat.c:72] Could not open terminal for VT 0: Permission denied
+[14:58:11.687] [seatd/seat.c:461] Could not open VT for client
+[14:58:11.687] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:58:11.687] [seatd/seat.c:86] Could not open terminal to clean up VT 0: Permission denied
+[14:58:11.687] [libseat/libseat.c:73] Seat opened with backend 'builtin'
+[14:58:11.687] libseat: session control granted
+[14:58:11.687] [seatd/seat.c:222] Could open device: client is not active
+[14:58:11.687] [seatd/client.c:238] Could not open device: Operation not permitted
+[14:58:11.688] no drm device found
+[14:58:11.688] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:58:11.688] [seatd/seat.c:86] Could not open terminal to clean up VT 0: Permission denied
+[14:58:11.688] [seatd/seat.c:524] Closed client 0 on seat0
+[14:58:11.688] [seatd/seat.c:192] Removed client 0 from seat0
+[14:58:11.688] fatal: failed to create compositor backend
+[14:58:11.688] [seatd/client.c:471] Client disconnected
+[14:58:11.688] [libseat/backend/seatd.c:645] Stopped embedded seatd
+Date: 2026-11-25 UTC
+[14:58:14.935] weston 13.0.0
+               https://wayland.freedesktop.org
+               Bug reports to: https://gitlab.freedesktop.org/wayland/weston/issues/
+               Build: 13.0.0
+[14:58:14.935] Command line: /usr/bin/weston --backend=drm --renderer=gl --socket=wayland-0 --xwayland --log=/home/trames/weston.log
+[14:58:14.935] OS: Linux, 6.8.0-146-generic, #146-Ubuntu SMP PREEMPT_DYNAMIC Thu Sep  3 16:20:48 UTC 2026, aarch64
+[14:58:14.935] Flight recorder: enabled
+[14:58:14.935] Using config file '/home/trames/.config/weston.ini'
+[14:58:14.935] Output repaint window is 7 ms maximum.
+[14:58:14.935] Loading module '/usr/lib/aarch64-linux-gnu/libweston-13/drm-backend.so'
+[14:58:14.935] initializing drm backend
+[14:58:14.935] Trying libseat launcher...
+[14:58:14.935] [libseat/backend/seatd.c:64] Could not connect to socket /run/seatd.sock: No such file or directory
+[14:58:14.935] [libseat/libseat.c:76] Backend 'seatd' failed to open seat, skipping
+[14:58:14.937] [libseat/backend/logind.c:317] Could not activate session: Permission denied
+[14:58:14.937] [libseat/libseat.c:76] Backend 'logind' failed to open seat, skipping
+[14:58:14.937] [seatd/seat.c:39] Created VT-bound seat seat0
+[14:58:14.937] [seatd/server.c:145] New client connected (pid: 4069, uid: 1000, gid: 1000)
+[14:58:14.937] [libseat/backend/seatd.c:633] Started embedded seatd
+[14:58:14.937] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:58:14.937] [seatd/seat.c:61] Could not open tty0 to update VT: Permission denied
+[14:58:14.937] [seatd/seat.c:170] Added client 0 to seat0
+[14:58:14.937] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:58:14.937] [seatd/seat.c:72] Could not open terminal for VT 0: Permission denied
+[14:58:14.937] [seatd/seat.c:461] Could not open VT for client
+[14:58:14.937] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:58:14.937] [seatd/seat.c:86] Could not open terminal to clean up VT 0: Permission denied
+[14:58:14.937] [libseat/libseat.c:73] Seat opened with backend 'builtin'
+[14:58:14.937] libseat: session control granted
+[14:58:14.938] [seatd/seat.c:222] Could open device: client is not active
+[14:58:14.938] [seatd/client.c:238] Could not open device: Operation not permitted
+[14:58:14.938] no drm device found
+[14:58:14.938] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:58:14.938] [seatd/seat.c:86] Could not open terminal to clean up VT 0: Permission denied
+[14:58:14.938] [seatd/seat.c:524] Closed client 0 on seat0
+[14:58:14.938] [seatd/seat.c:192] Removed client 0 from seat0
+[14:58:14.938] fatal: failed to create compositor backend
+[14:58:14.938] [seatd/client.c:471] Client disconnected
+[14:58:14.938] [libseat/backend/seatd.c:645] Stopped embedded seatd
+Date: 2026-11-25 UTC
+[14:58:18.190] weston 13.0.0
+               https://wayland.freedesktop.org
+               Bug reports to: https://gitlab.freedesktop.org/wayland/weston/issues/
+               Build: 13.0.0
+[14:58:18.191] Command line: /usr/bin/weston --backend=drm --renderer=gl --socket=wayland-0 --xwayland --log=/home/trames/weston.log
+[14:58:18.191] OS: Linux, 6.8.0-146-generic, #146-Ubuntu SMP PREEMPT_DYNAMIC Thu Sep  3 16:20:48 UTC 2026, aarch64
+[14:58:18.191] Flight recorder: enabled
+[14:58:18.191] Using config file '/home/trames/.config/weston.ini'
+[14:58:18.191] Output repaint window is 7 ms maximum.
+[14:58:18.191] Loading module '/usr/lib/aarch64-linux-gnu/libweston-13/drm-backend.so'
+[14:58:18.191] initializing drm backend
+[14:58:18.191] Trying libseat launcher...
+[14:58:18.191] [libseat/backend/seatd.c:64] Could not connect to socket /run/seatd.sock: No such file or directory
+[14:58:18.191] [libseat/libseat.c:76] Backend 'seatd' failed to open seat, skipping
+[14:58:18.193] [libseat/backend/logind.c:317] Could not activate session: Permission denied
+[14:58:18.193] [libseat/libseat.c:76] Backend 'logind' failed to open seat, skipping
+[14:58:18.193] [seatd/seat.c:39] Created VT-bound seat seat0
+[14:58:18.193] [seatd/server.c:145] New client connected (pid: 4074, uid: 1000, gid: 1000)
+[14:58:18.193] [libseat/backend/seatd.c:633] Started embedded seatd
+[14:58:18.193] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:58:18.193] [seatd/seat.c:61] Could not open tty0 to update VT: Permission denied
+[14:58:18.193] [seatd/seat.c:170] Added client 0 to seat0
+[14:58:18.193] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:58:18.193] [seatd/seat.c:72] Could not open terminal for VT 0: Permission denied
+[14:58:18.193] [seatd/seat.c:461] Could not open VT for client
+[14:58:18.193] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:58:18.193] [seatd/seat.c:86] Could not open terminal to clean up VT 0: Permission denied
+[14:58:18.193] [libseat/libseat.c:73] Seat opened with backend 'builtin'
+[14:58:18.193] libseat: session control granted
+[14:58:18.194] [seatd/seat.c:222] Could open device: client is not active
+[14:58:18.194] [seatd/client.c:238] Could not open device: Operation not permitted
+[14:58:18.194] no drm device found
+[14:58:18.194] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:58:18.194] [seatd/seat.c:86] Could not open terminal to clean up VT 0: Permission denied
+[14:58:18.194] [seatd/seat.c:524] Closed client 0 on seat0
+[14:58:18.194] [seatd/seat.c:192] Removed client 0 from seat0
+[14:58:18.194] fatal: failed to create compositor backend
+[14:58:18.194] [seatd/client.c:471] Client disconnected
+[14:58:18.194] [libseat/backend/seatd.c:645] Stopped embedded seatd
+Date: 2026-11-25 UTC
+[14:58:21.438] weston 13.0.0
+               https://wayland.freedesktop.org
+               Bug reports to: https://gitlab.freedesktop.org/wayland/weston/issues/
+               Build: 13.0.0
+[14:58:21.438] Command line: /usr/bin/weston --backend=drm --renderer=gl --socket=wayland-0 --xwayland --log=/home/trames/weston.log
+[14:58:21.438] OS: Linux, 6.8.0-146-generic, #146-Ubuntu SMP PREEMPT_DYNAMIC Thu Sep  3 16:20:48 UTC 2026, aarch64
+[14:58:21.438] Flight recorder: enabled
+[14:58:21.439] Using config file '/home/trames/.config/weston.ini'
+[14:58:21.439] Output repaint window is 7 ms maximum.
+[14:58:21.439] Loading module '/usr/lib/aarch64-linux-gnu/libweston-13/drm-backend.so'
+[14:58:21.440] initializing drm backend
+[14:58:21.440] Trying libseat launcher...
+[14:58:21.440] [libseat/backend/seatd.c:64] Could not connect to socket /run/seatd.sock: No such file or directory
+[14:58:21.440] [libseat/libseat.c:76] Backend 'seatd' failed to open seat, skipping
+[14:58:21.441] [libseat/backend/logind.c:317] Could not activate session: Permission denied
+[14:58:21.441] [libseat/libseat.c:76] Backend 'logind' failed to open seat, skipping
+[14:58:21.442] [seatd/seat.c:39] Created VT-bound seat seat0
+[14:58:21.442] [seatd/server.c:145] New client connected (pid: 4079, uid: 1000, gid: 1000)
+[14:58:21.442] [libseat/backend/seatd.c:633] Started embedded seatd
+[14:58:21.442] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:58:21.442] [seatd/seat.c:61] Could not open tty0 to update VT: Permission denied
+[14:58:21.442] [seatd/seat.c:170] Added client 0 to seat0
+[14:58:21.442] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:58:21.442] [seatd/seat.c:72] Could not open terminal for VT 0: Permission denied
+[14:58:21.442] [seatd/seat.c:461] Could not open VT for client
+[14:58:21.442] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:58:21.442] [seatd/seat.c:86] Could not open terminal to clean up VT 0: Permission denied
+[14:58:21.442] [libseat/libseat.c:73] Seat opened with backend 'builtin'
+[14:58:21.442] libseat: session control granted
+[14:58:21.443] [seatd/seat.c:222] Could open device: client is not active
+[14:58:21.443] [seatd/client.c:238] Could not open device: Operation not permitted
+[14:58:21.443] no drm device found
+[14:58:21.443] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:58:21.443] [seatd/seat.c:86] Could not open terminal to clean up VT 0: Permission denied
+[14:58:21.443] [seatd/seat.c:524] Closed client 0 on seat0
+[14:58:21.443] [seatd/seat.c:192] Removed client 0 from seat0
+[14:58:21.443] [seatd/client.c:471] Client disconnected
+[14:58:21.443] fatal: failed to create compositor backend
+[14:58:21.443] [libseat/backend/seatd.c:645] Stopped embedded seatd
+Date: 2026-11-25 UTC
+[14:58:24.697] weston 13.0.0
+               https://wayland.freedesktop.org
+               Bug reports to: https://gitlab.freedesktop.org/wayland/weston/issues/
+               Build: 13.0.0
+[14:58:24.697] Command line: /usr/bin/weston --backend=drm --renderer=gl --socket=wayland-0 --xwayland --log=/home/trames/weston.log
+[14:58:24.697] OS: Linux, 6.8.0-146-generic, #146-Ubuntu SMP PREEMPT_DYNAMIC Thu Sep  3 16:20:48 UTC 2026, aarch64
+[14:58:24.697] Flight recorder: enabled
+[14:58:24.697] Using config file '/home/trames/.config/weston.ini'
+[14:58:24.697] Output repaint window is 7 ms maximum.
+[14:58:24.698] Loading module '/usr/lib/aarch64-linux-gnu/libweston-13/drm-backend.so'
+[14:58:24.699] initializing drm backend
+[14:58:24.699] Trying libseat launcher...
+[14:58:24.699] [libseat/backend/seatd.c:64] Could not connect to socket /run/seatd.sock: No such file or directory
+[14:58:24.699] [libseat/libseat.c:76] Backend 'seatd' failed to open seat, skipping
+[14:58:24.700] [libseat/backend/logind.c:317] Could not activate session: Permission denied
+[14:58:24.700] [libseat/libseat.c:76] Backend 'logind' failed to open seat, skipping
+[14:58:24.701] [seatd/seat.c:39] Created VT-bound seat seat0
+[14:58:24.701] [seatd/server.c:145] New client connected (pid: 4084, uid: 1000, gid: 1000)
+[14:58:24.701] [libseat/backend/seatd.c:633] Started embedded seatd
+[14:58:24.701] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:58:24.701] [seatd/seat.c:61] Could not open tty0 to update VT: Permission denied
+[14:58:24.701] [seatd/seat.c:170] Added client 0 to seat0
+[14:58:24.701] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:58:24.701] [seatd/seat.c:72] Could not open terminal for VT 0: Permission denied
+[14:58:24.701] [seatd/seat.c:461] Could not open VT for client
+[14:58:24.701] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:58:24.701] [seatd/seat.c:86] Could not open terminal to clean up VT 0: Permission denied
+[14:58:24.701] [libseat/libseat.c:73] Seat opened with backend 'builtin'
+[14:58:24.701] libseat: session control granted
+[14:58:24.701] [seatd/seat.c:222] Could open device: client is not active
+[14:58:24.701] [seatd/client.c:238] Could not open device: Operation not permitted
+[14:58:24.701] no drm device found
+[14:58:24.701] [common/terminal.c:162] Could not open target tty: Permission denied
+[14:58:24.701] [seatd/seat.c:86] Could not open terminal to clean up VT 0: Permission denied
+[14:58:24.701] [seatd/seat.c:524] Closed client 0 on seat0
+[14:58:24.701] [seatd/seat.c:192] Removed client 0 from seat0
+[14:58:24.701] fatal: failed to create compositor backend
+[14:58:24.701] [seatd/client.c:471] Client disconnected
+[14:58:24.701] [libseat/backend/seatd.c:645] Stopped embedded seatd
+Date: 2026-11-25 UTC
+[14:58:27.493] weston 13.0.0
+               https://wayland.freedesktop.org
+               Bug reports to: https://gitlab.freedesktop.org/wayland/weston/issues/
+               Build: 13.0.0
+[14:58:27.493] Command line: /usr/bin/weston --backend=drm --renderer=gl --socket=wayland-0 --xwayland --log=/home/trames/weston.log
+[14:58:27.493] OS: Linux, 6.8.0-146-generic, #146-Ubuntu SMP PREEMPT_DYNAMIC Thu Sep  3 16:20:48 UTC 2026, aarch64
+[14:58:27.493] Flight recorder: enabled
+[14:58:27.494] Using config file '/home/trames/.config/weston.ini'
+[14:58:27.494] Output repaint window is 7 ms maximum.
+[14:58:27.494] Loading module '/usr/lib/aarch64-linux-gnu/libweston-13/drm-backend.so'
+[14:58:27.494] initializing drm backend
+[14:58:27.494] Trying libseat launcher...
+[14:58:27.494] [libseat/libseat.c:62] Seat opened with backend 'seatd'
+[14:58:27.494] [libseat/backend/seatd.c:212] Enabling seat
+[14:58:27.494] libseat: session control granted
+[14:58:27.494] using /dev/dri/card0
+[14:58:27.494] DRM: supports atomic modesetting
+[14:58:27.494] DRM: does not support GBM modifiers
+[14:58:27.494] DRM: does not support async page flipping
+[14:58:27.494] DRM: supports picture aspect ratio
+[14:58:27.503] Loading module '/usr/lib/aarch64-linux-gnu/libweston-13/gl-renderer.so'
+[14:58:27.504] Using rendering device: /dev/dri/renderD128
+[14:58:27.504] EGL version: 1.5
+[14:58:27.504] EGL vendor: Mesa Project
+[14:58:27.504] EGL client APIs: OpenGL OpenGL_ES 
+[14:58:27.504] EGL features:
+               EGL Wayland extension: no
+               context priority: no
+               buffer age: yes
+               partial update: no
+               swap buffers with damage: no
+               configless context: yes
+               surfaceless context: yes
+               dmabuf support: modifiers
+[14:58:27.505] GL version: OpenGL ES 3.0 Mesa 25.2.8-0ubuntu0.24.04.5
+[14:58:27.505] GLSL version: OpenGL ES GLSL ES 3.00
+[14:58:27.505] GL vendor: Mesa
+[14:58:27.505] GL renderer: virgl
+[14:58:27.508] GL ES 3.0 - renderer features:
+               read-back format: ARGB8888
+               glReadPixels supports y-flip: yes
+               wl_shm 10 bpc formats: yes
+               wl_shm 16 bpc formats: no
+               wl_shm half-float formats: yes
+               internal R and RG formats: yes
+               OES_EGL_image_external: yes
+[14:58:27.508] Using GL renderer
+[14:58:27.509] event0  - Power Button: is tagged by udev as: Keyboard
+[14:58:27.509] event0  - Power Button: device is a keyboard
+[14:58:27.669] event1  - QEMU QEMU USB Tablet: is tagged by udev as: Mouse
+[14:58:27.669] event1  - QEMU QEMU USB Tablet: device is a pointer
+[14:58:27.825] event2  - QEMU QEMU USB Mouse: is tagged by udev as: Mouse
+[14:58:27.825] event2  - QEMU QEMU USB Mouse: device is a pointer
+[14:58:27.826] event3  - QEMU QEMU USB Keyboard: is tagged by udev as: Keyboard
+[14:58:27.826] event3  - QEMU QEMU USB Keyboard: device is a keyboard
+[14:58:27.840] libinput: configuring device "Power Button".
+[14:58:27.840] libinput: configuring device "QEMU QEMU USB Tablet".
+[14:58:27.840] input device event1 has no enabled output associated (none named), skipping calibration for now.
+[14:58:27.840] libinput: configuring device "QEMU QEMU USB Mouse".
+[14:58:27.840] libinput: configuring device "QEMU QEMU USB Keyboard".
+[14:58:27.840] DRM: head 'Virtual-1' found, connector 36 is connected, EDID make 'RHT', model 'QEMU Monitor', serial ''
+               Supported EOTF modes: SDR
+[14:58:27.841] Registered plugin API 'weston_drm_output_api_v1' of size 40
+[14:58:27.841] Registered plugin API 'weston_drm_virtual_output_api_v2' of size 48
+[14:58:27.841] Color manager: no-op
+[14:58:27.841] Output 'Virtual-1' attempts EOTF mode: SDR
+[14:58:27.841] Output 'Virtual-1' using color profile: stock sRGB color profile
+[14:58:27.841] Chosen EGL config details: id:  16 rgba: 8 8 8 0 buf: 24 dep:  0 stcl: 0 int: 1-1 type: win vis_id: XRGB8888 (0x34325258)
+[14:58:27.841] Output Virtual-1 (crtc 35) video modes:
+               1280x800@120.0, preferred, current, 171.7 MHz
+               5120x2160@50.0 64:27, 742.5 MHz
+               4096x2160@50.0 256:135, 594.0 MHz
+               3840x2160@60.0 16:9, 594.0 MHz
+               3840x2160@59.9 16:9, 593.4 MHz
+               3840x2160@50.0 16:9, 594.0 MHz
+               1920x1440@60.0, 234.0 MHz
+               2560x1080@50.0 64:27, 185.6 MHz
+               1856x1392@60.0, 218.2 MHz
+               1792x1344@60.0, 204.8 MHz
+               2048x1152@60.0, 162.0 MHz
+               1920x1200@59.9, 193.2 MHz
+               1920x1080@60.0, 148.5 MHz
+               1920x1080@50.0 16:9, 148.5 MHz
+               1600x1200@60.0, 162.0 MHz
+               1680x1050@60.0, 146.2 MHz
+               1400x1050@60.0, 121.8 MHz
+               1280x1024@60.0, 108.0 MHz
+               1440x900@59.9, 106.5 MHz
+               1280x960@60.0, 108.0 MHz
+               1360x768@60.0, 85.5 MHz
+               1280x768@59.9, 79.5 MHz
+               1024x768@60.0, 65.0 MHz
+               800x600@60.3, 40.0 MHz
+               640x480@60.0 4:3, 25.2 MHz
+               640x480@59.9, 25.2 MHz
+[14:58:27.841] associating input device event0 with output Virtual-1 (none by udev)
+[14:58:27.841] associating input device event1 with output Virtual-1 (none by udev)
+[14:58:27.841] associating input device event2 with output Virtual-1 (none by udev)
+[14:58:27.841] associating input device event3 with output Virtual-1 (none by udev)
+[14:58:27.841] Output 'Virtual-1' enabled with head(s) Virtual-1
+[14:58:27.841] Compositor capabilities:
+               arbitrary surface rotation: yes
+               screen capture uses y-flip: yes
+               cursor planes: yes
+               arbitrary resolutions: no
+               view mask clipping: yes
+               explicit sync: yes
+               color operations: yes
+               presentation clock: CLOCK_MONOTONIC, id 1
+               presentation clock resolution: 0.000000001 s
+[14:58:27.841] Loading module '/usr/lib/aarch64-linux-gnu/weston/desktop-shell.so'
+[14:58:27.842] Loading module '/usr/lib/aarch64-linux-gnu/libweston-13/xwayland.so'
+[14:58:27.845] Registered plugin API 'weston_xwayland_v3' of size 32
+[14:58:27.845] Registered plugin API 'weston_xwayland_surface_v1' of size 16
+[14:58:27.845] xserver listening on display :0
+[14:58:27.845] launching '/usr/libexec/weston-keyboard'
+[14:58:27.846] launching '/usr/libexec/weston-desktop-shell'
+[15:00:16.465] launching '/usr/bin/Xwayland'
+[15:00:16.519] xfixes version: 6.0
+[15:00:16.521] created wm, root 300
+Date: 2026-11-25 UTC
+[15:04:54.463] weston 13.0.0
+               https://wayland.freedesktop.org
+               Bug reports to: https://gitlab.freedesktop.org/wayland/weston/issues/
+               Build: 13.0.0
+[15:04:54.463] Command line: /usr/bin/weston --backend=drm --renderer=gl --socket=wayland-0 --xwayland --log=/home/trames/weston.log
+[15:04:54.463] OS: Linux, 6.8.0-146-generic, #146-Ubuntu SMP PREEMPT_DYNAMIC Thu Sep  3 16:20:48 UTC 2026, aarch64
+[15:04:54.463] Flight recorder: enabled
+[15:04:54.463] fatal: environment variable XDG_RUNTIME_DIR
+is set to "/run/user/1000", which is not a directory.
+Refer to your distribution on how to get it, or
+http://www.freedesktop.org/wiki/Specifications/basedir-spec
+on how to implement it.
+Date: 2026-11-25 UTC
+[15:04:57.747] weston 13.0.0
+               https://wayland.freedesktop.org
+               Bug reports to: https://gitlab.freedesktop.org/wayland/weston/issues/
+               Build: 13.0.0
+[15:04:57.747] Command line: /usr/bin/weston --backend=drm --renderer=gl --socket=wayland-0 --xwayland --log=/home/trames/weston.log
+[15:04:57.747] OS: Linux, 6.8.0-146-generic, #146-Ubuntu SMP PREEMPT_DYNAMIC Thu Sep  3 16:20:48 UTC 2026, aarch64
+[15:04:57.747] Flight recorder: enabled
+[15:04:57.749] Using config file '/home/trames/.config/weston.ini'
+[15:04:57.751] Output repaint window is 7 ms maximum.
+[15:04:57.752] Loading module '/usr/lib/aarch64-linux-gnu/libweston-13/drm-backend.so'
+[15:04:57.755] initializing drm backend
+[15:04:57.756] Trying libseat launcher...
+[15:04:57.756] [libseat/libseat.c:62] Seat opened with backend 'seatd'
+[15:04:57.756] [libseat/backend/seatd.c:212] Enabling seat
+[15:04:57.756] libseat: session control granted
+[15:04:57.757] using /dev/dri/card0
+[15:04:57.757] DRM: supports atomic modesetting
+[15:04:57.757] DRM: does not support GBM modifiers
+[15:04:57.757] DRM: does not support async page flipping
+[15:04:57.757] DRM: supports picture aspect ratio
+[15:04:57.861] Loading module '/usr/lib/aarch64-linux-gnu/libweston-13/gl-renderer.so'
+[15:04:57.865] Using rendering device: /dev/dri/renderD128
+[15:04:57.865] EGL version: 1.5
+[15:04:57.865] EGL vendor: Mesa Project
+[15:04:57.865] EGL client APIs: OpenGL OpenGL_ES 
+[15:04:57.865] EGL features:
+               EGL Wayland extension: no
+               context priority: no
+               buffer age: yes
+               partial update: no
+               swap buffers with damage: no
+               configless context: yes
+               surfaceless context: yes
+               dmabuf support: modifiers
+[15:04:57.869] GL version: OpenGL ES 3.0 Mesa 25.2.8-0ubuntu0.24.04.5
+[15:04:57.869] GLSL version: OpenGL ES GLSL ES 3.00
+[15:04:57.869] GL vendor: Mesa
+[15:04:57.869] GL renderer: virgl
+[15:04:57.878] GL ES 3.0 - renderer features:
+               read-back format: ARGB8888
+               glReadPixels supports y-flip: yes
+               wl_shm 10 bpc formats: yes
+               wl_shm 16 bpc formats: no
+               wl_shm half-float formats: yes
+               internal R and RG formats: yes
+               OES_EGL_image_external: yes
+[15:04:57.878] Using GL renderer
+[15:04:57.881] event0  - Power Button: is tagged by udev as: Keyboard
+[15:04:57.881] event0  - Power Button: device is a keyboard
+[15:04:58.041] event1  - QEMU QEMU USB Tablet: is tagged by udev as: Mouse
+[15:04:58.041] event1  - QEMU QEMU USB Tablet: device is a pointer
+[15:04:58.204] event2  - QEMU QEMU USB Mouse: is tagged by udev as: Mouse
+[15:04:58.204] event2  - QEMU QEMU USB Mouse: device is a pointer
+[15:04:58.207] event3  - QEMU QEMU USB Keyboard: is tagged by udev as: Keyboard
+[15:04:58.207] event3  - QEMU QEMU USB Keyboard: device is a keyboard
+[15:04:58.219] libinput: configuring device "Power Button".
+[15:04:58.219] libinput: configuring device "QEMU QEMU USB Tablet".
+[15:04:58.219] input device event1 has no enabled output associated (none named), skipping calibration for now.
+[15:04:58.219] libinput: configuring device "QEMU QEMU USB Mouse".
+[15:04:58.219] libinput: configuring device "QEMU QEMU USB Keyboard".
+[15:04:58.219] DRM: head 'Virtual-1' found, connector 36 is connected, EDID make 'RHT', model 'QEMU Monitor', serial ''
+               Supported EOTF modes: SDR
+[15:04:58.219] Registered plugin API 'weston_drm_output_api_v1' of size 40
+[15:04:58.219] Registered plugin API 'weston_drm_virtual_output_api_v2' of size 48
+[15:04:58.219] Color manager: no-op
+[15:04:58.222] Output 'Virtual-1' attempts EOTF mode: SDR
+[15:04:58.222] Output 'Virtual-1' using color profile: stock sRGB color profile
+[15:04:58.222] Chosen EGL config details: id:  16 rgba: 8 8 8 0 buf: 24 dep:  0 stcl: 0 int: 1-1 type: win vis_id: XRGB8888 (0x34325258)
+[15:04:58.222] Output Virtual-1 (crtc 35) video modes:
+               1280x800@120.0, preferred, current, 171.7 MHz
+               5120x2160@50.0 64:27, 742.5 MHz
+               4096x2160@50.0 256:135, 594.0 MHz
+               3840x2160@60.0 16:9, 594.0 MHz
+               3840x2160@59.9 16:9, 593.4 MHz
+               3840x2160@50.0 16:9, 594.0 MHz
+               1920x1440@60.0, 234.0 MHz
+               2560x1080@50.0 64:27, 185.6 MHz
+               1856x1392@60.0, 218.2 MHz
+               1792x1344@60.0, 204.8 MHz
+               2048x1152@60.0, 162.0 MHz
+               1920x1200@59.9, 193.2 MHz
+               1920x1080@60.0, 148.5 MHz
+               1920x1080@50.0 16:9, 148.5 MHz
+               1600x1200@60.0, 162.0 MHz
+               1680x1050@60.0, 146.2 MHz
+               1400x1050@60.0, 121.8 MHz
+               1280x1024@60.0, 108.0 MHz
+               1440x900@59.9, 106.5 MHz
+               1280x960@60.0, 108.0 MHz
+               1360x768@60.0, 85.5 MHz
+               1280x768@59.9, 79.5 MHz
+               1024x768@60.0, 65.0 MHz
+               800x600@60.3, 40.0 MHz
+               640x480@60.0 4:3, 25.2 MHz
+               640x480@59.9, 25.2 MHz
+[15:04:58.222] associating input device event0 with output Virtual-1 (none by udev)
+[15:04:58.222] associating input device event1 with output Virtual-1 (none by udev)
+[15:04:58.223] associating input device event2 with output Virtual-1 (none by udev)
+[15:04:58.223] associating input device event3 with output Virtual-1 (none by udev)
+[15:04:58.223] Output 'Virtual-1' enabled with head(s) Virtual-1
+[15:04:58.223] Compositor capabilities:
+               arbitrary surface rotation: yes
+               screen capture uses y-flip: yes
+               cursor planes: yes
+               arbitrary resolutions: no
+               view mask clipping: yes
+               explicit sync: yes
+               color operations: yes
+               presentation clock: CLOCK_MONOTONIC, id 1
+               presentation clock resolution: 0.000000001 s
+[15:04:58.223] Loading module '/usr/lib/aarch64-linux-gnu/weston/desktop-shell.so'
+[15:04:58.224] Loading module '/usr/lib/aarch64-linux-gnu/libweston-13/xwayland.so'
+[15:04:58.244] Registered plugin API 'weston_xwayland_v3' of size 32
+[15:04:58.244] Registered plugin API 'weston_xwayland_surface_v1' of size 16
+[15:04:58.244] xserver listening on display :0
+[15:04:58.244] launching '/usr/libexec/weston-keyboard'
+[15:04:58.245] launching '/usr/libexec/weston-desktop-shell'
+[15:07:47.767] /usr/libexec/weston-desktop-shell died on signal 15
+[15:07:47.767] caught signal 15
+[15:07:47.767] /usr/libexec/weston-desktop-shell disconnected, respawning...
+[15:07:47.767] launching '/usr/libexec/weston-desktop-shell'
+[15:07:47.768] event0  - Power Button: device removed
+[15:07:47.776] event1  - QEMU QEMU USB Tablet: device removed
+[15:07:47.783] event2  - QEMU QEMU USB Mouse: device removed
+[15:07:47.793] event3  - QEMU QEMU USB Keyboard: device removed
+[15:07:47.802] destroying output Virtual-1 (id 0) with a pending flip, but as we are shutting down we can't wait to destroy it when the flip completes... destroying it now
+Date: 2026-11-25 UTC
+[15:08:38.389] weston 13.0.0
+               https://wayland.freedesktop.org
+               Bug reports to: https://gitlab.freedesktop.org/wayland/weston/issues/
+               Build: 13.0.0
+[15:08:38.389] Command line: /usr/bin/weston --backend=drm --renderer=gl --socket=wayland-0 --xwayland --log=/home/trames/weston.log
+[15:08:38.389] OS: Linux, 6.8.0-146-generic, #146-Ubuntu SMP PREEMPT_DYNAMIC Thu Sep  3 16:20:48 UTC 2026, aarch64
+[15:08:38.389] Flight recorder: enabled
+[15:08:38.389] fatal: environment variable XDG_RUNTIME_DIR
+is set to "/run/user/1000", which is not a directory.
+Refer to your distribution on how to get it, or
+http://www.freedesktop.org/wiki/Specifications/basedir-spec
+on how to implement it.
+Date: 2026-11-25 UTC
+[15:08:41.660] weston 13.0.0
+               https://wayland.freedesktop.org
+               Bug reports to: https://gitlab.freedesktop.org/wayland/weston/issues/
+               Build: 13.0.0
+[15:08:41.660] Command line: /usr/bin/weston --backend=drm --renderer=gl --socket=wayland-0 --xwayland --log=/home/trames/weston.log
+[15:08:41.660] OS: Linux, 6.8.0-146-generic, #146-Ubuntu SMP PREEMPT_DYNAMIC Thu Sep  3 16:20:48 UTC 2026, aarch64
+[15:08:41.660] Flight recorder: enabled
+[15:08:41.660] Using config file '/home/trames/.config/weston.ini'
+[15:08:41.660] Output repaint window is 7 ms maximum.
+[15:08:41.661] Loading module '/usr/lib/aarch64-linux-gnu/libweston-13/drm-backend.so'
+[15:08:41.663] initializing drm backend
+[15:08:41.663] Trying libseat launcher...
+[15:08:41.663] [libseat/libseat.c:62] Seat opened with backend 'seatd'
+[15:08:41.663] [libseat/backend/seatd.c:212] Enabling seat
+[15:08:41.663] libseat: session control granted
+[15:08:41.663] using /dev/dri/card0
+[15:08:41.663] DRM: supports atomic modesetting
+[15:08:41.663] DRM: does not support GBM modifiers
+[15:08:41.663] DRM: does not support async page flipping
+[15:08:41.663] DRM: supports picture aspect ratio
+[15:08:41.719] Loading module '/usr/lib/aarch64-linux-gnu/libweston-13/gl-renderer.so'
+[15:08:41.721] Using rendering device: /dev/dri/renderD128
+[15:08:41.721] EGL version: 1.5
+[15:08:41.721] EGL vendor: Mesa Project
+[15:08:41.721] EGL client APIs: OpenGL OpenGL_ES 
+[15:08:41.721] EGL features:
+               EGL Wayland extension: no
+               context priority: no
+               buffer age: yes
+               partial update: no
+               swap buffers with damage: no
+               configless context: yes
+               surfaceless context: yes
+               dmabuf support: modifiers
+[15:08:41.723] GL version: OpenGL ES 3.0 Mesa 25.2.8-0ubuntu0.24.04.5
+[15:08:41.723] GLSL version: OpenGL ES GLSL ES 3.00
+[15:08:41.723] GL vendor: Mesa
+[15:08:41.723] GL renderer: virgl
+[15:08:41.729] GL ES 3.0 - renderer features:
+               read-back format: ARGB8888
+               glReadPixels supports y-flip: yes
+               wl_shm 10 bpc formats: yes
+               wl_shm 16 bpc formats: no
+               wl_shm half-float formats: yes
+               internal R and RG formats: yes
+               OES_EGL_image_external: yes
+[15:08:41.729] Using GL renderer
+[15:08:41.732] event0  - Power Button: is tagged by udev as: Keyboard
+[15:08:41.732] event0  - Power Button: device is a keyboard
+[15:08:41.894] event1  - QEMU QEMU USB Tablet: is tagged by udev as: Mouse
+[15:08:41.894] event1  - QEMU QEMU USB Tablet: device is a pointer
+[15:08:42.055] event2  - QEMU QEMU USB Mouse: is tagged by udev as: Mouse
+[15:08:42.055] event2  - QEMU QEMU USB Mouse: device is a pointer
+[15:08:42.057] event3  - QEMU QEMU USB Keyboard: is tagged by udev as: Keyboard
+[15:08:42.057] event3  - QEMU QEMU USB Keyboard: device is a keyboard
+[15:08:42.067] libinput: configuring device "Power Button".
+[15:08:42.067] libinput: configuring device "QEMU QEMU USB Tablet".
+[15:08:42.067] input device event1 has no enabled output associated (none named), skipping calibration for now.
+[15:08:42.067] libinput: configuring device "QEMU QEMU USB Mouse".
+[15:08:42.067] libinput: configuring device "QEMU QEMU USB Keyboard".
+[15:08:42.067] DRM: head 'Virtual-1' found, connector 36 is connected, EDID make 'RHT', model 'QEMU Monitor', serial ''
+               Supported EOTF modes: SDR
+[15:08:42.067] Registered plugin API 'weston_drm_output_api_v1' of size 40
+[15:08:42.067] Registered plugin API 'weston_drm_virtual_output_api_v2' of size 48
+[15:08:42.067] Color manager: no-op
+[15:08:42.067] Output 'Virtual-1' attempts EOTF mode: SDR
+[15:08:42.067] Output 'Virtual-1' using color profile: stock sRGB color profile
+[15:08:42.068] Chosen EGL config details: id:  16 rgba: 8 8 8 0 buf: 24 dep:  0 stcl: 0 int: 1-1 type: win vis_id: XRGB8888 (0x34325258)
+[15:08:42.068] Output Virtual-1 (crtc 35) video modes:
+               1280x800@120.0, preferred, current, 171.7 MHz
+               5120x2160@50.0 64:27, 742.5 MHz
+               4096x2160@50.0 256:135, 594.0 MHz
+               3840x2160@60.0 16:9, 594.0 MHz
+               3840x2160@59.9 16:9, 593.4 MHz
+               3840x2160@50.0 16:9, 594.0 MHz
+               1920x1440@60.0, 234.0 MHz
+               2560x1080@50.0 64:27, 185.6 MHz
+               1856x1392@60.0, 218.2 MHz
+               1792x1344@60.0, 204.8 MHz
+               2048x1152@60.0, 162.0 MHz
+               1920x1200@59.9, 193.2 MHz
+               1920x1080@60.0, 148.5 MHz
+               1920x1080@50.0 16:9, 148.5 MHz
+               1600x1200@60.0, 162.0 MHz
+               1680x1050@60.0, 146.2 MHz
+               1400x1050@60.0, 121.8 MHz
+               1280x1024@60.0, 108.0 MHz
+               1440x900@59.9, 106.5 MHz
+               1280x960@60.0, 108.0 MHz
+               1360x768@60.0, 85.5 MHz
+               1280x768@59.9, 79.5 MHz
+               1024x768@60.0, 65.0 MHz
+               800x600@60.3, 40.0 MHz
+               640x480@60.0 4:3, 25.2 MHz
+               640x480@59.9, 25.2 MHz
+[15:08:42.068] associating input device event0 with output Virtual-1 (none by udev)
+[15:08:42.068] associating input device event1 with output Virtual-1 (none by udev)
+[15:08:42.068] associating input device event2 with output Virtual-1 (none by udev)
+[15:08:42.068] associating input device event3 with output Virtual-1 (none by udev)
+[15:08:42.068] Output 'Virtual-1' enabled with head(s) Virtual-1
+[15:08:42.068] Compositor capabilities:
+               arbitrary surface rotation: yes
+               screen capture uses y-flip: yes
+               cursor planes: yes
+               arbitrary resolutions: no
+               view mask clipping: yes
+               explicit sync: yes
+               color operations: yes
+               presentation clock: CLOCK_MONOTONIC, id 1
+               presentation clock resolution: 0.000000001 s
+[15:08:42.068] Loading module '/usr/lib/aarch64-linux-gnu/weston/desktop-shell.so'
+[15:08:42.070] Loading module '/usr/lib/aarch64-linux-gnu/libweston-13/xwayland.so'
+[15:08:42.083] Registered plugin API 'weston_xwayland_v3' of size 32
+[15:08:42.083] Registered plugin API 'weston_xwayland_surface_v1' of size 16
+[15:08:42.083] xserver listening on display :0
+[15:08:42.083] launching '/usr/libexec/weston-keyboard'
+[15:08:42.083] launching '/usr/libexec/weston-desktop-shell'
+[15:09:13.339] launching '/usr/bin/Xwayland'
+[15:09:13.373] xfixes version: 6.0
+[15:09:13.375] created wm, root 300

@@ -1,0 +1,23 @@
+{
+  "host": {
+    "arm_ipa_bits": null,
+    "backend_implemented": true,
+    "cpu": null,
+    "host_arch": "aarch64",
+    "host_os": "linux",
+    "host_page_size": 4096,
+    "immediate_exit": false,
+    "issues": [
+      "open /dev/kvm: No such file or directory (os error 2)"
+    ],
+    "kvm_api_version": null,
+    "max_vcpus": null,
+    "memory_slots": null,
+    "smccc_forwarding": false,
+    "user_memory": false
+  },
+  "runtime": {
+    "commit": "474ee466391e2683c1a0f48e6fb21307cc45adae",
+    "repository": "https://github.com/kb5000/trames-runtime"
+  }
+}

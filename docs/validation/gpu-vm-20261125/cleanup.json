@@ -1,0 +1,124 @@
+{
+  "started_at": 1795617772.347769,
+  "host_available_before": 10354532352,
+  "plan": [
+    {
+      "path": "/private/tmp/trames-linux-pcm/target/debug",
+      "allocated_kib": 7805076
+    },
+    {
+      "path": "/private/tmp/trames-linux-pcm/target/release",
+      "allocated_kib": 14060
+    },
+    {
+      "path": "/private/tmp/trames-linux-pcm/runtime/target/debug",
+      "allocated_kib": 8399872
+    },
+    {
+      "path": "/private/tmp/trames-linux-media/target/debug",
+      "allocated_kib": 3773512
+    },
+    {
+      "path": "/private/tmp/trames-linux-media/runtime/target/debug",
+      "allocated_kib": 7961756
+    },
+    {
+      "path": "/private/tmp/trames-linux-media/runtime/target/release",
+      "allocated_kib": 14060
+    },
+    {
+      "path": "/private/tmp/trames-linux-cli/target/debug",
+      "allocated_kib": 447336
+    },
+    {
+      "path": "/private/tmp/trames-linux-cli/runtime/target/debug",
+      "allocated_kib": 2481464
+    },
+    {
+      "path": "/private/tmp/trames-linux-engine/target/debug",
+      "allocated_kib": 4091416
+    },
+    {
+      "path": "/private/tmp/trames-mac-cli/target/debug",
+      "allocated_kib": 4168500
+    },
+    {
+      "path": "/private/tmp/trames-ipad-media/target/debug",
+      "allocated_kib": 3723888
+    },
+    {
+      "path": "/private/tmp/trames-ipad-cli/target/debug",
+      "allocated_kib": 529404
+    },
+    {
+      "path": "/private/tmp/trames-mac-media/target/debug",
+      "allocated_kib": 531628
+    },
+    {
+      "path": "/private/tmp/trames-cli-unify/target/debug",
+      "allocated_kib": 72228
+    }
+  ],
+  "removed": [
+    {
+      "path": "/private/tmp/trames-linux-pcm/target/debug",
+      "allocated_kib": 7805076
+    },
+    {
+      "path": "/private/tmp/trames-linux-pcm/target/release",
+      "allocated_kib": 14060
+    },
+    {
+      "path": "/private/tmp/trames-linux-pcm/runtime/target/debug",
+      "allocated_kib": 8399872
+    },
+    {
+      "path": "/private/tmp/trames-linux-media/target/debug",
+      "allocated_kib": 3773512
+    },
+    {
+      "path": "/private/tmp/trames-linux-media/runtime/target/debug",
+      "allocated_kib": 7961756
+    },
+    {
+      "path": "/private/tmp/trames-linux-media/runtime/target/release",
+      "allocated_kib": 14060
+    },
+    {
+      "path": "/private/tmp/trames-linux-cli/target/debug",
+      "allocated_kib": 447336
+    },
+    {
+      "path": "/private/tmp/trames-linux-cli/runtime/target/debug",
+      "allocated_kib": 2481464
+    },
+    {
+      "path": "/private/tmp/trames-linux-engine/target/debug",
+      "allocated_kib": 4091416
+    },
+    {
+      "path": "/private/tmp/trames-mac-cli/target/debug",
+      "allocated_kib": 4168500
+    },
+    {
+      "path": "/private/tmp/trames-ipad-media/target/debug",
+      "allocated_kib": 3723888
+    },
+    {
+      "path": "/private/tmp/trames-ipad-cli/target/debug",
+      "allocated_kib": 529404
+    },
+    {
+      "path": "/private/tmp/trames-mac-media/target/debug",
+      "allocated_kib": 531628
+    },
+    {
+      "path": "/private/tmp/trames-cli-unify/target/debug",
+      "allocated_kib": 72228
+    }
+  ],
+  "kept_current_cpu_build_cache": "/private/tmp/trames-linux-fixes/runtime/target",
+  "source_user_data_vm_or_logs_removed": false,
+  "host_available_after": 55089192960,
+  "finished_at": 1795617779.6132748
+}

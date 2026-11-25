@@ -1,0 +1,19 @@
+{
+  "source_commit": "959dcdaa8c0eacbf59ee187ba698dde73866130f",
+  "fixture_sources": {
+    "vulkan-wsi.c": "dd947a2510f32dcec51f97386b2f8f3b13c86cf95fff841fabacc03b63072e8b",
+    "x11-probe.c": "b4ecbc2e2a330d11f1f8908bd6ca24b94bd86ffbd446b9ef4ae726a12304b337"
+  },
+  "original_native_fixture_unchanged_from": "273678318b86355978657d04a66deee050a05491",
+  "probe_compile_argv": [
+    "cc",
+    "-O2",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "tests/fixtures/x11-probe.c",
+    "-lxcb",
+    "-o",
+    "probe-v2"
+  ]
+}
