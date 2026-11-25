@@ -101,6 +101,12 @@ is retained.
 
 ## Validation and remaining work
 
+The [4 KiB memory and performance gates](docs/architecture/memory-performance-acceptance.md)
+compare original ELF/Node/compiler workloads with native Linux. Core memory has
+77 native/KVM cells; the separate performance workflow retains repeated timing
+and resource distributions without product instrumentation. Full graphics/media
+4 KiB qualification remains a release requirement.
+
 ```sh
 python3 scripts/check-boundaries.py
 cargo fmt --all --check

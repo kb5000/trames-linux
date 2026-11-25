@@ -177,11 +177,13 @@ def audit(output):
         if len(values) != inputs['repeats'] or len(native) != inputs['repeats']:
             failures.append(f'incomplete distribution: {mode}/{workers}/{lane}')
             continue
-        metrics = ('work_ns', 'wall_ns', 'user_ns', 'system_ns', 'voluntary_switches',
+        metrics = ('work_ns', 'wall_ns', 'cpu_ns', 'user_ns', 'system_ns', 'voluntary_switches',
                    'involuntary_switches', 'minor_faults', 'major_faults',
                    'largest_process_peak_rss_bytes', 'sampled_tree_peak_rss_bytes',
                    'sampled_tree_peak_pss_bytes')
         def metric(r, name):
+            if name == 'cpu_ns':
+                return r['user_ns'] + r['system_ns']
             return r['work'][name] if name == 'work_ns' else r[name]
         summary = {}
         for name in metrics:
@@ -192,8 +194,25 @@ def audit(output):
             wall_time_ratio_to_native=statistics.median(r['wall_ns'] for r in values) / statistics.median(r['wall_ns'] for r in native)))
     result = dict(schema_version=1, passed=not failures, failures=failures, comparisons=comparisons,
                   inputs_sha256=digest(output / 'inputs.json'), samples_sha256=digest(output / 'samples.json'),
+                  audit_controller_sha256=digest(Path(__file__)),
                   scope='this host/configuration; no universal near-native performance claim')
     save(output / 'results.json', result)
+    report = ['# Paired original workload baseline', '',
+              'Audit: **' + ('passed' if result['passed'] else 'failed') + '**. ',
+              f"{sum(r['phase'] == 'sample' for r in rows)} measured executions; calibration/warmup excluded.", '',
+              'Medians are milliseconds. Ratio is KVM/native work time (lower is better).',
+              'Wall and CPU include startup; sampled memory may miss short peaks.',
+              'This host/configuration only; caches retained; no bare-metal claim.', '',
+              '| Workload | Workers | Lane | Work ms | Wall ms | CPU ms | Work/native |',
+              '| --- | ---: | --- | ---: | ---: | ---: | ---: |']
+    for row in comparisons:
+        m = row['metrics']
+        report.append(f"| {row['mode']} | {row['workers']} | {row['lane']} | {m['work_ns']['median']/1e6:.3f} | {m['wall_ns']['median']/1e6:.3f} | {m['cpu_ns']['median']/1e6:.3f} | {row['work_time_ratio_to_native']:.3f} |")
+    if failures:
+        report.extend(['', 'Failed evidence: ' + ', '.join(failures)])
+    (output / 'report.md').write_text('\n'.join(report) + '\n')
+    print('audit:', 'passed' if result['passed'] else 'failed',
+          'measured executions:', sum(r['phase'] == 'sample' for r in rows), flush=True)
     return 0 if result['passed'] else 1
 
 
