@@ -1,6 +1,6 @@
 # Shared host CLI
 
-The independent [trames-cli](https://github.com/kb5000/trames-cli) repository owns
+The independent [trames-cli](https://github.com/project-trames/trames-cli) repository owns
 `trames-cli-common`. Mac/HVF, Linux/KVM and the interpreter wrapper pin its same
 source through `cli/`. It has no runtime, CPU executor, AppKit or media dependency.
 Product executables compose the library with their own engine and lifecycle.

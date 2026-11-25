@@ -8,7 +8,7 @@ version = "0.1.0"
 edition = "2021"
 rust-version = "1.101"
 license = "GPL-3.0-or-later"
-repository = "https://github.com/kb5000/trames-linux"
+repository = "https://github.com/project-trames/trames-linux"
 
 [workspace.dependencies]
 trames-cli-common = { path = "cli/crates/trames-cli-common" }

@@ -6,7 +6,7 @@ import subprocess
 
 root = Path(__file__).resolve().parents[1]
 pin = json.loads((root / 'runtime-version.json').read_text())
-expected = 'https://github.com/kb5000/trames-runtime'
+expected = 'https://github.com/project-trames/trames-runtime'
 assert pin['repository'] == expected
 module_url = subprocess.check_output(['git', 'config', '-f', '.gitmodules', 'submodule.runtime.url'], cwd=root, text=True).strip()
 assert module_url.removesuffix('.git') == expected
