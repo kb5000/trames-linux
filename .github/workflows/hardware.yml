@@ -34,6 +34,7 @@ jobs:
       - run: TRAMES_VALIDATION_OUTPUT=target/validation/cli python3 scripts/validate-cli.py
       - run: TRAMES_KVM_TRANSPORT=mmio TRAMES_VALIDATION_OUTPUT=target/validation/cli-mmio python3 scripts/validate-cli.py
       - run: python3 scripts/validate-file-jit.py
+      - run: python3 scripts/validate-process-resources.py
       - run: python3 scripts/validate-audio.py
       - uses: actions/upload-artifact@v4
         if: always()

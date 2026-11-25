@@ -15,7 +15,7 @@ use std::{
     os::fd::AsRawFd,
     ptr,
     rc::Rc,
-    sync::Arc,
+    sync::{Arc, Weak},
     time::{Duration, Instant},
 };
 use trames_execution::{ExecutionExit, ExitReason, InstructionCount};
@@ -136,8 +136,17 @@ impl Tables {
     }
 }
 struct Page {
-    _owner: Arc<dyn HardwareStorage>,
+    owner: Weak<dyn HardwareStorage>,
     info: HardwarePageInfo,
+}
+// Match the existing HVF ownership model: stopped roots retain translation
+// metadata and weak physical aliases, never the lifetime of a retired mm/RAM.
+const CACHED_SPACES: usize = 32;
+const CACHED_PAGES: usize = 32768;
+struct AddressSpace {
+    tables: Tables,
+    pages: BTreeMap<u64, Page>,
+    used: u64,
 }
 #[derive(Clone, Copy)]
 pub(crate) enum Event {
@@ -159,6 +168,8 @@ pub(crate) struct Executor {
     run: *mut kvm_run,
     interrupt: Arc<crate::deadline::Interrupt>,
     memory_id: u64,
+    spaces: BTreeMap<u64, AddressSpace>,
+    clock: u64,
     version: Option<(u64, u64)>,
     invalidate: u64,
     wait: Option<Arc<HardwareWait>>,
@@ -262,6 +273,8 @@ impl Executor {
             run,
             interrupt,
             memory_id: 0,
+            spaces: BTreeMap::new(),
+            clock: 0,
             version: None,
             invalidate: 3,
             wait: None,
@@ -278,7 +291,12 @@ impl Executor {
         self.wait.take()
     }
     pub fn mapped_bytes(&self) -> usize {
-        self.pages.len() * PAGE
+        self.pages
+            .values()
+            .chain(self.spaces.values().flat_map(|s| s.pages.values()))
+            .filter(|page| page.owner.strong_count() != 0)
+            .count()
+            * PAGE
     }
     pub fn slot_count(&self) -> usize {
         self.vm.slot_count()
@@ -394,13 +412,43 @@ impl Executor {
         let id = memory.instruction_identity().0;
         let version = memory.hardware_view_version();
         if self.memory_id != id {
-            let tables = Tables::new(&self.vm)?;
-            set(&self.cpu, system_register(3, 0, 2, 0, 0), tables.root.gpa())?;
-            self.tables = tables;
-            self.pages.clear();
+            let next = match self.spaces.remove(&id) {
+                Some(space) => space,
+                None => AddressSpace {
+                    tables: Tables::new(&self.vm)?,
+                    pages: BTreeMap::new(),
+                    used: 0,
+                },
+            };
+            set(
+                &self.cpu,
+                system_register(3, 0, 2, 0, 0),
+                next.tables.root.gpa(),
+            )?;
+            self.clock = self.clock.wrapping_add(1);
+            let old = AddressSpace {
+                tables: std::mem::replace(&mut self.tables, next.tables),
+                pages: std::mem::replace(&mut self.pages, next.pages),
+                used: self.clock,
+            };
+            if self.memory_id != 0 {
+                self.spaces.insert(self.memory_id, old);
+            }
             self.memory_id = id;
+            // Retained weak aliases are always revalidated before selecting a
+            // stopped root, including owners retired while another mm ran.
             self.version = None;
             self.invalidate |= 1;
+            while self.spaces.len() + 1 > CACHED_SPACES
+                || self.pages.len() + self.spaces.values().map(|s| s.pages.len()).sum::<usize>()
+                    > CACHED_PAGES
+            {
+                let Some((&oldest, _)) = self.spaces.iter().min_by_key(|(_, space)| space.used)
+                else {
+                    break;
+                };
+                self.spaces.remove(&oldest);
+            }
         }
         if self.version.map(|v| v.0) != Some(version.0) {
             let changed: Vec<_> = self
@@ -410,7 +458,8 @@ impl Executor {
                 .filter(|&va| match memory.hardware_page_info(va) {
                     Ok(info) => {
                         let old = &self.pages[&va].info;
-                        info.storage_id != old.storage_id
+                        self.pages[&va].owner.strong_count() == 0
+                            || info.storage_id != old.storage_id
                             || info.writable != old.writable
                             || info.permissions != old.permissions
                             || info.backing_version != old.backing_version
@@ -490,7 +539,7 @@ impl Executor {
         self.pages.insert(
             va,
             Page {
-                _owner: owner,
+                owner: Arc::downgrade(&owner),
                 info,
             },
         );
@@ -568,8 +617,19 @@ impl Executor {
                 ..VECTOR + offset(&raw const trames_engine_saving))
                 .contains(&pc)
         {
-            *state = read::<Mailbox>(&self.mailbox, 0).state;
-            return Ok(None);
+            let mailbox: Mailbox = read(&self.mailbox, 0);
+            if mailbox.complete == 1 && mailbox.event == 3 {
+                return Err(Error(format!(
+                    "private EL1 fault: event={} ESR={:#x} FAR={:#x}",
+                    mailbox.event, mailbox.syndrome, mailbox.address
+                )));
+            }
+            *state = mailbox.state.clone();
+            // A deadline/kick can win the userspace exit after EL1 completed
+            // its notification. ELR already points past SVC: treating this as
+            // an ordinary yield would silently skip the syscall. Only a host
+            // acknowledgement or the restore's complete=0 retires the request.
+            return Ok((mailbox.complete == 1).then_some(mailbox));
         }
         if !(VECTOR..VECTOR + PAGE as u64).contains(&pc) {
             return Err(Error(format!("unexpected privileged PC {pc:#x}")));
@@ -681,6 +741,9 @@ impl Executor {
                 });
             }
             let mut reply = mailbox;
+            // The fault was handled above. An interrupt during its private
+            // restore must not publish that completed notification again.
+            reply.complete = 0;
             reply.invalidate = std::mem::take(&mut self.invalidate);
             write(&self.mailbox, 0, reply);
             // If checkpoint had to finish an EL1 save, its original slice timer
@@ -721,6 +784,62 @@ impl Drop for Executor {
 #[cfg(test)]
 mod hardware_checkpoints {
     use super::*;
+    #[test]
+    #[ignore = "requires real ARM64 Linux KVM and 4KiB host pages"]
+    fn interrupted_completed_notification_preserves_the_pending_syscall() {
+        use trames_memory::{Memory, Permissions};
+        let mut memory = Memory::default();
+        memory.map(0x10000, 4096, Permissions::RW).unwrap();
+        for (index, instruction) in [0xd2801588u32, 0xd4000001, 0x91000673, 0xd4000001]
+            .iter()
+            .enumerate()
+        {
+            memory
+                .write_array(0x10000 + index as u64 * 4, instruction.to_le_bytes())
+                .unwrap();
+        }
+        memory.protect(0x10000, 4096, Permissions::RX).unwrap();
+        memory.prepare_hardware().unwrap();
+        let mut registry = trames_memory::parallel::Registry::default();
+        registry.use_hardware();
+        let mut view = memory.parallel_view(&mut registry).unwrap();
+        view.enable_hardware();
+        let mut executor = Executor::new().unwrap();
+        let mut state = Aarch64State {
+            pc: 0x10000,
+            ..Default::default()
+        };
+        let quantum = Duration::from_millis(100);
+        assert_eq!(
+            executor.run(&mut state, &mut view, quantum).unwrap().reason,
+            ExitReason::Syscall
+        );
+        // Reproduce a stopped completed EL1 notification followed by EINTR,
+        // before the outer runtime has consumed its request. No guest opcode
+        // or execution memory is patched to force this boundary.
+        unsafe {
+            (&raw mut (*executor.run).immediate_exit).write_volatile(1);
+        }
+        assert!(matches!(executor.event().unwrap(), Event::Interrupted));
+        let request = executor
+            .checkpoint(&mut state)
+            .unwrap()
+            .expect("completed SVC must remain pending");
+        assert_eq!(
+            (request.event, state.pc, state.registers[8]),
+            (1, 0x10008, 172)
+        );
+        state.registers[0] = 99;
+        assert_eq!(
+            executor.run(&mut state, &mut view, quantum).unwrap().reason,
+            ExitReason::Syscall
+        );
+        assert_eq!(
+            (state.pc, state.registers[19], state.registers[0]),
+            (0x10010, 1, 99)
+        );
+    }
+
     #[test]
     #[ignore = "requires real ARM64 Linux KVM and 4KiB host pages"]
     fn completed_syscalls_resume_without_register_resets_or_extra_smccc_runs() {
@@ -766,6 +885,126 @@ mod hardware_checkpoints {
         );
         assert_eq!(executor.resume_resets, resets);
     }
+    #[test]
+    #[ignore = "requires real ARM64 Linux KVM and 4KiB host pages"]
+    fn address_space_switch_retains_shared_code_and_withdraws_private_data() {
+        use trames_memory::{Memory, Permissions};
+        let mut original = Memory::default();
+        original.map(0x10000, 4096, Permissions::RW).unwrap();
+        original
+            .write_array(0x10000, 0xd4000001u32.to_le_bytes())
+            .unwrap();
+        original.protect(0x10000, 4096, Permissions::RX).unwrap();
+        original.map(0x20000, 4096, Permissions::RW).unwrap();
+        original.write_array(0x20000, 1u64.to_le_bytes()).unwrap();
+        let mut other = original.clone();
+        other.write_array(0x20000, 2u64.to_le_bytes()).unwrap();
+        let mut registry = trames_memory::parallel::Registry::default();
+        registry.use_hardware();
+        original.prepare_hardware().unwrap();
+        other.prepare_hardware().unwrap();
+        let mut first = original.parallel_view(&mut registry).unwrap();
+        let mut second = other.parallel_view(&mut registry).unwrap();
+        first.enable_hardware();
+        second.enable_hardware();
+        let mut executor = Executor::new().unwrap();
+        let mut state = Aarch64State {
+            pc: 0x10000,
+            ..Default::default()
+        };
+        let quantum = Duration::from_millis(100);
+        executor.run(&mut state, &mut first, quantum).unwrap();
+        let shared = executor.pages[&0x10000].info.storage_id;
+        // Force one data mapping exactly as the real data-abort admission path.
+        executor
+            .fault(
+                &first,
+                &Mailbox {
+                    syndrome: (0x24 << 26) | 4,
+                    address: 0x20000,
+                    ..Default::default()
+                },
+            )
+            .unwrap();
+        let private = executor.pages[&0x20000].info.storage_id;
+        executor.synchronize(&second).unwrap();
+        assert!(executor.pages.is_empty());
+        state.pc = 0x10000;
+        executor.run(&mut state, &mut second, quantum).unwrap();
+        executor
+            .fault(
+                &second,
+                &Mailbox {
+                    syndrome: (0x24 << 26) | 4,
+                    address: 0x20000,
+                    ..Default::default()
+                },
+            )
+            .unwrap();
+        assert_ne!(executor.pages[&0x20000].info.storage_id, private);
+        let runs = executor.run_calls;
+        for _ in 0..8 {
+            executor.synchronize(&first).unwrap();
+            assert_eq!(executor.pages[&0x10000].info.storage_id, shared);
+            assert_eq!(executor.pages[&0x20000].info.storage_id, private);
+            state.pc = 0x10000;
+            executor.run(&mut state, &mut first, quantum).unwrap();
+            state.pc = 0x10000;
+            executor.run(&mut state, &mut second, quantum).unwrap();
+        }
+        assert_eq!(
+            executor.run_calls - runs,
+            if executor.vm.smccc { 16 } else { 32 }
+        );
+        drop(first);
+        original.unmap(0x20000, 4096).unwrap();
+        let mut changed = original.parallel_view(&mut registry).unwrap();
+        changed.enable_hardware();
+        executor.synchronize(&changed).unwrap();
+        assert!(!executor.pages.contains_key(&0x20000));
+        assert_eq!(executor.pages[&0x10000].info.storage_id, shared);
+    }
+    #[test]
+    #[ignore = "requires real ARM64 Linux KVM and 4KiB host pages"]
+    fn address_space_cache_is_bounded_and_does_not_retain_retired_guest_pages() {
+        use trames_memory::{Memory, Permissions};
+        let mut executor = Executor::new().unwrap();
+        for _ in 0..CACHED_SPACES + 4 {
+            let mut memory = Memory::default();
+            memory.map(0x10000, 4096, Permissions::RW).unwrap();
+            memory
+                .write_array(0x10000, 0xd4000001u32.to_le_bytes())
+                .unwrap();
+            memory.protect(0x10000, 4096, Permissions::RX).unwrap();
+            memory.prepare_hardware().unwrap();
+            let mut registry = trames_memory::parallel::Registry::default();
+            registry.use_hardware();
+            let mut view = memory.parallel_view(&mut registry).unwrap();
+            view.enable_hardware();
+            executor
+                .run(
+                    &mut Aarch64State {
+                        pc: 0x10000,
+                        ..Default::default()
+                    },
+                    &mut view,
+                    Duration::from_millis(100),
+                )
+                .unwrap();
+            let owner = executor.pages[&0x10000].owner.clone();
+            assert!(owner.upgrade().is_some());
+            assert!(executor.spaces.len() < CACHED_SPACES);
+            drop(view);
+            drop(memory);
+            drop(registry);
+            assert!(
+                owner.upgrade().is_none(),
+                "inactive roots cannot pin guest RAM"
+            );
+        }
+        assert_eq!(executor.spaces.len(), CACHED_SPACES - 1);
+    }
+
     #[test]
     #[ignore = "requires real ARM64 Linux KVM and 4KiB host pages"]
     fn sparse_table_retirement_releases_empty_subtrees() {

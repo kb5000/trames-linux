@@ -15,7 +15,7 @@ permissions:
 jobs:
   services:
     runs-on: [self-hosted, Linux, ARM64, trames-kvm]
-    timeout-minutes: 60
+    timeout-minutes: 100
     steps:
       - uses: actions/checkout@v4
         with:
@@ -34,7 +34,7 @@ jobs:
         run: |
           curl --fail --location --url "$ROOTFS_URL" --output target/services-source.tar
           sudo python3 scripts/prepare-services.py --source target/services-source.tar --sha256 "$ROOTFS_SHA256" --output target/services-bundle
-      - name: Native and KVM PID1 and Docker lifecycle matrix
+      - name: Native and KVM PID1, shim startup and Docker lifecycle matrix
         run: sudo python3 scripts/validate-applications.py --manifest runtime/tests/acceptance/services.json --filesystem store --network outbound --native-container /usr/bin/systemd-nspawn --bundle target/services-bundle --runner target/release/trames --receipt target/services-build.json --output target/services-matrix
       - name: Preserve the immutable image
         if: always()
