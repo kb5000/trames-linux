@@ -192,6 +192,15 @@ def audit(output):
         comparisons.append(dict(mode=mode, workers=workers, lane=lane, samples=len(values), metrics=summary,
             work_time_ratio_to_native=statistics.median(r['work']['work_ns'] for r in values) / statistics.median(r['work']['work_ns'] for r in native),
             wall_time_ratio_to_native=statistics.median(r['wall_ns'] for r in values) / statistics.median(r['wall_ns'] for r in native)))
+    if inputs.get('baseline_build'):
+        by_lane = {(r['mode'], r['workers'], r['lane']): r for r in comparisons}
+        for row in comparisons:
+            if not row['lane'].startswith('candidate-'):
+                continue
+            baseline = by_lane.get((row['mode'], row['workers'], row['lane'].replace('candidate-', 'baseline-', 1)))
+            if baseline:
+                row['work_time_ratio_to_baseline'] = row['metrics']['work_ns']['median'] / baseline['metrics']['work_ns']['median']
+                row['wall_time_ratio_to_baseline'] = row['metrics']['wall_ns']['median'] / baseline['metrics']['wall_ns']['median']
     result = dict(schema_version=1, passed=not failures, failures=failures, comparisons=comparisons,
                   inputs_sha256=digest(output / 'inputs.json'), samples_sha256=digest(output / 'samples.json'),
                   audit_controller_sha256=digest(Path(__file__)),
@@ -208,6 +217,13 @@ def audit(output):
     for row in comparisons:
         m = row['metrics']
         report.append(f"| {row['mode']} | {row['workers']} | {row['lane']} | {m['work_ns']['median']/1e6:.3f} | {m['wall_ns']['median']/1e6:.3f} | {m['cpu_ns']['median']/1e6:.3f} | {row['work_time_ratio_to_native']:.3f} |")
+    if inputs.get('baseline_build'):
+        report.extend(['', '## Candidate / baseline time ratios', '',
+                       '| Workload | Workers | Transport | Work ratio | Wall ratio |',
+                       '| --- | ---: | --- | ---: | ---: |'])
+        for row in comparisons:
+            if 'work_time_ratio_to_baseline' in row:
+                report.append(f"| {row['mode']} | {row['workers']} | {row['lane'].removeprefix('candidate-')} | {row['work_time_ratio_to_baseline']:.3f} | {row['wall_time_ratio_to_baseline']:.3f} |")
     if failures:
         report.extend(['', 'Failed evidence: ' + ', '.join(failures)])
     (output / 'report.md').write_text('\n'.join(report) + '\n')
