@@ -707,6 +707,11 @@ impl Executor {
                 )));
             }
             *state = mailbox.state.clone();
+            // start() transfers maintenance ownership to this mailbox. A kick
+            // may stop restore before TLBI (or before its acknowledgement).
+            // Carry unacknowledged flags into the next assignment; otherwise a
+            // fresh mailbox would lose a completed mprotect/unmap revocation.
+            self.invalidate |= mailbox.invalidate;
             // A deadline/kick can win the userspace exit after EL1 completed
             // its notification. ELR already points past SVC: treating this as
             // an ordinary yield would silently skip the syscall. Only a host
@@ -1075,6 +1080,66 @@ mod hardware_checkpoints {
             (state.pc, state.registers[19], state.registers[0]),
             (0x10010, 1, 99)
         );
+    }
+
+    #[test]
+    #[ignore = "requires real ARM64 Linux KVM and 4KiB host pages"]
+    fn interrupted_restore_preserves_a_pending_read_only_revocation() {
+        use trames_memory::{Memory, Permissions};
+        let mut memory = Memory::default();
+        memory.map(0x10000, PAGE as u64, Permissions::RW).unwrap();
+        // str x0, [x1]; svc #0. The first execution populates a writable TLB
+        // entry; the original instructions are retained for the protected retry.
+        memory
+            .write_array(0x10000, 0xf9000020u32.to_le_bytes())
+            .unwrap();
+        memory
+            .write_array(0x10004, 0xd4000001u32.to_le_bytes())
+            .unwrap();
+        memory
+            .protect(0x10000, PAGE as u64, Permissions::RX)
+            .unwrap();
+        memory.map(0x20000, PAGE as u64, Permissions::RW).unwrap();
+        memory.prepare_hardware().unwrap();
+        let mut registry = trames_memory::parallel::Registry::default();
+        registry.use_hardware();
+        let mut view = memory.parallel_view(&mut registry).unwrap();
+        view.enable_hardware();
+        let mut executor = Executor::new().unwrap();
+        let mut state = Aarch64State {
+            pc: 0x10000,
+            ..Default::default()
+        };
+        state.registers[1] = 0x20000;
+        let quantum = Duration::from_millis(100);
+        assert_eq!(
+            executor.run(&mut state, &mut view, quantum).unwrap().reason,
+            ExitReason::Syscall
+        );
+        drop(view);
+        memory
+            .protect(0x20000, PAGE as u64, Permissions::R)
+            .unwrap();
+        let mut view = memory.parallel_view(&mut registry).unwrap();
+        view.enable_hardware();
+        state.pc = 0x10000;
+        executor.synchronize(&view).unwrap();
+        executor.start(&state).unwrap();
+        // Force a kick before the first restore instruction, when the pending
+        // TLBI belongs to the mailbox rather than the host's flags.
+        unsafe {
+            (&raw mut (*executor.run).immediate_exit).write_volatile(1);
+        }
+        assert!(matches!(executor.event().unwrap(), Event::Interrupted));
+        assert!(executor.checkpoint(&mut state).unwrap().is_none());
+        assert_ne!(executor.invalidate & 1, 0);
+        assert!(matches!(
+            executor.run(&mut state, &mut view, quantum),
+            Err(super::EngineError::Memory(MemoryError::Permission {
+                address: 0x20000,
+                ..
+            }))
+        ));
     }
 
     #[test]
