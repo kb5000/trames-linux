@@ -236,6 +236,28 @@ mod x11 {
                 invoke(&mut backend, &mut memory, 81, &[instance, 0x2000]),
                 (-1000000001i64) as u64
             );
+            wait.begin();
+            host.interest(&mut wait).unwrap();
+            host.window
+                .native
+                .send_event(
+                    false,
+                    host.window.id,
+                    EventMask::NO_EVENT,
+                    x11rb::protocol::xproto::ClientMessageEvent::new(
+                        32,
+                        host.window.id,
+                        host.protocols,
+                        [host.close, 0, 0, 0, 0],
+                    ),
+                )
+                .unwrap()
+                .check()
+                .unwrap();
+            wait.until(Instant::now() + Duration::from_secs(5));
+            wait.wait().unwrap();
+            host.poll().unwrap();
+            assert!(host.closed());
             drop(host);
             assert_eq!(display.info(), (0, 0, 0));
             assert!(lease.upgrade().is_some());

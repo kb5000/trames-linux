@@ -23,7 +23,7 @@ int main(int argc,char** argv) {
         uint32_t sizes[]={(uint32_t)atoi(argv[2]),(uint32_t)atoi(argv[3])};xcb_configure_window(c,window,XCB_CONFIG_WINDOW_WIDTH|XCB_CONFIG_WINDOW_HEIGHT,sizes);xcb_flush(c);
     } else if(argc==3 && !strcmp(argv[2],"close")) {
         xcb_intern_atom_reply_t* protocol=xcb_intern_atom_reply(c,xcb_intern_atom(c,0,12,"WM_PROTOCOLS"),NULL);xcb_intern_atom_reply_t* close=xcb_intern_atom_reply(c,xcb_intern_atom(c,0,16,"WM_DELETE_WINDOW"),NULL);assert(protocol&&close);
-        xcb_client_message_event_t event={.response_type=XCB_CLIENT_MESSAGE,.format=32,.window=window,.type=protocol->atom,.data={.data32={close->atom,0,0,0,0}}};xcb_send_event(c,0,window,XCB_EVENT_MASK_NO_EVENT,(const char*)&event);xcb_flush(c);free(protocol);free(close);
+        xcb_client_message_event_t event={.response_type=XCB_CLIENT_MESSAGE,.format=32,.window=window,.type=protocol->atom,.data={.data32={close->atom,0,0,0,0}}};xcb_generic_error_t* error=xcb_request_check(c,xcb_send_event_checked(c,0,window,XCB_EVENT_MASK_NO_EVENT,(const char*)&event));assert(!error);free(protocol);free(close);
     } else {
         xcb_get_geometry_reply_t* geometry=xcb_get_geometry_reply(c,xcb_get_geometry(c,window),NULL);assert(geometry);
         xcb_get_image_reply_t* image=xcb_get_image_reply(c,xcb_get_image(c,XCB_IMAGE_FORMAT_Z_PIXMAP,window,0,0,geometry->width,geometry->height,0xffffff),NULL);assert(image);unsigned char* data=xcb_get_image_data(image);assert(xcb_get_image_data_length(image)==geometry->width*geometry->height*4);
