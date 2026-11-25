@@ -143,7 +143,12 @@ static void tracing(void) {
     for(unsigned i=0;i<4;i++) {
         assert(ptrace(PTRACE_SINGLESTEP,child,NULL,NULL)==0);
         assert(waitpid(child,&status,0)==child && WIFSTOPPED(status) && WSTOPSIG(status)==SIGTRAP);
-        siginfo_t info;assert(ptrace(PTRACE_GETSIGINFO,child,NULL,&info)==0 && info.si_code==TRAP_TRACE);
+        siginfo_t info;assert(ptrace(PTRACE_GETSIGINFO,child,NULL,&info)==0);
+        // Linux arm64's syscall-completion step reports plain SIGTRAP (code 0);
+        // architectural instruction steps report TRAP_TRACE. Verify each path.
+        int expected_code=i==2?0:TRAP_TRACE;
+        if(info.si_code!=expected_code)fprintf(stderr,"single-step %u: si_code=%d expected=%d\n",i,info.si_code,expected_code);
+        assert(info.si_code==expected_code);
         io.iov_len=sizeof(registers);assert(ptrace(PTRACE_GETREGSET,child,(void*)NT_PRSTATUS,&io)==0);
         assert(registers.pc==(uintptr_t)traced_instructions+(i+1)*4);
         assert(registers.regs[0]==(i==0?11:i==1?13:i==2?(uint64_t)child:(uint64_t)child+3));

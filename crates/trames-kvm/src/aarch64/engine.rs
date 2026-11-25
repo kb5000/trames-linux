@@ -181,6 +181,7 @@ pub(crate) struct Executor {
     invalidate: u64,
     wait: Option<Arc<HardwareWait>>,
     ready: bool,
+    stepping: bool,
     run_calls: u64,
     resume_resets: u64,
     _local: PhantomData<Rc<()>>,
@@ -263,10 +264,7 @@ impl Executor {
             set(&cpu, system_register(3, 0, 10, 2, 0), 0x04ff)?;
             set(&cpu, system_register(3, 0, 12, 0, 0), VECTOR)?;
             set(&cpu, system_register(3, 0, 1, 0, 2), 3 << 20)?;
-            // Architectural EL0 single-step. Ordinary entry keeps PSTATE.D set;
-            // only the separate step restore enables SS. No normal RUN/ioctl is
-            // added and the original non-debug EL1 instruction path is retained.
-            set(&cpu, system_register(2, 0, 0, 2, 2), 0x8001)?;
+            set(&cpu, system_register(2, 0, 0, 2, 2), 0)?;
             set(&cpu, system_register(3, 0, 14, 1, 0), 3)?; // EL0 physical/virtual count reads
             set(
                 &cpu,
@@ -313,6 +311,7 @@ impl Executor {
             invalidate: 3,
             wait: None,
             ready: false,
+            stepping: false,
             run_calls: 0,
             resume_resets: 0,
             _local: PhantomData,
@@ -417,8 +416,19 @@ impl Executor {
         // Updating its mailbox handles either the same task or a new assignment
         // without register ioctls on normal syscall/fault paths. An asynchronous
         // exit may leave partial restore/EL0 state and needs a cold reset.
-        if !self.ready || state.nzcv & (1 << 21) != 0 {
-            self.reset_resume(state.nzcv & (1 << 21) != 0)?;
+        let stepping = state.nzcv & (1 << 21) != 0;
+        if !self.ready || stepping || self.stepping {
+            if self.stepping != stepping {
+                // Debug admission is task-local. Change the vCPU register only
+                // at the actual mode transition; ordinary SVCs add no ioctl.
+                set(
+                    &self.cpu,
+                    system_register(2, 0, 0, 2, 2),
+                    if stepping { 0x8001 } else { 0 },
+                )?;
+                self.stepping = stepping;
+            }
+            self.reset_resume(stepping)?;
         }
         Ok(())
     }
