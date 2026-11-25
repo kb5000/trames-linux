@@ -25,8 +25,10 @@ The [build receipt](presentation-20261125/trames-wsi-qualified-build-final.json)
 [case inputs](presentation-20261125/trames-wsi-qualification-final/inputs.json),
 [doctor output](presentation-20261125/trames-wsi-qualification-final/doctor.stdout),
 and [environment/driver identities](presentation-20261125/environment.json) retain
-the toolchain, hashes and configuration. The later documentation commit changes
-no qualified production or fixture source.
+the toolchain, hashes and configuration. Later commits change no qualified
+production or fixture source. The exact controller used for the 13-cell KVM
+matrix is also [archived](presentation-20261125/qualified-controller.py); the later
+CI socket-directory correction changes test environment setup only.
 
 ## Results
 
@@ -85,6 +87,13 @@ Historical runs remain in the evidence directory:
    until cancellation completes and acknowledges the checked X11 request. Both
    native event handling and end-to-end KVM close pass; no runtime exit workaround
    or new polling/service thread was introduced.
+5. The first hosted ARM64 WSI job compiled successfully but Weston could not
+   start: the checkout/evidence directory made its socket path exceed Unix's
+   108-byte address limit. The controller now uses an owned, mode-0700 temporary
+   directory under `/tmp`, independent of the evidence path, and cleans it after
+   both compositors stop. The original
+   [failure](presentation-20261125/ci-arm64-initial-failure/weston.log) remains
+   separate from passing native and KVM results.
 
 The pre-fix 11/13 run is preserved as
 [`trames-wsi-qualification-v4`](presentation-20261125/trames-wsi-qualification-v4/results.json).
@@ -109,7 +118,7 @@ python3 docs/validation/presentation-20261125/audit.py
 ```
 
 The offline audit checks every recorded file hash, exact case set/status, clean
-build inputs, fixture/controller identity, 4 KiB doctor data, unit artifact
+build inputs, fixture and archived-controller identity, 4 KiB doctor data, unit artifact
 identity, native pixel transcripts and guest output. It works from a relocated
 Git archive and needs neither KVM nor compiled artifacts. Large rootfs/binaries
 are excluded from this committed evidence. Hosted ARM64/AMD64 CI uses

@@ -35,6 +35,11 @@ second producer over an existing surface. Native presentation uses the driver's
 swapchain; the product does not read back pixels or copy rendered frames into a
 host image. The pixel readback in acceptance belongs to the external test probe.
 
+Resizing replaces the shared fixed-display target generation. Its existing guest
+surface reports surface loss and must be recreated; this batch tests native
+event delivery, target dimensions and ownership, rather than transparent guest
+swapchain recovery after a resize.
+
 The foreground adapter opens separate XCB event and Vulkan connections. This
 keeps driver requests from consuming or buffering host input readiness. The
 existing foreground `HostWait` watches the event descriptor alongside signals

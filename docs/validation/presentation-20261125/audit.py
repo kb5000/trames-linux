@@ -43,7 +43,7 @@ assert all(not source['dirty'] for source in build['sources'].values())
 assert read(HERE / 'unit-artifact.json')['sha256'] == inputs['unit_binary_sha256']
 for name, expected_hash in inputs['fixture_sources'].items():
     assert digest(PRODUCT / 'tests/fixtures' / name) == expected_hash, name
-assert digest(PRODUCT / 'scripts/validate-wsi.py') == inputs['controller_sha256']
+assert digest(HERE / 'qualified-controller.py') == inputs['controller_sha256']
 doctor = read(final / 'doctor.stdout')
 assert doctor['host']['host_arch'] == 'aarch64'
 assert doctor['host']['host_page_size'] == 4096

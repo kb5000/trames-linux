@@ -16,6 +16,7 @@ import shutil
 import signal
 import subprocess
 import sys
+import tempfile
 import time
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -127,10 +128,14 @@ def main():
         doctor=subprocess.run([runner,'doctor','--json','--require-kvm'],capture_output=True,timeout=10)
         (out/'doctor.stdout').write_bytes(doctor.stdout);(out/'doctor.stderr').write_bytes(doctor.stderr)
         if doctor.returncode:raise RuntimeError('real KVM preflight failed')
-    runtime=out/'xdg-runtime';runtime.mkdir(mode=0o700)
+    # Wayland socket names include XDG_RUNTIME_DIR and must fit sockaddr_un.
+    # CI checkout/evidence paths can exceed that limit; keep the owned socket
+    # directory short and clean it after both original compositors terminate.
+    runtime_directory=tempfile.TemporaryDirectory(prefix='trames-wsi-',dir='/tmp')
+    runtime=Path(runtime_directory.name)
     env=os.environ|{'XDG_RUNTIME_DIR':str(runtime),'WAYLAND_DISPLAY':'trames-wsi-validation','TRAMES_WAYLAND_FIXTURE':str(out/'wayland-target.so')}
     rows=[];read_fd,write_fd=os.pipe()
-    with compositor(['Xvfb','-displayfd',str(write_fd),'-screen','0','1024x768x24','-nolisten','tcp','-noreset'],out/'xvfb.log',env,(write_fd,)):
+    with runtime_directory,compositor(['Xvfb','-displayfd',str(write_fd),'-screen','0','1024x768x24','-nolisten','tcp','-noreset'],out/'xvfb.log',env,(write_fd,)):
         os.close(write_fd)
         with os.fdopen(read_fd,'rb',buffering=0) as stream,selectors.DefaultSelector() as selector:
             selector.register(stream,selectors.EVENT_READ)

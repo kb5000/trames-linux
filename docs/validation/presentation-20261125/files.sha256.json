@@ -1,5 +1,9 @@
 {
-  "audit.py": "7a09e7832fb48106a3a23a6193052a602fdc9c1c050ca263de3504a5edbc70fb",
+  "audit.py": "f44b959fef1a2b3f188d65a1d6794a26697c4f6cb806b98536feb091d6e605a7",
+  "ci-arm64-initial-failure/identity.json": "05e8b8b24a6b2cc7473a8eda321878cd7cafcc44415980b35d8ee950856cfa1c",
+  "ci-arm64-initial-failure/inputs.json": "24333a2b7fdb25d9b7a99211e08b5021166850324f83959a4cf55e9dd3c0e447",
+  "ci-arm64-initial-failure/weston.log": "5c5b7f0dc827a1ad14b3625a67da65725743d2cc2951455fea2ded640dc4ff42",
+  "ci-arm64-initial-failure/xvfb.log": "f172a1b0f5cf2a0d462c51dfc335af1a1dfc8e873cb66f61d018c8b1b35fe416",
   "environment.json": "a480bf1029382f9a8898f07decc48243b6b5d42a03095df774f937655abfa475",
   "guest-icd-build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
   "guest-icd-source.json": "1d67126f64e9fc85967032daba0c41f24332e51aecdc5c9cc04b242c1320f83e",
@@ -10,6 +14,7 @@
   "mac-shared-clippy.log": "ca787d53dc3121a15dc6638cd1f2aa953073c565e010f92e23ba41701a47024a",
   "mac-vulkan-tests.log": "3b6e6fc8d5eb70d52d65b020e216d112d290a6c03f8f782cbb1e8e94fde6b656",
   "product-format.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "qualified-controller.py": "ebecb7085ead6e5ffa57a3ea89c8fb2218949fc2e0afd3f695fefcce6e673103",
   "trames-wsi-dedicated-mmio.log": "41e2da8e66b31c83b5f0f9a8dda4ebc18afe116f8017ba69e96d2b513c638267",
   "trames-wsi-dedicated-smccc.log": "8df51c6b5dfa805868e7685a172fed0bbc74049d4eae27bfb3865c13efa5af9d",
   "trames-wsi-final-boundaries.log": "a5bb2e07d40dba7420630f7bdb200f191ff3dc65a8c4f241dca9c7b6ecde0ede",

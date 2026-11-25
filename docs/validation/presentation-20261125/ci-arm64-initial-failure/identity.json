@@ -1,0 +1,7 @@
+{
+  "job": "https://github.com/kb5000/trames-linux/actions/runs/45612436852/job/139199152812",
+  "commit": "8c69ddf4d5ce8d908df03c78d7e15b1c1ffea655",
+  "artifact_id": 15020502353,
+  "artifact_sha256": "c4855c740afc9ce2a34a836607d8a007737d6d2a488e9e1bdee9204745e47da0",
+  "failure": "Weston socket path plus terminator exceeds sockaddr_un 108 bytes; no native test ran"
+}

@@ -1,0 +1,29 @@
+Date: 2026-11-25 UTC
+[12:24:11.729] weston 13.0.0
+               https://wayland.freedesktop.org
+               Bug reports to: https://gitlab.freedesktop.org/wayland/weston/issues/
+               Build: 13.0.0
+[12:24:11.729] Command line: weston --backend=headless --renderer=pixman --socket=trames-wsi-validation --idle-time=0
+[12:24:11.729] OS: Linux, 7.0.0-1017-azure, #17~24.04.1-Ubuntu SMP PREEMPT Thu Sep 24 19:06:39 UTC 2026, aarch64
+[12:24:11.729] Flight recorder: enabled
+[12:24:11.729] Starting with no config file.
+[12:24:11.729] Output repaint window is 7 ms maximum.
+[12:24:11.729] Loading module '/usr/lib/aarch64-linux-gnu/libweston-13/headless-backend.so'
+[12:24:11.845] Using Pixman renderer
+[12:24:11.845] Registered plugin API 'weston_windowed_output_api_v2' of size 16
+[12:24:11.845] Color manager: no-op
+[12:24:11.845] Output 'headless' attempts EOTF mode: SDR
+[12:24:11.845] Output 'headless' using color profile: stock sRGB color profile
+[12:24:11.845] Output 'headless' enabled with head(s) headless
+[12:24:11.845] Compositor capabilities:
+               arbitrary surface rotation: yes
+               screen capture uses y-flip: no
+               cursor planes: no
+               arbitrary resolutions: no
+               view mask clipping: yes
+               explicit sync: no
+               color operations: no
+               presentation clock: CLOCK_MONOTONIC_RAW, id 4
+               presentation clock resolution: 0.000000001 s
+[12:24:11.845] libwayland: error: socket path "/home/runner/work/trames-linux/trames-linux/target/validation/presentation-native/xdg-runtime/trames-wsi-validation" plus null terminator exceeds 108 bytes
+[12:24:11.845] fatal: failed to add socket: File name too long
