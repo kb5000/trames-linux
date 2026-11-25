@@ -36,6 +36,9 @@ jobs:
       - name: Build source-checked guest CLI
         run: python3 runtime/scripts/build-guest-cli.py
       - run: python3 -m py_compile scripts/validate-applications.py
+      - name: Native reference for original 4KiB memory ELF
+        if: runner.os == 'Linux'
+        run: python3 tests/acceptance/validate-memory.py --native-only --output target/validation/memory-4k-native
       - run: python3 scripts/check-boundaries.py
       - run: cargo fmt --all --check
       - run: cargo clippy --workspace --all-targets --locked -- -D warnings

@@ -236,6 +236,11 @@ def main():
     versions = {}; copied = set()
     if 'node' in modes:
         install('/usr/bin/node', root, copied)
+        # Debian/Ubuntu externalize these Node builtins; ldd does not list JS.
+        for package in ('acorn', 'acorn-walk', 'cjs-module-lexer', 'undici'):
+            shared = Path('/usr/share/nodejs') / package
+            if shared.is_dir():
+                shutil.copytree(shared, root / str(shared).lstrip('/'))
         shutil.copy2(ROOT / 'tests/fixtures/performance-node.js', root / 'test/performance-node.js')
         versions['node'] = subprocess.check_output(['/usr/bin/node', '--version'], text=True)
     if 'build' in modes:

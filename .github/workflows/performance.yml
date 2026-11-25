@@ -1,0 +1,39 @@
+name: Native and KVM performance baseline
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  paired-baseline:
+    runs-on: [self-hosted, Linux, ARM64, trames-kvm]
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: nightly-2026-10-16
+      - run: sudo apt-get update -qq && sudo apt-get install -y build-essential nodejs libasound2-dev
+      - run: python3 runtime/scripts/build-guest-cli.py
+      - name: Build source-bound runner
+        run: python3 runtime/tests/acceptance/build.py --product . --runtime runtime --binary target/release/trames --receipt target/performance-build.json -- cargo build --workspace --release --locked
+      - name: Validate correctness and measure original workloads
+        run: python3 tests/acceptance/benchmark.py --runner target/release/trames --receipt target/performance-build.json --output target/performance
+      - name: Independently audit sample evidence
+        run: python3 tests/acceptance/benchmark.py --audit --output target/performance
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: paired-performance-evidence
+          path: |
+            target/performance-build.json
+            target/performance/inputs.json
+            target/performance/samples.json
+            target/performance/results.json
+            target/performance/cases/
+            target/performance/elf-segments.txt
+            target/performance/fixture.build.log
+            target/performance/doctor.*
+          retention-days: 14
+          if-no-files-found: error

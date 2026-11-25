@@ -10,7 +10,7 @@ use trames_vulkan::{Backend, Invocation};
 const PACKET: u64 = 0x1000;
 const OUT: u64 = 0x2000;
 const DATA: u64 = 0x401000;
-const CODE: u64 = 0x801000;
+const CODE: u64 = 0xc01000;
 fn call(b: &mut Backend, m: &mut Memory, op: u64, args: &[u64]) {
     m.commit_parallel().unwrap();
     let mut packet = [0; 128];
