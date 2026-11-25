@@ -1,0 +1,9 @@
+{
+  "kept": "/home/main.guest/trames-kvm-timer-before-performance/rootfs",
+  "removed": "/home/main.guest/trames-kvm-timer-after-performance/rootfs",
+  "immutable_files": 169,
+  "verified_equal_files_sha256": "8b5fa4f033b033efcf2fc80f3aaa26aacfc9a3464b135d3295c7a2af648c2bce",
+  "allocated_bytes_before": 132505600,
+  "scope": "only duplicate rootfs from completed before/after timer comparison; frozen binaries, inputs, raw logs and one byte-identical rootfs retained",
+  "guest_free_bytes_after": 686489600
+}

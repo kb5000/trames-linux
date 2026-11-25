@@ -1,0 +1,37 @@
+{
+  "passed": true,
+  "checks": {
+    "before-performance_measured": 108,
+    "after-performance_measured": 108,
+    "paired-micro_measured": 150,
+    "negative_audit_cases": 4,
+    "core_memory": 77,
+    "cpu_state_ptrace": 15,
+    "application_kvm_cells": 48,
+    "reused_native_application_cells": 12,
+    "cli_before_and_after_device_fix": 24,
+    "separate_counter_diagnostics": 15,
+    "stock_fuse_functional_and_shutdown": 144,
+    "initial_fuse_failure_retained": true
+  },
+  "negative_tests": [
+    {
+      "name": "changed raw output",
+      "rejected": true
+    },
+    {
+      "name": "missing planned sample",
+      "rejected": true
+    },
+    {
+      "name": "self-consistent sample differs from planned worker count",
+      "rejected": true
+    },
+    {
+      "name": "self-consistent output differs from native checksum",
+      "rejected": true
+    }
+  ],
+  "raw_archive_sha256": "4f8e56d7cec636db92b862c5ffb76aabbde9995a1663f2f7e1e51477678f8da5",
+  "full_product_4k_qualified": false
+}

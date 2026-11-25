@@ -1,0 +1,11 @@
+{
+  "mac": "58e5beb",
+  "ipad": "b2cae6b3",
+  "runtime": "a37a84d4b3c66f21ddb581f8f4b0427f50793e0d",
+  "cli": "da18836903d8e37bbb92cc32cc7ec78f8cf457bc",
+  "ios_frozen_source": "b2cae6b34e8fbc31233cae96e03192607d783011",
+  "ios_dependencies": "clean Mac runtime/CLI submodules; no owner Runtime worktree inputs",
+  "guest_cli_reuse": "exact source_sha256 and binary_sha256 validated; old stale manifest failure retained",
+  "ipad_ci_dependency_fix": "62c3c27c",
+  "ipad_ci_dependency_fix_validation": "YAML parse; ALSA C ABI oracle and both software PCM tests passed on existing Linux VM. CI-only commit reuses unchanged broad evidence; no full CPU/network/graphics rerun."
+}

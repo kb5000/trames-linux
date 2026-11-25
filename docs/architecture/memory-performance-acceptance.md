@@ -112,3 +112,16 @@ Core memory success is not complete product 4 KiB qualification. Release still
 requires same-host KVM plus accelerated graphics, image/FD/fence import/export,
 device alignment and fallbacks, physical PCM recovery/clocks, A/V synchronization
 and hardware video. Missing hardware remains an explicit pending gate.
+
+## Comparing an execution-backend change
+
+The benchmark also accepts `--baseline-runner` and `--baseline-receipt` alongside
+its candidate runner/receipt. Both are checked before measurement. Each round
+shuffles native, baseline SMCCC/MMIO and candidate SMCCC/MMIO under the same
+work, input hashes and affinity. Reports retain ratios to native plus matched
+candidate/baseline work and wall ratios. Calibrations/warmups remain excluded.
+
+The first retained comparison is [vCPU timer reuse](../validation/kvm-timer-reuse-20261126.md).
+Its six-workload sequential data remains separate from the interleaved micro
+comparison and from traced diagnostics. Reporting/audit changes derive results
+from raw samples and do not trigger benchmark or hardware reexecution.

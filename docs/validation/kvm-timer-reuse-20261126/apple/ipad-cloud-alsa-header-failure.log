@@ -1,0 +1,31 @@
+2026-11-25T20:08:46.4711480Z test result: ok. 28 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.50s
+2026-11-25T20:08:46.4711705Z 
+2026-11-25T20:08:46.4715737Z [1m[92m     Running[0m unittests src/lib.rs (target/debug/build/trames-audio/88150209821fd182/out/trames_audio-88150209821fd182)
+2026-11-25T20:08:46.4730709Z 
+2026-11-25T20:08:46.4731209Z running 2 tests
+2026-11-25T20:08:46.4736941Z test tests::capability_and_wire_failures_do_not_open_a_host_device ... ok
+2026-11-25T20:08:46.4797893Z /home/runner/work/trames-ipad/trames-ipad/runtime/crates/trames-audio/tests/clock-pcm.c:5:10: fatal error: alsa/asoundlib.h: No such file or directory
+2026-11-25T20:08:46.4798321Z     5 | #include <alsa/asoundlib.h>
+2026-11-25T20:08:46.4798482Z       |          ^~~~~~~~~~~~~~~~~~
+2026-11-25T20:08:46.4798630Z compilation terminated.
+2026-11-25T20:08:46.4811846Z test linux_tests::alsa_bytes_readiness_controls_and_original_endpoint_lifetime ... FAILED
+2026-11-25T20:08:46.4812075Z 
+2026-11-25T20:08:46.4812130Z failures:
+2026-11-25T20:08:46.4812193Z 
+2026-11-25T20:08:46.4812346Z ---- linux_tests::alsa_bytes_readiness_controls_and_original_endpoint_lifetime stdout ----
+2026-11-25T20:08:46.4812563Z 
+2026-11-25T20:08:46.4812810Z thread 'linux_tests::alsa_bytes_readiness_controls_and_original_endpoint_lifetime' (11788) panicked at crates/trames-audio/src/linux_tests.rs:44:5:
+2026-11-25T20:08:46.4813238Z assertion failed: Command::new("cc").args(["-DPIC", "-shared", "-fPIC", "-O2", "-Wall",
+2026-11-25T20:08:46.4813512Z                                     "-Wextra",
+2026-11-25T20:08:46.4813710Z                                     "-Werror"]).arg(source).args(["-lasound",
+2026-11-25T20:08:46.4813996Z                             "-o"]).arg(path.join("libasound_module_pcm_trames_clock.so")).status().unwrap().success()
+2026-11-25T20:08:46.4814317Z note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+2026-11-25T20:08:46.4814482Z 
+2026-11-25T20:08:46.4814485Z 
+2026-11-25T20:08:46.4814534Z failures:
+2026-11-25T20:08:46.4814734Z     linux_tests::alsa_bytes_readiness_controls_and_original_endpoint_lifetime
+2026-11-25T20:08:46.4815007Z 
+2026-11-25T20:08:46.4815232Z test result: FAILED. 1 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+2026-11-25T20:08:46.4815436Z 
+2026-11-25T20:08:46.4815833Z [1m[91merror[0m: test failed, to rerun pass `-p trames-audio --lib`
+2026-11-25T20:08:46.4960055Z ##[error]Process completed with exit code 101.

@@ -1,0 +1,5 @@
+{
+  "target": "aarch64-unknown-linux-musl",
+  "source_sha256": "48ba9dc6cce527d1998f93ca4fa0fec465c02fcdc84a49eb5d611c177e44c787",
+  "binary_sha256": "6faeed034209ae898d6130eac1a28464676ad0d580b3864422be29edb81ffd84"
+}

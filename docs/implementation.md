@@ -164,6 +164,21 @@ baseline, not a near-native or full-product 4 KiB release claim.
 See [architecture and automation](architecture/memory-performance-acceptance.md)
 and the [qualified cohort, measurements and offline audit](validation/memory-performance-20261125.md).
 
+## Retained KVM timers and shared FUSE integration
+
+The next batch updates the shared Runtime/CLI and active repository URLs to
+`project-trames`. Deadline timers now belong to vCPUs; creation/deletion leave
+the per-execute path while real timeout, cancellation and stale-notification
+protection remain. Interleaved getpid medians improve by 1.6%–6.5% in the existing
+nested VM; per-execute signal masks and arm/disarm still cost host calls.
+
+A missing Runtime `/dev/fuse` attachment in host-directory sessions is repaired.
+Original libfuse passes all 108 functional and 36 shutdown checks across three
+profiles, both transports and 1/4 workers. The timer cohort also passes core
+4 KiB 77/77, CPU/state/ptrace 15/15 and all 48 declared application workflows.
+
+See [source-bound evidence, limitations and offline audit](validation/kvm-timer-reuse-20261126.md).
+
 ## Next dependency batch: Linux providers
 
 1. Complete Linux DMA-BUF image imports/exports, guest desktop/input presentation,

@@ -1,0 +1,72 @@
+warning: unused workspace dependency `trames-kernel`
+  --> Cargo.toml:18:1
+   |
+18 | trames-kernel = { path = "runtime/crates/trames-kernel" }
+   | ^^^^^^^^^^^^^
+   |
+   = note: `cargo::unused_workspace_dependencies` is set to `warn` by default
+help: consider removing the workspace dependency `trames-kernel`
+warning: unused workspace dependency `trames-native`
+  --> Cargo.toml:14:1
+   |
+14 | trames-native = { path = "runtime/crates/trames-native" }
+   | ^^^^^^^^^^^^^
+   |
+help: consider removing the workspace dependency `trames-native`
+warning: unused workspace dependency `trames-vulkan`
+  --> Cargo.toml:12:1
+   |
+12 | trames-vulkan = { path = "runtime/crates/trames-vulkan" }
+   | ^^^^^^^^^^^^^
+   |
+help: consider removing the workspace dependency `trames-vulkan`
+warning: unused field `repository` in `workspace.package`
+  --> Cargo.toml:34:1
+   |
+34 | repository = "https://github.com/project-trames/trames-mac"
+   | ^^^^^^^^^^
+   |
+   = note: `cargo::unused_workspace_package_fields` is set to `warn` by default
+help: consider removing the field `workspace.package.repository`
+warning: workspace (manifest) generated 4 warnings
+   Compiling wayland-backend v0.3.17 (/Users/main/dev/trames-mac/runtime/vendor/wayland-backend)
+    Checking trames-shared v1.3.0 (/Users/main/dev/trames-mac/runtime/crates/trames-shared)
+   Compiling trames-graphics v1.3.0 (/Users/main/dev/trames-mac/runtime/crates/trames-graphics)
+   Compiling smoltcp v0.12.0 (/Users/main/dev/trames-mac/runtime/vendor/smoltcp)
+   Compiling trames-net v1.3.0 (/Users/main/dev/trames-mac/runtime/crates/trames-net)
+    Checking trames-execution v1.3.0 (/Users/main/dev/trames-mac/runtime/crates/trames-execution)
+   Compiling trames-native v1.3.0 (/Users/main/dev/trames-mac/runtime/crates/trames-native)
+   Compiling trames-hvf v1.5.5 (/Users/main/dev/trames-mac/crates/trames-hvf)
+   Compiling trames-audio v1.3.0 (/Users/main/dev/trames-mac/runtime/crates/trames-audio)
+   Compiling trames-video v1.3.0 (/Users/main/dev/trames-mac/runtime/crates/trames-video)
+   Compiling trames-vulkan v1.3.0 (/Users/main/dev/trames-mac/runtime/crates/trames-vulkan)
+   Compiling trames-distro v1.3.0 (/Users/main/dev/trames-mac/runtime/crates/trames-distro)
+   Compiling trames-session v1.3.0 (/Users/main/dev/trames-mac/runtime/crates/trames-session)
+    Checking trames-memory v1.3.0 (/Users/main/dev/trames-mac/runtime/crates/trames-memory)
+    Checking trames-bridge v1.3.0 (/Users/main/dev/trames-mac/runtime/crates/trames-bridge)
+    Checking ext4-view v1.0.0 (/Users/main/dev/trames-mac/runtime/vendor/ext4-view)
+error: failed to run custom build command for `trames-distro v1.3.0 (/Users/main/dev/trames-mac/runtime/crates/trames-distro)`
+
+Caused by:
+  process didn't exit successfully: `/Users/main/dev/trames-mac/target/debug/build/trames-distro/50f8f25d9f439d67/out/build_script_build` (exit status: 101)
+  --- stdout
+  cargo:rerun-if-changed=/Users/main/dev/trames-mac/runtime/crates/trames-distro/../../target/guest-cli/manifest.json
+  cargo:rerun-if-changed=/Users/main/dev/trames-mac/runtime/crates/trames-distro/../../target/guest-cli/trames
+  cargo:rerun-if-changed=/Users/main/dev/trames-mac/runtime/crates/trames-distro/../../Cargo.lock
+  cargo:rerun-if-changed=/Users/main/dev/trames-mac/runtime/crates/trames-distro/../../crates/trames-control/Cargo.toml
+  cargo:rerun-if-changed=/Users/main/dev/trames-mac/runtime/crates/trames-distro/../../crates/trames-control/src/archive.rs
+  cargo:rerun-if-changed=/Users/main/dev/trames-mac/runtime/crates/trames-distro/../../crates/trames-control/src/copy.rs
+  cargo:rerun-if-changed=/Users/main/dev/trames-mac/runtime/crates/trames-distro/../../crates/trames-control/src/guest.rs
+  cargo:rerun-if-changed=/Users/main/dev/trames-mac/runtime/crates/trames-distro/../../crates/trames-control/src/lib.rs
+  cargo:rerun-if-changed=/Users/main/dev/trames-mac/runtime/crates/trames-distro/../../crates/trames-control/src/main.rs
+  cargo:rerun-if-changed=/Users/main/dev/trames-mac/runtime/crates/trames-distro/../../crates/trames-control/src/ui.rs
+  cargo:rerun-if-changed=/Users/main/dev/trames-mac/runtime/crates/trames-distro/../../rust-toolchain.toml
+
+  --- stderr
+
+  thread 'main' (22625109) panicked at runtime/crates/trames-distro/build.rs:43:5:
+  assertion `left == right` failed: Guest CLI sources changed: run python3 scripts/build-guest-cli.py
+    left: String("0091ed5906a201d9e744143e45ebbf1451e2659f6f085ca69ef08bcbfb2384b0")
+   right: "48ba9dc6cce527d1998f93ca4fa0fec465c02fcdc84a49eb5d611c177e44c787"
+  note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+warning: build failed, waiting for other jobs to finish...

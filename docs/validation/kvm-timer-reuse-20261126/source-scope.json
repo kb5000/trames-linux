@@ -1,0 +1,14 @@
+{
+  "before_to_timer_production_files": [
+    "crates/trames-kvm/src/aarch64/engine.rs",
+    "crates/trames-kvm/src/aarch64/machine.rs",
+    "crates/trames-kvm/src/deadline.rs"
+  ],
+  "timer_to_device_fix_production_files": [
+    "crates/trames-linux-app/src/foreground.rs"
+  ],
+  "reporting_source": "c4622ff",
+  "measured_macro_controller_source": "d9b4803",
+  "measured_paired_controller_source": "566baf3",
+  "reporting_does_not_reexecute_workloads": true
+}

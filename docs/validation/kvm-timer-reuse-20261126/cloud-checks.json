@@ -1,0 +1,282 @@
+{
+  "observed_at": "2026-11-25 20:51:58 UTC",
+  "scope": "Source commits; real KVM evidence is separate. iPad historical Runtime job failed on missing ALSA headers; CI dependency fix 62c3c27c verified by scoped Linux checks without broad reruns.",
+  "repositories": [
+    {
+      "repository": "project-trames/trames-runtime",
+      "source": "a37a84d4b3c66f21ddb581f8f4b0427f50793e0d",
+      "checks": [
+        {
+          "name": "verify (macos-15)",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/project-trames/trames-runtime/actions/runs/45690318308/job/139473730001"
+        },
+        {
+          "name": "verify (ubuntu-24.04)",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/project-trames/trames-runtime/actions/runs/45690318308/job/139473729599"
+        }
+      ]
+    },
+    {
+      "repository": "project-trames/trames-cli",
+      "source": "da18836903d8e37bbb92cc32cc7ec78f8cf457bc",
+      "checks": [
+        {
+          "name": "verify (macos-15)",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/project-trames/trames-cli/actions/runs/45690340394/job/139473796053"
+        },
+        {
+          "name": "verify (ubuntu-24.04-arm)",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/project-trames/trames-cli/actions/runs/45690340394/job/139473795983"
+        },
+        {
+          "name": "verify (ubuntu-24.04)",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/project-trames/trames-cli/actions/runs/45690340394/job/139473795596"
+        }
+      ]
+    },
+    {
+      "repository": "project-trames/trames-mac",
+      "source": "58e5beb",
+      "checks": [
+        {
+          "name": "build",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/project-trames/trames-mac/actions/runs/45690352063/job/139473846847"
+        }
+      ]
+    },
+    {
+      "repository": "project-trames/trames-ipad",
+      "source": "b2cae6b3",
+      "checks": [
+        {
+          "name": "apple-build",
+          "status": "in_progress",
+          "conclusion": null,
+          "url": "https://github.com/project-trames/trames-ipad/actions/runs/45690374918/job/139482832592"
+        },
+        {
+          "name": "zink-wayland-apple",
+          "status": "completed",
+          "conclusion": "skipped",
+          "url": "https://github.com/project-trames/trames-ipad/actions/runs/45690374843/job/139474176627"
+        },
+        {
+          "name": "zink-gles-apple",
+          "status": "completed",
+          "conclusion": "skipped",
+          "url": "https://github.com/project-trames/trames-ipad/actions/runs/45690374843/job/139474176522"
+        },
+        {
+          "name": "firefox-layout-apple",
+          "status": "completed",
+          "conclusion": "skipped",
+          "url": "https://github.com/project-trames/trames-ipad/actions/runs/45690374843/job/139474176474"
+        },
+        {
+          "name": "vulkan-tf-engine-apple",
+          "status": "completed",
+          "conclusion": "skipped",
+          "url": "https://github.com/project-trames/trames-ipad/actions/runs/45690374843/job/139474176417"
+        },
+        {
+          "name": "zink-wayland-linux",
+          "status": "completed",
+          "conclusion": "skipped",
+          "url": "https://github.com/project-trames/trames-ipad/actions/runs/45690374843/job/139474176392"
+        },
+        {
+          "name": "firefox-memory-apple",
+          "status": "completed",
+          "conclusion": "skipped",
+          "url": "https://github.com/project-trames/trames-ipad/actions/runs/45690374843/job/139474176086"
+        },
+        {
+          "name": "firefox-runtime-apple",
+          "status": "completed",
+          "conclusion": "skipped",
+          "url": "https://github.com/project-trames/trames-ipad/actions/runs/45690374843/job/139474176047"
+        },
+        {
+          "name": "firefox-clock-apple",
+          "status": "completed",
+          "conclusion": "skipped",
+          "url": "https://github.com/project-trames/trames-ipad/actions/runs/45690374843/job/139474175909"
+        },
+        {
+          "name": "targeted-runtime",
+          "status": "completed",
+          "conclusion": "skipped",
+          "url": "https://github.com/project-trames/trames-ipad/actions/runs/45690374843/job/139474175761"
+        },
+        {
+          "name": "firefox-runtime",
+          "status": "completed",
+          "conclusion": "skipped",
+          "url": "https://github.com/project-trames/trames-ipad/actions/runs/45690374843/job/139474175745"
+        },
+        {
+          "name": "runtime-fastpaths",
+          "status": "completed",
+          "conclusion": "skipped",
+          "url": "https://github.com/project-trames/trames-ipad/actions/runs/45690374843/job/139474175541"
+        },
+        {
+          "name": "release-core",
+          "status": "completed",
+          "conclusion": "skipped",
+          "url": "https://github.com/project-trames/trames-ipad/actions/runs/45690374843/job/139474175352"
+        },
+        {
+          "name": "firefox-memory",
+          "status": "completed",
+          "conclusion": "skipped",
+          "url": "https://github.com/project-trames/trames-ipad/actions/runs/45690374843/job/139474174884"
+        },
+        {
+          "name": "docker-default-lifecycle",
+          "status": "completed",
+          "conclusion": "skipped",
+          "url": "https://github.com/project-trames/trames-ipad/actions/runs/45690374843/job/139474174741"
+        },
+        {
+          "name": "zink-foundation",
+          "status": "completed",
+          "conclusion": "skipped",
+          "url": "https://github.com/project-trames/trames-ipad/actions/runs/45690374843/job/139474174720"
+        },
+        {
+          "name": "firefox-clock",
+          "status": "completed",
+          "conclusion": "skipped",
+          "url": "https://github.com/project-trames/trames-ipad/actions/runs/45690374843/job/139474174676"
+        },
+        {
+          "name": "firefox-layout",
+          "status": "completed",
+          "conclusion": "skipped",
+          "url": "https://github.com/project-trames/trames-ipad/actions/runs/45690374843/job/139474174611"
+        },
+        {
+          "name": "vulkan-tf-engine-linux",
+          "status": "completed",
+          "conclusion": "skipped",
+          "url": "https://github.com/project-trames/trames-ipad/actions/runs/45690374843/job/139474174609"
+        },
+        {
+          "name": "compatibility-probe",
+          "status": "completed",
+          "conclusion": "skipped",
+          "url": "https://github.com/project-trames/trames-ipad/actions/runs/45690374843/job/139474174307"
+        },
+        {
+          "name": "runtime",
+          "status": "completed",
+          "conclusion": "failure",
+          "url": "https://github.com/project-trames/trames-ipad/actions/runs/45690374843/job/139474172474"
+        },
+        {
+          "name": "runtime-fastpaths-apple",
+          "status": "completed",
+          "conclusion": "skipped",
+          "url": "https://github.com/project-trames/trames-ipad/actions/runs/45690374918/job/139474109978"
+        },
+        {
+          "name": "container-storage-apple",
+          "status": "completed",
+          "conclusion": "skipped",
+          "url": "https://github.com/project-trames/trames-ipad/actions/runs/45690374918/job/139474109901"
+        },
+        {
+          "name": "epoch-service-fixture",
+          "status": "completed",
+          "conclusion": "skipped",
+          "url": "https://github.com/project-trames/trames-ipad/actions/runs/45690374918/job/139474109801"
+        },
+        {
+          "name": "docker-default-apple",
+          "status": "completed",
+          "conclusion": "skipped",
+          "url": "https://github.com/project-trames/trames-ipad/actions/runs/45690374918/job/139474109788"
+        },
+        {
+          "name": "repackage",
+          "status": "completed",
+          "conclusion": "skipped",
+          "url": "https://github.com/project-trames/trames-ipad/actions/runs/45690374918/job/139474109482"
+        },
+        {
+          "name": "device-xwayland",
+          "status": "completed",
+          "conclusion": "skipped",
+          "url": "https://github.com/project-trames/trames-ipad/actions/runs/45690374918/job/139474109343"
+        },
+        {
+          "name": "container-network-apple",
+          "status": "completed",
+          "conclusion": "skipped",
+          "url": "https://github.com/project-trames/trames-ipad/actions/runs/45690374918/job/139474109173"
+        },
+        {
+          "name": "zink-foundation-apple",
+          "status": "completed",
+          "conclusion": "skipped",
+          "url": "https://github.com/project-trames/trames-ipad/actions/runs/45690374918/job/139474108992"
+        },
+        {
+          "name": "container-isolation-apple",
+          "status": "completed",
+          "conclusion": "skipped",
+          "url": "https://github.com/project-trames/trames-ipad/actions/runs/45690374918/job/139474108361"
+        }
+      ]
+    },
+    {
+      "repository": "project-trames/trames-linux",
+      "source": "88b6d85",
+      "checks": [
+        {
+          "name": "Build/unit (ubuntu-24.04) — no hardware claim",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/project-trames/trames-linux/actions/runs/45697282832/job/139497867176"
+        },
+        {
+          "name": "Build/unit (macos-15) — no hardware claim",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/project-trames/trames-linux/actions/runs/45697282832/job/139497867140"
+        },
+        {
+          "name": "Native software WSI (ubuntu-24.04-arm) — no KVM or physical GPU claim",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/project-trames/trames-linux/actions/runs/45697282848/job/139497866788"
+        },
+        {
+          "name": "Build/unit (ubuntu-24.04-arm) — no hardware claim",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/project-trames/trames-linux/actions/runs/45697282832/job/139497866590"
+        },
+        {
+          "name": "Native software WSI (ubuntu-24.04) — no KVM or physical GPU claim",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/project-trames/trames-linux/actions/runs/45697282848/job/139497866145"
+        }
+      ]
+    }
+  ]
+}
