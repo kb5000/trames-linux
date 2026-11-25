@@ -1,0 +1,26 @@
+{
+  "cases": [
+    {
+      "id": "native-target-lifetimes",
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "frames": 16,
+      "id": "native-render",
+      "pixels_sha256": "e8f77b57402e001c6229330e4e52adb48b0661081838ee00ad5d13b1522c0662",
+      "status": "passed",
+      "user_close": false
+    },
+    {
+      "exit_code": 0,
+      "id": "native-headless",
+      "seconds": 0.03178764299997283,
+      "status": "passed"
+    }
+  ],
+  "passed": 3,
+  "performance_qualified": false,
+  "physical_gpu_qualified": false,
+  "planned": 3
+}

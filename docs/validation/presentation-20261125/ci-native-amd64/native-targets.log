@@ -1,0 +1,7 @@
+
+running 2 tests
+test display::wayland_tests::original_wayland_target_uses_native_surface_and_retains_its_connection ... ok
+test display::x11::tests::x11_events_resize_and_surface_teardown_keep_original_native_owners ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.02s
+

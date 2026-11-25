@@ -56,6 +56,24 @@ the expected color/geometry. `pixels_sha256` in the case record hashes its saved
 `pixels.stdout` transcript; it is not a raw screenshot hash. The probe/controller
 source hashes are bound in `inputs.json`.
 
+Hosted [native WSI CI](https://github.com/kb5000/trames-linux/actions/runs/45614196982)
+passes **ARM64 3/3 and AMD64 3/3** after the socket-path correction, using source
+`8d1b9875564aff8d4976a95b296772ebdde16996`. The
+[ARM64](presentation-20261125/ci-native-arm64/results.json) and
+[AMD64](presentation-20261125/ci-native-amd64/results.json) raw results/logs and
+artifact identities are retained separately from KVM. The existing
+[three-platform product build/unit workflow](https://github.com/kb5000/trames-linux/actions/runs/45612436402)
+also passes in all cells. The corrected controller changes no production,
+Cargo/lock/configuration, guest fixture or runtime source from the qualified
+release commit; those passing checks are reused.
+
+The [shared runtime full CI](https://github.com/kb5000/trames-runtime/actions/runs/45612204399)
+passes on Ubuntu and macOS, including all-feature tests/release builds. The
+independent Mac product's paired-pin CI passes. iPad `memory-abi` and `guest-musl`
+pass; its full `apple-build` is still running in the timestamped
+[cloud status snapshot](presentation-20261125/cloud-checks.json). The local iOS
+ARM64 FFI check above has passed. This iteration does not publish or install an IPA.
+
 Raw [matrix results](presentation-20261125/trames-wsi-qualification-final/results.json),
 [native target log](presentation-20261125/trames-wsi-qualification-final/native-targets.log),
 [workspace tests](presentation-20261125/trames-wsi-final-unit.log),
@@ -94,6 +112,11 @@ Historical runs remain in the evidence directory:
    both compositors stop. The original
    [failure](presentation-20261125/ci-arm64-initial-failure/weston.log) remains
    separate from passing native and KVM results.
+   The corrected controller passes all three native cells with an evidence
+   pathname deliberately longer than the socket limit; the unchanged native
+   unit artifact is reused. See [that separate result](presentation-20261125/native-long-evidence-path/results.json).
+   Only the hosted native WSI workflow is dispatched again; unchanged production
+   build/test checks and the 13-cell KVM evidence are reused.
 
 The pre-fix 11/13 run is preserved as
 [`trames-wsi-qualification-v4`](presentation-20261125/trames-wsi-qualification-v4/results.json).

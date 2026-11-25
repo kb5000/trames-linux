@@ -1,0 +1,8 @@
+{
+  "commit": "8d1b9875564aff8d4976a95b296772ebdde16996",
+  "workflow": "https://github.com/kb5000/trames-linux/actions/runs/45614196982",
+  "artifact_id": 15020984638,
+  "artifact_sha256": "c8c5db89dd6371949969c110232a0cf5b4dbf44f9c31003d39f589174749498c",
+  "physical_gpu_qualified": false,
+  "performance_qualified": false
+}

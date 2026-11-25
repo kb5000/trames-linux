@@ -17,6 +17,9 @@ def digest(path):
 
 
 manifest = read(HERE / 'files.sha256.json')
+actual = {p.relative_to(HERE).as_posix() for p in HERE.rglob('*')
+          if p.is_file() and p.name not in ['files.sha256.json', 'audit-result.json']}
+assert actual == set(manifest)
 for name, expected in manifest.items():
     path = HERE / name
     assert path.resolve().is_relative_to(HERE), name
@@ -67,6 +70,41 @@ for case in cases:
         assert case['user_close'] == case['id'].endswith('-close')
         if not case['user_close']:
             assert b'wsi: ok\n' in output
+long = HERE / 'native-long-evidence-path'
+long_results = read(long / 'results.json')
+assert long_results['passed'] == long_results['planned'] == 3
+assert {case['id'] for case in long_results['cases']} == {
+    'native-target-lifetimes', 'native-render', 'native-headless'}
+assert all(case['status'] == 'passed' for case in long_results['cases'])
+assert read(long / 'inputs.json')['controller_sha256'] == digest(PRODUCT / 'scripts/validate-wsi.py')
+assert read(long / 'inputs.json')['unit_binary_sha256'] == inputs['unit_binary_sha256']
+assert b'2 passed;' in (long / 'native-targets.log').read_bytes()
+for architecture in ['arm64', 'amd64']:
+    native = HERE / f'ci-native-{architecture}'
+    native_results = read(native / 'results.json')
+    assert native_results['passed'] == native_results['planned'] == 3
+    assert {case['id'] for case in native_results['cases']} == {
+        'native-target-lifetimes', 'native-render', 'native-headless'}
+    assert all(case['status'] == 'passed' for case in native_results['cases'])
+    assert native_results['physical_gpu_qualified'] is False
+    assert native_results['performance_qualified'] is False
+    native_inputs = read(native / 'inputs.json')
+    assert native_inputs['build'] is None
+    assert native_inputs['controller_sha256'] == digest(PRODUCT / 'scripts/validate-wsi.py')
+    assert native_inputs['fixture_sources'] == inputs['fixture_sources']
+    assert b'2 passed;' in (native / 'native-targets.log').read_bytes()
+    assert (native / 'native-headless/stdout').read_bytes() == b'headless: ok\n'
+    assert (native / 'native-case/pixels.stdout').read_bytes() == b'pixels: 320x240 green\n'
+cloud = read(HERE / 'cloud-checks.json')['sources']
+for group, count in [('runtime', 2), ('native_wsi', 2), ('mac_pin', 1)]:
+    checks = cloud[group]['checks']
+    assert len(checks) == count and all(c['conclusion'] == 'success' for c in checks)
+build_checks = [c for c in cloud['linux_build']['checks'] if c['name'].startswith('Build/unit')]
+assert len(build_checks) == 3 and all(c['conclusion'] == 'success' for c in build_checks)
+for name in ['memory-abi', 'guest-musl']:
+    assert next(c for c in cloud['ipad_pin']['checks'] if c['name'] == name)['conclusion'] == 'success'
 print(json.dumps(dict(verified_files=len(manifest), passed=13, planned=13,
+                     native_long_path_passed=3,
+                     hosted_native_passed=6,
                      physical_gpu_qualified=False, performance_qualified=False),
                  sort_keys=True))

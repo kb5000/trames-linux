@@ -1,0 +1,14 @@
+{
+  "build": null,
+  "controller_sha256": "609580a1aa550e0851ae71a717d3d9766693e4e6ca3e3f8038bee9d1aa0c9619",
+  "fixture_sources": {
+    "vulkan-wsi.c": "dd947a2510f32dcec51f97386b2f8f3b13c86cf95fff841fabacc03b63072e8b",
+    "wayland-target.c": "a40f42431d5658003cfa4c966d378fb51854e53d8c585cd507cc08e10d89c191",
+    "x11-probe.c": "e216b7365f243ee3b2b5a2d2ec839d6f260ddb5c43a8d4e95365d97df9a23651"
+  },
+  "guest_icd_sha256": null,
+  "performance_qualified": false,
+  "physical_gpu_qualified": false,
+  "rootfs_sha256": "d1b9ac5c0965033aa91d557d338942632e566ec2580254a3d792daaeaef6ff75",
+  "unit_binary_sha256": "03ea79d3e321fc83eae79df16cbe3a8bcf07d9ef9a78b743e6e7b52025307625"
+}
