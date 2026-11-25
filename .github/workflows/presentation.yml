@@ -1,0 +1,46 @@
+name: Native Linux presentation references
+on:
+  push:
+    branches: [main]
+    paths: ['runtime', 'Cargo.lock', 'crates/trames-linux-app/**', 'scripts/validate-wsi.py', 'tests/fixtures/*wsi*', 'tests/fixtures/x11-probe.c', 'tests/fixtures/wayland-target.c', '.github/workflows/presentation.yml']
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  native-wsi:
+    name: Native software WSI (${{ matrix.os }}) — no KVM or physical GPU claim
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, ubuntu-24.04-arm]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: nightly-2026-10-16
+      - name: Install software display prerequisites
+        run: sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends libvulkan-dev mesa-vulkan-drivers libxcb1-dev libwayland-dev libwayland-bin wayland-protocols xvfb weston
+      - run: python3 runtime/scripts/build-guest-cli.py
+      - name: Build original native target regression binary
+        run: |
+          mkdir -p target
+          cargo test -p trames-linux-app --release --locked --no-run --message-format=json > target/wsi-unit.jsonl
+      - name: Exercise actual X11 pixels and Wayland target lifetimes
+        shell: bash
+        run: |
+          unit=$(python3 -c 'import json; a=[json.loads(x) for x in open("target/wsi-unit.jsonl")]; a=[x["executable"] for x in a if x.get("reason")=="compiler-artifact" and x.get("profile",{}).get("test") and x.get("target",{}).get("kind")==["bin"] and x.get("executable")]; assert len(a)==1,a; print(a[0])')
+          export VK_DRIVER_FILES=$(find /usr/share/vulkan/icd.d -name 'lvp_icd*.json' -print -quit)
+          test -n "$VK_DRIVER_FILES"
+          python3 scripts/validate-wsi.py --native-only --unit-binary "$unit" --output target/validation/presentation-native
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: presentation-native-${{ matrix.os }}
+          path: target/validation/presentation-native/
+          if-no-files-found: error
+          retention-days: 14

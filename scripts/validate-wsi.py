@@ -94,30 +94,35 @@ def render(case, argv, env, probe, title, user_close=False):
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--runner',type=Path,required=True)
-    parser.add_argument('--receipt',type=Path,required=True)
-    parser.add_argument('--guest-icd',type=Path,required=True)
+    parser.add_argument('--runner',type=Path)
+    parser.add_argument('--receipt',type=Path)
+    parser.add_argument('--guest-icd',type=Path)
+    parser.add_argument('--native-only',action='store_true',help='Run host targets/rendering only; makes no guest or KVM claim')
     parser.add_argument('--unit-binary',type=Path,required=True)
     parser.add_argument('--output',type=Path,required=True)
-    a=parser.parse_args();a.output=a.output.resolve();a.output.mkdir(parents=True,exist_ok=False)
-    runner=a.runner.resolve();icd=a.guest_icd.resolve();unit=a.unit_binary.resolve();build=receipt(a.receipt.resolve(),runner)
+    a=parser.parse_args()
+    if not a.native_only and not all([a.runner,a.receipt,a.guest_icd]):parser.error('KVM acceptance requires --runner, --receipt and --guest-icd')
+    a.output=a.output.resolve();a.output.mkdir(parents=True,exist_ok=False)
+    runner=a.runner.resolve() if a.runner else None;icd=a.guest_icd.resolve() if a.guest_icd else None;unit=a.unit_binary.resolve();build=receipt(a.receipt.resolve(),runner) if not a.native_only else None
     out=a.output;cc=os.environ.get('CC','cc');fixtures=ROOT/'tests/fixtures'
     compile_fixture(out,'native',[cc,'-O2','-Wall','-Wextra','-Werror',fixtures/'vulkan-wsi.c','-lvulkan','-lxcb','-o',out/'native'])
-    compile_fixture(out,'guest',[cc,'-O2','-Wall','-Wextra','-Werror','-DTRAMES_WSI_GUEST',fixtures/'vulkan-wsi.c','-lvulkan','-o',out/'guest'])
+    if not a.native_only:compile_fixture(out,'guest',[cc,'-O2','-Wall','-Wextra','-Werror','-DTRAMES_WSI_GUEST',fixtures/'vulkan-wsi.c','-lvulkan','-o',out/'guest'])
     compile_fixture(out,'probe',[cc,'-O2','-Wall','-Wextra','-Werror',fixtures/'x11-probe.c','-lxcb','-o',out/'probe'])
     xml=Path(subprocess.check_output(['pkg-config','--variable=pkgdatadir','wayland-protocols'],text=True).strip())/'stable/xdg-shell/xdg-shell.xml'
     subprocess.run(['wayland-scanner','client-header',xml,out/'xdg-shell-client-protocol.h'],check=True)
     subprocess.run(['wayland-scanner','private-code',xml,out/'xdg-shell-protocol.c'],check=True)
     compile_fixture(out,'wayland',[cc,'-O2','-Wall','-Wextra','-Werror','-shared','-fPIC','-I',out,fixtures/'wayland-target.c',out/'xdg-shell-protocol.c','-lwayland-client','-o',out/'wayland-target.so'])
     root=out/'rootfs';(root/'test').mkdir(parents=True)
-    shutil.copy2(out/'guest',root/'test/wsi');copied=set()
-    dependencies(out/'guest',root,copied);dependencies(icd,root,copied)
+    if not a.native_only:
+        shutil.copy2(out/'guest',root/'test/wsi');copied=set()
+        dependencies(out/'guest',root,copied);dependencies(icd,root,copied)
     for path in ['usr/lib','usr/share/vulkan/icd.d','tmp']:(root/path).mkdir(parents=True,exist_ok=True)
     (root/'tmp').chmod(0o1777)
-    save(out/'inputs.json',dict(build=build,guest_icd_sha256=digest(icd),unit_binary_sha256=digest(unit),rootfs_sha256=tree_digest(root),fixture_sources={p.name:digest(p) for p in [fixtures/'vulkan-wsi.c',fixtures/'x11-probe.c',fixtures/'wayland-target.c']},performance_qualified=False,physical_gpu_qualified=False))
-    doctor=subprocess.run([runner,'doctor','--json','--require-kvm'],capture_output=True,timeout=10)
-    (out/'doctor.stdout').write_bytes(doctor.stdout);(out/'doctor.stderr').write_bytes(doctor.stderr)
-    if doctor.returncode:raise RuntimeError('real KVM preflight failed')
+    save(out/'inputs.json',dict(build=build,guest_icd_sha256=digest(icd) if icd else None,unit_binary_sha256=digest(unit),rootfs_sha256=tree_digest(root),controller_sha256=digest(Path(__file__)),fixture_sources={p.name:digest(p) for p in [fixtures/'vulkan-wsi.c',fixtures/'x11-probe.c',fixtures/'wayland-target.c']},performance_qualified=False,physical_gpu_qualified=False))
+    if not a.native_only:
+        doctor=subprocess.run([runner,'doctor','--json','--require-kvm'],capture_output=True,timeout=10)
+        (out/'doctor.stdout').write_bytes(doctor.stdout);(out/'doctor.stderr').write_bytes(doctor.stderr)
+        if doctor.returncode:raise RuntimeError('real KVM preflight failed')
     runtime=out/'xdg-runtime';runtime.mkdir(mode=0o700)
     env=os.environ|{'XDG_RUNTIME_DIR':str(runtime),'WAYLAND_DISPLAY':'trames-wsi-validation','TRAMES_WAYLAND_FIXTURE':str(out/'wayland-target.so')}
     rows=[];read_fd,write_fd=os.pipe()
@@ -138,7 +143,7 @@ def main():
             targets=dict(id='native-target-lifetimes',status='passed' if tests.returncode==0 and b'2 passed;' in test_log else 'failed')
             rows.append(targets)
             native=render(out/'native-case',[out/'native'],env,out/'probe','Trames WSI native');rows.append(dict(id='native-render',**native))
-            for transport in ['smccc','mmio']:
+            for transport in ([] if a.native_only else ['smccc','mmio']):
                 for cpus in [1,4]:
                     for close in ([False,True] if cpus==4 else [False]):
                         name=f'kvm-{transport}-{cpus}'+('-close' if close else '')
