@@ -1,0 +1,14 @@
+   Compiling trames-graphics v1.3.0 (/home/main.guest/trames-linux-wsi-qualified/runtime/crates/trames-graphics)
+   Compiling trames-engine v1.3.0 (/home/main.guest/trames-linux-wsi-qualified/runtime/crates/trames-engine)
+   Compiling trames-accel v1.3.0 (/home/main.guest/trames-linux-wsi-qualified/runtime/crates/trames-accel)
+   Compiling trames-wayland v1.3.0 (/home/main.guest/trames-linux-wsi-qualified/runtime/crates/trames-wayland)
+   Compiling trames-kvm v0.1.0 (/home/main.guest/trames-linux-wsi-qualified/crates/trames-kvm)
+   Compiling trames-vulkan v1.3.0 (/home/main.guest/trames-linux-wsi-qualified/runtime/crates/trames-vulkan)
+    Finished `release` profile [optimized] target(s) in 5.66s
+     Running tests/vulkan.rs (/home/main.guest/trames-linux-engine/target/release/build/trames-kvm/632d406e24829ef1/out/vulkan-632d406e24829ef1)
+
+running 1 test
+test vulkan_host_buffer_and_kvm_share_original_bytes_without_shadow_transfers ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s
+

@@ -1,0 +1,101 @@
+trames-kvm: PC=0x40000033cc08 Trap { syndrome: 33554432, address: 70368745835712 }
+trames-vulkan op=79 args=[7fffffefb0d0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+trames-kvm: PC=0x40000033cc08 Trap { syndrome: 33554432, address: 70368745835712 }
+trames-vulkan op=109 args=[7fffffefb0c8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+trames-kvm: PC=0x40000033cc08 Trap { syndrome: 33554432, address: 70368745835712 }
+trames-vulkan op=79 args=[7fffffefaec0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+trames-kvm: PC=0x40000033cc08 Trap { syndrome: 33554432, address: 70368745835712 }
+trames-vulkan op=109 args=[7fffffefaeb8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+trames-kvm: PC=0x40000033cc08 Trap { syndrome: 33554432, address: 1073909760 }
+trames-vulkan op=79 args=[7fffffefb080, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+trames-kvm: PC=0x40000033cc08 Trap { syndrome: 33554432, address: 1073909760 }
+trames-vulkan op=109 args=[7fffffefb078, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+trames-kvm: PC=0x40000033cc08 Trap { syndrome: 33554432, address: 1073909760 }
+trames-vulkan op=79 args=[7fffffefae70, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+trames-kvm: PC=0x40000033cc08 Trap { syndrome: 33554432, address: 1073909760 }
+trames-vulkan op=109 args=[7fffffefae68, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+trames-kvm: PC=0x40000033cc08 Trap { syndrome: 33554432, address: 70368747467712 }
+trames-vulkan op=1 args=[40025c58, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+trames-kvm: PC=0x40000033cc08 Trap { syndrome: 33554432, address: 70368747498800 }
+trames-vulkan op=3 args=[100000001, 7fffffefebfc, 7fffffefec00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+trames-kvm: PC=0x40000033cc08 Trap { syndrome: 33554432, address: 70368747498800 }
+trames-vulkan op=3 args=[100000001, 7fffffefebec, 7fffffefebf0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+trames-kvm: PC=0x40000033cc08 Trap { syndrome: 33554432, address: 70368747498800 }
+trames-vulkan op=115 args=[100000002, 40025db8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+trames-kvm: PC=0x40000033cc08 Trap { syndrome: 33554432, address: 70368747498800 }
+trames-vulkan op=206 args=[100000002, 40025dc8, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+trames-kvm: PC=0x40000033cc08 Trap { syndrome: 33554432, address: 70368747483744 }
+trames-vulkan op=4 args=[100000002, 7fffffefe6d8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+trames-kvm: PC=0x40000033cc08 Trap { syndrome: 33554432, address: 70368747483744 }
+trames-vulkan op=79 args=[7fffffefe350, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+trames-kvm: PC=0x40000033cc08 Trap { syndrome: 33554432, address: 70368747483744 }
+trames-vulkan op=109 args=[7fffffefe348, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+trames-kvm: PC=0x40000033cc08 Trap { syndrome: 33554432, address: 70368747483744 }
+trames-vulkan op=79 args=[7fffffefaa70, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+trames-kvm: PC=0x40000033cc08 Trap { syndrome: 33554432, address: 70368747483744 }
+trames-vulkan op=109 args=[7fffffefaa68, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+trames-kvm: PC=0x40000033cc08 Trap { syndrome: 33554432, address: 70368744379072 }
+trames-vulkan op=6 args=[100000002, 7fffffefef48, 7fffffeff508, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+trames-kvm: PC=0x40000033cc08 Trap { syndrome: 33554432, address: 70368744318532 }
+trames-vulkan op=79 args=[7fffffefe9c0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+trames-kvm: PC=0x40000033cc08 Trap { syndrome: 33554432, address: 70368744318532 }
+trames-vulkan op=109 args=[7fffffefe9b8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+trames-kvm: PC=0x40000033cc08 Trap { syndrome: 33554432, address: 1073934648 }
+trames-vulkan op=79 args=[7fffffefe9c0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+trames-kvm: PC=0x40000033cc08 Trap { syndrome: 33554432, address: 1073934648 }
+trames-vulkan op=109 args=[7fffffefe9b8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+trames-kvm: PC=0x40000033cc08 Trap { syndrome: 33554432, address: 1073926144 }
+trames-vulkan op=79 args=[7fffffefb0e0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+trames-kvm: PC=0x40000033cc08 Trap { syndrome: 33554432, address: 1073926144 }
+trames-vulkan op=109 args=[7fffffefb0d8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+trames-kvm: PC=0x40000033cc08 Trap { syndrome: 33554432, address: 1073930240 }
+trames-vulkan op=79 args=[7fffffefe490, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+trames-kvm: PC=0x40000033cc08 Trap { syndrome: 33554432, address: 1073930240 }
+trames-vulkan op=109 args=[7fffffefe488, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+trames-kvm: PC=0x40000033cc08 Trap { syndrome: 33554432, address: 1073930240 }
+trames-vulkan op=79 args=[7fffffefabb0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+trames-kvm: PC=0x40000033cc08 Trap { syndrome: 33554432, address: 1073930240 }
+trames-vulkan op=109 args=[7fffffefaba8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+trames-kvm: PC=0x40000033cc08 Trap { syndrome: 33554432, address: 1073938432 }
+trames-vulkan op=4 args=[100000002, 7fffffefe8b0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+trames-kvm: PC=0x40000033cc08 Trap { syndrome: 33554432, address: 70368747591304 }
+trames-vulkan op=8 args=[100000002, 0, 40026018, 0, 0, d1, 0, 0, 0, 7fffffefe188, 1, 0, 0, 0, 0, 0]
+trames-kvm: PC=0x40000033cc08 Trap { syndrome: 33554432, address: 70368747591304 }
+trames-vulkan op=57 args=[100000004, 40026050, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+trames-kvm: PC=0x40000033cc08 Trap { syndrome: 33554432, address: 70368747591304 }
+trames-vulkan op=200 args=[100000004, 40026090, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+trames-kvm: PC=0x40000033cc08 Trap { syndrome: 33554432, address: 70368747591304 }
+trames-vulkan op=10 args=[100000004, 0, 0, 7fffffefdef0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+trames-kvm: PC=0x40000033cc08 Trap { syndrome: 33554432, address: 70368744382484 }
+trames-vulkan op=11 args=[100000004, 1000, 2, 7fffffefef78, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+trames-kvm: PC=0x40000033cc08 Trap { syndrome: 33554432, address: 70368744382484 }
+trames-vulkan op=13 args=[100000004, 100000005, 7fffffefeff0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+trames-kvm: PC=0x40000033cc08 Trap { syndrome: 33554432, address: 70368744382484 }
+trames-vulkan op=5 args=[100000002, 7fffffeff300, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+trames-kvm: PC=0x40000033cc08 Trap { syndrome: 33554432, address: 70368747520016 }
+trames-vulkan op=14 args=[100000004, 1000, 0, 40026250, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+trames-kvm: PC=0x40000033cc08 Trap { syndrome: 33554432, address: 70368747520016 }
+trames-vulkan op=16 args=[100000004, 100000005, 100000006, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+trames-kvm: PC=0x40000033cc08 Trap { syndrome: 33554432, address: 70368747471120 }
+trames-vulkan op=34 args=[100000004, 0, 0, 7fffffefef88, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+trames-kvm: PC=0x40000033cc08 Trap { syndrome: 33554432, address: 70368747561264 }
+trames-vulkan op=36 args=[100000004, 100000007, 40028378, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+trames-kvm: PC=0x40000033cc08 Trap { syndrome: 33554432, address: 70368747462944 }
+trames-vulkan op=38 args=[100000004, 100000008, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+trames-kvm: PC=0x40000033cc08 Trap { syndrome: 33554432, address: 70368744389088 }
+trames-vulkan op=46 args=[100000004, 100000008, 100000005, 0, 1000, 13579bdf, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+trames-kvm: PC=0x40000033cc08 Trap { syndrome: 33554432, address: 1073756040 }
+trames-vulkan op=44 args=[100000004, 100000008, 1000, 4000, 1000, 2000, 7fffffefd678, 0, c, 0, 0, 0, 0, 0, 0, 0]
+trames-kvm: PC=0x40000033cc08 Trap { syndrome: 33554432, address: 1073756040 }
+trames-vulkan op=39 args=[100000004, 100000008, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+trames-kvm: PC=0x40000033cc08 Trap { syndrome: 33554432, address: 1073756040 }
+trames-vulkan op=48 args=[100000004, 0, 7fffffefefb8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+trames-kvm: PC=0x40000033cc08 Trap { syndrome: 33554432, address: 70368747537360 }
+trames-vulkan op=56 args=[100000004, 100000003, 7fffffefe878, 1, 100000009, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+trames-kvm: PC=0x40000033cc08 Trap { syndrome: 33554432, address: 140737468239872 }
+trames-vulkan op=51 args=[100000004, 100000009, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+trames-kvm: PC=0x40000033cc08 Trap { syndrome: 33554432, address: 70368747572220 }
+trames-vulkan op=17 args=[100000004, 100000006, 0, 1000, 10004000, 534841524544, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+trames-vulkan op=17 args=[100000004, 100000006, 0, 1000, 10004000, 534841524544, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+trames-kvm: PC=0x400024b8 Memory(BackingIo(95))
+trames: initial stack: unclassified source CPU failure

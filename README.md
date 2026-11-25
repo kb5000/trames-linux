@@ -22,9 +22,12 @@ Linux process/syscall semantics, ELF loading, signals, VFS and scheduling.
 - Baseline GPR/FP/SIMD/TLS state, deadline/kick, partial EL1 save/restore recovery,
   task migration and negotiated native-bridge trap normalization.
 
-The current product includes foreground execution and an opt-in ALSA PCM provider.
-Graphics presentation/video providers, persistent environment management, debugger single-step and extended
-SVE/SME state are still pending. Raw external `SharedMapping` imports require
+The current product includes foreground execution, an opt-in ALSA PCM provider,
+headless Vulkan and an X11 window for the shared fixed-display Vulkan interface.
+Native XCB/Wayland surface ownership and actual software-rendered pixels have
+dedicated acceptance. Full guest desktop/input integration, hardware graphics/video,
+persistent environment management, debugger single-step and extended SVE/SME state
+are still pending. Raw external `SharedMapping` imports require
 an FD/alias contract; the backend refuses unsupported imports. Complete runtime
 and media 4 KiB operation remains a release gate, beyond these tested workloads.
 An amd64 execution adapter and its shared guest ABI are planned, not implemented.
@@ -46,7 +49,11 @@ target/release/trames run --cpus 4 -- ./hello-static arg1
 target/release/trames run --rootfs /path/to/rootfs --cpus 4 -- /bin/sh -c 'echo hello'
 target/release/trames run --timeout-ms 1000 -- ./bounded-workload
 TRAMES_AUDIO_OUTPUT_DEVICE=default target/release/trames run --audio --rootfs /path/to/rootfs -- /usr/bin/aplay example.wav
+target/release/trames run --rootfs /path/to/rootfs --vulkan-icd /path/to/libtrames_vulkan_icd.so --display x11 --display-size 1024x768 --setenv VK_DRIVER_FILES=/usr/share/vulkan/icd.d/trames.json -- /path/to/vulkan-program
 ```
+
+See [Vulkan presentation and headless setup](docs/architecture/presentation.md)
+and [software WSI/KVM validation](docs/validation/presentation-20261125.md).
 
 Without `--rootfs`, the specified host ELF is imported as `/program` into a fresh
 memory VFS. With `--rootfs`, the selected directory is mounted read/write at guest

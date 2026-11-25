@@ -1,0 +1,97 @@
+warning: unused field `repository` in `workspace.package`
+  --> Cargo.toml:32:1
+   |
+32 | repository = "https://github.com/kb5000/trames-runtime"
+   | ^^^^^^^^^^
+   |
+   = note: `cargo::unused_workspace_package_fields` is set to `warn` by default
+help: consider removing the field `workspace.package.repository`
+warning: workspace (manifest) generated 1 warning
+   Compiling trames-vulkan v1.3.0 (/private/tmp/trames-linux-services/runtime/crates/trames-vulkan)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.47s
+     Running unittests src/lib.rs (/private/tmp/trames-linux-fixes/runtime/target/debug/build/trames-vulkan/49f0524f8494ead4/out/trames_vulkan-49f0524f8494ead4)
+
+running 80 tests
+test backend::compute::tests::apple_atomic_quirk_preserves_buffer_atomics_and_other_drivers ... ok
+test backend::coherent::tests::independent_cpu_inputs_and_gpu_outputs_do_not_overwrite_each_other ... ok
+test backend::coherent::tests::staged_download_preserves_independent_inputs_and_failed_write_baselines ... ok
+test backend::compute::tests::compute_features_require_native_support_and_enabled_extensions ... ok
+test backend::compute::tests::dynamic_depth_clip_requires_the_executable_base_feature ... ok
+test backend::compute::tests::core11_keeps_original_individual_feature_nodes ... ok
+test backend::compute::tests::core12_promotion_merges_aliases_without_duplicate_native_nodes ... ok
+test backend::core_features::tests::selected_features_preserve_legacy_bits_and_require_native_support ... ok
+test backend::coherent::tests::coherent_tracking_is_charged_and_released_with_the_mapping ... ok
+test backend::core_features::tests::feature_dependent_limits_describe_the_executable_profile ... ok
+test backend::graphics::dynamic::tests::hardware_budget_matches_original_process_usage_and_original_heap_records ... ignored, requires original native MoltenVK heap budget queries
+test backend::graphics::dynamic::tests::hardware_dynamic_scope_ends_through_its_original_api_and_submission ... ignored, requires original native MoltenVK dynamic rendering
+test backend::graphics::host_copy::tests::hardware_async_poll_reports_readback_delta_without_recounting_mapping ... ignored, requires original native fence completion and mapped memory
+test backend::graphics::host_copy::tests::hardware_host_image_copies_cross_guarded_guest_rows_and_preserve_padding ... ignored, requires original native host image copy and optimal images
+test backend::graphics::host_copy::tests::hardware_host_properties_bound_oversized_output_and_keep_native_identity ... ignored, requires original native host image layout enumeration
+test backend::graphics::host_copy::tests::hardware_original_native_mapping_outlives_logical_handles_without_importing_memory ... ignored, requires original aligned native Vulkan host mapping
+test backend::graphics::sync2::tests::hardware_early_sync2_signals_keep_native_fence_authority_and_rejected_batches_do_not_commit ... ignored, requires original native synchronization2
+test backend::compute::tests::subgroup_controls_do_not_invent_required_compute_sizes ... ok
+test backend::coherent::tests::binding_ranges_coalesce_aliases_without_joining_unrelated_allocations ... ok
+test backend::feedback::tests::query_result_footprints_do_not_touch_padding_or_overflow ... ok
+test backend::coherent::tests::readback_keeps_inflight_producers_and_failure_retries_without_pinning_resources ... ok
+test backend::graphics::tests::array_and_volume_copy_footprints_include_slice_padding ... ok
+test backend::graphics::tests::attachment_clears_preserve_subpass_slots_aspects_and_render_area ... ok
+test backend::graphics::tests::attachment_references_preserve_general_and_read_only_layouts ... ok
+test backend::graphics::tests::copy_checks_padded_rows_offsets_overflow_and_color_subresources ... ok
+test backend::graphics::tests::copy_footprints_follow_actual_texels_and_depth_aspects ... ok
+test backend::graphics::tests::divisor_features_and_instance_footprints ... ok
+test backend::graphics::tests::image_copy_bounds_and_depth_compatibility ... ok
+test backend::graphics::tests::blit_format_conversion_and_volume_slice_views_follow_native_rules ... ok
+test backend::graphics::tests::image_profile_reports_only_supported_formats_usages_and_layouts ... ok
+test backend::graphics::tests::indirect_arguments_keep_vulkan_zero_and_single_draw_stride_rules ... ok
+test backend::graphics::tests::layered_clear_preserves_the_requested_slice_range ... ok
+test backend::graphics::tests::maintenance1_negative_viewports_use_native_bounds ... ok
+test backend::graphics::tests::packed_depth_stencil_aspects_and_exact_copy_footprints ... ok
+test backend::graphics::tests::self_copies_and_flipped_blits_distinguish_mips_layers_and_volume ... ok
+test backend::graphics::tests::stencil_wire_checks_ops_masks_and_references ... ok
+test backend::graphics::tests::subresource_ranges_cube_views_and_mip_bounds ... ok
+test backend::graphics::tests::subsampled_plane_transfers_bound_the_real_compatible_extent ... ok
+test backend::namespaces::tests::hardware_original_instances_devices_and_pending_jobs_keep_their_owner ... ignored, requires the original native MoltenVK device/fence adapter
+test backend::graphics::tests::viewports_may_extend_outside_the_framebuffer ... ok
+test backend::graphics::tests::compressed_copy_footprints_use_blocks_mip_edges_and_array_strides ... ok
+test backend::namespaces::tests::hardware_queues_keep_original_families_and_cross_queue_semaphores ... ignored, requires original native MoltenVK queues
+test backend::shared_memory::tests::generic_padding_owns_whole_granules_without_changing_other_contracts ... ok
+test backend::completion::retirement_tests::final_mm_release_returns_before_two_native_jobs_and_each_completion_releases_its_graph ... ok
+test backend::completion::retirement_unlock_tests::unlock_collects_finished_work_even_if_another_native_caller_consumed_the_completion ... ok
+test backend::tests::host_managed_objects_have_no_context_smoke_test_ceiling ... ok
+test backend::tests::malformed_transport_cannot_read_guest_memory_or_create_driver_objects ... ok
+test backend::tests::wait_stages_support_selected_graphics_but_reject_unknown_extension_bits ... ok
+test backend::tests::specialization_records_keep_offsets_and_reject_overflow_or_duplicate_ids ... ok
+test backend::tests::spirv_debug_names_do_not_change_entrypoints_or_specialization_decorations ... ok
+test backend::wayland::tests::hardware_acquisition_has_no_dummy_submit_and_consumes_host_signal_once ... ignored, requires the original native MoltenVK image/fence adapter
+test backend::wayland::tests::hardware_host_fence_completion_wakes_only_after_context_unlock ... ignored, requires the original native MoltenVK image/fence adapter
+test backend::wayland::tests::hardware_producer_completion_releases_its_last_lease_without_polling ... ignored, requires the original native MoltenVK image/fence adapter
+test backend::wayland::tests::hardware_wait_uses_original_pool_and_sync_objects_and_cancels_without_effects ... ignored, requires the original native MoltenVK image/fence adapter
+test backend::wayland::tests::hardware_waited_acquisition_output_fault_retires_without_retargeting ... ignored, requires the original native MoltenVK image/fence adapter
+test budget::tests::host_managed_native_accounting_has_no_smoke_test_byte_ceilings ... ok
+test budget::tests::compiler_capacity_is_shared_and_released_without_a_global_work_lock ... ok
+test backend::coherent::tests::hardware_coherent_transfers_use_cpu_bytes_without_revoking_hardware ... ok
+test budget::tests::independent_contexts_share_budget_without_overcommit_or_lifetime_leak ... ok
+test backend::tests::unknown_object_domains_and_uninitialized_driver_never_become_host_handles ... ok
+test backend::coherent::tests::write_only_mapping_keeps_original_checked_download ... ok
+test backend::tests::descriptor_batch_rejects_foreign_devices_and_non_descriptor_operations ... ok
+test budget::tests::session_quota_scales_without_allocating_and_remains_shared ... ok
+test backend::graphics::render_pass::tests::noncanonical_attachment_order_retains_resolve_depth_samples_and_clears ... ok
+test backend::completion::tests::device_teardown_defers_for_native_compilation_and_uses_the_accepted_target ... ok
+test backend::tests::native_transfers_cross_pages_keep_cow_and_preflight_permissions ... ok
+test backend::tests::worker_transfers_use_cpu_pages_and_preflight_before_external_effects ... ok
+test context::tests::nonblocking_lease_and_subscribe_retry_notify_only_after_unlock ... ok
+test display::tests::detach_invalidates_generation_but_preserves_in_flight_lease ... ok
+test context::tests::device_calls_keep_original_wire_faults_on_worker_views ... ok
+test display::tests::invalid_native_targets_fail_before_objc_access ... ok
+test context::tests::retiring_a_busy_original_context_defers_to_its_lease_unlock_without_a_service_thread ... ok
+test task::tests::slow_tasks_do_not_block_the_caller_or_an_unrelated_task ... ok
+test task::tests::teardown_joins_before_owned_dependency_destruction ... ok
+test context::tests::an_occupied_context_does_not_serialize_an_independent_context ... ok
+test task::tests::completion_or_panic_publishes_result_before_notification ... ok
+test backend::tests::live_object_count_follows_last_dependency_and_backend_lifetime ... ok
+test context::tests::a_complete_graph_moves_between_workers_without_guest_or_rc_aliases_escaping ... ok
+test backend::completion::retirement_tests::a_busy_context_defers_driver_callback_cleanup_to_unlock_without_losing_completion ... ok
+test context::tests::host_background_fences_entries_and_foreground_wakes_the_original_waiter ... ok
+
+test result: ok. 66 passed; 0 failed; 14 ignored; 0 measured; 0 filtered out; finished in 0.03s
+

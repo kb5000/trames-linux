@@ -1,0 +1,29 @@
+{
+  "repository": "https://github.com/kb5000/trames-ipad",
+  "commit": "d61ac3d3273a93946f71b05e069c66c9acf87181",
+  "source_sha256": {
+    "accelerator/vulkan/allocator.inc": "9fcd089fa8864a2f357d03293037ac89679cc0761bda40bc5c2fa15d79fd0f95",
+    "accelerator/vulkan/calls.S": "6b5a0aa9a39039b059d115b42330646e8eb30312ea9dd75c40a838887b3a08d8",
+    "accelerator/vulkan/compute-schema.inc": "0c873cd290142c7340c1252d45b5473259bd91c2fda702eee797e3190f7b82ec",
+    "accelerator/vulkan/compute.inc": "d3550b700d293a8b70c4c2933183ca23646708cfd551e0c572a585eb2c33dc01",
+    "accelerator/vulkan/copy2.inc": "7a4883b0b5f2e147ac2a13ccd6b9dda23a3afd1949451d992ff5112d26033056",
+    "accelerator/vulkan/core12.inc": "81b4311c058d08ce3babfc3e9b4181d469fa60b2a139a27c201a2844266e5759",
+    "accelerator/vulkan/descriptor-batch.inc": "223179e32438db955db464d1a0fcf5e29d420796380da6fb2caa61134d2bbeea",
+    "accelerator/vulkan/dynamic.inc": "a2ea878b7c44610af5518829c27e0f5cfa579a79be2cf3768ea1061f988f6eb4",
+    "accelerator/vulkan/entrypoints.inc": "078d6a1fedad3e483a70993645987bb8b5a9cbe166c5338a1360dfbe74575336",
+    "accelerator/vulkan/extended.inc": "9429d093f0c991013e2a8d727f7d0a014c65a7465fb27b02626db27a7c1a4916",
+    "accelerator/vulkan/external.inc": "f6cbdd747d05ffb4d8a44862aea6b34e9635cc99da51d8ec6e5f87601c7f4228",
+    "accelerator/vulkan/graphics.inc": "dfa3a358634ee5d1987bff280a58564b84e2fb3ddc58c602a2916ecf173f3cbc",
+    "accelerator/vulkan/host-copy.inc": "8bfd9c4fcbc9dee46c03b3059a1694d0b037635d25aa8000d1e2fcb3243480d6",
+    "accelerator/vulkan/icd.c": "ae14d80318eca5655c6d83d73f5bcb6b938ff5fdf51a2fa4c92c5bf87fec75a1",
+    "accelerator/vulkan/queries.inc": "cde177e9eb4f9b1982e09aad39e2d264eb4fe0f85818bfc18ee5a32f4e9dd4aa",
+    "accelerator/vulkan/rendergraph.inc": "5b90ee6b4508fe3f9a8d12b68f23f05c518a8f4a0891717ce942c809afe4c735",
+    "accelerator/vulkan/sync.inc": "f1714fe95898d9426b601a5f756cab00bda166bca7226f66f85b37d68d3663c6",
+    "accelerator/vulkan/sync2.inc": "7d8a2fa9ed7d06a5a73c5f34a9c8000a2820700bb8b33db9bda87b519182170d",
+    "accelerator/vulkan/templates.inc": "4cd6ce0bd6dd326ebfb383fe9bbee6c22a381234aa9279440f5fb4f4d802e337",
+    "accelerator/vulkan/wayland.inc": "f875c0654e3ce6d1c376e836a4338422ac7aed1f06926c45531d05451099ebf9",
+    "accelerator/vulkan/wsi.inc": "ca3fb3264a090ef7a9b14add6182344d9d71104556683d1e4f4fe3b3417f275e",
+    "accelerator/vulkan/zink.inc": "21bb0e66c12b5da3e5498f569f96e56c8b106637831babc2755bb7cf16f19931"
+  },
+  "note": "Unchanged original guest graphics SDK, compiled only for the validation libc; no loaded instruction editing."
+}

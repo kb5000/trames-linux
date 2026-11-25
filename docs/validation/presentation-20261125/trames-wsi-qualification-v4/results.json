@@ -1,0 +1,94 @@
+{
+  "cases": [
+    {
+      "id": "native-target-lifetimes",
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "frames": 16,
+      "id": "native-render",
+      "pixels_sha256": "e8f77b57402e001c6229330e4e52adb48b0661081838ee00ad5d13b1522c0662",
+      "status": "passed",
+      "user_close": false
+    },
+    {
+      "exit_code": 0,
+      "id": "native-headless",
+      "seconds": 0.03249151699128561,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "headless-smccc-1",
+      "seconds": 0.1674456679902505,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "frames": 16,
+      "id": "kvm-smccc-1",
+      "pixels_sha256": "e8f77b57402e001c6229330e4e52adb48b0661081838ee00ad5d13b1522c0662",
+      "status": "passed",
+      "user_close": false
+    },
+    {
+      "exit_code": 0,
+      "id": "headless-smccc-4",
+      "seconds": 0.166662918010843,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "frames": 16,
+      "id": "kvm-smccc-4",
+      "pixels_sha256": "e8f77b57402e001c6229330e4e52adb48b0661081838ee00ad5d13b1522c0662",
+      "status": "passed",
+      "user_close": false
+    },
+    {
+      "exit_code": -9,
+      "id": "kvm-smccc-4-close",
+      "reason": "Command '['/home/main.guest/trames-wsi-qualified-binary-v4', 'run', '--cpus', '4', '--rootfs', '/home/main.guest/trames-wsi-qualification-v4/kvm-smccc-4-close-rootfs', '--vulkan-icd', '/home/main.guest/trames-wsi-original-icd/libtrames_vulkan_icd.so', '--display', 'x11', '--display-size', '320x240', '--timeout-ms', '50000', '--setenv', 'VK_DRIVER_FILES=/usr/share/vulkan/icd.d/trames.json', '--', '/test/wsi']' timed out after 15 seconds",
+      "status": "failed"
+    },
+    {
+      "exit_code": 0,
+      "id": "headless-mmio-1",
+      "seconds": 0.21585708299244288,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "frames": 16,
+      "id": "kvm-mmio-1",
+      "pixels_sha256": "e8f77b57402e001c6229330e4e52adb48b0661081838ee00ad5d13b1522c0662",
+      "status": "passed",
+      "user_close": false
+    },
+    {
+      "exit_code": 0,
+      "id": "headless-mmio-4",
+      "seconds": 0.21653096099907998,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "frames": 16,
+      "id": "kvm-mmio-4",
+      "pixels_sha256": "e8f77b57402e001c6229330e4e52adb48b0661081838ee00ad5d13b1522c0662",
+      "status": "passed",
+      "user_close": false
+    },
+    {
+      "exit_code": -9,
+      "id": "kvm-mmio-4-close",
+      "reason": "Command '['/home/main.guest/trames-wsi-qualified-binary-v4', 'run', '--cpus', '4', '--rootfs', '/home/main.guest/trames-wsi-qualification-v4/kvm-mmio-4-close-rootfs', '--vulkan-icd', '/home/main.guest/trames-wsi-original-icd/libtrames_vulkan_icd.so', '--display', 'x11', '--display-size', '320x240', '--timeout-ms', '50000', '--setenv', 'VK_DRIVER_FILES=/usr/share/vulkan/icd.d/trames.json', '--', '/test/wsi']' timed out after 15 seconds",
+      "status": "failed"
+    }
+  ],
+  "passed": 11,
+  "performance_qualified": false,
+  "physical_gpu_qualified": false,
+  "planned": 13
+}

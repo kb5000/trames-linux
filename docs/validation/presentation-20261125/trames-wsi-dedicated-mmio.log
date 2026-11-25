@@ -1,0 +1,8 @@
+    Finished `release` profile [optimized] target(s) in 0.02s
+     Running tests/vulkan.rs (/home/main.guest/trames-linux-engine/target/release/build/trames-kvm/632d406e24829ef1/out/vulkan-632d406e24829ef1)
+
+running 1 test
+test vulkan_host_buffer_and_kvm_share_original_bytes_without_shadow_transfers ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+

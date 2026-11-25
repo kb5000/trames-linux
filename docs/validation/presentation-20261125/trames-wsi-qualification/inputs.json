@@ -1,0 +1,47 @@
+{
+  "build": {
+    "fingerprint": {
+      "binary_sha256": "cc0919ec81b288cf91b2e4cbccdd4a7de50d7ba5a2166d9aeda80c1f3ad8cfd2",
+      "command": [
+        "cargo",
+        "build",
+        "--workspace",
+        "--release",
+        "--locked"
+      ],
+      "flags": {
+        "CARGO_INCREMENTAL": "0"
+      },
+      "sources": {
+        "product": "b41ef38d36b84f06593ef1555589b8f3366d78528859545ef9b6572b0c8ad632",
+        "runtime": "5c86e6ee09c8b31b09836153d77c1a8bafec7c7cbe77f92c59e94ad4aaccc87b"
+      },
+      "toolchain": "rustc 1.101.0-nightly (4ebd25825 2026-10-15)\nbinary: rustc\ncommit-hash: 4ebd258257737d5b7635c116fa7d281627a7e937\ncommit-date: 2026-10-15\nhost: aarch64-unknown-linux-gnu\nrelease: 1.101.0-nightly\nLLVM version: 23.1.4\n"
+    },
+    "fingerprint_sha256": "1b2fdaf2eb2c9330c69cf2e62fa04d7af712b5fd12e6d2a11f74f99154c2cf38",
+    "schema_version": 1,
+    "sources": {
+      "product": {
+        "commit": "ad5ee7d8ca683006ef5e49cbc590793d469e0ad7",
+        "dirty": false,
+        "inputs_sha256": "b41ef38d36b84f06593ef1555589b8f3366d78528859545ef9b6572b0c8ad632"
+      },
+      "runtime": {
+        "commit": "11f688dbd6a5eb4df0e6736f3cd18a29bce10bdc",
+        "dirty": false,
+        "inputs_sha256": "5c86e6ee09c8b31b09836153d77c1a8bafec7c7cbe77f92c59e94ad4aaccc87b"
+      }
+    }
+  },
+  "controller_sha256": "924794ae3ba41dd12fd2beb8f63bda54979112175b34d4add3e5cd5aab4fcc03",
+  "fixture_sources": {
+    "vulkan-wsi.c": "7e8c416cb074dd51ee23876c2ac1c056f3521c127f334dfbaff27958266826d3",
+    "wayland-target.c": "a40f42431d5658003cfa4c966d378fb51854e53d8c585cd507cc08e10d89c191",
+    "x11-probe.c": "9941f83e901f78eba9c47670f3ea42eeb95ad18a9dfd48a3ec8119bd29ec595d"
+  },
+  "guest_icd_sha256": "f077654fb78adcaf0b2dcd956ee26288757c89d0720628e06114e22f450879e6",
+  "performance_qualified": false,
+  "physical_gpu_qualified": false,
+  "rootfs_sha256": "c964455cc1837c7fa191a957cf680668e971e97706c3ef5c69bb9acb4ccc91c9",
+  "unit_binary_sha256": "b57abbe9655cf1d7ffa1f8573ae37fe435610eae344cd74385df66ff127324a3"
+}

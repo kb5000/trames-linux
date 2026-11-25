@@ -1,0 +1,331 @@
+warning: unused field `repository` in `workspace.package`
+  --> Cargo.toml:32:1
+   |
+32 | repository = "https://github.com/kb5000/trames-runtime"
+   | ^^^^^^^^^^
+   |
+   = note: `cargo::unused_workspace_package_fields` is set to `warn` by default
+help: consider removing the field `workspace.package.repository`
+warning: workspace (manifest) generated 1 warning
+   Compiling parking_lot v0.12.5
+   Compiling wayland-backend v0.3.17 (/home/main.guest/trames-linux-wsi-qualified/runtime/vendor/wayland-backend)
+   Compiling trames-graphics v1.3.0 (/home/main.guest/trames-linux-wsi-qualified/runtime/crates/trames-graphics)
+   Compiling smoltcp v0.12.0 (/home/main.guest/trames-linux-wsi-qualified/runtime/vendor/smoltcp)
+   Compiling trames-net v1.3.0 (/home/main.guest/trames-linux-wsi-qualified/runtime/crates/trames-net)
+   Compiling trames-distro v1.3.0 (/home/main.guest/trames-linux-wsi-qualified/runtime/crates/trames-distro)
+   Compiling trames-shared v1.3.0 (/home/main.guest/trames-linux-wsi-qualified/runtime/crates/trames-shared)
+   Compiling trames-vulkan v1.3.0 (/home/main.guest/trames-linux-wsi-qualified/runtime/crates/trames-vulkan)
+   Compiling ext4-view v1.0.0 (/home/main.guest/trames-linux-wsi-qualified/runtime/vendor/ext4-view)
+   Compiling trames-memory v1.3.0 (/home/main.guest/trames-linux-wsi-qualified/runtime/crates/trames-memory)
+   Compiling trames-bridge v1.3.0 (/home/main.guest/trames-linux-wsi-qualified/runtime/crates/trames-bridge)
+warning: unused variable: `source_hardware_addr`
+  --> vendor/smoltcp/src/iface/interface/ipv4.rs:89:9
+   |
+89 |         source_hardware_addr: HardwareAddress,
+   |         ^^^^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_source_hardware_addr`
+   |
+   = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: variable does not need to be mutable
+   --> vendor/smoltcp/src/iface/interface/ipv4.rs:480:35
+    |
+480 |         tx_token.consume(tx_len, |mut tx_buffer| {
+    |                                   ----^^^^^^^^^
+    |                                   |
+    |                                   help: remove this `mut`
+    |
+    = note: `#[warn(unused_mut)]` (part of `#[warn(unused)]`) on by default
+
+warning: variable does not need to be mutable
+   --> vendor/smoltcp/src/iface/interface/ipv4.rs:457:13
+    |
+457 |         let mut tx_len = ip_len;
+    |             ----^^^^^^
+    |             |
+    |             help: remove this `mut`
+
+warning: unused variable: `source_hardware_addr`
+   --> vendor/smoltcp/src/iface/interface/ipv6.rs:191:9
+    |
+191 |         source_hardware_addr: HardwareAddress,
+    |         ^^^^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_source_hardware_addr`
+
+warning: variable does not need to be mutable
+    --> vendor/smoltcp/src/iface/interface/mod.rs:1448:51
+     |
+1448 |                         tx_token.consume(tx_len, |mut tx_buffer| {
+     |                                                   ----^^^^^^^^^
+     |                                                   |
+     |                                                   help: remove this `mut`
+
+warning: variable does not need to be mutable
+    --> vendor/smoltcp/src/iface/interface/mod.rs:1473:50
+     |
+1473 |                     tx_token.consume(total_len, |mut tx_buffer| {
+     |                                                  ----^^^^^^^^^
+     |                                                  |
+     |                                                  help: remove this `mut`
+
+warning: variable does not need to be mutable
+    --> vendor/smoltcp/src/iface/interface/mod.rs:1487:61
+     |
+1487 |             IpRepr::Ipv6(_) => tx_token.consume(total_len, |mut tx_buffer| {
+     |                                                             ----^^^^^^^^^
+     |                                                             |
+     |                                                             help: remove this `mut`
+
+warning: variable does not need to be mutable
+    --> vendor/smoltcp/src/iface/interface/mod.rs:1320:13
+     |
+1320 |         let mut total_len = ip_repr.buffer_len();
+     |             ----^^^^^^^^^
+     |             |
+     |             help: remove this `mut`
+
+   Compiling wayland-server v0.31.14
+warning: field `hardware_addr` is never read
+   --> vendor/smoltcp/src/iface/interface/mod.rs:224:5
+    |
+210 | pub struct InterfaceInner {
+    |            -------------- field in this struct
+...
+224 |     hardware_addr: HardwareAddress,
+    |     ^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: variants `NoRoute` and `NeighborPending` are never constructed
+    --> vendor/smoltcp/src/iface/interface/mod.rs:1519:5
+     |
+1514 | enum DispatchError {
+     |      ------------- variants in this enum
+...
+1519 |     NoRoute,
+     |     ^^^^^^^
+...
+1523 |     NeighborPending,
+     |     ^^^^^^^^^^^^^^^
+     |
+     = note: `DispatchError` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+
+warning: methods `link_local_ipv6_address` and `mldv2_report_packet` are never used
+   --> vendor/smoltcp/src/iface/interface/ipv6.rs:171:8
+    |
+ 21 | impl InterfaceInner {
+    | ------------------- methods in this implementation
+...
+171 |     fn link_local_ipv6_address(&self) -> Option<Ipv6Address> {
+    |        ^^^^^^^^^^^^^^^^^^^^^^^
+...
+563 |     pub(super) fn mldv2_report_packet<'any>(
+    |                   ^^^^^^^^^^^^^^^^^^^
+
+warning: variant `HopByHopIcmpv6` is never constructed
+   --> vendor/smoltcp/src/iface/packet.rs:263:5
+    |
+255 | pub(crate) enum IpPayload<'p> {
+    |                 --------- variant in this enum
+...
+263 |     HopByHopIcmpv6(Ipv6HopByHopRepr<'p>, Icmpv6Repr<'p>),
+    |     ^^^^^^^^^^^^^^
+    |
+    = note: `IpPayload` has a derived impl for the trait `Debug`, but this is intentionally ignored during dead code analysis
+
+warning: type alias `Rest` is never used
+  --> vendor/smoltcp/src/wire/mod.rs:75:14
+   |
+75 |     pub type Rest = ::core::ops::RangeFrom<usize>;
+   |              ^^^^
+
+warning: constant `CUR_HOP_LIMIT` is never used
+   --> vendor/smoltcp/src/wire/icmpv6.rs:220:15
+    |
+220 |     pub const CUR_HOP_LIMIT: usize = 4;
+    |               ^^^^^^^^^^^^^
+
+warning: constant `ROUTER_FLAGS` is never used
+   --> vendor/smoltcp/src/wire/icmpv6.rs:221:15
+    |
+221 |     pub const ROUTER_FLAGS: usize = 5;
+    |               ^^^^^^^^^^^^
+
+warning: constant `ROUTER_LT` is never used
+   --> vendor/smoltcp/src/wire/icmpv6.rs:222:15
+    |
+222 |     pub const ROUTER_LT: Field = 6..8;
+    |               ^^^^^^^^^
+
+warning: constant `REACHABLE_TM` is never used
+   --> vendor/smoltcp/src/wire/icmpv6.rs:223:15
+    |
+223 |     pub const REACHABLE_TM: Field = 8..12;
+    |               ^^^^^^^^^^^^
+
+warning: constant `NEIGH_FLAGS` is never used
+   --> vendor/smoltcp/src/wire/icmpv6.rs:230:15
+    |
+230 |     pub const NEIGH_FLAGS: usize = 4;
+    |               ^^^^^^^^^^^
+
+warning: methods `solicited_node` and `is_solicited_node_multicast` are never used
+   --> vendor/smoltcp/src/wire/ipv6.rs:121:8
+    |
+ 79 | pub(crate) trait AddressExt {
+    |                  ---------- methods in this trait
+...
+121 |     fn solicited_node(&self) -> Address;
+    |        ^^^^^^^^^^^^^^
+...
+131 |     fn is_solicited_node_multicast(&self) -> bool;
+    |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: method `emit_header` is never used
+   --> vendor/smoltcp/src/wire/udp.rs:264:19
+    |
+221 | impl Repr {
+    | --------- method in this implementation
+...
+264 |     pub(crate) fn emit_header<T>(&self, packet: &mut Packet<&mut T>, payload_len: usize)
+    |                   ^^^^^^^^^^^
+
+warning: hiding a lifetime that's elided elsewhere is confusing
+   --> vendor/smoltcp/src/storage/assembler.rs:330:22
+    |
+330 |     pub fn iter_data(&self, first_offset: usize) -> AssemblerIter {
+    |                      ^^^^^                          ^^^^^^^^^^^^^ the same lifetime is hidden here
+    |                      |
+    |                      the lifetime is elided here
+    |
+    = help: the same lifetime is referred to in inconsistent ways, making the signature confusing
+    = note: `#[warn(mismatched_lifetime_syntaxes)]` on by default
+help: use `'_` for type paths
+    |
+330 |     pub fn iter_data(&self, first_offset: usize) -> AssemblerIter<'_> {
+    |                                                                  ++++
+
+   Compiling wayland-protocols v0.32.13
+warning: `smoltcp` (lib) generated 21 warnings (run `cargo fix --lib -p smoltcp` to apply 9 suggestions)
+   Compiling trames-elf v1.3.0 (/home/main.guest/trames-linux-wsi-qualified/runtime/crates/trames-elf)
+   Compiling trames-wayland v1.3.0 (/home/main.guest/trames-linux-wsi-qualified/runtime/crates/trames-wayland)
+   Compiling trames-vfs v1.3.0 (/home/main.guest/trames-linux-wsi-qualified/runtime/crates/trames-vfs)
+    Finished `release` profile [optimized] target(s) in 25.37s
+     Running unittests src/lib.rs (/home/main.guest/trames-linux-engine/target/release/build/trames-distro/a6a67014c19cf45f/out/trames_distro-a6a67014c19cf45f)
+
+running 40 tests
+test android::tests::arm64_audio_launcher_preserves_original_service_policy_and_other_sections ... ok
+test android::tests::full_init_profile_keeps_storage_writable_and_derives_primary_zygote ... ok
+test android::tests::package_rejects_foreign_init_missing_hal_and_incompatible_contract ... ok
+test android::tests::boot_resets_property_socket_state_but_keeps_data_and_user_overlay ... ok
+test android::tests::cold_media_adapter_uses_original_init_and_no_camera_mode ... ok
+test android_package::tests::hwc_adapter_is_digest_checked_and_requires_matching_hal_selection ... ok
+test bionic::tests::exact_static_patch_is_reversible_and_rejects_mismatch ... ok
+test bionic::tests::rejects_wrong_image_and_abi ... ok
+test environment::tests::defaults_roundtrip_and_errors ... ok
+test android_package::tests::invalid_or_tampered_adapters_fail_before_opening_upstream_images ... ok
+test android_package::tests::plan_only_accepts_pinned_images_and_legacy_does_not_scan_whole_archive ... ok
+test environment::tests::grants_bind_identity_and_mount_authority ... ok
+test environment::tests::guest_requests_never_grant_host_access ... ok
+test environment::tests::embedded_profile_overrides_defaults_without_authority ... ok
+test environment::tests::memory_and_identity ... ok
+test environment::tests::owner_defaults_allow_but_imported_config_cannot_authorize_itself ... ok
+test progress::tests::reports_real_bytes_and_callback_can_stop_the_import ... ok
+test environment::tests::task_capacity_manifest_and_cli_share_the_live_resource_and_reject_unknown_configuration ... ok
+test rootfs::directory_tests::directory_snapshot_imports_sparse_files_as_contiguous_payloads ... ok
+test static_libc::tests::cold_selection_is_idempotent_reversible_and_preserves_unrelated_data ... ok
+test static_libc::tests::unsupported_images_are_not_downgraded_and_changed_loader_restores_owned_code ... ok
+test systemd::tests::imported_machine_identity_is_renewed_consistently ... ok
+test systemd::tests::machine_identity_follows_a_linked_etc_directory ... ok
+test systemd::tests::missing_machine_identity_is_seeded_once_and_existing_identity_is_preserved ... ok
+test android_package::tests::ext4_preserves_hardlinks_symlinks_permissions_ids_and_excludes_mutable_payloads ... ok
+test systemd::tests::original_notify_endpoint_authenticates_init_and_latches_one_shutdown ... ok
+test tests::invalid_musl_does_not_modify_existing_loader_or_user_data ... ok
+test tests::mismatch_leaves_namespace_unchanged ... ok
+test tests::rejects_host_paths_and_traversal ... ok
+test tests::resolver_uses_guest_directory_links_and_preserves_configuration ... ok
+test timezone::tests::invalid_timezone_input_leaves_the_namespace_untouched ... ok
+test timezone::tests::timezone_update_replaces_a_dangling_link_preserves_identity_and_is_idempotent ... ok
+test vulkan::tests::egl_adapter_install_is_atomic_and_keeps_apk_owned_mesa ... ok
+test vulkan::tests::refreshes_old_instance_manifest_without_replacing_identical_library ... ok
+test vulkan::tests::repeated_install_keeps_inodes_updates_bundles_and_preserves_user_files ... ok
+test static_libc::tests::owned_corruption_and_bad_resources_fail_before_replacement ... ok
+test environment::tests::cli_installation_replaces_an_older_script_and_remains_executable ... ok
+test static_libc::tests::provenance_restores_old_derivative_for_recipe_upgrade ... ok
+test vulkan::tests::paired_gallium_can_exceed_the_small_icd_limit_and_keeps_package_files ... ok
+test vulkan::tests::sdk_installers_follow_host_mount_chroot_and_directory_aliases ... ok
+
+test result: ok. 40 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running unittests src/lib.rs (/home/main.guest/trames-linux-engine/target/release/build/trames-vulkan/88d1f8a3123e342c/out/trames_vulkan-88d1f8a3123e342c)
+
+running 68 tests
+test backend::coherent::tests::coherent_tracking_is_charged_and_released_with_the_mapping ... ok
+test backend::coherent::tests::independent_cpu_inputs_and_gpu_outputs_do_not_overwrite_each_other ... ok
+test backend::coherent::tests::readback_keeps_inflight_producers_and_failure_retries_without_pinning_resources ... ok
+test backend::coherent::tests::staged_download_preserves_independent_inputs_and_failed_write_baselines ... ok
+test backend::coherent::tests::hardware_coherent_transfers_use_cpu_bytes_without_revoking_hardware ... ok
+test backend::coherent::tests::binding_ranges_coalesce_aliases_without_joining_unrelated_allocations ... ok
+test backend::coherent::tests::write_only_mapping_keeps_original_checked_download ... ok
+test backend::completion::retirement_unlock_tests::unlock_collects_finished_work_even_if_another_native_caller_consumed_the_completion ... ok
+test backend::compute::tests::core11_keeps_original_individual_feature_nodes ... ok
+test backend::compute::tests::apple_atomic_quirk_preserves_buffer_atomics_and_other_drivers ... ok
+test backend::compute::tests::compute_features_require_native_support_and_enabled_extensions ... ok
+test backend::compute::tests::dynamic_depth_clip_requires_the_executable_base_feature ... ok
+test backend::compute::tests::core12_promotion_merges_aliases_without_duplicate_native_nodes ... ok
+test backend::compute::tests::subgroup_controls_do_not_invent_required_compute_sizes ... ok
+test backend::completion::retirement_tests::final_mm_release_returns_before_two_native_jobs_and_each_completion_releases_its_graph ... ok
+test backend::core_features::tests::selected_features_preserve_legacy_bits_and_require_native_support ... ok
+test backend::feedback::tests::query_result_footprints_do_not_touch_padding_or_overflow ... ok
+test backend::graphics::sync2::tests::hardware_early_sync2_signals_keep_native_fence_authority_and_rejected_batches_do_not_commit ... ignored, requires original native synchronization2
+test backend::graphics::tests::attachment_clears_preserve_subpass_slots_aspects_and_render_area ... ok
+test backend::core_features::tests::feature_dependent_limits_describe_the_executable_profile ... ok
+test backend::graphics::tests::attachment_references_preserve_general_and_read_only_layouts ... ok
+test backend::completion::tests::device_teardown_defers_for_native_compilation_and_uses_the_accepted_target ... ok
+test backend::graphics::tests::blit_format_conversion_and_volume_slice_views_follow_native_rules ... ok
+test backend::graphics::tests::array_and_volume_copy_footprints_include_slice_padding ... ok
+test backend::graphics::render_pass::tests::noncanonical_attachment_order_retains_resolve_depth_samples_and_clears ... ok
+test backend::graphics::tests::compressed_copy_footprints_use_blocks_mip_edges_and_array_strides ... ok
+test backend::graphics::tests::copy_checks_padded_rows_offsets_overflow_and_color_subresources ... ok
+test backend::graphics::tests::copy_footprints_follow_actual_texels_and_depth_aspects ... ok
+test backend::graphics::tests::image_copy_bounds_and_depth_compatibility ... ok
+test backend::graphics::tests::divisor_features_and_instance_footprints ... ok
+test backend::graphics::tests::layered_clear_preserves_the_requested_slice_range ... ok
+test backend::graphics::tests::image_profile_reports_only_supported_formats_usages_and_layouts ... ok
+test backend::graphics::tests::maintenance1_negative_viewports_use_native_bounds ... ok
+test backend::graphics::tests::indirect_arguments_keep_vulkan_zero_and_single_draw_stride_rules ... ok
+test backend::graphics::tests::packed_depth_stencil_aspects_and_exact_copy_footprints ... ok
+test backend::graphics::tests::subresource_ranges_cube_views_and_mip_bounds ... ok
+test backend::graphics::tests::subsampled_plane_transfers_bound_the_real_compatible_extent ... ok
+test backend::shared_memory::tests::generic_padding_owns_whole_granules_without_changing_other_contracts ... ok
+test backend::graphics::tests::self_copies_and_flipped_blits_distinguish_mips_layers_and_volume ... ok
+test backend::graphics::tests::stencil_wire_checks_ops_masks_and_references ... ok
+test backend::tests::host_managed_objects_have_no_context_smoke_test_ceiling ... ok
+test backend::graphics::tests::viewports_may_extend_outside_the_framebuffer ... ok
+test backend::tests::malformed_transport_cannot_read_guest_memory_or_create_driver_objects ... ok
+test backend::tests::specialization_records_keep_offsets_and_reject_overflow_or_duplicate_ids ... ok
+test backend::tests::spirv_debug_names_do_not_change_entrypoints_or_specialization_decorations ... ok
+test backend::tests::native_transfers_cross_pages_keep_cow_and_preflight_permissions ... ok
+test backend::tests::unknown_object_domains_and_uninitialized_driver_never_become_host_handles ... ok
+test backend::tests::wait_stages_support_selected_graphics_but_reject_unknown_extension_bits ... ok
+test backend::tests::descriptor_batch_rejects_foreign_devices_and_non_descriptor_operations ... ok
+test budget::tests::compiler_capacity_is_shared_and_released_without_a_global_work_lock ... ok
+test budget::tests::independent_contexts_share_budget_without_overcommit_or_lifetime_leak ... ok
+test budget::tests::session_quota_scales_without_allocating_and_remains_shared ... ok
+test budget::tests::host_managed_native_accounting_has_no_smoke_test_byte_ceilings ... ok
+test context::tests::device_calls_keep_original_wire_faults_on_worker_views ... ok
+test backend::tests::worker_transfers_use_cpu_pages_and_preflight_before_external_effects ... ok
+test context::tests::nonblocking_lease_and_subscribe_retry_notify_only_after_unlock ... ok
+test backend::tests::live_object_count_follows_last_dependency_and_backend_lifetime ... ok
+test context::tests::an_occupied_context_does_not_serialize_an_independent_context ... ok
+test display::tests::invalid_native_targets_fail_before_objc_access ... ok
+test display::tests::detach_invalidates_generation_but_preserves_in_flight_lease ... ok
+test context::tests::retiring_a_busy_original_context_defers_to_its_lease_unlock_without_a_service_thread ... ok
+test display::tests::linux_detach_retains_native_lease_and_resize_cannot_steal_surface_claim ... ok
+test context::tests::a_complete_graph_moves_between_workers_without_guest_or_rc_aliases_escaping ... ok
+test task::tests::teardown_joins_before_owned_dependency_destruction ... ok
+test task::tests::slow_tasks_do_not_block_the_caller_or_an_unrelated_task ... ok
+test task::tests::completion_or_panic_publishes_result_before_notification ... ok
+test backend::completion::retirement_tests::a_busy_context_defers_driver_callback_cleanup_to_unlock_without_losing_completion ... ok
+test context::tests::host_background_fences_entries_and_foreground_wakes_the_original_waiter ... ok
+
+test result: ok. 67 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.03s
+

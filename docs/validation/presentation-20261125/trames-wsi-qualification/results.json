@@ -1,0 +1,42 @@
+{
+  "cases": [
+    {
+      "id": "native-target-lifetimes",
+      "status": "passed"
+    },
+    {
+      "exit_code": -6,
+      "id": "native-render",
+      "reason": "renderer exited before frame-ready",
+      "status": "failed"
+    },
+    {
+      "id": "kvm-smccc-1",
+      "status": "reference_failed"
+    },
+    {
+      "id": "kvm-smccc-4",
+      "status": "reference_failed"
+    },
+    {
+      "id": "kvm-smccc-4-close",
+      "status": "reference_failed"
+    },
+    {
+      "id": "kvm-mmio-1",
+      "status": "reference_failed"
+    },
+    {
+      "id": "kvm-mmio-4",
+      "status": "reference_failed"
+    },
+    {
+      "id": "kvm-mmio-4-close",
+      "status": "reference_failed"
+    }
+  ],
+  "passed": 1,
+  "performance_qualified": false,
+  "physical_gpu_qualified": false,
+  "planned": 8
+}

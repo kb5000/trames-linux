@@ -125,9 +125,32 @@ See the [implementation, qualification and limits](validation/ip-systemd-docker-
 Docker still reports unsupported swap/IO limits. These are scoped service
 workflows, not full systemd/container/cgroup compatibility or a release.
 
+## Delivered eighth batch: native Vulkan targets and foreground display
+
+- The shared display retains typed Metal/XCB/Wayland targets and their original
+  native owners through detach, resize and surface/swapchain teardown. Vulkan
+  enables the matching native WSI extension. Apple targets retain their existing
+  platform path.
+- Linux adds explicit headless Vulkan/guest SDK options and an X11 foreground
+  window for the shared fixed-display API. Its events use the existing host wait;
+  closing the window cancels the session. No Trames service thread is added.
+- The shared SDK installer follows host mounts, chroots and directory aliases.
+  KVM's compile-time pointer-import capability preserves direct dedicated FD
+  buffers while generic Vulkan allocations use the existing coherent fallback.
+  Additional original instance/device graphs inherit that policy.
+- Real 4 KiB ARM64 nested KVM qualification passes all 13 software WSI/headless
+  cells, including both transports, one/four workers, actual native pixels,
+  repeated swapchains and host-close cancellation. Native Wayland target lifetime
+  is tested separately from the X11 product frontend. Hosted ARM64/AMD64 CI runs
+  the native software references without a KVM or physical GPU claim.
+
+See [presentation architecture](architecture/presentation.md) and
+[qualification and limits](validation/presentation-20261125.md).
+
 ## Next dependency batch: Linux providers
 
-1. Complete Linux Vulkan image imports/exports, presentation, video and PCM hardware validation as detailed
+1. Complete Linux DMA-BUF image imports/exports, guest desktop/input presentation,
+   video and PCM hardware validation as detailed
    below. Keep Apple consumers working and keep headless execution independent
    of device initialization. Probe real hardware before claiming capability.
 2. Expand runtime compatibility, signal/restart, exec, shared mappings, resource
@@ -145,8 +168,9 @@ delivery, alongside the shared-engine work:
 - Replace mandatory Metal texture exposure in shared images and all callers
   with platform-neutral image metadata, native handles, FD ownership, import
   capability, lifetime and synchronization. Preserve existing Apple consumers.
-- Reuse the guest Vulkan API bridge with host libvulkan. GL/GLES/EGL use Mesa
-  Zink. Reuse the shared Wayland compositor with Linux Wayland/X11 presentation.
+- The guest Vulkan bridge now uses host libvulkan for headless and fixed-display
+  presentation. Complete GL/GLES/EGL through Mesa Zink and reuse the shared
+  Wayland compositor for the guest desktop, input and Linux Wayland/X11 frontend.
 - Implement libva/VA-API and selected SoC V4L2 providers with negotiated structured
   VA/bitstream modes and DMA-BUF import. Validate H.264 hardware decode/display;
   validate the selected encode path separately.

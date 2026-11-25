@@ -1,0 +1,1 @@
+native: /home/main.guest/trames-linux-wsi-qualified/tests/fixtures/vulkan-wsi.c:30: main: Assertion `!xcb_connection_has_error(connection)' failed.

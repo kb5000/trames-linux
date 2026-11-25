@@ -1,0 +1,37 @@
+{
+  "product_commit": "273678318b86355978657d04a66deee050a05491",
+  "runtime_commit": "ff906ed3f4caf1d33b3f3f9dd1cf423a6d78d646",
+  "sha256": "377713358ff9536967ecc42f6143bdb6554844c7a14ba57bcbb67c4c914737a0",
+  "artifact": {
+    "reason": "compiler-artifact",
+    "package_id": "path+file:///home/main.guest/trames-linux-wsi-qualified/crates/trames-linux-app#0.1.0",
+    "manifest_path": "/home/main.guest/trames-linux-wsi-qualified/crates/trames-linux-app/Cargo.toml",
+    "target": {
+      "kind": [
+        "bin"
+      ],
+      "crate_types": [
+        "bin"
+      ],
+      "name": "trames",
+      "src_path": "/home/main.guest/trames-linux-wsi-qualified/crates/trames-linux-app/src/main.rs",
+      "edition": "2021",
+      "doc": true,
+      "doctest": false,
+      "test": true
+    },
+    "profile": {
+      "opt_level": "3",
+      "debuginfo": 0,
+      "debug_assertions": false,
+      "overflow_checks": true,
+      "test": true
+    },
+    "features": [],
+    "filenames": [
+      "/home/main.guest/trames-linux-engine/target/release/build/trames-linux-app/376598003b03c655/out/trames-376598003b03c655"
+    ],
+    "executable": "/home/main.guest/trames-linux-engine/target/release/build/trames-linux-app/376598003b03c655/out/trames-376598003b03c655",
+    "fresh": false
+  }
+}

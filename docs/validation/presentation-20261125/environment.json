@@ -1,0 +1,33 @@
+{
+  "kernel": "Linux 7.0.0-43-generic #43~24.04.1-Ubuntu SMP PREEMPT_DYNAMIC Sat Oct 31 07:32:05 UTC 2 aarch64 GNU/Linux",
+  "os_release": "PRETTY_NAME=\"Ubuntu 24.04.5 LTS\"\nNAME=\"Ubuntu\"\nVERSION_ID=\"24.04\"\nVERSION=\"24.04.5 LTS (Noble Numbat)\"\nVERSION_CODENAME=noble\nID=ubuntu\nID_LIKE=debian\nHOME_URL=\"https://www.ubuntu.com/\"\nSUPPORT_URL=\"https://help.ubuntu.com/\"\nBUG_REPORT_URL=\"https://bugs.launchpad.net/ubuntu/\"\nPRIVACY_POLICY_URL=\"https://www.ubuntu.com/legal/terms-and-policies/privacy-policy\"\nUBUNTU_CODENAME=noble\nLOGO=ubuntu-logo\n",
+  "native_driver": {
+    "manifest": "/usr/share/vulkan/icd.d/lvp_icd.json",
+    "manifest_sha256": "70d49f7fd41a7593a4e283543ed4855c139c700e5c1b31792f56e9576ede2398",
+    "library": "/lib/aarch64-linux-gnu/libvulkan_lvp.so",
+    "library_sha256": "25db2b91b70b3a49094f79f688004d770ca9545bfdce1d7b4e10e255d7232ce8"
+  },
+  "guest_icd": {
+    "headers_commit": "cfebfc96b2b0bce93da7d12f2c14cc01793ae25c",
+    "build_command": [
+      "cc",
+      "-O2",
+      "-fPIC",
+      "-fvisibility=hidden",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Wno-misleading-indentation",
+      "-I",
+      "headers/include",
+      "-shared",
+      "-Wl,-z,noexecstack",
+      "icd.c",
+      "calls.S",
+      "-o",
+      "libtrames_vulkan_icd.so"
+    ]
+  },
+  "physical_gpu_qualified": false,
+  "performance_qualified": false
+}

@@ -1,0 +1,98 @@
+{
+  "cases": [
+    {
+      "id": "native-target-lifetimes",
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "frames": 16,
+      "id": "native-render",
+      "pixels_sha256": "e8f77b57402e001c6229330e4e52adb48b0661081838ee00ad5d13b1522c0662",
+      "status": "passed",
+      "user_close": false
+    },
+    {
+      "exit_code": 0,
+      "id": "native-headless",
+      "seconds": 0.016414621990406886,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "headless-smccc-1",
+      "seconds": 0.16813903499860317,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "frames": 16,
+      "id": "kvm-smccc-1",
+      "pixels_sha256": "e8f77b57402e001c6229330e4e52adb48b0661081838ee00ad5d13b1522c0662",
+      "status": "passed",
+      "user_close": false
+    },
+    {
+      "exit_code": 0,
+      "id": "headless-smccc-4",
+      "seconds": 0.16642444000171963,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "frames": 16,
+      "id": "kvm-smccc-4",
+      "pixels_sha256": "e8f77b57402e001c6229330e4e52adb48b0661081838ee00ad5d13b1522c0662",
+      "status": "passed",
+      "user_close": false
+    },
+    {
+      "exit_code": 0,
+      "frames": 16,
+      "id": "kvm-smccc-4-close",
+      "pixels_sha256": "e8f77b57402e001c6229330e4e52adb48b0661081838ee00ad5d13b1522c0662",
+      "status": "passed",
+      "user_close": true
+    },
+    {
+      "exit_code": 0,
+      "id": "headless-mmio-1",
+      "seconds": 0.2178102920006495,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "frames": 16,
+      "id": "kvm-mmio-1",
+      "pixels_sha256": "e8f77b57402e001c6229330e4e52adb48b0661081838ee00ad5d13b1522c0662",
+      "status": "passed",
+      "user_close": false
+    },
+    {
+      "exit_code": 0,
+      "id": "headless-mmio-4",
+      "seconds": 0.16703217700705864,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "frames": 16,
+      "id": "kvm-mmio-4",
+      "pixels_sha256": "e8f77b57402e001c6229330e4e52adb48b0661081838ee00ad5d13b1522c0662",
+      "status": "passed",
+      "user_close": false
+    },
+    {
+      "exit_code": 0,
+      "frames": 16,
+      "id": "kvm-mmio-4-close",
+      "pixels_sha256": "e8f77b57402e001c6229330e4e52adb48b0661081838ee00ad5d13b1522c0662",
+      "status": "passed",
+      "user_close": true
+    }
+  ],
+  "passed": 13,
+  "performance_qualified": false,
+  "physical_gpu_qualified": false,
+  "planned": 13
+}

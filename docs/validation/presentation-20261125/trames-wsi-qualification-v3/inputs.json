@@ -1,0 +1,47 @@
+{
+  "build": {
+    "fingerprint": {
+      "binary_sha256": "cd6d9b6f409bf1bcb8cfdf188ed573b37a47225ffca9e374ae398e08f4799fb8",
+      "command": [
+        "cargo",
+        "build",
+        "--workspace",
+        "--release",
+        "--locked"
+      ],
+      "flags": {
+        "CARGO_INCREMENTAL": "0"
+      },
+      "sources": {
+        "product": "e023158c53b64702fbdb5f40091b8add743d78f4af240ae936420f6b90b70815",
+        "runtime": "2261e7f7b02936427436a729fe9799bc4e965bc0980952dd1ffbfee81c7d4aaa"
+      },
+      "toolchain": "rustc 1.101.0-nightly (4ebd25825 2026-10-15)\nbinary: rustc\ncommit-hash: 4ebd258257737d5b7635c116fa7d281627a7e937\ncommit-date: 2026-10-15\nhost: aarch64-unknown-linux-gnu\nrelease: 1.101.0-nightly\nLLVM version: 23.1.4\n"
+    },
+    "fingerprint_sha256": "1f39deacec1b8fb65bb9ce4edcf22e5226722d40d4014024e14e586a525858ed",
+    "schema_version": 1,
+    "sources": {
+      "product": {
+        "commit": "b5be9304ee09489ea7e34880636bcbe3cd24b638",
+        "dirty": false,
+        "inputs_sha256": "e023158c53b64702fbdb5f40091b8add743d78f4af240ae936420f6b90b70815"
+      },
+      "runtime": {
+        "commit": "0cbc7196f6bdff86686d3a4cb24f7a6755248f59",
+        "dirty": false,
+        "inputs_sha256": "2261e7f7b02936427436a729fe9799bc4e965bc0980952dd1ffbfee81c7d4aaa"
+      }
+    }
+  },
+  "controller_sha256": "54a75b09287e9a69f32162b2864b4d408424a11490d37978c76bd42f547c0be4",
+  "fixture_sources": {
+    "vulkan-wsi.c": "7641a229226c3495ce1a5461ad76b6fc919e3775fe1fc98f2e0fca1721c3615a",
+    "wayland-target.c": "a40f42431d5658003cfa4c966d378fb51854e53d8c585cd507cc08e10d89c191",
+    "x11-probe.c": "9941f83e901f78eba9c47670f3ea42eeb95ad18a9dfd48a3ec8119bd29ec595d"
+  },
+  "guest_icd_sha256": "f077654fb78adcaf0b2dcd956ee26288757c89d0720628e06114e22f450879e6",
+  "performance_qualified": false,
+  "physical_gpu_qualified": false,
+  "rootfs_sha256": "51d2be1bb187067ae9047cfb1b61d849a47c4fb93b93b961b7423c7c1962c8c7",
+  "unit_binary_sha256": "e3a85b0f8b83ddc3a4b671c3b8b3a0b2d455ca33fc8cc9ab2d02bf98c7ed40b5"
+}
