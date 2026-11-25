@@ -19,5 +19,13 @@ trames-distro.workspace = true
 trames-linux-abi.workspace = true
 trames-vfs.workspace = true
 
+[target.'cfg(target_os = "linux")'.dependencies]
+x11rb = { version = "=0.13.2", default-features = false, features = ["dl-libxcb"] }
+
+[dev-dependencies]
+trames-vulkan.workspace = true
+trames-memory.workspace = true
+libloading = "=0.8.9"
+
 [lints]
 workspace = true

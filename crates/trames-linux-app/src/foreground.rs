@@ -16,19 +16,28 @@ struct Output {
     signals: Signals,
     pty: bool,
     window: Option<(u16, u16)>,
+    display: Option<crate::display::HostDisplay>,
 }
 impl GuestOutput for Output {
     fn source_console(&mut self) -> Arc<dyn trames_vfs::ConsoleIo> {
         self.source.clone()
     }
     fn cancellation_requested(&self) -> bool {
-        self.signals.stopping() || self.deadline.is_some_and(|d| Instant::now() >= d)
+        self.signals.stopping()
+            || self.deadline.is_some_and(|d| Instant::now() >= d)
+            || self
+                .display
+                .as_ref()
+                .is_some_and(|display| display.closed())
     }
     fn waits_for_host(&self) -> bool {
         true
     }
     fn host_interest(&mut self, wait: &mut trames_linux_abi::HostWait) -> io::Result<()> {
         wait.watch(&self.signals, false)?;
+        if let Some(display) = &self.display {
+            display.interest(wait)?;
+        }
         if let Some(deadline) = self.deadline {
             wait.until(deadline);
         }
@@ -36,6 +45,9 @@ impl GuestOutput for Output {
     }
     fn poll_host(&mut self, _: &trames_vfs::Vfs) -> io::Result<trames_linux_abi::HostState> {
         self.signals.drain();
+        if let Some(display) = &mut self.display {
+            display.poll()?;
+        }
         Ok(trames_linux_abi::HostState::from_cancelled(
             self.cancellation_requested(),
         ))
@@ -84,6 +96,9 @@ struct HostOptions {
     store: Option<std::path::PathBuf>,
     network: Option<trames_vfs::NetworkMode>,
     trace: bool,
+    display: bool,
+    display_size: Option<(u32, u32)>,
+    vulkan_icd: Option<std::path::PathBuf>,
 }
 fn host_options(args: Vec<String>) -> Result<(Vec<String>, HostOptions), String> {
     let mut out = vec![];
@@ -121,6 +136,46 @@ fn host_options(args: Vec<String>) -> Result<(Vec<String>, HostOptions), String>
             "--trace-syscalls" => host.trace = true,
             "--audio" => host.runtime.audio_output = true,
             "--audio-input" => host.runtime.audio_input = true,
+            "--vulkan" => host.runtime.vulkan_accelerator = true,
+            "--vulkan-icd" => {
+                if host.vulkan_icd.is_some() {
+                    return Err("duplicate --vulkan-icd".into());
+                }
+                host.vulkan_icd = Some(
+                    args.next()
+                        .filter(|path| path != "--")
+                        .ok_or("missing --vulkan-icd library")?
+                        .into(),
+                );
+                host.runtime.vulkan_accelerator = true;
+            }
+            "--display" => {
+                if host.display {
+                    return Err("duplicate --display".into());
+                }
+                if args.next().as_deref() != Some("x11") {
+                    return Err("--display requires x11".into());
+                }
+                host.display = true;
+                host.runtime.vulkan_accelerator = true;
+            }
+            "--display-size" => {
+                if host.display_size.is_some() {
+                    return Err("duplicate --display-size".into());
+                }
+                let value = args.next().ok_or("--display-size requires WIDTHxHEIGHT")?;
+                let (width, height) = value
+                    .split_once('x')
+                    .ok_or("--display-size requires WIDTHxHEIGHT")?;
+                let (width, height): (u32, u32) = (
+                    width.parse().map_err(|_| "invalid display width")?,
+                    height.parse().map_err(|_| "invalid display height")?,
+                );
+                if !(1..=4096).contains(&width) || !(1..=4096).contains(&height) {
+                    return Err("display dimensions must be 1..4096".into());
+                }
+                host.display_size = Some((width, height));
+            }
             "--rootfs" | "--cpus" | "--timeout-ms" | "--setenv" | "--cwd" | "-w" => {
                 out.push(arg);
                 if let Some(value) = args.next() {
@@ -129,6 +184,9 @@ fn host_options(args: Vec<String>) -> Result<(Vec<String>, HostOptions), String>
             }
             _ => out.push(arg),
         }
+    }
+    if host.display_size.is_some() && !host.display {
+        return Err("--display-size requires --display x11".into());
     }
     Ok((out, host))
 }
@@ -244,6 +302,9 @@ pub fn run(args: Vec<String>, shell: bool) -> Result<u8, Box<dyn std::error::Err
     if command.request.tty && !envp.iter().any(|s| s.starts_with("TERM=")) {
         envp.push("TERM=xterm-256color".into());
     }
+    if let Some(path) = host.vulkan_icd {
+        trames_distro::install_vulkan_icd(&mut std::fs::File::open(path)?, &mut vfs)?;
+    }
     let mut runtime = trames_session::Runtime::<trames_kvm::kernel::Cpu>::load_with_options(
         &bytes,
         &argv,
@@ -253,6 +314,16 @@ pub fn run(args: Vec<String>, shell: bool) -> Result<u8, Box<dyn std::error::Err
     )?;
     runtime.cpu_count = command.cpus;
     runtime.linux.trace = host.trace;
+    let display = if host.display {
+        let (width, height) = host.display_size.unwrap_or((1024, 768));
+        Some(crate::display::HostDisplay::open(
+            runtime.vulkan_display.clone(),
+            width,
+            height,
+        )?)
+    } else {
+        None
+    };
     if command.request.tty {
         let mut terminal = trames_session::Terminal::default();
         if let Some((rows, columns)) = window_size() {
@@ -267,11 +338,19 @@ pub fn run(args: Vec<String>, shell: bool) -> Result<u8, Box<dyn std::error::Err
         signals: Signals::install()?,
         pty: command.request.tty,
         window: None,
+        display,
     };
     let _raw = RawTerminal::enter(command.request.tty)?;
     let result = runtime.run(&mut output, u64::MAX);
     if let Some(store) = store_sync {
         store.sync()?;
+    }
+    if output
+        .display
+        .as_ref()
+        .is_some_and(|display| display.closed())
+    {
+        return Ok(0);
     }
     if let Some(signal) = output.signals.take_signal() {
         return Ok((128 + signal) as u8);
@@ -285,6 +364,39 @@ pub fn run(args: Vec<String>, shell: bool) -> Result<u8, Box<dyn std::error::Err
 
 #[cfg(test)]
 mod tests {
+    #[test]
+    fn display_and_gpu_options_preserve_guest_arguments_and_validate_geometry() {
+        let (args, host) = super::host_options(
+            [
+                "--vulkan-icd",
+                "lib api.so",
+                "--display-size",
+                "800x600",
+                "--display",
+                "x11",
+                "--",
+                "app",
+                "--display",
+            ]
+            .map(String::from)
+            .into(),
+        )
+        .unwrap();
+        assert_eq!(args, ["--", "app", "--display"]);
+        assert!(host.runtime.vulkan_accelerator && host.display);
+        assert_eq!(host.display_size, Some((800, 600)));
+        assert_eq!(host.vulkan_icd, Some("lib api.so".into()));
+        for args in [
+            vec!["--display"],
+            vec!["--display", "invalid"],
+            vec!["--display-size", "800x600"],
+            vec!["--display", "x11", "--display-size", "0x600"],
+            vec!["--display", "x11", "--display-size", "800x4097"],
+            vec!["--vulkan-icd", "--"],
+        ] {
+            assert!(super::host_options(args.into_iter().map(String::from).collect()).is_err());
+        }
+    }
     #[test]
     fn store_arguments_require_a_single_value_and_preserve_literal_argv() {
         assert!(super::host_options(vec!["--store".into()]).is_err());

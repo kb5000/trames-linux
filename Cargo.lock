@@ -22,6 +22,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "as-raw-xcb-connection"
+version = "1.0.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "175571dd1d178ced59193a6fc02dde1b972eb0bc56c892cde9beeceac5bf0f6b"
+
+[[package]]
 name = "ash"
 version = "0.38.0+1.3.281"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -952,13 +958,17 @@ dependencies = [
 name = "trames-linux-app"
 version = "0.1.0"
 dependencies = [
+ "libloading",
  "serde_json",
  "trames-cli-common",
  "trames-distro",
  "trames-kvm",
  "trames-linux",
+ "trames-memory",
  "trames-session",
  "trames-vfs",
+ "trames-vulkan",
+ "x11rb",
 ]
 
 [[package]]
@@ -1324,7 +1334,11 @@ version = "0.13.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9993aa5be5a26815fe2c3eacfc1fde061fc1a1f094bf1ad2a18bf9c495dd7414"
 dependencies = [
+ "as-raw-xcb-connection",
  "gethostname",
+ "libc",
+ "libloading",
+ "once_cell",
  "rustix",
  "x11rb-protocol",
 ]

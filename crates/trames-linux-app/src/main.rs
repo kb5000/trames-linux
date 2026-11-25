@@ -3,6 +3,7 @@
 #![recursion_limit = "512"]
 use std::{process::ExitCode, time::Duration};
 use trames_kvm::{Doctor, ProbeOptions};
+mod display;
 mod foreground;
 mod store;
 
@@ -16,7 +17,7 @@ The probe checks KVM execution and host requirements.\n\
   trames exec [--rootfs DIR] [--setenv K=V] [--cwd DIR] [-t] -- ELF [ARG...]\n\
   trames exec --socket PATH [-t] [--setenv K=V] -- COMMAND [ARG...]\n\
   trames session ls|attach --socket PATH [ID|--json|-q]\n\
-Use read-file --store DIR -- /GUEST/PATH to export a stopped store file.\nUse --store DIR --rootfs DIR_OR_ARCHIVE to create a private VFS; use --store DIR to reopen it.\nRun an ELF program or open a shell in an explicit root filesystem. Enable PCM output with --audio and capture with --audio-input. GUI and video remain under development.\n";
+Use read-file --store DIR -- /GUEST/PATH to export a stopped store file.\nUse --store DIR --rootfs DIR_OR_ARCHIVE to create a private VFS; use --store DIR to reopen it.\nRun an ELF program or open a shell in an explicit root filesystem. Enable PCM output with --audio and capture with --audio-input. Use --vulkan for headless GPU APIs, --vulkan-icd FILE to install the guest ICD, or --display x11 [--display-size WIDTHxHEIGHT] for a native fixed Vulkan display. Desktop composition and video remain under development.\n";
 
 fn run() -> Result<u8, Box<dyn std::error::Error>> {
     let (selected, args) =
