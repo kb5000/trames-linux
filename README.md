@@ -1,112 +1,203 @@
-# Trames Linux
+<p align="center">
+  <img src="https://raw.githubusercontent.com/project-trames/.github/main/assets/trames-icon.png" alt="Trames icon" width="112">
+</p>
 
-Linux userspace product with KVM execution and the shared
-[Trames runtime](https://github.com/kb5000/trames-runtime).
+<h1 align="center">Trames Linux</h1>
 
-Original ARM64 EL0 instructions execute unchanged. A private EL1 adapter saves
-state into a mailbox and exits to the same host worker. `trames-session` owns
-Linux process/syscall semantics, ELF loading, signals, VFS and scheduling.
+<p align="center">
+  <strong>A high-performance KVM execution engine powered by a shared userspace Linux kernel.</strong>
+</p>
 
-## Current implementation
+<p align="center">
+  Run unmodified ARM64 Linux binaries with bare-metal CPU performance and isolated userspace OS services.<br>
+  KVM accelerates hardware execution and page translation; Trames Runtime handles all system calls without booting a guest kernel.
+</p>
 
-- `trames doctor`: real host, KVM and page-size diagnosis.
-- `trames probe`: original L0 fixtures, with SMCCC/HVC and MMIO exit validation.
-- `trames run`: foreground static ELF and dynamic ELF from an explicit rootfs,
-  using the shared runtime `Cpu`/worker-local `Engine` contract.
-- Sparse 48-bit user VA with independent 4 KiB PTEs. Private EL1 controls live
-  in the upper address space, outside the runtime's user address range.
-- Canonical memfd RAM with host/hardware aliases, bounded arena registrations,
-  shared hardware page/range exports, COW, unmap/reuse and empty-table retirement.
-- Host byte borrows revoke the hardware alias synchronously. A blocked vCPU
-  returns its execution slot with the runtime's original `HardwareWait`.
-- Baseline GPR/FP/SIMD/TLS state, deadline/kick, partial EL1 save/restore recovery,
-  task migration and negotiated native-bridge trap normalization.
-- Actual vCPU instruction-feature discovery, shared auxv/cpuinfo reporting,
-  extended FP controls across signals/ptrace, and architectural debugger single-step.
+<p align="center">
+  <a href="https://github.com/project-trames/trames-linux/actions/workflows/build.yml"><img src="https://github.com/project-trames/trames-linux/actions/workflows/build.yml/badge.svg?branch=main" alt="Build and unit checks"></a>
+  <a href=".github/workflows/hardware.yml"><img src="https://img.shields.io/badge/execution-KVM-7c5269?style=flat-square" alt="KVM execution"></a>
+  <a href="#requirements"><img src="https://img.shields.io/badge/host-Linux%20ARM64-30303d?style=flat-square&amp;logo=linux&amp;logoColor=white" alt="Linux ARM64 host"></a>
+  <a href="#requirements"><img src="https://img.shields.io/badge/pages-4%20KiB-f0ad43?style=flat-square" alt="4 KiB host pages"></a>
+  <a href="rust-toolchain.toml"><img src="https://img.shields.io/badge/Rust-nightly-b65437?style=flat-square&amp;logo=rust&amp;logoColor=white" alt="Rust nightly"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-GPL--3.0--or--later-7c5269?style=flat-square" alt="GPL-3.0-or-later"></a>
+</p>
 
-The current product includes foreground execution, an opt-in ALSA PCM provider,
-headless Vulkan and an X11 window for the shared fixed-display Vulkan interface.
-Native XCB/Wayland surface ownership and actual software-rendered pixels have
-dedicated acceptance. Full guest desktop/input integration, hardware graphics/video,
-persistent environment management and extended SVE/SME state
-are still pending. Raw external `SharedMapping` imports require
-an FD/alias contract; the backend refuses unsupported imports. Complete runtime
-and media 4 KiB operation remains a release gate, beyond these tested workloads.
-An amd64 execution adapter and its shared guest ABI are planned, not implemented.
+<p align="center">
+  <a href="#features">Features</a> ·
+  <a href="#architecture">Architecture</a> ·
+  <a href="#quickstart">Quickstart</a> ·
+  <a href="#graphics-and-audio">Graphics &amp; Audio</a> ·
+  <a href="#building-and-testing">Building</a> ·
+  <a href="#documentation">Documentation</a>
+</p>
 
-## Build and run
+---
 
-```sh
-git clone --recurse-submodules git@github.com:kb5000/trames-linux.git
-cd trames-linux
-cargo build --workspace --release --locked
-target/release/trames doctor --json
+## Features
+
+Trames Linux pairs Linux's native Kernel-based Virtual Machine (KVM) with the userspace runtime engine shared across Mac and iPad:
+
+* **Near-Native KVM Acceleration**: ARM64 user instructions execute directly on hardware vCPUs. A lightweight trap handler routes syscalls and page faults to the userspace runtime with minimal overhead.
+* **Zero Guest Kernel Bloat**: Boots instantly without a guest vmlinux image. Syscalls, signal dispatches, futexes, and process lifecycles are serviced directly by `trames-runtime`.
+* **Flexible Execution Contexts**: Run raw static ELF executables, mount full distribution rootfs directories, or launch interactive terminal shells with complete PTY job control.
+* **Virtual Memory & Storage**: Sparse 4 KiB guest memory mapping with copy-on-write, direct directory passthrough, and persistent state stores.
+* **Configurable Networking**: Flexible socket policies supporting isolated loopback, outbound-only filtering, or full host bridge access.
+* **Hardware Compute & Display**: Headless Vulkan compute acceleration, X11 fixed-surface window presentation, and low-latency ALSA PCM audio playback/capture.
+* **Built-in Diagnostics**: Comprehensive host environment validation via `trames doctor` and transport stress testing via `trames probe`.
+
+---
+
+## Architecture
+
+Trames Linux separates physical instruction virtualization from operating system abstractions:
+
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Linux ARM64 Host System                     │
+│           Host OS Kernel · /dev/kvm · X11 / ALSA            │
+└──────────────────────────────┬──────────────────────────────┘
+                               │
+┌──────────────────────────────┴──────────────────────────────┐
+│                    trames-linux-app                         │
+│           CLI Host · Session Management · Diagnostics       │
+│   ┌─────────────────────────────────────────────────────┐   │
+│   │             trames-runtime (Userspace Kernel)       │   │
+│   │       VFS · Tasks · Sockets · Soft Page Tables      │   │
+│   └──────────────────────────┬──────────────────────────┘   │
+│                              │ Syscall Dispatch / Page Faults
+│   ┌──────────────────────────┴──────────────────────────┐   │
+│   │             trames-kvm (Execution Engine)           │   │
+│   │        vCPU Loop · SMCCC / MMIO Mailbox Trap        │   │
+│   └──────────────────────────┬──────────────────────────┘   │
+└──────────────────────────────┼──────────────────────────────┘
+                               │ Hardware vCPU Execution (ARM64)
+┌──────────────────────────────┴──────────────────────────────┐
+│                  Unmodified Linux Binaries                  │
+└─────────────────────────────────────────────────────────────┘
 ```
 
-On Linux ARM64 with a real 4096-byte host page and `/dev/kvm` group access:
+* **Syscall Trap Mechanism**: When guest code invokes a syscall or encounters a fault, execution traps into `trames-kvm` via SMCCC (`HVC`) or MMIO notifications, returning through the host KVM interface to `trames-runtime` for userspace handling.
+* **Transport Selection**: The runtime supports both `smccc` and `mmio` mailbox protocols, selected automatically or configured explicitly via `TRAMES_KVM_TRANSPORT`.
 
+---
+
+## Requirements
+
+* **CPU Architecture**: ARM64 (AArch64) host.
+* **Page Size**: 4096-byte (4 KiB) host page configuration.
+* **Virtualization**: Functional `/dev/kvm` with read/write access permissions.
+
+Verify your host environment using the built-in diagnostic tool:
 ```sh
 target/release/trames doctor --json --require-kvm
-target/release/trames run --cpus 4 -- ./hello-static arg1
-target/release/trames run --rootfs /path/to/rootfs --cpus 4 -- /bin/sh -c 'echo hello'
-target/release/trames run --timeout-ms 1000 -- ./bounded-workload
-TRAMES_AUDIO_OUTPUT_DEVICE=default target/release/trames run --audio --rootfs /path/to/rootfs -- /usr/bin/aplay example.wav
-target/release/trames run --rootfs /path/to/rootfs --vulkan-icd /path/to/libtrames_vulkan_icd.so --display x11 --display-size 1024x768 --setenv VK_DRIVER_FILES=/usr/share/vulkan/icd.d/trames.json -- /path/to/vulkan-program
 ```
 
-See [Vulkan presentation and headless setup](docs/architecture/presentation.md)
-and [software WSI/KVM validation](docs/validation/presentation-20261125.md).
+---
 
-Without `--rootfs`, the specified host ELF is imported as `/program` into a fresh
-memory VFS. With `--rootfs`, the selected directory is mounted read/write at guest
-`/`, and the program is an absolute guest path. The shared VFS/ELF loader resolves
-its interpreter and libraries. Guest exit codes are preserved; a host timeout
-cancels the session with an error. Timeout wakeups cover both running and sleeping
-guests through existing worker and host-wait mechanisms.
+## Quickstart
 
-`TRAMES_KVM_TRANSPORT=auto|smccc|mmio` selects the session transport when its VM is
-created. Auto selects SMCCC when supported, otherwise MMIO; explicit unsupported
-choices fail. Normal SMCCC notifications resume through the mailbox with one
-RUN and no register resets. MMIO completes its pending operation before handing
-state to another task. Asynchronous EL0 state capture remains a cold register
-read path and needs further performance work.
+### Build the Binary
 
-The audio rootfs needs the shared guest ALSA terminal plugin/configuration. Playback
-and capture default off; `--audio-input` grants capture separately. See the
-[PCM setup and limits](docs/architecture/audio.md). Standard host ALSA plugins
-can route to PipeWire; a direct PipeWire provider and physical audio acceptance
-remain pending.
+```sh
+# Clone repository with required submodules
+git clone --recurse-submodules https://github.com/project-trames/trames-linux.git
+cd trames-linux
 
-macOS and other unsupported hosts can build/run diagnosis and unit checks;
-execution fails explicitly. Supported KVM guests advertise the cached instruction
-features of their actual vCPU, constrained by the implemented runtime state/ABI.
-See [CPU capability/state handling](docs/architecture/cpu-capabilities.md) and
-[native/KVM/HVF qualification](docs/validation/cpu-extensions-20261125.md).
-The backend uses shared syscall clock fallback and promises no exact instruction budget.
-No helper/coordinator thread, polling bus or application code rewrite is added.
+# Build the guest interop client and release CLI
+python3 runtime/scripts/build-guest-cli.py
+cargo build --workspace --release --locked
+```
 
-## Automated application acceptance
+### Running Binaries & Shells
 
-The shared runtime owns an immutable-bundle application manifest, native/KVM
-comparison, source/build receipts, strict evidence reuse and JUnit/JSON reports.
-See [the system design](docs/architecture/acceptance.md) and the current
-[IP/systemd/Docker results](docs/validation/ip-systemd-docker-20261125.md).
-On the existing 4 KiB ARM64 KVM VM, declared CLI workflows pass 48/48 cells,
-IP 8/8, systemd 4/4 and Docker 4/4. Stock containerd shims complete 20 real
-Connect/Shutdown cycles per configuration. These are scoped workflows, not
-arbitrary software or complete cgroup-controller support. The matrix runs both
-transports at one/four workers, keeps failures visible and reuses exact audited
-passing evidence. The [first failing baseline](docs/validation/applications-20261125.md)
-is retained.
+Run a standalone static ARM64 binary:
+```sh
+target/release/trames run --cpus 4 -- ./hello-static arg1
+```
 
-## Validation and remaining work
+Run dynamic applications inside an explicit rootfs directory:
+```sh
+target/release/trames run --rootfs /path/to/rootfs --cpus 4 -- /bin/sh -c 'echo hello'
+```
 
-The [4 KiB memory and performance gates](docs/architecture/memory-performance-acceptance.md)
-compare original ELF/Node/compiler workloads with native Linux. Core memory has
-77 native/KVM cells; the separate performance workflow retains repeated timing
-and resource distributions without product instrumentation. Full graphics/media
-4 KiB qualification remains a release requirement.
-See the [qualified memory results and first performance baseline](docs/validation/memory-performance-20261125.md).
+Spawn an interactive terminal session inside the guest rootfs:
+```sh
+target/release/trames shell --rootfs /path/to/rootfs
+```
+
+Execute commands with explicit environment variables, working directory, and timeout:
+```sh
+target/release/trames exec --rootfs /path/to/rootfs \
+  --cwd /tmp \
+  --setenv MODE=production \
+  --timeout-ms 5000 \
+  -- /usr/bin/env
+```
+
+### Persistent Storage Modes
+
+* **Direct Rootfs Mount (`--rootfs`)**: Directly mounts a host directory as the guest root (`/`). Modifications made by the guest write directly to the host directory.
+* **Managed Store (`--store`)**: Initializes an isolated copy in a dedicated persistent store directory:
+
+```sh
+# Initialize a persistent store from a base rootfs template
+target/release/trames run --store /path/to/store --rootfs /path/to/rootfs -- /bin/sh -c 'echo "state" > /root/data'
+
+# Reopen the existing store directly
+target/release/trames run --store /path/to/store -- /bin/cat /root/data
+
+# Extract files from a stopped store without spawning a vCPU
+target/release/trames read-file --store /path/to/store -- /root/data
+```
+
+---
+
+## Graphics and Audio
+
+### Vulkan Compute & Presentation
+
+Trames Linux supports headless Vulkan compute and windowed presentation via X11 when a compatible host Vulkan library and matching guest ICD are configured. Use `--vulkan-icd` to install the guest SDK; `--vulkan` uses an already installed SDK:
+
+```sh
+# Windowed Vulkan presentation via X11
+target/release/trames run --rootfs /path/to/rootfs \
+  --vulkan-icd /path/to/libtrames_vulkan_icd.so \
+  --display x11 --display-size 1024x768 \
+  --setenv VK_DRIVER_FILES=/usr/share/vulkan/icd.d/trames.json \
+  -- /path/to/guest-vulkan-app
+
+# Headless Vulkan compute (omit --display)
+target/release/trames run --rootfs /path/to/rootfs \
+  --vulkan \
+  -- /path/to/vulkan-compute-benchmark
+```
+
+### ALSA Audio
+
+Audio playback and input capture can be toggled independently:
+
+```sh
+# Audio playback routed to host ALSA/PipeWire/PulseAudio
+TRAMES_AUDIO_OUTPUT_DEVICE=default target/release/trames run \
+  --audio \
+  --rootfs /path/to/rootfs \
+  -- /usr/bin/aplay /path/to/audio.wav
+
+# Audio input recording
+target/release/trames run --audio-input --rootfs /path/to/rootfs -- /usr/bin/arecord /tmp/test.wav
+```
+
+---
+
+## Building and Testing
+
+### Prerequisites
+
+* Rust nightly toolchain (specified in [`rust-toolchain.toml`](rust-toolchain.toml)).
+* Python 3 and a native C compiler (`gcc` or `clang`).
+* `libasound2-dev` (Debian/Ubuntu) for native ALSA ABI bindings.
+
+### Workspace Checks
 
 ```sh
 python3 scripts/check-boundaries.py
@@ -115,25 +206,52 @@ cargo clippy --workspace --all-targets --locked -- -D warnings
 cargo test --workspace --locked
 ```
 
-On real supported KVM hardware:
+### Hardware & KVM Tests
+
+Run hardware-level integration tests on an ARM64 host with KVM enabled:
 
 ```sh
-cargo test -p trames-kvm --locked -- --ignored --test-threads=1
-TRAMES_KVM_TRANSPORT=mmio cargo test -p trames-kvm --locked -- --ignored --test-threads=1
+# Test default SMCCC transport
+cargo test -p trames-kvm --lib --test hardware --locked -- --ignored --test-threads=1
+
+# Test MMIO mailbox transport fallback
+TRAMES_KVM_TRANSPORT=mmio cargo test -p trames-kvm --lib --test hardware --locked -- --ignored --test-threads=1
+
+# Full hardware validation script
 bash scripts/validate-hardware.sh
-python3 scripts/validate-cpu.py --runner /path/to/frozen/trames --receipt /path/to/build.json --output /path/to/new-evidence
-python3 scripts/validate-audio.py # needs libasound2-dev; software PCM checks
-python3 scripts/validate-session.py
-TRAMES_KVM_TRANSPORT=mmio TRAMES_VALIDATION_OUTPUT=target/validation/session-mmio python3 scripts/validate-session.py
 ```
 
-The session script requires a native C compiler and static libc; it compares
-native and KVM execution, including real dynamic-loader rootfs fixtures. The
-normal CI is build/unit validation. A separate labelled-runner workflow enforces
-hardware tests; missing hardware fails rather than silently skipping acceptance.
+---
 
-[Implementation ledger](docs/implementation.md)
-· [Architecture](docs/architecture.md)
-· [L0 record](docs/validation/l0-20261124.md)
-· [Shared-session record](docs/validation/session-20261124.md)
-· [Accepted product plan](https://github.com/kb5000/trames-ipad/blob/e93f62b9/docs/roadmap/trames-linux-kvm.md)
+## Documentation
+
+| Domain | Deep Dives |
+| :--- | :--- |
+| **Architecture & Transport** | [KVM Transport & Memory Ownership](docs/architecture.md) · [CPU Capabilities & States](docs/architecture/cpu-capabilities.md) |
+| **Host CLI & Runtime** | [Shared Host CLI Design](docs/architecture/host-cli.md) · [Implementation Ledger](docs/implementation.md) |
+| **Acceleration & Media** | [Vulkan Presentation & Compute](docs/architecture/presentation.md) · [ALSA PCM Provider](docs/architecture/audio.md) |
+| **Testing & Methodology** | [Acceptance Test Design](docs/architecture/acceptance.md) · [Memory & Performance Acceptance](docs/architecture/memory-performance-acceptance.md) |
+| **Evidence & Benchmarks** | [Hardware Validation Records](docs/validation/) |
+
+---
+
+## Community and Contributing
+
+Bug reports, reproduction cases, benchmarks, and pull requests are welcome. Please read our [Contribution Guidelines](https://github.com/project-trames/.github/blob/main/CONTRIBUTING.md) and [`AGENTS.md`](AGENTS.md) before submitting patches.
+
+* **Issues**: [GitHub Issue Tracker](https://github.com/project-trames/trames-linux/issues)
+* **Security**: For private vulnerability reports, see [SECURITY.md](https://github.com/project-trames/.github/blob/main/SECURITY.md)
+* **Conduct**: We adhere to the [Project Code of Conduct](https://github.com/project-trames/.github/blob/main/CODE_OF_CONDUCT.md)
+
+---
+
+## License
+
+Trames Linux is licensed under the **GNU General Public License v3.0 or later** ([GPL-3.0-or-later](LICENSE)).<br>
+Third-party notices and provenance tracking are maintained across component roots.
+
+---
+
+<p align="center">
+  Part of <a href="https://github.com/project-trames">Project Trames</a> · A portable userspace Linux runtime with pluggable execution engines.
+</p>

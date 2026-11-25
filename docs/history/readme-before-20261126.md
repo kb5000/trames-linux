@@ -1,0 +1,147 @@
+# Historical Linux README
+
+The previous overview and engineering notes are preserved below. Implementation status refers to its original context. Use the [current README](../../README.md) for features and usage. Relative Markdown links have been adjusted for this location.
+
+Original source: [`66967c19`](https://github.com/project-trames/trames-linux/blob/66967c1977089dceec705fa5a85c8b657eaf9488/README.md).
+
+---
+
+# Trames Linux
+
+Linux userspace product with KVM execution and the shared
+[Trames runtime](https://github.com/kb5000/trames-runtime).
+
+Original ARM64 EL0 instructions execute unchanged. A private EL1 adapter saves
+state into a mailbox and exits to the same host worker. `trames-session` owns
+Linux process/syscall semantics, ELF loading, signals, VFS and scheduling.
+
+## Current implementation
+
+- `trames doctor`: real host, KVM and page-size diagnosis.
+- `trames probe`: original L0 fixtures, with SMCCC/HVC and MMIO exit validation.
+- `trames run`: foreground static ELF and dynamic ELF from an explicit rootfs,
+  using the shared runtime `Cpu`/worker-local `Engine` contract.
+- Sparse 48-bit user VA with independent 4 KiB PTEs. Private EL1 controls live
+  in the upper address space, outside the runtime's user address range.
+- Canonical memfd RAM with host/hardware aliases, bounded arena registrations,
+  shared hardware page/range exports, COW, unmap/reuse and empty-table retirement.
+- Host byte borrows revoke the hardware alias synchronously. A blocked vCPU
+  returns its execution slot with the runtime's original `HardwareWait`.
+- Baseline GPR/FP/SIMD/TLS state, deadline/kick, partial EL1 save/restore recovery,
+  task migration and negotiated native-bridge trap normalization.
+- Actual vCPU instruction-feature discovery, shared auxv/cpuinfo reporting,
+  extended FP controls across signals/ptrace, and architectural debugger single-step.
+
+The current product includes foreground execution, an opt-in ALSA PCM provider,
+headless Vulkan and an X11 window for the shared fixed-display Vulkan interface.
+Native XCB/Wayland surface ownership and actual software-rendered pixels have
+dedicated acceptance. Full guest desktop/input integration, hardware graphics/video,
+persistent environment management and extended SVE/SME state
+are still pending. Raw external `SharedMapping` imports require
+an FD/alias contract; the backend refuses unsupported imports. Complete runtime
+and media 4 KiB operation remains a release gate, beyond these tested workloads.
+An amd64 execution adapter and its shared guest ABI are planned, not implemented.
+
+## Build and run
+
+```sh
+git clone --recurse-submodules git@github.com:kb5000/trames-linux.git
+cd trames-linux
+cargo build --workspace --release --locked
+target/release/trames doctor --json
+```
+
+On Linux ARM64 with a real 4096-byte host page and `/dev/kvm` group access:
+
+```sh
+target/release/trames doctor --json --require-kvm
+target/release/trames run --cpus 4 -- ./hello-static arg1
+target/release/trames run --rootfs /path/to/rootfs --cpus 4 -- /bin/sh -c 'echo hello'
+target/release/trames run --timeout-ms 1000 -- ./bounded-workload
+TRAMES_AUDIO_OUTPUT_DEVICE=default target/release/trames run --audio --rootfs /path/to/rootfs -- /usr/bin/aplay example.wav
+target/release/trames run --rootfs /path/to/rootfs --vulkan-icd /path/to/libtrames_vulkan_icd.so --display x11 --display-size 1024x768 --setenv VK_DRIVER_FILES=/usr/share/vulkan/icd.d/trames.json -- /path/to/vulkan-program
+```
+
+See [Vulkan presentation and headless setup](../../docs/architecture/presentation.md)
+and [software WSI/KVM validation](../../docs/validation/presentation-20261125.md).
+
+Without `--rootfs`, the specified host ELF is imported as `/program` into a fresh
+memory VFS. With `--rootfs`, the selected directory is mounted read/write at guest
+`/`, and the program is an absolute guest path. The shared VFS/ELF loader resolves
+its interpreter and libraries. Guest exit codes are preserved; a host timeout
+cancels the session with an error. Timeout wakeups cover both running and sleeping
+guests through existing worker and host-wait mechanisms.
+
+`TRAMES_KVM_TRANSPORT=auto|smccc|mmio` selects the session transport when its VM is
+created. Auto selects SMCCC when supported, otherwise MMIO; explicit unsupported
+choices fail. Normal SMCCC notifications resume through the mailbox with one
+RUN and no register resets. MMIO completes its pending operation before handing
+state to another task. Asynchronous EL0 state capture remains a cold register
+read path and needs further performance work.
+
+The audio rootfs needs the shared guest ALSA terminal plugin/configuration. Playback
+and capture default off; `--audio-input` grants capture separately. See the
+[PCM setup and limits](../../docs/architecture/audio.md). Standard host ALSA plugins
+can route to PipeWire; a direct PipeWire provider and physical audio acceptance
+remain pending.
+
+macOS and other unsupported hosts can build/run diagnosis and unit checks;
+execution fails explicitly. Supported KVM guests advertise the cached instruction
+features of their actual vCPU, constrained by the implemented runtime state/ABI.
+See [CPU capability/state handling](../../docs/architecture/cpu-capabilities.md) and
+[native/KVM/HVF qualification](../../docs/validation/cpu-extensions-20261125.md).
+The backend uses shared syscall clock fallback and promises no exact instruction budget.
+No helper/coordinator thread, polling bus or application code rewrite is added.
+
+## Automated application acceptance
+
+The shared runtime owns an immutable-bundle application manifest, native/KVM
+comparison, source/build receipts, strict evidence reuse and JUnit/JSON reports.
+See [the system design](../../docs/architecture/acceptance.md) and the current
+[IP/systemd/Docker results](../../docs/validation/ip-systemd-docker-20261125.md).
+On the existing 4 KiB ARM64 KVM VM, declared CLI workflows pass 48/48 cells,
+IP 8/8, systemd 4/4 and Docker 4/4. Stock containerd shims complete 20 real
+Connect/Shutdown cycles per configuration. These are scoped workflows, not
+arbitrary software or complete cgroup-controller support. The matrix runs both
+transports at one/four workers, keeps failures visible and reuses exact audited
+passing evidence. The [first failing baseline](../../docs/validation/applications-20261125.md)
+is retained.
+
+## Validation and remaining work
+
+The [4 KiB memory and performance gates](../../docs/architecture/memory-performance-acceptance.md)
+compare original ELF/Node/compiler workloads with native Linux. Core memory has
+77 native/KVM cells; the separate performance workflow retains repeated timing
+and resource distributions without product instrumentation. Full graphics/media
+4 KiB qualification remains a release requirement.
+See the [qualified memory results and first performance baseline](../../docs/validation/memory-performance-20261125.md).
+
+```sh
+python3 scripts/check-boundaries.py
+cargo fmt --all --check
+cargo clippy --workspace --all-targets --locked -- -D warnings
+cargo test --workspace --locked
+```
+
+On real supported KVM hardware:
+
+```sh
+cargo test -p trames-kvm --locked -- --ignored --test-threads=1
+TRAMES_KVM_TRANSPORT=mmio cargo test -p trames-kvm --locked -- --ignored --test-threads=1
+bash scripts/validate-hardware.sh
+python3 scripts/validate-cpu.py --runner /path/to/frozen/trames --receipt /path/to/build.json --output /path/to/new-evidence
+python3 scripts/validate-audio.py # needs libasound2-dev; software PCM checks
+python3 scripts/validate-session.py
+TRAMES_KVM_TRANSPORT=mmio TRAMES_VALIDATION_OUTPUT=target/validation/session-mmio python3 scripts/validate-session.py
+```
+
+The session script requires a native C compiler and static libc; it compares
+native and KVM execution, including real dynamic-loader rootfs fixtures. The
+normal CI is build/unit validation. A separate labelled-runner workflow enforces
+hardware tests; missing hardware fails rather than silently skipping acceptance.
+
+[Implementation ledger](../../docs/implementation.md)
+· [Architecture](../../docs/architecture.md)
+· [L0 record](../../docs/validation/l0-20261124.md)
+· [Shared-session record](../../docs/validation/session-20261124.md)
+· [Accepted product plan](https://github.com/kb5000/trames-ipad/blob/e93f62b9/docs/roadmap/trames-linux-kvm.md)
