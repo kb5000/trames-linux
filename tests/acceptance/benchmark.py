@@ -21,9 +21,9 @@ sys.path.insert(0, str(ROOT / 'runtime/tests/acceptance'))
 from common import digest, identity, save
 from run import host, receipt
 
-WORK = dict(cpu=10000000, memory=16, getpid=10000, **{'file-4k': 1000},
+WORK = dict(cpu=50000000, memory=128, getpid=10000, **{'file-4k': 1000},
             pipe=1000, **{'unix-socket': 1000}, futex=1000, mmap=256,
-            cow=8, **{'fork-exec': 16}, idle=1000, build=12, node=5000000)
+            cow=8, **{'fork-exec': 16}, idle=1000, build=12, node=20000000)
 
 
 def install(source, root, copied):
@@ -136,20 +136,28 @@ def audit(output):
     expected_ids = inputs['planned_ids']
     if len(rows) != len(expected_ids) or {r['id'] for r in rows} != set(expected_ids):
         raise ValueError('incomplete or duplicate performance evidence')
+    planned = {case['id']: case for case in inputs['planned_cases']}
+    if list(planned) != expected_ids:
+        raise ValueError('invalid planned sample schedule')
     expected = {}; groups = {}; failures = []
     # Calibrations are native, correctness checked, and never used as timings.
     for row in rows:
         folder = output / 'cases' / row['id']
         if row != json.loads((folder / 'result.json').read_text()):
             raise ValueError('sample record differs from its evidence: ' + row['id'])
+        if any(row.get(key) != value for key, value in planned[row['id']].items()):
+            raise ValueError('sample differs from its planned work: ' + row['id'])
         for name, value in row['logs'].items():
             if digest(folder / name) != value:
                 raise ValueError('modified performance evidence: ' + row['id'])
         work = row.get('work')
         passed = row['exit_code'] == 0 and not row['timed_out'] and not (folder / 'stderr').read_bytes()
         if passed:
-            parsed = json.loads((folder / 'stdout').read_text())
-            passed = parsed == work and work['mode'] == row['mode'] and work['concurrency'] == row['workers'] and work['iterations'] == row['iterations'] and work['work_ns'] > 0
+            try:
+                parsed = json.loads((folder / 'stdout').read_text())
+                passed = isinstance(work, dict) and set(work) == {'mode', 'concurrency', 'tasks', 'iterations', 'checksum', 'work_ns'} and parsed == work and work['mode'] == row['mode'] and work['concurrency'] == row['workers'] and work['iterations'] == row['iterations'] and isinstance(work['work_ns'], int) and work['work_ns'] > 0
+            except (ValueError, TypeError, KeyError):
+                passed = False
         key = (row['mode'], row['workers'])
         semantic = {k: v for k, v in (work or {}).items() if k != 'work_ns'}
         if row['phase'] == 'calibration':
@@ -278,7 +286,7 @@ def main():
         compiler_version=subprocess.check_output([command[0], '--version'], text=True), versions=versions,
         fixture_sources={str(s.relative_to(ROOT)): digest(s) for s in [source, ROOT / 'tests/fixtures/performance-node.js']},
         controller_sha256=digest(Path(__file__)), immutable_files=immutable,
-        immutable_files_sha256=identity(immutable), planned_ids=[case['id'] for case in cases],
+        immutable_files_sha256=identity(immutable), planned_ids=[case['id'] for case in cases], planned_cases=cases,
         measurement=dict(wall='pidfd exit notification; includes process/session startup',
             work='original workload monotonic clock; setup/prefault outside timed region',
             cpu='wait4 user/system including descendants reaped by their parents',
