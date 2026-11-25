@@ -1,0 +1,20 @@
+{
+  "artifacts": {
+    "/work/restored/source/value": "92f86a430bca3d71cc27fcedb1a9b67a487e7f1ac1c97aad57df2d40ec9f8b71"
+  },
+  "artifacts_validated": true,
+  "case_inputs": "7f728faf03bb1c70ca201ce4fc3fd2ea9262be620b8273dbf9995d5a825f286b",
+  "domain": "files",
+  "exit_code": 0,
+  "fingerprint": "c4fabc2add86bc9f40fc7d947dc71cac94ac64a6a9a38ab35f3e12525a2ffd24",
+  "id": "archive.roundtrip",
+  "logs": {
+    "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "f852da5cffb5c908daab6809d6656be278c5c9a7940915ede66cb03b9ddaad62"
+  },
+  "reused": true,
+  "reused_from": "/home/main.guest/trames-acceptance-matrix-qualified/native/cases/archive.roundtrip",
+  "seconds": 0.032861298001080286,
+  "status": "passed",
+  "tier": "smoke"
+}

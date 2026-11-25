@@ -1,0 +1,15 @@
+{
+  "case_inputs": "19cc170eef7e56e7b0dab3e5b1e3c78a7ee6ae513f937f6f580f4797cbf022ad",
+  "domain": "files",
+  "exit_code": 2,
+  "fingerprint": "885153320da6977f325240f5049f1f459cefd6f5447c1d9dd1bb30eb92628028",
+  "id": "curl.file-transfer",
+  "logs": {
+    "stderr": "9cc597e5d54f96131a15e8286d59fbd76d72eae262403ee850a38bcec5a54e7e",
+    "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "reused": false,
+  "seconds": 0.7750470629980555,
+  "status": "failed",
+  "tier": "apps"
+}

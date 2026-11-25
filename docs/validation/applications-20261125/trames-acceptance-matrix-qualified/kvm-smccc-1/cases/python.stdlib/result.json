@@ -1,0 +1,15 @@
+{
+  "case_inputs": "e05535ad4d55a20516d91966938b2b6287083d9e03eadea53a8ddcda158f2b9b",
+  "domain": "files",
+  "exit_code": 1,
+  "fingerprint": "7fe9207696c64a69eeb95065a0d26ac09745d3c230f234ef01521d560170f164",
+  "id": "python.stdlib",
+  "logs": {
+    "stderr": "5d5cac7a7eb10a4fff4e989ed7595aef1dae039df69dec51cc68a7d6859dfcb2",
+    "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "reused": false,
+  "seconds": 4.1373253380006645,
+  "status": "failed",
+  "tier": "apps"
+}

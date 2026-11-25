@@ -1,0 +1,19 @@
+{
+  "artifacts": {
+    "/work/result": "e0aa22aeb6f3d203407e17a4c68fdff805b1f91e92fa72fab448d03ad3eb1190"
+  },
+  "artifacts_validated": true,
+  "case_inputs": "37229166e80af05f07ef39af2c0b41320ce9f3428f3147171ff23896e388d17d",
+  "domain": "process",
+  "exit_code": 0,
+  "fingerprint": "238b8dbcd457326183c8c24cf622b08dc631d7c292376858b85ea5e0f2d54174",
+  "id": "build.gcc-make",
+  "logs": {
+    "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "1f8f0346bf017345f7b828c2879536c11953e12c24df82a875534133bc9c777e"
+  },
+  "reused": false,
+  "seconds": 0.03240606899635168,
+  "status": "passed",
+  "tier": "apps"
+}

@@ -1,0 +1,15 @@
+{
+  "case_inputs": "7f728faf03bb1c70ca201ce4fc3fd2ea9262be620b8273dbf9995d5a825f286b",
+  "domain": "files",
+  "exit_code": 2,
+  "fingerprint": "a7e5b93dc19cf08263668aa1afaa21376d43bd92dfa0a8651fc29c0b69c35304",
+  "id": "archive.roundtrip",
+  "logs": {
+    "stderr": "2e52ba047a6433f0d671eb39836603e6afed874cd136182e2b5f7fedb641205d",
+    "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "reused": false,
+  "seconds": 0.3203412830043817,
+  "status": "failed",
+  "tier": "smoke"
+}

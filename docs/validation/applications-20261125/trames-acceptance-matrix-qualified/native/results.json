@@ -1,0 +1,239 @@
+{
+  "cases": [
+    {
+      "artifacts": {
+        "/work/sorted": "9ff482bbad59dc6d2dda31549c8431f4cfd280a2e6b52f4b0f761b5961593322"
+      },
+      "artifacts_validated": true,
+      "case_inputs": "1bc93f25f16e350f29da105e501a500b47ed9f1f5c6522370ef088650d4a61f7",
+      "domain": "process",
+      "exit_code": 0,
+      "fingerprint": "bd5870f3ae9019c2802aae80e2b18103be95b1860ad67e2edf734cff91046482",
+      "id": "shell.pipeline",
+      "logs": {
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "67474b3b20cb307dc79f8467244c0523d54c6ee58c76aa0236ff807feb1ee904"
+      },
+      "reused": false,
+      "seconds": 0.03305885499867145,
+      "status": "passed",
+      "tier": "smoke"
+    },
+    {
+      "artifacts": {
+        "/work/data/moved": "d4e4877bac978b7952f0d544fc52ebff5411d351d129f1f056fa43f11da9af2b"
+      },
+      "artifacts_validated": true,
+      "case_inputs": "981acdcc16977e11cd1f749c35fa7591d2996bd015be1b2769bc33e040123936",
+      "domain": "files",
+      "exit_code": 0,
+      "fingerprint": "08a803782eb798517777e3bfd62692bc1ef367e548440cfede0b726df71884e1",
+      "id": "coreutils.files",
+      "logs": {
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "e61e4fff76b9672b00058b4adaa180f012b415f56c18c6cf537450537de5bc50"
+      },
+      "reused": false,
+      "seconds": 0.03240861299855169,
+      "status": "passed",
+      "tier": "smoke"
+    },
+    {
+      "artifacts": {},
+      "artifacts_validated": true,
+      "case_inputs": "389b5cd0c916aae159756b5b0cf331b707eeb33ec84aa5e9ab701ea9053292e9",
+      "domain": "files",
+      "exit_code": 0,
+      "fingerprint": "f76411ae5cc310935c798e373e909985d026a0f40f25a075396a27fcf90586b6",
+      "id": "text.filters",
+      "logs": {
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "a780813a42edf15e8dbded28cb244ebd09efc8316dded9ee017617b60e923182"
+      },
+      "reused": false,
+      "seconds": 0.03279109499999322,
+      "status": "passed",
+      "tier": "smoke"
+    },
+    {
+      "artifacts": {
+        "/work/restored/source/value": "92f86a430bca3d71cc27fcedb1a9b67a487e7f1ac1c97aad57df2d40ec9f8b71"
+      },
+      "artifacts_validated": true,
+      "case_inputs": "7f728faf03bb1c70ca201ce4fc3fd2ea9262be620b8273dbf9995d5a825f286b",
+      "domain": "files",
+      "exit_code": 0,
+      "fingerprint": "c4fabc2add86bc9f40fc7d947dc71cac94ac64a6a9a38ab35f3e12525a2ffd24",
+      "id": "archive.roundtrip",
+      "logs": {
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "f852da5cffb5c908daab6809d6656be278c5c9a7940915ede66cb03b9ddaad62"
+      },
+      "reused": false,
+      "seconds": 0.032861298001080286,
+      "status": "passed",
+      "tier": "smoke"
+    },
+    {
+      "artifacts": {
+        "/work/decoded": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+      },
+      "artifacts_validated": true,
+      "case_inputs": "71b1cd39886cfce786acf46f26b75b925f5a4be0400af2edfd4c3a9e99322d39",
+      "domain": "memory",
+      "exit_code": 0,
+      "fingerprint": "246be199fef15339f5daaa1990c62d60ec44f07fd4946979fcd07fa513a82fcd",
+      "id": "hash.base64",
+      "logs": {
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "64aaf0934b3fd480f0e4245c7190bfbd5a32c1cdbdbe35f5536167ffd462de1e"
+      },
+      "reused": false,
+      "seconds": 0.01652767700579716,
+      "status": "passed",
+      "tier": "smoke"
+    },
+    {
+      "artifacts": {
+        "/work/data.json": "f85ee2859e7757b5bcf33d720ead3c508e04e0d997845cfab9bf5aebe6569086"
+      },
+      "artifacts_validated": true,
+      "case_inputs": "e05535ad4d55a20516d91966938b2b6287083d9e03eadea53a8ddcda158f2b9b",
+      "domain": "files",
+      "exit_code": 0,
+      "fingerprint": "5778362d85d1f1efc12d52dfb5948da02d2f40acb44cde7039a2cae9df89d720",
+      "id": "python.stdlib",
+      "logs": {
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "2895e016028fe1769b69bce6bdfd3760000cfdf657387ba409d6c6b8df4c7d68"
+      },
+      "reused": false,
+      "seconds": 0.11495494900009362,
+      "status": "passed",
+      "tier": "apps"
+    },
+    {
+      "artifacts": {},
+      "artifacts_validated": true,
+      "case_inputs": "b5db56c2d8673b23e97a9a9627ed28bc1b20b128d0774cbfdc1038ac16bba541",
+      "domain": "process",
+      "exit_code": 0,
+      "fingerprint": "3dec3fc0290958a977824894762b5b3ec92e7a6046bf08786571b97c6f26e04d",
+      "id": "python.process-threads",
+      "logs": {
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "7e599e86e1b71e9f48bcf403996dc83d5db97401ac1e6bcdd14993ddb99a592a"
+      },
+      "reused": false,
+      "seconds": 0.11487320000014734,
+      "status": "passed",
+      "tier": "apps"
+    },
+    {
+      "artifacts": {
+        "/work/clone/file": "01f1fdca12371e5ee7f4dbe02b17618a7e099ff5fbfc471c4c07b9d796b78287"
+      },
+      "artifacts_validated": true,
+      "case_inputs": "9a1c05e299ce60623fb96b515db995b77fe602bdfa13c6820894f5451cb71ff4",
+      "domain": "process",
+      "exit_code": 0,
+      "fingerprint": "27a72ebfceb2e291ac72e6c0851c95a7a846db8b460fdcb701163106daabeea6",
+      "id": "git.local-workflow",
+      "logs": {
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "6feb9a8630822bdf83e13cd8ea8708f828c959b69114529fbca04b753b2be612"
+      },
+      "reused": false,
+      "seconds": 0.06487821400514804,
+      "status": "passed",
+      "tier": "apps"
+    },
+    {
+      "artifacts": {
+        "/work/downloaded": "902ef0eee54c20542b2c85a215382b764ee2213b1ee5ff40a7919ca1f1ab2f7b"
+      },
+      "artifacts_validated": true,
+      "case_inputs": "19cc170eef7e56e7b0dab3e5b1e3c78a7ee6ae513f937f6f580f4797cbf022ad",
+      "domain": "files",
+      "exit_code": 0,
+      "fingerprint": "4f4e30435d376aa405a788d49009fbd1be360f8f2f5b3bb4c24640fbcca95de8",
+      "id": "curl.file-transfer",
+      "logs": {
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "610e4fdf9479a56427a545a483d1056e6cc44fed3c1412a3750faebfc96a6b41"
+      },
+      "reused": false,
+      "seconds": 0.03253480100102024,
+      "status": "passed",
+      "tier": "apps"
+    },
+    {
+      "artifacts": {},
+      "artifacts_validated": true,
+      "case_inputs": "6067b7c0978a1078574eaeec7e449e1e5e7c4d45609c5e902bdf65d4fa5dc4d9",
+      "domain": "random",
+      "exit_code": 0,
+      "fingerprint": "dcc75ef37109128ecc510734f12651457af798a589588d8d9b9e491cf11d4566",
+      "id": "ssh.key-roundtrip",
+      "logs": {
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "cd156d550d794a8eec93e91f543399f942a2fe8c9472c1bf3003777c4d64ffa7"
+      },
+      "reused": false,
+      "seconds": 0.03234258000156842,
+      "status": "passed",
+      "tier": "apps"
+    },
+    {
+      "artifacts": {
+        "/work/node.txt": "530ee462f1e31835a7bff9f902293bef79bb767a83a19e88abe804396af0a503"
+      },
+      "artifacts_validated": true,
+      "case_inputs": "f77ccb692abf79326b858e234ab0c7f4e53a02f844487440fc3965e6a57a23c6",
+      "domain": "process",
+      "exit_code": 0,
+      "fingerprint": "7a060dff3100504634baafb265b32e038e8c29b5db47c199566696c8beff784d",
+      "id": "node.workers",
+      "logs": {
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "b55a8f04055720422e824dac3d701614c166e734040fdf7bcca9946c9af887b1"
+      },
+      "reused": false,
+      "seconds": 0.16563956999743823,
+      "status": "passed",
+      "tier": "apps"
+    },
+    {
+      "artifacts": {
+        "/work/result": "e0aa22aeb6f3d203407e17a4c68fdff805b1f91e92fa72fab448d03ad3eb1190"
+      },
+      "artifacts_validated": true,
+      "case_inputs": "37229166e80af05f07ef39af2c0b41320ce9f3428f3147171ff23896e388d17d",
+      "domain": "process",
+      "exit_code": 0,
+      "fingerprint": "238b8dbcd457326183c8c24cf622b08dc631d7c292376858b85ea5e0f2d54174",
+      "id": "build.gcc-make",
+      "logs": {
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "1f8f0346bf017345f7b828c2879536c11953e12c24df82a875534133bc9c777e"
+      },
+      "reused": false,
+      "seconds": 0.03240606899635168,
+      "status": "passed",
+      "tier": "apps"
+    }
+  ],
+  "completed": 12,
+  "counts": {
+    "blocked": 0,
+    "failed": 0,
+    "infrastructure_error": 0,
+    "not_run": 0,
+    "passed": 12,
+    "reference_failed": 0,
+    "timed_out": 0
+  },
+  "planned": 12,
+  "reused": 0,
+  "schema_version": 1
+}

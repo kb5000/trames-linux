@@ -73,6 +73,16 @@ execution fails explicitly. The baseline guest profile advertises only FP/ASIMD,
 uses shared syscall clock fallback, and promises no exact instruction budget.
 No helper/coordinator thread, polling bus or application code rewrite is added.
 
+## Automated application acceptance
+
+The shared runtime owns an immutable-bundle application manifest, native/KVM
+comparison, source/build receipts, strict evidence reuse and JUnit/JSON reports.
+See [the system design](docs/architecture/acceptance.md) and
+[first real application results](docs/validation/applications-20261125.md).
+The initial software matrix is failing; working shell entry and build CI do not
+mean general CLI compatibility. `scripts/validate-applications.py` runs all cases
+on both transports at one/four workers and keeps failures visible.
+
 ## Validation and remaining work
 
 ```sh

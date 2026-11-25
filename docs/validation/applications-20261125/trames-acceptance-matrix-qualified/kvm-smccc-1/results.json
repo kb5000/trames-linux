@@ -1,0 +1,199 @@
+{
+  "cases": [
+    {
+      "case_inputs": "1bc93f25f16e350f29da105e501a500b47ed9f1f5c6522370ef088650d4a61f7",
+      "domain": "process",
+      "exit_code": 2,
+      "fingerprint": "4638923d7d95c241e0f03c72255a54c6d75be2f71ba6fd1c85cce44ab7b13efb",
+      "id": "shell.pipeline",
+      "logs": {
+        "stderr": "8c05fff5ec1ea1df09ed4e182098ca9ff99d0abe844277dfc0a2e3e533dce38b",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "reused": false,
+      "seconds": 0.5678812409969396,
+      "status": "failed",
+      "tier": "smoke"
+    },
+    {
+      "case_inputs": "981acdcc16977e11cd1f749c35fa7591d2996bd015be1b2769bc33e040123936",
+      "domain": "files",
+      "exit_code": 2,
+      "fingerprint": "819ca330ad24e8e0b2e38ce7bc1d19f7408888ad0393d413e7f53ec66e704b02",
+      "id": "coreutils.files",
+      "logs": {
+        "stderr": "dc125ab007ddc8680d6cd0bf4445c18955f9f2f41eb1cb84979e76218c6dc337",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "reused": false,
+      "seconds": 0.517674132999673,
+      "status": "failed",
+      "tier": "smoke"
+    },
+    {
+      "case_inputs": "389b5cd0c916aae159756b5b0cf331b707eeb33ec84aa5e9ab701ea9053292e9",
+      "domain": "files",
+      "exit_code": 4,
+      "fingerprint": "58d4b7055e4b8e96b6352fa0ab5ef538ca5f0134b553289b75d57177f1fa274c",
+      "id": "text.filters",
+      "logs": {
+        "stderr": "3d6f58fae4a966636bdd7ced8dc9aacb2691d98695f478dfd8257fd7481b32ea",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "reused": false,
+      "seconds": 0.21554390799428802,
+      "status": "failed",
+      "tier": "smoke"
+    },
+    {
+      "case_inputs": "7f728faf03bb1c70ca201ce4fc3fd2ea9262be620b8273dbf9995d5a825f286b",
+      "domain": "files",
+      "exit_code": 2,
+      "fingerprint": "194b22bfc47ea01c832dea98e01116b2492b5853a78ffb4b0d09c04f1b68b13a",
+      "id": "archive.roundtrip",
+      "logs": {
+        "stderr": "2e52ba047a6433f0d671eb39836603e6afed874cd136182e2b5f7fedb641205d",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "reused": false,
+      "seconds": 0.26565064099850133,
+      "status": "failed",
+      "tier": "smoke"
+    },
+    {
+      "case_inputs": "71b1cd39886cfce786acf46f26b75b925f5a4be0400af2edfd4c3a9e99322d39",
+      "domain": "memory",
+      "exit_code": 1,
+      "fingerprint": "3bae3b93a50e82cc904a2ea66788cfb2cf1aa54e03576fc2ed1152a4f908c540",
+      "id": "hash.base64",
+      "logs": {
+        "stderr": "28ce50e50510fec1349086acd71bf4a48cce292850c4ae61c76192bdc9fa9647",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "reused": false,
+      "seconds": 0.1655032869966817,
+      "status": "failed",
+      "tier": "smoke"
+    },
+    {
+      "case_inputs": "e05535ad4d55a20516d91966938b2b6287083d9e03eadea53a8ddcda158f2b9b",
+      "domain": "files",
+      "exit_code": 1,
+      "fingerprint": "7fe9207696c64a69eeb95065a0d26ac09745d3c230f234ef01521d560170f164",
+      "id": "python.stdlib",
+      "logs": {
+        "stderr": "5d5cac7a7eb10a4fff4e989ed7595aef1dae039df69dec51cc68a7d6859dfcb2",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "reused": false,
+      "seconds": 4.1373253380006645,
+      "status": "failed",
+      "tier": "apps"
+    },
+    {
+      "artifacts": {},
+      "artifacts_validated": true,
+      "case_inputs": "b5db56c2d8673b23e97a9a9627ed28bc1b20b128d0774cbfdc1038ac16bba541",
+      "domain": "process",
+      "exit_code": 0,
+      "fingerprint": "5815c9dc3b39635f059631ed0cb630542a6cba0d87940d69a25dcc724d1de5f5",
+      "id": "python.process-threads",
+      "logs": {
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "7e599e86e1b71e9f48bcf403996dc83d5db97401ac1e6bcdd14993ddb99a592a"
+      },
+      "reused": false,
+      "seconds": 13.737991041998612,
+      "status": "passed",
+      "tier": "apps"
+    },
+    {
+      "case_inputs": "9a1c05e299ce60623fb96b515db995b77fe602bdfa13c6820894f5451cb71ff4",
+      "domain": "process",
+      "exit_code": 128,
+      "fingerprint": "29647f758367bbdbff91c3b44f2aa8d4a795cc4147963bd7561e2bb5247a360a",
+      "id": "git.local-workflow",
+      "logs": {
+        "stderr": "49bed6b2559b909645abb22f0d7a283f102d09d3d69c140854e68438b05ded7f",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "reused": false,
+      "seconds": 0.9707380309992004,
+      "status": "failed",
+      "tier": "apps"
+    },
+    {
+      "case_inputs": "19cc170eef7e56e7b0dab3e5b1e3c78a7ee6ae513f937f6f580f4797cbf022ad",
+      "domain": "files",
+      "exit_code": 2,
+      "fingerprint": "0db66d80b3765104c507cc1059fbf599796d0265421d7015f1b8dc2df4105d91",
+      "id": "curl.file-transfer",
+      "logs": {
+        "stderr": "9cc597e5d54f96131a15e8286d59fbd76d72eae262403ee850a38bcec5a54e7e",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "reused": false,
+      "seconds": 0.6680663319930318,
+      "status": "failed",
+      "tier": "apps"
+    },
+    {
+      "case_inputs": "6067b7c0978a1078574eaeec7e449e1e5e7c4d45609c5e902bdf65d4fa5dc4d9",
+      "domain": "random",
+      "exit_code": 255,
+      "fingerprint": "6d9d58d91725ebd3822a7873f5503ed08a8349f41299e31a616f3228fc8032ef",
+      "id": "ssh.key-roundtrip",
+      "logs": {
+        "stderr": "8c5db18b579d19e74367a1291ceb142ea2031f2628d0651a87de2b2ff51fc0ee",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "reused": false,
+      "seconds": 0.46736148800118826,
+      "status": "failed",
+      "tier": "apps"
+    },
+    {
+      "case_inputs": "f77ccb692abf79326b858e234ab0c7f4e53a02f844487440fc3965e6a57a23c6",
+      "domain": "process",
+      "exit_code": 132,
+      "fingerprint": "4d34ab21694cace262c444f13ecc575751394d43a81ee761fb40f638c5710a1c",
+      "id": "node.workers",
+      "logs": {
+        "stderr": "ebcf4d0ac7fb56f87c669814fcd8762ba3f597bcc238f4143f54cefd78c84796",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "reused": false,
+      "seconds": 1.323089207005978,
+      "status": "failed",
+      "tier": "apps"
+    },
+    {
+      "case_inputs": "37229166e80af05f07ef39af2c0b41320ce9f3428f3147171ff23896e388d17d",
+      "domain": "process",
+      "exit_code": 2,
+      "fingerprint": "a451c6a146331a1fd99998f34de4966a9b45580e02a677ef14efd21c0f9459e7",
+      "id": "build.gcc-make",
+      "logs": {
+        "stderr": "3a5b290b7ee6418494f02090d625260296f95e99830970c2f81d9969ace7170e",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "reused": false,
+      "seconds": 0.16535398099949816,
+      "status": "failed",
+      "tier": "apps"
+    }
+  ],
+  "completed": 12,
+  "counts": {
+    "blocked": 0,
+    "failed": 11,
+    "infrastructure_error": 0,
+    "not_run": 0,
+    "passed": 1,
+    "reference_failed": 0,
+    "timed_out": 0
+  },
+  "planned": 12,
+  "reused": 0,
+  "schema_version": 1
+}

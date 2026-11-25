@@ -1,0 +1,19 @@
+{
+  "artifacts": {
+    "/work/node.txt": "530ee462f1e31835a7bff9f902293bef79bb767a83a19e88abe804396af0a503"
+  },
+  "artifacts_validated": true,
+  "case_inputs": "f77ccb692abf79326b858e234ab0c7f4e53a02f844487440fc3965e6a57a23c6",
+  "domain": "process",
+  "exit_code": 0,
+  "fingerprint": "7a060dff3100504634baafb265b32e038e8c29b5db47c199566696c8beff784d",
+  "id": "node.workers",
+  "logs": {
+    "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "b55a8f04055720422e824dac3d701614c166e734040fdf7bcca9946c9af887b1"
+  },
+  "reused": false,
+  "seconds": 0.16563956999743823,
+  "status": "passed",
+  "tier": "apps"
+}

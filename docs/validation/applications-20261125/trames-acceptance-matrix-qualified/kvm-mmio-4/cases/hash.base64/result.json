@@ -1,0 +1,15 @@
+{
+  "case_inputs": "71b1cd39886cfce786acf46f26b75b925f5a4be0400af2edfd4c3a9e99322d39",
+  "domain": "memory",
+  "exit_code": 1,
+  "fingerprint": "928204bc04fdc21e72db1816433e2186c3d9ac8e84dc8ec6efec121f9038b482",
+  "id": "hash.base64",
+  "logs": {
+    "stderr": "28ce50e50510fec1349086acd71bf4a48cce292850c4ae61c76192bdc9fa9647",
+    "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "reused": false,
+  "seconds": 0.21867455499887,
+  "status": "failed",
+  "tier": "smoke"
+}

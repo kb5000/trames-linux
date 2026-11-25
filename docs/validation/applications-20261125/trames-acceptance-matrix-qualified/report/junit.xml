@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='utf-8'?>
+<testsuites><testsuite name="native" tests="12" failures="0"><testcase name="archive.roundtrip" classname="native" time="0.032861298001080286" /><testcase name="build.gcc-make" classname="native" time="0.03240606899635168" /><testcase name="coreutils.files" classname="native" time="0.03240861299855169" /><testcase name="curl.file-transfer" classname="native" time="0.03253480100102024" /><testcase name="git.local-workflow" classname="native" time="0.06487821400514804" /><testcase name="hash.base64" classname="native" time="0.01652767700579716" /><testcase name="node.workers" classname="native" time="0.16563956999743823" /><testcase name="python.process-threads" classname="native" time="0.11487320000014734" /><testcase name="python.stdlib" classname="native" time="0.11495494900009362" /><testcase name="shell.pipeline" classname="native" time="0.03305885499867145" /><testcase name="ssh.key-roundtrip" classname="native" time="0.03234258000156842" /><testcase name="text.filters" classname="native" time="0.03279109499999322" /></testsuite><testsuite name="kvm-smccc-1" tests="12" failures="11"><testcase name="archive.roundtrip" classname="kvm-smccc-1" time="0.26565064099850133"><failure type="failed" message="failed">
+tar: source/value: Read error at byte 0, while reading 16 bytes: Input/output error
+tar: Exiting with failure status due to previous errors
+</failure></testcase><testcase name="build.gcc-make" classname="kvm-smccc-1" time="0.16535398099949816"><failure type="failed" message="failed">
+make: *** Makefile: Input/output error.  Stop.
+</failure></testcase><testcase name="coreutils.files" classname="kvm-smccc-1" time="0.517674132999673"><failure type="failed" message="failed">
+cmp: data/link: Input/output error
+</failure></testcase><testcase name="curl.file-transfer" classname="kvm-smccc-1" time="0.6680663319930318"><failure type="failed" message="failed">
+cmp: downloaded: Input/output error
+</failure></testcase><testcase name="git.local-workflow" classname="kvm-smccc-1" time="0.9707380309992004"><failure type="failed" message="failed">
+fatal: cannot use .git/info/exclude as an exclude file
+</failure></testcase><testcase name="hash.base64" classname="kvm-smccc-1" time="0.1655032869966817"><failure type="failed" message="failed">
+base64: read error: Input/output error
+</failure></testcase><testcase name="node.workers" classname="kvm-smccc-1" time="1.323089207005978"><failure type="failed" message="failed">
+Illegal instruction
+</failure></testcase><testcase name="python.process-threads" classname="kvm-smccc-1" time="13.737991041998612" /><testcase name="python.stdlib" classname="kvm-smccc-1" time="4.1373253380006645"><failure type="failed" message="failed">
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 3, in &lt;module&gt;
+  File "/usr/lib/python3.12/pathlib.py", line 1030, in read_text
+    return f.read()
+           ^^^^^^^^
+OSError: [Errno 5] Input/output error
+</failure></testcase><testcase name="shell.pipeline" classname="kvm-smccc-1" time="0.5678812409969396"><failure type="failed" message="failed">
+cmp: sorted: Input/output error
+</failure></testcase><testcase name="ssh.key-roundtrip" classname="kvm-smccc-1" time="0.46736148800118826"><failure type="failed" message="failed">
+Load key "key": Input/output error
+</failure></testcase><testcase name="text.filters" classname="kvm-smccc-1" time="0.21554390799428802"><failure type="failed" message="failed">
+sed: read error on selected: Input/output error
+</failure></testcase></testsuite><testsuite name="kvm-smccc-4" tests="12" failures="10"><testcase name="archive.roundtrip" classname="kvm-smccc-4" time="0.2656963509944035"><failure type="failed" message="failed">
+tar: source/value: Read error at byte 0, while reading 16 bytes: Input/output error
+tar: Exiting with failure status due to previous errors
+</failure></testcase><testcase name="build.gcc-make" classname="kvm-smccc-4" time="0.16553408700565342"><failure type="failed" message="failed">
+make: *** Makefile: Input/output error.  Stop.
+</failure></testcase><testcase name="coreutils.files" classname="kvm-smccc-4" time="0.5178365120009403"><failure type="failed" message="failed">
+cmp: data/link: Input/output error
+</failure></testcase><testcase name="curl.file-transfer" classname="kvm-smccc-4" time="0.7234878329982166" /><testcase name="git.local-workflow" classname="kvm-smccc-4" time="30.0988610600034"><failure type="failed" message="failed">
+trames: session cancelled by its host
+</failure></testcase><testcase name="hash.base64" classname="kvm-smccc-4" time="0.21622179399855668"><failure type="failed" message="failed">
+base64: read error: Input/output error
+</failure></testcase><testcase name="node.workers" classname="kvm-smccc-4" time="1.379536028005532"><failure type="failed" message="failed">
+Illegal instruction
+</failure></testcase><testcase name="python.process-threads" classname="kvm-smccc-4" time="7.12949760700576" /><testcase name="python.stdlib" classname="kvm-smccc-4" time="4.238451608995092"><failure type="failed" message="failed">
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 3, in &lt;module&gt;
+  File "/usr/lib/python3.12/pathlib.py", line 1030, in read_text
+    return f.read()
+           ^^^^^^^^
+OSError: [Errno 5] Input/output error
+</failure></testcase><testcase name="shell.pipeline" classname="kvm-smccc-4" time="0.2660639829991851"><failure type="failed" message="failed">
+cmp: sorted: Input/output error
+</failure></testcase><testcase name="ssh.key-roundtrip" classname="kvm-smccc-4" time="0.5221937589958543"><failure type="failed" message="failed">
+Load key "key": Input/output error
+</failure></testcase><testcase name="text.filters" classname="kvm-smccc-4" time="0.2654645049988176"><failure type="failed" message="failed">
+sed: read error on selected: Input/output error
+</failure></testcase></testsuite><testsuite name="kvm-mmio-1" tests="12" failures="11"><testcase name="archive.roundtrip" classname="kvm-mmio-1" time="0.3164441019980586"><failure type="failed" message="failed">
+tar: source/value: Read error at byte 0, while reading 16 bytes: Input/output error
+tar: Exiting with failure status due to previous errors
+</failure></testcase><testcase name="build.gcc-make" classname="kvm-mmio-1" time="0.16535645399562782"><failure type="failed" message="failed">
+make: *** Makefile: Input/output error.  Stop.
+</failure></testcase><testcase name="coreutils.files" classname="kvm-mmio-1" time="0.5690169890003745"><failure type="failed" message="failed">
+cmp: data/link: Input/output error
+</failure></testcase><testcase name="curl.file-transfer" classname="kvm-mmio-1" time="0.7281087359951925"><failure type="failed" message="failed">
+cmp: downloaded: Input/output error
+</failure></testcase><testcase name="git.local-workflow" classname="kvm-mmio-1" time="1.0918693849962438"><failure type="failed" message="failed">
+fatal: cannot use .git/info/exclude as an exclude file
+</failure></testcase><testcase name="hash.base64" classname="kvm-mmio-1" time="0.21599024400347844"><failure type="failed" message="failed">
+base64: read error: Input/output error
+</failure></testcase><testcase name="node.workers" classname="kvm-mmio-1" time="1.4392409499996575"><failure type="failed" message="failed">
+Illegal instruction
+</failure></testcase><testcase name="python.process-threads" classname="kvm-mmio-1" time="18.207057512001484" /><testcase name="python.stdlib" classname="kvm-mmio-1" time="4.971634836001613"><failure type="failed" message="failed">
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 3, in &lt;module&gt;
+  File "/usr/lib/python3.12/pathlib.py", line 1030, in read_text
+    return f.read()
+           ^^^^^^^^
+OSError: [Errno 5] Input/output error
+</failure></testcase><testcase name="shell.pipeline" classname="kvm-mmio-1" time="0.9223373200002243"><failure type="failed" message="failed">
+cmp: sorted: Input/output error
+</failure></testcase><testcase name="ssh.key-roundtrip" classname="kvm-mmio-1" time="0.519919400998333"><failure type="failed" message="failed">
+Load key "key": Input/output error
+</failure></testcase><testcase name="text.filters" classname="kvm-mmio-1" time="0.2672924960061209"><failure type="failed" message="failed">
+sed: read error on selected: Input/output error
+</failure></testcase></testsuite><testsuite name="kvm-mmio-4" tests="12" failures="9"><testcase name="archive.roundtrip" classname="kvm-mmio-4" time="0.3203412830043817"><failure type="failed" message="failed">
+tar: source/value: Read error at byte 0, while reading 16 bytes: Input/output error
+tar: Exiting with failure status due to previous errors
+</failure></testcase><testcase name="build.gcc-make" classname="kvm-mmio-4" time="0.6703005950039369"><failure type="failed" message="failed">
+cc1: error: hello.c: Input/output error
+(null):0: confused by earlier errors, bailing out
+make: *** [Makefile:2: all] Error 1
+</failure></testcase><testcase name="coreutils.files" classname="kvm-mmio-4" time="0.719051671003399" /><testcase name="curl.file-transfer" classname="kvm-mmio-4" time="0.7750470629980555"><failure type="failed" message="failed">
+cmp: downloaded: Input/output error
+</failure></testcase><testcase name="git.local-workflow" classname="kvm-mmio-4" time="1.1771868479991099"><failure type="failed" message="failed">
+fatal: cannot use .git/info/exclude as an exclude file
+</failure></testcase><testcase name="hash.base64" classname="kvm-mmio-4" time="0.21867455499887"><failure type="failed" message="failed">
+base64: read error: Input/output error
+</failure></testcase><testcase name="node.workers" classname="kvm-mmio-4" time="1.4796467889973428"><failure type="failed" message="failed">
+Illegal instruction
+</failure></testcase><testcase name="python.process-threads" classname="kvm-mmio-4" time="7.018269840002176" /><testcase name="python.stdlib" classname="kvm-mmio-4" time="4.522517812001752"><failure type="failed" message="failed">
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 3, in &lt;module&gt;
+  File "/usr/lib/python3.12/pathlib.py", line 1030, in read_text
+    return f.read()
+           ^^^^^^^^
+OSError: [Errno 5] Input/output error
+</failure></testcase><testcase name="shell.pipeline" classname="kvm-mmio-4" time="0.3165512380001019"><failure type="failed" message="failed">
+cmp: sorted: Input/output error
+</failure></testcase><testcase name="ssh.key-roundtrip" classname="kvm-mmio-4" time="0.5687731829966651"><failure type="failed" message="failed">
+cut: key.pub: Input/output error
+</failure></testcase><testcase name="text.filters" classname="kvm-mmio-4" time="0.4191611189962714" /></testsuite></testsuites>

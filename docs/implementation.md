@@ -87,6 +87,23 @@ See [CLI architecture](architecture/host-cli.md) and
 See [PCM architecture](architecture/audio.md) and
 [validation](validation/audio-20261125.md).
 
+## Delivered sixth batch: shared application acceptance
+
+- A shared manifest and immutable software/rootfs bundle drive native reference
+  and KVM SMCCC/MMIO at one/four workers, with actual workflows rather than
+  version probes. Build receipts and independent evidence auditing bind results
+  to real source/artifact/configuration inputs. JSON/JUnit and a coverage table
+  distinguish failures, missing prerequisites, invalid references and unrun work.
+- Passing evidence can be reused only with matching inputs and intact raw logs/
+  output files; failed cases run again. Native-reference CI and a separate real
+  KVM application workflow are connected without production runtime changes.
+- The initial matrix is **not passing**: native 12/12, KVM 7/48 configuration
+  cells. Shared host-file EIO and Node SIGILL are next compatibility blockers;
+  isolated passes vary and do not establish stable general software support.
+
+See [acceptance design](architecture/acceptance.md) and
+[first evidence](validation/applications-20261125.md).
+
 ## Next dependency batch: Linux providers
 
 1. Complete Linux Vulkan image imports/exports, presentation, video and PCM hardware validation as detailed

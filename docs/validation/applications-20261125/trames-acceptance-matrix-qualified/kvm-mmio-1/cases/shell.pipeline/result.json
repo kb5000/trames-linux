@@ -1,0 +1,15 @@
+{
+  "case_inputs": "1bc93f25f16e350f29da105e501a500b47ed9f1f5c6522370ef088650d4a61f7",
+  "domain": "process",
+  "exit_code": 2,
+  "fingerprint": "6c764b737dddf4300932a0367d79ffd39d255fc2cc042b92fb12f0714b0b4a70",
+  "id": "shell.pipeline",
+  "logs": {
+    "stderr": "8c05fff5ec1ea1df09ed4e182098ca9ff99d0abe844277dfc0a2e3e533dce38b",
+    "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "reused": false,
+  "seconds": 0.9223373200002243,
+  "status": "failed",
+  "tier": "smoke"
+}

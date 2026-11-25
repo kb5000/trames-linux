@@ -1,0 +1,15 @@
+{
+  "case_inputs": "f77ccb692abf79326b858e234ab0c7f4e53a02f844487440fc3965e6a57a23c6",
+  "domain": "process",
+  "exit_code": 132,
+  "fingerprint": "c0ba46fdd3d7a7569962e156d3d1126c977ccc980bbfc5c9fa64814eb7620420",
+  "id": "node.workers",
+  "logs": {
+    "stderr": "ebcf4d0ac7fb56f87c669814fcd8762ba3f597bcc238f4143f54cefd78c84796",
+    "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "reused": false,
+  "seconds": 1.4392409499996575,
+  "status": "failed",
+  "tier": "apps"
+}

@@ -1,0 +1,15 @@
+{
+  "case_inputs": "37229166e80af05f07ef39af2c0b41320ce9f3428f3147171ff23896e388d17d",
+  "domain": "process",
+  "exit_code": 2,
+  "fingerprint": "f21a1e59991889389c23444fe83b3804589e4b86e9ba6b46a03b3c80425396f7",
+  "id": "build.gcc-make",
+  "logs": {
+    "stderr": "3a5b290b7ee6418494f02090d625260296f95e99830970c2f81d9969ace7170e",
+    "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "reused": false,
+  "seconds": 0.16553408700565342,
+  "status": "failed",
+  "tier": "apps"
+}

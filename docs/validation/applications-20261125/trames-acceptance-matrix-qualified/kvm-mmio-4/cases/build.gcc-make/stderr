@@ -1,0 +1,3 @@
+cc1: error: hello.c: Input/output error
+(null):0: confused by earlier errors, bailing out
+make: *** [Makefile:2: all] Error 1

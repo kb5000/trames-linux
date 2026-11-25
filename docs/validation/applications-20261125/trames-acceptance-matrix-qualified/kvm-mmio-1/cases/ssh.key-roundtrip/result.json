@@ -1,0 +1,15 @@
+{
+  "case_inputs": "6067b7c0978a1078574eaeec7e449e1e5e7c4d45609c5e902bdf65d4fa5dc4d9",
+  "domain": "random",
+  "exit_code": 255,
+  "fingerprint": "ef9d5a6a9a0b9f0667a608fd013e17897e0eecf931136f4a3b92176d53707329",
+  "id": "ssh.key-roundtrip",
+  "logs": {
+    "stderr": "8c5db18b579d19e74367a1291ceb142ea2031f2628d0651a87de2b2ff51fc0ee",
+    "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "reused": false,
+  "seconds": 0.519919400998333,
+  "status": "failed",
+  "tier": "apps"
+}

@@ -1,0 +1,15 @@
+{
+  "case_inputs": "389b5cd0c916aae159756b5b0cf331b707eeb33ec84aa5e9ab701ea9053292e9",
+  "domain": "files",
+  "exit_code": 4,
+  "fingerprint": "58d4b7055e4b8e96b6352fa0ab5ef538ca5f0134b553289b75d57177f1fa274c",
+  "id": "text.filters",
+  "logs": {
+    "stderr": "3d6f58fae4a966636bdd7ced8dc9aacb2691d98695f478dfd8257fd7481b32ea",
+    "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "reused": false,
+  "seconds": 0.21554390799428802,
+  "status": "failed",
+  "tier": "smoke"
+}

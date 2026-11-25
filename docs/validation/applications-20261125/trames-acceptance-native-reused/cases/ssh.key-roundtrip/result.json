@@ -1,0 +1,18 @@
+{
+  "artifacts": {},
+  "artifacts_validated": true,
+  "case_inputs": "6067b7c0978a1078574eaeec7e449e1e5e7c4d45609c5e902bdf65d4fa5dc4d9",
+  "domain": "random",
+  "exit_code": 0,
+  "fingerprint": "dcc75ef37109128ecc510734f12651457af798a589588d8d9b9e491cf11d4566",
+  "id": "ssh.key-roundtrip",
+  "logs": {
+    "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "cd156d550d794a8eec93e91f543399f942a2fe8c9472c1bf3003777c4d64ffa7"
+  },
+  "reused": true,
+  "reused_from": "/home/main.guest/trames-acceptance-matrix-qualified/native/cases/ssh.key-roundtrip",
+  "seconds": 0.03234258000156842,
+  "status": "passed",
+  "tier": "apps"
+}

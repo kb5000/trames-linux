@@ -1,0 +1,15 @@
+{
+  "case_inputs": "981acdcc16977e11cd1f749c35fa7591d2996bd015be1b2769bc33e040123936",
+  "domain": "files",
+  "exit_code": 2,
+  "fingerprint": "819ca330ad24e8e0b2e38ce7bc1d19f7408888ad0393d413e7f53ec66e704b02",
+  "id": "coreutils.files",
+  "logs": {
+    "stderr": "dc125ab007ddc8680d6cd0bf4445c18955f9f2f41eb1cb84979e76218c6dc337",
+    "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "reused": false,
+  "seconds": 0.5691938620002475,
+  "status": "failed",
+  "tier": "smoke"
+}
