@@ -1,0 +1,8 @@
+{
+  "host_available_bytes": 10076160000,
+  "new_vm_or_image_downloaded": false,
+  "evidence_bytes": 623171,
+  "build_cache": "/private/tmp/trames-linux-fixes/runtime/target",
+  "runtime_head": "474ee466391e2683c1a0f48e6fb21307cc45adae",
+  "runtime_index_empty": true
+}

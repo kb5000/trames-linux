@@ -66,6 +66,14 @@ and [CLI report](cpu-extensions-20261125/applications-report/report.md) retain
 their original raw records. The [offline audit](cpu-extensions-20261125/audit.py) checks the source/receipt, original raw outputs and retained CLI artifact hashes; its [result](cpu-extensions-20261125/audit.json) passes. It replays recorded Linux checkout group-write permissions without altering source bytes or executable bits. The hardware CI workflow includes the CPU matrix
 with a build receipt; a hosted compile cannot stand in for its real KVM gate.
 
+The [shared runtime Linux full CI](https://github.com/kb5000/trames-runtime/actions/runs/45634138544)
+passes all-feature clippy, tests and release build. At the timestamp in the
+[cloud snapshot](cpu-extensions-20261125/cloud-checks.json), its Mac job and the
+independent Mac build are queued; the Linux product's three-platform build/unit
+and native WSI jobs and iPad guest-musl are running, with iPad memory-abi queued.
+Those pending jobs are not counted as passes. The local hardware/HVF/iOS checks
+above have completed. No physical GPU result is inferred from software WSI CI.
+
 ## Historical failures retained
 
 - V1 enabled debug MDSCR in ordinary execution and caused SIGTRAP exits. The
