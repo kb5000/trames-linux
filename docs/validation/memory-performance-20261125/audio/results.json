@@ -1,0 +1,35 @@
+[
+  {
+    "case": "playback/smccc",
+    "passed": true,
+    "code": 0,
+    "stdout": "playback:960 frames\n",
+    "stderr": ""
+  },
+  {
+    "case": "playback/mmio",
+    "passed": true,
+    "code": 0,
+    "stdout": "playback:960 frames\n",
+    "stderr": ""
+  },
+  {
+    "case": "capture/smccc",
+    "passed": true,
+    "code": 0,
+    "stdout": "capture:960 frames\n",
+    "stderr": ""
+  },
+  {
+    "case": "capture/mmio",
+    "passed": true,
+    "code": 0,
+    "stdout": "capture:960 frames\n",
+    "stderr": ""
+  },
+  {
+    "case": "disabled-by-default",
+    "passed": true,
+    "code": 1
+  }
+]

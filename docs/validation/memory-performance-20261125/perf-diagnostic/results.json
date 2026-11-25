@@ -1,0 +1,151 @@
+{
+  "cases": [
+    {
+      "counters": {
+        "kvm:kvm_exit": 0.0,
+        "sched:sched_switch": 3.0,
+        "syscalls:sys_enter_gettid": 0.0,
+        "syscalls:sys_enter_ioctl": 0.0,
+        "syscalls:sys_enter_rt_sigprocmask": 5.0,
+        "syscalls:sys_enter_rt_sigtimedwait": 0.0,
+        "syscalls:sys_enter_timer_create": 0.0,
+        "syscalls:sys_enter_timer_delete": 0.0,
+        "syscalls:sys_enter_timer_settime": 0.0
+      },
+      "exit_code": 0,
+      "id": "cpu-native",
+      "logs": {
+        "command.json": "b341184c20722f28299f4583bf961516e87c272d4080fe8a6415409c9863fba8",
+        "counters.csv": "83f3b89a86225c1174c259a5f9b2bc45224baf9d5fccee1629ee8d48f3bfa7e4",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "c7f6a312a1703df9d462f9c1588d525284422cc0fe81b135a002a645b17c0db2"
+      },
+      "passed": true,
+      "seconds": 0.2165649359994859,
+      "status": "completed"
+    },
+    {
+      "counters": {
+        "kvm:kvm_exit": 407.0,
+        "sched:sched_switch": 29.0,
+        "syscalls:sys_enter_gettid": 180.0,
+        "syscalls:sys_enter_ioctl": 2347.0,
+        "syscalls:sys_enter_rt_sigprocmask": 701.0,
+        "syscalls:sys_enter_rt_sigtimedwait": 173.0,
+        "syscalls:sys_enter_timer_create": 173.0,
+        "syscalls:sys_enter_timer_delete": 173.0,
+        "syscalls:sys_enter_timer_settime": 173.0
+      },
+      "exit_code": 0,
+      "id": "cpu-smccc",
+      "logs": {
+        "command.json": "1d188940351a292026a09ba8969d82ac8cc8f53ac0a0dff59dd424a2eaaac0d8",
+        "counters.csv": "aedd7f8979119b273eb09218f0ee86998133065b43c95c0ee031cb51643a7444",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "b2ddfe8baa6172510d4a66806e2ec2c927e14858886672e7483e613b1a203bf2"
+      },
+      "passed": true,
+      "seconds": 0.21694769699934113,
+      "status": "completed"
+    },
+    {
+      "counters": {
+        "kvm:kvm_exit": 414.0,
+        "sched:sched_switch": 25.0,
+        "syscalls:sys_enter_gettid": 180.0,
+        "syscalls:sys_enter_ioctl": 2488.0,
+        "syscalls:sys_enter_rt_sigprocmask": 701.0,
+        "syscalls:sys_enter_rt_sigtimedwait": 173.0,
+        "syscalls:sys_enter_timer_create": 173.0,
+        "syscalls:sys_enter_timer_delete": 173.0,
+        "syscalls:sys_enter_timer_settime": 173.0
+      },
+      "exit_code": 0,
+      "id": "cpu-mmio",
+      "logs": {
+        "command.json": "e1d8940669ddc0767ffd8aa4b67ab8df6ce7f12ee44261f6a1f35f79e9d8aae0",
+        "counters.csv": "85c443b1d19dcc07db5430bba46eabc0df42437c76d211b045067717618af4b3",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "84b0088120ca16bdfaf892831d06a7ab32a61cd2ddebceef3c4dc982c66873f5"
+      },
+      "passed": true,
+      "seconds": 0.21787691499957873,
+      "status": "completed"
+    },
+    {
+      "counters": {
+        "kvm:kvm_exit": 0.0,
+        "sched:sched_switch": 4.0,
+        "syscalls:sys_enter_gettid": 0.0,
+        "syscalls:sys_enter_ioctl": 0.0,
+        "syscalls:sys_enter_rt_sigprocmask": 5.0,
+        "syscalls:sys_enter_rt_sigtimedwait": 0.0,
+        "syscalls:sys_enter_timer_create": 0.0,
+        "syscalls:sys_enter_timer_delete": 0.0,
+        "syscalls:sys_enter_timer_settime": 0.0
+      },
+      "exit_code": 0,
+      "id": "getpid-native",
+      "logs": {
+        "command.json": "35bf8516d693655c36e84ed64f56bb46b6ca7f589909869390d0a0a5e85d1b23",
+        "counters.csv": "df26c9168fae5be14480fb4b3b52b71cbcf8901129cdb8f4ebd62eff816ee5ee",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "9c75fe63dd574a93986fd7cd21730510489f08c4895081d8484333b6a5296a9a"
+      },
+      "passed": true,
+      "seconds": 0.11485174500012363,
+      "status": "completed"
+    },
+    {
+      "counters": {
+        "kvm:kvm_exit": 10498.0,
+        "sched:sched_switch": 30.0,
+        "syscalls:sys_enter_gettid": 10155.0,
+        "syscalls:sys_enter_ioctl": 10590.0,
+        "syscalls:sys_enter_rt_sigprocmask": 40601.0,
+        "syscalls:sys_enter_rt_sigtimedwait": 10148.0,
+        "syscalls:sys_enter_timer_create": 10148.0,
+        "syscalls:sys_enter_timer_delete": 10148.0,
+        "syscalls:sys_enter_timer_settime": 10148.0
+      },
+      "exit_code": 0,
+      "id": "getpid-smccc",
+      "logs": {
+        "command.json": "6a2d73076956441fb08581d7f6d0f8a88a4978d223f488dca67d6ea4d169a95f",
+        "counters.csv": "2e29fac9b386551e1740a6b0ced002877679d160ed5131872f2280a4c85f43eb",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "7ed6ef304a02a7fad9dee96e2c7e176d2117a335d14856a4e919b46f2c27ec98"
+      },
+      "passed": true,
+      "seconds": 0.5163314300007187,
+      "status": "completed"
+    },
+    {
+      "counters": {
+        "kvm:kvm_exit": 10500.0,
+        "sched:sched_switch": 31.0,
+        "syscalls:sys_enter_gettid": 10153.0,
+        "syscalls:sys_enter_ioctl": 20517.0,
+        "syscalls:sys_enter_rt_sigprocmask": 40593.0,
+        "syscalls:sys_enter_rt_sigtimedwait": 10146.0,
+        "syscalls:sys_enter_timer_create": 10146.0,
+        "syscalls:sys_enter_timer_delete": 10146.0,
+        "syscalls:sys_enter_timer_settime": 10146.0
+      },
+      "exit_code": 0,
+      "id": "getpid-mmio",
+      "logs": {
+        "command.json": "4f31cd8891d972de48d006d0583dc395473ad74483005dc0468762cf8b9a2cc9",
+        "counters.csv": "f7487641c1ecff6104f28a7d7f4daa0fafe84b87817a59cd06207a5367b864f7",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "9a320f4e7a0fddf8d96d68005207b0b76c2e0819ea858154377fafce4ad54a25"
+      },
+      "passed": true,
+      "seconds": 0.6243287550005334,
+      "status": "completed"
+    }
+  ],
+  "instrumented": true,
+  "primary_baseline": false,
+  "status": "passed"
+}

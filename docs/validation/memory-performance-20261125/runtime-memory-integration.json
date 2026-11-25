@@ -1,0 +1,23 @@
+{
+  "base": "474ee466391e2683c1a0f48e6fb21307cc45adae",
+  "new": "d544939a6dc1631dc01bd6af0b881560856c0a8c",
+  "staged_paths_before": 274,
+  "unrelated_files_preserved": 1380,
+  "changed_paths": [
+    "crates/trames-kernel/src/signal/frame.rs",
+    "crates/trames-kernel/tests/task-signals.rs",
+    "crates/trames-memory/src/hardware_shared.rs",
+    "crates/trames-memory/src/hardware_shared/file.rs",
+    "crates/trames-session/src/process.rs",
+    "crates/trames-session/src/process_source_fault_tests.rs",
+    "crates/trames-session/src/workers.rs",
+    "crates/trames-shared/src/lib.rs",
+    "crates/trames-shared/src/sparse.rs",
+    "crates/trames-vfs/src/mapped.rs"
+  ],
+  "owner_frame_rewrite": "retained unchanged: already has uncapped saturating frame count",
+  "owner_process_rewrite": "only obsolete frames>=8 block removed; new delivery pipeline retained",
+  "index_preserved": true,
+  "applied": true,
+  "staged_paths_after": 274
+}

@@ -1,0 +1,97 @@
+{
+  "cases": [
+    {
+      "exit_code": 0,
+      "id": "native-instructions",
+      "seconds": 0.0013568880003731465,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "native-state",
+      "seconds": 0.007644698000149219,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "native-ptrace",
+      "seconds": 0.0015357410002252436,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "instructions-smccc-1",
+      "seconds": 0.1157156439994651,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "state-smccc-1",
+      "seconds": 0.11507881299985456,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "ptrace-smccc-1",
+      "seconds": 0.06471956400037016,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "instructions-smccc-4",
+      "seconds": 0.11504109900033654,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "state-smccc-4",
+      "seconds": 0.11452887299947179,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "ptrace-smccc-4",
+      "seconds": 0.06466142000044783,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "instructions-mmio-1",
+      "seconds": 0.11527805100013211,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "state-mmio-1",
+      "seconds": 0.1663618550001047,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "ptrace-mmio-1",
+      "seconds": 0.06483984299939038,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "instructions-mmio-4",
+      "seconds": 0.11486997900010465,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "state-mmio-4",
+      "seconds": 0.11467546299991227,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "ptrace-mmio-4",
+      "seconds": 0.06538106199968752,
+      "status": "passed"
+    }
+  ],
+  "passed": 15,
+  "performance_qualified": false,
+  "planned": 15
+}

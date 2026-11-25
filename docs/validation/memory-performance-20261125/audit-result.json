@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "checks": {
+    "performance_measured_samples": 585,
+    "core_memory": 77,
+    "concurrent_permission_repeats": 40,
+    "application_kvm_cells": 48,
+    "reused_native_application_cells": 12,
+    "separate_counter_diagnostics": 6,
+    "apple_hvf_memory_cells": 22
+  },
+  "archive_sha256": "fa98e2d2088ca7588e25e0604b17ad076b4cd10c0ab559c6a38ff423f92874cd",
+  "full_product_4k_qualified": false
+}

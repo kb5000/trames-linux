@@ -147,6 +147,23 @@ workflows, not full systemd/container/cgroup compatibility or a release.
 See [presentation architecture](architecture/presentation.md) and
 [qualification and limits](validation/presentation-20261125.md).
 
+## Core 4 KiB memory and paired performance baseline
+
+The tenth batch adds an original strictly 4 KiB-aligned ELF matrix and fixes
+retained VFS file/offset ownership, nonlocal signal unwinds and a pending TLBI
+lost on interrupted restore. Native/SMCCC/MMIO memory checks pass 77/77, with
+40 additional concurrent repetitions and 22 Mac HVF cross-checks. The original
+Vulkan/KVM buffer test also uses 4 KiB-only addresses and independent sentinels.
+
+Thirteen native/KVM workloads at one/two/four workers retain 585 measured
+samples and 117 calibrations/warmups, with separate startup/work clocks, CPU,
+RSS/PSS and scheduler data. A separate instrumented trace identifies per-execute
+timer creation/deletion as a next optimization target. This is a nested-VM
+baseline, not a near-native or full-product 4 KiB release claim.
+
+See [architecture and automation](architecture/memory-performance-acceptance.md)
+and the [qualified cohort, measurements and offline audit](validation/memory-performance-20261125.md).
+
 ## Next dependency batch: Linux providers
 
 1. Complete Linux DMA-BUF image imports/exports, guest desktop/input presentation,

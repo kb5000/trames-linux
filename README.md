@@ -106,6 +106,7 @@ compare original ELF/Node/compiler workloads with native Linux. Core memory has
 77 native/KVM cells; the separate performance workflow retains repeated timing
 and resource distributions without product instrumentation. Full graphics/media
 4 KiB qualification remains a release requirement.
+See the [qualified memory results and first performance baseline](docs/validation/memory-performance-20261125.md).
 
 ```sh
 python3 scripts/check-boundaries.py

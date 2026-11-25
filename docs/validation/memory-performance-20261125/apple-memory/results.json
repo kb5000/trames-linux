@@ -1,0 +1,116 @@
+{
+  "cases": [
+    {
+      "id": "geometry-1",
+      "code": 0,
+      "passed": true
+    },
+    {
+      "id": "protection-1",
+      "code": 0,
+      "passed": true
+    },
+    {
+      "id": "holes-1",
+      "code": 0,
+      "passed": true
+    },
+    {
+      "id": "owners-1",
+      "code": 0,
+      "passed": true
+    },
+    {
+      "id": "file-offsets-1",
+      "code": 0,
+      "passed": true
+    },
+    {
+      "id": "truncate-1",
+      "code": 0,
+      "passed": true
+    },
+    {
+      "id": "discard-remap-1",
+      "code": 0,
+      "passed": true
+    },
+    {
+      "id": "cow-1",
+      "code": 0,
+      "passed": true
+    },
+    {
+      "id": "threads-1",
+      "code": 0,
+      "passed": true
+    },
+    {
+      "id": "retire-1",
+      "code": 0,
+      "passed": true
+    },
+    {
+      "id": "exec-1",
+      "code": 0,
+      "passed": true
+    },
+    {
+      "id": "geometry-4",
+      "code": 0,
+      "passed": true
+    },
+    {
+      "id": "protection-4",
+      "code": 0,
+      "passed": true
+    },
+    {
+      "id": "holes-4",
+      "code": 0,
+      "passed": true
+    },
+    {
+      "id": "owners-4",
+      "code": 0,
+      "passed": true
+    },
+    {
+      "id": "file-offsets-4",
+      "code": 0,
+      "passed": true
+    },
+    {
+      "id": "truncate-4",
+      "code": 0,
+      "passed": true
+    },
+    {
+      "id": "discard-remap-4",
+      "code": 0,
+      "passed": true
+    },
+    {
+      "id": "cow-4",
+      "code": 0,
+      "passed": true
+    },
+    {
+      "id": "threads-4",
+      "code": 0,
+      "passed": true
+    },
+    {
+      "id": "retire-4",
+      "code": 0,
+      "passed": true
+    },
+    {
+      "id": "exec-4",
+      "code": 0,
+      "passed": true
+    }
+  ],
+  "binary_sha256": "74130af115a83b8e03c6deacd13fd6081c288d7900ddf99dcf84c1287734f10d",
+  "fixture_sha256": "2d524f1a1b62d9bedbeb5c4935c964e5574acc413ac688c58dde3f59fe5b2a31"
+}

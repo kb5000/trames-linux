@@ -1,0 +1,239 @@
+warning: unused field `repository` in `workspace.package`
+  --> Cargo.toml:32:1
+   |
+32 | repository = "https://github.com/kb5000/trames-runtime"
+   | ^^^^^^^^^^
+   |
+   = note: `cargo::unused_workspace_package_fields` is set to `warn` by default
+help: consider removing the field `workspace.package.repository`
+warning: workspace (manifest) generated 1 warning
+   Compiling trames-shared v1.3.0 (/private/tmp/trames-linux-services/runtime/crates/trames-shared)
+warning: unused variable: `source_hardware_addr`
+  --> vendor/smoltcp/src/iface/interface/ipv4.rs:89:9
+   |
+89 |         source_hardware_addr: HardwareAddress,
+   |         ^^^^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_source_hardware_addr`
+   |
+   = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: variable does not need to be mutable
+   --> vendor/smoltcp/src/iface/interface/ipv4.rs:480:35
+    |
+480 |         tx_token.consume(tx_len, |mut tx_buffer| {
+    |                                   ----^^^^^^^^^
+    |                                   |
+    |                                   help: remove this `mut`
+    |
+    = note: `#[warn(unused_mut)]` (part of `#[warn(unused)]`) on by default
+
+warning: variable does not need to be mutable
+   --> vendor/smoltcp/src/iface/interface/ipv4.rs:457:13
+    |
+457 |         let mut tx_len = ip_len;
+    |             ----^^^^^^
+    |             |
+    |             help: remove this `mut`
+
+warning: unused variable: `source_hardware_addr`
+   --> vendor/smoltcp/src/iface/interface/ipv6.rs:191:9
+    |
+191 |         source_hardware_addr: HardwareAddress,
+    |         ^^^^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_source_hardware_addr`
+
+warning: variable does not need to be mutable
+    --> vendor/smoltcp/src/iface/interface/mod.rs:1448:51
+     |
+1448 |                         tx_token.consume(tx_len, |mut tx_buffer| {
+     |                                                   ----^^^^^^^^^
+     |                                                   |
+     |                                                   help: remove this `mut`
+
+warning: variable does not need to be mutable
+    --> vendor/smoltcp/src/iface/interface/mod.rs:1473:50
+     |
+1473 |                     tx_token.consume(total_len, |mut tx_buffer| {
+     |                                                  ----^^^^^^^^^
+     |                                                  |
+     |                                                  help: remove this `mut`
+
+warning: variable does not need to be mutable
+    --> vendor/smoltcp/src/iface/interface/mod.rs:1487:61
+     |
+1487 |             IpRepr::Ipv6(_) => tx_token.consume(total_len, |mut tx_buffer| {
+     |                                                             ----^^^^^^^^^
+     |                                                             |
+     |                                                             help: remove this `mut`
+
+warning: variable does not need to be mutable
+    --> vendor/smoltcp/src/iface/interface/mod.rs:1320:13
+     |
+1320 |         let mut total_len = ip_repr.buffer_len();
+     |             ----^^^^^^^^^
+     |             |
+     |             help: remove this `mut`
+
+warning: field `hardware_addr` is never read
+   --> vendor/smoltcp/src/iface/interface/mod.rs:224:5
+    |
+210 | pub struct InterfaceInner {
+    |            -------------- field in this struct
+...
+224 |     hardware_addr: HardwareAddress,
+    |     ^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: variants `NoRoute` and `NeighborPending` are never constructed
+    --> vendor/smoltcp/src/iface/interface/mod.rs:1519:5
+     |
+1514 | enum DispatchError {
+     |      ------------- variants in this enum
+...
+1519 |     NoRoute,
+     |     ^^^^^^^
+...
+1523 |     NeighborPending,
+     |     ^^^^^^^^^^^^^^^
+     |
+     = note: `DispatchError` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+
+warning: methods `link_local_ipv6_address` and `mldv2_report_packet` are never used
+   --> vendor/smoltcp/src/iface/interface/ipv6.rs:171:8
+    |
+ 21 | impl InterfaceInner {
+    | ------------------- methods in this implementation
+...
+171 |     fn link_local_ipv6_address(&self) -> Option<Ipv6Address> {
+    |        ^^^^^^^^^^^^^^^^^^^^^^^
+...
+563 |     pub(super) fn mldv2_report_packet<'any>(
+    |                   ^^^^^^^^^^^^^^^^^^^
+
+warning: variant `HopByHopIcmpv6` is never constructed
+   --> vendor/smoltcp/src/iface/packet.rs:263:5
+    |
+255 | pub(crate) enum IpPayload<'p> {
+    |                 --------- variant in this enum
+...
+263 |     HopByHopIcmpv6(Ipv6HopByHopRepr<'p>, Icmpv6Repr<'p>),
+    |     ^^^^^^^^^^^^^^
+    |
+    = note: `IpPayload` has a derived impl for the trait `Debug`, but this is intentionally ignored during dead code analysis
+
+warning: type alias `Rest` is never used
+  --> vendor/smoltcp/src/wire/mod.rs:75:14
+   |
+75 |     pub type Rest = ::core::ops::RangeFrom<usize>;
+   |              ^^^^
+
+warning: constant `CUR_HOP_LIMIT` is never used
+   --> vendor/smoltcp/src/wire/icmpv6.rs:220:15
+    |
+220 |     pub const CUR_HOP_LIMIT: usize = 4;
+    |               ^^^^^^^^^^^^^
+
+warning: constant `ROUTER_FLAGS` is never used
+   --> vendor/smoltcp/src/wire/icmpv6.rs:221:15
+    |
+221 |     pub const ROUTER_FLAGS: usize = 5;
+    |               ^^^^^^^^^^^^
+
+warning: constant `ROUTER_LT` is never used
+   --> vendor/smoltcp/src/wire/icmpv6.rs:222:15
+    |
+222 |     pub const ROUTER_LT: Field = 6..8;
+    |               ^^^^^^^^^
+
+warning: constant `REACHABLE_TM` is never used
+   --> vendor/smoltcp/src/wire/icmpv6.rs:223:15
+    |
+223 |     pub const REACHABLE_TM: Field = 8..12;
+    |               ^^^^^^^^^^^^
+
+warning: constant `NEIGH_FLAGS` is never used
+   --> vendor/smoltcp/src/wire/icmpv6.rs:230:15
+    |
+230 |     pub const NEIGH_FLAGS: usize = 4;
+    |               ^^^^^^^^^^^
+
+warning: methods `solicited_node` and `is_solicited_node_multicast` are never used
+   --> vendor/smoltcp/src/wire/ipv6.rs:121:8
+    |
+ 79 | pub(crate) trait AddressExt {
+    |                  ---------- methods in this trait
+...
+121 |     fn solicited_node(&self) -> Address;
+    |        ^^^^^^^^^^^^^^
+...
+131 |     fn is_solicited_node_multicast(&self) -> bool;
+    |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: method `emit_header` is never used
+   --> vendor/smoltcp/src/wire/udp.rs:264:19
+    |
+221 | impl Repr {
+    | --------- method in this implementation
+...
+264 |     pub(crate) fn emit_header<T>(&self, packet: &mut Packet<&mut T>, payload_len: usize)
+    |                   ^^^^^^^^^^^
+
+warning: hiding a lifetime that's elided elsewhere is confusing
+   --> vendor/smoltcp/src/storage/assembler.rs:330:22
+    |
+330 |     pub fn iter_data(&self, first_offset: usize) -> AssemblerIter {
+    |                      ^^^^^                          ^^^^^^^^^^^^^ the same lifetime is hidden here
+    |                      |
+    |                      the lifetime is elided here
+    |
+    = help: the same lifetime is referred to in inconsistent ways, making the signature confusing
+    = note: `#[warn(mismatched_lifetime_syntaxes)]` on by default
+help: use `'_` for type paths
+    |
+330 |     pub fn iter_data(&self, first_offset: usize) -> AssemblerIter<'_> {
+    |                                                                  ++++
+
+warning: `smoltcp` (lib) generated 21 warnings (run `cargo fix --lib -p smoltcp` to apply 9 suggestions)
+   Compiling trames-memory v1.3.0 (/private/tmp/trames-linux-services/runtime/crates/trames-memory)
+   Compiling trames-bridge v1.3.0 (/private/tmp/trames-linux-services/runtime/crates/trames-bridge)
+   Compiling trames-graphics v1.3.0 (/private/tmp/trames-linux-services/runtime/crates/trames-graphics)
+   Compiling trames-net v1.3.0 (/private/tmp/trames-linux-services/runtime/crates/trames-net)
+   Compiling trames-wayland v1.3.0 (/private/tmp/trames-linux-services/runtime/crates/trames-wayland)
+   Compiling trames-vfs v1.3.0 (/private/tmp/trames-linux-services/runtime/crates/trames-vfs)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 37.79s
+     Running unittests src/lib.rs (/private/tmp/trames-linux-fixes/runtime/target/debug/build/trames-vfs/13041b50adf91ee3/out/trames_vfs-13041b50adf91ee3)
+
+running 31 tests
+test mapped::tests::cached_mapping_refreshes_after_storage_replacement_and_preserves_live_eof ... ok
+test mapped::tests::direct_file_borrows_dirty_writeback_alias_tokens_and_live_eof ... ok
+test mapped::tests::direct_content_refresh_keeps_mapping_generation_but_eof_and_cow_still_change ... ok
+test mapped::tests::eof_placeholders_stay_zero_and_growth_updates_existing_mappings ... ok
+test mapped::tests::file_change_domains_survive_mapping_replacement_and_retained_views ... ok
+test mapped::tests::alias_fd_io_cow_truncate_permissions_and_unlinked_lifetime ... ok
+test mapped::tests::hardware_publication_keeps_resident_source_across_registry_rebuild ... ok
+test mapped::tests::dirty_mapping_access_avoids_inode_and_clock_but_versions_every_write ... ok
+test mapped::tests::mapped_code_aliases_and_fd_writes_change_decoder_tokens ... ok
+test mapped::tests::epoch_file_io_checks_live_inode_aliases_in_any_vm_not_the_cached_fd_mask ... ok
+test mapped::tests::mapped_writeback_does_not_merge_equal_reported_inodes_from_distinct_filesystems ... ok
+test mapped::tests::lower_mapping_length_follows_shared_inode_identity ... ok
+test mapped::tests::mapping_under_namespace_control_retains_original_shared_authority ... ok
+test mapped::tests::memfd_native_views_share_guest_pages_and_keep_physical_budget_until_last_lease ... ok
+test mapped::tests::page_storage_is_send_sync_and_last_worker_release_retires_the_allocation ... ok
+test mapped::tests::range_history_coalesces_but_falls_back_on_gaps_layout_and_expiry ... ok
+test mapped::tests::read_only_shared_mapping_cannot_gain_write_access ... ok
+test mapped::tests::resident_metadata_domain_observes_external_shared_file_eof ... ok
+test mapped::tests::mappings_keep_original_ofd_through_cow_fork_discard_remap_and_final_unmap ... ok
+test mapped::tests::parallel_readonly_alias_dirty_fragments_private_refresh_and_live_eof ... ok
+test mapped::tests::retained_writer_pins_resources_without_retaining_detached_owner_topology ... ok
+test mapped::tests::retained_writer_keeps_original_ofd_after_last_mapping_provider_is_retired ... ok
+test mapped::tests::retained_writer_blocks_file_io_and_readonly_remount_without_owner_cache_updates ... ok
+test mapped::tests::volatile_mapping_refresh_keeps_live_eof_and_change_domain ... ok
+test mapped::tests::retained_writer_releases_real_inode_filesystem_and_mount_on_last_worker_drop ... ok
+test mapped::tests::smaps_accounts_for_live_file_alias_writes_before_worker_commit ... ok
+test mapped::tests::live_mapping_state_is_shared_without_sampling_or_retaining_inode ... ok
+test mapped::tests::serial_private_file_atomics_detach_without_modifying_file_or_peer ... ok
+test mapped::tests::workers_share_file_and_memfd_bytes_without_a_publication_copy ... ok
+test mapped::tests::backing_epochs_rebuild_only_changed_file_pages_and_still_check_eof_and_cow ... ok
+test mapped::tests::changed_ranges_visit_only_touched_offsets_and_all_their_aliases ... ok
+
+test result: ok. 31 passed; 0 failed; 0 ignored; 0 measured; 957 filtered out; finished in 0.06s
+

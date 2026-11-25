@@ -1,0 +1,31 @@
+{
+  "passed": true,
+  "cases": [
+    {
+      "name": "changed raw output",
+      "passed": true,
+      "reason": "modified performance evidence: cpu-1-sample-0-smccc"
+    },
+    {
+      "name": "missing sample",
+      "passed": true,
+      "reason": "incomplete or duplicate performance evidence"
+    },
+    {
+      "name": "self-consistent metadata differs from plan",
+      "passed": true,
+      "reason": "sample differs from its planned work: cpu-1-sample-0-smccc"
+    },
+    {
+      "name": "self-consistent wrong workload result differs from native",
+      "passed": true
+    },
+    {
+      "name": "restored original evidence accepted",
+      "passed": true
+    }
+  ],
+  "controller_sha256": "d3d5e2f68defa6543d158ffadd52aa219a63e54d53e24dd33ac330761b92a598",
+  "inputs_sha256": "72d98d2dfd26006bf2a71b9e24529622b8812f969902a5b4c2d3603a11e2092c",
+  "test_sha256": "f8f88c246dbcc93aa8969e21e743d93ff7e227c0f53570c1b8020eb9d36e53e1"
+}

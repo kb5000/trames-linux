@@ -1,0 +1,7 @@
+{
+  "runtime": "d544939a6dc1631dc01bd6af0b881560856c0a8c",
+  "mac": "d7a5a5d82dc992f7ab0baf30f83d8cce6a9a1ef9",
+  "ipad": "12af83b68d4ab736468edd165976f124c4a67b72",
+  "linux": "0cae06fa747ed9f5dbc38d1971be4c9eb242b259",
+  "note": "Qualified commits for this batch; concurrent later runtime work is outside this baseline."
+}
