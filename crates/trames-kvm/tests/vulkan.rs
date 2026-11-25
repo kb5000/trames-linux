@@ -9,8 +9,8 @@ use trames_memory::{Memory, Permissions};
 use trames_vulkan::{Backend, Invocation};
 const PACKET: u64 = 0x1000;
 const OUT: u64 = 0x2000;
-const DATA: u64 = 0x400000;
-const CODE: u64 = 0x800000;
+const DATA: u64 = 0x401000;
+const CODE: u64 = 0x801000;
 fn call(b: &mut Backend, m: &mut Memory, op: u64, args: &[u64]) {
     m.commit_parallel().unwrap();
     let mut packet = [0; 128];
@@ -50,8 +50,15 @@ fn wait(b: &mut Backend, m: &mut Memory, dev: u64, fence: u64) {
 fn vulkan_host_buffer_and_kvm_share_original_bytes_without_shadow_transfers() {
     let mut b = Backend::new().with_native_pointer_imports(false);
     let mut m = Memory::default();
+    assert_eq!(DATA % 16384, 4096);
+    assert_eq!(CODE % 16384, 4096);
     m.map(PACKET, 0x4000, Permissions::RW).unwrap();
     m.map(DATA, 4 << 20, Permissions::RW).unwrap();
+    for guard in [DATA - 4096, DATA + (4 << 20)] {
+        m.map(guard, 4096, Permissions::RW).unwrap();
+        m.write(guard, &[0x6d; 4096]).unwrap();
+        m.protect(guard, 4096, Permissions::R).unwrap();
+    }
     m.map(CODE, 4096, Permissions::RW).unwrap();
     for (i, instruction) in [
         0xb9400141u32,
@@ -204,4 +211,9 @@ fn vulkan_host_buffer_and_kvm_share_original_bytes_without_shadow_transfers() {
     call(&mut b, &mut m, 2, &[instance]);
     // Imported pages retain their original owner after all native API handles close.
     assert_eq!(u32::from_le_bytes(m.read_array(DATA).unwrap()), 0x10203041);
+    for guard in [DATA - 4096, DATA + (4 << 20)] {
+        assert_eq!(m.read_array::<4096>(guard).unwrap(), [0x6d; 4096]);
+        assert!(m.write(guard, &[0x77]).is_err());
+    }
+    assert!(m.write(CODE, &[0]).is_err());
 }

@@ -1135,10 +1135,12 @@ mod hardware_checkpoints {
         assert_ne!(executor.invalidate & 1, 0);
         assert!(matches!(
             executor.run(&mut state, &mut view, quantum),
-            Err(super::EngineError::Memory(MemoryError::Permission {
-                address: 0x20000,
-                ..
-            }))
+            Err(crate::aarch64::EngineError::Memory(
+                MemoryError::Permission {
+                    address: 0x20000,
+                    ..
+                }
+            ))
         ));
     }
 
