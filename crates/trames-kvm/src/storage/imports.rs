@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-//! Revocable aliases of explicit sealed-file exports; never guess a GPU pointer.
+//! Revocable aliases of explicit retained-file exports; never guess a GPU pointer.
 use super::*;
 use trames_memory::SharedMapping;
 struct PageGate {
@@ -16,8 +16,9 @@ pub(super) struct ImportedChunk {
     gates: Mutex<BTreeMap<usize, Weak<PageGate>>>,
     executable: Vec<AtomicBool>,
 }
-// SAFETY: mmap remains fixed; original file geometry is sealed, and shared gates
-// revoke all KVM aliases of a file page before original Rust byte guards return.
+// SAFETY: mmap remains fixed; original file geometry is sealed or retained under
+// the provider's no-physical-shrink contract. Shared gates revoke all KVM aliases
+// of a file page before original Rust byte guards return.
 unsafe impl Send for ImportedChunk {}
 unsafe impl Sync for ImportedChunk {}
 impl ImportedChunk {
