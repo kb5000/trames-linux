@@ -36,6 +36,12 @@ pub(crate) fn inspect(mut report: Doctor) -> Doctor {
         report.arm_ipa_bits = u32::try_from(kvm.check_extension_int(Cap::ArmVmIPASize))
             .ok()
             .filter(|&n| n > 0);
+        match crate::aarch64::features::profile() {
+            Ok(profile) => report.cpu = Some(profile.clone()),
+            Err(error) => report
+                .issues
+                .push(format!("KVM CPU feature profile: {error}")),
+        }
         match kvm.create_vm() {
             Ok(vm) => {
                 let attr = kvm_bindings::kvm_device_attr {

@@ -9,6 +9,7 @@ const USER_SCTLR: u64 =
 
 #[cfg(all(target_os = "linux", target_arch = "aarch64"))]
 pub(crate) mod engine;
+pub(crate) mod features;
 #[cfg(all(target_os = "linux", target_arch = "aarch64"))]
 mod machine;
 mod tables;

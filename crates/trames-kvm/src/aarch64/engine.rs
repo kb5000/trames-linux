@@ -37,6 +37,7 @@ unsafe extern "C" {
     static trames_engine_vectors_start: u8;
     static trames_engine_vectors_end: u8;
     static trames_engine_resume: u8;
+    static trames_engine_step_resume: u8;
     static trames_engine_saving: u8;
     static trames_engine_hvc_return: u8;
     static trames_engine_mmio_return: u8;
@@ -222,6 +223,7 @@ impl Executor {
                 .map_err(|e| Error::context("vCPU target", e))?;
             cpu.vcpu_init(&target)
                 .map_err(|e| Error::context("init worker vCPU", e))?;
+            super::features::validate(&cpu)?;
             let asid_bits = match (get(&cpu, system_register(3, 0, 0, 7, 0))? >> 4) & 15 {
                 0 => 8,
                 2 => 16,
@@ -261,6 +263,10 @@ impl Executor {
             set(&cpu, system_register(3, 0, 10, 2, 0), 0x04ff)?;
             set(&cpu, system_register(3, 0, 12, 0, 0), VECTOR)?;
             set(&cpu, system_register(3, 0, 1, 0, 2), 3 << 20)?;
+            // Architectural EL0 single-step. Ordinary entry keeps PSTATE.D set;
+            // only the separate step restore enables SS. No normal RUN/ioctl is
+            // added and the original non-debug EL1 instruction path is retained.
+            set(&cpu, system_register(2, 0, 0, 2, 2), 0x8001)?;
             set(&cpu, system_register(3, 0, 14, 1, 0), 3)?; // EL0 physical/virtual count reads
             set(
                 &cpu,
@@ -411,20 +417,28 @@ impl Executor {
         // Updating its mailbox handles either the same task or a new assignment
         // without register ioctls on normal syscall/fault paths. An asynchronous
         // exit may leave partial restore/EL0 state and needs a cold reset.
-        if !self.ready {
-            self.resume_resets += 1;
-            set(
-                &self.cpu,
-                core_register(std::mem::offset_of!(kvm_regs, regs.pc)),
-                VECTOR + offset(&raw const trames_engine_resume),
-            )?;
-            set(
-                &self.cpu,
-                core_register(std::mem::offset_of!(kvm_regs, regs.pstate)),
-                0x3c5,
-            )?;
+        if !self.ready || state.nzcv & (1 << 21) != 0 {
+            self.reset_resume(state.nzcv & (1 << 21) != 0)?;
         }
         Ok(())
+    }
+    fn reset_resume(&mut self, stepping: bool) -> Result<()> {
+        self.resume_resets += 1;
+        set(
+            &self.cpu,
+            core_register(std::mem::offset_of!(kvm_regs, regs.pc)),
+            VECTOR
+                + offset(if stepping {
+                    &raw const trames_engine_step_resume
+                } else {
+                    &raw const trames_engine_resume
+                }),
+        )?;
+        set(
+            &self.cpu,
+            core_register(std::mem::offset_of!(kvm_regs, regs.pstate)),
+            0x3c5,
+        )
     }
 
     fn flags(info: HardwarePageInfo) -> u64 {
@@ -724,6 +738,7 @@ impl Executor {
         quantum: Duration,
     ) -> std::result::Result<ExecutionExit, super::EngineError> {
         self.wait = None;
+        let stepping = state.nzcv & (1 << 21) != 0;
         if state.tpidr2_el0 != 0 {
             return Err(Error("SME context is not supported by KVM baseline".into()).into());
         }
@@ -805,6 +820,11 @@ impl Executor {
             reply.context = u64::from(self.asid) << 48;
             reply.invalidate = std::mem::take(&mut self.invalidate);
             write(&self.mailbox, 0, reply);
+            if stepping {
+                // A fault has not retired the original EL0 instruction. Retry
+                // through the debug restore, rather than the normal HVC branch.
+                self.reset_resume(true)?;
+            }
             // If checkpoint had to finish an EL1 save, its original slice timer
             // was removed. Re-arm the remaining duration before fault retry.
             if deadline.is_none() {

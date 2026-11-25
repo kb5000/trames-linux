@@ -2,22 +2,14 @@
 // Product-owned EL1 adapter; guest application instructions are never patched.
 .section .text.trames_kvm,"ax"
 .balign 2048
-.macro trames_adapter name, high
-.global \name\()_vectors_start
-\name\()_vectors_start:
-.rept 8
-    b .Ladapter_fault_\@
-    .space 124
-.endr
-    b .Lsave_\@
-    .space 124
-.rept 7
-    b .Ladapter_fault_\@
-    .space 124
-.endr
-
+.macro trames_restore name, high, step
+.if \step
+.global \name\()_step_resume
+\name\()_step_resume:
+.else
 .global \name\()_resume
 \name\()_resume:
+.endif
     clrex
     ldr x0, [sp, #864]
     cbz x0, 1f
@@ -43,7 +35,13 @@
     msr elr_el1, x0
     ldr w0, [sp, #264]
     and x0, x0, #0xf0000000
+    .if \step
+    // MDSCR is configured once; only this debug entry unmasks EL0 debug.
+    orr x0, x0, #0x1c0
+    orr x0, x0, #0x200000
+    .else
     orr x0, x0, #0x3c0
+    .endif
     msr spsr_el1, x0
     ldr x0, [sp, #272]
     msr tpidr_el0, x0
@@ -85,6 +83,26 @@
     ldr x30, [sp, #240]
     ldp x0, x1, [sp]
     eret
+
+.endm
+.macro trames_adapter name, high
+.global \name\()_vectors_start
+\name\()_vectors_start:
+.rept 8
+    b .Ladapter_fault_\@
+    .space 124
+.endr
+    b .Lsave_\@
+    .space 124
+.rept 7
+    b .Ladapter_fault_\@
+    .space 124
+.endr
+
+    trames_restore \name, \high, 0
+    .if \high
+    trames_restore \name, \high, 1
+    .endif
 
 .global \name\()_saving
 \name\()_saving:

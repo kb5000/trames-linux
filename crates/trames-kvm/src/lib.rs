@@ -32,6 +32,37 @@ impl fmt::Display for Error {
 impl std::error::Error for Error {}
 pub type Result<T> = std::result::Result<T, Error>;
 
+/// Cold hardware report; architecture-specific decoding lives in its backend.
+#[derive(Clone, Debug, Serialize)]
+pub struct CpuCapabilities {
+    pub architecture: &'static str,
+    pub hwcap: u64,
+    pub hwcap2: u64,
+    pub features: String,
+    pub kvm_capabilities: std::collections::BTreeMap<String, bool>,
+    pub registers: std::collections::BTreeMap<String, u64>,
+}
+pub fn features() -> trames_execution::Features {
+    #[cfg(all(target_os = "linux", target_arch = "aarch64"))]
+    if let Ok(profile) = aarch64::features::profile() {
+        return trames_execution::Features {
+            hwcap: profile.hwcap,
+            hwcap2: profile.hwcap2,
+        };
+    }
+    trames_execution::Features {
+        hwcap: 3,
+        hwcap2: 0,
+    }
+}
+pub fn feature_names() -> &'static str {
+    #[cfg(all(target_os = "linux", target_arch = "aarch64"))]
+    if let Ok(profile) = aarch64::features::profile() {
+        return &profile.features;
+    }
+    "fp asimd"
+}
+
 #[derive(Debug, Serialize)]
 pub struct Doctor {
     pub host_os: &'static str,
@@ -45,6 +76,7 @@ pub struct Doctor {
     pub smccc_forwarding: bool,
     pub arm_ipa_bits: Option<u32>,
     pub backend_implemented: bool,
+    pub cpu: Option<CpuCapabilities>,
     pub issues: Vec<String>,
 }
 impl Doctor {
@@ -61,6 +93,7 @@ impl Doctor {
             smccc_forwarding: false,
             arm_ipa_bits: None,
             backend_implemented: cfg!(all(target_os = "linux", target_arch = "aarch64")),
+            cpu: None,
             issues: Vec::new(),
         };
         #[cfg(target_os = "linux")]
@@ -90,6 +123,12 @@ impl Doctor {
             return Err(Error(format!(
                 "the L0 hardware probe requires a real 4096-byte host page, found {:?}",
                 self.host_page_size
+            )));
+        }
+        if self.cpu.is_none() {
+            return Err(Error(format!(
+                "KVM CPU feature discovery failed: {}",
+                self.issues.join("; ")
             )));
         }
         Ok(())

@@ -129,6 +129,12 @@ impl Cpu {
                         signal: 5,
                         code: 1,
                     }),
+                    0x32 => SliceOutcome::Fault(CpuFault::Trap {
+                        pc: self.state.pc,
+                        instruction: 0,
+                        signal: 5,
+                        code: 2,
+                    }),
                     0x22 | 0x26 => SliceOutcome::Fault(CpuFault::Memory {
                         pc: self.state.pc,
                         error: MemoryError::Alignment(if ec == 0x26 {
@@ -151,9 +157,7 @@ impl Cpu {
         quantum: std::time::Duration,
     ) -> SliceOutcome {
         if self.single_step {
-            return SliceOutcome::Fault(CpuFault::Host(
-                "KVM guest single-step is not implemented".into(),
-            ));
+            self.state.nzcv |= 1 << 21;
         }
         #[cfg(all(target_os = "linux", target_arch = "aarch64"))]
         {
@@ -211,6 +215,12 @@ impl trames_engine::Cpu for Cpu {
         hwcap2: 0,
     };
     const FEATURE_NAMES: &'static str = "fp asimd";
+    fn features() -> Features {
+        crate::features()
+    }
+    fn feature_names() -> &'static str {
+        crate::feature_names()
+    }
     const EXACT_INSTRUCTIONS: bool = false;
     fn new(pc: u64, sp: u64) -> Self {
         Self {
@@ -235,7 +245,9 @@ impl trames_engine::Cpu for Cpu {
         self.state.tpidr_el0 = v;
     }
     fn architectural_state(&self) -> Aarch64State {
-        self.state.clone()
+        let mut state = self.state.clone();
+        state.nzcv &= 0xf0000000;
+        state
     }
     fn restore_architectural_state(&mut self, s: &Aarch64State) {
         self.state.clone_from(s);
@@ -254,6 +266,7 @@ impl trames_engine::Cpu for Cpu {
     }
     fn set_single_step(&mut self, v: bool) {
         self.single_step = v;
+        self.state.nzcv = (self.state.nzcv & 0xf0000000) | if v { 1 << 21 } else { 0 };
     }
     fn clear_exclusive(&mut self) {}
     fn fault_retired(&self) -> u64 {

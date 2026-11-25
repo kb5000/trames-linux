@@ -104,6 +104,8 @@ fn deadline_state_and_preentry_kick_survive_worker_migration() {
     cpu.state.vectors = std::array::from_fn(|i| 0x112233445566778899aabbccdd000000u128 + i as u128);
     cpu.set_tls(0x12345678);
     cpu.state.nzcv = 0xa0000000;
+    cpu.state.fpcr = 0x03400000;
+    cpu.state.fpsr = 0x0800009f;
     let saved = cpu.state.clone();
     let mut first = Engine::default();
     let kick = Cpu::execution_interrupt(&mut first).unwrap().unwrap();
@@ -126,12 +128,66 @@ fn deadline_state_and_preentry_kick_survive_worker_migration() {
         assert_eq!(cpu.state.vectors, saved.vectors);
         assert_eq!(cpu.state.tpidr_el0, saved.tpidr_el0);
         assert_eq!(cpu.state.nzcv, saved.nzcv);
+        assert_eq!(cpu.state.fpcr, saved.fpcr);
+        assert_eq!(cpu.state.fpsr, saved.fpsr);
         assert!([CODE, CODE + 4].contains(&cpu.pc()));
     }
     assert!(previous > 0);
     drop(first);
     kick.request_exit(); // retained handle is inert after retirement
 }
+#[test]
+#[ignore = "requires real ARM64 Linux KVM and 4KiB host pages"]
+fn architectural_step_retries_faults_and_survives_task_and_worker_switches() {
+    let (mut cpu, mut memory) = setup(&[
+        0x91000442, // ADD X2,X2,#1
+        0xf9400143, // LDR X3,[X10] (first access needs a stage-one fault)
+        0xd4000001, // original SVC
+        0x91000442, // ADD X2,X2,#1
+        0xd4000001,
+    ]);
+    memory
+        .write(DATA, &0x123456789abcdef0u64.to_le_bytes())
+        .unwrap();
+    cpu.set_x(10, DATA);
+    cpu.state.fpcr = 0x03400000;
+    cpu.state.fpsr = 0x0800009f;
+    let mut first = Engine::default();
+    let mut second = Engine::default();
+    for (index, engine) in [&mut first, &mut second].into_iter().enumerate() {
+        cpu.set_single_step(true);
+        assert!(matches!(
+            cpu.run(engine, &mut memory, u64::MAX),
+            SliceOutcome::Fault(trames_engine::CpuFault::Trap {
+                signal: 5,
+                code: 2,
+                ..
+            })
+        ));
+        assert_eq!(cpu.pc(), CODE + (index as u64 + 1) * 4);
+        assert_eq!(cpu.x(2), 1);
+        assert_eq!(cpu.architectural_state().nzcv & (1 << 21), 0);
+        assert_eq!(cpu.state.fpcr, 0x03400000);
+        assert_eq!(cpu.state.fpsr, 0x0800009f);
+    }
+    assert_eq!(cpu.x(3), 0x123456789abcdef0);
+    // An SVC remains one original syscall, not an EL1 debug stop.
+    cpu.set_single_step(true);
+    assert!(matches!(
+        cpu.run(&mut first, &mut memory, u64::MAX),
+        SliceOutcome::Syscall { .. }
+    ));
+    assert_eq!(cpu.pc(), CODE + 12);
+    cpu.set_single_step(false);
+    syscall(&mut cpu, &mut second, &mut memory);
+    assert_eq!(cpu.pc(), CODE + 20);
+    assert_eq!(cpu.x(2), 2);
+    // The same worker's next ordinary task must not inherit debug admission.
+    let (mut ordinary, mut other_memory) = setup(&[0x91000442, 0xd4000001]);
+    syscall(&mut ordinary, &mut first, &mut other_memory);
+    assert_eq!(ordinary.x(2), 1);
+}
+
 #[test]
 #[ignore = "requires real ARM64 Linux KVM and 4KiB host pages"]
 fn byte_borrow_revokes_cached_stage_two_and_wakes_without_polling() {
