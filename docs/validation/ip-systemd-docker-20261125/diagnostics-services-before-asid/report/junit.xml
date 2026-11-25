@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='utf-8'?>
+<testsuites><testsuite name="native" tests="3" failures="0"><testcase name="containerd.shim-startup" classname="native" time="0.5663087220018497" /><testcase name="docker.lifecycle" classname="native" time="5.726709480994032" /><testcase name="systemd.pid1-services" classname="native" time="0.31703693899908103" /></testsuite><testsuite name="kvm-smccc-1" tests="3" failures="1"><testcase name="containerd.shim-startup" classname="kvm-smccc-1" time="8.962014992997865"><failure type="failed" message="failed">
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 30, in &lt;module&gt;
+  File "&lt;stdin&gt;", line 22, in connect
+ConnectionRefusedError: [Errno 111] Connection refused
+</failure></testcase><testcase name="docker.lifecycle" classname="kvm-smccc-1" time="141.88804218499718" /><testcase name="systemd.pid1-services" classname="kvm-smccc-1" time="54.08045355599461" /></testsuite><testsuite name="kvm-smccc-4" tests="3" failures="1"><testcase name="containerd.shim-startup" classname="kvm-smccc-4" time="602.0315153650008"><failure type="timed_out" message="timed_out">
+</failure></testcase><testcase name="docker.lifecycle" classname="kvm-smccc-4" time="130.29030685999896" /><testcase name="systemd.pid1-services" classname="kvm-smccc-4" time="35.90601112400327" /></testsuite><testsuite name="kvm-mmio-1" tests="3" failures="1"><testcase name="containerd.shim-startup" classname="kvm-mmio-1" time="24.773446204999345" /><testcase name="docker.lifecycle" classname="kvm-mmio-1" time="150.91183358999842"><failure type="failed" message="failed">
+</failure></testcase><testcase name="systemd.pid1-services" classname="kvm-mmio-1" time="39.045689171995036" /></testsuite><testsuite name="kvm-mmio-4" tests="3" failures="1"><testcase name="containerd.shim-startup" classname="kvm-mmio-4" time="602.0203955210018"><failure type="timed_out" message="timed_out">
+</failure></testcase><testcase name="docker.lifecycle" classname="kvm-mmio-4" time="116.95410853599606" /><testcase name="systemd.pid1-services" classname="kvm-mmio-4" time="36.79637752499548" /></testsuite></testsuites>

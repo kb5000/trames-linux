@@ -1,0 +1,17 @@
+{
+  "artifacts": {},
+  "artifacts_validated": true,
+  "case_inputs": "bc6ca147a3916f4507408a9bf3301e3b62ffdf35536f2aa01b7443835c6c5784",
+  "domain": "process",
+  "exit_code": 0,
+  "fingerprint": "04cf95a8ca62dc085d5cae37a3b4659dc192cb1813636a362e64bd154207387f",
+  "id": "python.process-threads",
+  "logs": {
+    "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "7e599e86e1b71e9f48bcf403996dc83d5db97401ac1e6bcdd14993ddb99a592a"
+  },
+  "reused": false,
+  "seconds": 4.160191847986425,
+  "status": "passed",
+  "tier": "apps"
+}

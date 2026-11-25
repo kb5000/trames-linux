@@ -1,0 +1,20 @@
+{
+  "artifacts": {
+    "/work/docker.result": "91b6b23d9c82ad183317db7e9d98d6c8dabf7263d6a6f14d12699d924c53da85"
+  },
+  "artifacts_validated": true,
+  "case_inputs": "a68277611755dd314d8f1a887f47b59514e5689159afdf2c51c2d19cd9de1c2e",
+  "domain": "containers",
+  "exit_code": 0,
+  "fingerprint": "b93085283f6fb07a15c306a0b6713ad1bcb69f597c69331a7bdb011015c9df8b",
+  "id": "docker.lifecycle",
+  "logs": {
+    "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "reused": true,
+  "reused_from": "/home/main.guest/trames-services-native-v8/cases/docker.lifecycle",
+  "seconds": 5.726709480994032,
+  "status": "passed",
+  "tier": "apps"
+}

@@ -1,0 +1,17 @@
+{
+  "final_product_commit": "2abf2157715c06147b67766699e74794d78392ca",
+  "final_runtime_commit": "542b14f9e3dff51d89d61043d5a77916b8417c25",
+  "old_binary_sha256": "c4b7974ece524e64ba7a226fe89cb762a785d6ea4d168cc545c9f2e2b2f0cb10",
+  "new_binary_sha256": "ce76bdea779856be1aea463d47ed8655c6add85b734bdc0bd155492131025388",
+  "old_binary_size": 22875432,
+  "new_binary_size": 22875360,
+  "executable_text_sha256": "e15285edb4969945a2e383f8b64446564ba405f9d985f442b4dd44b170e9f5ed",
+  "all_PT_LOAD_headers_and_bytes_identical_after_normalizing_only": [
+    "one embedded 40-byte runtime commit string",
+    "GNU build-ID note descriptor",
+    "ELF e_shoff pointer to non-loadable section headers"
+  ],
+  "normalized_loadable_sha256": "357486584012d2e972811bb06a17af07fa83c6c9f337502f22d1d58a79fc839e",
+  "equal": true,
+  "note": "Existing execution evidence retains its original binary/build provenance; no acceptance fingerprints are rewritten."
+}

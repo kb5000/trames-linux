@@ -1,0 +1,250 @@
+{
+  "cases": [
+    {
+      "artifacts": {
+        "/work/sorted": "9ff482bbad59dc6d2dda31549c8431f4cfd280a2e6b52f4b0f761b5961593322"
+      },
+      "artifacts_validated": true,
+      "case_inputs": "7c38812729cfbaa2b343d5ffe057ebd514aeaa10d815dac49882704ca4bfc775",
+      "domain": "process",
+      "exit_code": 0,
+      "fingerprint": "1989f75f7079ef113930b4841abbb4a2197fe361a33c08ef92ddfd6042beec13",
+      "id": "shell.pipeline",
+      "logs": {
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "67474b3b20cb307dc79f8467244c0523d54c6ee58c76aa0236ff807feb1ee904"
+      },
+      "reused": true,
+      "reused_from": "/home/main.guest/trames-applications-qualified/kvm-smccc-1/cases/shell.pipeline",
+      "seconds": 0.31693975100643,
+      "status": "passed",
+      "tier": "smoke"
+    },
+    {
+      "artifacts": {
+        "/work/data/moved": "d4e4877bac978b7952f0d544fc52ebff5411d351d129f1f056fa43f11da9af2b"
+      },
+      "artifacts_validated": true,
+      "case_inputs": "4a83758943713ad29eaef99edd1fd37301c59f83eba42f770bc7564a93d3b3ee",
+      "domain": "files",
+      "exit_code": 0,
+      "fingerprint": "b1317ae10ede0a1c32045aaee30a4e3910e3763c6cfa721a01b8fa1be3ff0da2",
+      "id": "coreutils.files",
+      "logs": {
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "e61e4fff76b9672b00058b4adaa180f012b415f56c18c6cf537450537de5bc50"
+      },
+      "reused": true,
+      "reused_from": "/home/main.guest/trames-applications-qualified/kvm-smccc-1/cases/coreutils.files",
+      "seconds": 0.6176260860083858,
+      "status": "passed",
+      "tier": "smoke"
+    },
+    {
+      "artifacts": {},
+      "artifacts_validated": true,
+      "case_inputs": "f78354480511d2741875baaf0fb7dcca94ded540441440c199f89b05848a1411",
+      "domain": "files",
+      "exit_code": 0,
+      "fingerprint": "dce2fd5094082e06fbd2f415bdeb37913e7f8722721fce7912ff9d852c5dce15",
+      "id": "text.filters",
+      "logs": {
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "a780813a42edf15e8dbded28cb244ebd09efc8316dded9ee017617b60e923182"
+      },
+      "reused": true,
+      "reused_from": "/home/main.guest/trames-applications-qualified/kvm-smccc-1/cases/text.filters",
+      "seconds": 0.31885365401103627,
+      "status": "passed",
+      "tier": "smoke"
+    },
+    {
+      "artifacts": {
+        "/work/restored/source/value": "92f86a430bca3d71cc27fcedb1a9b67a487e7f1ac1c97aad57df2d40ec9f8b71"
+      },
+      "artifacts_validated": true,
+      "case_inputs": "1aca35a4d35f301b38ede59abd940a3d401ce5a8ac905222ac4c8ad5bd60fd89",
+      "domain": "files",
+      "exit_code": 0,
+      "fingerprint": "6140fccfa52271556c4b08aaeb1d8dd4a6893d8a7b629db79f2480aed4e8133e",
+      "id": "archive.roundtrip",
+      "logs": {
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "f852da5cffb5c908daab6809d6656be278c5c9a7940915ede66cb03b9ddaad62"
+      },
+      "reused": true,
+      "reused_from": "/home/main.guest/trames-applications-qualified/kvm-smccc-1/cases/archive.roundtrip",
+      "seconds": 0.770388801000081,
+      "status": "passed",
+      "tier": "smoke"
+    },
+    {
+      "artifacts": {
+        "/work/decoded": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+      },
+      "artifacts_validated": true,
+      "case_inputs": "6ffd84683912afd44f007d254c691b5eb796456c227b92d762f171cfc9d06384",
+      "domain": "memory",
+      "exit_code": 0,
+      "fingerprint": "c6e71c113c77aa69463f833e0b195348c9aed6503ebd92f7bbb38090c3d5e8e9",
+      "id": "hash.base64",
+      "logs": {
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "64aaf0934b3fd480f0e4245c7190bfbd5a32c1cdbdbe35f5536167ffd462de1e"
+      },
+      "reused": true,
+      "reused_from": "/home/main.guest/trames-applications-qualified/kvm-smccc-1/cases/hash.base64",
+      "seconds": 0.3186404180014506,
+      "status": "passed",
+      "tier": "smoke"
+    },
+    {
+      "artifacts": {
+        "/work/data.json": "f85ee2859e7757b5bcf33d720ead3c508e04e0d997845cfab9bf5aebe6569086"
+      },
+      "artifacts_validated": true,
+      "case_inputs": "f499017fd29f8494e5a1eef3e14fdf5b6edf99b0cfede55d16caa6699ba6b013",
+      "domain": "files",
+      "exit_code": 0,
+      "fingerprint": "b86deb24ebb24f2206a903d4c0da5cb0b60e9f04084e228946a6bfc40d2a9f81",
+      "id": "python.stdlib",
+      "logs": {
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "2895e016028fe1769b69bce6bdfd3760000cfdf657387ba409d6c6b8df4c7d68"
+      },
+      "reused": true,
+      "reused_from": "/home/main.guest/trames-applications-qualified/kvm-smccc-1/cases/python.stdlib",
+      "seconds": 2.690667033995851,
+      "status": "passed",
+      "tier": "apps"
+    },
+    {
+      "artifacts": {},
+      "artifacts_validated": true,
+      "case_inputs": "bc6ca147a3916f4507408a9bf3301e3b62ffdf35536f2aa01b7443835c6c5784",
+      "domain": "process",
+      "exit_code": 0,
+      "fingerprint": "5fe28e0892336deb7feec81b72b5c5c3e4cc1e33082da38f760771a91b4f5d65",
+      "id": "python.process-threads",
+      "logs": {
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "7e599e86e1b71e9f48bcf403996dc83d5db97401ac1e6bcdd14993ddb99a592a"
+      },
+      "reused": false,
+      "seconds": 3.7891643839975586,
+      "status": "passed",
+      "tier": "apps"
+    },
+    {
+      "artifacts": {
+        "/work/clone/file": "01f1fdca12371e5ee7f4dbe02b17618a7e099ff5fbfc471c4c07b9d796b78287"
+      },
+      "artifacts_validated": true,
+      "case_inputs": "c244155870fee31ecbcd283223360e0eb904e8573d9ef6222e617d44afd6a1b2",
+      "domain": "process",
+      "exit_code": 0,
+      "fingerprint": "b9d9359c5bb7603a7f455ab458dc153143089fededff72d9d6f8bbddb940978b",
+      "id": "git.local-workflow",
+      "logs": {
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "6feb9a8630822bdf83e13cd8ea8708f828c959b69114529fbca04b753b2be612"
+      },
+      "reused": true,
+      "reused_from": "/home/main.guest/trames-applications-qualified/kvm-smccc-1/cases/git.local-workflow",
+      "seconds": 4.579334157999256,
+      "status": "passed",
+      "tier": "apps"
+    },
+    {
+      "artifacts": {
+        "/work/downloaded": "902ef0eee54c20542b2c85a215382b764ee2213b1ee5ff40a7919ca1f1ab2f7b"
+      },
+      "artifacts_validated": true,
+      "case_inputs": "8e39ff503d4c6687beec70c98f9e74f75cd3c6056f3f9d7273a918fb5d6cdd9f",
+      "domain": "files",
+      "exit_code": 0,
+      "fingerprint": "691e0545ceca7cd1892f167d13634fa15d480c5a24127a72395c00a7ca5ea8b5",
+      "id": "curl.file-transfer",
+      "logs": {
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "610e4fdf9479a56427a545a483d1056e6cc44fed3c1412a3750faebfc96a6b41"
+      },
+      "reused": true,
+      "reused_from": "/home/main.guest/trames-applications-qualified/kvm-smccc-1/cases/curl.file-transfer",
+      "seconds": 0.5176734990091063,
+      "status": "passed",
+      "tier": "apps"
+    },
+    {
+      "artifacts": {},
+      "artifacts_validated": true,
+      "case_inputs": "09440110feaf03ca2640a4a3c4fde8db56573df6c87b0834042e67338f81a7e2",
+      "domain": "random",
+      "exit_code": 0,
+      "fingerprint": "9641d0b8603eb64a1d0fce590b8079112e2d73a83d324e74575cf1f5ccfb83b8",
+      "id": "ssh.key-roundtrip",
+      "logs": {
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "cd156d550d794a8eec93e91f543399f942a2fe8c9472c1bf3003777c4d64ffa7"
+      },
+      "reused": true,
+      "reused_from": "/home/main.guest/trames-applications-qualified/kvm-smccc-1/cases/ssh.key-roundtrip",
+      "seconds": 0.46725388598861173,
+      "status": "passed",
+      "tier": "apps"
+    },
+    {
+      "artifacts": {
+        "/work/node.txt": "530ee462f1e31835a7bff9f902293bef79bb767a83a19e88abe804396af0a503"
+      },
+      "artifacts_validated": true,
+      "case_inputs": "25391a340cb5ce9f00cd0ec95494346a4b43bdb3c5a7f238c15124f1d5d66afc",
+      "domain": "process",
+      "exit_code": 0,
+      "fingerprint": "810aee4d0138634def67bd4b6d6d1f9ca2cf50f5d9d2cf2544b92faa24818578",
+      "id": "node.workers",
+      "logs": {
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "b55a8f04055720422e824dac3d701614c166e734040fdf7bcca9946c9af887b1"
+      },
+      "reused": true,
+      "reused_from": "/home/main.guest/trames-applications-qualified/kvm-smccc-1/cases/node.workers",
+      "seconds": 5.878081005997956,
+      "status": "passed",
+      "tier": "apps"
+    },
+    {
+      "artifacts": {
+        "/work/result": "e0aa22aeb6f3d203407e17a4c68fdff805b1f91e92fa72fab448d03ad3eb1190"
+      },
+      "artifacts_validated": true,
+      "case_inputs": "cad086d05af3f252fe3457259d4028bfcefaaebc7133c78839000965e3cfeb3f",
+      "domain": "process",
+      "exit_code": 0,
+      "fingerprint": "f5f3dad96b575f4cc7d5efc79453f4dfbd2e4d2c5fab6cf58f5c06c7ef9a77fc",
+      "id": "build.gcc-make",
+      "logs": {
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "1f8f0346bf017345f7b828c2879536c11953e12c24df82a875534133bc9c777e"
+      },
+      "reused": true,
+      "reused_from": "/home/main.guest/trames-applications-qualified/kvm-smccc-1/cases/build.gcc-make",
+      "seconds": 2.136643299003481,
+      "status": "passed",
+      "tier": "apps"
+    }
+  ],
+  "completed": 12,
+  "counts": {
+    "blocked": 0,
+    "failed": 0,
+    "infrastructure_error": 0,
+    "not_run": 0,
+    "passed": 12,
+    "reference_failed": 0,
+    "timed_out": 0
+  },
+  "planned": 12,
+  "reused": 11,
+  "schema_version": 1
+}

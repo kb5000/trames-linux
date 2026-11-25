@@ -1,0 +1,18 @@
+{
+  "artifacts": {},
+  "artifacts_validated": true,
+  "case_inputs": "09440110feaf03ca2640a4a3c4fde8db56573df6c87b0834042e67338f81a7e2",
+  "domain": "random",
+  "exit_code": 0,
+  "fingerprint": "9641d0b8603eb64a1d0fce590b8079112e2d73a83d324e74575cf1f5ccfb83b8",
+  "id": "ssh.key-roundtrip",
+  "logs": {
+    "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "cd156d550d794a8eec93e91f543399f942a2fe8c9472c1bf3003777c4d64ffa7"
+  },
+  "reused": true,
+  "reused_from": "/home/main.guest/trames-applications-qualified/kvm-smccc-1/cases/ssh.key-roundtrip",
+  "seconds": 0.46725388598861173,
+  "status": "passed",
+  "tier": "apps"
+}

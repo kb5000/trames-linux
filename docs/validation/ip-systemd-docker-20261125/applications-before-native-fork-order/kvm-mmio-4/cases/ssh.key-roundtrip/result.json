@@ -1,0 +1,17 @@
+{
+  "artifacts": {},
+  "artifacts_validated": true,
+  "case_inputs": "09440110feaf03ca2640a4a3c4fde8db56573df6c87b0834042e67338f81a7e2",
+  "domain": "random",
+  "exit_code": 0,
+  "fingerprint": "383cd187569b46e5e48170a0d65bfc69dbe337330e8869a6e091932e8d3a9d82",
+  "id": "ssh.key-roundtrip",
+  "logs": {
+    "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "cd156d550d794a8eec93e91f543399f942a2fe8c9472c1bf3003777c4d64ffa7"
+  },
+  "reused": false,
+  "seconds": 0.6673379099956946,
+  "status": "passed",
+  "tier": "apps"
+}

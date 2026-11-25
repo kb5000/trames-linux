@@ -1,0 +1,20 @@
+{
+  "artifacts": {
+    "/work/docker.result": "91b6b23d9c82ad183317db7e9d98d6c8dabf7263d6a6f14d12699d924c53da85"
+  },
+  "artifacts_validated": true,
+  "case_inputs": "a68277611755dd314d8f1a887f47b59514e5689159afdf2c51c2d19cd9de1c2e",
+  "domain": "containers",
+  "exit_code": 0,
+  "fingerprint": "f946c2829a5c2b9012aa21423cd6e49113c461ef0105ec42e909d8214a6afec6",
+  "id": "docker.lifecycle",
+  "logs": {
+    "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "reused": true,
+  "reused_from": "/home/main.guest/trames-services-qualified/kvm-smccc-4/cases/docker.lifecycle",
+  "seconds": 113.86023410600319,
+  "status": "passed",
+  "tier": "apps"
+}

@@ -1,0 +1,34 @@
+{
+  "fingerprint": {
+    "binary_sha256": "c3570101fa50457c645defe937edc5592497997cf92ab65feaa7cd912f9927f5",
+    "command": [
+      "cargo",
+      "build",
+      "--workspace",
+      "--release",
+      "--locked"
+    ],
+    "flags": {
+      "CARGO_INCREMENTAL": "0"
+    },
+    "sources": {
+      "product": "1e316d0d75527a4dd88d05d9d51fcdf3b84cd0039e3c7edd67b92d4940d48b65",
+      "runtime": "c04e114af1f6456bf50de811393c3c0a568196983204b3de144f6da8785263f1"
+    },
+    "toolchain": "rustc 1.101.0-nightly (4ebd25825 2026-10-15)\nbinary: rustc\ncommit-hash: 4ebd258257737d5b7635c116fa7d281627a7e937\ncommit-date: 2026-10-15\nhost: aarch64-unknown-linux-gnu\nrelease: 1.101.0-nightly\nLLVM version: 23.1.4\n"
+  },
+  "fingerprint_sha256": "6df225eb73292ffc41703989e8bfa469cd7f94a243e3196746f137b9ee25b89b",
+  "schema_version": 1,
+  "sources": {
+    "product": {
+      "commit": "cca077c6d6d87e9b10cf4efb84ff88d180371419",
+      "dirty": false,
+      "inputs_sha256": "1e316d0d75527a4dd88d05d9d51fcdf3b84cd0039e3c7edd67b92d4940d48b65"
+    },
+    "runtime": {
+      "commit": "76f860287368605e3697bd934816c18490967c2f",
+      "dirty": false,
+      "inputs_sha256": "c04e114af1f6456bf50de811393c3c0a568196983204b3de144f6da8785263f1"
+    }
+  }
+}

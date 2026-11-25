@@ -1,0 +1,676 @@
+{
+  "counts": {
+    "kvm-mmio-1": {
+      "passed": 2
+    },
+    "kvm-mmio-4": {
+      "passed": 2
+    },
+    "kvm-smccc-1": {
+      "passed": 2
+    },
+    "kvm-smccc-4": {
+      "passed": 2
+    },
+    "native": {
+      "passed": 2
+    }
+  },
+  "failed_cells": 0,
+  "lanes": {
+    "kvm-mmio-1": {
+      "evidence": "/private/tmp/trames-linux-services/docs/validation/ip-systemd-docker-20261125/network/kvm-mmio-1",
+      "plan": {
+        "build": {
+          "fingerprint": {
+            "binary_sha256": "c4b7974ece524e64ba7a226fe89cb762a785d6ea4d168cc545c9f2e2b2f0cb10",
+            "command": [
+              "cargo",
+              "build",
+              "--workspace",
+              "--release",
+              "--locked"
+            ],
+            "flags": {
+              "CARGO_INCREMENTAL": "0"
+            },
+            "sources": {
+              "product": "7bb29bd80939ea31654012544d7df5a5ee35b0f8030b45f5b894adb6ccb9b702",
+              "runtime": "c04e114af1f6456bf50de811393c3c0a568196983204b3de144f6da8785263f1"
+            },
+            "toolchain": "rustc 1.101.0-nightly (4ebd25825 2026-10-15)\nbinary: rustc\ncommit-hash: 4ebd258257737d5b7635c116fa7d281627a7e937\ncommit-date: 2026-10-15\nhost: aarch64-unknown-linux-gnu\nrelease: 1.101.0-nightly\nLLVM version: 23.1.4\n"
+          },
+          "fingerprint_sha256": "b5472ed6725d872aa44e218ff96ceb494c4ddc447096517a38b4d1b802b32546",
+          "schema_version": 1,
+          "sources": {
+            "product": {
+              "commit": "1e9f28657f77c47a8caf99117944bcd11baa1a48",
+              "dirty": false,
+              "inputs_sha256": "7bb29bd80939ea31654012544d7df5a5ee35b0f8030b45f5b894adb6ccb9b702"
+            },
+            "runtime": {
+              "commit": "76f860287368605e3697bd934816c18490967c2f",
+              "dirty": false,
+              "inputs_sha256": "c04e114af1f6456bf50de811393c3c0a568196983204b3de144f6da8785263f1"
+            }
+          }
+        },
+        "bundle_sha256": "d437f7389e6c9d02581fd2e0c45cd01d71176310ffb17c8e466e42c2086f279c",
+        "cases": [
+          {
+            "domain": "network",
+            "id": "ip.address-route",
+            "requires": [
+              "/usr/bin/ip",
+              "/usr/bin/python3"
+            ],
+            "script": "ip link set lo up\nip link add acceptance0 type dummy\nip link set acceptance0 mtu 1400 up\nip address add 192.0.2.1/24 dev acceptance0\nip -6 address add 2001:db8:1::1/64 dev acceptance0 nodad\nip route add 198.51.100.0/24 dev acceptance0 metric 42\nip -j link show dev acceptance0 > links.json\nip -j address show dev acceptance0 > addresses.json\nip -j route show 198.51.100.0/24 > routes.json\npython3 - <<'CHECK'\nimport json\nl=json.load(open('links.json'))[0]; assert l['ifname']=='acceptance0' and l['mtu']==1400 and 'UP' in l['flags']\na=json.load(open('addresses.json'))[0]['addr_info']; assert any(x['local']=='192.0.2.1' and x['prefixlen']==24 for x in a); assert any(x['local']=='2001:db8:1::1' for x in a)\nr=json.load(open('routes.json')); assert any(x['dst']=='198.51.100.0/24' and x['dev']=='acceptance0' and x['metric']==42 for x in r)\nCHECK\nip route del 198.51.100.0/24 dev acceptance0 metric 42\nip address del 192.0.2.1/24 dev acceptance0\nip link del acceptance0\nprintf 'ip-address-route: ok\\n' ",
+            "stdout": "ip-address-route: ok\n",
+            "tier": "apps"
+          },
+          {
+            "domain": "network",
+            "id": "ip.namespace-bridge",
+            "requires": [
+              "/usr/bin/ip",
+              "/usr/bin/ping",
+              "/usr/bin/bridge",
+              "/usr/bin/grep"
+            ],
+            "script": "mkdir -p /var/run/netns\nip netns add acceptance-ns\nip link add acceptance-br type bridge\nip link set acceptance-br up\nip address add 192.0.2.1/24 dev acceptance-br\nip link add acceptance-veth type veth peer name acceptance-peer\nip link set acceptance-veth master acceptance-br\nip link set acceptance-veth up\nip link set acceptance-peer netns acceptance-ns\nip netns exec acceptance-ns /usr/bin/ip link set lo up\nip netns exec acceptance-ns /usr/bin/ip link set acceptance-peer up\nip netns exec acceptance-ns /usr/bin/ip address add 192.0.2.2/24 dev acceptance-peer\nbridge link show dev acceptance-veth | grep -q 'master acceptance-br'\nip netns exec acceptance-ns /usr/bin/ping -n -c 3 -W 2 192.0.2.1 > ping.log\nip netns exec acceptance-ns /usr/bin/ip route get 192.0.2.1 | grep -q 'dev acceptance-peer'\nip link del acceptance-veth\nip netns delete acceptance-ns\nip link del acceptance-br\nprintf 'ip-namespace-bridge: ok\\n' ",
+            "stdout": "ip-namespace-bridge: ok\n",
+            "tier": "apps",
+            "timeout": 60
+          }
+        ],
+        "harness_sha256": "898f819af95d9e2d4a3d94829036cc6dce8718b326bcb3f20ba3cf4d355293f3",
+        "host": {
+          "arch": "aarch64",
+          "cpu": "processor\t: 0\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 1\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 2\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 3\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 4\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 5\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\n",
+          "cpu_identity": [
+            "CPU architecture: 8",
+            "CPU implementer\t: 0x61",
+            "CPU part\t: 0x000",
+            "CPU revision\t: 0",
+            "CPU variant\t: 0x0",
+            "Features\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut"
+          ],
+          "kernel": "7.0.0-43-generic",
+          "libc": [
+            "glibc",
+            "2.39"
+          ],
+          "os": "Linux",
+          "page_size": 4096
+        },
+        "performance_qualified": false,
+        "provider": {
+          "backend": "kvm",
+          "build": "b5472ed6725d872aa44e218ff96ceb494c4ddc447096517a38b4d1b802b32546",
+          "cpus": 1,
+          "filesystem": "host",
+          "native_container": null,
+          "native_tools": null,
+          "network": "outbound",
+          "transport": "mmio"
+        },
+        "schema_version": 1,
+        "selected_scope": "complete"
+      },
+      "rows": {
+        "ip.address-route": {
+          "artifacts": {},
+          "artifacts_validated": true,
+          "case_inputs": "b1329271c7519492348284643df3bc3f00f4f7f516dbfff78bf0279a936f86e6",
+          "domain": "network",
+          "exit_code": 0,
+          "fingerprint": "75aaf0466aff592d8140af8bab04bbe16a3fb63bda1affd6a0f2ebd52004b7d6",
+          "id": "ip.address-route",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "8f467269d76f0d77796534775148164befdff44ff9ae31b368329750252ff05f"
+          },
+          "reused": false,
+          "seconds": 2.4369658549985616,
+          "status": "passed",
+          "tier": "apps"
+        },
+        "ip.namespace-bridge": {
+          "artifacts": {},
+          "artifacts_validated": true,
+          "case_inputs": "ccd207a3829dc9876f63abc0042a602ee40869f66a171a4e0c7c82d32a229add",
+          "domain": "network",
+          "exit_code": 0,
+          "fingerprint": "5aa316b5db376d47a829117eac1c0851bc5219017b1791fd3a4d0bf342c44869",
+          "id": "ip.namespace-bridge",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "98e1ffee0274289a8ab905b65f9d25642396b0d43aa3426582be657465ae3a13"
+          },
+          "reused": false,
+          "seconds": 3.7983293020079145,
+          "status": "passed",
+          "tier": "apps"
+        }
+      }
+    },
+    "kvm-mmio-4": {
+      "evidence": "/private/tmp/trames-linux-services/docs/validation/ip-systemd-docker-20261125/network/kvm-mmio-4",
+      "plan": {
+        "build": {
+          "fingerprint": {
+            "binary_sha256": "c4b7974ece524e64ba7a226fe89cb762a785d6ea4d168cc545c9f2e2b2f0cb10",
+            "command": [
+              "cargo",
+              "build",
+              "--workspace",
+              "--release",
+              "--locked"
+            ],
+            "flags": {
+              "CARGO_INCREMENTAL": "0"
+            },
+            "sources": {
+              "product": "7bb29bd80939ea31654012544d7df5a5ee35b0f8030b45f5b894adb6ccb9b702",
+              "runtime": "c04e114af1f6456bf50de811393c3c0a568196983204b3de144f6da8785263f1"
+            },
+            "toolchain": "rustc 1.101.0-nightly (4ebd25825 2026-10-15)\nbinary: rustc\ncommit-hash: 4ebd258257737d5b7635c116fa7d281627a7e937\ncommit-date: 2026-10-15\nhost: aarch64-unknown-linux-gnu\nrelease: 1.101.0-nightly\nLLVM version: 23.1.4\n"
+          },
+          "fingerprint_sha256": "b5472ed6725d872aa44e218ff96ceb494c4ddc447096517a38b4d1b802b32546",
+          "schema_version": 1,
+          "sources": {
+            "product": {
+              "commit": "1e9f28657f77c47a8caf99117944bcd11baa1a48",
+              "dirty": false,
+              "inputs_sha256": "7bb29bd80939ea31654012544d7df5a5ee35b0f8030b45f5b894adb6ccb9b702"
+            },
+            "runtime": {
+              "commit": "76f860287368605e3697bd934816c18490967c2f",
+              "dirty": false,
+              "inputs_sha256": "c04e114af1f6456bf50de811393c3c0a568196983204b3de144f6da8785263f1"
+            }
+          }
+        },
+        "bundle_sha256": "d437f7389e6c9d02581fd2e0c45cd01d71176310ffb17c8e466e42c2086f279c",
+        "cases": [
+          {
+            "domain": "network",
+            "id": "ip.address-route",
+            "requires": [
+              "/usr/bin/ip",
+              "/usr/bin/python3"
+            ],
+            "script": "ip link set lo up\nip link add acceptance0 type dummy\nip link set acceptance0 mtu 1400 up\nip address add 192.0.2.1/24 dev acceptance0\nip -6 address add 2001:db8:1::1/64 dev acceptance0 nodad\nip route add 198.51.100.0/24 dev acceptance0 metric 42\nip -j link show dev acceptance0 > links.json\nip -j address show dev acceptance0 > addresses.json\nip -j route show 198.51.100.0/24 > routes.json\npython3 - <<'CHECK'\nimport json\nl=json.load(open('links.json'))[0]; assert l['ifname']=='acceptance0' and l['mtu']==1400 and 'UP' in l['flags']\na=json.load(open('addresses.json'))[0]['addr_info']; assert any(x['local']=='192.0.2.1' and x['prefixlen']==24 for x in a); assert any(x['local']=='2001:db8:1::1' for x in a)\nr=json.load(open('routes.json')); assert any(x['dst']=='198.51.100.0/24' and x['dev']=='acceptance0' and x['metric']==42 for x in r)\nCHECK\nip route del 198.51.100.0/24 dev acceptance0 metric 42\nip address del 192.0.2.1/24 dev acceptance0\nip link del acceptance0\nprintf 'ip-address-route: ok\\n' ",
+            "stdout": "ip-address-route: ok\n",
+            "tier": "apps"
+          },
+          {
+            "domain": "network",
+            "id": "ip.namespace-bridge",
+            "requires": [
+              "/usr/bin/ip",
+              "/usr/bin/ping",
+              "/usr/bin/bridge",
+              "/usr/bin/grep"
+            ],
+            "script": "mkdir -p /var/run/netns\nip netns add acceptance-ns\nip link add acceptance-br type bridge\nip link set acceptance-br up\nip address add 192.0.2.1/24 dev acceptance-br\nip link add acceptance-veth type veth peer name acceptance-peer\nip link set acceptance-veth master acceptance-br\nip link set acceptance-veth up\nip link set acceptance-peer netns acceptance-ns\nip netns exec acceptance-ns /usr/bin/ip link set lo up\nip netns exec acceptance-ns /usr/bin/ip link set acceptance-peer up\nip netns exec acceptance-ns /usr/bin/ip address add 192.0.2.2/24 dev acceptance-peer\nbridge link show dev acceptance-veth | grep -q 'master acceptance-br'\nip netns exec acceptance-ns /usr/bin/ping -n -c 3 -W 2 192.0.2.1 > ping.log\nip netns exec acceptance-ns /usr/bin/ip route get 192.0.2.1 | grep -q 'dev acceptance-peer'\nip link del acceptance-veth\nip netns delete acceptance-ns\nip link del acceptance-br\nprintf 'ip-namespace-bridge: ok\\n' ",
+            "stdout": "ip-namespace-bridge: ok\n",
+            "tier": "apps",
+            "timeout": 60
+          }
+        ],
+        "harness_sha256": "898f819af95d9e2d4a3d94829036cc6dce8718b326bcb3f20ba3cf4d355293f3",
+        "host": {
+          "arch": "aarch64",
+          "cpu": "processor\t: 0\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 1\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 2\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 3\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 4\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 5\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\n",
+          "cpu_identity": [
+            "CPU architecture: 8",
+            "CPU implementer\t: 0x61",
+            "CPU part\t: 0x000",
+            "CPU revision\t: 0",
+            "CPU variant\t: 0x0",
+            "Features\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut"
+          ],
+          "kernel": "7.0.0-43-generic",
+          "libc": [
+            "glibc",
+            "2.39"
+          ],
+          "os": "Linux",
+          "page_size": 4096
+        },
+        "performance_qualified": false,
+        "provider": {
+          "backend": "kvm",
+          "build": "b5472ed6725d872aa44e218ff96ceb494c4ddc447096517a38b4d1b802b32546",
+          "cpus": 4,
+          "filesystem": "host",
+          "native_container": null,
+          "native_tools": null,
+          "network": "outbound",
+          "transport": "mmio"
+        },
+        "schema_version": 1,
+        "selected_scope": "complete"
+      },
+      "rows": {
+        "ip.address-route": {
+          "artifacts": {},
+          "artifacts_validated": true,
+          "case_inputs": "b1329271c7519492348284643df3bc3f00f4f7f516dbfff78bf0279a936f86e6",
+          "domain": "network",
+          "exit_code": 0,
+          "fingerprint": "11c2b2d99eec4b3c98d3c6ba78f9d92f429a94903f5fc5f5fd290ce0ee97ae68",
+          "id": "ip.address-route",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "8f467269d76f0d77796534775148164befdff44ff9ae31b368329750252ff05f"
+          },
+          "reused": false,
+          "seconds": 2.6501635780005017,
+          "status": "passed",
+          "tier": "apps"
+        },
+        "ip.namespace-bridge": {
+          "artifacts": {},
+          "artifacts_validated": true,
+          "case_inputs": "ccd207a3829dc9876f63abc0042a602ee40869f66a171a4e0c7c82d32a229add",
+          "domain": "network",
+          "exit_code": 0,
+          "fingerprint": "b69792ab7301b034fe075921893720cc0f87f281ba681a2b679f04c2e081834f",
+          "id": "ip.namespace-bridge",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "98e1ffee0274289a8ab905b65f9d25642396b0d43aa3426582be657465ae3a13"
+          },
+          "reused": false,
+          "seconds": 3.785549573993194,
+          "status": "passed",
+          "tier": "apps"
+        }
+      }
+    },
+    "kvm-smccc-1": {
+      "evidence": "/private/tmp/trames-linux-services/docs/validation/ip-systemd-docker-20261125/network/kvm-smccc-1",
+      "plan": {
+        "build": {
+          "fingerprint": {
+            "binary_sha256": "c4b7974ece524e64ba7a226fe89cb762a785d6ea4d168cc545c9f2e2b2f0cb10",
+            "command": [
+              "cargo",
+              "build",
+              "--workspace",
+              "--release",
+              "--locked"
+            ],
+            "flags": {
+              "CARGO_INCREMENTAL": "0"
+            },
+            "sources": {
+              "product": "7bb29bd80939ea31654012544d7df5a5ee35b0f8030b45f5b894adb6ccb9b702",
+              "runtime": "c04e114af1f6456bf50de811393c3c0a568196983204b3de144f6da8785263f1"
+            },
+            "toolchain": "rustc 1.101.0-nightly (4ebd25825 2026-10-15)\nbinary: rustc\ncommit-hash: 4ebd258257737d5b7635c116fa7d281627a7e937\ncommit-date: 2026-10-15\nhost: aarch64-unknown-linux-gnu\nrelease: 1.101.0-nightly\nLLVM version: 23.1.4\n"
+          },
+          "fingerprint_sha256": "b5472ed6725d872aa44e218ff96ceb494c4ddc447096517a38b4d1b802b32546",
+          "schema_version": 1,
+          "sources": {
+            "product": {
+              "commit": "1e9f28657f77c47a8caf99117944bcd11baa1a48",
+              "dirty": false,
+              "inputs_sha256": "7bb29bd80939ea31654012544d7df5a5ee35b0f8030b45f5b894adb6ccb9b702"
+            },
+            "runtime": {
+              "commit": "76f860287368605e3697bd934816c18490967c2f",
+              "dirty": false,
+              "inputs_sha256": "c04e114af1f6456bf50de811393c3c0a568196983204b3de144f6da8785263f1"
+            }
+          }
+        },
+        "bundle_sha256": "d437f7389e6c9d02581fd2e0c45cd01d71176310ffb17c8e466e42c2086f279c",
+        "cases": [
+          {
+            "domain": "network",
+            "id": "ip.address-route",
+            "requires": [
+              "/usr/bin/ip",
+              "/usr/bin/python3"
+            ],
+            "script": "ip link set lo up\nip link add acceptance0 type dummy\nip link set acceptance0 mtu 1400 up\nip address add 192.0.2.1/24 dev acceptance0\nip -6 address add 2001:db8:1::1/64 dev acceptance0 nodad\nip route add 198.51.100.0/24 dev acceptance0 metric 42\nip -j link show dev acceptance0 > links.json\nip -j address show dev acceptance0 > addresses.json\nip -j route show 198.51.100.0/24 > routes.json\npython3 - <<'CHECK'\nimport json\nl=json.load(open('links.json'))[0]; assert l['ifname']=='acceptance0' and l['mtu']==1400 and 'UP' in l['flags']\na=json.load(open('addresses.json'))[0]['addr_info']; assert any(x['local']=='192.0.2.1' and x['prefixlen']==24 for x in a); assert any(x['local']=='2001:db8:1::1' for x in a)\nr=json.load(open('routes.json')); assert any(x['dst']=='198.51.100.0/24' and x['dev']=='acceptance0' and x['metric']==42 for x in r)\nCHECK\nip route del 198.51.100.0/24 dev acceptance0 metric 42\nip address del 192.0.2.1/24 dev acceptance0\nip link del acceptance0\nprintf 'ip-address-route: ok\\n' ",
+            "stdout": "ip-address-route: ok\n",
+            "tier": "apps"
+          },
+          {
+            "domain": "network",
+            "id": "ip.namespace-bridge",
+            "requires": [
+              "/usr/bin/ip",
+              "/usr/bin/ping",
+              "/usr/bin/bridge",
+              "/usr/bin/grep"
+            ],
+            "script": "mkdir -p /var/run/netns\nip netns add acceptance-ns\nip link add acceptance-br type bridge\nip link set acceptance-br up\nip address add 192.0.2.1/24 dev acceptance-br\nip link add acceptance-veth type veth peer name acceptance-peer\nip link set acceptance-veth master acceptance-br\nip link set acceptance-veth up\nip link set acceptance-peer netns acceptance-ns\nip netns exec acceptance-ns /usr/bin/ip link set lo up\nip netns exec acceptance-ns /usr/bin/ip link set acceptance-peer up\nip netns exec acceptance-ns /usr/bin/ip address add 192.0.2.2/24 dev acceptance-peer\nbridge link show dev acceptance-veth | grep -q 'master acceptance-br'\nip netns exec acceptance-ns /usr/bin/ping -n -c 3 -W 2 192.0.2.1 > ping.log\nip netns exec acceptance-ns /usr/bin/ip route get 192.0.2.1 | grep -q 'dev acceptance-peer'\nip link del acceptance-veth\nip netns delete acceptance-ns\nip link del acceptance-br\nprintf 'ip-namespace-bridge: ok\\n' ",
+            "stdout": "ip-namespace-bridge: ok\n",
+            "tier": "apps",
+            "timeout": 60
+          }
+        ],
+        "harness_sha256": "898f819af95d9e2d4a3d94829036cc6dce8718b326bcb3f20ba3cf4d355293f3",
+        "host": {
+          "arch": "aarch64",
+          "cpu": "processor\t: 0\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 1\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 2\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 3\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 4\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 5\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\n",
+          "cpu_identity": [
+            "CPU architecture: 8",
+            "CPU implementer\t: 0x61",
+            "CPU part\t: 0x000",
+            "CPU revision\t: 0",
+            "CPU variant\t: 0x0",
+            "Features\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut"
+          ],
+          "kernel": "7.0.0-43-generic",
+          "libc": [
+            "glibc",
+            "2.39"
+          ],
+          "os": "Linux",
+          "page_size": 4096
+        },
+        "performance_qualified": false,
+        "provider": {
+          "backend": "kvm",
+          "build": "b5472ed6725d872aa44e218ff96ceb494c4ddc447096517a38b4d1b802b32546",
+          "cpus": 1,
+          "filesystem": "host",
+          "native_container": null,
+          "native_tools": null,
+          "network": "outbound",
+          "transport": "smccc"
+        },
+        "schema_version": 1,
+        "selected_scope": "complete"
+      },
+      "rows": {
+        "ip.address-route": {
+          "artifacts": {},
+          "artifacts_validated": true,
+          "case_inputs": "b1329271c7519492348284643df3bc3f00f4f7f516dbfff78bf0279a936f86e6",
+          "domain": "network",
+          "exit_code": 0,
+          "fingerprint": "2b788fdb1b471570b7cefe7a28a918ab76982600ca2f25c6dfb3575939fc946b",
+          "id": "ip.address-route",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "8f467269d76f0d77796534775148164befdff44ff9ae31b368329750252ff05f"
+          },
+          "reused": false,
+          "seconds": 2.411033241995028,
+          "status": "passed",
+          "tier": "apps"
+        },
+        "ip.namespace-bridge": {
+          "artifacts": {},
+          "artifacts_validated": true,
+          "case_inputs": "ccd207a3829dc9876f63abc0042a602ee40869f66a171a4e0c7c82d32a229add",
+          "domain": "network",
+          "exit_code": 0,
+          "fingerprint": "d50fb09eb24d2aea911afd609360c5fadd0ea98cebbb32fe574282c7cefdea68",
+          "id": "ip.namespace-bridge",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "98e1ffee0274289a8ab905b65f9d25642396b0d43aa3426582be657465ae3a13"
+          },
+          "reused": false,
+          "seconds": 3.653278333993512,
+          "status": "passed",
+          "tier": "apps"
+        }
+      }
+    },
+    "kvm-smccc-4": {
+      "evidence": "/private/tmp/trames-linux-services/docs/validation/ip-systemd-docker-20261125/network/kvm-smccc-4",
+      "plan": {
+        "build": {
+          "fingerprint": {
+            "binary_sha256": "c4b7974ece524e64ba7a226fe89cb762a785d6ea4d168cc545c9f2e2b2f0cb10",
+            "command": [
+              "cargo",
+              "build",
+              "--workspace",
+              "--release",
+              "--locked"
+            ],
+            "flags": {
+              "CARGO_INCREMENTAL": "0"
+            },
+            "sources": {
+              "product": "7bb29bd80939ea31654012544d7df5a5ee35b0f8030b45f5b894adb6ccb9b702",
+              "runtime": "c04e114af1f6456bf50de811393c3c0a568196983204b3de144f6da8785263f1"
+            },
+            "toolchain": "rustc 1.101.0-nightly (4ebd25825 2026-10-15)\nbinary: rustc\ncommit-hash: 4ebd258257737d5b7635c116fa7d281627a7e937\ncommit-date: 2026-10-15\nhost: aarch64-unknown-linux-gnu\nrelease: 1.101.0-nightly\nLLVM version: 23.1.4\n"
+          },
+          "fingerprint_sha256": "b5472ed6725d872aa44e218ff96ceb494c4ddc447096517a38b4d1b802b32546",
+          "schema_version": 1,
+          "sources": {
+            "product": {
+              "commit": "1e9f28657f77c47a8caf99117944bcd11baa1a48",
+              "dirty": false,
+              "inputs_sha256": "7bb29bd80939ea31654012544d7df5a5ee35b0f8030b45f5b894adb6ccb9b702"
+            },
+            "runtime": {
+              "commit": "76f860287368605e3697bd934816c18490967c2f",
+              "dirty": false,
+              "inputs_sha256": "c04e114af1f6456bf50de811393c3c0a568196983204b3de144f6da8785263f1"
+            }
+          }
+        },
+        "bundle_sha256": "d437f7389e6c9d02581fd2e0c45cd01d71176310ffb17c8e466e42c2086f279c",
+        "cases": [
+          {
+            "domain": "network",
+            "id": "ip.address-route",
+            "requires": [
+              "/usr/bin/ip",
+              "/usr/bin/python3"
+            ],
+            "script": "ip link set lo up\nip link add acceptance0 type dummy\nip link set acceptance0 mtu 1400 up\nip address add 192.0.2.1/24 dev acceptance0\nip -6 address add 2001:db8:1::1/64 dev acceptance0 nodad\nip route add 198.51.100.0/24 dev acceptance0 metric 42\nip -j link show dev acceptance0 > links.json\nip -j address show dev acceptance0 > addresses.json\nip -j route show 198.51.100.0/24 > routes.json\npython3 - <<'CHECK'\nimport json\nl=json.load(open('links.json'))[0]; assert l['ifname']=='acceptance0' and l['mtu']==1400 and 'UP' in l['flags']\na=json.load(open('addresses.json'))[0]['addr_info']; assert any(x['local']=='192.0.2.1' and x['prefixlen']==24 for x in a); assert any(x['local']=='2001:db8:1::1' for x in a)\nr=json.load(open('routes.json')); assert any(x['dst']=='198.51.100.0/24' and x['dev']=='acceptance0' and x['metric']==42 for x in r)\nCHECK\nip route del 198.51.100.0/24 dev acceptance0 metric 42\nip address del 192.0.2.1/24 dev acceptance0\nip link del acceptance0\nprintf 'ip-address-route: ok\\n' ",
+            "stdout": "ip-address-route: ok\n",
+            "tier": "apps"
+          },
+          {
+            "domain": "network",
+            "id": "ip.namespace-bridge",
+            "requires": [
+              "/usr/bin/ip",
+              "/usr/bin/ping",
+              "/usr/bin/bridge",
+              "/usr/bin/grep"
+            ],
+            "script": "mkdir -p /var/run/netns\nip netns add acceptance-ns\nip link add acceptance-br type bridge\nip link set acceptance-br up\nip address add 192.0.2.1/24 dev acceptance-br\nip link add acceptance-veth type veth peer name acceptance-peer\nip link set acceptance-veth master acceptance-br\nip link set acceptance-veth up\nip link set acceptance-peer netns acceptance-ns\nip netns exec acceptance-ns /usr/bin/ip link set lo up\nip netns exec acceptance-ns /usr/bin/ip link set acceptance-peer up\nip netns exec acceptance-ns /usr/bin/ip address add 192.0.2.2/24 dev acceptance-peer\nbridge link show dev acceptance-veth | grep -q 'master acceptance-br'\nip netns exec acceptance-ns /usr/bin/ping -n -c 3 -W 2 192.0.2.1 > ping.log\nip netns exec acceptance-ns /usr/bin/ip route get 192.0.2.1 | grep -q 'dev acceptance-peer'\nip link del acceptance-veth\nip netns delete acceptance-ns\nip link del acceptance-br\nprintf 'ip-namespace-bridge: ok\\n' ",
+            "stdout": "ip-namespace-bridge: ok\n",
+            "tier": "apps",
+            "timeout": 60
+          }
+        ],
+        "harness_sha256": "898f819af95d9e2d4a3d94829036cc6dce8718b326bcb3f20ba3cf4d355293f3",
+        "host": {
+          "arch": "aarch64",
+          "cpu": "processor\t: 0\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 1\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 2\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 3\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 4\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 5\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\n",
+          "cpu_identity": [
+            "CPU architecture: 8",
+            "CPU implementer\t: 0x61",
+            "CPU part\t: 0x000",
+            "CPU revision\t: 0",
+            "CPU variant\t: 0x0",
+            "Features\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut"
+          ],
+          "kernel": "7.0.0-43-generic",
+          "libc": [
+            "glibc",
+            "2.39"
+          ],
+          "os": "Linux",
+          "page_size": 4096
+        },
+        "performance_qualified": false,
+        "provider": {
+          "backend": "kvm",
+          "build": "b5472ed6725d872aa44e218ff96ceb494c4ddc447096517a38b4d1b802b32546",
+          "cpus": 4,
+          "filesystem": "host",
+          "native_container": null,
+          "native_tools": null,
+          "network": "outbound",
+          "transport": "smccc"
+        },
+        "schema_version": 1,
+        "selected_scope": "complete"
+      },
+      "rows": {
+        "ip.address-route": {
+          "artifacts": {},
+          "artifacts_validated": true,
+          "case_inputs": "b1329271c7519492348284643df3bc3f00f4f7f516dbfff78bf0279a936f86e6",
+          "domain": "network",
+          "exit_code": 0,
+          "fingerprint": "e6b0991804d263e4258e2a624c6c7f8ffd9b8408f6dc9c92a23428c5d6efa194",
+          "id": "ip.address-route",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "8f467269d76f0d77796534775148164befdff44ff9ae31b368329750252ff05f"
+          },
+          "reused": false,
+          "seconds": 2.5121493939950597,
+          "status": "passed",
+          "tier": "apps"
+        },
+        "ip.namespace-bridge": {
+          "artifacts": {},
+          "artifacts_validated": true,
+          "case_inputs": "ccd207a3829dc9876f63abc0042a602ee40869f66a171a4e0c7c82d32a229add",
+          "domain": "network",
+          "exit_code": 0,
+          "fingerprint": "cac700ca41017e09ccfcfee7b004e39bdbdcaf4e46093fd73fac07364e5e3b90",
+          "id": "ip.namespace-bridge",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "98e1ffee0274289a8ab905b65f9d25642396b0d43aa3426582be657465ae3a13"
+          },
+          "reused": false,
+          "seconds": 3.6750052040006267,
+          "status": "passed",
+          "tier": "apps"
+        }
+      }
+    },
+    "native": {
+      "evidence": "/private/tmp/trames-linux-services/docs/validation/ip-systemd-docker-20261125/network-native",
+      "plan": {
+        "build": null,
+        "bundle_sha256": "d437f7389e6c9d02581fd2e0c45cd01d71176310ffb17c8e466e42c2086f279c",
+        "cases": [
+          {
+            "domain": "network",
+            "id": "ip.address-route",
+            "requires": [
+              "/usr/bin/ip",
+              "/usr/bin/python3"
+            ],
+            "script": "ip link set lo up\nip link add acceptance0 type dummy\nip link set acceptance0 mtu 1400 up\nip address add 192.0.2.1/24 dev acceptance0\nip -6 address add 2001:db8:1::1/64 dev acceptance0 nodad\nip route add 198.51.100.0/24 dev acceptance0 metric 42\nip -j link show dev acceptance0 > links.json\nip -j address show dev acceptance0 > addresses.json\nip -j route show 198.51.100.0/24 > routes.json\npython3 - <<'CHECK'\nimport json\nl=json.load(open('links.json'))[0]; assert l['ifname']=='acceptance0' and l['mtu']==1400 and 'UP' in l['flags']\na=json.load(open('addresses.json'))[0]['addr_info']; assert any(x['local']=='192.0.2.1' and x['prefixlen']==24 for x in a); assert any(x['local']=='2001:db8:1::1' for x in a)\nr=json.load(open('routes.json')); assert any(x['dst']=='198.51.100.0/24' and x['dev']=='acceptance0' and x['metric']==42 for x in r)\nCHECK\nip route del 198.51.100.0/24 dev acceptance0 metric 42\nip address del 192.0.2.1/24 dev acceptance0\nip link del acceptance0\nprintf 'ip-address-route: ok\\n' ",
+            "stdout": "ip-address-route: ok\n",
+            "tier": "apps"
+          },
+          {
+            "domain": "network",
+            "id": "ip.namespace-bridge",
+            "requires": [
+              "/usr/bin/ip",
+              "/usr/bin/ping",
+              "/usr/bin/bridge",
+              "/usr/bin/grep"
+            ],
+            "script": "mkdir -p /var/run/netns\nip netns add acceptance-ns\nip link add acceptance-br type bridge\nip link set acceptance-br up\nip address add 192.0.2.1/24 dev acceptance-br\nip link add acceptance-veth type veth peer name acceptance-peer\nip link set acceptance-veth master acceptance-br\nip link set acceptance-veth up\nip link set acceptance-peer netns acceptance-ns\nip netns exec acceptance-ns /usr/bin/ip link set lo up\nip netns exec acceptance-ns /usr/bin/ip link set acceptance-peer up\nip netns exec acceptance-ns /usr/bin/ip address add 192.0.2.2/24 dev acceptance-peer\nbridge link show dev acceptance-veth | grep -q 'master acceptance-br'\nip netns exec acceptance-ns /usr/bin/ping -n -c 3 -W 2 192.0.2.1 > ping.log\nip netns exec acceptance-ns /usr/bin/ip route get 192.0.2.1 | grep -q 'dev acceptance-peer'\nip link del acceptance-veth\nip netns delete acceptance-ns\nip link del acceptance-br\nprintf 'ip-namespace-bridge: ok\\n' ",
+            "stdout": "ip-namespace-bridge: ok\n",
+            "tier": "apps",
+            "timeout": 60
+          }
+        ],
+        "harness_sha256": "898f819af95d9e2d4a3d94829036cc6dce8718b326bcb3f20ba3cf4d355293f3",
+        "host": {
+          "arch": "aarch64",
+          "cpu": "processor\t: 0\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 1\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 2\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 3\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 4\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 5\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\n",
+          "cpu_identity": [
+            "CPU architecture: 8",
+            "CPU implementer\t: 0x61",
+            "CPU part\t: 0x000",
+            "CPU revision\t: 0",
+            "CPU variant\t: 0x0",
+            "Features\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut"
+          ],
+          "kernel": "7.0.0-43-generic",
+          "libc": [
+            "glibc",
+            "2.39"
+          ],
+          "os": "Linux",
+          "page_size": 4096
+        },
+        "performance_qualified": false,
+        "provider": {
+          "backend": "native",
+          "build": null,
+          "cpus": 1,
+          "filesystem": null,
+          "native_container": null,
+          "native_tools": {
+            "/usr/bin/mount": "a4e2960330ff237a185306d9d92df1fc69ee77d8abe9d3282f662f54e13f01f4",
+            "/usr/bin/python3.12": "c86f21d0da9290ece2d7d49a3f7ed52aed59cb029abdf0ea25c79634f6cbe960",
+            "/usr/bin/unshare": "e0c145c3d4c06686544b1362ed64da819539166a5e1e6fd96093aea4d2539b6a"
+          },
+          "network": null,
+          "transport": null
+        },
+        "schema_version": 1,
+        "selected_scope": "complete"
+      },
+      "rows": {
+        "ip.address-route": {
+          "artifacts": {},
+          "artifacts_validated": true,
+          "case_inputs": "b1329271c7519492348284643df3bc3f00f4f7f516dbfff78bf0279a936f86e6",
+          "domain": "network",
+          "exit_code": 0,
+          "fingerprint": "367ed1a7b9d227f9d6b5a9a11892e64f56e640e0e547d6d4349e09199f2e0657",
+          "id": "ip.address-route",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "8f467269d76f0d77796534775148164befdff44ff9ae31b368329750252ff05f"
+          },
+          "reused": false,
+          "seconds": 0.06447126100101741,
+          "status": "passed",
+          "tier": "apps"
+        },
+        "ip.namespace-bridge": {
+          "artifacts": {},
+          "artifacts_validated": true,
+          "case_inputs": "ccd207a3829dc9876f63abc0042a602ee40869f66a171a4e0c7c82d32a229add",
+          "domain": "network",
+          "exit_code": 0,
+          "fingerprint": "63dbdb39854c40540f6a3d65ccf347d103193af4424ae1d8209b68188e67b171",
+          "id": "ip.namespace-bridge",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "98e1ffee0274289a8ab905b65f9d25642396b0d43aa3426582be657465ae3a13"
+          },
+          "reused": false,
+          "seconds": 2.1637644520014874,
+          "status": "passed",
+          "tier": "apps"
+        }
+      }
+    }
+  },
+  "performance_qualified": false,
+  "schema_version": 1,
+  "workflow_count": 2
+}

@@ -1,0 +1,58 @@
+Client:
+ Version:    26.1.5+dfsg1
+ Context:    default
+ Debug Mode: false
+
+Server:
+ Containers: 1
+  Running: 0
+  Paused: 0
+  Stopped: 1
+ Images: 1
+ Server Version: 26.1.5+dfsg1
+ Storage Driver: overlay2
+  Backing Filesystem: <unknown>
+  Supports d_type: true
+  Using metacopy: false
+  Native Overlay Diff: true
+  userxattr: false
+ Logging Driver: json-file
+ Cgroup Driver: cgroupfs
+ Cgroup Version: 2
+ Plugins:
+  Volume: local
+  Network: bridge host ipvlan macvlan null overlay
+  Log: awslogs fluentd gcplogs gelf journald json-file local splunk syslog
+ Swarm: inactive
+ Runtimes: runc io.containerd.runc.v2
+ Default Runtime: runc
+ Init Binary: docker-init
+ containerd version: 1.7.24~ds1-6+deb13u1
+ runc version: 1.1.15+ds1-2+deb13u1
+ init version: 
+ Security Options:
+  seccomp
+   Profile: builtin
+  cgroupns
+ Kernel Version: 6.0.0-trames
+ Operating System: Debian GNU/Linux 13 (trixie)
+ OSType: linux
+ Architecture: aarch64
+ CPUs: 4
+ Total Memory: 1GiB
+ Name: trames
+ ID: 54b20a3d-7bad-4542-85b9-8cfdd4de5e86
+ Docker Root Dir: /var/lib/docker
+ Debug Mode: false
+ Experimental: false
+ Insecure Registries:
+  127.0.0.0/8
+ Live Restore Enabled: false
+
+WARNING: No swap limit support
+WARNING: No io.weight support
+WARNING: No io.weight (per device) support
+WARNING: No io.max (rbps) support
+WARNING: No io.max (wbps) support
+WARNING: No io.max (riops) support
+WARNING: No io.max (wiops) support

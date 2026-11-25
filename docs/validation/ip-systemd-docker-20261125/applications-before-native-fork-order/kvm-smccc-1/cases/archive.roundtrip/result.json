@@ -1,0 +1,19 @@
+{
+  "artifacts": {
+    "/work/restored/source/value": "92f86a430bca3d71cc27fcedb1a9b67a487e7f1ac1c97aad57df2d40ec9f8b71"
+  },
+  "artifacts_validated": true,
+  "case_inputs": "1aca35a4d35f301b38ede59abd940a3d401ce5a8ac905222ac4c8ad5bd60fd89",
+  "domain": "files",
+  "exit_code": 0,
+  "fingerprint": "6140fccfa52271556c4b08aaeb1d8dd4a6893d8a7b629db79f2480aed4e8133e",
+  "id": "archive.roundtrip",
+  "logs": {
+    "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "f852da5cffb5c908daab6809d6656be278c5c9a7940915ede66cb03b9ddaad62"
+  },
+  "reused": false,
+  "seconds": 0.770388801000081,
+  "status": "passed",
+  "tier": "smoke"
+}

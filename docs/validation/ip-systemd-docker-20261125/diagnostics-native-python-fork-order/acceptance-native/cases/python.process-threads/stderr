@@ -1,0 +1,1 @@
+<stdin>:6: DeprecationWarning: This process (pid=7) is multi-threaded, use of fork() may lead to deadlocks in the child.

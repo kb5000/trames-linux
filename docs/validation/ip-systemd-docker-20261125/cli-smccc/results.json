@@ -1,0 +1,42 @@
+[
+  {
+    "name": "binary-stdio",
+    "passed": true,
+    "code": 7,
+    "bytes": 768000
+  },
+  {
+    "name": "literal-env-cwd",
+    "passed": true,
+    "code": 0,
+    "stdout": "/tmp:a b;$(id)\n",
+    "stderr": ""
+  },
+  {
+    "name": "explicit-rootfs-shell",
+    "passed": true,
+    "code": 9,
+    "stdout": "shell-ok\n",
+    "stderr": ""
+  },
+  {
+    "name": "cancel/spin",
+    "passed": true,
+    "code": 130,
+    "seconds": 0.0010452810092829168,
+    "stderr": ""
+  },
+  {
+    "name": "cancel/sleep",
+    "passed": true,
+    "code": 143,
+    "seconds": 0.001824936000048183,
+    "stderr": ""
+  },
+  {
+    "name": "real-pty-size-and-restore",
+    "passed": true,
+    "code": 0,
+    "output": "tty:31,99\r\nhello cli\r\nline:hello cli\r\n"
+  }
+]

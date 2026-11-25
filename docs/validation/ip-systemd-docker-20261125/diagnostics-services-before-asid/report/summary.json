@@ -1,0 +1,976 @@
+{
+  "counts": {
+    "kvm-mmio-1": {
+      "failed": 1,
+      "passed": 2
+    },
+    "kvm-mmio-4": {
+      "passed": 2,
+      "timed_out": 1
+    },
+    "kvm-smccc-1": {
+      "failed": 1,
+      "passed": 2
+    },
+    "kvm-smccc-4": {
+      "passed": 2,
+      "timed_out": 1
+    },
+    "native": {
+      "passed": 3
+    }
+  },
+  "failed_cells": 4,
+  "lanes": {
+    "kvm-mmio-1": {
+      "evidence": "/home/main.guest/trames-services-clean/kvm-mmio-1",
+      "plan": {
+        "build": {
+          "fingerprint": {
+            "binary_sha256": "c3570101fa50457c645defe937edc5592497997cf92ab65feaa7cd912f9927f5",
+            "command": [
+              "cargo",
+              "build",
+              "--workspace",
+              "--release",
+              "--locked"
+            ],
+            "flags": {
+              "CARGO_INCREMENTAL": "0"
+            },
+            "sources": {
+              "product": "1e316d0d75527a4dd88d05d9d51fcdf3b84cd0039e3c7edd67b92d4940d48b65",
+              "runtime": "c04e114af1f6456bf50de811393c3c0a568196983204b3de144f6da8785263f1"
+            },
+            "toolchain": "rustc 1.101.0-nightly (4ebd25825 2026-10-15)\nbinary: rustc\ncommit-hash: 4ebd258257737d5b7635c116fa7d281627a7e937\ncommit-date: 2026-10-15\nhost: aarch64-unknown-linux-gnu\nrelease: 1.101.0-nightly\nLLVM version: 23.1.4\n"
+          },
+          "fingerprint_sha256": "6df225eb73292ffc41703989e8bfa469cd7f94a243e3196746f137b9ee25b89b",
+          "schema_version": 1,
+          "sources": {
+            "product": {
+              "commit": "cca077c6d6d87e9b10cf4efb84ff88d180371419",
+              "dirty": false,
+              "inputs_sha256": "1e316d0d75527a4dd88d05d9d51fcdf3b84cd0039e3c7edd67b92d4940d48b65"
+            },
+            "runtime": {
+              "commit": "76f860287368605e3697bd934816c18490967c2f",
+              "dirty": false,
+              "inputs_sha256": "c04e114af1f6456bf50de811393c3c0a568196983204b3de144f6da8785263f1"
+            }
+          }
+        },
+        "bundle_sha256": "1bcfed4955dc5129c417312e1788fe42f41e747ebeda5ee531eba0fd8083fdfd",
+        "cases": [
+          {
+            "artifacts": [
+              "/work/systemd.result"
+            ],
+            "console": "diagnostic",
+            "diagnostics": [
+              "/work/systemd.log",
+              "/work/systemd-controller.log"
+            ],
+            "domain": "systemd",
+            "id": "systemd.pid1-services",
+            "pty": true,
+            "requires": [
+              "/usr/lib/systemd/systemd",
+              "/usr/bin/systemctl",
+              "/usr/bin/journalctl",
+              "/acceptance/systemd-boot"
+            ],
+            "script": "exec /acceptance/systemd-boot --exercise",
+            "stdout": "",
+            "tier": "apps",
+            "timeout": 240
+          },
+          {
+            "artifacts": [
+              "/work/shim-startup.result"
+            ],
+            "diagnostics": [
+              "/work/shim-startup.log"
+            ],
+            "domain": "containers",
+            "id": "containerd.shim-startup",
+            "requires": [
+              "/usr/bin/python3",
+              "/usr/bin/containerd-shim-runc-v2"
+            ],
+            "script": "exec /usr/bin/python3 - <<'CHECK'\nimport json, os, signal, socket, subprocess, time\nfrom pathlib import Path\nos.makedirs('/run/containerd', exist_ok=True)\nrows = []\nfor i in range(20):\n    ident = 'trames-shim-' + str(i)\n    work = Path('/work') / ident\n    work.mkdir()\n    (work/'config.json').write_text('{\"annotations\":{}}')\n    os.mkfifo(work/'log')\n    log = os.open(work/'log', os.O_RDWR | os.O_NONBLOCK)\n    result = subprocess.run(['/usr/bin/containerd-shim-runc-v2', '-namespace', 'moby', '-id', ident,\n                             '-address', '/run/containerd/containerd.sock', 'start'],\n                            cwd=work, input=b'', capture_output=True, timeout=20)\n    row = dict(iteration=i, starter=result.returncode, stderr=result.stderr.decode(errors='replace'))\n    try:\n        assert result.returncode == 0, row\n        address = result.stdout.decode().strip().removeprefix('unix://')\n        def connect():\n            with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as peer:\n                peer.settimeout(2)\n                peer.connect(address)\n        connect()\n        data = b''\n        deadline = time.monotonic() + 10\n        while b'io.containerd.ttrpc.v1.task' not in data:\n            try: data += os.read(log, 65536)\n            except BlockingIOError: pass\n            assert time.monotonic() < deadline, 'shim initialization did not complete: ' + data.decode(errors='replace')\n            connect()\n            time.sleep(.01)\n        connect()\n        children = []\n        for proc in Path('/proc').iterdir():\n            if not proc.name.isdecimal(): continue\n            try:\n                args = (proc/'cmdline').read_bytes().split(b'\\0')\n                if ident.encode() in args and b'start' not in args: children.append(int(proc.name))\n            except (OSError, ValueError): pass\n        assert len(children) == 1, ('live shim process', children)\n        os.kill(children[0], signal.SIGTERM)\n        pid, status = os.waitpid(children[0], 0)\n        assert pid == children[0] and status in (0, signal.SIGTERM), ('shim exit', pid, status)\n        row.update(initialized=True, status=status)\n    finally:\n        os.close(log)\n        rows.append(row)\n        Path('/work/shim-startup.log').write_text(json.dumps(rows, indent=2) + '\\n')\nPath('/work/shim-startup.result').write_text('shim-startup: ok\\n')\nCHECK",
+            "stdout": "",
+            "tier": "apps",
+            "timeout": 600
+          },
+          {
+            "artifacts": [
+              "/work/docker.result"
+            ],
+            "diagnostics": [
+              "/work/docker.log",
+              "/work/dockerd.log",
+              "/work/docker-info.log"
+            ],
+            "domain": "containers",
+            "id": "docker.lifecycle",
+            "requires": [
+              "/usr/sbin/dockerd",
+              "/usr/bin/docker",
+              "/acceptance/docker-lifecycle.sh",
+              "/acceptance/container.tar"
+            ],
+            "script": "exec /bin/sh /acceptance/docker-lifecycle.sh",
+            "stdout": "",
+            "tier": "apps",
+            "timeout": 360
+          }
+        ],
+        "harness_sha256": "898f819af95d9e2d4a3d94829036cc6dce8718b326bcb3f20ba3cf4d355293f3",
+        "host": {
+          "arch": "aarch64",
+          "cpu": "processor\t: 0\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 1\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 2\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 3\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 4\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 5\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\n",
+          "cpu_identity": [
+            "CPU architecture: 8",
+            "CPU implementer\t: 0x61",
+            "CPU part\t: 0x000",
+            "CPU revision\t: 0",
+            "CPU variant\t: 0x0",
+            "Features\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut"
+          ],
+          "kernel": "7.0.0-43-generic",
+          "libc": [
+            "glibc",
+            "2.39"
+          ],
+          "os": "Linux",
+          "page_size": 4096
+        },
+        "performance_qualified": false,
+        "provider": {
+          "backend": "kvm",
+          "build": "6df225eb73292ffc41703989e8bfa469cd7f94a243e3196746f137b9ee25b89b",
+          "cpus": 1,
+          "filesystem": "store",
+          "native_container": null,
+          "native_tools": null,
+          "network": "outbound",
+          "transport": "mmio"
+        },
+        "schema_version": 1,
+        "selected_scope": "complete"
+      },
+      "rows": {
+        "containerd.shim-startup": {
+          "artifacts": {
+            "/work/shim-startup.result": "c762e1261b4929626db4a6e450334d2fb0c9859de08a1c521fd6c7f9ad6372e6"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "8e86df162d3d42177e426e36a2a5dc0b13686abe28b5e3d14d5dabe6821eb1d7",
+          "domain": "containers",
+          "exit_code": 0,
+          "fingerprint": "128420a883f32dfe98fe0087241aeb3ec8a747e84728771dc8b03cadc1322b02",
+          "id": "containerd.shim-startup",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "reused": false,
+          "seconds": 24.773446204999345,
+          "status": "passed",
+          "tier": "apps"
+        },
+        "docker.lifecycle": {
+          "case_inputs": "a68277611755dd314d8f1a887f47b59514e5689159afdf2c51c2d19cd9de1c2e",
+          "domain": "containers",
+          "exit_code": 1,
+          "fingerprint": "76f949012ad86af352a19eb708fb71f6cdea56c6436570dd7b7591dac621655c",
+          "id": "docker.lifecycle",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "reused": false,
+          "seconds": 150.91183358999842,
+          "status": "failed",
+          "tier": "apps"
+        },
+        "systemd.pid1-services": {
+          "artifacts": {
+            "/work/systemd.result": "6dbb2184dc6434e7e99fee9d7527752a5e6d9e4724373a568517dd74207e2aa4"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "2cb06db237d6984b6fe36eb1d2c5782099b0d586f1b991b8348336b73ec13510",
+          "domain": "systemd",
+          "exit_code": 0,
+          "fingerprint": "4995e89e35b7686243b3a94c26ed067b513bebff5ecf15a88c1f40d1860d18f0",
+          "id": "systemd.pid1-services",
+          "logs": {
+            "console": "d15df247db712f922e21541ce461499a5d67a5cd13013f0b674ae27802b39bf6",
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "reused": false,
+          "seconds": 39.045689171995036,
+          "status": "passed",
+          "tier": "apps"
+        }
+      }
+    },
+    "kvm-mmio-4": {
+      "evidence": "/home/main.guest/trames-services-clean/kvm-mmio-4",
+      "plan": {
+        "build": {
+          "fingerprint": {
+            "binary_sha256": "c3570101fa50457c645defe937edc5592497997cf92ab65feaa7cd912f9927f5",
+            "command": [
+              "cargo",
+              "build",
+              "--workspace",
+              "--release",
+              "--locked"
+            ],
+            "flags": {
+              "CARGO_INCREMENTAL": "0"
+            },
+            "sources": {
+              "product": "1e316d0d75527a4dd88d05d9d51fcdf3b84cd0039e3c7edd67b92d4940d48b65",
+              "runtime": "c04e114af1f6456bf50de811393c3c0a568196983204b3de144f6da8785263f1"
+            },
+            "toolchain": "rustc 1.101.0-nightly (4ebd25825 2026-10-15)\nbinary: rustc\ncommit-hash: 4ebd258257737d5b7635c116fa7d281627a7e937\ncommit-date: 2026-10-15\nhost: aarch64-unknown-linux-gnu\nrelease: 1.101.0-nightly\nLLVM version: 23.1.4\n"
+          },
+          "fingerprint_sha256": "6df225eb73292ffc41703989e8bfa469cd7f94a243e3196746f137b9ee25b89b",
+          "schema_version": 1,
+          "sources": {
+            "product": {
+              "commit": "cca077c6d6d87e9b10cf4efb84ff88d180371419",
+              "dirty": false,
+              "inputs_sha256": "1e316d0d75527a4dd88d05d9d51fcdf3b84cd0039e3c7edd67b92d4940d48b65"
+            },
+            "runtime": {
+              "commit": "76f860287368605e3697bd934816c18490967c2f",
+              "dirty": false,
+              "inputs_sha256": "c04e114af1f6456bf50de811393c3c0a568196983204b3de144f6da8785263f1"
+            }
+          }
+        },
+        "bundle_sha256": "1bcfed4955dc5129c417312e1788fe42f41e747ebeda5ee531eba0fd8083fdfd",
+        "cases": [
+          {
+            "artifacts": [
+              "/work/systemd.result"
+            ],
+            "console": "diagnostic",
+            "diagnostics": [
+              "/work/systemd.log",
+              "/work/systemd-controller.log"
+            ],
+            "domain": "systemd",
+            "id": "systemd.pid1-services",
+            "pty": true,
+            "requires": [
+              "/usr/lib/systemd/systemd",
+              "/usr/bin/systemctl",
+              "/usr/bin/journalctl",
+              "/acceptance/systemd-boot"
+            ],
+            "script": "exec /acceptance/systemd-boot --exercise",
+            "stdout": "",
+            "tier": "apps",
+            "timeout": 240
+          },
+          {
+            "artifacts": [
+              "/work/shim-startup.result"
+            ],
+            "diagnostics": [
+              "/work/shim-startup.log"
+            ],
+            "domain": "containers",
+            "id": "containerd.shim-startup",
+            "requires": [
+              "/usr/bin/python3",
+              "/usr/bin/containerd-shim-runc-v2"
+            ],
+            "script": "exec /usr/bin/python3 - <<'CHECK'\nimport json, os, signal, socket, subprocess, time\nfrom pathlib import Path\nos.makedirs('/run/containerd', exist_ok=True)\nrows = []\nfor i in range(20):\n    ident = 'trames-shim-' + str(i)\n    work = Path('/work') / ident\n    work.mkdir()\n    (work/'config.json').write_text('{\"annotations\":{}}')\n    os.mkfifo(work/'log')\n    log = os.open(work/'log', os.O_RDWR | os.O_NONBLOCK)\n    result = subprocess.run(['/usr/bin/containerd-shim-runc-v2', '-namespace', 'moby', '-id', ident,\n                             '-address', '/run/containerd/containerd.sock', 'start'],\n                            cwd=work, input=b'', capture_output=True, timeout=20)\n    row = dict(iteration=i, starter=result.returncode, stderr=result.stderr.decode(errors='replace'))\n    try:\n        assert result.returncode == 0, row\n        address = result.stdout.decode().strip().removeprefix('unix://')\n        def connect():\n            with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as peer:\n                peer.settimeout(2)\n                peer.connect(address)\n        connect()\n        data = b''\n        deadline = time.monotonic() + 10\n        while b'io.containerd.ttrpc.v1.task' not in data:\n            try: data += os.read(log, 65536)\n            except BlockingIOError: pass\n            assert time.monotonic() < deadline, 'shim initialization did not complete: ' + data.decode(errors='replace')\n            connect()\n            time.sleep(.01)\n        connect()\n        children = []\n        for proc in Path('/proc').iterdir():\n            if not proc.name.isdecimal(): continue\n            try:\n                args = (proc/'cmdline').read_bytes().split(b'\\0')\n                if ident.encode() in args and b'start' not in args: children.append(int(proc.name))\n            except (OSError, ValueError): pass\n        assert len(children) == 1, ('live shim process', children)\n        os.kill(children[0], signal.SIGTERM)\n        pid, status = os.waitpid(children[0], 0)\n        assert pid == children[0] and status in (0, signal.SIGTERM), ('shim exit', pid, status)\n        row.update(initialized=True, status=status)\n    finally:\n        os.close(log)\n        rows.append(row)\n        Path('/work/shim-startup.log').write_text(json.dumps(rows, indent=2) + '\\n')\nPath('/work/shim-startup.result').write_text('shim-startup: ok\\n')\nCHECK",
+            "stdout": "",
+            "tier": "apps",
+            "timeout": 600
+          },
+          {
+            "artifacts": [
+              "/work/docker.result"
+            ],
+            "diagnostics": [
+              "/work/docker.log",
+              "/work/dockerd.log",
+              "/work/docker-info.log"
+            ],
+            "domain": "containers",
+            "id": "docker.lifecycle",
+            "requires": [
+              "/usr/sbin/dockerd",
+              "/usr/bin/docker",
+              "/acceptance/docker-lifecycle.sh",
+              "/acceptance/container.tar"
+            ],
+            "script": "exec /bin/sh /acceptance/docker-lifecycle.sh",
+            "stdout": "",
+            "tier": "apps",
+            "timeout": 360
+          }
+        ],
+        "harness_sha256": "898f819af95d9e2d4a3d94829036cc6dce8718b326bcb3f20ba3cf4d355293f3",
+        "host": {
+          "arch": "aarch64",
+          "cpu": "processor\t: 0\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 1\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 2\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 3\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 4\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 5\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\n",
+          "cpu_identity": [
+            "CPU architecture: 8",
+            "CPU implementer\t: 0x61",
+            "CPU part\t: 0x000",
+            "CPU revision\t: 0",
+            "CPU variant\t: 0x0",
+            "Features\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut"
+          ],
+          "kernel": "7.0.0-43-generic",
+          "libc": [
+            "glibc",
+            "2.39"
+          ],
+          "os": "Linux",
+          "page_size": 4096
+        },
+        "performance_qualified": false,
+        "provider": {
+          "backend": "kvm",
+          "build": "6df225eb73292ffc41703989e8bfa469cd7f94a243e3196746f137b9ee25b89b",
+          "cpus": 4,
+          "filesystem": "store",
+          "native_container": null,
+          "native_tools": null,
+          "network": "outbound",
+          "transport": "mmio"
+        },
+        "schema_version": 1,
+        "selected_scope": "complete"
+      },
+      "rows": {
+        "containerd.shim-startup": {
+          "case_inputs": "8e86df162d3d42177e426e36a2a5dc0b13686abe28b5e3d14d5dabe6821eb1d7",
+          "domain": "containers",
+          "exit_code": -9,
+          "fingerprint": "7ed87eaa3839ff5726336d7cf740b47e953e4b1a22c4103c4529b4b80fcf7c28",
+          "id": "containerd.shim-startup",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "reused": false,
+          "seconds": 602.0203955210018,
+          "status": "timed_out",
+          "tier": "apps"
+        },
+        "docker.lifecycle": {
+          "artifacts": {
+            "/work/docker.result": "91b6b23d9c82ad183317db7e9d98d6c8dabf7263d6a6f14d12699d924c53da85"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "a68277611755dd314d8f1a887f47b59514e5689159afdf2c51c2d19cd9de1c2e",
+          "domain": "containers",
+          "exit_code": 0,
+          "fingerprint": "801dbc6f70feb9004f717386a4929580ea50ae75f37646211e00ba8f9f7647c1",
+          "id": "docker.lifecycle",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "reused": false,
+          "seconds": 116.95410853599606,
+          "status": "passed",
+          "tier": "apps"
+        },
+        "systemd.pid1-services": {
+          "artifacts": {
+            "/work/systemd.result": "6dbb2184dc6434e7e99fee9d7527752a5e6d9e4724373a568517dd74207e2aa4"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "2cb06db237d6984b6fe36eb1d2c5782099b0d586f1b991b8348336b73ec13510",
+          "domain": "systemd",
+          "exit_code": 0,
+          "fingerprint": "2728555114b651916fb284ce0b70f5f0efd7caab84e8bffc702899d2756245fd",
+          "id": "systemd.pid1-services",
+          "logs": {
+            "console": "e4b0b8fd9b73dc35a980c0656ccb60f09e117c0cc4a4596d114d0322471f6b97",
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "reused": false,
+          "seconds": 36.79637752499548,
+          "status": "passed",
+          "tier": "apps"
+        }
+      }
+    },
+    "kvm-smccc-1": {
+      "evidence": "/home/main.guest/trames-services-clean/kvm-smccc-1",
+      "plan": {
+        "build": {
+          "fingerprint": {
+            "binary_sha256": "c3570101fa50457c645defe937edc5592497997cf92ab65feaa7cd912f9927f5",
+            "command": [
+              "cargo",
+              "build",
+              "--workspace",
+              "--release",
+              "--locked"
+            ],
+            "flags": {
+              "CARGO_INCREMENTAL": "0"
+            },
+            "sources": {
+              "product": "1e316d0d75527a4dd88d05d9d51fcdf3b84cd0039e3c7edd67b92d4940d48b65",
+              "runtime": "c04e114af1f6456bf50de811393c3c0a568196983204b3de144f6da8785263f1"
+            },
+            "toolchain": "rustc 1.101.0-nightly (4ebd25825 2026-10-15)\nbinary: rustc\ncommit-hash: 4ebd258257737d5b7635c116fa7d281627a7e937\ncommit-date: 2026-10-15\nhost: aarch64-unknown-linux-gnu\nrelease: 1.101.0-nightly\nLLVM version: 23.1.4\n"
+          },
+          "fingerprint_sha256": "6df225eb73292ffc41703989e8bfa469cd7f94a243e3196746f137b9ee25b89b",
+          "schema_version": 1,
+          "sources": {
+            "product": {
+              "commit": "cca077c6d6d87e9b10cf4efb84ff88d180371419",
+              "dirty": false,
+              "inputs_sha256": "1e316d0d75527a4dd88d05d9d51fcdf3b84cd0039e3c7edd67b92d4940d48b65"
+            },
+            "runtime": {
+              "commit": "76f860287368605e3697bd934816c18490967c2f",
+              "dirty": false,
+              "inputs_sha256": "c04e114af1f6456bf50de811393c3c0a568196983204b3de144f6da8785263f1"
+            }
+          }
+        },
+        "bundle_sha256": "1bcfed4955dc5129c417312e1788fe42f41e747ebeda5ee531eba0fd8083fdfd",
+        "cases": [
+          {
+            "artifacts": [
+              "/work/systemd.result"
+            ],
+            "console": "diagnostic",
+            "diagnostics": [
+              "/work/systemd.log",
+              "/work/systemd-controller.log"
+            ],
+            "domain": "systemd",
+            "id": "systemd.pid1-services",
+            "pty": true,
+            "requires": [
+              "/usr/lib/systemd/systemd",
+              "/usr/bin/systemctl",
+              "/usr/bin/journalctl",
+              "/acceptance/systemd-boot"
+            ],
+            "script": "exec /acceptance/systemd-boot --exercise",
+            "stdout": "",
+            "tier": "apps",
+            "timeout": 240
+          },
+          {
+            "artifacts": [
+              "/work/shim-startup.result"
+            ],
+            "diagnostics": [
+              "/work/shim-startup.log"
+            ],
+            "domain": "containers",
+            "id": "containerd.shim-startup",
+            "requires": [
+              "/usr/bin/python3",
+              "/usr/bin/containerd-shim-runc-v2"
+            ],
+            "script": "exec /usr/bin/python3 - <<'CHECK'\nimport json, os, signal, socket, subprocess, time\nfrom pathlib import Path\nos.makedirs('/run/containerd', exist_ok=True)\nrows = []\nfor i in range(20):\n    ident = 'trames-shim-' + str(i)\n    work = Path('/work') / ident\n    work.mkdir()\n    (work/'config.json').write_text('{\"annotations\":{}}')\n    os.mkfifo(work/'log')\n    log = os.open(work/'log', os.O_RDWR | os.O_NONBLOCK)\n    result = subprocess.run(['/usr/bin/containerd-shim-runc-v2', '-namespace', 'moby', '-id', ident,\n                             '-address', '/run/containerd/containerd.sock', 'start'],\n                            cwd=work, input=b'', capture_output=True, timeout=20)\n    row = dict(iteration=i, starter=result.returncode, stderr=result.stderr.decode(errors='replace'))\n    try:\n        assert result.returncode == 0, row\n        address = result.stdout.decode().strip().removeprefix('unix://')\n        def connect():\n            with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as peer:\n                peer.settimeout(2)\n                peer.connect(address)\n        connect()\n        data = b''\n        deadline = time.monotonic() + 10\n        while b'io.containerd.ttrpc.v1.task' not in data:\n            try: data += os.read(log, 65536)\n            except BlockingIOError: pass\n            assert time.monotonic() < deadline, 'shim initialization did not complete: ' + data.decode(errors='replace')\n            connect()\n            time.sleep(.01)\n        connect()\n        children = []\n        for proc in Path('/proc').iterdir():\n            if not proc.name.isdecimal(): continue\n            try:\n                args = (proc/'cmdline').read_bytes().split(b'\\0')\n                if ident.encode() in args and b'start' not in args: children.append(int(proc.name))\n            except (OSError, ValueError): pass\n        assert len(children) == 1, ('live shim process', children)\n        os.kill(children[0], signal.SIGTERM)\n        pid, status = os.waitpid(children[0], 0)\n        assert pid == children[0] and status in (0, signal.SIGTERM), ('shim exit', pid, status)\n        row.update(initialized=True, status=status)\n    finally:\n        os.close(log)\n        rows.append(row)\n        Path('/work/shim-startup.log').write_text(json.dumps(rows, indent=2) + '\\n')\nPath('/work/shim-startup.result').write_text('shim-startup: ok\\n')\nCHECK",
+            "stdout": "",
+            "tier": "apps",
+            "timeout": 600
+          },
+          {
+            "artifacts": [
+              "/work/docker.result"
+            ],
+            "diagnostics": [
+              "/work/docker.log",
+              "/work/dockerd.log",
+              "/work/docker-info.log"
+            ],
+            "domain": "containers",
+            "id": "docker.lifecycle",
+            "requires": [
+              "/usr/sbin/dockerd",
+              "/usr/bin/docker",
+              "/acceptance/docker-lifecycle.sh",
+              "/acceptance/container.tar"
+            ],
+            "script": "exec /bin/sh /acceptance/docker-lifecycle.sh",
+            "stdout": "",
+            "tier": "apps",
+            "timeout": 360
+          }
+        ],
+        "harness_sha256": "898f819af95d9e2d4a3d94829036cc6dce8718b326bcb3f20ba3cf4d355293f3",
+        "host": {
+          "arch": "aarch64",
+          "cpu": "processor\t: 0\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 1\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 2\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 3\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 4\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 5\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\n",
+          "cpu_identity": [
+            "CPU architecture: 8",
+            "CPU implementer\t: 0x61",
+            "CPU part\t: 0x000",
+            "CPU revision\t: 0",
+            "CPU variant\t: 0x0",
+            "Features\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut"
+          ],
+          "kernel": "7.0.0-43-generic",
+          "libc": [
+            "glibc",
+            "2.39"
+          ],
+          "os": "Linux",
+          "page_size": 4096
+        },
+        "performance_qualified": false,
+        "provider": {
+          "backend": "kvm",
+          "build": "6df225eb73292ffc41703989e8bfa469cd7f94a243e3196746f137b9ee25b89b",
+          "cpus": 1,
+          "filesystem": "store",
+          "native_container": null,
+          "native_tools": null,
+          "network": "outbound",
+          "transport": "smccc"
+        },
+        "schema_version": 1,
+        "selected_scope": "complete"
+      },
+      "rows": {
+        "containerd.shim-startup": {
+          "case_inputs": "8e86df162d3d42177e426e36a2a5dc0b13686abe28b5e3d14d5dabe6821eb1d7",
+          "domain": "containers",
+          "exit_code": 1,
+          "fingerprint": "cda98290b3abe537e799a576123c5f951ed50628b589fe7200e7d4fdd9c0ea1a",
+          "id": "containerd.shim-startup",
+          "logs": {
+            "stderr": "5886d98d66cc0e678107cb1c21b5b77b632608853567fcab700b20fdf920d04d",
+            "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "reused": false,
+          "seconds": 8.962014992997865,
+          "status": "failed",
+          "tier": "apps"
+        },
+        "docker.lifecycle": {
+          "artifacts": {
+            "/work/docker.result": "91b6b23d9c82ad183317db7e9d98d6c8dabf7263d6a6f14d12699d924c53da85"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "a68277611755dd314d8f1a887f47b59514e5689159afdf2c51c2d19cd9de1c2e",
+          "domain": "containers",
+          "exit_code": 0,
+          "fingerprint": "6b72fc805719a23412e026b3c582caa550e102d13c5f13dc7e87c84f1bd23959",
+          "id": "docker.lifecycle",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "reused": false,
+          "seconds": 141.88804218499718,
+          "status": "passed",
+          "tier": "apps"
+        },
+        "systemd.pid1-services": {
+          "artifacts": {
+            "/work/systemd.result": "6dbb2184dc6434e7e99fee9d7527752a5e6d9e4724373a568517dd74207e2aa4"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "2cb06db237d6984b6fe36eb1d2c5782099b0d586f1b991b8348336b73ec13510",
+          "domain": "systemd",
+          "exit_code": 0,
+          "fingerprint": "90bc0d9e60fdecb24b6915ac45275db5e3e4e9fd396b659ecda9f4c69130f36a",
+          "id": "systemd.pid1-services",
+          "logs": {
+            "console": "18646dfda42cf6ffc1b915247117947dddadb6a4183e29111b8a5c3ffb7bb9fc",
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "reused": false,
+          "seconds": 54.08045355599461,
+          "status": "passed",
+          "tier": "apps"
+        }
+      }
+    },
+    "kvm-smccc-4": {
+      "evidence": "/home/main.guest/trames-services-clean/kvm-smccc-4",
+      "plan": {
+        "build": {
+          "fingerprint": {
+            "binary_sha256": "c3570101fa50457c645defe937edc5592497997cf92ab65feaa7cd912f9927f5",
+            "command": [
+              "cargo",
+              "build",
+              "--workspace",
+              "--release",
+              "--locked"
+            ],
+            "flags": {
+              "CARGO_INCREMENTAL": "0"
+            },
+            "sources": {
+              "product": "1e316d0d75527a4dd88d05d9d51fcdf3b84cd0039e3c7edd67b92d4940d48b65",
+              "runtime": "c04e114af1f6456bf50de811393c3c0a568196983204b3de144f6da8785263f1"
+            },
+            "toolchain": "rustc 1.101.0-nightly (4ebd25825 2026-10-15)\nbinary: rustc\ncommit-hash: 4ebd258257737d5b7635c116fa7d281627a7e937\ncommit-date: 2026-10-15\nhost: aarch64-unknown-linux-gnu\nrelease: 1.101.0-nightly\nLLVM version: 23.1.4\n"
+          },
+          "fingerprint_sha256": "6df225eb73292ffc41703989e8bfa469cd7f94a243e3196746f137b9ee25b89b",
+          "schema_version": 1,
+          "sources": {
+            "product": {
+              "commit": "cca077c6d6d87e9b10cf4efb84ff88d180371419",
+              "dirty": false,
+              "inputs_sha256": "1e316d0d75527a4dd88d05d9d51fcdf3b84cd0039e3c7edd67b92d4940d48b65"
+            },
+            "runtime": {
+              "commit": "76f860287368605e3697bd934816c18490967c2f",
+              "dirty": false,
+              "inputs_sha256": "c04e114af1f6456bf50de811393c3c0a568196983204b3de144f6da8785263f1"
+            }
+          }
+        },
+        "bundle_sha256": "1bcfed4955dc5129c417312e1788fe42f41e747ebeda5ee531eba0fd8083fdfd",
+        "cases": [
+          {
+            "artifacts": [
+              "/work/systemd.result"
+            ],
+            "console": "diagnostic",
+            "diagnostics": [
+              "/work/systemd.log",
+              "/work/systemd-controller.log"
+            ],
+            "domain": "systemd",
+            "id": "systemd.pid1-services",
+            "pty": true,
+            "requires": [
+              "/usr/lib/systemd/systemd",
+              "/usr/bin/systemctl",
+              "/usr/bin/journalctl",
+              "/acceptance/systemd-boot"
+            ],
+            "script": "exec /acceptance/systemd-boot --exercise",
+            "stdout": "",
+            "tier": "apps",
+            "timeout": 240
+          },
+          {
+            "artifacts": [
+              "/work/shim-startup.result"
+            ],
+            "diagnostics": [
+              "/work/shim-startup.log"
+            ],
+            "domain": "containers",
+            "id": "containerd.shim-startup",
+            "requires": [
+              "/usr/bin/python3",
+              "/usr/bin/containerd-shim-runc-v2"
+            ],
+            "script": "exec /usr/bin/python3 - <<'CHECK'\nimport json, os, signal, socket, subprocess, time\nfrom pathlib import Path\nos.makedirs('/run/containerd', exist_ok=True)\nrows = []\nfor i in range(20):\n    ident = 'trames-shim-' + str(i)\n    work = Path('/work') / ident\n    work.mkdir()\n    (work/'config.json').write_text('{\"annotations\":{}}')\n    os.mkfifo(work/'log')\n    log = os.open(work/'log', os.O_RDWR | os.O_NONBLOCK)\n    result = subprocess.run(['/usr/bin/containerd-shim-runc-v2', '-namespace', 'moby', '-id', ident,\n                             '-address', '/run/containerd/containerd.sock', 'start'],\n                            cwd=work, input=b'', capture_output=True, timeout=20)\n    row = dict(iteration=i, starter=result.returncode, stderr=result.stderr.decode(errors='replace'))\n    try:\n        assert result.returncode == 0, row\n        address = result.stdout.decode().strip().removeprefix('unix://')\n        def connect():\n            with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as peer:\n                peer.settimeout(2)\n                peer.connect(address)\n        connect()\n        data = b''\n        deadline = time.monotonic() + 10\n        while b'io.containerd.ttrpc.v1.task' not in data:\n            try: data += os.read(log, 65536)\n            except BlockingIOError: pass\n            assert time.monotonic() < deadline, 'shim initialization did not complete: ' + data.decode(errors='replace')\n            connect()\n            time.sleep(.01)\n        connect()\n        children = []\n        for proc in Path('/proc').iterdir():\n            if not proc.name.isdecimal(): continue\n            try:\n                args = (proc/'cmdline').read_bytes().split(b'\\0')\n                if ident.encode() in args and b'start' not in args: children.append(int(proc.name))\n            except (OSError, ValueError): pass\n        assert len(children) == 1, ('live shim process', children)\n        os.kill(children[0], signal.SIGTERM)\n        pid, status = os.waitpid(children[0], 0)\n        assert pid == children[0] and status in (0, signal.SIGTERM), ('shim exit', pid, status)\n        row.update(initialized=True, status=status)\n    finally:\n        os.close(log)\n        rows.append(row)\n        Path('/work/shim-startup.log').write_text(json.dumps(rows, indent=2) + '\\n')\nPath('/work/shim-startup.result').write_text('shim-startup: ok\\n')\nCHECK",
+            "stdout": "",
+            "tier": "apps",
+            "timeout": 600
+          },
+          {
+            "artifacts": [
+              "/work/docker.result"
+            ],
+            "diagnostics": [
+              "/work/docker.log",
+              "/work/dockerd.log",
+              "/work/docker-info.log"
+            ],
+            "domain": "containers",
+            "id": "docker.lifecycle",
+            "requires": [
+              "/usr/sbin/dockerd",
+              "/usr/bin/docker",
+              "/acceptance/docker-lifecycle.sh",
+              "/acceptance/container.tar"
+            ],
+            "script": "exec /bin/sh /acceptance/docker-lifecycle.sh",
+            "stdout": "",
+            "tier": "apps",
+            "timeout": 360
+          }
+        ],
+        "harness_sha256": "898f819af95d9e2d4a3d94829036cc6dce8718b326bcb3f20ba3cf4d355293f3",
+        "host": {
+          "arch": "aarch64",
+          "cpu": "processor\t: 0\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 1\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 2\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 3\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 4\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 5\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\n",
+          "cpu_identity": [
+            "CPU architecture: 8",
+            "CPU implementer\t: 0x61",
+            "CPU part\t: 0x000",
+            "CPU revision\t: 0",
+            "CPU variant\t: 0x0",
+            "Features\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut"
+          ],
+          "kernel": "7.0.0-43-generic",
+          "libc": [
+            "glibc",
+            "2.39"
+          ],
+          "os": "Linux",
+          "page_size": 4096
+        },
+        "performance_qualified": false,
+        "provider": {
+          "backend": "kvm",
+          "build": "6df225eb73292ffc41703989e8bfa469cd7f94a243e3196746f137b9ee25b89b",
+          "cpus": 4,
+          "filesystem": "store",
+          "native_container": null,
+          "native_tools": null,
+          "network": "outbound",
+          "transport": "smccc"
+        },
+        "schema_version": 1,
+        "selected_scope": "complete"
+      },
+      "rows": {
+        "containerd.shim-startup": {
+          "case_inputs": "8e86df162d3d42177e426e36a2a5dc0b13686abe28b5e3d14d5dabe6821eb1d7",
+          "domain": "containers",
+          "exit_code": -9,
+          "fingerprint": "6df644a4708ca9db91275e805bdbf0d0743af6c06e4dacd7e54c9e1bb0a0d650",
+          "id": "containerd.shim-startup",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "reused": false,
+          "seconds": 602.0315153650008,
+          "status": "timed_out",
+          "tier": "apps"
+        },
+        "docker.lifecycle": {
+          "artifacts": {
+            "/work/docker.result": "91b6b23d9c82ad183317db7e9d98d6c8dabf7263d6a6f14d12699d924c53da85"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "a68277611755dd314d8f1a887f47b59514e5689159afdf2c51c2d19cd9de1c2e",
+          "domain": "containers",
+          "exit_code": 0,
+          "fingerprint": "ad9ff3ebdb741edd755b04300916e955e5a31f9b742687c7595dc6b0eeebc038",
+          "id": "docker.lifecycle",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "reused": false,
+          "seconds": 130.29030685999896,
+          "status": "passed",
+          "tier": "apps"
+        },
+        "systemd.pid1-services": {
+          "artifacts": {
+            "/work/systemd.result": "6dbb2184dc6434e7e99fee9d7527752a5e6d9e4724373a568517dd74207e2aa4"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "2cb06db237d6984b6fe36eb1d2c5782099b0d586f1b991b8348336b73ec13510",
+          "domain": "systemd",
+          "exit_code": 0,
+          "fingerprint": "e8e78ded6c583e31a027697488184421b6492b5018b2d1871d7300d072c4d9c6",
+          "id": "systemd.pid1-services",
+          "logs": {
+            "console": "fda437d67989f36e535f090390d4a73f31dafd0cbaa56046b529ab5e885964dd",
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "reused": false,
+          "seconds": 35.90601112400327,
+          "status": "passed",
+          "tier": "apps"
+        }
+      }
+    },
+    "native": {
+      "evidence": "/home/main.guest/trames-services-native-v9",
+      "plan": {
+        "build": null,
+        "bundle_sha256": "1bcfed4955dc5129c417312e1788fe42f41e747ebeda5ee531eba0fd8083fdfd",
+        "cases": [
+          {
+            "artifacts": [
+              "/work/systemd.result"
+            ],
+            "console": "diagnostic",
+            "diagnostics": [
+              "/work/systemd.log",
+              "/work/systemd-controller.log"
+            ],
+            "domain": "systemd",
+            "id": "systemd.pid1-services",
+            "pty": true,
+            "requires": [
+              "/usr/lib/systemd/systemd",
+              "/usr/bin/systemctl",
+              "/usr/bin/journalctl",
+              "/acceptance/systemd-boot"
+            ],
+            "script": "exec /acceptance/systemd-boot --exercise",
+            "stdout": "",
+            "tier": "apps",
+            "timeout": 240
+          },
+          {
+            "artifacts": [
+              "/work/shim-startup.result"
+            ],
+            "diagnostics": [
+              "/work/shim-startup.log"
+            ],
+            "domain": "containers",
+            "id": "containerd.shim-startup",
+            "requires": [
+              "/usr/bin/python3",
+              "/usr/bin/containerd-shim-runc-v2"
+            ],
+            "script": "exec /usr/bin/python3 - <<'CHECK'\nimport json, os, signal, socket, subprocess, time\nfrom pathlib import Path\nos.makedirs('/run/containerd', exist_ok=True)\nrows = []\nfor i in range(20):\n    ident = 'trames-shim-' + str(i)\n    work = Path('/work') / ident\n    work.mkdir()\n    (work/'config.json').write_text('{\"annotations\":{}}')\n    os.mkfifo(work/'log')\n    log = os.open(work/'log', os.O_RDWR | os.O_NONBLOCK)\n    result = subprocess.run(['/usr/bin/containerd-shim-runc-v2', '-namespace', 'moby', '-id', ident,\n                             '-address', '/run/containerd/containerd.sock', 'start'],\n                            cwd=work, input=b'', capture_output=True, timeout=20)\n    row = dict(iteration=i, starter=result.returncode, stderr=result.stderr.decode(errors='replace'))\n    try:\n        assert result.returncode == 0, row\n        address = result.stdout.decode().strip().removeprefix('unix://')\n        def connect():\n            with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as peer:\n                peer.settimeout(2)\n                peer.connect(address)\n        connect()\n        data = b''\n        deadline = time.monotonic() + 10\n        while b'io.containerd.ttrpc.v1.task' not in data:\n            try: data += os.read(log, 65536)\n            except BlockingIOError: pass\n            assert time.monotonic() < deadline, 'shim initialization did not complete: ' + data.decode(errors='replace')\n            connect()\n            time.sleep(.01)\n        connect()\n        children = []\n        for proc in Path('/proc').iterdir():\n            if not proc.name.isdecimal(): continue\n            try:\n                args = (proc/'cmdline').read_bytes().split(b'\\0')\n                if ident.encode() in args and b'start' not in args: children.append(int(proc.name))\n            except (OSError, ValueError): pass\n        assert len(children) == 1, ('live shim process', children)\n        os.kill(children[0], signal.SIGTERM)\n        pid, status = os.waitpid(children[0], 0)\n        assert pid == children[0] and status in (0, signal.SIGTERM), ('shim exit', pid, status)\n        row.update(initialized=True, status=status)\n    finally:\n        os.close(log)\n        rows.append(row)\n        Path('/work/shim-startup.log').write_text(json.dumps(rows, indent=2) + '\\n')\nPath('/work/shim-startup.result').write_text('shim-startup: ok\\n')\nCHECK",
+            "stdout": "",
+            "tier": "apps",
+            "timeout": 600
+          },
+          {
+            "artifacts": [
+              "/work/docker.result"
+            ],
+            "diagnostics": [
+              "/work/docker.log",
+              "/work/dockerd.log",
+              "/work/docker-info.log"
+            ],
+            "domain": "containers",
+            "id": "docker.lifecycle",
+            "requires": [
+              "/usr/sbin/dockerd",
+              "/usr/bin/docker",
+              "/acceptance/docker-lifecycle.sh",
+              "/acceptance/container.tar"
+            ],
+            "script": "exec /bin/sh /acceptance/docker-lifecycle.sh",
+            "stdout": "",
+            "tier": "apps",
+            "timeout": 360
+          }
+        ],
+        "harness_sha256": "898f819af95d9e2d4a3d94829036cc6dce8718b326bcb3f20ba3cf4d355293f3",
+        "host": {
+          "arch": "aarch64",
+          "cpu": "processor\t: 0\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 1\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 2\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 3\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 4\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 5\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\n",
+          "cpu_identity": [
+            "CPU architecture: 8",
+            "CPU implementer\t: 0x61",
+            "CPU part\t: 0x000",
+            "CPU revision\t: 0",
+            "CPU variant\t: 0x0",
+            "Features\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut"
+          ],
+          "kernel": "7.0.0-43-generic",
+          "libc": [
+            "glibc",
+            "2.39"
+          ],
+          "os": "Linux",
+          "page_size": 4096
+        },
+        "performance_qualified": false,
+        "provider": {
+          "backend": "native",
+          "build": null,
+          "cpus": 1,
+          "filesystem": null,
+          "native_container": "1593e7fbf6f9dd388722c8f2487d43db28d788f98bd1d046a071eaf7f9771e82",
+          "native_tools": {
+            "/usr/bin/mount": "a4e2960330ff237a185306d9d92df1fc69ee77d8abe9d3282f662f54e13f01f4",
+            "/usr/bin/python3.12": "c86f21d0da9290ece2d7d49a3f7ed52aed59cb029abdf0ea25c79634f6cbe960",
+            "/usr/bin/unshare": "e0c145c3d4c06686544b1362ed64da819539166a5e1e6fd96093aea4d2539b6a"
+          },
+          "network": null,
+          "transport": null
+        },
+        "schema_version": 1,
+        "selected_scope": "complete"
+      },
+      "rows": {
+        "containerd.shim-startup": {
+          "artifacts": {
+            "/work/shim-startup.result": "c762e1261b4929626db4a6e450334d2fb0c9859de08a1c521fd6c7f9ad6372e6"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "8e86df162d3d42177e426e36a2a5dc0b13686abe28b5e3d14d5dabe6821eb1d7",
+          "domain": "containers",
+          "exit_code": 0,
+          "fingerprint": "782f96b72ee402944f872271f5ce6392cdd63b2fe89b846f3ad88ffb972f84fc",
+          "id": "containerd.shim-startup",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "reused": false,
+          "seconds": 0.5663087220018497,
+          "status": "passed",
+          "tier": "apps"
+        },
+        "docker.lifecycle": {
+          "artifacts": {
+            "/work/docker.result": "91b6b23d9c82ad183317db7e9d98d6c8dabf7263d6a6f14d12699d924c53da85"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "a68277611755dd314d8f1a887f47b59514e5689159afdf2c51c2d19cd9de1c2e",
+          "domain": "containers",
+          "exit_code": 0,
+          "fingerprint": "b93085283f6fb07a15c306a0b6713ad1bcb69f597c69331a7bdb011015c9df8b",
+          "id": "docker.lifecycle",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "reused": true,
+          "reused_from": "/home/main.guest/trames-services-native-v8/cases/docker.lifecycle",
+          "seconds": 5.726709480994032,
+          "status": "passed",
+          "tier": "apps"
+        },
+        "systemd.pid1-services": {
+          "artifacts": {
+            "/work/systemd.result": "6dbb2184dc6434e7e99fee9d7527752a5e6d9e4724373a568517dd74207e2aa4"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "2cb06db237d6984b6fe36eb1d2c5782099b0d586f1b991b8348336b73ec13510",
+          "domain": "systemd",
+          "exit_code": 0,
+          "fingerprint": "7e620594fb9bf5a31265f1f14a0ef0d8509a83d66f71fb764227b081205f4337",
+          "id": "systemd.pid1-services",
+          "logs": {
+            "console": "bfed6a61ca6259eff45ca1fd1888e93eed6bbd0e70f5af9a5ff3fa8c85e4b205",
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "reused": true,
+          "reused_from": "/home/main.guest/trames-services-native-v8/cases/systemd.pid1-services",
+          "seconds": 0.31703693899908103,
+          "status": "passed",
+          "tier": "apps"
+        }
+      }
+    }
+  },
+  "performance_qualified": false,
+  "schema_version": 1,
+  "workflow_count": 3
+}

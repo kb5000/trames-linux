@@ -1,0 +1,71 @@
+{
+  "cases": [
+    {
+      "artifacts": {
+        "/work/systemd.result": "6dbb2184dc6434e7e99fee9d7527752a5e6d9e4724373a568517dd74207e2aa4"
+      },
+      "artifacts_validated": true,
+      "case_inputs": "2cb06db237d6984b6fe36eb1d2c5782099b0d586f1b991b8348336b73ec13510",
+      "domain": "systemd",
+      "exit_code": 0,
+      "fingerprint": "2728555114b651916fb284ce0b70f5f0efd7caab84e8bffc702899d2756245fd",
+      "id": "systemd.pid1-services",
+      "logs": {
+        "console": "e4b0b8fd9b73dc35a980c0656ccb60f09e117c0cc4a4596d114d0322471f6b97",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "reused": false,
+      "seconds": 36.79637752499548,
+      "status": "passed",
+      "tier": "apps"
+    },
+    {
+      "case_inputs": "8e86df162d3d42177e426e36a2a5dc0b13686abe28b5e3d14d5dabe6821eb1d7",
+      "domain": "containers",
+      "exit_code": -9,
+      "fingerprint": "7ed87eaa3839ff5726336d7cf740b47e953e4b1a22c4103c4529b4b80fcf7c28",
+      "id": "containerd.shim-startup",
+      "logs": {
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "reused": false,
+      "seconds": 602.0203955210018,
+      "status": "timed_out",
+      "tier": "apps"
+    },
+    {
+      "artifacts": {
+        "/work/docker.result": "91b6b23d9c82ad183317db7e9d98d6c8dabf7263d6a6f14d12699d924c53da85"
+      },
+      "artifacts_validated": true,
+      "case_inputs": "a68277611755dd314d8f1a887f47b59514e5689159afdf2c51c2d19cd9de1c2e",
+      "domain": "containers",
+      "exit_code": 0,
+      "fingerprint": "801dbc6f70feb9004f717386a4929580ea50ae75f37646211e00ba8f9f7647c1",
+      "id": "docker.lifecycle",
+      "logs": {
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "reused": false,
+      "seconds": 116.95410853599606,
+      "status": "passed",
+      "tier": "apps"
+    }
+  ],
+  "completed": 3,
+  "counts": {
+    "blocked": 0,
+    "failed": 0,
+    "infrastructure_error": 0,
+    "not_run": 0,
+    "passed": 2,
+    "reference_failed": 0,
+    "timed_out": 1
+  },
+  "planned": 3,
+  "reused": 0,
+  "schema_version": 1
+}

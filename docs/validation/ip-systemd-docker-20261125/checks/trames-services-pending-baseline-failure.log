@@ -1,0 +1,22 @@
+   Compiling trames-kvm v0.1.0 (/home/main.guest/trames-linux-services/crates/trames-kvm)
+    Finished `test` profile [unoptimized] target(s) in 0.43s
+     Running unittests src/lib.rs (/home/main.guest/trames-linux-engine/target/debug/build/trames-kvm/9426a875233eea45/out/trames_kvm-9426a875233eea45)
+
+running 1 test
+test aarch64::engine::hardware_checkpoints::interrupted_completed_notification_preserves_the_pending_syscall ... FAILED
+
+failures:
+
+---- aarch64::engine::hardware_checkpoints::interrupted_completed_notification_preserves_the_pending_syscall stdout ----
+
+thread 'aarch64::engine::hardware_checkpoints::interrupted_completed_notification_preserves_the_pending_syscall' (134537) panicked at crates/trames-kvm/src/aarch64/engine.rs:816:14:
+completed SVC must remain pending
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    aarch64::engine::hardware_checkpoints::interrupted_completed_notification_preserves_the_pending_syscall
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 11 filtered out; finished in 0.01s
+
+error: test failed, to rerun pass `-p trames-kvm --lib`

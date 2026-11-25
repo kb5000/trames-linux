@@ -1,0 +1,135 @@
+{
+  "build": {
+    "fingerprint": {
+      "binary_sha256": "c3570101fa50457c645defe937edc5592497997cf92ab65feaa7cd912f9927f5",
+      "command": [
+        "cargo",
+        "build",
+        "--workspace",
+        "--release",
+        "--locked"
+      ],
+      "flags": {
+        "CARGO_INCREMENTAL": "0"
+      },
+      "sources": {
+        "product": "1e316d0d75527a4dd88d05d9d51fcdf3b84cd0039e3c7edd67b92d4940d48b65",
+        "runtime": "c04e114af1f6456bf50de811393c3c0a568196983204b3de144f6da8785263f1"
+      },
+      "toolchain": "rustc 1.101.0-nightly (4ebd25825 2026-10-15)\nbinary: rustc\ncommit-hash: 4ebd258257737d5b7635c116fa7d281627a7e937\ncommit-date: 2026-10-15\nhost: aarch64-unknown-linux-gnu\nrelease: 1.101.0-nightly\nLLVM version: 23.1.4\n"
+    },
+    "fingerprint_sha256": "6df225eb73292ffc41703989e8bfa469cd7f94a243e3196746f137b9ee25b89b",
+    "schema_version": 1,
+    "sources": {
+      "product": {
+        "commit": "cca077c6d6d87e9b10cf4efb84ff88d180371419",
+        "dirty": false,
+        "inputs_sha256": "1e316d0d75527a4dd88d05d9d51fcdf3b84cd0039e3c7edd67b92d4940d48b65"
+      },
+      "runtime": {
+        "commit": "76f860287368605e3697bd934816c18490967c2f",
+        "dirty": false,
+        "inputs_sha256": "c04e114af1f6456bf50de811393c3c0a568196983204b3de144f6da8785263f1"
+      }
+    }
+  },
+  "bundle_sha256": "1bcfed4955dc5129c417312e1788fe42f41e747ebeda5ee531eba0fd8083fdfd",
+  "cases": [
+    {
+      "artifacts": [
+        "/work/systemd.result"
+      ],
+      "console": "diagnostic",
+      "diagnostics": [
+        "/work/systemd.log",
+        "/work/systemd-controller.log"
+      ],
+      "domain": "systemd",
+      "id": "systemd.pid1-services",
+      "pty": true,
+      "requires": [
+        "/usr/lib/systemd/systemd",
+        "/usr/bin/systemctl",
+        "/usr/bin/journalctl",
+        "/acceptance/systemd-boot"
+      ],
+      "script": "exec /acceptance/systemd-boot --exercise",
+      "stdout": "",
+      "tier": "apps",
+      "timeout": 240
+    },
+    {
+      "artifacts": [
+        "/work/shim-startup.result"
+      ],
+      "diagnostics": [
+        "/work/shim-startup.log"
+      ],
+      "domain": "containers",
+      "id": "containerd.shim-startup",
+      "requires": [
+        "/usr/bin/python3",
+        "/usr/bin/containerd-shim-runc-v2"
+      ],
+      "script": "exec /usr/bin/python3 - <<'CHECK'\nimport json, os, signal, socket, subprocess, time\nfrom pathlib import Path\nos.makedirs('/run/containerd', exist_ok=True)\nrows = []\nfor i in range(20):\n    ident = 'trames-shim-' + str(i)\n    work = Path('/work') / ident\n    work.mkdir()\n    (work/'config.json').write_text('{\"annotations\":{}}')\n    os.mkfifo(work/'log')\n    log = os.open(work/'log', os.O_RDWR | os.O_NONBLOCK)\n    result = subprocess.run(['/usr/bin/containerd-shim-runc-v2', '-namespace', 'moby', '-id', ident,\n                             '-address', '/run/containerd/containerd.sock', 'start'],\n                            cwd=work, input=b'', capture_output=True, timeout=20)\n    row = dict(iteration=i, starter=result.returncode, stderr=result.stderr.decode(errors='replace'))\n    try:\n        assert result.returncode == 0, row\n        address = result.stdout.decode().strip().removeprefix('unix://')\n        def connect():\n            with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as peer:\n                peer.settimeout(2)\n                peer.connect(address)\n        connect()\n        data = b''\n        deadline = time.monotonic() + 10\n        while b'io.containerd.ttrpc.v1.task' not in data:\n            try: data += os.read(log, 65536)\n            except BlockingIOError: pass\n            assert time.monotonic() < deadline, 'shim initialization did not complete: ' + data.decode(errors='replace')\n            connect()\n            time.sleep(.01)\n        connect()\n        children = []\n        for proc in Path('/proc').iterdir():\n            if not proc.name.isdecimal(): continue\n            try:\n                args = (proc/'cmdline').read_bytes().split(b'\\0')\n                if ident.encode() in args and b'start' not in args: children.append(int(proc.name))\n            except (OSError, ValueError): pass\n        assert len(children) == 1, ('live shim process', children)\n        os.kill(children[0], signal.SIGTERM)\n        pid, status = os.waitpid(children[0], 0)\n        assert pid == children[0] and status in (0, signal.SIGTERM), ('shim exit', pid, status)\n        row.update(initialized=True, status=status)\n    finally:\n        os.close(log)\n        rows.append(row)\n        Path('/work/shim-startup.log').write_text(json.dumps(rows, indent=2) + '\\n')\nPath('/work/shim-startup.result').write_text('shim-startup: ok\\n')\nCHECK",
+      "stdout": "",
+      "tier": "apps",
+      "timeout": 600
+    },
+    {
+      "artifacts": [
+        "/work/docker.result"
+      ],
+      "diagnostics": [
+        "/work/docker.log",
+        "/work/dockerd.log",
+        "/work/docker-info.log"
+      ],
+      "domain": "containers",
+      "id": "docker.lifecycle",
+      "requires": [
+        "/usr/sbin/dockerd",
+        "/usr/bin/docker",
+        "/acceptance/docker-lifecycle.sh",
+        "/acceptance/container.tar"
+      ],
+      "script": "exec /bin/sh /acceptance/docker-lifecycle.sh",
+      "stdout": "",
+      "tier": "apps",
+      "timeout": 360
+    }
+  ],
+  "harness_sha256": "898f819af95d9e2d4a3d94829036cc6dce8718b326bcb3f20ba3cf4d355293f3",
+  "host": {
+    "arch": "aarch64",
+    "cpu": "processor\t: 0\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 1\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 2\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 3\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 4\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 5\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\n",
+    "cpu_identity": [
+      "CPU architecture: 8",
+      "CPU implementer\t: 0x61",
+      "CPU part\t: 0x000",
+      "CPU revision\t: 0",
+      "CPU variant\t: 0x0",
+      "Features\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut"
+    ],
+    "kernel": "7.0.0-43-generic",
+    "libc": [
+      "glibc",
+      "2.39"
+    ],
+    "os": "Linux",
+    "page_size": 4096
+  },
+  "performance_qualified": false,
+  "provider": {
+    "backend": "kvm",
+    "build": "6df225eb73292ffc41703989e8bfa469cd7f94a243e3196746f137b9ee25b89b",
+    "cpus": 1,
+    "filesystem": "store",
+    "native_container": null,
+    "native_tools": null,
+    "network": "outbound",
+    "transport": "smccc"
+  },
+  "schema_version": 1,
+  "selected_scope": "complete"
+}

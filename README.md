@@ -77,11 +77,15 @@ No helper/coordinator thread, polling bus or application code rewrite is added.
 
 The shared runtime owns an immutable-bundle application manifest, native/KVM
 comparison, source/build receipts, strict evidence reuse and JUnit/JSON reports.
-See [the system design](docs/architecture/acceptance.md) and
-[first real application results](docs/validation/applications-20261125.md).
-The initial software matrix is failing; working shell entry and build CI do not
-mean general CLI compatibility. `scripts/validate-applications.py` runs all cases
-on both transports at one/four workers and keeps failures visible.
+See [the system design](docs/architecture/acceptance.md) and the current
+[IP/systemd/Docker results](docs/validation/ip-systemd-docker-20261125.md).
+On the existing 4 KiB ARM64 KVM VM, declared CLI workflows pass 48/48 cells,
+IP 8/8, systemd 4/4 and Docker 4/4. Stock containerd shims complete 20 real
+Connect/Shutdown cycles per configuration. These are scoped workflows, not
+arbitrary software or complete cgroup-controller support. The matrix runs both
+transports at one/four workers, keeps failures visible and reuses exact audited
+passing evidence. The [first failing baseline](docs/validation/applications-20261125.md)
+is retained.
 
 ## Validation and remaining work
 

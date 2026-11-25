@@ -1,7 +1,11 @@
 # First automated application acceptance — 2026-11-25
 
-The acceptance system works, and the current Linux product does **not** pass the
-application matrix. Native Linux passes 12/12 workflows. KVM passes 7/48 cells
+This is the retained initial failing baseline. The subsequent
+[IP/systemd/Docker qualification](ip-systemd-docker-20261125.md) passes all
+48 declared CLI cells and records the newer clean build independently.
+
+At this historical baseline the Linux product did **not** pass the application
+matrix. Native Linux passes 12/12 workflows. KVM passes 7/48 cells
 across two transports and one/four workers; 41 cells fail. These are 12 workflow
 specifications in four KVM configurations, not 48 independently supported apps.
 The common Python subprocess/socketpair/thread/fork workflow passes in all four;

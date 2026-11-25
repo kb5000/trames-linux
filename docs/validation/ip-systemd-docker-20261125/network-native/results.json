@@ -1,0 +1,51 @@
+{
+  "cases": [
+    {
+      "artifacts": {},
+      "artifacts_validated": true,
+      "case_inputs": "b1329271c7519492348284643df3bc3f00f4f7f516dbfff78bf0279a936f86e6",
+      "domain": "network",
+      "exit_code": 0,
+      "fingerprint": "367ed1a7b9d227f9d6b5a9a11892e64f56e640e0e547d6d4349e09199f2e0657",
+      "id": "ip.address-route",
+      "logs": {
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "8f467269d76f0d77796534775148164befdff44ff9ae31b368329750252ff05f"
+      },
+      "reused": false,
+      "seconds": 0.06447126100101741,
+      "status": "passed",
+      "tier": "apps"
+    },
+    {
+      "artifacts": {},
+      "artifacts_validated": true,
+      "case_inputs": "ccd207a3829dc9876f63abc0042a602ee40869f66a171a4e0c7c82d32a229add",
+      "domain": "network",
+      "exit_code": 0,
+      "fingerprint": "63dbdb39854c40540f6a3d65ccf347d103193af4424ae1d8209b68188e67b171",
+      "id": "ip.namespace-bridge",
+      "logs": {
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "98e1ffee0274289a8ab905b65f9d25642396b0d43aa3426582be657465ae3a13"
+      },
+      "reused": false,
+      "seconds": 2.1637644520014874,
+      "status": "passed",
+      "tier": "apps"
+    }
+  ],
+  "completed": 2,
+  "counts": {
+    "blocked": 0,
+    "failed": 0,
+    "infrastructure_error": 0,
+    "not_run": 0,
+    "passed": 2,
+    "reference_failed": 0,
+    "timed_out": 0
+  },
+  "planned": 2,
+  "reused": 0,
+  "schema_version": 1
+}

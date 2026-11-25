@@ -1,0 +1,77 @@
+{
+  "cases": [
+    {
+      "artifacts": {
+        "/work/systemd.result": "6dbb2184dc6434e7e99fee9d7527752a5e6d9e4724373a568517dd74207e2aa4"
+      },
+      "artifacts_validated": true,
+      "case_inputs": "2cb06db237d6984b6fe36eb1d2c5782099b0d586f1b991b8348336b73ec13510",
+      "domain": "systemd",
+      "exit_code": 0,
+      "fingerprint": "7e620594fb9bf5a31265f1f14a0ef0d8509a83d66f71fb764227b081205f4337",
+      "id": "systemd.pid1-services",
+      "logs": {
+        "console": "bfed6a61ca6259eff45ca1fd1888e93eed6bbd0e70f5af9a5ff3fa8c85e4b205",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "reused": true,
+      "reused_from": "/home/main.guest/trames-services-native-v8/cases/systemd.pid1-services",
+      "seconds": 0.31703693899908103,
+      "status": "passed",
+      "tier": "apps"
+    },
+    {
+      "artifacts": {
+        "/work/shim-startup.result": "c762e1261b4929626db4a6e450334d2fb0c9859de08a1c521fd6c7f9ad6372e6"
+      },
+      "artifacts_validated": true,
+      "case_inputs": "8e86df162d3d42177e426e36a2a5dc0b13686abe28b5e3d14d5dabe6821eb1d7",
+      "domain": "containers",
+      "exit_code": 0,
+      "fingerprint": "782f96b72ee402944f872271f5ce6392cdd63b2fe89b846f3ad88ffb972f84fc",
+      "id": "containerd.shim-startup",
+      "logs": {
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "reused": false,
+      "seconds": 0.5663087220018497,
+      "status": "passed",
+      "tier": "apps"
+    },
+    {
+      "artifacts": {
+        "/work/docker.result": "91b6b23d9c82ad183317db7e9d98d6c8dabf7263d6a6f14d12699d924c53da85"
+      },
+      "artifacts_validated": true,
+      "case_inputs": "a68277611755dd314d8f1a887f47b59514e5689159afdf2c51c2d19cd9de1c2e",
+      "domain": "containers",
+      "exit_code": 0,
+      "fingerprint": "b93085283f6fb07a15c306a0b6713ad1bcb69f597c69331a7bdb011015c9df8b",
+      "id": "docker.lifecycle",
+      "logs": {
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "reused": true,
+      "reused_from": "/home/main.guest/trames-services-native-v8/cases/docker.lifecycle",
+      "seconds": 5.726709480994032,
+      "status": "passed",
+      "tier": "apps"
+    }
+  ],
+  "completed": 3,
+  "counts": {
+    "blocked": 0,
+    "failed": 0,
+    "infrastructure_error": 0,
+    "not_run": 0,
+    "passed": 3,
+    "reference_failed": 0,
+    "timed_out": 0
+  },
+  "planned": 3,
+  "reused": 2,
+  "schema_version": 1
+}

@@ -1,0 +1,68 @@
+{
+  "build": null,
+  "bundle_sha256": "d437f7389e6c9d02581fd2e0c45cd01d71176310ffb17c8e466e42c2086f279c",
+  "cases": [
+    {
+      "domain": "network",
+      "id": "ip.address-route",
+      "requires": [
+        "/usr/bin/ip",
+        "/usr/bin/python3"
+      ],
+      "script": "ip link set lo up\nip link add acceptance0 type dummy\nip link set acceptance0 mtu 1400 up\nip address add 192.0.2.1/24 dev acceptance0\nip -6 address add 2001:db8:1::1/64 dev acceptance0 nodad\nip route add 198.51.100.0/24 dev acceptance0 metric 42\nip -j link show dev acceptance0 > links.json\nip -j address show dev acceptance0 > addresses.json\nip -j route show 198.51.100.0/24 > routes.json\npython3 - <<'CHECK'\nimport json\nl=json.load(open('links.json'))[0]; assert l['ifname']=='acceptance0' and l['mtu']==1400 and 'UP' in l['flags']\na=json.load(open('addresses.json'))[0]['addr_info']; assert any(x['local']=='192.0.2.1' and x['prefixlen']==24 for x in a); assert any(x['local']=='2001:db8:1::1' for x in a)\nr=json.load(open('routes.json')); assert any(x['dst']=='198.51.100.0/24' and x['dev']=='acceptance0' and x['metric']==42 for x in r)\nCHECK\nip route del 198.51.100.0/24 dev acceptance0 metric 42\nip address del 192.0.2.1/24 dev acceptance0\nip link del acceptance0\nprintf 'ip-address-route: ok\\n' ",
+      "stdout": "ip-address-route: ok\n",
+      "tier": "apps"
+    },
+    {
+      "domain": "network",
+      "id": "ip.namespace-bridge",
+      "requires": [
+        "/usr/bin/ip",
+        "/usr/bin/ping",
+        "/usr/bin/bridge",
+        "/usr/bin/grep"
+      ],
+      "script": "mkdir -p /var/run/netns\nip netns add acceptance-ns\nip link add acceptance-br type bridge\nip link set acceptance-br up\nip address add 192.0.2.1/24 dev acceptance-br\nip link add acceptance-veth type veth peer name acceptance-peer\nip link set acceptance-veth master acceptance-br\nip link set acceptance-veth up\nip link set acceptance-peer netns acceptance-ns\nip netns exec acceptance-ns /usr/bin/ip link set lo up\nip netns exec acceptance-ns /usr/bin/ip link set acceptance-peer up\nip netns exec acceptance-ns /usr/bin/ip address add 192.0.2.2/24 dev acceptance-peer\nbridge link show dev acceptance-veth | grep -q 'master acceptance-br'\nip netns exec acceptance-ns /usr/bin/ping -n -c 3 -W 2 192.0.2.1 > ping.log\nip netns exec acceptance-ns /usr/bin/ip route get 192.0.2.1 | grep -q 'dev acceptance-peer'\nip link del acceptance-veth\nip netns delete acceptance-ns\nip link del acceptance-br\nprintf 'ip-namespace-bridge: ok\\n' ",
+      "stdout": "ip-namespace-bridge: ok\n",
+      "tier": "apps",
+      "timeout": 60
+    }
+  ],
+  "harness_sha256": "898f819af95d9e2d4a3d94829036cc6dce8718b326bcb3f20ba3cf4d355293f3",
+  "host": {
+    "arch": "aarch64",
+    "cpu": "processor\t: 0\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 1\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 2\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 3\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 4\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 5\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\n",
+    "cpu_identity": [
+      "CPU architecture: 8",
+      "CPU implementer\t: 0x61",
+      "CPU part\t: 0x000",
+      "CPU revision\t: 0",
+      "CPU variant\t: 0x0",
+      "Features\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut"
+    ],
+    "kernel": "7.0.0-43-generic",
+    "libc": [
+      "glibc",
+      "2.39"
+    ],
+    "os": "Linux",
+    "page_size": 4096
+  },
+  "performance_qualified": false,
+  "provider": {
+    "backend": "native",
+    "build": null,
+    "cpus": 1,
+    "filesystem": null,
+    "native_container": null,
+    "native_tools": {
+      "/usr/bin/mount": "a4e2960330ff237a185306d9d92df1fc69ee77d8abe9d3282f662f54e13f01f4",
+      "/usr/bin/python3.12": "c86f21d0da9290ece2d7d49a3f7ed52aed59cb029abdf0ea25c79634f6cbe960",
+      "/usr/bin/unshare": "e0c145c3d4c06686544b1362ed64da819539166a5e1e6fd96093aea4d2539b6a"
+    },
+    "network": null,
+    "transport": null
+  },
+  "schema_version": 1,
+  "selected_scope": "complete"
+}

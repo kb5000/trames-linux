@@ -1,0 +1,468 @@
+PHASE 0 starting
+PHASE 0 starter 0
+PHASE 0 initialized [11]
+PHASE 0 sent SIGTERM
+PHASE 0 exited 0
+PHASE 1 starting
+PHASE 1 starter 0
+PHASE 1 initialized [30]
+PHASE 1 sent SIGTERM
+PHASE 1 exited 0
+PHASE 2 starting
+PHASE 2 starter 0
+PHASE 2 initialized [48]
+PHASE 2 sent SIGTERM
+PHASE 2 exited 0
+PHASE 3 starting
+PHASE 3 starter 0
+PHASE 3 initialized [68]
+PHASE 3 sent SIGTERM
+PHASE 3 exited 0
+PHASE 4 starting
+PHASE 4 starter 0
+PHASE 4 initialized [87]
+PHASE 4 sent SIGTERM
+PHASE 4 exited 0
+PHASE 5 starting
+PHASE 5 starter 0
+PHASE 5 initialized [106]
+PHASE 5 sent SIGTERM
+PHASE 5 exited 0
+PHASE 6 starting
+PHASE 6 starter 0
+PHASE 6 initialized [125]
+PHASE 6 sent SIGTERM
+PHASE 6 exited 0
+PHASE 7 starting
+PHASE 7 starter 0
+PHASE 7 initialized [144]
+PHASE 7 sent SIGTERM
+PHASE 7 exited 0
+PHASE 8 starting
+PHASE 8 starter 0
+PHASE 8 initialized [163]
+PHASE 8 sent SIGTERM
+PHASE 8 exited 0
+PHASE 9 starting
+PHASE 9 starter 0
+PHASE 9 initialized [181]
+PHASE 9 sent SIGTERM
+PHASE 9 exited 0
+PHASE 10 starting
+PHASE 10 starter 0
+PHASE 10 initialized [201]
+PHASE 10 sent SIGTERM
+PHASE 10 exited 0
+PHASE 11 starting
+PHASE 11 starter 0
+PHASE 11 initialized [220]
+PHASE 11 sent SIGTERM
+PHASE 11 exited 0
+PHASE 12 starting
+PHASE 12 starter 0
+PHASE 12 initialized [240]
+PHASE 12 sent SIGTERM
+STALLED 240 status Name:	containerd-shim
+Cpus_allowed:	0000000f
+Cpus_allowed_list:	0,1,2,3
+CapInh:	0000000000000000
+CapPrm:	000001ffffffffff
+CapEff:	000001ffffffffff
+CapBnd:	000001ffffffffff
+CapAmb:	0000000000000000
+NoNewPrivs:	0
+Seccomp:	0
+Seccomp_filters:	0
+NStgid:	240
+NSpid:	240
+NSpgid:	240
+NSsid:	1
+State:	S (sleeping)
+Tgid:	240
+Pid:	240
+PPid:	1
+TracerPid:	0
+Uid:	0	0	0	0
+Gid:	0	0	0	0
+FDSize:	64
+Groups:	
+VmSize:	1840468 kB
+VmData:	51152 kB
+VmStk:	1024 kB
+VmExe:	12420 kB
+VmLib:	1816 kB
+VmHWM:	16956 kB
+VmRSS:	16956 kB
+Threads:	10
+SigPnd:	0000000000000000
+ShdPnd:	0000000000000000
+SigBlk:	0000000000000000
+SigIgn:	0000000000000000
+SigCgt:	fffffffd7fc1feff
+
+STALLED 240 stat 240 (containerd-shim) S 1 240 1 0 -1 0 0 0 0 0 38 0 0 0 20 0 10 0 1260 1884639232 4239 18446744073709551615 4194304 16911200 140737487305856 0 0 0 0 0 0 0 0 0 0 3 0 0 0 0 0 17038792 17519777 17756160 140737487306515 140737487306624 140737487306624 140737487306719 0
+
+STALLED 241 status Name:	containerd-shim
+Cpus_allowed:	0000000f
+Cpus_allowed_list:	0,1,2,3
+CapInh:	0000000000000000
+CapPrm:	000001ffffffffff
+CapEff:	000001ffffffffff
+CapBnd:	000001ffffffffff
+CapAmb:	0000000000000000
+NoNewPrivs:	0
+Seccomp:	0
+Seccomp_filters:	0
+NStgid:	240
+NSpid:	241
+NSpgid:	240
+NSsid:	1
+State:	S (sleeping)
+Tgid:	240
+Pid:	241
+PPid:	1
+TracerPid:	0
+Uid:	0	0	0	0
+Gid:	0	0	0	0
+FDSize:	64
+Groups:	
+VmSize:	1840468 kB
+VmData:	51152 kB
+VmStk:	1024 kB
+VmExe:	12420 kB
+VmLib:	1816 kB
+VmHWM:	16956 kB
+VmRSS:	16956 kB
+Threads:	10
+SigPnd:	0000000000000000
+ShdPnd:	0000000000000000
+SigBlk:	0000000000000000
+SigIgn:	0000000000000000
+SigCgt:	fffffffd7fc1feff
+
+STALLED 241 stat 241 (containerd-shim) S 1 240 1 0 -1 0 0 0 0 0 6 0 0 0 20 0 10 0 1272 1884639232 4239 18446744073709551615 4194304 16911200 140737487305856 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 17038792 17519777 17756160 140737487306515 140737487306624 140737487306624 140737487306719 0
+
+STALLED 242 status Name:	containerd-shim
+Cpus_allowed:	0000000f
+Cpus_allowed_list:	0,1,2,3
+CapInh:	0000000000000000
+CapPrm:	000001ffffffffff
+CapEff:	000001ffffffffff
+CapBnd:	000001ffffffffff
+CapAmb:	0000000000000000
+NoNewPrivs:	0
+Seccomp:	0
+Seccomp_filters:	0
+NStgid:	240
+NSpid:	242
+NSpgid:	240
+NSsid:	1
+State:	S (sleeping)
+Tgid:	240
+Pid:	242
+PPid:	1
+TracerPid:	0
+Uid:	0	0	0	0
+Gid:	0	0	0	0
+FDSize:	64
+Groups:	
+VmSize:	1840468 kB
+VmData:	51152 kB
+VmStk:	1024 kB
+VmExe:	12420 kB
+VmLib:	1816 kB
+VmHWM:	16956 kB
+VmRSS:	16956 kB
+Threads:	10
+SigPnd:	0000000000000000
+ShdPnd:	0000000000000000
+SigBlk:	0000000000000000
+SigIgn:	0000000000000000
+SigCgt:	fffffffd7fc1feff
+
+STALLED 242 stat 242 (containerd-shim) S 1 240 1 0 -1 0 0 0 0 0 2 0 0 0 20 0 10 0 1273 1884639232 4239 18446744073709551615 4194304 16911200 140737487305856 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 17038792 17519777 17756160 140737487306515 140737487306624 140737487306624 140737487306719 0
+
+STALLED 243 status Name:	containerd-shim
+Cpus_allowed:	0000000f
+Cpus_allowed_list:	0,1,2,3
+CapInh:	0000000000000000
+CapPrm:	000001ffffffffff
+CapEff:	000001ffffffffff
+CapBnd:	000001ffffffffff
+CapAmb:	0000000000000000
+NoNewPrivs:	0
+Seccomp:	0
+Seccomp_filters:	0
+NStgid:	240
+NSpid:	243
+NSpgid:	240
+NSsid:	1
+State:	S (sleeping)
+Tgid:	240
+Pid:	243
+PPid:	1
+TracerPid:	0
+Uid:	0	0	0	0
+Gid:	0	0	0	0
+FDSize:	64
+Groups:	
+VmSize:	1840468 kB
+VmData:	51152 kB
+VmStk:	1024 kB
+VmExe:	12420 kB
+VmLib:	1816 kB
+VmHWM:	16956 kB
+VmRSS:	16956 kB
+Threads:	10
+SigPnd:	0000000000000000
+ShdPnd:	0000000000000000
+SigBlk:	0000000000000000
+SigIgn:	0000000000000000
+SigCgt:	fffffffd7fc1feff
+
+STALLED 243 stat 243 (containerd-shim) S 1 240 1 0 -1 0 0 0 0 0 3 0 0 0 20 0 10 0 1273 1884639232 4239 18446744073709551615 4194304 16911200 140737487305856 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 17038792 17519777 17756160 140737487306515 140737487306624 140737487306624 140737487306719 0
+
+STALLED 244 status Name:	containerd-shim
+Cpus_allowed:	0000000f
+Cpus_allowed_list:	0,1,2,3
+CapInh:	0000000000000000
+CapPrm:	000001ffffffffff
+CapEff:	000001ffffffffff
+CapBnd:	000001ffffffffff
+CapAmb:	0000000000000000
+NoNewPrivs:	0
+Seccomp:	0
+Seccomp_filters:	0
+NStgid:	240
+NSpid:	244
+NSpgid:	240
+NSsid:	1
+State:	S (sleeping)
+Tgid:	240
+Pid:	244
+PPid:	1
+TracerPid:	0
+Uid:	0	0	0	0
+Gid:	0	0	0	0
+FDSize:	64
+Groups:	
+VmSize:	1840468 kB
+VmData:	51152 kB
+VmStk:	1024 kB
+VmExe:	12420 kB
+VmLib:	1816 kB
+VmHWM:	16956 kB
+VmRSS:	16956 kB
+Threads:	10
+SigPnd:	0000000000000000
+ShdPnd:	0000000000000000
+SigBlk:	0000000000000000
+SigIgn:	0000000000000000
+SigCgt:	fffffffd7fc1feff
+
+STALLED 244 stat 244 (containerd-shim) S 1 240 1 0 -1 0 0 0 0 0 5 0 0 0 20 0 10 0 1273 1884639232 4239 18446744073709551615 4194304 16911200 140737487305856 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 17038792 17519777 17756160 140737487306515 140737487306624 140737487306624 140737487306719 0
+
+STALLED 245 status Name:	containerd-shim
+Cpus_allowed:	0000000f
+Cpus_allowed_list:	0,1,2,3
+CapInh:	0000000000000000
+CapPrm:	000001ffffffffff
+CapEff:	000001ffffffffff
+CapBnd:	000001ffffffffff
+CapAmb:	0000000000000000
+NoNewPrivs:	0
+Seccomp:	0
+Seccomp_filters:	0
+NStgid:	240
+NSpid:	245
+NSpgid:	240
+NSsid:	1
+State:	S (sleeping)
+Tgid:	240
+Pid:	245
+PPid:	1
+TracerPid:	0
+Uid:	0	0	0	0
+Gid:	0	0	0	0
+FDSize:	64
+Groups:	
+VmSize:	1840468 kB
+VmData:	51152 kB
+VmStk:	1024 kB
+VmExe:	12420 kB
+VmLib:	1816 kB
+VmHWM:	16956 kB
+VmRSS:	16956 kB
+Threads:	10
+SigPnd:	0000000000000000
+ShdPnd:	0000000000000000
+SigBlk:	fffffffc3bba2800
+SigIgn:	0000000000000000
+SigCgt:	fffffffd7fc1feff
+
+STALLED 245 stat 245 (containerd-shim) S 1 240 1 0 -1 0 0 0 0 0 1 0 0 0 20 0 10 0 1274 1884639232 4239 18446744073709551615 4194304 16911200 140737487305856 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 17038792 17519777 17756160 140737487306515 140737487306624 140737487306624 140737487306719 0
+
+STALLED 246 status Name:	containerd-shim
+Cpus_allowed:	0000000f
+Cpus_allowed_list:	0,1,2,3
+CapInh:	0000000000000000
+CapPrm:	000001ffffffffff
+CapEff:	000001ffffffffff
+CapBnd:	000001ffffffffff
+CapAmb:	0000000000000000
+NoNewPrivs:	0
+Seccomp:	0
+Seccomp_filters:	0
+NStgid:	240
+NSpid:	246
+NSpgid:	240
+NSsid:	1
+State:	S (sleeping)
+Tgid:	240
+Pid:	246
+PPid:	1
+TracerPid:	0
+Uid:	0	0	0	0
+Gid:	0	0	0	0
+FDSize:	64
+Groups:	
+VmSize:	1840468 kB
+VmData:	51152 kB
+VmStk:	1024 kB
+VmExe:	12420 kB
+VmLib:	1816 kB
+VmHWM:	16956 kB
+VmRSS:	16956 kB
+Threads:	10
+SigPnd:	0000000000000000
+ShdPnd:	0000000000000000
+SigBlk:	0000000000000000
+SigIgn:	0000000000000000
+SigCgt:	fffffffd7fc1feff
+
+STALLED 246 stat 246 (containerd-shim) S 1 240 1 0 -1 0 0 0 0 0 0 0 0 0 20 0 10 0 1275 1884639232 4239 18446744073709551615 4194304 16911200 140737487305856 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 17038792 17519777 17756160 140737487306515 140737487306624 140737487306624 140737487306719 0
+
+STALLED 247 status Name:	containerd-shim
+Cpus_allowed:	0000000f
+Cpus_allowed_list:	0,1,2,3
+CapInh:	0000000000000000
+CapPrm:	000001ffffffffff
+CapEff:	000001ffffffffff
+CapBnd:	000001ffffffffff
+CapAmb:	0000000000000000
+NoNewPrivs:	0
+Seccomp:	0
+Seccomp_filters:	0
+NStgid:	240
+NSpid:	247
+NSpgid:	240
+NSsid:	1
+State:	S (sleeping)
+Tgid:	240
+Pid:	247
+PPid:	1
+TracerPid:	0
+Uid:	0	0	0	0
+Gid:	0	0	0	0
+FDSize:	64
+Groups:	
+VmSize:	1840468 kB
+VmData:	51152 kB
+VmStk:	1024 kB
+VmExe:	12420 kB
+VmLib:	1816 kB
+VmHWM:	16956 kB
+VmRSS:	16956 kB
+Threads:	10
+SigPnd:	0000000000000000
+ShdPnd:	0000000000000000
+SigBlk:	0000000000000000
+SigIgn:	0000000000000000
+SigCgt:	fffffffd7fc1feff
+
+STALLED 247 stat 247 (containerd-shim) S 1 240 1 0 -1 0 0 0 0 0 0 0 0 0 20 0 10 0 1290 1884639232 4239 18446744073709551615 4194304 16911200 140737487305856 0 0 0 0 0 0 0 0 0 0 2 0 0 0 0 0 17038792 17519777 17756160 140737487306515 140737487306624 140737487306624 140737487306719 0
+
+STALLED 248 status Name:	containerd-shim
+Cpus_allowed:	0000000f
+Cpus_allowed_list:	0,1,2,3
+CapInh:	0000000000000000
+CapPrm:	000001ffffffffff
+CapEff:	000001ffffffffff
+CapBnd:	000001ffffffffff
+CapAmb:	0000000000000000
+NoNewPrivs:	0
+Seccomp:	0
+Seccomp_filters:	0
+NStgid:	240
+NSpid:	248
+NSpgid:	240
+NSsid:	1
+State:	S (sleeping)
+Tgid:	240
+Pid:	248
+PPid:	1
+TracerPid:	0
+Uid:	0	0	0	0
+Gid:	0	0	0	0
+FDSize:	64
+Groups:	
+VmSize:	1840468 kB
+VmData:	51152 kB
+VmStk:	1024 kB
+VmExe:	12420 kB
+VmLib:	1816 kB
+VmHWM:	16956 kB
+VmRSS:	16956 kB
+Threads:	10
+SigPnd:	0000000000000000
+ShdPnd:	0000000000000000
+SigBlk:	0000000000000000
+SigIgn:	0000000000000000
+SigCgt:	fffffffd7fc1feff
+
+STALLED 248 stat 248 (containerd-shim) S 1 240 1 0 -1 0 0 0 0 0 5 0 0 0 20 0 10 0 1291 1884639232 4239 18446744073709551615 4194304 16911200 140737487305856 0 0 0 0 0 0 0 0 0 0 2 0 0 0 0 0 17038792 17519777 17756160 140737487306515 140737487306624 140737487306624 140737487306719 0
+
+STALLED 249 status Name:	containerd-shim
+Cpus_allowed:	0000000f
+Cpus_allowed_list:	0,1,2,3
+CapInh:	0000000000000000
+CapPrm:	000001ffffffffff
+CapEff:	000001ffffffffff
+CapBnd:	000001ffffffffff
+CapAmb:	0000000000000000
+NoNewPrivs:	0
+Seccomp:	0
+Seccomp_filters:	0
+NStgid:	240
+NSpid:	249
+NSpgid:	240
+NSsid:	1
+State:	S (sleeping)
+Tgid:	240
+Pid:	249
+PPid:	1
+TracerPid:	0
+Uid:	0	0	0	0
+Gid:	0	0	0	0
+FDSize:	64
+Groups:	
+VmSize:	1840468 kB
+VmData:	51152 kB
+VmStk:	1024 kB
+VmExe:	12420 kB
+VmLib:	1816 kB
+VmHWM:	16956 kB
+VmRSS:	16956 kB
+Threads:	10
+SigPnd:	0000000000000000
+ShdPnd:	0000000000000000
+SigBlk:	0000000000000000
+SigIgn:	0000000000000000
+SigCgt:	fffffffd7fc1feff
+
+STALLED 249 stat 249 (containerd-shim) S 1 240 1 0 -1 0 0 0 0 0 2 0 0 0 20 0 10 0 1301 1884639232 4239 18446744073709551615 4194304 16911200 140737487305856 0 0 0 0 0 0 0 0 0 0 3 0 0 0 0 0 17038792 17519777 17756160 140737487306515 140737487306624 140737487306624 140737487306719 0
+
+Traceback (most recent call last):
+  File "<string>", line 55, in <module>
+    raise RuntimeError('shim failed to exit after SIGTERM')
+RuntimeError: shim failed to exit after SIGTERM

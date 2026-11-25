@@ -1,0 +1,20 @@
+{
+  "host": {
+    "arm_ipa_bits": 40,
+    "backend_implemented": true,
+    "host_arch": "aarch64",
+    "host_os": "linux",
+    "host_page_size": 4096,
+    "immediate_exit": true,
+    "issues": [],
+    "kvm_api_version": 12,
+    "max_vcpus": 512,
+    "memory_slots": 32767,
+    "smccc_forwarding": true,
+    "user_memory": true
+  },
+  "runtime": {
+    "commit": "542b14f9e3dff51d89d61043d5a77916b8417c25",
+    "repository": "https://github.com/kb5000/trames-runtime"
+  }
+}

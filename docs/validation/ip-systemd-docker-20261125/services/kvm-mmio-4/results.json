@@ -1,0 +1,75 @@
+{
+  "cases": [
+    {
+      "artifacts": {
+        "/work/systemd.result": "6dbb2184dc6434e7e99fee9d7527752a5e6d9e4724373a568517dd74207e2aa4"
+      },
+      "artifacts_validated": true,
+      "case_inputs": "2cb06db237d6984b6fe36eb1d2c5782099b0d586f1b991b8348336b73ec13510",
+      "domain": "systemd",
+      "exit_code": 0,
+      "fingerprint": "16b106f7adbd9095dcb6360a98640c4c5d212e0faa40b065e0754c2ea2fc93d1",
+      "id": "systemd.pid1-services",
+      "logs": {
+        "console": "0500eaf490ccc2af4560936be14ed13686c33ce2bf9d5ada32fe7e996d9ecdaf",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "reused": false,
+      "seconds": 37.606437751994235,
+      "status": "passed",
+      "tier": "apps"
+    },
+    {
+      "artifacts": {
+        "/work/shim-startup.result": "c762e1261b4929626db4a6e450334d2fb0c9859de08a1c521fd6c7f9ad6372e6"
+      },
+      "artifacts_validated": true,
+      "case_inputs": "3b154c4aa8547c13d24d4ac2d4dedbd612e8c673d3dca74ceba9064d620c9013",
+      "domain": "containers",
+      "exit_code": 0,
+      "fingerprint": "1cb17fedf11e25f5c8b6ae138baaf20d8e941550c06c7fac70d0464e94243d4e",
+      "id": "containerd.shim-startup",
+      "logs": {
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "reused": false,
+      "seconds": 26.264430091003305,
+      "status": "passed",
+      "tier": "apps"
+    },
+    {
+      "artifacts": {
+        "/work/docker.result": "91b6b23d9c82ad183317db7e9d98d6c8dabf7263d6a6f14d12699d924c53da85"
+      },
+      "artifacts_validated": true,
+      "case_inputs": "a68277611755dd314d8f1a887f47b59514e5689159afdf2c51c2d19cd9de1c2e",
+      "domain": "containers",
+      "exit_code": 0,
+      "fingerprint": "c6741db6123ea6dabe1f4e0ab926db0611175fe2f705bd2540b7af4a0dd25942",
+      "id": "docker.lifecycle",
+      "logs": {
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "reused": false,
+      "seconds": 118.97601971100084,
+      "status": "passed",
+      "tier": "apps"
+    }
+  ],
+  "completed": 3,
+  "counts": {
+    "blocked": 0,
+    "failed": 0,
+    "infrastructure_error": 0,
+    "not_run": 0,
+    "passed": 3,
+    "reference_failed": 0,
+    "timed_out": 0
+  },
+  "planned": 3,
+  "reused": 0,
+  "schema_version": 1
+}

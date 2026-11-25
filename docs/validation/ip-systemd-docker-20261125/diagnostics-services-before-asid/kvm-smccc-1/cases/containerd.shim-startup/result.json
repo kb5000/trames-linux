@@ -1,0 +1,15 @@
+{
+  "case_inputs": "8e86df162d3d42177e426e36a2a5dc0b13686abe28b5e3d14d5dabe6821eb1d7",
+  "domain": "containers",
+  "exit_code": 1,
+  "fingerprint": "cda98290b3abe537e799a576123c5f951ed50628b589fe7200e7d4fdd9c0ea1a",
+  "id": "containerd.shim-startup",
+  "logs": {
+    "stderr": "5886d98d66cc0e678107cb1c21b5b77b632608853567fcab700b20fdf920d04d",
+    "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "reused": false,
+  "seconds": 8.962014992997865,
+  "status": "failed",
+  "tier": "apps"
+}

@@ -1,0 +1,20 @@
+{
+  "artifacts": {
+    "/work/restored/source/value": "92f86a430bca3d71cc27fcedb1a9b67a487e7f1ac1c97aad57df2d40ec9f8b71"
+  },
+  "artifacts_validated": true,
+  "case_inputs": "1aca35a4d35f301b38ede59abd940a3d401ce5a8ac905222ac4c8ad5bd60fd89",
+  "domain": "files",
+  "exit_code": 0,
+  "fingerprint": "a5afd0ecd7505b7a5ec2045f5fe9dd550ddb0b4198056c3324cdef5c9e1a4300",
+  "id": "archive.roundtrip",
+  "logs": {
+    "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "f852da5cffb5c908daab6809d6656be278c5c9a7940915ede66cb03b9ddaad62"
+  },
+  "reused": true,
+  "reused_from": "/home/main.guest/trames-applications-qualified/kvm-smccc-4/cases/archive.roundtrip",
+  "seconds": 0.8311466549930628,
+  "status": "passed",
+  "tier": "smoke"
+}

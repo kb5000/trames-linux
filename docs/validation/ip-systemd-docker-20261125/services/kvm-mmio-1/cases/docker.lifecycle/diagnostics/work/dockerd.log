@@ -1,0 +1,99 @@
+time="2026-11-25T09:41:23.936609156Z" level=info msg="Starting up"
+time="2026-11-25T09:41:24.008318457Z" level=info msg="containerd not running, starting managed containerd"
+time="2026-11-25T09:41:24.489153470Z" level=info msg="started new containerd process" address=/var/run/docker/containerd/containerd.sock module=libcontainerd pid=466
+time="2026-11-25T09:41:26.029633829Z" level=info msg="starting containerd" revision="1.7.24~ds1-6+deb13u1" version="1.7.24~ds1"
+time="2026-11-25T09:41:26.210819585Z" level=info msg="loading plugin \"io.containerd.event.v1.exchange\"..." type=io.containerd.event.v1
+time="2026-11-25T09:41:26.211995797Z" level=info msg="loading plugin \"io.containerd.internal.v1.opt\"..." type=io.containerd.internal.v1
+time="2026-11-25T09:41:26.220235374Z" level=info msg="loading plugin \"io.containerd.warning.v1.deprecations\"..." type=io.containerd.warning.v1
+time="2026-11-25T09:41:26.222253549Z" level=info msg="loading plugin \"io.containerd.snapshotter.v1.blockfile\"..." type=io.containerd.snapshotter.v1
+time="2026-11-25T09:41:26.230265428Z" level=info msg="skip loading plugin \"io.containerd.snapshotter.v1.blockfile\"..." error="no scratch file generator: skip plugin" type=io.containerd.snapshotter.v1
+time="2026-11-25T09:41:26.231340090Z" level=info msg="loading plugin \"io.containerd.snapshotter.v1.btrfs\"..." type=io.containerd.snapshotter.v1
+time="2026-11-25T09:41:26.242084709Z" level=info msg="skip loading plugin \"io.containerd.snapshotter.v1.btrfs\"..." error="path /var/lib/docker/containerd/daemon/io.containerd.snapshotter.v1.btrfs (rootfs) must be a btrfs filesystem to be used with the btrfs snapshotter: skip plugin" type=io.containerd.snapshotter.v1
+time="2026-11-25T09:41:26.243787102Z" level=info msg="loading plugin \"io.containerd.snapshotter.v1.devmapper\"..." type=io.containerd.snapshotter.v1
+time="2026-11-25T09:41:26.244440845Z" level=info msg="skip loading plugin \"io.containerd.snapshotter.v1.devmapper\"..." error="devmapper not configured: skip plugin" type=io.containerd.snapshotter.v1
+time="2026-11-25T09:41:26.245199266Z" level=info msg="loading plugin \"io.containerd.snapshotter.v1.native\"..." type=io.containerd.snapshotter.v1
+time="2026-11-25T09:41:26.249743745Z" level=info msg="loading plugin \"io.containerd.snapshotter.v1.overlayfs\"..." type=io.containerd.snapshotter.v1
+time="2026-11-25T09:41:26.268043849Z" level=info msg="loading plugin \"io.containerd.snapshotter.v1.aufs\"..." type=io.containerd.snapshotter.v1
+time="2026-11-25T09:41:26.281879514Z" level=info msg="skip loading plugin \"io.containerd.snapshotter.v1.aufs\"..." error="aufs is not supported (modprobe aufs failed: exec: \"modprobe\": executable file not found in $PATH \"\"): skip plugin" type=io.containerd.snapshotter.v1
+time="2026-11-25T09:41:26.283611504Z" level=info msg="loading plugin \"io.containerd.snapshotter.v1.zfs\"..." type=io.containerd.snapshotter.v1
+time="2026-11-25T09:41:26.288790551Z" level=info msg="skip loading plugin \"io.containerd.snapshotter.v1.zfs\"..." error="path /var/lib/docker/containerd/daemon/io.containerd.snapshotter.v1.zfs must be a zfs filesystem to be used with the zfs snapshotter: skip plugin" type=io.containerd.snapshotter.v1
+time="2026-11-25T09:41:26.290121966Z" level=info msg="loading plugin \"io.containerd.content.v1.content\"..." type=io.containerd.content.v1
+time="2026-11-25T09:41:26.291393935Z" level=info msg="loading plugin \"io.containerd.metadata.v1.bolt\"..." type=io.containerd.metadata.v1
+time="2026-11-25T09:41:26.294313102Z" level=info msg="metadata content store policy set" policy=shared
+time="2026-11-25T09:41:26.310624337Z" level=info msg="loading plugin \"io.containerd.gc.v1.scheduler\"..." type=io.containerd.gc.v1
+time="2026-11-25T09:41:26.313421402Z" level=info msg="loading plugin \"io.containerd.differ.v1.walking\"..." type=io.containerd.differ.v1
+time="2026-11-25T09:41:26.314306260Z" level=info msg="loading plugin \"io.containerd.lease.v1.manager\"..." type=io.containerd.lease.v1
+time="2026-11-25T09:41:26.315043045Z" level=info msg="loading plugin \"io.containerd.streaming.v1.manager\"..." type=io.containerd.streaming.v1
+time="2026-11-25T09:41:26.315845155Z" level=info msg="loading plugin \"io.containerd.runtime.v1.linux\"..." type=io.containerd.runtime.v1
+time="2026-11-25T09:41:26.325551422Z" level=info msg="loading plugin \"io.containerd.monitor.v1.cgroups\"..." type=io.containerd.monitor.v1
+time="2026-11-25T09:41:26.333807840Z" level=info msg="loading plugin \"io.containerd.runtime.v2.task\"..." type=io.containerd.runtime.v2
+time="2026-11-25T09:41:26.350218666Z" level=info msg="loading plugin \"io.containerd.runtime.v2.shim\"..." type=io.containerd.runtime.v2
+time="2026-11-25T09:41:26.351725794Z" level=info msg="loading plugin \"io.containerd.sandbox.store.v1.local\"..." type=io.containerd.sandbox.store.v1
+time="2026-11-25T09:41:26.352382914Z" level=info msg="loading plugin \"io.containerd.sandbox.controller.v1.local\"..." type=io.containerd.sandbox.controller.v1
+time="2026-11-25T09:41:26.353649130Z" level=info msg="loading plugin \"io.containerd.service.v1.containers-service\"..." type=io.containerd.service.v1
+time="2026-11-25T09:41:26.354594019Z" level=info msg="loading plugin \"io.containerd.service.v1.content-service\"..." type=io.containerd.service.v1
+time="2026-11-25T09:41:26.356057792Z" level=info msg="loading plugin \"io.containerd.service.v1.diff-service\"..." type=io.containerd.service.v1
+time="2026-11-25T09:41:26.356943902Z" level=info msg="loading plugin \"io.containerd.service.v1.images-service\"..." type=io.containerd.service.v1
+time="2026-11-25T09:41:26.357781195Z" level=info msg="loading plugin \"io.containerd.service.v1.introspection-service\"..." type=io.containerd.service.v1
+time="2026-11-25T09:41:26.358754724Z" level=info msg="loading plugin \"io.containerd.service.v1.namespaces-service\"..." type=io.containerd.service.v1
+time="2026-11-25T09:41:26.359253181Z" level=info msg="loading plugin \"io.containerd.service.v1.snapshots-service\"..." type=io.containerd.service.v1
+time="2026-11-25T09:41:26.360096686Z" level=info msg="loading plugin \"io.containerd.service.v1.tasks-service\"..." type=io.containerd.service.v1
+time="2026-11-25T09:41:26.361387289Z" level=info msg="loading plugin \"io.containerd.grpc.v1.containers\"..." type=io.containerd.grpc.v1
+time="2026-11-25T09:41:26.362135288Z" level=info msg="loading plugin \"io.containerd.grpc.v1.content\"..." type=io.containerd.grpc.v1
+time="2026-11-25T09:41:26.362880952Z" level=info msg="loading plugin \"io.containerd.grpc.v1.diff\"..." type=io.containerd.grpc.v1
+time="2026-11-25T09:41:26.363456740Z" level=info msg="loading plugin \"io.containerd.grpc.v1.events\"..." type=io.containerd.grpc.v1
+time="2026-11-25T09:41:26.364779651Z" level=info msg="loading plugin \"io.containerd.grpc.v1.images\"..." type=io.containerd.grpc.v1
+time="2026-11-25T09:41:26.365440023Z" level=info msg="loading plugin \"io.containerd.grpc.v1.introspection\"..." type=io.containerd.grpc.v1
+time="2026-11-25T09:41:26.365940231Z" level=info msg="loading plugin \"io.containerd.grpc.v1.leases\"..." type=io.containerd.grpc.v1
+time="2026-11-25T09:41:26.366649878Z" level=info msg="loading plugin \"io.containerd.grpc.v1.namespaces\"..." type=io.containerd.grpc.v1
+time="2026-11-25T09:41:26.367245342Z" level=info msg="loading plugin \"io.containerd.grpc.v1.sandbox-controllers\"..." type=io.containerd.grpc.v1
+time="2026-11-25T09:41:26.368343807Z" level=info msg="loading plugin \"io.containerd.grpc.v1.sandboxes\"..." type=io.containerd.grpc.v1
+time="2026-11-25T09:41:26.369066419Z" level=info msg="loading plugin \"io.containerd.grpc.v1.snapshots\"..." type=io.containerd.grpc.v1
+time="2026-11-25T09:41:26.369724873Z" level=info msg="loading plugin \"io.containerd.grpc.v1.streaming\"..." type=io.containerd.grpc.v1
+time="2026-11-25T09:41:26.370511808Z" level=info msg="loading plugin \"io.containerd.grpc.v1.tasks\"..." type=io.containerd.grpc.v1
+time="2026-11-25T09:41:26.371397584Z" level=info msg="loading plugin \"io.containerd.transfer.v1.local\"..." type=io.containerd.transfer.v1
+time="2026-11-25T09:41:26.372724538Z" level=info msg="loading plugin \"io.containerd.grpc.v1.transfer\"..." type=io.containerd.grpc.v1
+time="2026-11-25T09:41:26.373626031Z" level=info msg="loading plugin \"io.containerd.grpc.v1.version\"..." type=io.containerd.grpc.v1
+time="2026-11-25T09:41:26.374189854Z" level=info msg="loading plugin \"io.containerd.internal.v1.restart\"..." type=io.containerd.internal.v1
+time="2026-11-25T09:41:26.376288361Z" level=info msg="loading plugin \"io.containerd.tracing.processor.v1.otlp\"..." type=io.containerd.tracing.processor.v1
+time="2026-11-25T09:41:26.385980705Z" level=info msg="skip loading plugin \"io.containerd.tracing.processor.v1.otlp\"..." error="skip plugin: tracing endpoint not configured" type=io.containerd.tracing.processor.v1
+time="2026-11-25T09:41:26.386541152Z" level=info msg="loading plugin \"io.containerd.internal.v1.tracing\"..." type=io.containerd.internal.v1
+time="2026-11-25T09:41:26.387298697Z" level=info msg="skip loading plugin \"io.containerd.internal.v1.tracing\"..." error="skip plugin: tracing endpoint not configured" type=io.containerd.internal.v1
+time="2026-11-25T09:41:26.388086049Z" level=info msg="loading plugin \"io.containerd.grpc.v1.healthcheck\"..." type=io.containerd.grpc.v1
+time="2026-11-25T09:41:26.388855433Z" level=info msg="loading plugin \"io.containerd.nri.v1.nri\"..." type=io.containerd.nri.v1
+time="2026-11-25T09:41:26.389666630Z" level=info msg="NRI interface is disabled by configuration."
+time="2026-11-25T09:41:26.411382107Z" level=info msg=serving... address=/var/run/docker/containerd/containerd-debug.sock
+time="2026-11-25T09:41:26.424743535Z" level=info msg=serving... address=/var/run/docker/containerd/containerd.sock.ttrpc
+time="2026-11-25T09:41:26.447253743Z" level=info msg=serving... address=/var/run/docker/containerd/containerd.sock
+time="2026-11-25T09:41:26.451609253Z" level=info msg="containerd successfully booted in 0.462145s"
+time="2026-11-25T09:41:30.007032772Z" level=info msg="[graphdriver] using prior storage driver: overlay2"
+time="2026-11-25T09:41:30.149714738Z" level=info msg="Loading containers: start."
+time="2026-11-25T09:41:34.050891917Z" level=warning msg="Could not load necessary modules for IPSEC rules: protocol not supported"
+time="2026-11-25T09:41:37.095366087Z" level=info msg="failed to read ipv6 net.ipv6.conf.<bridge>.accept_ra" bridge=docker0 syspath=/proc/sys/net/ipv6/conf/docker0/accept_ra
+time="2026-11-25T09:41:44.213348590Z" level=info msg="Default bridge (docker0) is assigned with an IP address 172.17.0.0/16. Daemon option --bip can be used to set a preferred IP address"
+time="2026-11-25T09:41:44.259026927Z" level=info msg="failed to read ipv6 net.ipv6.conf.<bridge>.accept_ra" bridge=docker0 syspath=/proc/sys/net/ipv6/conf/docker0/accept_ra
+time="2026-11-25T09:41:49.036506459Z" level=info msg="Loading containers: done."
+time="2026-11-25T09:41:50.036170267Z" level=warning msg="WARNING: No swap limit support"
+time="2026-11-25T09:41:50.038359613Z" level=warning msg="WARNING: No io.weight support"
+time="2026-11-25T09:41:50.040176809Z" level=warning msg="WARNING: No io.weight (per device) support"
+time="2026-11-25T09:41:50.041516334Z" level=warning msg="WARNING: No io.max (rbps) support"
+time="2026-11-25T09:41:50.042943674Z" level=warning msg="WARNING: No io.max (wbps) support"
+time="2026-11-25T09:41:50.044345047Z" level=warning msg="WARNING: No io.max (riops) support"
+time="2026-11-25T09:41:50.049214034Z" level=warning msg="WARNING: No io.max (wiops) support"
+time="2026-11-25T09:41:50.051050336Z" level=info msg="Docker daemon" commit=411e817 containerd-snapshotter=false storage-driver=overlay2 version=26.1.5+dfsg1
+time="2026-11-25T09:41:50.059362325Z" level=info msg="Daemon has completed initialization"
+time="2026-11-25T09:41:51.308770412Z" level=info msg="API listen on /var/run/docker.sock"
+time="2026-11-25T09:42:00.713123852Z" level=info msg="loading plugin \"io.containerd.event.v1.publisher\"..." runtime=io.containerd.runc.v2 type=io.containerd.event.v1
+time="2026-11-25T09:42:00.717718523Z" level=info msg="loading plugin \"io.containerd.internal.v1.shutdown\"..." runtime=io.containerd.runc.v2 type=io.containerd.internal.v1
+time="2026-11-25T09:42:00.719370849Z" level=info msg="loading plugin \"io.containerd.ttrpc.v1.task\"..." runtime=io.containerd.runc.v2 type=io.containerd.ttrpc.v1
+time="2026-11-25T09:42:00.748687750Z" level=info msg="loading plugin \"io.containerd.ttrpc.v1.pause\"..." runtime=io.containerd.runc.v2 type=io.containerd.ttrpc.v1
+time="2026-11-25T09:42:14.005676325Z" level=info msg="shim disconnected" id=36af7dba8f5ab1cdb0ebf54c0a20539c309e58f3badb26e9dabbb4f7980278c7 namespace=moby
+time="2026-11-25T09:42:14.068425467Z" level=warning msg="cleaning up after shim disconnected" id=36af7dba8f5ab1cdb0ebf54c0a20539c309e58f3badb26e9dabbb4f7980278c7 namespace=moby
+time="2026-11-25T09:42:14.075825220Z" level=info msg="cleaning up dead shim" namespace=moby
+time="2026-11-25T09:42:14.063529558Z" level=info msg="ignoring event" container=36af7dba8f5ab1cdb0ebf54c0a20539c309e58f3badb26e9dabbb4f7980278c7 module=libcontainerd namespace=moby topic=/tasks/delete type="*events.TaskDelete"
+time="2026-11-25T09:42:15.132020696Z" level=info msg="Container failed to exit within 2s of signal 15 - using the force" container=36af7dba8f5ab1cdb0ebf54c0a20539c309e58f3badb26e9dabbb4f7980278c7 spanID=e77dbc95d8492d5d traceID=d5dfec0670a5026ecefe4386820e182c
+time="2026-11-25T09:42:24.432576425Z" level=info msg="Processing signal 'terminated'"
+time="2026-11-25T09:42:24.616746072Z" level=info msg="stopping event stream following graceful shutdown" error="<nil>" module=libcontainerd namespace=moby
+time="2026-11-25T09:42:24.676949036Z" level=info msg="Daemon shutdown complete"
+time="2026-11-25T09:42:24.685394859Z" level=info msg="stopping event stream following graceful shutdown" error="context canceled" module=libcontainerd namespace=plugins.moby
+time="2026-11-25T09:42:24.689489998Z" level=info msg="stopping healthcheck following graceful shutdown" module=libcontainerd

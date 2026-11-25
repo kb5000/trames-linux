@@ -1,0 +1,261 @@
+{
+  "build": {
+    "fingerprint": {
+      "binary_sha256": "c4b7974ece524e64ba7a226fe89cb762a785d6ea4d168cc545c9f2e2b2f0cb10",
+      "command": [
+        "cargo",
+        "build",
+        "--workspace",
+        "--release",
+        "--locked"
+      ],
+      "flags": {
+        "CARGO_INCREMENTAL": "0"
+      },
+      "sources": {
+        "product": "7bb29bd80939ea31654012544d7df5a5ee35b0f8030b45f5b894adb6ccb9b702",
+        "runtime": "c04e114af1f6456bf50de811393c3c0a568196983204b3de144f6da8785263f1"
+      },
+      "toolchain": "rustc 1.101.0-nightly (4ebd25825 2026-10-15)\nbinary: rustc\ncommit-hash: 4ebd258257737d5b7635c116fa7d281627a7e937\ncommit-date: 2026-10-15\nhost: aarch64-unknown-linux-gnu\nrelease: 1.101.0-nightly\nLLVM version: 23.1.4\n"
+    },
+    "fingerprint_sha256": "b5472ed6725d872aa44e218ff96ceb494c4ddc447096517a38b4d1b802b32546",
+    "schema_version": 1,
+    "sources": {
+      "product": {
+        "commit": "1e9f28657f77c47a8caf99117944bcd11baa1a48",
+        "dirty": false,
+        "inputs_sha256": "7bb29bd80939ea31654012544d7df5a5ee35b0f8030b45f5b894adb6ccb9b702"
+      },
+      "runtime": {
+        "commit": "76f860287368605e3697bd934816c18490967c2f",
+        "dirty": false,
+        "inputs_sha256": "c04e114af1f6456bf50de811393c3c0a568196983204b3de144f6da8785263f1"
+      }
+    }
+  },
+  "bundle_sha256": "d437f7389e6c9d02581fd2e0c45cd01d71176310ffb17c8e466e42c2086f279c",
+  "cases": [
+    {
+      "artifacts": [
+        "/work/sorted"
+      ],
+      "domain": "process",
+      "id": "shell.pipeline",
+      "requires": [
+        "/bin/sh",
+        "/usr/bin/cmp",
+        "/usr/bin/sort",
+        "/usr/bin/tr",
+        "/usr/bin/uniq"
+      ],
+      "script": "printf 'pear\\napple\\npear\\n' | sort | uniq > sorted\nprintf 'apple\\npear\\n' > expected\ncmp sorted expected\nvalue=$(printf abc | tr a-z A-Z)\ntest \"$value\" = ABC\nprintf 'shell: ok\\n'",
+      "stdout": "shell: ok\n",
+      "tier": "smoke"
+    },
+    {
+      "artifacts": [
+        "/work/data/moved"
+      ],
+      "domain": "files",
+      "id": "coreutils.files",
+      "requires": [
+        "/bin/sh",
+        "/usr/bin/cmp",
+        "/usr/bin/cp",
+        "/usr/bin/find",
+        "/usr/bin/ln",
+        "/usr/bin/mkdir",
+        "/usr/bin/mv",
+        "/usr/bin/stat",
+        "/usr/bin/wc"
+      ],
+      "script": "mkdir data\nprintf 'payload\\n' > data/original\ncp data/original data/copy\nmv data/copy data/moved\nln data/original data/hard\nln -s original data/link\ncmp data/moved data/link\ntest \"$(stat -c %s data/hard)\" = 8\ntest \"$(find data -type f | wc -l)\" = 3\nprintf 'files: ok\\n'",
+      "stdout": "files: ok\n",
+      "tier": "smoke"
+    },
+    {
+      "domain": "files",
+      "id": "text.filters",
+      "requires": [
+        "/bin/sh",
+        "/usr/bin/awk",
+        "/usr/bin/cut",
+        "/usr/bin/grep",
+        "/usr/bin/sed"
+      ],
+      "script": "printf 'one:3\\ntwo:5\\n' > input\ngrep '^two:' input > selected\nsed 's/two/TWO/' selected > replaced\ntest \"$(cut -d: -f1 replaced)\" = TWO\ntest \"$(awk -F: '{s += $2} END {print s}' input)\" = 8\nprintf 'text: ok\\n'",
+      "stdout": "text: ok\n",
+      "tier": "smoke"
+    },
+    {
+      "artifacts": [
+        "/work/restored/source/value"
+      ],
+      "domain": "files",
+      "id": "archive.roundtrip",
+      "requires": [
+        "/bin/sh",
+        "/usr/bin/bzip2",
+        "/usr/bin/cmp",
+        "/usr/bin/gzip",
+        "/usr/bin/mkdir",
+        "/usr/bin/tar",
+        "/usr/bin/xz"
+      ],
+      "script": "mkdir source restored\nprintf 'archive payload\\n' > source/value\ntar -cf payload.tar source\ngzip -c payload.tar > payload.gz\ngzip -dc payload.gz > recovered.tar\ncmp payload.tar recovered.tar\nbzip2 -c payload.tar > payload.bz2\nbzip2 -dc payload.bz2 > recovered.tar\ncmp payload.tar recovered.tar\nxz -c payload.tar > payload.xz\nxz -dc payload.xz > recovered.tar\ncmp payload.tar recovered.tar\ntar -xf recovered.tar -C restored\ncmp source/value restored/source/value\nprintf 'archive: ok\\n'",
+      "stdout": "archive: ok\n",
+      "tier": "smoke"
+    },
+    {
+      "artifacts": [
+        "/work/decoded"
+      ],
+      "domain": "memory",
+      "id": "hash.base64",
+      "requires": [
+        "/bin/sh",
+        "/usr/bin/base64",
+        "/usr/bin/cmp",
+        "/usr/bin/cut",
+        "/usr/bin/sha256sum"
+      ],
+      "script": "printf abc > input\nbase64 input > encoded\nbase64 -d encoded > decoded\ncmp input decoded\ntest \"$(sha256sum decoded | cut -d' ' -f1)\" = ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad\nprintf 'hash: ok\\n'",
+      "stdout": "hash: ok\n",
+      "tier": "smoke"
+    },
+    {
+      "artifacts": [
+        "/work/data.json"
+      ],
+      "domain": "files",
+      "id": "python.stdlib",
+      "requires": [
+        "/bin/sh",
+        "/usr/bin/python3"
+      ],
+      "script": "python3 - <<'PY'\nimport gzip, hashlib, json, pathlib, sqlite3\np=pathlib.Path('data.json'); p.write_text(json.dumps({'answer':42},sort_keys=True))\nassert json.loads(p.read_text())['answer']==42\npayload=b'trames python payload'*1000\nassert gzip.decompress(gzip.compress(payload))==payload\nassert len(hashlib.sha256(payload).digest())==32\nc=sqlite3.connect('data.sqlite'); c.execute('create table t (v integer)'); c.executemany('insert into t values (?)',[(1,),(2,),(3,)])\nc.commit(); assert c.execute('select sum(v) from t').fetchone()[0]==6; c.close()\nprint('python: ok')\nPY",
+      "stdout": "python: ok\n",
+      "tier": "apps"
+    },
+    {
+      "domain": "process",
+      "id": "python.process-threads",
+      "requires": [
+        "/bin/sh",
+        "/usr/bin/python3"
+      ],
+      "script": "python3 - <<'PY'\nimport concurrent.futures, os, socket, subprocess, sys\np=subprocess.run([sys.executable,'-c','import sys;sys.stdout.buffer.write(sys.stdin.buffer.read()[::-1])'],input=b'payload'*20000,capture_output=True,check=True)\nassert p.stdout==(b'payload'*20000)[::-1]\na,b=socket.socketpair(); a.sendall(b'socketpair'); assert b.recv(32)==b'socketpair'; a.close(); b.close()\nwith concurrent.futures.ThreadPoolExecutor(4) as pool: assert sum(pool.map(lambda n:n*n,range(100)))==328350\npid=os.fork()\nif pid==0: os._exit(17)\nassert os.waitpid(pid,0)[1]==17<<8\nprint('python-process: ok')\nPY",
+      "stdout": "python-process: ok\n",
+      "tier": "apps"
+    },
+    {
+      "artifacts": [
+        "/work/clone/file"
+      ],
+      "domain": "process",
+      "id": "git.local-workflow",
+      "requires": [
+        "/bin/sh",
+        "/usr/bin/cmp",
+        "/usr/bin/git",
+        "/usr/bin/git-upload-pack"
+      ],
+      "script": "export GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_GLOBAL=/dev/null\ngit init -q -b main repo\ngit -C repo config user.email acceptance@localhost\ngit -C repo config user.name Acceptance\nprintf 'tracked payload\\n' > repo/file\ngit -C repo add file\ngit -C repo commit -qm initial\ngit -C repo checkout -qb feature\nprintf 'feature\\n' >> repo/file\ngit -C repo commit -qam feature\ngit -C repo checkout -q main\ngit -C repo merge -q --ff-only feature\ngit clone -q --no-local file:///work/repo clone\ncmp repo/file clone/file\ntest \"$(git -C clone rev-list --count HEAD)\" = 2\nprintf 'git: ok\\n'",
+      "stdout": "git: ok\n",
+      "tier": "apps"
+    },
+    {
+      "artifacts": [
+        "/work/downloaded"
+      ],
+      "domain": "files",
+      "id": "curl.file-transfer",
+      "requires": [
+        "/bin/sh",
+        "/usr/bin/cmp",
+        "/usr/bin/curl"
+      ],
+      "script": "printf 'curl file payload\\n' > input\ncurl --fail --silent --show-error file:///work/input -o downloaded\ncmp input downloaded\nprintf 'curl-file: ok\\n'",
+      "stdout": "curl-file: ok\n",
+      "tier": "apps"
+    },
+    {
+      "domain": "random",
+      "id": "ssh.key-roundtrip",
+      "requires": [
+        "/bin/sh",
+        "/usr/bin/cmp",
+        "/usr/bin/cut",
+        "/usr/bin/ssh-keygen"
+      ],
+      "script": "ssh-keygen -q -t ed25519 -N '' -C acceptance -f key\nssh-keygen -y -f key > derived\ncut -d' ' -f1,2 key.pub > original\ncut -d' ' -f1,2 derived > actual\ncmp actual original\nprintf 'ssh-key: ok\\n'",
+      "stdout": "ssh-key: ok\n",
+      "tier": "apps"
+    },
+    {
+      "artifacts": [
+        "/work/node.txt"
+      ],
+      "domain": "process",
+      "id": "node.workers",
+      "requires": [
+        "/bin/sh",
+        "/usr/bin/node"
+      ],
+      "script": "node - <<'JS'\nconst assert=require('assert'),fs=require('fs'),crypto=require('crypto'),{Worker}=require('worker_threads'),{execFileSync}=require('child_process');\nfs.writeFileSync('node.txt','node payload'); assert.equal(fs.readFileSync('node.txt','utf8'),'node payload');\nassert.equal(crypto.createHash('sha256').update('abc').digest('hex'),'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad');\nassert.equal(execFileSync(process.execPath,['-e','process.stdout.write(\"child\")']).toString(),'child');\nconst w=new Worker('require(\"worker_threads\").parentPort.postMessage(42)',{eval:true}); w.on('message',n=>{assert.equal(n,42); console.log('node: ok')}); w.on('error',e=>{throw e});\nJS",
+      "stdout": "node: ok\n",
+      "tier": "apps"
+    },
+    {
+      "artifacts": [
+        "/work/result"
+      ],
+      "domain": "process",
+      "id": "build.gcc-make",
+      "requires": [
+        "/bin/sh",
+        "/usr/bin/as",
+        "/usr/bin/cmp",
+        "/usr/bin/gcc",
+        "/usr/bin/ld",
+        "/usr/bin/make"
+      ],
+      "script": "printf '#include <stdio.h>\\nint main(void){puts(\"compiled: ok\");return 0;}\\n' > hello.c\nprintf 'all:\\n\\tgcc hello.c -o hello\\n' > Makefile\nmake -s\n./hello > result\nprintf 'compiled: ok\\n' > expected\ncmp expected result\nprintf 'build: ok\\n'",
+      "stdout": "build: ok\n",
+      "tier": "apps"
+    }
+  ],
+  "harness_sha256": "898f819af95d9e2d4a3d94829036cc6dce8718b326bcb3f20ba3cf4d355293f3",
+  "host": {
+    "arch": "aarch64",
+    "cpu": "processor\t: 0\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 1\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 2\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 3\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 4\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 5\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\n",
+    "cpu_identity": [
+      "CPU architecture: 8",
+      "CPU implementer\t: 0x61",
+      "CPU part\t: 0x000",
+      "CPU revision\t: 0",
+      "CPU variant\t: 0x0",
+      "Features\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut"
+    ],
+    "kernel": "7.0.0-43-generic",
+    "libc": [
+      "glibc",
+      "2.39"
+    ],
+    "os": "Linux",
+    "page_size": 4096
+  },
+  "performance_qualified": false,
+  "provider": {
+    "backend": "kvm",
+    "build": "b5472ed6725d872aa44e218ff96ceb494c4ddc447096517a38b4d1b802b32546",
+    "cpus": 1,
+    "filesystem": "host",
+    "native_container": null,
+    "native_tools": null,
+    "network": null,
+    "transport": "smccc"
+  },
+  "schema_version": 1,
+  "selected_scope": "complete"
+}

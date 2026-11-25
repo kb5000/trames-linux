@@ -1,0 +1,20 @@
+{
+  "artifacts": {
+    "/work/downloaded": "902ef0eee54c20542b2c85a215382b764ee2213b1ee5ff40a7919ca1f1ab2f7b"
+  },
+  "artifacts_validated": true,
+  "case_inputs": "8e39ff503d4c6687beec70c98f9e74f75cd3c6056f3f9d7273a918fb5d6cdd9f",
+  "domain": "files",
+  "exit_code": 0,
+  "fingerprint": "691e0545ceca7cd1892f167d13634fa15d480c5a24127a72395c00a7ca5ea8b5",
+  "id": "curl.file-transfer",
+  "logs": {
+    "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "610e4fdf9479a56427a545a483d1056e6cc44fed3c1412a3750faebfc96a6b41"
+  },
+  "reused": true,
+  "reused_from": "/home/main.guest/trames-applications-qualified/kvm-smccc-1/cases/curl.file-transfer",
+  "seconds": 0.5176734990091063,
+  "status": "passed",
+  "tier": "apps"
+}

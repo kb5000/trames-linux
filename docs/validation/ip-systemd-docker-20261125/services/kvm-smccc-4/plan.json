@@ -1,0 +1,135 @@
+{
+  "build": {
+    "fingerprint": {
+      "binary_sha256": "c4b7974ece524e64ba7a226fe89cb762a785d6ea4d168cc545c9f2e2b2f0cb10",
+      "command": [
+        "cargo",
+        "build",
+        "--workspace",
+        "--release",
+        "--locked"
+      ],
+      "flags": {
+        "CARGO_INCREMENTAL": "0"
+      },
+      "sources": {
+        "product": "7bb29bd80939ea31654012544d7df5a5ee35b0f8030b45f5b894adb6ccb9b702",
+        "runtime": "c04e114af1f6456bf50de811393c3c0a568196983204b3de144f6da8785263f1"
+      },
+      "toolchain": "rustc 1.101.0-nightly (4ebd25825 2026-10-15)\nbinary: rustc\ncommit-hash: 4ebd258257737d5b7635c116fa7d281627a7e937\ncommit-date: 2026-10-15\nhost: aarch64-unknown-linux-gnu\nrelease: 1.101.0-nightly\nLLVM version: 23.1.4\n"
+    },
+    "fingerprint_sha256": "b5472ed6725d872aa44e218ff96ceb494c4ddc447096517a38b4d1b802b32546",
+    "schema_version": 1,
+    "sources": {
+      "product": {
+        "commit": "1e9f28657f77c47a8caf99117944bcd11baa1a48",
+        "dirty": false,
+        "inputs_sha256": "7bb29bd80939ea31654012544d7df5a5ee35b0f8030b45f5b894adb6ccb9b702"
+      },
+      "runtime": {
+        "commit": "76f860287368605e3697bd934816c18490967c2f",
+        "dirty": false,
+        "inputs_sha256": "c04e114af1f6456bf50de811393c3c0a568196983204b3de144f6da8785263f1"
+      }
+    }
+  },
+  "bundle_sha256": "1bcfed4955dc5129c417312e1788fe42f41e747ebeda5ee531eba0fd8083fdfd",
+  "cases": [
+    {
+      "artifacts": [
+        "/work/systemd.result"
+      ],
+      "console": "diagnostic",
+      "diagnostics": [
+        "/work/systemd.log",
+        "/work/systemd-controller.log"
+      ],
+      "domain": "systemd",
+      "id": "systemd.pid1-services",
+      "pty": true,
+      "requires": [
+        "/usr/lib/systemd/systemd",
+        "/usr/bin/systemctl",
+        "/usr/bin/journalctl",
+        "/acceptance/systemd-boot"
+      ],
+      "script": "exec /acceptance/systemd-boot --exercise",
+      "stdout": "",
+      "tier": "apps",
+      "timeout": 240
+    },
+    {
+      "artifacts": [
+        "/work/shim-startup.result"
+      ],
+      "diagnostics": [
+        "/work/shim-startup.log"
+      ],
+      "domain": "containers",
+      "id": "containerd.shim-startup",
+      "requires": [
+        "/usr/bin/python3",
+        "/usr/bin/containerd-shim-runc-v2"
+      ],
+      "script": "exec /usr/bin/python3 - <<'CHECK'\nimport json, os, socket, struct, subprocess, time\nfrom pathlib import Path\n\ndef varint(value):\n    out = bytearray()\n    while value > 127:\n        out.append((value & 127) | 128)\n        value >>= 7\n    return bytes(out) + bytes([value])\n\ndef field(number, value):\n    return varint(number << 3 | 2) + varint(len(value)) + value\n\ndef fields(data):\n    at = 0\n    def integer():\n        nonlocal at\n        value = shift = 0\n        while True:\n            assert at < len(data) and shift < 70, 'invalid protobuf varint'\n            byte = data[at]; at += 1\n            value |= (byte & 127) << shift\n            if byte < 128: return value\n            shift += 7\n    result = {}\n    while at < len(data):\n        tag = integer(); kind = tag & 7; number = tag >> 3\n        assert number and kind in (0, 2), 'unexpected protobuf field'\n        if kind == 0: value = integer()\n        else:\n            length = integer(); assert at + length <= len(data), 'short protobuf field'\n            value = data[at:at+length]; at += length\n        result[number] = value\n    return result\n\ndef rpc(address, method, payload):\n    request = field(1, b'containerd.task.v2.Task') + field(2, method.encode()) + field(3, payload)\n    with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as peer:\n        peer.settimeout(10)\n        peer.connect(address)\n        peer.sendall(struct.pack('>IIBB', len(request), 1, 1, 0) + request)\n        def receive(length):\n            data = b''\n            while len(data) < length:\n                chunk = peer.recv(length-len(data))\n                assert chunk, 'unexpected TTRPC EOF'\n                data += chunk\n            return data\n        length, stream, kind, flags = struct.unpack('>IIBB', receive(10))\n        assert stream == 1 and kind == 2 and flags == 0 and length <= 4 << 20, 'invalid TTRPC response'\n        response = fields(receive(length))\n        status = fields(response.get(1, b'')).get(1, 0)\n        assert status == 0, ('TTRPC error', method, status)\n        return response.get(2, b'')\n\nos.makedirs('/run/containerd', exist_ok=True)\nrows = []\nfor i in range(20):\n    ident = 'trames-shim-' + str(i)\n    work = Path('/work') / ident\n    work.mkdir()\n    (work/'config.json').write_text('{\"annotations\":{}}')\n    os.mkfifo(work/'log')\n    log = os.open(work/'log', os.O_RDWR | os.O_NONBLOCK)\n    row = dict(iteration=i, stage='starting')\n    try:\n        result = subprocess.run(['/usr/bin/containerd-shim-runc-v2', '-namespace', 'moby', '-id', ident,\n                                 '-address', '/run/containerd/containerd.sock', 'start'],\n                                cwd=work, input=b'', capture_output=True, timeout=20)\n        row.update(starter=result.returncode, stderr=result.stderr.decode(errors='replace'))\n        assert result.returncode == 0, row\n        address = result.stdout.decode().strip().removeprefix('unix://')\n        row['stage'] = 'connect-rpc'\n        payload = field(1, ident.encode())\n        pid = fields(rpc(address, 'Connect', payload)).get(1, 0)\n        assert pid > 1 and ident.encode() in (Path('/proc')/str(pid)/'cmdline').read_bytes().split(b'\\0'), 'original live shim'\n        row.update(initialized=True, pid=pid, stage='shutdown-rpc')\n        assert rpc(address, 'Shutdown', payload) == b'', 'empty Shutdown response'\n        row['stage'] = 'reap'\n        deadline = time.monotonic() + 20\n        while True:\n            child, status = os.waitpid(pid, os.WNOHANG)\n            if child: break\n            assert time.monotonic() < deadline, 'shim did not exit after Shutdown RPC'\n            time.sleep(.01)\n        assert child == pid and status == 0, ('shim exit', child, status)\n        row.update(status=status, stage='complete')\n    finally:\n        os.close(log)\n        rows.append(row)\n        Path('/work/shim-startup.log').write_text(json.dumps(rows, indent=2) + '\\n')\nPath('/work/shim-startup.result').write_text('shim-startup: ok\\n')\nCHECK",
+      "stdout": "",
+      "tier": "apps",
+      "timeout": 600
+    },
+    {
+      "artifacts": [
+        "/work/docker.result"
+      ],
+      "diagnostics": [
+        "/work/docker.log",
+        "/work/dockerd.log",
+        "/work/docker-info.log"
+      ],
+      "domain": "containers",
+      "id": "docker.lifecycle",
+      "requires": [
+        "/usr/sbin/dockerd",
+        "/usr/bin/docker",
+        "/acceptance/docker-lifecycle.sh",
+        "/acceptance/container.tar"
+      ],
+      "script": "exec /bin/sh /acceptance/docker-lifecycle.sh",
+      "stdout": "",
+      "tier": "apps",
+      "timeout": 360
+    }
+  ],
+  "harness_sha256": "898f819af95d9e2d4a3d94829036cc6dce8718b326bcb3f20ba3cf4d355293f3",
+  "host": {
+    "arch": "aarch64",
+    "cpu": "processor\t: 0\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 1\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 2\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 3\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 4\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 5\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\n",
+    "cpu_identity": [
+      "CPU architecture: 8",
+      "CPU implementer\t: 0x61",
+      "CPU part\t: 0x000",
+      "CPU revision\t: 0",
+      "CPU variant\t: 0x0",
+      "Features\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut"
+    ],
+    "kernel": "7.0.0-43-generic",
+    "libc": [
+      "glibc",
+      "2.39"
+    ],
+    "os": "Linux",
+    "page_size": 4096
+  },
+  "performance_qualified": false,
+  "provider": {
+    "backend": "kvm",
+    "build": "b5472ed6725d872aa44e218ff96ceb494c4ddc447096517a38b4d1b802b32546",
+    "cpus": 4,
+    "filesystem": "store",
+    "native_container": null,
+    "native_tools": null,
+    "network": "outbound",
+    "transport": "smccc"
+  },
+  "schema_version": 1,
+  "selected_scope": "complete"
+}

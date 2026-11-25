@@ -1,0 +1,996 @@
+sha256:79ab4467635260b298b5546e30c6303611b1db4d24897a40eaf7187d79df7807
+acceptance-data
+78e08e93bdd3744910a061e2e3417c7f1a41ccf47e88fb4ded93daaaa1282413
+d4659b2b65de459efe957673dd7a4f463a254fd9937246ec28ddb1f4b7459885
+acceptance-app
+acceptance-app
+acceptance-app
+acceptance-app
+acceptance-data
+acceptance-net
+Error response from daemon: error deleting lease: connection error: desc = "transport: Error while dialing: dial unix /var/run/docker/containerd/containerd.sock: connect: connection refused": unavailable
+time="2026-11-25T08:47:22.603023462Z" level=info msg="Starting up"
+time="2026-11-25T08:47:22.731145008Z" level=info msg="containerd not running, starting managed containerd"
+time="2026-11-25T08:47:23.283418629Z" level=info msg="started new containerd process" address=/var/run/docker/containerd/containerd.sock module=libcontainerd pid=466
+time="2026-11-25T08:47:24.826690723Z" level=info msg="starting containerd" revision="1.7.24~ds1-6+deb13u1" version="1.7.24~ds1"
+time="2026-11-25T08:47:24.991656399Z" level=info msg="loading plugin \"io.containerd.event.v1.exchange\"..." type=io.containerd.event.v1
+time="2026-11-25T08:47:25.000523524Z" level=info msg="loading plugin \"io.containerd.internal.v1.opt\"..." type=io.containerd.internal.v1
+time="2026-11-25T08:47:25.020918875Z" level=info msg="loading plugin \"io.containerd.warning.v1.deprecations\"..." type=io.containerd.warning.v1
+time="2026-11-25T08:47:25.030220715Z" level=info msg="loading plugin \"io.containerd.snapshotter.v1.blockfile\"..." type=io.containerd.snapshotter.v1
+time="2026-11-25T08:47:25.052102051Z" level=info msg="skip loading plugin \"io.containerd.snapshotter.v1.blockfile\"..." error="no scratch file generator: skip plugin" type=io.containerd.snapshotter.v1
+time="2026-11-25T08:47:25.060952485Z" level=info msg="loading plugin \"io.containerd.snapshotter.v1.btrfs\"..." type=io.containerd.snapshotter.v1
+time="2026-11-25T08:47:25.112940343Z" level=info msg="skip loading plugin \"io.containerd.snapshotter.v1.btrfs\"..." error="path /var/lib/docker/containerd/daemon/io.containerd.snapshotter.v1.btrfs (rootfs) must be a btrfs filesystem to be used with the btrfs snapshotter: skip plugin" type=io.containerd.snapshotter.v1
+time="2026-11-25T08:47:25.122273121Z" level=info msg="loading plugin \"io.containerd.snapshotter.v1.devmapper\"..." type=io.containerd.snapshotter.v1
+time="2026-11-25T08:47:25.138092138Z" level=info msg="skip loading plugin \"io.containerd.snapshotter.v1.devmapper\"..." error="devmapper not configured: skip plugin" type=io.containerd.snapshotter.v1
+time="2026-11-25T08:47:25.143834046Z" level=info msg="loading plugin \"io.containerd.snapshotter.v1.native\"..." type=io.containerd.snapshotter.v1
+time="2026-11-25T08:47:25.160721509Z" level=info msg="loading plugin \"io.containerd.snapshotter.v1.overlayfs\"..." type=io.containerd.snapshotter.v1
+time="2026-11-25T08:47:25.204708453Z" level=info msg="loading plugin \"io.containerd.snapshotter.v1.aufs\"..." type=io.containerd.snapshotter.v1
+time="2026-11-25T08:47:25.220787310Z" level=info msg="skip loading plugin \"io.containerd.snapshotter.v1.aufs\"..." error="aufs is not supported (modprobe aufs failed: exec: \"modprobe\": executable file not found in $PATH \"\"): skip plugin" type=io.containerd.snapshotter.v1
+time="2026-11-25T08:47:25.222412605Z" level=info msg="loading plugin \"io.containerd.snapshotter.v1.zfs\"..." type=io.containerd.snapshotter.v1
+time="2026-11-25T08:47:25.229430815Z" level=info msg="skip loading plugin \"io.containerd.snapshotter.v1.zfs\"..." error="path /var/lib/docker/containerd/daemon/io.containerd.snapshotter.v1.zfs must be a zfs filesystem to be used with the zfs snapshotter: skip plugin" type=io.containerd.snapshotter.v1
+time="2026-11-25T08:47:25.231199479Z" level=info msg="loading plugin \"io.containerd.content.v1.content\"..." type=io.containerd.content.v1
+time="2026-11-25T08:47:25.232419840Z" level=info msg="loading plugin \"io.containerd.metadata.v1.bolt\"..." type=io.containerd.metadata.v1
+time="2026-11-25T08:47:25.235483411Z" level=info msg="metadata content store policy set" policy=shared
+time="2026-11-25T08:47:25.250883771Z" level=info msg="loading plugin \"io.containerd.gc.v1.scheduler\"..." type=io.containerd.gc.v1
+time="2026-11-25T08:47:25.253364944Z" level=info msg="loading plugin \"io.containerd.differ.v1.walking\"..." type=io.containerd.differ.v1
+time="2026-11-25T08:47:25.254223515Z" level=info msg="loading plugin \"io.containerd.lease.v1.manager\"..." type=io.containerd.lease.v1
+time="2026-11-25T08:47:25.257966636Z" level=info msg="loading plugin \"io.containerd.streaming.v1.manager\"..." type=io.containerd.streaming.v1
+time="2026-11-25T08:47:25.258704021Z" level=info msg="loading plugin \"io.containerd.runtime.v1.linux\"..." type=io.containerd.runtime.v1
+time="2026-11-25T08:47:25.266323993Z" level=info msg="loading plugin \"io.containerd.monitor.v1.cgroups\"..." type=io.containerd.monitor.v1
+time="2026-11-25T08:47:25.274396464Z" level=info msg="loading plugin \"io.containerd.runtime.v2.task\"..." type=io.containerd.runtime.v2
+time="2026-11-25T08:47:25.290917382Z" level=info msg="loading plugin \"io.containerd.runtime.v2.shim\"..." type=io.containerd.runtime.v2
+time="2026-11-25T08:47:25.292407769Z" level=info msg="loading plugin \"io.containerd.sandbox.store.v1.local\"..." type=io.containerd.sandbox.store.v1
+time="2026-11-25T08:47:25.292962723Z" level=info msg="loading plugin \"io.containerd.sandbox.controller.v1.local\"..." type=io.containerd.sandbox.controller.v1
+time="2026-11-25T08:47:25.294258304Z" level=info msg="loading plugin \"io.containerd.service.v1.containers-service\"..." type=io.containerd.service.v1
+time="2026-11-25T08:47:25.294793475Z" level=info msg="loading plugin \"io.containerd.service.v1.content-service\"..." type=io.containerd.service.v1
+time="2026-11-25T08:47:25.295499038Z" level=info msg="loading plugin \"io.containerd.service.v1.diff-service\"..." type=io.containerd.service.v1
+time="2026-11-25T08:47:25.296445204Z" level=info msg="loading plugin \"io.containerd.service.v1.images-service\"..." type=io.containerd.service.v1
+time="2026-11-25T08:47:25.297514619Z" level=info msg="loading plugin \"io.containerd.service.v1.introspection-service\"..." type=io.containerd.service.v1
+time="2026-11-25T08:47:25.298375464Z" level=info msg="loading plugin \"io.containerd.service.v1.namespaces-service\"..." type=io.containerd.service.v1
+time="2026-11-25T08:47:25.299249609Z" level=info msg="loading plugin \"io.containerd.service.v1.snapshots-service\"..." type=io.containerd.service.v1
+time="2026-11-25T08:47:25.300134067Z" level=info msg="loading plugin \"io.containerd.service.v1.tasks-service\"..." type=io.containerd.service.v1
+time="2026-11-25T08:47:25.302337132Z" level=info msg="loading plugin \"io.containerd.grpc.v1.containers\"..." type=io.containerd.grpc.v1
+time="2026-11-25T08:47:25.303397665Z" level=info msg="loading plugin \"io.containerd.grpc.v1.content\"..." type=io.containerd.grpc.v1
+time="2026-11-25T08:47:25.304332382Z" level=info msg="loading plugin \"io.containerd.grpc.v1.diff\"..." type=io.containerd.grpc.v1
+time="2026-11-25T08:47:25.305182577Z" level=info msg="loading plugin \"io.containerd.grpc.v1.events\"..." type=io.containerd.grpc.v1
+time="2026-11-25T08:47:25.305955741Z" level=info msg="loading plugin \"io.containerd.grpc.v1.images\"..." type=io.containerd.grpc.v1
+time="2026-11-25T08:47:25.306586295Z" level=info msg="loading plugin \"io.containerd.grpc.v1.introspection\"..." type=io.containerd.grpc.v1
+time="2026-11-25T08:47:25.307393470Z" level=info msg="loading plugin \"io.containerd.grpc.v1.leases\"..." type=io.containerd.grpc.v1
+time="2026-11-25T08:47:25.308267153Z" level=info msg="loading plugin \"io.containerd.grpc.v1.namespaces\"..." type=io.containerd.grpc.v1
+time="2026-11-25T08:47:25.309163103Z" level=info msg="loading plugin \"io.containerd.grpc.v1.sandbox-controllers\"..." type=io.containerd.grpc.v1
+time="2026-11-25T08:47:25.310237990Z" level=info msg="loading plugin \"io.containerd.grpc.v1.sandboxes\"..." type=io.containerd.grpc.v1
+time="2026-11-25T08:47:25.311120638Z" level=info msg="loading plugin \"io.containerd.grpc.v1.snapshots\"..." type=io.containerd.grpc.v1
+time="2026-11-25T08:47:25.312092187Z" level=info msg="loading plugin \"io.containerd.grpc.v1.streaming\"..." type=io.containerd.grpc.v1
+time="2026-11-25T08:47:25.312483694Z" level=info msg="loading plugin \"io.containerd.grpc.v1.tasks\"..." type=io.containerd.grpc.v1
+time="2026-11-25T08:47:25.314411764Z" level=info msg="loading plugin \"io.containerd.transfer.v1.local\"..." type=io.containerd.transfer.v1
+time="2026-11-25T08:47:25.315343114Z" level=info msg="loading plugin \"io.containerd.grpc.v1.transfer\"..." type=io.containerd.grpc.v1
+time="2026-11-25T08:47:25.316407099Z" level=info msg="loading plugin \"io.containerd.grpc.v1.version\"..." type=io.containerd.grpc.v1
+time="2026-11-25T08:47:25.316846466Z" level=info msg="loading plugin \"io.containerd.internal.v1.restart\"..." type=io.containerd.internal.v1
+time="2026-11-25T08:47:25.318773863Z" level=info msg="loading plugin \"io.containerd.tracing.processor.v1.otlp\"..." type=io.containerd.tracing.processor.v1
+time="2026-11-25T08:47:25.319615892Z" level=info msg="skip loading plugin \"io.containerd.tracing.processor.v1.otlp\"..." error="skip plugin: tracing endpoint not configured" type=io.containerd.tracing.processor.v1
+time="2026-11-25T08:47:25.320405472Z" level=info msg="loading plugin \"io.containerd.internal.v1.tracing\"..." type=io.containerd.internal.v1
+time="2026-11-25T08:47:25.321181120Z" level=info msg="skip loading plugin \"io.containerd.internal.v1.tracing\"..." error="skip plugin: tracing endpoint not configured" type=io.containerd.internal.v1
+time="2026-11-25T08:47:25.322006228Z" level=info msg="loading plugin \"io.containerd.grpc.v1.healthcheck\"..." type=io.containerd.grpc.v1
+time="2026-11-25T08:47:25.322831671Z" level=info msg="loading plugin \"io.containerd.nri.v1.nri\"..." type=io.containerd.nri.v1
+time="2026-11-25T08:47:25.323940696Z" level=info msg="NRI interface is disabled by configuration."
+time="2026-11-25T08:47:25.353404710Z" level=info msg=serving... address=/var/run/docker/containerd/containerd-debug.sock
+time="2026-11-25T08:47:25.367881633Z" level=info msg=serving... address=/var/run/docker/containerd/containerd.sock.ttrpc
+time="2026-11-25T08:47:25.399559360Z" level=info msg=serving... address=/var/run/docker/containerd/containerd.sock
+time="2026-11-25T08:47:25.401942708Z" level=info msg="containerd successfully booted in 0.617066s"
+time="2026-11-25T08:47:28.921632823Z" level=info msg="[graphdriver] using prior storage driver: overlay2"
+time="2026-11-25T08:47:29.053440553Z" level=info msg="Loading containers: start."
+time="2026-11-25T08:47:32.994312341Z" level=warning msg="Could not load necessary modules for IPSEC rules: protocol not supported"
+time="2026-11-25T08:47:33.023199635Z" level=info msg="failed to read ipv6 net.ipv6.conf.<bridge>.accept_ra" bridge=docker0 syspath=/proc/sys/net/ipv6/conf/docker0/accept_ra
+time="2026-11-25T08:47:43.761598330Z" level=info msg="Default bridge (docker0) is assigned with an IP address 172.17.0.0/16. Daemon option --bip can be used to set a preferred IP address"
+time="2026-11-25T08:47:43.778636984Z" level=info msg="failed to read ipv6 net.ipv6.conf.<bridge>.accept_ra" bridge=docker0 syspath=/proc/sys/net/ipv6/conf/docker0/accept_ra
+time="2026-11-25T08:47:48.672637069Z" level=info msg="Loading containers: done."
+time="2026-11-25T08:47:49.726671216Z" level=warning msg="WARNING: No swap limit support"
+time="2026-11-25T08:47:49.729112802Z" level=warning msg="WARNING: No io.weight support"
+time="2026-11-25T08:47:49.731136650Z" level=warning msg="WARNING: No io.weight (per device) support"
+time="2026-11-25T08:47:49.732951417Z" level=warning msg="WARNING: No io.max (rbps) support"
+time="2026-11-25T08:47:49.734322151Z" level=warning msg="WARNING: No io.max (wbps) support"
+time="2026-11-25T08:47:49.735649542Z" level=warning msg="WARNING: No io.max (riops) support"
+time="2026-11-25T08:47:49.739421996Z" level=warning msg="WARNING: No io.max (wiops) support"
+time="2026-11-25T08:47:49.741508102Z" level=info msg="Docker daemon" commit=411e817 containerd-snapshotter=false storage-driver=overlay2 version=26.1.5+dfsg1
+time="2026-11-25T08:47:49.751094884Z" level=info msg="Daemon has completed initialization"
+time="2026-11-25T08:47:51.202653302Z" level=info msg="API listen on /var/run/docker.sock"
+time="2026-11-25T08:48:01.525070637Z" level=info msg="loading plugin \"io.containerd.event.v1.publisher\"..." runtime=io.containerd.runc.v2 type=io.containerd.event.v1
+time="2026-11-25T08:48:01.529316141Z" level=info msg="loading plugin \"io.containerd.internal.v1.shutdown\"..." runtime=io.containerd.runc.v2 type=io.containerd.internal.v1
+time="2026-11-25T08:48:01.530889528Z" level=info msg="loading plugin \"io.containerd.ttrpc.v1.task\"..." runtime=io.containerd.runc.v2 type=io.containerd.ttrpc.v1
+time="2026-11-25T08:48:01.564090666Z" level=info msg="loading plugin \"io.containerd.ttrpc.v1.pause\"..." runtime=io.containerd.runc.v2 type=io.containerd.ttrpc.v1
+time="2026-11-25T08:48:15.427880981Z" level=info msg="ignoring event" container=d4659b2b65de459efe957673dd7a4f463a254fd9937246ec28ddb1f4b7459885 module=libcontainerd namespace=moby topic=/tasks/delete type="*events.TaskDelete"
+time="2026-11-25T08:48:15.484732645Z" level=info msg="shim disconnected" id=d4659b2b65de459efe957673dd7a4f463a254fd9937246ec28ddb1f4b7459885 namespace=moby
+time="2026-11-25T08:48:15.505664609Z" level=warning msg="cleaning up after shim disconnected" id=d4659b2b65de459efe957673dd7a4f463a254fd9937246ec28ddb1f4b7459885 namespace=moby
+time="2026-11-25T08:48:15.546656502Z" level=info msg="cleaning up dead shim" namespace=moby
+SIGSEGV: segmentation violation
+PC=0x4661b4 m=2 sigcode=1 addr=0x11
+
+goroutine 0 gp=0x4000002a80 m=2 mp=0x4000078808 [idle]:
+runtime.(*traceBufQueue).empty(...)
+	runtime/tracebuf.go:233
+runtime.traceAdvance.func6()
+	runtime/trace.go:663 +0x74 fp=0x400044bed770 sp=0x400044bed730 pc=0x4661b4
+runtime.lockWithRank(...)
+	runtime/lockrank_off.go:24
+runtime.lock(...)
+	runtime/lock_spinbit.go:150
+runtime.sysmon()
+	runtime/proc.go:6151 +0x23c fp=0x400044bed7e0 sp=0x400044bed770 pc=0x45216c
+
+goroutine 1 gp=0x40000021c0 m=nil [chan receive]:
+runtime.gopark(0x4000059608?, 0x57987c?, 0x60?, 0x2b?, 0x4?)
+	runtime/proc.go:435 +0xc8 fp=0x40004c95b0 sp=0x40004c9590 pc=0x47a558
+runtime.chanrecv(0x40000ac0e0, 0x0, 0x1)
+	runtime/chan.go:664 +0x42c fp=0x40004c9630 sp=0x40004c95b0 pc=0x41167c
+runtime.chanrecv1(0x3fe3bf004b546735?, 0x18e069d?)
+	runtime/chan.go:506 +0x14 fp=0x40004c9660 sp=0x40004c9630 pc=0x411214
+github.com/containerd/containerd/cmd/containerd/command.App.func1(0x40003b0160)
+	github.com/containerd/containerd/cmd/containerd/command/main.go:286 +0xd4c fp=0x40004c9a00 sp=0x40004c9660 pc=0xb3049c
+github.com/urfave/cli.HandleAction({0x158bc60?, 0x196e448?}, 0x4000282380?)
+	github.com/urfave/cli/app.go:524 +0x94 fp=0x40004c9a20 sp=0x40004c9a00 pc=0xb0f704
+github.com/urfave/cli.(*App).Run(0x4000282380, {0x400004e9f0, 0x3, 0x3})
+	github.com/urfave/cli/app.go:286 +0x570 fp=0x40004c9ee0 sp=0x40004c9a20 pc=0xb0d760
+main.main()
+	github.com/containerd/containerd/cmd/containerd/main.go:39 +0x38 fp=0x40004c9f40 sp=0x40004c9ee0 pc=0x1418558
+runtime.main()
+	runtime/proc.go:283 +0x284 fp=0x40004c9fd0 sp=0x40004c9f40 pc=0x4443f4
+runtime.goexit({})
+	runtime/asm_arm64.s:1223 +0x4 fp=0x40004c9fd0 sp=0x40004c9fd0 pc=0x482a44
+
+goroutine 2 gp=0x4000002c40 m=nil [force gc (idle)]:
+runtime.gopark(0x0?, 0x0?, 0x0?, 0x0?, 0x0?)
+	runtime/proc.go:435 +0xc8 fp=0x4000074f90 sp=0x4000074f70 pc=0x47a558
+runtime.goparkunlock(...)
+	runtime/proc.go:441
+runtime.forcegchelper()
+	runtime/proc.go:348 +0xb8 fp=0x4000074fd0 sp=0x4000074f90 pc=0x444748
+runtime.goexit({})
+	runtime/asm_arm64.s:1223 +0x4 fp=0x4000074fd0 sp=0x4000074fd0 pc=0x482a44
+created by runtime.init.7 in goroutine 1
+	runtime/proc.go:336 +0x24
+
+goroutine 3 gp=0x4000002e00 m=nil [GC sweep wait]:
+runtime.gopark(0x1?, 0x0?, 0x0?, 0x0?, 0x0?)
+	runtime/proc.go:435 +0xc8 fp=0x4000075760 sp=0x4000075740 pc=0x47a558
+runtime.goparkunlock(...)
+	runtime/proc.go:441
+runtime.bgsweep(0x400007c000)
+	runtime/mgcsweep.go:316 +0x108 fp=0x40000757b0 sp=0x4000075760 pc=0x42c658
+runtime.gcenable.gowrap1()
+	runtime/mgc.go:204 +0x28 fp=0x40000757d0 sp=0x40000757b0 pc=0x420498
+runtime.goexit({})
+	runtime/asm_arm64.s:1223 +0x4 fp=0x40000757d0 sp=0x40000757d0 pc=0x482a44
+created by runtime.gcenable in goroutine 1
+	runtime/mgc.go:204 +0x6c
+
+goroutine 4 gp=0x4000002fc0 m=nil [GC scavenge wait]:
+runtime.gopark(0x1df32bf?, 0x2e9023?, 0x0?, 0x0?, 0x0?)
+	runtime/proc.go:435 +0xc8 fp=0x4000075f60 sp=0x4000075f40 pc=0x47a558
+runtime.goparkunlock(...)
+	runtime/proc.go:441
+runtime.(*scavengerState).park(0x289a420)
+	runtime/mgcscavenge.go:425 +0x5c fp=0x4000075f90 sp=0x4000075f60 pc=0x42a12c
+runtime.bgscavenge(0x400007c000)
+	runtime/mgcscavenge.go:658 +0xac fp=0x4000075fb0 sp=0x4000075f90 pc=0x42a6ac
+runtime.gcenable.gowrap2()
+	runtime/mgc.go:205 +0x28 fp=0x4000075fd0 sp=0x4000075fb0 pc=0x420438
+runtime.goexit({})
+	runtime/asm_arm64.s:1223 +0x4 fp=0x4000075fd0 sp=0x4000075fd0 pc=0x482a44
+created by runtime.gcenable in goroutine 1
+	runtime/mgc.go:205 +0xac
+
+goroutine 5 gp=0x4000003c00 m=nil [finalizer wait]:
+runtime.gopark(0x164c700?, 0x12?, 0x8?, 0x61?, 0x1000000000000?)
+	runtime/proc.go:435 +0xc8 fp=0x4000074590 sp=0x4000074570 pc=0x47a558
+runtime.runfinq()
+	runtime/mfinal.go:196 +0x108 fp=0x40000747d0 sp=0x4000074590 pc=0x41f428
+runtime.goexit({})
+	runtime/asm_arm64.s:1223 +0x4 fp=0x40000747d0 sp=0x40000747d0 pc=0x482a44
+created by runtime.createfing in goroutine 1
+	runtime/mfinal.go:166 +0x80
+
+goroutine 6 gp=0x4000282700 m=nil [chan receive]:
+runtime.gopark(0x40002d3680?, 0x4000559f38?, 0x48?, 0x67?, 0x5ff3a8?)
+	runtime/proc.go:435 +0xc8 fp=0x40000766f0 sp=0x40000766d0 pc=0x47a558
+runtime.chanrecv(0x40000ac8c0, 0x0, 0x1)
+	runtime/chan.go:664 +0x42c fp=0x4000076770 sp=0x40000766f0 pc=0x41167c
+runtime.chanrecv1(0x0?, 0x0?)
+	runtime/chan.go:506 +0x14 fp=0x40000767a0 sp=0x4000076770 pc=0x411214
+runtime.unique_runtime_registerUniqueMapCleanup.func2(...)
+	runtime/mgc.go:1796
+runtime.unique_runtime_registerUniqueMapCleanup.gowrap1()
+	runtime/mgc.go:1799 +0x3c fp=0x40000767d0 sp=0x40000767a0 pc=0x4236bc
+runtime.goexit({})
+	runtime/asm_arm64.s:1223 +0x4 fp=0x40000767d0 sp=0x40000767d0 pc=0x482a44
+created by unique.runtime_registerUniqueMapCleanup in goroutine 1
+	runtime/mgc.go:1794 +0x78
+
+goroutine 11 gp=0x4000283180 m=nil [GC worker (idle)]:
+runtime.gopark(0x19f63534f9?, 0x2?, 0x64?, 0xb7?, 0x4000283180?)
+	runtime/proc.go:435 +0xc8 fp=0x4000076f10 sp=0x4000076ef0 pc=0x47a558
+runtime.gcBgMarkWorker(0x40000acb60)
+	runtime/mgc.go:1423 +0xdc fp=0x4000076fb0 sp=0x4000076f10 pc=0x42292c
+runtime.gcBgMarkStartWorkers.gowrap1()
+	runtime/mgc.go:1339 +0x28 fp=0x4000076fd0 sp=0x4000076fb0 pc=0x422818
+runtime.goexit({})
+	runtime/asm_arm64.s:1223 +0x4 fp=0x4000076fd0 sp=0x4000076fd0 pc=0x482a44
+created by runtime.gcBgMarkStartWorkers in goroutine 1
+	runtime/mgc.go:1339 +0x140
+
+goroutine 24 gp=0x4000283880 m=nil [select]:
+runtime.gopark(0x4000077798?, 0x2?, 0xe8?, 0x75?, 0x4000077724?)
+	runtime/proc.go:435 +0xc8 fp=0x40000775b0 sp=0x4000077590 pc=0x47a558
+runtime.selectgo(0x4000077798, 0x4000077720, 0x400046caf0?, 0x0, 0x4000077738?, 0x1)
+	runtime/select.go:351 +0x6c4 fp=0x40000776e0 sp=0x40000775b0 pc=0x458144
+github.com/containerd/containerd/cmd/containerd/command.handleSignals.func1()
+	github.com/containerd/containerd/cmd/containerd/command/main_unix.go:43 +0xa4 fp=0x40000777d0 sp=0x40000776e0 pc=0xb2e5c4
+runtime.goexit({})
+	runtime/asm_arm64.s:1223 +0x4 fp=0x40000777d0 sp=0x40000777d0 pc=0x482a44
+created by github.com/containerd/containerd/cmd/containerd/command.handleSignals in goroutine 1
+	github.com/containerd/containerd/cmd/containerd/command/main_unix.go:40 +0xc8
+
+goroutine 25 gp=0x40004b6000 m=nil [select, locked to thread]:
+runtime.gopark(0x4000070fa0?, 0x2?, 0x98?, 0xe?, 0x4000070f8c?)
+	runtime/proc.go:435 +0xc8 fp=0x4000070e10 sp=0x4000070df0 pc=0x47a558
+runtime.selectgo(0x4000070fa0, 0x4000070f88, 0x0?, 0x0, 0x0?, 0x1)
+	runtime/select.go:351 +0x6c4 fp=0x4000070f40 sp=0x4000070e10 pc=0x458144
+runtime.ensureSigM.func1()
+	runtime/signal_unix.go:1085 +0x194 fp=0x4000070fd0 sp=0x4000070f40 pc=0x4745d4
+runtime.goexit({})
+	runtime/asm_arm64.s:1223 +0x4 fp=0x4000070fd0 sp=0x4000070fd0 pc=0x482a44
+created by runtime.ensureSigM in goroutine 1
+	runtime/signal_unix.go:1068 +0xd8
+
+goroutine 26 gp=0x40004b61c0 m=0 mp=0x289b920 [syscall]:
+runtime.notetsleepg(0x28c5500, 0xffffffffffffffff)
+	runtime/lock_futex.go:123 +0x34 fp=0x4000071790 sp=0x4000071760 pc=0x416954
+os/signal.signal_recv()
+	runtime/sigqueue.go:152 +0x30 fp=0x40000717b0 sp=0x4000071790 pc=0x47c980
+os/signal.loop()
+	os/signal/signal_unix.go:23 +0x1c fp=0x40000717d0 sp=0x40000717b0 pc=0xb2087c
+runtime.goexit({})
+	runtime/asm_arm64.s:1223 +0x4 fp=0x40000717d0 sp=0x40000717d0 pc=0x482a44
+created by os/signal.Notify.func1.1 in goroutine 1
+	os/signal/signal.go:152 +0x28
+
+goroutine 36 gp=0x40004b6700 m=nil [IO wait]:
+runtime.gopark(0x0?, 0x0?, 0x0?, 0x0?, 0x0?)
+	runtime/proc.go:435 +0xc8 fp=0x400008eb10 sp=0x400008eaf0 pc=0x47a558
+runtime.netpollblock(0x7000000000?, 0x41881c?, 0x0?)
+	runtime/netpoll.go:575 +0x158 fp=0x400008eb50 sp=0x400008eb10 pc=0x43d008
+internal/poll.runtime_pollWait(0x1217ee48, 0x72)
+	runtime/netpoll.go:351 +0xa0 fp=0x400008eb80 sp=0x400008eb50 pc=0x479710
+internal/poll.(*pollDesc).wait(0x40000eb280?, 0x90?, 0x0)
+	internal/poll/fd_poll_runtime.go:84 +0x28 fp=0x400008ebb0 sp=0x400008eb80 pc=0x4f7188
+internal/poll.(*pollDesc).waitRead(...)
+	internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Accept(0x40000eb280)
+	internal/poll/fd_unix.go:620 +0x24c fp=0x400008ec60 sp=0x400008ebb0 pc=0x4fba5c
+net.(*netFD).accept(0x40000eb280)
+	net/fd_unix.go:172 +0x28 fp=0x400008ed20 sp=0x400008ec60 pc=0x62f6e8
+net.(*UnixListener).accept(0x400008ed68?)
+	net/unixsock_posix.go:172 +0x20 fp=0x400008ed50 sp=0x400008ed20 pc=0x64dad0
+net.(*UnixListener).Accept(0x40005345a0)
+	net/unixsock.go:260 +0x2c fp=0x400008ed90 sp=0x400008ed50 pc=0x64c47c
+github.com/containerd/ttrpc.(*Server).Serve(0x4000477260, {0x1b55360, 0x28c3d80}, {0x1b4cf18, 0x40005345a0})
+	github.com/containerd/ttrpc/server.go:90 +0xc8 fp=0x400008eea0 sp=0x400008ed90 pc=0x720728
+github.com/containerd/containerd/services/server.(*Server).ServeTTRPC(0x4000507f58?, {0x1b4cf18?, 0x40005345a0?})
+	github.com/containerd/containerd/services/server/server.go:366 +0x40 fp=0x400008eef0 sp=0x400008eea0 pc=0xaf5780
+github.com/containerd/containerd/services/server.(*Server).ServeTTRPC-fm({0x1b4cf18?, 0x40005345a0?})
+	<autogenerated>:1 +0x3c fp=0x400008ef20 sp=0x400008eef0 pc=0xb30b2c
+github.com/containerd/containerd/cmd/containerd/command.serve.func1()
+	github.com/containerd/containerd/cmd/containerd/command/main.go:299 +0x84 fp=0x400008efd0 sp=0x400008ef20 pc=0xb2dd14
+runtime.goexit({})
+	runtime/asm_arm64.s:1223 +0x4 fp=0x400008efd0 sp=0x400008efd0 pc=0x482a44
+created by github.com/containerd/containerd/cmd/containerd/command.serve in goroutine 1
+	github.com/containerd/containerd/cmd/containerd/command/main.go:297 +0x148
+
+goroutine 28 gp=0x40004b68c0 m=nil [select]:
+runtime.gopark(0x40005cfc78?, 0x4?, 0x48?, 0xf9?, 0x40005cfa80?)
+	runtime/proc.go:435 +0xc8 fp=0x40005cf8f0 sp=0x40005cf8d0 pc=0x47a558
+runtime.selectgo(0x40005cfc78, 0x40005cfa78, 0x400068f3b0?, 0x0, 0x1645a20?, 0x1)
+	runtime/select.go:351 +0x6c4 fp=0x40005cfa20 sp=0x40005cf8f0 pc=0x458144
+github.com/docker/go-events.(*Broadcaster).run(0x4000464050)
+	github.com/docker/go-events/broadcast.go:117 +0xec fp=0x40005cffb0 sp=0x40005cfa20 pc=0xa3493c
+github.com/docker/go-events.NewBroadcaster.gowrap1()
+	github.com/docker/go-events/broadcast.go:39 +0x28 fp=0x40005cffd0 sp=0x40005cffb0 pc=0xa34478
+runtime.goexit({})
+	runtime/asm_arm64.s:1223 +0x4 fp=0x40005cffd0 sp=0x40005cffd0 pc=0x482a44
+created by github.com/docker/go-events.NewBroadcaster in goroutine 27
+	github.com/docker/go-events/broadcast.go:39 +0x168
+
+goroutine 33 gp=0x40004b6a80 m=nil [sleep]:
+runtime.gopark(0x1d778293a0?, 0x1b55360?, 0x80?, 0x3d?, 0x1?)
+	runtime/proc.go:435 +0xc8 fp=0x400008df00 sp=0x400008dee0 pc=0x47a558
+time.Sleep(0x2540be400)
+	runtime/time.go:338 +0x158 fp=0x400008df60 sp=0x400008df00 pc=0x47e7c8
+github.com/containerd/containerd/runtime/restart/monitor.(*monitor).run(0x40003b5b18, 0x40000fce70?)
+	github.com/containerd/containerd/runtime/restart/monitor/monitor.go:108 +0x40 fp=0x400008dfb0 sp=0x400008df60 pc=0xdba610
+github.com/containerd/containerd/runtime/restart/monitor.init.0.func1.gowrap1()
+	github.com/containerd/containerd/runtime/restart/monitor/monitor.go:85 +0x2c fp=0x400008dfd0 sp=0x400008dfb0 pc=0xdbb60c
+runtime.goexit({})
+	runtime/asm_arm64.s:1223 +0x4 fp=0x400008dfd0 sp=0x400008dfd0 pc=0x482a44
+created by github.com/containerd/containerd/runtime/restart/monitor.init.0.func1 in goroutine 27
+	github.com/containerd/containerd/runtime/restart/monitor/monitor.go:85 +0x248
+
+goroutine 35 gp=0x40004b6c40 m=nil [IO wait]:
+runtime.gopark(0x0?, 0x0?, 0x0?, 0x0?, 0x0?)
+	runtime/proc.go:435 +0xc8 fp=0x400008fad0 sp=0x400008fab0 pc=0x47a558
+runtime.netpollblock(0x7000000000?, 0x40b9d8?, 0x0?)
+	runtime/netpoll.go:575 +0x158 fp=0x400008fb10 sp=0x400008fad0 pc=0x43d008
+internal/poll.runtime_pollWait(0x1217ef60, 0x72)
+	runtime/netpoll.go:351 +0xa0 fp=0x400008fb40 sp=0x400008fb10 pc=0x479710
+internal/poll.(*pollDesc).wait(0x40000eb100?, 0x4000534750?, 0x0)
+	internal/poll/fd_poll_runtime.go:84 +0x28 fp=0x400008fb70 sp=0x400008fb40 pc=0x4f7188
+internal/poll.(*pollDesc).waitRead(...)
+	internal/poll/fd_poll_runtime.go:time="2026-11-25T08:48:16.332402904Z" level=info msg="Container failed to exit within 2s of signal 15 - using the force" container=d4659b2b65de459efe957673dd7a4f463a254fd9937246ec28ddb1f4b7459885 spanID=5788144c004295fb traceID=2f50ab53f3c0c8ab021c4234c4eb281b
+89
+internal/poll.(*FD).Accept(0x40000eb100)
+	internal/poll/fd_unix.go:620 +0x24c fp=0x400008fc20 sp=0x400008fb70 pc=0x4fba5c
+net.(*netFD).accept(0x40000eb100)
+	net/fd_unix.go:172 +0x28 fp=0x400008fce0 sp=0x400008fc20 pc=0x62f6e8
+net.(*UnixListener).accept(0x400008fd01?)
+	net/unixsock_posix.go:172 +0x20 fp=0x400008fd10 sp=0x400008fce0 pc=0x64dad0
+net.(*UnixListener).Accept(0x40005344e0)
+	net/unixsock.go:260 +0x2c fp=0x400008fd50 sp=0x400008fd10 pc=0x64c47c
+net/http.(*onceCloseListener).Accept(0x1b55360?)
+	<autogenerated>:1 +0x30 fp=0x400008fd70 sp=0x400008fd50 pc=0x871910
+net/http.(*Server).Serve(0x40004a0a00, {0x1b4cf18, 0x40005344e0})
+	net/http/server.go:3424 +0x290 fp=0x400008fea0 sp=0x400008fd70 pc=0x84a2d0
+github.com/containerd/containerd/services/server.(*Server).ServeDebug(0x15571a0?, {0x1b4cf18, 0x40005344e0})
+	github.com/containerd/containerd/services/server/server.go:401 +0x160 fp=0x400008fef0 sp=0x400008fea0 pc=0xaf5b00
+github.com/containerd/containerd/services/server.(*Server).ServeDebug-fm({0x1b4cf18?, 0x40005344e0?})
+	<autogenerated>:1 +0x3c fp=0x400008ff20 sp=0x400008fef0 pc=0xb30a2c
+github.com/containerd/containerd/cmd/containerd/command.serve.func1()
+	github.com/containerd/containerd/cmd/containerd/command/main.go:299 +0x84 fp=0x400008ffd0 sp=0x400008ff20 pc=0xb2dd14
+runtime.goexit({})
+	runtime/asm_arm64.s:1223 +0x4 fp=0x400008ffd0 sp=0x400008ffd0 pc=0x482a44
+created by github.com/containerd/containerd/cmd/containerd/command.serve in goroutine 1
+	github.com/containerd/containerd/cmd/containerd/command/main.go:297 +0x148
+
+goroutine 31 gp=0x40004b6e00 m=nil [select]:
+runtime.gopark(0x40005c9ef8?, 0x3?, 0x38?, 0x9d?, 0x40005c9e6a?)
+	runtime/proc.go:435 +0xc8 fp=0x40005c9cf0 sp=0x40005c9cd0 pc=0x47a558
+runtime.selectgo(0x40005c9ef8, 0x40005c9e64, 0x0?, 0x0, 0x4000338040?, 0x1)
+	runtime/select.go:351 +0x6c4 fp=0x40005c9e20 sp=0x40005c9cf0 pc=0x458144
+github.com/containerd/containerd/gc/scheduler.(*gcScheduler).run(0x400047dc80, {0x1b55440, 0x4000464640})
+	github.com/containerd/containerd/gc/scheduler/scheduler.go:268 +0x138 fp=0x40005c9fa0 sp=0x40005c9e20 pc=0xba22d8
+github.com/containerd/containerd/gc/scheduler.init.1.func1.gowrap1()
+	github.com/containerd/containerd/gc/scheduler/scheduler.go:132 +0x30 fp=0x40005c9fd0 sp=0x40005c9fa0 pc=0xba2f60
+runtime.goexit({})
+	runtime/asm_arm64.s:1223 +0x4 fp=0x40005c9fd0 sp=0x40005c9fd0 pc=0x482a44
+created by github.com/containerd/containerd/gc/scheduler.init.1.func1 in goroutine 27
+	github.com/containerd/containerd/gc/scheduler/scheduler.go:132 +0x368
+
+goroutine 39 gp=0x40004b7180 m=nil [IO wait]:
+runtime.gopark(0x0?, 0x0?, 0x0?, 0x0?, 0x0?)
+	runtime/proc.go:435 +0xc8 fp=0x40004c5ac0 sp=0x40004c5aa0 pc=0x47a558
+runtime.netpollblock(0x7000000000?, 0xa?, 0x0?)
+	runtime/netpoll.go:575 +0x158 fp=0x40004c5b00 sp=0x40004c5ac0 pc=0x43d008
+internal/poll.runtime_pollWait(0x1217ed30, 0x72)
+	runtime/netpoll.go:351 +0xa0 fp=0x40004c5b30 sp=0x40004c5b00 pc=0x479710
+internal/poll.(*pollDesc).wait(0x40000eb480?, 0x40004ea8e0?, 0x0)
+	internal/poll/fd_poll_runtime.go:84 +0x28 fp=0x40004c5b60 sp=0x40004c5b30 pc=0x4f7188
+internal/poll.(*pollDesc).waitRead(...)
+	internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Accept(0x40000eb480)
+	internal/poll/fd_unix.go:620 +0x24c fp=0x40004c5c10 sp=0x40004c5b60 pc=0x4fba5c
+net.(*netFD).accept(0x40000eb480)
+	net/fd_unix.go:172 +0x28 fp=0x40004c5cd0 sp=0x40004c5c10 pc=0x62f6e8
+net.(*UnixListener).accept(0x40004c5d18?)
+	net/unixsock_posix.go:172 +0x20 fp=0x40004c5d00 sp=0x40004c5cd0 pc=0x64dad0
+net.(*UnixListener).Accept(0x4000534b10)
+	net/unixsock.go:260 +0x2c fp=0x40004c5d40 sp=0x40004c5d00 pc=0x64c47c
+google.golang.org/grpc.(*Server).Serve(0x40001bc200, {0x1b4cf18, 0x4000534b10})
+	google.golang.org/grpc/server.go:885 +0x42c fp=0x40004c5eb0 sp=0x40004c5d40 pc=0x92012c
+github.com/containerd/containerd/services/server.(*Server).ServeGRPC(0x4000464000, {0x1b4cf18, 0x4000534b10})
+	github.com/containerd/containerd/services/server/server.go:361 +0x68 fp=0x40004c5ef0 sp=0x40004c5eb0 pc=0xaf56d8
+github.com/containerd/containerd/services/server.(*Server).ServeGRPC-fm({0x1b4cf18?, 0x4000534b10?})
+	<autogenerated>:1 +0x3c fp=0x40004c5f20 sp=0x40004c5ef0 pc=0xb30c2c
+github.com/containerd/containerd/cmd/containerd/command.serve.func1()
+	github.com/containerd/containerd/cmd/containerd/command/main.go:299 +0x84 fp=0x40004c5fd0 sp=0x40004c5f20 pc=0xb2dd14
+runtime.goexit({})
+	runtime/asm_arm64.s:1223 +0x4 fp=0x40004c5fd0 sp=0x40004c5fd0 pc=0x482a44
+created by github.com/containerd/containerd/cmd/containerd/command.serve in goroutine 1
+	github.com/containerd/containerd/cmd/containerd/command/main.go:297 +0x148
+
+goroutine 56 gp=0x40004b7340 m=nil [select]:
+runtime.gopark(0x40004c7988?, 0x2?, 0x18?, 0x78?, 0x40004c7964?)
+	runtime/proc.go:435 +0xc8 fp=0x40004c77f0 sp=0x40004c77d0 pc=0x47a558
+runtime.selectgo(0x40004c7988, 0x40004c7960, 0x4000465c20?, 0x0, 0x1?, 0x1)
+	runtime/select.go:351 +0x6c4 fp=0x40004c7920 sp=0x40004c77f0 pc=0x458144
+github.com/containerd/containerd/services/events.(*service).Subscribe(0x40003b57e8, 0x40004f0b40, {0x1b5c670, 0x40004ef870})
+	github.com/containerd/containerd/services/events/service.go:100 +0xec fp=0x40004c79e0 sp=0x40004c7920 pc=0xdc568c
+github.com/containerd/containerd/api/services/events/v1._Events_Subscribe_Handler({0x170a0c0, 0x40003b57e8}, {0x1b5aa98, 0x40004db758})
+	github.com/containerd/containerd/api/services/events/v1/events_grpc.pb.go:198 +0x11c fp=0x40004c7a20 sp=0x40004c79e0 pc=0xb2b3cc
+github.com/grpc-ecosystem/go-grpc-prometheus.init.(*ServerMetrics).StreamServerInterceptor.func4({0x170a0c0, 0x40003b57e8}, {0x1b5a780, 0x400014d770}, 0x40004db740, 0x196f058)
+	github.com/grpc-ecosystem/go-grpc-prometheus/server_metrics.go:122 +0xc8 fp=0x40004c7a80 sp=0x40004c7a20 pc=0x9a24a8
+google.golang.org/grpc.(*Server).processStreamingRPC(0x40001bc200, {0x1b55408, 0x400050e750}, {0x1b5f6a0, 0x400014b500}, 0x4000531440, 0x40003bade0, 0x27eaf40, 0x0)
+	google.golang.org/grpc/server.go:1680 +0xe30 fp=0x40004c7d90 sp=0x40004c7a80 pc=0x925ae0
+google.golang.org/grpc.(*Server).handleStream(0x40001bc200, {0x1b5f6a0, 0x400014b500}, 0x4000531440)
+	google.golang.org/grpc/server.go:1794 +0xad4 fp=0x40004c7f60 sp=0x40004c7d90 pc=0x927284
+google.golang.org/grpc.(*Server).serveStreams.func2.1()
+	google.golang.org/grpc/server.go:1029 +0x84 fp=0x40004c7fd0 sp=0x40004c7f60 pc=0x921524
+runtime.goexit({})
+	runtime/asm_arm64.s:1223 +0x4 fp=0x40004c7fd0 sp=0x40004c7fd0 pc=0x482a44
+created by google.golang.org/grpc.(*Server).serveStreams.func2 in goroutine 54
+	google.golang.org/grpc/server.go:1040 +0x138
+
+goroutine 42 gp=0x40004b6fc0 m=nil [select]:
+runtime.gopark(0x4000597e98?, 0x2?, 0x68?, 0x7d?, 0x4000597e64?)
+	runtime/proc.go:435 +0xc8 fp=0x4000059cf0 sp=0x4000059cd0 pc=0x47a558
+runtime.selectgo(0x4000059e98, 0x4000597e60, 0x4000597e78?, 0x0, 0x4000060088?, 0x1)
+	runtime/select.go:351 +0x6c4 fp=0x4000059e20 sp=0x4000059cf0 pc=0x458144
+google.golang.org/grpc/internal/transport.(*controlBuffer).get(0x40004640f0, 0x1)
+	google.golang.org/grpc/internal/transport/controlbuf.go:418 +0x150 fp=0x4000059ec0 sp=0x4000059e20 pc=0x89ae90
+google.golang.org/grpc/internal/transport.(*loopyWriter).run(0x40002222a0)
+	google.golang.org/grpc/internal/transport/controlbuf.go:552 +0x70 fp=0x4000059f20 sp=0x4000059ec0 pc=0x89b710
+google.golang.org/grpc/internal/transport.NewServerTransport.func2()
+	google.golang.org/grpc/internal/transport/http2_server.go:334 +0xbc fp=0x4000059fd0 sp=0x4000059f20 pc=0x8af70c
+runtime.goexit({})
+	runtime/asm_arm64.s:1223 +0x4 fp=0x4000059fd0 sp=0x4000059fd0 pc=0x482a44
+created by google.golang.org/grpc/internal/transport.NewServerTransport in goroutine 41
+	google.golang.org/grpc/internal/transport/http2_server.go:332 +0x1394
+
+goroutine 43 gp=0x40004b7500 m=nil [select]:
+runtime.gopark(0x400058f728?, 0x4?, 0x90?, 0x42?, 0x400058f6a0?)
+	runtime/proc.go:435 +0xc8 fp=0x400058f520 sp=0x400058f500 pc=0x47a558
+runtime.selectgo(0x400058f728, 0x400058f698, 0x72672e6472656e69?, 0x0, 0x736563617073656d?, 0x1)
+	runtime/select.go:351 +0x6c4 fp=0x400058f650 sp=0x400058f520 pc=0x458144
+google.golang.org/grpc/internal/transport.(*http2Server).keepalive(0x400033ca80)
+	google.golang.org/grpc/internal/transport/http2_server.go:1168 +0x164 fp=0x400058f7b0 sp=0x400058f650 pc=0x8b5bc4
+google.golang.org/grpc/internal/transport.NewServerTransport.gowrap1()
+	google.golang.org/grpc/internal/transport/http2_server.go:355 +0x28 fp=0x400058f7d0 sp=0x400058f7b0 pc=0x8af618
+runtime.goexit({})
+	runtime/asm_arm64.s:1223 +0x4 fp=0x400058f7d0 sp=0x400058f7d0 pc=0x482a44
+created by google.golang.org/grpc/internal/transport.NewServerTransport in goroutine 41
+	google.golang.org/grpc/internal/transport/http2_server.go:355 +0x13d4
+
+goroutine 44 gp=0x40004b76c0 m=nil [IO wait]:
+runtime.gopark(0x44f010?, 0x40004f4360?, 0xc0?, 0x76?, 0x921468?)
+	runtime/proc.go:435 +0xc8 fp=0x40004c39d0 sp=0x40004c39b0 pc=0x47a558
+runtime.netpollblock(0x0?, 0xffffffff?, 0xff?)
+	runtime/netpoll.go:575 +0x158 fp=0x40004c3a10 sp=0x40004c39d0 pc=0x43d008
+internal/poll.runtime_pollWait(0x1217ec18, 0x72)
+	runtime/netpoll.go:351 +0xa0 fp=0x40004c3a40 sp=0x40004c3a10 pc=0x479710
+internal/poll.(*pollDesc).wait(0x40000eae00?, 0x400054c000?, 0x0)
+	internal/poll/fd_poll_runtime.go:84 +0x28 fp=0x40004c3a70 sp=0x40004c3a40 pc=0x4f7188
+internal/poll.(*pollDesc).waitRead(...)
+	internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0x40000eae00, {0x400054c000, 0x8000, 0x8000})
+	internal/poll/fd_unix.go:165 +0x1fc fp=0x40004c3b10 sp=0x40004c3a70 pc=0x4f843c
+net.(*netFD).Read(0x40000eae00, {0x400054c000?, 0x40004c3bd8?, 0x40004b76c0?})
+	net/fd_posix.go:55 +0x28 fp=0x40004c3b60 sp=0x40004c3b10 pc=0x62dcb8
+net.(*conn).Read(0x4000060088, {0x400054c000?, 0x40004c3bf8?, 0x4192fc?})
+	net/net.go:194 +0x34 fp=0x40004c3bb0 sp=0x40004c3b60 pc=0x63ecd4
+bufio.(*Reader).Read(0x40004e53e0, {0x400019a200, 0x9, 0x0?})
+	bufio/bufio.go:245 +0x1b0 fp=0x40004c3bf0 sp=0x40004c3bb0 pc=0x5336e0
+io.ReadAtLeast({0x1b3c8e0, 0x40004e53e0}, {0x400019a200, 0x9, 0x9}, 0x9)
+	io/io.go:335 +0xa0 fp=0x40004c3c40 sp=0x40004c3bf0 pc=0x492270
+io.ReadFull(...)
+	io/io.go:354
+golang.org/x/net/http2.readFrameHeader({0x400019a200, 0x9, 0x40003b2300?}, {0x1b3c8e0?, 0x40004e53e0?})
+	golang.org/x/net/http2/frame.go:237 +0x58 fp=0x40004c3c90 sp=0x40004c3c40 pc=0x879ab8
+golang.org/x/net/http2.(*Framer).ReadFrame(0x400019a1c0)
+	golang.org/x/net/http2/frame.go:501 +0x74 fp=0x40004c3d40 sp=0x40004c3c90 pc=0x87a184
+google.golang.org/grpc/internal/transport.(*http2Server).HandleStreams(0x400033ca80, {0x1b55408, 0x40004f4090}, 0x40004f40c0)
+	google.golang.org/grpc/internal/transport/http2_server.go:644 +0x114 fp=0x40004c3e80 sp=0x40004c3d40 pc=0x8b2054
+google.golang.org/grpc.(*Server).serveStreams(0x40001bc200, {0x1b55360?, 0x28c3d80?}, {0x1b5f6a0, 0x400033ca80}, {0x1b5dc00?, 0x4000060088?})
+	google.golang.org/grpc/server.go:1023 +0x2f4 fp=0x40004c3f60 sp=0x40004c3e80 pc=0x9212d4
+google.golang.org/grpc.(*Server).handleRawConn.func1()
+	google.golang.org/grpc/server.go:959 +0x5c fp=0x40004c3fd0 sp=0x40004c3f60 pc=0x920bec
+runtime.goexit({})
+	runtime/asm_arm64.s:1223 +0x4 fp=0x40004c3fd0 sp=0x40004c3fd0 pc=0x482a44
+created by google.golang.org/grpc.(*Server).handleRawConn in goroutine 41
+	google.golang.org/grpc/server.go:958 +0x1d4
+
+goroutine 47 gp=0x40004b7880 m=nil [select]:
+runtime.gopark(0x40005c7e98?, 0x2?, 0x0?, 0x0?, 0x40005c7e64?)
+	runtime/proc.go:435 +0xc8 fp=0x40005c7cf0 sp=0x40005c7cd0 pc=0x47a558
+runtime.selectgo(0x40005c7e98, 0x40005c7e60, 0x40005c7e78?, 0x0, 0x40000602c0?, 0x1)
+	runtime/select.go:351 +0x6c4 fp=0x40005c7e20 sp=0x40005c7cf0 pc=0x458144
+google.golang.org/grpc/internal/transport.(*controlBuffer).get(0x4000464cd0, 0x1)
+	google.golang.org/grpc/internal/transport/controlbuf.go:418 +0x150 fp=0x40005c7ec0 sp=0x40005c7e20 pc=0x89ae90
+google.golang.org/grpc/internal/transport.(*loopyWriter).run(0x4000222a80)
+	google.golang.org/grpc/internal/transport/controlbuf.go:552 +0x70 fp=0x40005c7f20 sp=0x40005c7ec0 pc=0x89b710
+google.golang.org/grpc/internal/transport.NewServerTransport.func2()
+	google.golang.org/grpc/internal/transport/http2_server.go:334 +0xbc fp=0x40005c7fd0 sp=0x40005c7f20 pc=0x8af70c
+runtime.goexit({})
+	runtime/asm_arm64.s:1223 +0x4 fp=0x40005c7fd0 sp=0x40005c7fd0 pc=0x482a44
+created by google.golang.org/grpc/internal/transport.NewServerTransport in goroutine 46
+	google.golang.org/grpc/internal/transport/http2_server.go:332 +0x1394
+
+goroutine 48 gp=0x40004b7a40 m=nil [select]:
+runtime.gopark(0x400058ff28?, 0x4?, 0x90?, 0x42?, 0x400058fea0?)
+	runtime/proc.go:435 +0xc8 fp=0x400058fd20 sp=0x400058fd00 pc=0x47a558
+runtime.selectgo(0x400058ff28, 0x400058fe98, 0x15c9601?, 0x0, 0x400058ff58?, 0x1)
+	runtime/select.go:351 +0x6c4 fp=0x400058fe50 sp=0x400058fd20 pc=0x458144
+google.golang.org/grpc/internal/transport.(*http2Server).keepalive(0x400033d200)
+	google.golang.org/grpc/internal/transport/http2_server.go:1168 +0x164 fp=0x400058ffb0 sp=0x400058fe50 pc=0x8b5bc4
+google.golang.org/grpc/internal/transport.NewServerTransport.gowrap1()
+	google.golang.org/grpc/internal/transport/http2_server.go:355 +0x28 fp=0x400058ffd0 sp=0x400058ffb0 pc=0x8af618
+runtime.goexit({})
+	runtime/asm_arm64.s:1223 +0x4 fp=0x400058ffd0 sp=0x400058ffd0 pc=0x482a44
+created by google.golang.org/grpc/internal/transport.NewServerTransport in goroutine 46
+	google.golang.org/grpc/internal/transport/http2_server.go:355 +0x13d4
+
+goroutine 49 gp=0x40004b7c00 m=nil [IO wait]:
+runtime.gopark(0x44f010?, 0x40005ebe60?, 0x0?, 0x7c?, 0x921468?)
+	runtime/proc.go:435 +0xc8 fp=0x40005429d0 sp=0x40005429b0 pc=0x47a558
+runtime.netpollblock(0x0?, 0xffffffff?, 0xff?)
+	runtime/netpoll.go:575 +0x158 fp=0x4000542a10 sp=0x40005429d0 pc=0x43d008
+internal/poll.runtime_pollWait(0x1217eb00, 0x72)
+	runtime/netpoll.go:351 +0xa0 fp=0x4000542a40 sp=0x4000542a10 pc=0x479710
+internal/poll.(*pollDesc).wait(0x40000eb980?, 0x4000598000?, 0x0)
+	internal/poll/fd_poll_runtime.go:84 +0x28 fp=0x4000542a70 sp=0x4000542a40 pc=0x4f7188
+internal/poll.(*pollDesc).waitRead(...)
+	internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0x40000eb980, {0x4000598000, 0x8000, 0x8000})
+	internal/poll/fd_unix.go:165 +0x1fc fp=0x4000542b10 sp=0x4000542a70 pc=0x4f843c
+net.(*netFD).Read(0x40000eb980, {0x4000598000?, 0x4000542bd8?, 0x40004b7c00?})
+	net/fd_posix.go:55 +0x28 fp=0x4000542b60 sp=0x4000542b10 pc=0x62dcb8
+net.(*conn).Read(0x40000602c0, {0x4000598000?, 0x4000542bf8?, 0x4192fc?})
+	net/net.go:194 +0x34 fp=0x4000542bb0 sp=0x4000542b60 pc=0x63ecd4
+bufio.(*Reader).Read(0x40004e58c0, {0x400019a2e0, 0x9, 0x0?})
+	bufio/bufio.go:245 +0x1b0 fp=0x4000542bf0 sp=0x4000542bb0 pc=0x5336e0
+io.ReadAtLeast({0x1b3c8e0, 0x40004e58c0}, {0x400019a2e0, 0x9, 0x9}, 0x9)
+	io/io.go:335 +0xa0 fp=0x4000542c40 sp=0x4000542bf0 pc=0x492270
+io.ReadFull(...)
+	io/io.go:354
+golang.org/x/net/http2.readFrameHeader({0x400019a2e0, 0x9, 0x40003b2bd0?}, {0x1b3c8e0?, 0x40004e58c0?})
+	golang.org/x/net/http2/frame.go:237 +0x58 fp=0x4000542c90 sp=0x4000542c40 pc=0x879ab8
+golang.org/x/net/http2.(*Framer).ReadFrame(0x400019a2a0)
+	golang.org/x/net/http2/frame.go:501 +0x74 fp=0x4000542d40 sp=0x4000542c90 pc=0x87a184
+google.golang.org/grpc/internal/transport.(*http2Server).HandleStreams(0x400033d200, {0x1b55408, 0x40004f5080}, 0x40004f50b0)
+	google.golang.org/grpc/internal/transport/http2_server.go:644 +0x114 fp=0x4000542e80 sp=0x4000542d40 pc=0x8b2054
+google.golang.org/grpc.(*Server).serveStreams(0x40001bc200, {0x1b55360?, 0x28c3d80?}, {0x1b5f6a0, 0x400033d200}, {0x1b5dc00?, 0x40000602c0?})
+	google.golang.org/grpc/server.go:1023 +0x2f4 fp=0x4000542f60 sp=0x4000542e80 pc=0x9212d4
+google.golang.org/grpc.(*Server).handleRawConn.func1()
+	google.golang.org/grpc/server.go:959 +0x5c fp=0x4000542fd0 sp=0x4000542f60 pc=0x920bec
+runtime.goexit({})
+	runtime/asm_arm64.s:1223 +0x4 fp=0x4000542fd0 sp=0x4000542fd0 pc=0x482a44
+created by google.golang.org/grpc.(*Server).handleRawConn in goroutine 46
+	google.golang.org/grpc/server.go:958 +0x1d4
+
+goroutine 52 gp=0x40004b7dc0 m=nil [select]:
+runtime.gopark(0x40005c7e98?, 0x2?, 0xa8?, 0x7d?, 0x40005c7e64?)
+	runtime/proc.go:435 +0xc8 fp=0x400061dcf0 sp=0x400061dcd0 pc=0x47a558
+runtime.selectgo(0x400061de98, 0x40005c7e60, 0x40005c7e78?, 0x0, 0x4000060350?, 0x1)
+	runtime/select.go:351 +0x6c4 fp=0x400061de20 sp=0x400061dcf0 pc=0x458144
+google.golang.org/grpc/internal/transport.(*controlBuffer).get(0x40004655e0, 0x1)
+	google.golang.org/grpc/internal/transport/controlbuf.go:418 +0x150 fp=0x400061dec0 sp=0x400061de20 pc=0x89ae90
+google.golang.org/grpc/internal/transport.(*loopyWriter).run(0x4000222fc0)
+	google.golang.org/grpc/internal/transport/controlbuf.go:552 +0x70 fp=0x400061df20 sp=0x400061dec0 pc=0x89b710
+google.golang.org/grpc/internal/transport.NewServerTransport.func2()
+	google.golang.org/grpc/internal/transport/http2_server.go:334 +0xbc fp=0x400061dfd0 sp=0x400061df20 pc=0x8af70c
+runtime.goexit({})
+	runtime/asm_arm64.s:1223 +0x4 fp=0x400061dfd0 sp=0x400061dfd0 pc=0x482a44
+created by google.golang.org/grpc/internal/transport.NewServerTransport in goroutine 51
+	google.golang.org/grpc/internal/transport/http2_server.go:332 +0x1394
+
+goroutine 53 gp=0x4000283c00 m=nil [select]:
+runtime.gopark(0x4000071f28?, 0x4?, 0x90?, 0x42?, 0x4000071ea0?)
+	runtime/proc.go:435 +0xc8 fp=0x4000071d20 sp=0x4000071d00 pc=0x47a558
+runtime.selectgo(0x4000071f28, 0x4000071e98, 0x15c9601?, 0x0, 0x4000071f58?, 0x1)
+	runtime/select.go:351 +0x6c4 fp=0x4000071e50 sp=0x4000071d20 pc=0x458144
+google.golang.org/grpc/internal/transport.(*http2Server).keepalive(0x400014b500)
+	google.golang.org/grpc/internal/transport/http2_server.go:1168 +0x164 fp=0x4000071fb0 sp=0x4000071e50 pc=0x8b5bc4
+google.golang.org/grpc/internal/transport.NewServerTransport.gowrap1()
+	google.golang.org/grpc/internal/transport/http2_server.go:355 +0x28 fp=0x4000071fd0 sp=0x4000071fb0 pc=0x8af618
+runtime.goexit({})
+	runtime/asm_arm64.s:1223 +0x4 fp=0x4000071fd0 sp=0x4000071fd0 pc=0x482a44
+created by google.golang.org/grpc/internal/transport.NewServerTransport in goroutine 51
+	google.golang.org/grpc/internal/transport/http2_server.go:355 +0x13d4
+
+goroutine 54 gp=0x4000283dc0 m=nil [IO wait]:
+runtime.gopark(0x44f010?, 0x400050e720?, 0xc0?, 0x3d?, 0x921468?)
+	runtime/proc.go:435 +0xc8 fp=0x40000889d0 sp=0x40000889b0 pc=0x47a558
+runtime.netpollblock(0x0?, 0xffffffff?, 0xff?)
+	runtime/netpoll.go:575 +0x158 fp=0x4000088a10 sp=0x40000889d0 pc=0x43d008
+internal/poll.runtime_pollWait(0x1217e9e8, 0x72)
+	runtime/netpoll.go:351 +0xa0 fp=0x4000088a40 sp=0x4000088a10 pc=0x479710
+internal/poll.(*pollDesc).wait(0x4000310100?, 0x40005b0000?, 0x0)
+	internal/poll/fd_poll_runtime.go:84 +0x28 fp=0x4000088a70 sp=0x4000088a40 pc=0x4f7188
+internal/poll.(*pollDesc).waitRead(...)
+	internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0x4000310100, {0x40005b0000, 0x8000, 0x8000})
+	internal/poll/fd_unix.go:165 +0x1fc fp=0x4000088b10 sp=0x4000088a70 pc=0x4f843c
+net.(*netFD).Read(0x4000310100, {0x40005b0000?, 0x4000088ba8?, 0x47d124?})
+	net/fd_posix.go:55 +0x28 fp=0x4000088b60 sp=0x4000088b10 pc=0x62dcb8
+net.(*conn).Read(0x4000060350, {0x40005b0000?, 0x12903b4d2f?, 0x1233edb8?})
+	net/net.go:194 +0x34 fp=0x4000088bb0 sp=0x4000088b60 pc=0x63ecd4
+bufio.(*Reader).Read(0x40004e5c80, {0x400019a580, 0x9, 0x400050e030?})
+	bufio/bufio.go:245 +0x1b0 fp=0x4000088bf0 sp=0x4000088bb0 pc=0x5336e0
+io.ReadAtLeast({0x1b3c8e0, 0x40004e5c80}, {0x400019a580, 0x9, 0x9}, 0x9)
+	io/io.go:335 +0xa0 fp=0x4000088c40 sp=0x4000088bf0 pc=0x492270
+io.ReadFull(...)
+	io/io.go:354
+golang.org/x/net/http2.readFrameHeader({0x400019a580, 0x9, 0x40003b2450?}, {0x1b3c8e0?, 0x40004e5c80?})
+	golang.org/x/net/http2/frame.go:237 +0x58 fp=0x4000088c90 sp=0x4000088c40 pc=0x879ab8
+golang.org/x/net/http2.(*Framer).ReadFrame(0x400019a540)
+	golang.org/x/net/http2/frame.go:501 +0x74 fp=0x4000088d40 sp=0x4000088c90 pc=0x87a184
+google.golang.org/grpc/internal/transport.(*http2Server).HandleStreams(0x400014b500, {0x1b55408, 0x400050e1b0}, 0x400050e1e0)
+	google.golang.org/grpc/internal/transport/http2_server.go:644 +0x114 fp=0x4000088e80 sp=0x4000088d40 pc=0x8b2054
+google.golang.org/grpc.(*Server).serveStreams(0x40001bc200, {0x1b55360?, 0x28c3d80?}, {0x1b5f6a0, 0x400014b500}, {0x1b5dc00?, 0x4000060350?})
+	google.golang.org/grpc/server.go:1023 +0x2f4 fp=0x4000088f60 sp=0x4000088e80 pc=0x9212d4
+google.golang.org/grpc.(*Server).handleRawConn.func1()
+	google.golang.org/grpc/server.go:959 +0x5c fp=0x4000088fd0 sp=0x4000088f60 pc=0x920bec
+runtime.goexit({})
+	runtime/asm_arm64.s:1223 +0x4 fp=0x4000088fd0 sp=0x4000088fd0 pc=0x482a44
+created by google.golang.org/grpc.(*Server).handleRawConn in goroutine 51
+	google.golang.org/grpc/server.go:958 +0x1d4
+
+goroutine 57 gp=0x4000003dc0 m=nil [sync.Cond.Wait]:
+runtime.gopark(0x4000070438?, 0x477b88?, 0xb8?, 0x4?, 0x71b20c?)
+	runtime/proc.go:435 +0xc8 fp=0x40000703d0 sp=0x40000703b0 pc=0x47a558
+runtime.goparkunlock(...)
+	runtime/proc.go:441
+sync.runtime_notifyListWait(0x40004f0c50, 0x0)
+	runtime/sema.go:597 +0x150 fp=0x4000070420 sp=0x40000703d0 pc=0x47c0c0
+sync.(*Cond).Wait(0x40004f0c40)
+	sync/cond.go:71 +0xc4 fp=0x4000070460 sp=0x4000070420 pc=0x48bd44
+github.com/docker/go-events.(*Queue).next(0x400050ec00)
+	github.com/docker/go-events/queue.go:103 +0xb8 fp=0x40000704b0 sp=0x4000070460 pc=0xa36438
+github.com/docker/go-events.(*Queue).run(0x400050ec00)
+	github.com/docker/go-events/queue.go:68 +0x30 fp=0x40000707b0 sp=0x40000704b0 pc=0xa36110
+github.com/docker/go-events.NewQueue.gowrap1()
+	github.com/docker/go-events/queue.go:29 +0x28 fp=0x40000707d0 sp=0x40000707b0 pc=0xa35b58
+runtime.goexit({})
+	runtime/asm_arm64.s:1223 +0x4 fp=0x40000707d0 sp=0x40000707d0 pc=0x482a44
+created by github.com/docker/go-events.NewQueue in goroutine 56
+	github.com/docker/go-events/queue.go:29 +0x140
+
+goroutine 58 gp=0x4000538000 m=nil [select]:
+runtime.gopark(0x4000072778?, 0x2?, 0x8?, 0x61?, 0x40000726f4?)
+	runtime/proc.go:435 +0xc8 fp=0x4000072570 sp=0x4000072550 pc=0x47a558
+runtime.selectgo(0x4000072778, 0x40000726f0, 0xffffffff01000000?, 0x0, 0x0?, 0x1)
+	runtime/select.go:351 +0x6c4 fp=0x40000726a0 sp=0x4000072570 pc=0x458144
+github.com/containerd/containerd/events/exchange.(*Exchange).Subscribe.func3()
+	github.com/containerd/containerd/events/exchange/exchange.go:169 +0xd4 fp=0x40000727d0 sp=0x40000726a0 pc=0xa37c14
+runtime.goexit({})
+	runtime/asm_arm64.s:1223 +0x4 fp=0x40000727d0 sp=0x40000727d0 pc=0x482a44
+created by github.com/containerd/containerd/events/exchange.(*Exchange).Subscribe in goroutine 56
+	github.com/containerd/containerd/events/exchange/exchange.go:163 +0x460
+
+goroutine 59 gp=0x40005381c0 m=nil [select]:
+runtime.gopark(0x40005cd988?, 0x2?, 0x50?, 0xf1?, 0x40005cd964?)
+	runtime/proc.go:435 +0xc8 fp=0x40005cd7f0 sp=0x40005cd7d0 pc=0x47a558
+runtime.selectgo(0x40005cd988, 0x40005cd960, 0x4000465db0?, 0x0, 0x1?, 0x1)
+	runtime/select.go:351 +0x6c4 fp=0x40005cd920 sp=0x40005cd7f0 pc=0x458144
+github.com/containerd/containerd/services/events.(*service).Subscribe(0x40003b57e8, 0x40004f0dc0, {0x1b5c670, 0x40004efa60})
+	github.com/containerd/containerd/services/events/service.go:100 +0xec fp=0x40005cd9e0 sp=0x40005cd920 pc=0xdc568c
+github.com/containerd/containerd/api/services/events/v1._Events_Subscribe_Handler({0x170a0c0, 0x40003b57e8}, {0x1b5aa98, 0x40004db9b0})
+	github.com/containerd/containerd/api/services/events/v1/events_grpc.pb.go:198 +0x11c fp=0x40005cda20 sp=0x40005cd9e0 pc=0xb2b3cc
+github.com/grpc-ecosystem/go-grpc-prometheus.init.(*ServerMetrics).StreamServerInterceptor.func4({0x170a0c0, 0x40003b57e8}, {0x1b5a780, 0x400014d860}, 0x40004db998, 0x196f058)
+	github.com/grpc-ecosystem/go-grpc-prometheus/server_metrics.go:122 +0xc8 fp=0x40005cda80 sp=0x40005cda20 pc=0x9a24a8
+google.golang.org/grpc.(*Server).processStreamingRPC(0x40001bc200, {0x1b55408, 0x400050ee10}, {0x1b5f6a0, 0x400033d200}, 0x40005318c0, 0x40003bade0, 0x27eaf40, 0x0)
+	google.golang.org/grpc/server.go:1680 +0xe30 fp=0x40005cdd90 sp=0x40005cda80 pc=0x925ae0
+google.golang.org/grpc.(*Server).handleStream(0x40001bc200, {0x1b5f6a0, 0x400033d200}, 0x40005318c0)
+	google.golang.org/grpc/server.go:1794 +0xad4 fp=0x40005cdf60 sp=0x40005cdd90 pc=0x927284
+google.golang.org/grpc.(*Server).serveStreams.func2.1()
+	google.golang.org/grpc/server.go:1029 +0x84 fp=0x40005cdfd0 sp=0x40005cdf60 pc=0x921524
+runtime.goexit({})
+	runtime/asm_arm64.s:1223 +0x4 fp=0x40005cdfd0 sp=0x40005cdfd0 pc=0x482a44
+created by google.golang.org/grpc.(*Server).serveStreams.func2 in goroutine 49
+	google.golang.org/grpc/server.go:1040 +0x138
+
+goroutine 60 gp=0x4000538380 m=nil [sync.Cond.Wait]:
+runtime.gopark(0x400052e4e0?, 0x477b88?, 0xb8?, 0x2c?, 0x458c40?)
+	runtime/proc.go:435 +0xc8 fp=0x4000089bd0 sp=0x4000089bb0 pc=0x47a558
+runtime.goparkunlock(...)
+	runtime/proc.go:441
+sync.runtime_notifyListWait(0x40004f0e50, 0x7)
+	runtime/sema.go:597 +0x150 fp=0x4000089c20 sp=0x4000089bd0 pc=0x47c0c0
+sync.(*Cond).Wait(0x40004f0e40)
+	sync/cond.go:71 +0xc4 fp=0x4000089c60 sp=0x4000089c20 pc=0x48bd44
+github.com/docker/go-events.(*Queue).next(0x400050ef60)
+	github.com/docker/go-events/queue.go:103 +0xb8 fp=0x4000089cb0 sp=0x4000089c60 pc=0xa36438
+github.com/docker/go-events.(*Queue).run(0x400050ef60)
+	github.com/docker/go-events/queue.go:68 +0x30 fp=0x4000089fb0 sp=0x4000089cb0 pc=0xa36110
+github.com/docker/go-events.NewQueue.gowrap1()
+	github.com/docker/go-events/queue.go:29 +0x28 fp=0x4000089fd0 sp=0x4000089fb0 pc=0xa35b58
+runtime.goexit({})
+	runtime/asm_arm64.s:1223 +0x4 fp=0x4000089fd0 sp=0x4000089fd0 pc=0x482a44
+created by github.com/docker/go-events.NewQueue in goroutine 59
+	github.com/docker/go-events/queue.go:29 +0x140
+
+goroutine 61 gp=0x4000538540 m=nil [select]:
+runtime.gopark(0x4000073778?, 0x2?, 0x8?, 0x61?, 0x40000736f4?)
+	runtime/proc.go:435 +0xc8 fp=0x4000073570 sp=0x4000073550 pc=0x47a558
+runtime.selectgo(0x4000073778, 0x40000736f0, 0x0?, 0x0, 0x0?, 0x1)
+	runtime/select.go:351 +0x6c4 fp=0x40000736a0 sp=0x4000073570 pc=0x458144
+github.com/containerd/containerd/events/exchange.(*Exchange).Subscribe.func3()
+	github.com/containerd/containerd/events/exchange/exchange.go:169 +0xd4 fp=0x40000737d0 sp=0x40000736a0 pc=0xa37c14
+runtime.goexit({})
+	runtime/asm_arm64.s:1223 +0x4 fp=0x40000737d0 sp=0x40000737d0 pc=0x482a44
+created by github.com/containerd/containerd/events/exchange.(*Exchange).Subscribe in goroutine 59
+	github.com/containerd/containerd/events/exchange/exchange.go:163 +0x460
+
+goroutine 107 gp=0x4000538700 m=nil [IO wait]:
+runtime.gopark(0x400008bba8?, 0x47d188?, 0x0?, 0x2?, 0x0?)
+	runtime/proc.go:435 +0xc8 fp=0x400008bb70 sp=0x400008bb50 pc=0x47a558
+runtime.netpollblock(0x0?, 0xffffffff?, 0xff?)
+	runtime/netpoll.go:575 +0x158 fp=0x400008bbb0 sp=0x400008bb70 pc=0x43d008
+internal/poll.runtime_pollWait(0x1217e470, 0x72)
+	runtime/netpoll.go:351 +0xa0 fp=0x400008bbe0 sp=0x400008bbb0 pc=0x479710
+internal/poll.(*pollDesc).wait(0x40005d2cc0?, 0x40004d8600?, 0x1)
+	internal/poll/fd_poll_runtime.go:84 +0x28 fp=0x400008bc10 sp=0x400008bbe0 pc=0x4f7188
+internal/poll.(*pollDesc).waitRead(...)
+	internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0x40005d2cc0, {0x40004d8600, 0x200, 0x200})
+	internal/poll/fd_unix.go:165 +0x1fc fp=0x400008bcb0 sp=0x400008bc10 pc=0x4f843c
+os.(*File).read(...)
+	os/file_posix.go:29
+os.(*File).Read(0x4000060cf0, {0x40004d8600?, 0x400058cd48?, 0x492848?})
+	os/file.go:124 +0x6c fp=0x400008bcf0 sp=0x400008bcb0 pc=0x5030cc
+bytes.(*Buffer).ReadFrom(0x4000692fc0, {0x1b3b498, 0x4000060d10})
+	bytes/buffer.go:211 +0x90 fp=0x400008bd50 sp=0x400008bcf0 pc=0x52dd00
+io.copyBuffer({0x1b3b540, 0x4000692fc0}, {0x1b3b498, 0x4000060d10}, {0x0, 0x0, 0x0})
+	io/io.go:415 +0x14c fp=0x400008bdd0 sp=0x400008bd50 pc=0x4926cc
+io.Copy(...)
+	io/io.go:388
+os.genericWriteTo(0x4000060cf0?, {0x1b3b540, 0x4000692fc0})
+	os/file.go:275 +0x58 fp=0x400008be20 sp=0x400008bdd0 pc=0x5039d8
+os.(*File).WriteTo(0x4000060cf0, {0x1b3b540, 0x4000692fc0})
+	os/file.go:253 +0xa0 fp=0x400008be60 sp=0x400008be20 pc=0x503900
+io.copyBuffer({0x1b3b540, 0x4000692fc0}, {0x1b3b378, 0x4000060cf0}, {0x0, 0x0, 0x0})
+	io/io.go:411 +0x98 fp=0x400008bee0 sp=0x400008be60 pc=0x492618
+io.Copy(...)
+	io/io.go:388
+os/exec.(*Cmd).writerDescriptor.func1()
+	os/exec/exec.go:596 +0x44 fp=0x400008bf40 sp=0x400008bee0 pc=0x54d454
+os/exec.(*Cmd).Start.func2(0x4000200930?)
+	os/exec/exec.go:749 +0x34 fp=0x400008bfb0 sp=0x400008bf40 pc=0x54de84
+os/exec.(*Cmd).Start.gowrap1()
+	os/exec/exec.go:761 +0x30 fp=0x400008bfd0 sp=0x400008bfb0 pc=0x54de10
+runtime.goexit({})
+	runtime/asm_arm64.s:1223 +0x4 fp=0x400008bfd0 sp=0x400008bfd0 pc=0x482a44
+created by os/exec.(*Cmd).Start in goroutine 85
+	os/exec/exec.go:748 +0x76c
+
+goroutine 108 gp=0x40005388c0 m=nil [select]:
+runtime.gopark(0x400058c730?, 0x2?, 0x88?, 0xc5?, 0x400058c6bc?)
+	runtime/proc.go:435 +0xc8 fp=0x400058c540 sp=0x400058c520 pc=0x47a558
+runtime.selectgo(0x400058c730, 0x400058c6b8, 0x400058c6d8?, 0x1, 0x400058c718?, 0x1)
+	runtime/select.go:351 +0x6c4 fp=0x400058c670 sp=0x400058c540 pc=0x458144
+os/exec.(*Cmd).watchCtx(0x4000658900, 0x4000623b90)
+	os/exec/exec.go:789 +0x78 fp=0x400058c7b0 sp=0x400058c670 pc=0x54e0a8
+os/exec.(*Cmd).Start.gowrap2()
+	os/exec/exec.go:775 +0x2c fp=0x400058c7d0 sp=0x400058c7b0 pc=0x54ddac
+runtime.goexit({})
+	runtime/asm_arm64.s:1223 +0x4 fp=0x400058c7d0 sp=0x400058c7d0 pc=0x482a44
+created by os/exec.(*Cmd).Start in goroutine 85
+	os/exec/exec.go:775 +0x738
+
+goroutine 81 gp=0x4000538a80 m=nil [IO wait]:
+runtime.gopark(0x4000541bd8?, 0x4718ac?, 0x1?, 0x0?, 0x0?)
+	runtime/proc.go:435 +0xc8 fp=0x4000541ba0 sp=0x4000541b80 pc=0x47a558
+runtime.netpollblock(0x0?, 0xffffffff?, 0xff?)
+	runtime/netpoll.go:575 +0x158 fp=0x4000541be0 sp=0x4000541ba0 pc=0x43d008
+internal/poll.runtime_pollWait(0x1217e8d0, 0x72)
+	runtime/netpoll.go:351 +0xa0 fp=0x4000541c10 sp=0x4000541be0 pc=0x479710
+internal/poll.(*pollDesc).wait(0x400052fd40?, 0x400063c000?, 0x1)
+	internal/poll/fd_poll_runtime.go:84 +0x28 fp=0x4000541c40 sp=0x4000541c10 pc=0x4f7188
+internal/poll.(*pollDesc).waitRead(...)
+	internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0x400052fd40, {0x400063c000, 0x8000, 0x8000})
+	internal/poll/fd_unix.go:165 +0x1fc fp=0x4000541ce0 sp=0x4000541c40 pc=0x4f843c
+os.(*File).read(...)
+	os/file_posix.go:29
+os.(*File).Read(0x4000060528, {0x400063c000?, 0x4000098180?, 0x400063c000?})
+	os/file.go:124 +0x6c fp=0x4000541d20 sp=0x4000541ce0 pc=0x5030cc
+github.com/containerd/fifo.(*fifo).Read(0x400052fbc0, {0x400063c000, 0x8000, 0x8000})
+	github.com/containerd/fifo/fifo.go:182 +0xdc fp=0x4000541d90 sp=0x4000541d20 pc=0xccab3c
+io.copyBuffer({0x1b3b4b8, 0x40000605d8}, {0x124f47c0, 0x400052fbc0}, {0x0, 0x0, 0x0})
+	io/io.go:429 +0x18c fp=0x4000541e10 sp=0x4000541d90 pc=0x49270c
+io.Copy(...)
+	io/io.go:388
+os.genericReadFrom(0x4000060058?, {0x124f47c0, 0x400052fbc0})
+	os/file.go:185 +0x58 fp=0x4000541e60 sp=0x4000541e10 pc=0x503488
+os.(*File).ReadFrom(0x4000060058, {0x124f47c0, 0x400052fbc0})
+	os/file.go:161 +0xa0 fp=0x4000541ea0 sp=0x4000541e60 pc=0x5033b0
+io.copyBuffer({0x1b3b338, 0x4000060058}, {0x124f47c0, 0x400052fbc0}, {0x0, 0x0, 0x0})
+	io/io.go:415 +0x14c fp=0x4000541f20 sp=0x4000541ea0 pc=0x4926cc
+io.Copy(...)
+	io/io.go:388
+github.com/containerd/containerd/runtime/v2.(*binary).Start.func3()
+	github.com/containerd/containerd/runtime/v2/binary.go:107 +0xa8 fp=0x4000541fd0 sp=0x4000541f20 pc=0xcd3978
+runtime.goexit({})
+	runtime/asm_arm64.s:1223 +0x4 fp=0x4000541fd0 sp=0x4000541fd0 pc=0x482a44
+created by github.com/containerd/containerd/runtime/v2.(*binary).Start in goroutine 78
+	github.com/containerd/containerd/runtime/v2/binary.go:105 +0x394
+
+goroutine 85 gp=0x4000538c40 m=nil [runnable]:
+syscall.Syscall6(0x5f, 0x3, 0x15, 0x400062dad8, 0x4, 0x40006a6120, 0x0)
+	syscall/syscall_linux.go:95 +0x2c fp=0x400062da40 sp=0x400062d9e0 pc=0x4d8c7c
+internal/syscall/unix.Waitid(0x400062dc38?, 0x54d4c0?, 0x400046a400?, 0x0?, 0x400002cf00?)
+	internal/syscall/unix/waitid_linux.go:18 +0x44 fp=0x400062daa0 sp=0x400062da40 pc=0x4f5c94
+os.(*Process).pidfdWait.func1(...)
+	os/pidfd_linux.go:106
+os.ignoringEINTR(...)
+	os/file_posix.go:251
+os.(*Process).pidfdWait(0x40000c0b40)
+	os/pidfd_linux.go:105 +0x1cc fp=0x400062dbb0 sp=0x400062daa0 pc=0x50791c
+os.(*Process).wait(0x3?)
+	os/exec_unix.go:27 +0x2c fp=0x400062dbd0 sp=0x400062dbb0 pc=0x5025ec
+os.(*Process).Wait(...)
+	os/exec.go:358
+os/exec.(*Cmd).Wait(0x4000658900)
+	os/exec/exec.go:922 +0x38 fp=0x400062dc40 sp=0x400062dbd0 pc=0x54e458
+os/exec.(*Cmd).Run(0x4000658900)
+	os/exec/exec.go:626 +0x38 fp=0x400062dc60 sp=0x400062dc40 pc=0x54d4d8
+github.com/containerd/containerd/runtime/v2.(*binary).Delete(0x40005d5840, {0x1b554b0, 0x400046d6c0})
+	github.com/containerd/containerd/runtime/v2/binary.go:189 +0x304 fp=0x400062ddc0 sp=0x400062dc60 pc=0xcd3e84
+github.com/containerd/containerd/runtime/v2.cleanupAfterDeadShim({0x1b55718?, 0x4000690710?}, {0x4000372940, 0x40}, 0x40004f2f90, 0x4000060260, 0x40005d5840)
+	github.com/containerd/containerd/runtime/v2/shim.go:155 +0xdc fp=0x400062dea0 sp=0x400062ddc0 pc=0xcdac2c
+github.com/containerd/containerd/runtime/v2.(*ShimManager).startShim.func1()
+	github.com/containerd/containerd/runtime/v2/manager.go:275 +0xfc fp=0x400062df40 sp=0x400062dea0 pc=0xcd830c
+github.com/containerd/containerd/runtime/v2.(*binary).Start.func4()
+	github.com/containerd/containerd/runtime/v2/binary.go:123 +0x3c fp=0x400062df70 sp=0x400062df40 pc=0xcd388c
+github.com/containerd/ttrpc.(*Client).run(0x40005df710)
+	github.com/containerd/ttrpc/client.go:344 +0x50 fp=0x400062dfb0 sp=0x400062df70 pc=0x71d9a0
+github.com/containerd/ttrpc.NewClient.gowrap1()
+	github.com/containerd/ttrpc/client.go:134 +0x28 fp=0x400062dfd0 sp=0x400062dfb0 pc=0x71c9c8
+runtime.goexit({})
+	runtime/asm_arm64.s:1223 +0x4 fp=0x400062dfd0 sp=0x400062dfd0 pc=0x482a44
+created by github.com/containerd/ttrpc.NewClient in goroutine 78
+	github.com/containerd/ttrpc/client.go:134 +0x1bc
+
+goroutine 106 gp=0x4000538e00 m=nil [runnable]:
+syscall.Syscall(0x3f, 0xf, 0x40000cf413, 0x3ed)
+	syscall/syscall_linux.go:73 +0x20 fp=0x4000543bd0 sp=0x4000543b70 pc=0x4d8c00
+syscall.read(0x40005d2c00?, {0x40000cf413?, 0x4000072c01?, 0x416fa8?})
+	syscall/zsyscall_linux_arm64.go:736 +0x40 fp=0x4000543c10 sp=0x4000543bd0 pc=0x4d6d00
+syscall.Read(...)
+	syscall/syscall_unix.go:183
+internal/poll.ignoringEINTRIO(...)
+	internal/poll/fd_unix.go:745
+internal/poll.(*FD).Read(0x40005d2c00, {0x40000cf413, 0x3ed, 0x3ed})
+	internal/poll/fd_unix.go:161 +0x220 fp=0x4000543cb0 sp=0x4000543c10 pc=0x4f8460
+os.(*File).read(...)
+	os/file_posix.go:29
+os.(*File).Read(0x4000060cd8, {0x40000cf413?, 0x4000072d48?, 0x492848?})
+	os/file.go:124 +0x6c fp=0x4000543cf0 sp=0x4000543cb0 pc=0x5030cc
+bytes.(*Buffer).ReadFrom(0x4000692f90, {0x1b3b498, 0x4000060d08})
+	bytes/buffer.go:211 +0x90 fp=0x4000543d50 sp=0x4000543cf0 pc=0x52dd00
+io.copyBuffer({0x1b3b540, 0x4000692f90}, {0x1b3b498, 0x4000060d08}, {0x0, 0x0, 0x0})
+	io/io.go:415 +0x14c fp=0x4000543dd0 sp=0x4000543d50 pc=0x4926cc
+io.Copy(...)
+	io/io.go:388
+os.genericWriteTo(0x4000060cd8?, {0x1b3b540, 0x4000692f90})
+	os/file.go:275 +0x58 fp=0x4000543e20 sp=0x4000543dd0 pc=0x5039d8
+os.(*File).WriteTo(0x4000060cd8, {0x1b3b540, 0x4000692f90})
+	os/file.go:253 +0xa0 fp=0x4000543e60 sp=0x4000543e20 pc=0x503900
+io.copyBuffer({0x1b3b540, 0x4000692f90}, {0x1b3b378, 0x4000060cd8}, {0x0, 0x0, 0x0})
+	io/io.go:411 +0x98 fp=0x4000543ee0 sp=0x4000543e60 pc=0x492618
+io.Copy(...)
+	io/io.go:388
+os/exec.(*Cmd).writerDescriptor.func1()
+	os/exec/exec.go:596 +0x44 fp=0x4000543f40 sp=0x4000543ee0 pc=0x54d454
+os/exec.(*Cmd).Start.func2(0x7?)
+	os/exec/exec.go:749 +0x34 fp=0x4000543fb0 sp=0x4000543f40 pc=0x54de84
+os/exec.(*Cmd).Start.gowrap1()
+	os/exec/exec.go:761 +0x30 fp=0x4000543fd0 sp=0x4000543fb0 pc=0x54de10
+runtime.goexit({})
+	runtime/asm_arm64.s:1223 +0x4 fp=0x4000543fd0 sp=0x4000543fd0 pc=0x482a44
+created by os/exec.(*Cmd).Start in goroutine 85
+	os/exec/exec.go:748 +0x76c
+
+goroutine 103 gp=0x4000538fc0 m=nil [select]:
+runtime.gopark(0x40005cb3b0?, 0x2?, 0x98?, 0xb2?, 0x40005cb3ac?)
+	runtime/proc.go:435 +0xc8 fp=0x40005cb240 sp=0x40005cb220 pc=0x47a558
+runtime.selectgo(0x40005cb3b0, 0x40005cb3a8, 0x48c6f0?, 0x0, 0x40005cb388?, 0x1)
+	runtime/select.go:351 +0x6c4 fp=0x40005cb370 sp=0x40005cb240 pc=0x458144
+github.com/containerd/ttrpc.(*Client).UserOnCloseWait(0x400046d110?, {0x1b55408, 0x40005ebf20})
+	github.com/containerd/ttrpc/client.go:331 +0x64 fp=0x40005cb3e0 sp=0x40005cb370 pc=0x71d8f4
+github.com/containerd/containerd/runtime/v2.(*shim).Delete(0x40005fb998, {0x1b55408, 0x40005ebf20})
+	github.com/containerd/containerd/runtime/v2/shim.go:386 +0xdc fp=0x40005cb470 sp=0x40005cb3e0 pc=0xcdbe4c
+github.com/containerd/containerd/runtime/v2.(*shimTask).delete(0x40006676e0, {0x1b55408, 0x40005ebf20}, 0x0, 0x40005cb6f8)
+	github.com/containerd/containerd/runtime/v2/shim.go:503 +0x2bc fp=0x40005cb520 sp=0x40005cb470 pc=0xcdc79c
+github.com/containerd/containerd/runtime/v2.(*TaskManager).Delete(0x4000060408, {0x1b55408, 0x40005ebf20}, {0x4000253480, 0x40})
+	github.com/containerd/containerd/runtime/v2/manager.go:507 +0x120 fp=0x40005cb7d0 sp=0x40005cb520 pc=0xcd9380
+github.com/containerd/containerd/services/tasks.(*local).Delete(0x40002002a0, {0x1b55408, 0x40005ebf20}, 0x40005ab080, {0x40005cb800?, 0x9a2550?, 0x400008a8f8?})
+	github.com/containerd/containerd/services/tasks/local.go:319 +0xf0 fp=0x40005cb860 sp=0x40005cb7d0 pc=0xe15d40
+github.com/containerd/containerd/services/tasks.(*service).Delete(0x27de730?, {0x1b55408?, 0x40005ebf20?}, 0x22?)
+	github.com/containerd/containerd/services/tasks/service.go:78 +0x3c fp=0x40005cb8b0 sp=0x40005cb860 pc=0xe19cec
+github.com/containerd/containerd/api/services/tasks/v1._Tasks_Delete_Handler.func1({0x1b55408?, 0x40005ebf20?}, {0x1716540?, 0x40005ab080?})
+	github.com/containerd/containerd/api/services/tasks/v1/tasks_grpc.pb.go:355 +0xd0 fp=0x40005cb8f0 sp=0x40005cb8b0 pc=0xd07400
+github.com/grpc-ecosystem/go-grpc-prometheus.init.(*ServerMetrics).UnaryServerInterceptor.func3({0x1b55408, 0x40005ebf20}, {0x1716540, 0x40005ab080}, 0x80?, 0x40003b5b78)
+	github.com/grpc-ecosystem/go-grpc-prometheus/server_metrics.go:108 +0x6c fp=0x40005cb950 sp=0x40005cb8f0 pc=0x9a256c
+github.com/containerd/containerd/api/services/tasks/v1._Tasks_Delete_Handler({0x1827f20, 0x40003b5968}, {0x1b55408, 0x40005ebf20}, 0x4000604980, 0x400040f8f0)
+	github.com/containerd/containerd/api/services/tasks/v1/tasks_grpc.pb.go:357 +0x148 fp=0x40005cb9a0 sp=0x40005cb950 pc=0xd07258
+google.golang.org/grpc.(*Server).processUnaryRPC(0x40001bc200, {0x1b55408, 0x40005ebe90}, {0x1b5f6a0, 0x400033d200}, 0x40004ffd40, 0x40005342a0, 0x28002d0, 0x0)
+	google.golang.org/grpc/server.go:1379 +0xb44 fp=0x40005cbd90 sp=0x40005cb9a0 pc=0x9231e4
+google.golang.org/grpc.(*Server).handleStream(0x40001bc200, {0x1b5f6a0, 0x400033d200}, 0x40004ffd40)
+	google.golang.org/grpc/server.go:1790 +0xb08 fp=0x40005cbf60 sp=0x40005cbd90 pc=0x9272b8
+google.golang.org/grpc.(*Server).serveStreams.func2.1()
+	google.golang.org/grpc/server.go:1029 +0x84 fp=0x40005cbfd0 sp=0x40005cbf60 pc=0x921524
+runtime.goexit({})
+	runtime/asm_arm64.s:1223 +0x4 fp=0x40005cbfd0 sp=0x40005cbfd0 pc=0x482a44
+created by google.golang.org/grpc.(*Server).serveStreams.func2 in goroutine 49
+	google.golang.org/grpc/server.go:1040 +0x138
+
+r0      0x400044bed768
+r1      0x1
+r2      0x1
+r3      0x10
+r4      0x1
+r5      0x4479a8
+r6      0x22b8
+r7      0x224
+r8      0x62
+r9      0x7ffffe461000
+r10     0x0
+r11     0x0
+r12     0x400044bed8c0
+r13     0x400000085f78
+r14     0x0
+r15     0x0
+r16     0x400044aedfe0
+r17     0x400044becf90
+r18     0x700000041000
+r19     0x480480
+r20     0x400044bed700
+r21     0x4000078808
+r22     0x1
+r23     0x400000085e40
+r24     0x16
+r25     0x7fffffeff6e7
+r26     0x196e900
+r27     0xffffffffffffff98
+r28     0x4000002a80
+r29     0x400044bed728
+lr      0x43777c
+sp      0x400044bed730
+pc      0x4661b4
+fault   0x11
+time="2026-11-25T08:48:16.933222497Z" level=error msg="containerd did not exit successfully" error="exit status 2" module=libcontainerd
+time="2026-11-25T08:48:16.953249922Z" level=warning msg="failed to delete container from containerd" container=d4659b2b65de459efe957673dd7a4f463a254fd9937246ec28ddb1f4b7459885 error="error reading from server: EOF: unavailable"
+time="2026-11-25T08:48:16.975722403Z" level=error msg="Failed to get event" error="rpc error: code = Unavailable desc = error reading from server: EOF" module=libcontainerd namespace=plugins.moby
+time="2026-11-25T08:48:16.977420376Z" level=info msg="Waiting for containerd to be ready to restart event processing" module=libcontainerd namespace=plugins.moby
+time="2026-11-25T08:48:16.988280554Z" level=error msg="Failed to get event" error="rpc error: code = Unavailable desc = error reading from server: EOF" module=libcontainerd namespace=moby
+time="2026-11-25T08:48:16.989805190Z" level=info msg="Waiting for containerd to be ready to restart event processing" module=libcontainerd namespace=moby
+time="2026-11-25T08:48:17.090197224Z" level=error msg="d4659b2b65de459efe957673dd7a4f463a254fd9937246ec28ddb1f4b7459885 cleanup: failed to delete container from containerd: connection error: desc = \"transport: Error while dialing: dial unix /var/run/docker/containerd/containerd.sock: connect: connection refused\": unavailable"
+time="2026-11-25T08:48:28.111626102Z" level=info msg="started new containerd process" address=/var/run/docker/containerd/containerd.sock module=libcontainerd pid=840
+time="2026-11-25T08:48:30.075473464Z" level=error msg="Handler for DELETE /v1.45/images/trames-acceptance:local returned error: error deleting lease: connection error: desc = \"transport: Error while dialing: dial unix /var/run/docker/containerd/containerd.sock: connect: connection refused\": unavailable" spanID=f2d64c640a4aabd5 traceID=327103c163e499b46c559f66c514eb81
+time="2026-11-25T08:48:30.589490529Z" level=info msg="Processing signal 'terminated'"
+time="2026-11-25T08:48:31.095809126Z" level=info msg="starting containerd" revision="1.7.24~ds1-6+deb13u1" version="1.7.24~ds1"
+time="2026-11-25T08:48:31.790729775Z" level=warning msg="Error while testing if containerd API is ready" error="rpc error: code = Canceled desc = grpc: the client connection is closing"
+time="2026-11-25T08:48:31.924930365Z" level=info msg="loading plugin \"io.containerd.event.v1.exchange\"..." type=io.containerd.event.v1
+time="2026-11-25T08:48:31.934295215Z" level=info msg="loading plugin \"io.containerd.internal.v1.opt\"..." type=io.containerd.internal.v1
+time="2026-11-25T08:48:31.972285139Z" level=info msg="loading plugin \"io.containerd.warning.v1.deprecations\"..." type=io.containerd.warning.v1
+time="2026-11-25T08:48:31.987338119Z" level=info msg="loading plugin \"io.containerd.snapshotter.v1.blockfile\"..." type=io.containerd.snapshotter.v1
+time="2026-11-25T08:48:32.019100230Z" level=info msg="skip loading plugin \"io.containerd.snapshotter.v1.blockfile\"..." error="no scratch file generator: skip plugin" type=io.containerd.snapshotter.v1
+time="2026-11-25T08:48:32.038447443Z" level=info msg="loading plugin \"io.containerd.snapshotter.v1.btrfs\"..." type=io.containerd.snapshotter.v1
+time="2026-11-25T08:48:32.104564741Z" level=info msg="skip loading plugin \"io.containerd.snapshotter.v1.btrfs\"..." error="path /var/lib/docker/containerd/daemon/io.containerd.snapshotter.v1.btrfs (rootfs) must be a btrfs filesystem to be used with the btrfs snapshotter: skip plugin" type=io.containerd.snapshotter.v1
+time="2026-11-25T08:48:32.120939853Z" level=info msg="loading plugin \"io.containerd.snapshotter.v1.devmapper\"..." type=io.containerd.snapshotter.v1
+time="2026-11-25T08:48:32.139360348Z" level=info msg="skip loading plugin \"io.containerd.snapshotter.v1.devmapper\"..." error="devmapper not configured: skip plugin" type=io.containerd.snapshotter.v1
+time="2026-11-25T08:48:32.146279604Z" level=info msg="loading plugin \"io.containerd.snapshotter.v1.native\"..." type=io.containerd.snapshotter.v1
+time="2026-11-25T08:48:32.164001119Z" level=info msg="loading plugin \"io.containerd.snapshotter.v1.overlayfs\"..." type=io.containerd.snapshotter.v1
+time="2026-11-25T08:48:32.254701946Z" level=warning msg="Error while testing if containerd API is ready" error="rpc error: code = Canceled desc = grpc: the client connection is closing"
+time="2026-11-25T08:48:32.299053179Z" level=info msg="loading plugin \"io.containerd.snapshotter.v1.aufs\"..." type=io.containerd.snapshotter.v1
+time="2026-11-25T08:48:32.401685617Z" level=info msg="skip loading plugin \"io.containerd.snapshotter.v1.aufs\"..." error="aufs is not supported (modprobe aufs failed: exec: \"modprobe\": executable file not found in $PATH \"\"): skip plugin" type=io.containerd.snapshotter.v1
+time="2026-11-25T08:48:32.416843904Z" level=info msg="loading plugin \"io.containerd.snapshotter.v1.zfs\"..." type=io.containerd.snapshotter.v1
+time="2026-11-25T08:48:32.459163661Z" level=info msg="skip loading plugin \"io.containerd.snapshotter.v1.zfs\"..." error="path /var/lib/docker/containerd/daemon/io.containerd.snapshotter.v1.zfs must be a zfs filesystem to be used with the zfs snapshotter: skip plugin" type=io.containerd.snapshotter.v1
+time="2026-11-25T08:48:32.478265668Z" level=info msg="loading plugin \"io.containerd.content.v1.content\"..." type=io.containerd.content.v1
+time="2026-11-25T08:48:32.485258448Z" level=info msg="loading plugin \"io.containerd.metadata.v1.bolt\"..." type=io.containerd.metadata.v1
+time="2026-11-25T08:48:32.508434517Z" level=info msg="metadata content store policy set" policy=shared
+time="2026-11-25T08:48:32.607801141Z" level=warning msg="Error while testing if containerd API is ready" error="rpc error: code = Canceled desc = grpc: the client connection is closing"
+time="2026-11-25T08:48:32.623944362Z" level=info msg="loading plugin \"io.containerd.gc.v1.scheduler\"..." type=io.containerd.gc.v1
+time="2026-11-25T08:48:32.647219056Z" level=info msg="loading plugin \"io.containerd.differ.v1.walking\"..." type=io.containerd.differ.v1
+time="2026-11-25T08:48:32.654680621Z" level=info msg="loading plugin \"io.containerd.lease.v1.manager\"..." type=io.containerd.lease.v1
+time="2026-11-25T08:48:32.678312035Z" level=info msg="loading plugin \"io.containerd.streaming.v1.manager\"..." type=io.containerd.streaming.v1
+time="2026-11-25T08:48:32.687668969Z" level=info msg="loading plugin \"io.containerd.runtime.v1.linux\"..." type=io.containerd.runtime.v1
+time="2026-11-25T08:48:32.744088599Z" level=info msg="loading plugin \"io.containerd.monitor.v1.cgroups\"..." type=io.containerd.monitor.v1
+time="2026-11-25T08:48:32.801488667Z" level=info msg="loading plugin \"io.containerd.runtime.v2.task\"..." type=io.containerd.runtime.v2
+time="2026-11-25T08:48:32.759607379Z" level=warning msg="Error while testing if containerd API is ready" error="rpc error: code = Canceled desc = grpc: the client connection is closing"
+time="2026-11-25T08:48:32.950761103Z" level=info msg="Daemon shutdown complete"
+time="2026-11-25T08:48:33.059535942Z" level=info msg="stopping event stream following graceful shutdown" error="context canceled" module=libcontainerd namespace=moby
+time="2026-11-25T08:48:33.098470923Z" level=info msg="stopping healthcheck following graceful shutdown" module=libcontainerd
+time="2026-11-25T08:48:32.985103020Z" level=warning msg="Error while testing if containerd API is ready" error="rpc error: code = Canceled desc = latest balancer error: connection error: desc = \"transport: Error while dialing: dial unix /var/run/docker/containerd/containerd.sock: connect: connection refused\""
+time="2026-11-25T08:48:33.296306734Z" level=info msg="stopping event stream following graceful shutdown" error="context canceled" module=libcontainerd namespace=plugins.moby
+time="2026-11-25T08:48:33.281668951Z" level=error msg="copy shim log after reload" error="read /proc/self/fd/6: file already closed" namespace=moby
+time="2026-11-25T08:48:33.325775540Z" level=warning msg="cleaning up after shim disconnected" id=d4659b2b65de459efe957673dd7a4f463a254fd9937246ec28ddb1f4b7459885 namespace=moby
+time="2026-11-25T08:48:33.335017124Z" level=info msg="cleaning up dead shim" namespace=moby
+containerd: context canceled
+time="2026-11-25T08:48:33.442184571Z" level=error msg="containerd did not exit successfully" error="exit status 1" module=libcontainerd

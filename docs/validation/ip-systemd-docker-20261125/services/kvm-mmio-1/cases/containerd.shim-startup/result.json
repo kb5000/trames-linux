@@ -1,0 +1,19 @@
+{
+  "artifacts": {
+    "/work/shim-startup.result": "c762e1261b4929626db4a6e450334d2fb0c9859de08a1c521fd6c7f9ad6372e6"
+  },
+  "artifacts_validated": true,
+  "case_inputs": "3b154c4aa8547c13d24d4ac2d4dedbd612e8c673d3dca74ceba9064d620c9013",
+  "domain": "containers",
+  "exit_code": 0,
+  "fingerprint": "c4613ad10892982d7fed63868019488eb10e921fe9733fe0b4202e7f50e9d290",
+  "id": "containerd.shim-startup",
+  "logs": {
+    "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "reused": false,
+  "seconds": 23.745310893005808,
+  "status": "passed",
+  "tier": "apps"
+}

@@ -97,12 +97,33 @@ See [PCM architecture](architecture/audio.md) and
 - Passing evidence can be reused only with matching inputs and intact raw logs/
   output files; failed cases run again. Native-reference CI and a separate real
   KVM application workflow are connected without production runtime changes.
-- The initial matrix is **not passing**: native 12/12, KVM 7/48 configuration
-  cells. Shared host-file EIO and Node SIGILL are next compatibility blockers;
-  isolated passes vary and do not establish stable general software support.
+- The initial baseline was native 12/12 and KVM 7/48. Subsequent shared-file
+  and original JIT fixes, followed by batch seven below, pass all 48 KVM
+  application cells. Historical failures remain available; these scoped
+  workflows do not establish arbitrary software support.
 
 See [acceptance design](architecture/acceptance.md) and
 [first evidence](validation/applications-20261125.md).
+
+## Delivered seventh batch: IP, systemd and Docker lifecycles
+
+- Shared ICMP filtering/timestamps/error queues, keyring graph/buffer behavior,
+  namespace-relative pidfd fdinfo, ramfs/debugfs and overlay inode retirement
+  are implemented across runtime callers, with native comparisons.
+- KVM caches bounded per-mm roots, isolates non-global translations with
+  per-worker/per-mm ASIDs and preserves completed notifications across preemption.
+  Hardware regressions cover register state, original code at overlapping VAs,
+  eviction/retirement and both configured ASID widths. ABI checks stay compiled;
+  normal SVCs add no register-reset ioctl, RUN or coordinator thread.
+- Clean qualification passes CLI 48/48, IP 8/8, systemd 4/4 and Docker 4/4,
+  with 80 real containerd shim lifecycles across both transports and 1/4 workers.
+  The shim gate uses Connect/Shutdown RPCs to avoid the upstream SIGTERM startup
+  race. Native references and relocated evidence are independently audited.
+  Exact passing cells are reused; changed/failed cases execute again.
+
+See the [implementation, qualification and limits](validation/ip-systemd-docker-20261125.md).
+Docker still reports unsupported swap/IO limits. These are scoped service
+workflows, not full systemd/container/cgroup compatibility or a release.
 
 ## Next dependency batch: Linux providers
 

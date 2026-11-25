@@ -1,0 +1,19 @@
+{
+  "artifacts": {
+    "/work/clone/file": "01f1fdca12371e5ee7f4dbe02b17618a7e099ff5fbfc471c4c07b9d796b78287"
+  },
+  "artifacts_validated": true,
+  "case_inputs": "c244155870fee31ecbcd283223360e0eb904e8573d9ef6222e617d44afd6a1b2",
+  "domain": "process",
+  "exit_code": 0,
+  "fingerprint": "edf319d38a2ae59870d63a14f76fe803a31762acdad135a5706f203f4397703b",
+  "id": "git.local-workflow",
+  "logs": {
+    "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "6feb9a8630822bdf83e13cd8ea8708f828c959b69114529fbca04b753b2be612"
+  },
+  "reused": false,
+  "seconds": 4.94937451199803,
+  "status": "passed",
+  "tier": "apps"
+}

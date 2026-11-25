@@ -1,0 +1,17 @@
+{
+  "artifacts": {},
+  "artifacts_validated": true,
+  "case_inputs": "f78354480511d2741875baaf0fb7dcca94ded540441440c199f89b05848a1411",
+  "domain": "files",
+  "exit_code": 0,
+  "fingerprint": "dce2fd5094082e06fbd2f415bdeb37913e7f8722721fce7912ff9d852c5dce15",
+  "id": "text.filters",
+  "logs": {
+    "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "a780813a42edf15e8dbded28cb244ebd09efc8316dded9ee017617b60e923182"
+  },
+  "reused": false,
+  "seconds": 0.31885365401103627,
+  "status": "passed",
+  "tier": "smoke"
+}

@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "/work/systemd.result": "6dbb2184dc6434e7e99fee9d7527752a5e6d9e4724373a568517dd74207e2aa4"
+  },
+  "artifacts_validated": true,
+  "case_inputs": "2cb06db237d6984b6fe36eb1d2c5782099b0d586f1b991b8348336b73ec13510",
+  "domain": "systemd",
+  "exit_code": 0,
+  "fingerprint": "605787ba5d8ce8b1032e870ef5ba2290c4b3f2d028c0bdf8bf60830daffd9204",
+  "id": "systemd.pid1-services",
+  "logs": {
+    "console": "47a64c11021e63f5eb51cdc5dad7b5fe372c84c6b4fd0e4849fb64f1cba02dd6",
+    "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "reused": true,
+  "reused_from": "/home/main.guest/trames-services-qualified/kvm-smccc-4/cases/systemd.pid1-services",
+  "seconds": 42.150611168995965,
+  "status": "passed",
+  "tier": "apps"
+}

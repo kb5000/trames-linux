@@ -1,0 +1,170 @@
+{
+  "source_sha256": "eea49854bf4f36db72d6fdc4844f05899c06b35150bf706521830503fa879265",
+  "cases": [
+    {
+      "mode": "keyrings",
+      "backend": "native",
+      "transport": null,
+      "cpus": null,
+      "code": 0,
+      "stdout": "keyrings: ok\n",
+      "stderr": "",
+      "passed": true,
+      "status": "passed"
+    },
+    {
+      "mode": "keyrings",
+      "backend": "kvm",
+      "transport": "smccc",
+      "cpus": 1,
+      "code": 0,
+      "stdout": "keyrings: ok\n",
+      "stderr": "",
+      "passed": true,
+      "status": "passed"
+    },
+    {
+      "mode": "keyrings",
+      "backend": "kvm",
+      "transport": "smccc",
+      "cpus": 4,
+      "code": 0,
+      "stdout": "keyrings: ok\n",
+      "stderr": "",
+      "passed": true,
+      "status": "passed"
+    },
+    {
+      "mode": "keyrings",
+      "backend": "kvm",
+      "transport": "mmio",
+      "cpus": 1,
+      "code": 0,
+      "stdout": "keyrings: ok\n",
+      "stderr": "",
+      "passed": true,
+      "status": "passed"
+    },
+    {
+      "mode": "keyrings",
+      "backend": "kvm",
+      "transport": "mmio",
+      "cpus": 4,
+      "code": 0,
+      "stdout": "keyrings: ok\n",
+      "stderr": "",
+      "passed": true,
+      "status": "passed"
+    },
+    {
+      "mode": "pidfd",
+      "backend": "native",
+      "transport": null,
+      "cpus": null,
+      "code": 0,
+      "stdout": "pidfd: ok\n",
+      "stderr": "",
+      "passed": true,
+      "status": "passed"
+    },
+    {
+      "mode": "pidfd",
+      "backend": "kvm",
+      "transport": "smccc",
+      "cpus": 1,
+      "code": 0,
+      "stdout": "pidfd: ok\n",
+      "stderr": "",
+      "passed": true,
+      "status": "passed"
+    },
+    {
+      "mode": "pidfd",
+      "backend": "kvm",
+      "transport": "smccc",
+      "cpus": 4,
+      "code": 0,
+      "stdout": "pidfd: ok\n",
+      "stderr": "",
+      "passed": true,
+      "status": "passed"
+    },
+    {
+      "mode": "pidfd",
+      "backend": "kvm",
+      "transport": "mmio",
+      "cpus": 1,
+      "code": 0,
+      "stdout": "pidfd: ok\n",
+      "stderr": "",
+      "passed": true,
+      "status": "passed"
+    },
+    {
+      "mode": "pidfd",
+      "backend": "kvm",
+      "transport": "mmio",
+      "cpus": 4,
+      "code": 0,
+      "stdout": "pidfd: ok\n",
+      "stderr": "",
+      "passed": true,
+      "status": "passed"
+    },
+    {
+      "mode": "clone-pidfd",
+      "backend": "native",
+      "transport": null,
+      "cpus": null,
+      "code": 0,
+      "stdout": "clone-pidfd: ok\n",
+      "stderr": "",
+      "passed": true,
+      "status": "passed"
+    },
+    {
+      "mode": "clone-pidfd",
+      "backend": "kvm",
+      "transport": "smccc",
+      "cpus": 1,
+      "code": 0,
+      "stdout": "clone-pidfd: ok\n",
+      "stderr": "",
+      "passed": true,
+      "status": "passed"
+    },
+    {
+      "mode": "clone-pidfd",
+      "backend": "kvm",
+      "transport": "smccc",
+      "cpus": 4,
+      "code": 0,
+      "stdout": "clone-pidfd: ok\n",
+      "stderr": "",
+      "passed": true,
+      "status": "passed"
+    },
+    {
+      "mode": "clone-pidfd",
+      "backend": "kvm",
+      "transport": "mmio",
+      "cpus": 1,
+      "code": 0,
+      "stdout": "clone-pidfd: ok\n",
+      "stderr": "",
+      "passed": true,
+      "status": "passed"
+    },
+    {
+      "mode": "clone-pidfd",
+      "backend": "kvm",
+      "transport": "mmio",
+      "cpus": 4,
+      "code": 0,
+      "stdout": "clone-pidfd: ok\n",
+      "stderr": "",
+      "passed": true,
+      "status": "passed"
+    }
+  ]
+}

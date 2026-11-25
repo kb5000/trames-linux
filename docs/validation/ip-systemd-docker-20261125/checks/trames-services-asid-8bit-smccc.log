@@ -1,0 +1,29 @@
+   Compiling trames-kvm v0.1.0 (/home/main.guest/trames-linux-services/crates/trames-kvm)
+    Finished `release` profile [optimized] target(s) in 4.22s
+     Running unittests src/lib.rs (/home/main.guest/trames-linux-engine/target/release/build/trames-kvm/6cc5720e91473d9a/out/trames_kvm-6cc5720e91473d9a)
+
+running 9 tests
+test aarch64::engine::hardware_checkpoints::address_space_cache_is_bounded_and_does_not_retain_retired_guest_pages ... ok
+test aarch64::engine::hardware_checkpoints::address_space_switch_retains_shared_code_and_withdraws_private_data ... ok
+test aarch64::engine::hardware_checkpoints::completed_syscalls_resume_without_register_resets_or_extra_smccc_runs ... ok
+test aarch64::engine::hardware_checkpoints::every_restore_pc_and_completed_doorbell_has_a_complete_user_checkpoint ... ok
+test aarch64::engine::hardware_checkpoints::hardware_step_can_pause_inside_a_real_partial_el1_save ... ok
+test aarch64::engine::hardware_checkpoints::independent_executors_keep_user_and_private_translations_separate ... ok
+test aarch64::engine::hardware_checkpoints::interrupted_completed_notification_preserves_the_pending_syscall ... ok
+test aarch64::engine::hardware_checkpoints::repeated_deadlines_preserve_the_entire_el0_register_bank ... ok
+test aarch64::engine::hardware_checkpoints::sparse_table_retirement_releases_empty_subtrees ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 5 filtered out; finished in 0.04s
+
+     Running tests/hardware.rs (/home/main.guest/trames-linux-engine/target/release/build/trames-kvm/90b67cf7883ca68e/out/hardware-90b67cf7883ca68e)
+
+running 6 tests
+test byte_borrow_revokes_cached_stage_two_and_wakes_without_polling ... ok
+test canonical_pages_fork_cow_protection_and_unmap_reuse ... ok
+test deadline_state_and_preentry_kick_survive_worker_migration ... ok
+test duplicate_fd_aliases_share_revoke_counts_and_neighbor_pages_stay_live ... ok
+test fd_backed_native_image_keeps_original_bytes_after_image_release ... ok
+test host_managed_ranges_keep_canonical_bytes_and_fork_cow ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.19s
+

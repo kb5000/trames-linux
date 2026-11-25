@@ -1,0 +1,24 @@
+   Compiling trames-kvm v0.1.0 (/home/main.guest/trames-linux-services/crates/trames-kvm)
+    Finished `release` profile [optimized] target(s) in 4.31s
+     Running unittests src/lib.rs (/home/main.guest/trames-linux-engine/target/release/build/trames-kvm/6cc5720e91473d9a/out/trames_kvm-6cc5720e91473d9a)
+
+running 1 test
+test aarch64::engine::hardware_checkpoints::address_space_switch_retains_shared_code_and_withdraws_private_data ... FAILED
+
+failures:
+
+---- aarch64::engine::hardware_checkpoints::address_space_switch_retains_shared_code_and_withdraws_private_data stdout ----
+
+thread 'aarch64::engine::hardware_checkpoints::address_space_switch_retains_shared_code_and_withdraws_private_data' (160879) panicked at crates/trames-kvm/src/aarch64/engine.rs:1140:9:
+assertion `left != right` failed: cached roots require distinct translation contexts
+  left: 0
+ right: 0
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    aarch64::engine::hardware_checkpoints::address_space_switch_retains_shared_code_and_withdraws_private_data
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 13 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `-p trames-kvm --lib`
