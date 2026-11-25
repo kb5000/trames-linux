@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 use super::tables::*;
 use crate::{
-    deadline::Deadline, mailbox::Mailbox, Aarch64State, Doctor, Error, ProbeOptions, ProbeReport,
-    Result, Transport,
+    deadline::{Deadline, Timer},
+    mailbox::Mailbox,
+    Aarch64State, Doctor, Error, ProbeOptions, ProbeReport, Result, Transport,
 };
 use kvm_bindings::*;
 use kvm_ioctls::{Kvm, VcpuFd, VmFd};
@@ -123,6 +124,7 @@ struct Machine {
     transport: Transport,
     run_calls: u64,
     run: *mut kvm_run,
+    timer: Timer,
     _thread_affine: PhantomData<Rc<()>>,
 }
 pub(super) fn core_register(offset: usize) -> u64 {
@@ -228,6 +230,7 @@ impl Machine {
         set(&cpu, core_register(264), 0x3c5)?; // masked EL1h
         set(&cpu, system_register(3, 0, 1, 0, 0), super::USER_SCTLR)?;
         let run = cpu.get_kvm_run() as *mut kvm_run;
+        let timer = Timer::new()?;
         Ok(Self {
             cpu,
             _vm: vm,
@@ -236,6 +239,7 @@ impl Machine {
             transport,
             run_calls: 0,
             run,
+            timer,
             _thread_affine: PhantomData,
         })
     }
@@ -244,7 +248,7 @@ impl Machine {
         // SAFETY: retained KvmRun mapping; this expression forms no reference.
         let pointer = unsafe { &raw mut (*self.run).immediate_exit };
         // SAFETY: engine cannot move threads; guard drops before this vCPU.
-        unsafe { Deadline::arm(pointer, duration) }
+        unsafe { self.timer.arm(pointer, duration) }
     }
     fn enter(&mut self) -> Result<Option<Mailbox>> {
         loop {

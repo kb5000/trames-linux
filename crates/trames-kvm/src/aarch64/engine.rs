@@ -2,7 +2,7 @@
 //! Worker-local vCPU and sparse 4KiB stage-1 tables, with canonical runtime RAM.
 use super::machine::{core_register, set, system_register};
 use crate::{
-    deadline::Deadline,
+    deadline::Timer,
     mailbox::Mailbox,
     storage::{Allocation, Vm, PAGE},
     Aarch64State, Error, Result,
@@ -171,6 +171,7 @@ pub(crate) struct Executor {
     id: u64,
     run: *mut kvm_run,
     interrupt: Arc<crate::deadline::Interrupt>,
+    timer: Timer,
     memory_id: u64,
     asid: u16,
     asid_base: u16,
@@ -290,6 +291,14 @@ impl Executor {
                 return Err(error);
             }
         };
+        let timer = match Timer::new() {
+            Ok(timer) => timer,
+            Err(error) => {
+                drop(cpu);
+                vm.release_cpu(id);
+                return Err(error);
+            }
+        };
         Ok(Self {
             cpu: std::mem::ManuallyDrop::new(cpu),
             tables,
@@ -301,6 +310,7 @@ impl Executor {
             id,
             run,
             interrupt,
+            timer,
             memory_id: 0,
             asid: asid_base,
             asid_base,
@@ -724,7 +734,7 @@ impl Executor {
         self.interrupt.take_request();
         let begin = Instant::now();
         let _finish = unsafe {
-            Deadline::arm(
+            self.timer.arm(
                 &raw mut (*self.run).immediate_exit,
                 Duration::from_millis(50),
             )
@@ -761,7 +771,7 @@ impl Executor {
         self.start(state)?;
         let begin = Instant::now();
         let mut deadline =
-            Some(unsafe { Deadline::arm(&raw mut (*self.run).immediate_exit, quantum) }?);
+            Some(unsafe { self.timer.arm(&raw mut (*self.run).immediate_exit, quantum) }?);
         if self.interrupt.take_request() {
             unsafe {
                 (&raw mut (*self.run).immediate_exit).write_volatile(1);
@@ -777,8 +787,8 @@ impl Executor {
                     m
                 }
                 Event::Interrupted | Event::Lease => {
-                    // Drop the old timer before a bounded save completion can
-                    // arm its own timer; all guards precede vCPU destruction.
+                    // Disarm the slice before a bounded save completion can
+                    // arm a completion deadline; guards precede vCPU destruction.
                     drop(deadline.take());
                     let m = self.checkpoint(state)?;
                     if let Some(m) = m {
@@ -792,7 +802,7 @@ impl Executor {
                                 lease_retry = Some(generation);
                                 self.start(state)?;
                                 deadline = Some(unsafe {
-                                    Deadline::arm(
+                                    self.timer.arm(
                                         &raw mut (*self.run).immediate_exit,
                                         quantum
                                             .saturating_sub(begin.elapsed())
@@ -844,7 +854,7 @@ impl Executor {
             // was removed. Re-arm the remaining duration before fault retry.
             if deadline.is_none() {
                 deadline = Some(unsafe {
-                    Deadline::arm(
+                    self.timer.arm(
                         &raw mut (*self.run).immediate_exit,
                         quantum
                             .saturating_sub(begin.elapsed())
@@ -1417,7 +1427,7 @@ mod hardware_checkpoints {
         let mut reached = false;
         for _ in 0..512 {
             let guard = unsafe {
-                Deadline::arm(
+                executor.timer.arm(
                     &raw mut (*executor.run).immediate_exit,
                     Duration::from_millis(100),
                 )
