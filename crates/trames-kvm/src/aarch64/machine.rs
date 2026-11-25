@@ -308,7 +308,7 @@ impl Machine {
     }
     fn reply(&mut self, mut mailbox: Mailbox, value: u64) {
         mailbox.state.registers[0] = value;
-        mailbox.generation += 1;
+        mailbox.context += 1;
         self.ram.write(MAILBOX_PAGE * PAGE, mailbox);
     }
 }

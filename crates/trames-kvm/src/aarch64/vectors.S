@@ -22,11 +22,16 @@
     ldr x0, [sp, #864]
     cbz x0, 1f
     dsb ishst
+    .if \high
+    ldr x1, [sp, #848]
+    tlbi aside1is, x1
+    .else
     tlbi vmalle1is
+    .endif
     dsb ish
     isb
     tbz x0, #1, 2f
-    ic iallu
+    ic ialluis
     dsb ish
     isb
 2:

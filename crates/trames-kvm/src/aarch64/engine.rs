@@ -30,7 +30,9 @@ const DOORBELL_GPA: u64 = 0x1000_0000;
 const FUNCTION: u64 = 0x8600_5452;
 const PXN: u64 = 1 << 53;
 const UXN: u64 = 1 << 54;
-const NORMAL: u64 = (1 << 10) | (3 << 8);
+// Both EL0 mappings and each executor's private EL1 controls are non-global.
+// Cached address spaces must never observe another root's translations.
+const NORMAL: u64 = (1 << 10) | (3 << 8) | (1 << 11);
 unsafe extern "C" {
     static trames_engine_vectors_start: u8;
     static trames_engine_vectors_end: u8;
@@ -146,6 +148,7 @@ const CACHED_PAGES: usize = 32768;
 struct AddressSpace {
     tables: Tables,
     pages: BTreeMap<u64, Page>,
+    asid: u16,
     used: u64,
 }
 #[derive(Clone, Copy)]
@@ -168,6 +171,9 @@ pub(crate) struct Executor {
     run: *mut kvm_run,
     interrupt: Arc<crate::deadline::Interrupt>,
     memory_id: u64,
+    asid: u16,
+    asid_base: u16,
+    asid_count: u16,
     spaces: BTreeMap<u64, AddressSpace>,
     clock: u64,
     version: Option<(u64, u64)>,
@@ -202,7 +208,7 @@ impl Executor {
         upper.pte(
             &vm,
             DOORBELL,
-            DOORBELL_GPA | (1 << 10) | (1 << 2) | PXN | UXN | 3,
+            DOORBELL_GPA | (1 << 10) | (1 << 11) | (1 << 2) | PXN | UXN | 3,
         )?;
         let id = vm.cpu_id()?;
         let result = (|| {
@@ -216,7 +222,25 @@ impl Executor {
                 .map_err(|e| Error::context("vCPU target", e))?;
             cpu.vcpu_init(&target)
                 .map_err(|e| Error::context("init worker vCPU", e))?;
-            set(&cpu, system_register(3, 0, 2, 0, 0), tables.root.gpa())?;
+            let asid_bits = match (get(&cpu, system_register(3, 0, 0, 7, 0))? >> 4) & 15 {
+                0 => 8,
+                2 => 16,
+                value => return Err(Error(format!("unsupported KVM ASID width {value}"))),
+            };
+            let asid_count = if asid_bits == 16 {
+                CACHED_SPACES as u64
+            } else {
+                8
+            };
+            let asid_base = id * asid_count;
+            if asid_base + asid_count > 1u64 << asid_bits {
+                return Err(Error(format!("KVM {asid_bits}-bit ASID banks exhausted")));
+            }
+            set(
+                &cpu,
+                system_register(3, 0, 2, 0, 0),
+                tables.root.gpa() | (asid_base << 48),
+            )?;
             set(&cpu, system_register(3, 0, 2, 0, 1), upper.root.gpa())?;
             // 48-bit lower/upper VA, independent 4KiB granules, 40-bit IPA.
             set(
@@ -231,7 +255,8 @@ impl Executor {
                     | 3 << 28
                     | 2 << 30
                     | 2 << 32
-                    | 1 << 37,
+                    | 1 << 37
+                    | u64::from(asid_bits == 16) << 36,
             )?;
             set(&cpu, system_register(3, 0, 10, 2, 0), 0x04ff)?;
             set(&cpu, system_register(3, 0, 12, 0, 0), VECTOR)?;
@@ -244,9 +269,9 @@ impl Executor {
             )?;
             set(&cpu, system_register(3, 0, 1, 0, 0), super::USER_SCTLR)?;
             let run = cpu.get_kvm_run() as *mut kvm_run;
-            Ok((cpu, run))
+            Ok((cpu, run, asid_base as u16, asid_count as u16))
         })();
-        let (cpu, run) = match result {
+        let (cpu, run, asid_base, asid_count) = match result {
             Ok(v) => v,
             Err(e) => {
                 vm.release_cpu(id);
@@ -273,6 +298,9 @@ impl Executor {
             run,
             interrupt,
             memory_id: 0,
+            asid: asid_base,
+            asid_base,
+            asid_count,
             spaces: BTreeMap::new(),
             clock: 0,
             version: None,
@@ -374,6 +402,7 @@ impl Executor {
             Mailbox {
                 state: state.clone(),
                 transport: u64::from(self.vm.smccc),
+                context: u64::from(self.asid) << 48,
                 invalidate: std::mem::take(&mut self.invalidate),
                 ..Default::default()
             },
@@ -414,21 +443,50 @@ impl Executor {
         if self.memory_id != id {
             let next = match self.spaces.remove(&id) {
                 Some(space) => space,
-                None => AddressSpace {
-                    tables: Tables::new(&self.vm)?,
-                    pages: BTreeMap::new(),
-                    used: 0,
-                },
+                None => {
+                    // Each worker owns a disjoint bank. Reuse never changes its
+                    // private mailbox/vector physical identity, so the restore
+                    // can read maintenance flags before invalidating that ASID.
+                    let asid = if self.memory_id == 0 {
+                        self.asid
+                    } else if let Some(asid) = (0..self.asid_count)
+                        .map(|i| self.asid_base + i)
+                        .find(|&asid| {
+                            asid != self.asid
+                                && !self.spaces.values().any(|space| space.asid == asid)
+                        })
+                    {
+                        asid
+                    } else {
+                        let oldest = *self
+                            .spaces
+                            .iter()
+                            .min_by_key(|(_, space)| space.used)
+                            .expect("ASID bank has inactive roots")
+                            .0;
+                        self.spaces.remove(&oldest).unwrap().asid
+                    };
+                    // A retired root may have used this ASID on any host CPU.
+                    // Architectural maintenance completes before any EL0 entry.
+                    self.invalidate |= 3;
+                    AddressSpace {
+                        tables: Tables::new(&self.vm)?,
+                        pages: BTreeMap::new(),
+                        asid,
+                        used: 0,
+                    }
+                }
             };
             set(
                 &self.cpu,
                 system_register(3, 0, 2, 0, 0),
-                next.tables.root.gpa(),
+                next.tables.root.gpa() | (u64::from(next.asid) << 48),
             )?;
             self.clock = self.clock.wrapping_add(1);
             let old = AddressSpace {
                 tables: std::mem::replace(&mut self.tables, next.tables),
                 pages: std::mem::replace(&mut self.pages, next.pages),
+                asid: std::mem::replace(&mut self.asid, next.asid),
                 used: self.clock,
             };
             if self.memory_id != 0 {
@@ -744,6 +802,7 @@ impl Executor {
             // The fault was handled above. An interrupt during its private
             // restore must not publish that completed notification again.
             reply.complete = 0;
+            reply.context = u64::from(self.asid) << 48;
             reply.invalidate = std::mem::take(&mut self.invalidate);
             write(&self.mailbox, 0, reply);
             // If checkpoint had to finish an EL1 save, its original slice timer
@@ -784,6 +843,154 @@ impl Drop for Executor {
 #[cfg(test)]
 mod hardware_checkpoints {
     use super::*;
+    #[test]
+    #[ignore = "requires real ARM64 Linux KVM and 4KiB host pages"]
+    fn repeated_deadlines_preserve_the_entire_el0_register_bank() {
+        use trames_memory::{Memory, Permissions};
+        let mut memory = Memory::default();
+        memory.map(0x10000, 4096, Permissions::RW).unwrap();
+        let mut code = Vec::new();
+        for reg in (0..31u32).filter(|&reg| reg != 9) {
+            code.push(0x91000400 | (reg << 5) | reg); // ADD Xn,Xn,#1
+        }
+        code.push(0xf1000529); // SUBS X9,X9,#1
+        code.push(0x54000001 | (((-(code.len() as i32)) as u32 & 0x7ffff) << 5));
+        code.push(0xd4000001);
+        for (i, instruction) in code.iter().enumerate() {
+            memory
+                .write_array(0x10000 + i as u64 * 4, instruction.to_le_bytes())
+                .unwrap();
+        }
+        memory.protect(0x10000, 4096, Permissions::RX).unwrap();
+        memory.prepare_hardware().unwrap();
+        let mut registry = trames_memory::parallel::Registry::default();
+        registry.use_hardware();
+        let mut view = memory.parallel_view(&mut registry).unwrap();
+        view.enable_hardware();
+        let mut executor = Executor::new().unwrap();
+        let mut state = Aarch64State {
+            registers: std::array::from_fn(|i| 0x1000 + i as u64),
+            vectors: std::array::from_fn(|i| 0x112233445566778899aabbccdd000000u128 + i as u128),
+            pc: 0x10000,
+            sp: 0x90000,
+            tpidr_el0: 0x12345678,
+            ..Default::default()
+        };
+        state.registers[9] = 500_000;
+        let mut expected = state.clone();
+        for (i, reg) in expected.registers.iter_mut().enumerate() {
+            *reg = if i == 9 { 0 } else { *reg + 500_000 };
+        }
+        expected.pc += code.len() as u64 * 4;
+        expected.nzcv = 0x60000000;
+        let mut yields = 0;
+        loop {
+            match executor
+                .run(&mut state, &mut view, Duration::from_micros(100))
+                .unwrap()
+                .reason
+            {
+                ExitReason::Syscall => break,
+                ExitReason::Yield => {
+                    yields += 1;
+                    assert!(yields < 10_000, "bounded hardware loop must finish");
+                }
+            }
+        }
+        assert!(yields > 2, "exercise repeated asynchronous checkpoints");
+        assert_eq!(state, expected);
+    }
+    #[test]
+    #[ignore = "requires real ARM64 Linux KVM and 4KiB host pages"]
+    fn independent_executors_keep_user_and_private_translations_separate() {
+        use trames_memory::{Memory, Permissions};
+        struct Affinity(libc::cpu_set_t);
+        impl Drop for Affinity {
+            fn drop(&mut self) {
+                assert_eq!(
+                    unsafe { libc::sched_setaffinity(0, size_of::<libc::cpu_set_t>(), &self.0) },
+                    0
+                );
+            }
+        }
+        let mut original: libc::cpu_set_t = unsafe { std::mem::zeroed() };
+        assert_eq!(
+            unsafe { libc::sched_getaffinity(0, size_of::<libc::cpu_set_t>(), &mut original) },
+            0
+        );
+        let affinity = Affinity(original);
+        let cpu = (0..libc::CPU_SETSIZE as usize)
+            .find(|&i| unsafe { libc::CPU_ISSET(i, &affinity.0) })
+            .unwrap();
+        let mut single: libc::cpu_set_t = unsafe { std::mem::zeroed() };
+        unsafe { libc::CPU_SET(cpu, &mut single) };
+        assert_eq!(
+            unsafe { libc::sched_setaffinity(0, size_of::<libc::cpu_set_t>(), &single) },
+            0
+        );
+        let mut memories = [Memory::default(), Memory::default()];
+        let mut registry = trames_memory::parallel::Registry::default();
+        registry.use_hardware();
+        for (i, memory) in memories.iter_mut().enumerate() {
+            memory.map(0x10000, 4096, Permissions::RW).unwrap();
+            // Original MOV x19,#value; LDR x18,[x20]; SVC, with distinct code/data.
+            memory
+                .write_array(
+                    0x10000,
+                    (0xd2800013u32 | ((41 + i as u32) << 5)).to_le_bytes(),
+                )
+                .unwrap();
+            memory
+                .write_array(0x10004, 0xf9400292u32.to_le_bytes())
+                .unwrap();
+            memory
+                .write_array(0x10008, 0xd4000001u32.to_le_bytes())
+                .unwrap();
+            memory.protect(0x10000, 4096, Permissions::RX).unwrap();
+            memory.map(0x20000, 4096, Permissions::RW).unwrap();
+            memory
+                .write_array(0x20000, (i as u64 + 41).to_le_bytes())
+                .unwrap();
+            memory.prepare_hardware().unwrap();
+        }
+        let mut executors = [Executor::new().unwrap(), Executor::new().unwrap()];
+        let mut views = memories
+            .iter_mut()
+            .map(|m| m.parallel_view(&mut registry).unwrap())
+            .collect::<Vec<_>>();
+        for view in &mut views {
+            view.enable_hardware();
+        }
+        for separate in [true, false] {
+            for _ in 0..32 {
+                for i in 0..2 {
+                    let mut state = Aarch64State {
+                        pc: 0x10000,
+                        ..Default::default()
+                    };
+                    state.registers[20] = 0x20000;
+                    state.registers[8] = 172 + i as u64;
+                    let executor = &mut executors[if separate { i } else { 0 }];
+                    assert_eq!(
+                        executor
+                            .run(&mut state, &mut views[i], Duration::from_millis(100))
+                            .unwrap()
+                            .reason,
+                        ExitReason::Syscall
+                    );
+                    assert_eq!(
+                        (
+                            state.pc,
+                            state.registers[18],
+                            state.registers[19],
+                            state.registers[8]
+                        ),
+                        (0x1000c, i as u64 + 41, i as u64 + 41, 172 + i as u64)
+                    );
+                }
+            }
+        }
+    }
     #[test]
     #[ignore = "requires real ARM64 Linux KVM and 4KiB host pages"]
     fn interrupted_completed_notification_preserves_the_pending_syscall() {
@@ -914,6 +1121,7 @@ mod hardware_checkpoints {
         };
         let quantum = Duration::from_millis(100);
         executor.run(&mut state, &mut first, quantum).unwrap();
+        let first_context = get(&executor.cpu, system_register(3, 0, 2, 0, 0)).unwrap() >> 48;
         let shared = executor.pages[&0x10000].info.storage_id;
         // Force one data mapping exactly as the real data-abort admission path.
         executor
@@ -928,6 +1136,11 @@ mod hardware_checkpoints {
             .unwrap();
         let private = executor.pages[&0x20000].info.storage_id;
         executor.synchronize(&second).unwrap();
+        let second_context = get(&executor.cpu, system_register(3, 0, 2, 0, 0)).unwrap() >> 48;
+        assert_ne!(
+            first_context, second_context,
+            "cached roots require distinct translation contexts"
+        );
         assert!(executor.pages.is_empty());
         state.pc = 0x10000;
         executor.run(&mut state, &mut second, quantum).unwrap();
@@ -945,6 +1158,10 @@ mod hardware_checkpoints {
         let runs = executor.run_calls;
         for _ in 0..8 {
             executor.synchronize(&first).unwrap();
+            assert_eq!(
+                get(&executor.cpu, system_register(3, 0, 2, 0, 0)).unwrap() >> 48,
+                first_context
+            );
             assert_eq!(executor.pages[&0x10000].info.storage_id, shared);
             assert_eq!(executor.pages[&0x20000].info.storage_id, private);
             state.pc = 0x10000;
@@ -992,6 +1209,15 @@ mod hardware_checkpoints {
                 )
                 .unwrap();
             let owner = executor.pages[&0x10000].owner.clone();
+            let contexts = std::iter::once(executor.asid)
+                .chain(executor.spaces.values().map(|space| space.asid))
+                .collect::<std::collections::BTreeSet<_>>();
+            assert_eq!(contexts.len(), executor.spaces.len() + 1);
+            assert!(contexts
+                .iter()
+                .all(|&asid| u32::from(asid) >= u32::from(executor.asid_base)
+                    && u32::from(asid)
+                        < u32::from(executor.asid_base) + u32::from(executor.asid_count)));
             assert!(owner.upgrade().is_some());
             assert!(executor.spaces.len() < CACHED_SPACES);
             drop(view);
@@ -1002,7 +1228,10 @@ mod hardware_checkpoints {
                 "inactive roots cannot pin guest RAM"
             );
         }
-        assert_eq!(executor.spaces.len(), CACHED_SPACES - 1);
+        assert_eq!(
+            executor.spaces.len(),
+            CACHED_SPACES.min(executor.asid_count as usize) - 1
+        );
     }
 
     #[test]
