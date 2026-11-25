@@ -131,10 +131,11 @@ release acceptance. The final shared acceptance/native-reference
 [CI](https://github.com/kb5000/trames-runtime/actions/runs/45591386346) passes on
 Ubuntu amd64/arm64 and the Ubuntu/macOS harness after the fork-order correction.
 Final test-data/pin-only Linux
-[CI](https://github.com/kb5000/trames-linux/actions/runs/45591476306), Mac
-[CI](https://github.com/kb5000/trames-mac/actions/runs/45591603602) and iPad
-[CI](https://github.com/kb5000/trames-ipad/actions/runs/45591591741) are still
-running at publication; their results do not replace the actual KVM evidence.
+[CI](https://github.com/kb5000/trames-linux/actions/runs/45591476306) also passed
+all three build/unit platforms (Ubuntu amd64, Ubuntu arm64 and macOS).
+The final Mac [CI](https://github.com/kb5000/trames-mac/actions/runs/45591603602)
+and iPad [CI](https://github.com/kb5000/trames-ipad/actions/runs/45591591741) are
+still running at this update; their results do not replace actual KVM evidence.
 
 ## Build identity and reuse
 
