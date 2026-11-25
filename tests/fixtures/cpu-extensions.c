@@ -109,7 +109,11 @@ static long raw(long n,long a,long b,long c) {
 }
 static void* state_thread(void* argument) {
     unsigned i=(uintptr_t)argument;long pid=getpid(),tid=raw(SYS_gettid,0,0,0);
-    expected_fpcr=0x03000000|(i<<22);expected_fpsr=0x08000080|(i+1);
+    uint64_t hwcap2=getauxval(AT_HWCAP2);
+    expected_fpcr=0x03000000|(i<<22);
+    if(hwcap2&(UINT64_C(1)<<20))expected_fpcr|=(i*3)&7; // AFP: FIZ/AH/NEP
+    if(hwcap2&(UINT64_C(1)<<32))expected_fpcr|=1<<13;   // EBF16
+    expected_fpsr=0x08000080|(i+1);
     __asm__ volatile("msr fpcr,%0\nmsr fpsr,%1"::"r"((uint64_t)expected_fpcr),"r"((uint64_t)expected_fpsr));
     for(unsigned turn=0;turn<128;turn++) {
         uint64_t counter=100000;

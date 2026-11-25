@@ -21,7 +21,10 @@ jobs:
           toolchain: nightly-2026-10-16
       - run: sudo apt-get update -qq && sudo apt-get install -y libasound2-dev
       - run: python3 runtime/scripts/build-guest-cli.py
-      - run: cargo build --workspace --release --locked
+      - name: Build source-bound CPU acceptance runner
+        run: python3 runtime/tests/acceptance/build.py --product . --runtime runtime --binary target/release/trames --receipt target/validation/cpu-build.json -- cargo build --workspace --release --locked
+      - name: Compare original CPU extensions, FP/signal state and ptrace
+        run: python3 scripts/validate-cpu.py --runner target/release/trames --receipt target/validation/cpu-build.json --output target/validation/cpu-extensions
       - run: cargo test -p trames-kvm --lib --test hardware --locked -- --ignored --test-threads=1
       - run: TRAMES_KVM_TRANSPORT=mmio cargo test -p trames-kvm --lib --test hardware --locked -- --ignored --test-threads=1
       - if: inputs.vulkan_host_import
