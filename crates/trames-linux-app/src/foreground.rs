@@ -303,7 +303,8 @@ pub fn run(args: Vec<String>, shell: bool) -> Result<u8, Box<dyn std::error::Err
         envp.push("TERM=xterm-256color".into());
     }
     if let Some(path) = host.vulkan_icd {
-        trames_distro::install_vulkan_icd(&mut std::fs::File::open(path)?, &mut vfs)?;
+        trames_distro::install_vulkan_icd(&mut std::fs::File::open(path)?, &mut vfs)
+            .map_err(|error| format!("install guest Vulkan ICD: {error}"))?;
     }
     let mut runtime = trames_session::Runtime::<trames_kvm::kernel::Cpu>::load_with_options(
         &bytes,

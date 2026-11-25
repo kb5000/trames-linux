@@ -143,8 +143,22 @@ def main():
             targets=dict(id='native-target-lifetimes',status='passed' if tests.returncode==0 and b'2 passed;' in test_log else 'failed')
             rows.append(targets)
             native=render(out/'native-case',[out/'native'],env,out/'probe','Trames WSI native');rows.append(dict(id='native-render',**native))
+            headless_env=env|{'DISPLAY':'invalid-no-display','WAYLAND_DISPLAY':'invalid-no-display'}
+            headless=subprocess.run([out/'native','headless'],env=headless_env,capture_output=True,timeout=30)
+            (out/'native-headless.stdout').write_bytes(headless.stdout);(out/'native-headless.stderr').write_bytes(headless.stderr)
+            headless_passed=headless.returncode==0 and headless.stdout==b'headless: ok\n'
+            rows.append(dict(id='native-headless',status='passed' if headless_passed else 'failed',exit_code=headless.returncode))
             for transport in ([] if a.native_only else ['smccc','mmio']):
                 for cpus in [1,4]:
+                    headless_case=out/f'headless-{transport}-{cpus}';headless_case.mkdir()
+                    if headless_passed:
+                        scratch=out/(headless_case.name+'-rootfs');shutil.copytree(root,scratch)
+                        try:
+                            result=subprocess.run([runner,'run','--cpus',str(cpus),'--rootfs',scratch,'--vulkan-icd',icd,'--timeout-ms','30000','--setenv','VK_DRIVER_FILES=/usr/share/vulkan/icd.d/trames.json','--','/test/wsi','headless'],env=headless_env|{'TRAMES_KVM_TRANSPORT':transport},capture_output=True,timeout=35)
+                            (headless_case/'stdout').write_bytes(result.stdout);(headless_case/'stderr').write_bytes(result.stderr)
+                            rows.append(dict(id=headless_case.name,status='passed' if result.returncode==0 and result.stdout==headless.stdout else 'failed',exit_code=result.returncode))
+                        finally:shutil.rmtree(scratch)
+                    else:rows.append(dict(id=headless_case.name,status='reference_failed'))
                     for close in ([False,True] if cpus==4 else [False]):
                         name=f'kvm-{transport}-{cpus}'+('-close' if close else '')
                         if native['status']!='passed':rows.append(dict(id=name,status='reference_failed'));continue

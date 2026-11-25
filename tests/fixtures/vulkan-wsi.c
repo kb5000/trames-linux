@@ -6,11 +6,28 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 #include <xcb/xcb.h>
 #define OK(call) do { VkResult r=(call); if(r!=VK_SUCCESS){fprintf(stderr,"%s: %d\n",#call,r);exit(1);} } while(0)
-int main(void) {
+static int headless(void) {
+    VkInstanceCreateInfo ii={.sType=VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO};VkInstance instance;OK(vkCreateInstance(&ii,NULL,&instance));
+    uint32_t count=1;VkPhysicalDevice physical;OK(vkEnumeratePhysicalDevices(instance,&count,&physical));
+    VkQueueFamilyProperties queues[64];count=64;vkGetPhysicalDeviceQueueFamilyProperties(physical,&count,queues);uint32_t family=UINT32_MAX;for(uint32_t i=0;i<count;i++)if(queues[i].queueFlags&VK_QUEUE_COMPUTE_BIT){family=i;break;}assert(family!=UINT32_MAX);
+    float priority=1;VkDeviceQueueCreateInfo qi={.sType=VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO,.queueFamilyIndex=family,.queueCount=1,.pQueuePriorities=&priority};VkDeviceCreateInfo di={.sType=VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO,.queueCreateInfoCount=1,.pQueueCreateInfos=&qi};VkDevice device;OK(vkCreateDevice(physical,&di,NULL,&device));VkQueue queue;vkGetDeviceQueue(device,family,0,&queue);
+    VkBufferCreateInfo bi={.sType=VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO,.size=4096,.usage=VK_BUFFER_USAGE_TRANSFER_DST_BIT};VkBuffer buffer;OK(vkCreateBuffer(device,&bi,NULL,&buffer));VkMemoryRequirements requirement;vkGetBufferMemoryRequirements(device,buffer,&requirement);
+    VkPhysicalDeviceMemoryProperties properties;vkGetPhysicalDeviceMemoryProperties(physical,&properties);uint32_t type=UINT32_MAX;for(uint32_t i=0;i<properties.memoryTypeCount;i++)if((requirement.memoryTypeBits&(1u<<i))&&(properties.memoryTypes[i].propertyFlags&6)==6){type=i;break;}assert(type!=UINT32_MAX);
+    VkMemoryAllocateInfo mi={.sType=VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO,.allocationSize=requirement.size,.memoryTypeIndex=type};VkDeviceMemory memory;OK(vkAllocateMemory(device,&mi,NULL,&memory));OK(vkBindBufferMemory(device,buffer,memory,0));
+    VkCommandPoolCreateInfo pi={.sType=VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO,.queueFamilyIndex=family};VkCommandPool pool;OK(vkCreateCommandPool(device,&pi,NULL,&pool));VkCommandBufferAllocateInfo ai={.sType=VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO,.commandPool=pool,.level=VK_COMMAND_BUFFER_LEVEL_PRIMARY,.commandBufferCount=1};VkCommandBuffer command;OK(vkAllocateCommandBuffers(device,&ai,&command));
+    VkCommandBufferBeginInfo begin={.sType=VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO};OK(vkBeginCommandBuffer(command,&begin));vkCmdFillBuffer(command,buffer,0,4096,0x13579bdf);
+    VkMemoryBarrier barrier={.sType=VK_STRUCTURE_TYPE_MEMORY_BARRIER,.srcAccessMask=VK_ACCESS_TRANSFER_WRITE_BIT,.dstAccessMask=VK_ACCESS_HOST_READ_BIT};vkCmdPipelineBarrier(command,VK_PIPELINE_STAGE_TRANSFER_BIT,VK_PIPELINE_STAGE_HOST_BIT,0,1,&barrier,0,NULL,0,NULL);OK(vkEndCommandBuffer(command));
+    VkFenceCreateInfo fi={.sType=VK_STRUCTURE_TYPE_FENCE_CREATE_INFO};VkFence fence;OK(vkCreateFence(device,&fi,NULL,&fence));VkSubmitInfo submit={.sType=VK_STRUCTURE_TYPE_SUBMIT_INFO,.commandBufferCount=1,.pCommandBuffers=&command};OK(vkQueueSubmit(queue,1,&submit,fence));OK(vkWaitForFences(device,1,&fence,VK_TRUE,10000000000ULL));
+    uint32_t* values;OK(vkMapMemory(device,memory,0,4096,0,(void**)&values));for(unsigned i=0;i<1024;i++)assert(values[i]==0x13579bdf);vkUnmapMemory(device,memory);
+    vkDestroyFence(device,fence,NULL);vkDestroyCommandPool(device,pool,NULL);vkDestroyBuffer(device,buffer,NULL);vkFreeMemory(device,memory,NULL);vkDestroyDevice(device,NULL);vkDestroyInstance(instance,NULL);puts("headless: ok");return 0;
+}
+int main(int argc,char** argv) {
     setbuf(stdout,NULL);
+    if(argc==2 && !strcmp(argv[1],"headless"))return headless();
 #ifdef TRAMES_WSI_GUEST
     const char* extensions[]={VK_KHR_SURFACE_EXTENSION_NAME,VK_KHR_DISPLAY_EXTENSION_NAME};
 #else
