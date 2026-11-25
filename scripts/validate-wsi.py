@@ -126,7 +126,7 @@ def main():
     runtime=out/'xdg-runtime';runtime.mkdir(mode=0o700)
     env=os.environ|{'XDG_RUNTIME_DIR':str(runtime),'WAYLAND_DISPLAY':'trames-wsi-validation','TRAMES_WAYLAND_FIXTURE':str(out/'wayland-target.so')}
     rows=[];read_fd,write_fd=os.pipe()
-    with compositor(['Xvfb','-displayfd',str(write_fd),'-screen','0','1024x768x24','-nolisten','tcp'],out/'xvfb.log',env,(write_fd,)):
+    with compositor(['Xvfb','-displayfd',str(write_fd),'-screen','0','1024x768x24','-nolisten','tcp','-noreset'],out/'xvfb.log',env,(write_fd,)):
         os.close(write_fd)
         with os.fdopen(read_fd,'rb',buffering=0) as stream,selectors.DefaultSelector() as selector:
             selector.register(stream,selectors.EVENT_READ)
