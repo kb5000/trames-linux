@@ -110,12 +110,14 @@ impl Vm {
         let unsupported = || MemoryError::BackingIo(libc::EOPNOTSUPP as u32);
         let fd = mapping.file_descriptor().ok_or_else(unsupported)?;
         use std::os::fd::AsRawFd;
-        let seals = unsafe { libc::fcntl(fd.as_raw_fd(), libc::F_GET_SEALS) };
-        if seals < 0
-            || seals & (libc::F_SEAL_GROW | libc::F_SEAL_SHRINK)
-                != (libc::F_SEAL_GROW | libc::F_SEAL_SHRINK)
-        {
-            return Err(unsupported());
+        if !mapping.file_geometry_owned() {
+            let seals = unsafe { libc::fcntl(fd.as_raw_fd(), libc::F_GET_SEALS) };
+            if seals < 0
+                || seals & (libc::F_SEAL_GROW | libc::F_SEAL_SHRINK)
+                    != (libc::F_SEAL_GROW | libc::F_SEAL_SHRINK)
+            {
+                return Err(unsupported());
+            }
         }
         let mut stat: libc::stat = unsafe { std::mem::zeroed() };
         if unsafe { libc::fstat(fd.as_raw_fd(), &mut stat) } != 0
