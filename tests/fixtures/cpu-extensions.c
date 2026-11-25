@@ -140,7 +140,8 @@ static void tracing(void) {
     assert(ptrace(PTRACE_GETREGSET,child,(void*)NT_PRSTATUS,&io)==0);
     registers.pc=(uintptr_t)traced_instructions;registers.regs[0]=10;registers.regs[8]=SYS_getpid;
     io.iov_len=sizeof(registers);assert(ptrace(PTRACE_SETREGSET,child,(void*)NT_PRSTATUS,&io)==0);
-    for(unsigned i=0;i<4;i++) {
+    const unsigned offsets[]={4,8,12,12,16};
+    for(unsigned i=0;i<5;i++) {
         assert(ptrace(PTRACE_SINGLESTEP,child,NULL,NULL)==0);
         assert(waitpid(child,&status,0)==child && WIFSTOPPED(status) && WSTOPSIG(status)==SIGTRAP);
         siginfo_t info;assert(ptrace(PTRACE_GETSIGINFO,child,NULL,&info)==0);
@@ -150,8 +151,8 @@ static void tracing(void) {
         if(info.si_code!=expected_code)fprintf(stderr,"single-step %u: si_code=%d expected=%d\n",i,info.si_code,expected_code);
         assert(info.si_code==expected_code);
         io.iov_len=sizeof(registers);assert(ptrace(PTRACE_GETREGSET,child,(void*)NT_PRSTATUS,&io)==0);
-        assert(registers.pc==(uintptr_t)traced_instructions+(i+1)*4);
-        assert(registers.regs[0]==(i==0?11:i==1?13:i==2?(uint64_t)child:(uint64_t)child+3));
+        assert(registers.pc==(uintptr_t)traced_instructions+offsets[i]);
+        assert(registers.regs[0]==(i==0?11:i==1?13:i<=3?(uint64_t)child:(uint64_t)child+3));
     }
     assert(ptrace(PTRACE_CONT,child,NULL,NULL)==0);
     assert(waitpid(child,&status,0)==child && WIFEXITED(status) && WEXITSTATUS(status)==0);
