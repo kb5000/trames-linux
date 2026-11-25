@@ -270,6 +270,10 @@ pub fn run(args: Vec<String>, shell: bool) -> Result<u8, Box<dyn std::error::Err
                     major * 256 + minor,
                 )?;
             }
+            // Keep the shared runtime's FUSE device and connection semantics.
+            // A recreated character node alone does not retain that provider.
+            vfs.mknod_at(trames_vfs::AT_FDCWD, b"/guest/dev/fuse", 0o100666, 0)?;
+            vfs.mount(Some(b"/dev/fuse"), b"/guest/dev/fuse", None, 4096, None)?;
             vfs.mkdir_at(trames_vfs::AT_FDCWD, b"/guest/dev/pts", 0o755)?;
             vfs.mount(Some(b"/dev/pts"), b"/guest/dev/pts", None, 4096, None)?;
             vfs.symlink_at(b"pts/ptmx", trames_vfs::AT_FDCWD, b"/guest/dev/ptmx")?;
