@@ -53,6 +53,7 @@ static void expect_fault(void *p, int write, int signal, int code) {
     caught_signal = caught_code = 0; caught_address = NULL; expecting = 1;
     if (sigsetjmp(fault_return, 1) == 0) {
         if (write) store_byte(p); else load_byte(p);
+        fprintf(stderr, "missing fault: address=%p write=%d signal=%d code=%d\n", p, write, signal, code);
         abort();
     }
     expecting = 0;
