@@ -87,6 +87,12 @@ static void instructions(uint64_t low,uint64_t high,const char* expected_names) 
 
 static _Thread_local uint32_t expected_fpcr,expected_fpsr;
 static _Thread_local volatile sig_atomic_t signal_count,signal_errors;
+static uint32_t fp_control(unsigned i) {
+    uint64_t hwcap2=getauxval(AT_HWCAP2);uint32_t control=0x03000000|(i<<22);
+    if(hwcap2&(UINT64_C(1)<<20))control|=(i*3)&7; // AFP: FIZ/AH/NEP
+    if(hwcap2&(UINT64_C(1)<<32))control|=1<<13;   // EBF16
+    return control;
+}
 static void state_signal(int signal,siginfo_t* info,void* context) {
     (void)signal;(void)info;
     ucontext_t* u=context;unsigned char* p=u->uc_mcontext.__reserved;
@@ -109,10 +115,7 @@ static long raw(long n,long a,long b,long c) {
 }
 static void* state_thread(void* argument) {
     unsigned i=(uintptr_t)argument;long pid=getpid(),tid=raw(SYS_gettid,0,0,0);
-    uint64_t hwcap2=getauxval(AT_HWCAP2);
-    expected_fpcr=0x03000000|(i<<22);
-    if(hwcap2&(UINT64_C(1)<<20))expected_fpcr|=(i*3)&7; // AFP: FIZ/AH/NEP
-    if(hwcap2&(UINT64_C(1)<<32))expected_fpcr|=1<<13;   // EBF16
+    expected_fpcr=fp_control(i);
     expected_fpsr=0x08000080|(i+1);
     __asm__ volatile("msr fpcr,%0\nmsr fpsr,%1"::"r"((uint64_t)expected_fpcr),"r"((uint64_t)expected_fpsr));
     for(unsigned turn=0;turn<128;turn++) {
@@ -144,6 +147,9 @@ static void tracing(void) {
     assert(ptrace(PTRACE_GETREGSET,child,(void*)NT_PRSTATUS,&io)==0);
     registers.pc=(uintptr_t)traced_instructions;registers.regs[0]=10;registers.regs[8]=SYS_getpid;
     io.iov_len=sizeof(registers);assert(ptrace(PTRACE_SETREGSET,child,(void*)NT_PRSTATUS,&io)==0);
+    struct user_fpsimd_state fp={0};fp.fpcr=fp_control(3);fp.fpsr=0x0800009f;
+    struct iovec fp_io={.iov_base=&fp,.iov_len=sizeof(fp)};
+    assert(ptrace(PTRACE_SETREGSET,child,(void*)NT_PRFPREG,&fp_io)==0);
     const unsigned offsets[]={4,8,12,12,16};
     for(unsigned i=0;i<5;i++) {
         assert(ptrace(PTRACE_SINGLESTEP,child,NULL,NULL)==0);
@@ -157,6 +163,9 @@ static void tracing(void) {
         io.iov_len=sizeof(registers);assert(ptrace(PTRACE_GETREGSET,child,(void*)NT_PRSTATUS,&io)==0);
         assert(registers.pc==(uintptr_t)traced_instructions+offsets[i]);
         assert(registers.regs[0]==(i==0?11:i==1?13:i<=3?(uint64_t)child:(uint64_t)child+3));
+        memset(&fp,0,sizeof(fp));fp_io.iov_len=sizeof(fp);
+        assert(ptrace(PTRACE_GETREGSET,child,(void*)NT_PRFPREG,&fp_io)==0);
+        assert(fp.fpcr==fp_control(3) && fp.fpsr==0x0800009f);
     }
     assert(ptrace(PTRACE_CONT,child,NULL,NULL)==0);
     assert(waitpid(child,&status,0)==child && WIFEXITED(status) && WEXITSTATUS(status)==0);
