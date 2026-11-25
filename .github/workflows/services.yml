@@ -1,0 +1,52 @@
+name: Required KVM system services acceptance
+on:
+  workflow_dispatch:
+    inputs:
+      rootfs_url:
+        description: Native-architecture Debian rootfs tar URL
+        type: string
+        required: true
+      rootfs_sha256:
+        description: Expected rootfs archive SHA256
+        type: string
+        required: true
+permissions:
+  contents: read
+jobs:
+  services:
+    runs-on: [self-hosted, Linux, ARM64, trames-kvm]
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: nightly-2026-10-16
+      - run: sudo apt-get update -qq && sudo apt-get install -y build-essential python3 curl systemd-container
+      - run: python3 runtime/scripts/build-guest-cli.py
+      - name: Build with source and binary receipt
+        run: python3 runtime/tests/acceptance/build.py --product . --runtime runtime --binary target/release/trames --receipt target/services-build.json -- cargo build --workspace --release --locked
+      - name: Prepare and freeze the offline service image
+        env:
+          ROOTFS_URL: ${{ inputs.rootfs_url }}
+          ROOTFS_SHA256: ${{ inputs.rootfs_sha256 }}
+        run: |
+          curl --fail --location --url "$ROOTFS_URL" --output target/services-source.tar
+          sudo python3 scripts/prepare-services.py --source target/services-source.tar --sha256 "$ROOTFS_SHA256" --output target/services-bundle
+      - name: Native and KVM PID1 and Docker lifecycle matrix
+        run: sudo python3 scripts/validate-applications.py --manifest runtime/tests/acceptance/services.json --filesystem store --network outbound --native-container /usr/bin/systemd-nspawn --bundle target/services-bundle --runner target/release/trames --receipt target/services-build.json --output target/services-matrix
+      - name: Preserve the immutable image
+        if: always()
+        run: sudo tar --format=pax --xattrs --xattrs-include='*' --acls --numeric-owner -czf target/services-bundle.tar.gz -C target services-bundle
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: kvm-services-evidence
+          path: |
+            target/services-matrix/
+            target/services-build.json
+            target/services-bundle/bundle.json
+            target/services-bundle.tar.gz
+          if-no-files-found: error
+          retention-days: 14

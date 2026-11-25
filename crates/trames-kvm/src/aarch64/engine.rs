@@ -231,11 +231,7 @@ impl Executor {
                 core_register(std::mem::offset_of!(kvm_regs, sp_el1)),
                 MAILBOX,
             )?;
-            set(
-                &cpu,
-                system_register(3, 0, 1, 0, 0),
-                0x30d0_0800 | 1 | 1 << 2 | 1 << 12,
-            )?;
+            set(&cpu, system_register(3, 0, 1, 0, 0), super::USER_SCTLR)?;
             let run = cpu.get_kvm_run() as *mut kvm_run;
             Ok((cpu, run))
         })();

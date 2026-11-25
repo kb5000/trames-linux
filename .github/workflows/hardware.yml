@@ -20,6 +20,7 @@ jobs:
         with:
           toolchain: nightly-2026-10-16
       - run: sudo apt-get update -qq && sudo apt-get install -y libasound2-dev
+      - run: python3 runtime/scripts/build-guest-cli.py
       - run: cargo build --workspace --release --locked
       - run: cargo test -p trames-kvm --lib --test hardware --locked -- --ignored --test-threads=1
       - run: TRAMES_KVM_TRANSPORT=mmio cargo test -p trames-kvm --lib --test hardware --locked -- --ignored --test-threads=1
@@ -32,6 +33,7 @@ jobs:
       - run: TRAMES_KVM_TRANSPORT=mmio TRAMES_VALIDATION_OUTPUT=target/validation/session-mmio python3 scripts/validate-session.py
       - run: TRAMES_VALIDATION_OUTPUT=target/validation/cli python3 scripts/validate-cli.py
       - run: TRAMES_KVM_TRANSPORT=mmio TRAMES_VALIDATION_OUTPUT=target/validation/cli-mmio python3 scripts/validate-cli.py
+      - run: python3 scripts/validate-file-jit.py
       - run: python3 scripts/validate-audio.py
       - uses: actions/upload-artifact@v4
         if: always()

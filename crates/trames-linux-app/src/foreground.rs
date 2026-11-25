@@ -78,9 +78,16 @@ impl GuestOutput for Output {
     }
 }
 // Product capabilities stay in the product adapter, independent of shared CLI.
-fn audio_options(args: Vec<String>) -> (Vec<String>, trames_session::RuntimeOptions) {
+#[derive(Default)]
+struct HostOptions {
+    runtime: trames_session::RuntimeOptions,
+    store: Option<std::path::PathBuf>,
+    network: Option<trames_vfs::NetworkMode>,
+    trace: bool,
+}
+fn host_options(args: Vec<String>) -> Result<(Vec<String>, HostOptions), String> {
     let mut out = vec![];
-    let mut options = trames_session::RuntimeOptions::default();
+    let mut host = HostOptions::default();
     let mut args = args.into_iter();
     while let Some(arg) = args.next() {
         match arg.as_str() {
@@ -89,8 +96,31 @@ fn audio_options(args: Vec<String>) -> (Vec<String>, trames_session::RuntimeOpti
                 out.extend(args);
                 break;
             }
-            "--audio" => options.audio_output = true,
-            "--audio-input" => options.audio_input = true,
+            "--store" => {
+                if host.store.is_some() {
+                    return Err("duplicate --store".into());
+                }
+                let path = args
+                    .next()
+                    .filter(|p| p != "--")
+                    .ok_or("missing --store directory")?;
+                host.store = Some(path.into());
+            }
+            "--network" => {
+                if host.network.is_some() {
+                    return Err("duplicate --network".into());
+                }
+                host.network = Some(match args.next().as_deref() {
+                    Some("off") => trames_vfs::NetworkMode::Off,
+                    Some("loopback") => trames_vfs::NetworkMode::Loopback,
+                    Some("outbound") => trames_vfs::NetworkMode::Outbound,
+                    Some("full") => trames_vfs::NetworkMode::Full,
+                    _ => return Err("--network requires off|loopback|outbound|full".into()),
+                });
+            }
+            "--trace-syscalls" => host.trace = true,
+            "--audio" => host.runtime.audio_output = true,
+            "--audio-input" => host.runtime.audio_input = true,
             "--rootfs" | "--cpus" | "--timeout-ms" | "--setenv" | "--cwd" | "-w" => {
                 out.push(arg);
                 if let Some(value) = args.next() {
@@ -100,11 +130,12 @@ fn audio_options(args: Vec<String>) -> (Vec<String>, trames_session::RuntimeOpti
             _ => out.push(arg),
         }
     }
-    (out, options)
+    Ok((out, host))
 }
 pub fn run(args: Vec<String>, shell: bool) -> Result<u8, Box<dyn std::error::Error>> {
     use std::io::IsTerminal;
-    let (args, options) = audio_options(args);
+    let (args, host) = host_options(args)?;
+    let store = host.store;
     let no_pty = args
         .iter()
         .take_while(|a| a.as_str() != "--")
@@ -118,20 +149,76 @@ pub fn run(args: Vec<String>, shell: bool) -> Result<u8, Box<dyn std::error::Err
         },
     )?;
     if shell {
-        if command.rootfs.is_none() {
-            return Err("shell requires --rootfs DIR".into());
+        if command.rootfs.is_none() && store.is_none() {
+            return Err("shell requires --rootfs DIR or --store DIR".into());
         }
         command.request.tty |= !no_pty && io::stdin().is_terminal();
     }
     let program = command.request.argv.first().unwrap().clone();
+    if (store.is_some() || command.rootfs.is_some()) && !program.starts_with('/') {
+        return Err("with --rootfs or --store the program must be an absolute guest path".into());
+    }
     // Probe before reading an ELF or mounting a host directory on unsupported hosts.
     trames_kvm::Doctor::inspect().require_probe()?;
-    let mut vfs = trames_vfs::Vfs::default();
-    let (bytes, guest_name) = if let Some(root) = command.rootfs {
-        if !program.starts_with('/') {
-            return Err("with --rootfs the program must be an absolute guest path".into());
+    let mut vfs = if let Some(path) = &store {
+        crate::store::open(path, command.rootfs.as_deref().map(std::path::Path::new))?
+    } else {
+        trames_vfs::Vfs::default()
+    };
+    if let Some(network) = host.network {
+        vfs.configure_local_fabric(network)?;
+    }
+    // Seed pseudo inodes before attaching a rootfs, as in shared init boot.
+    vfs.set_runtime_info(1, Default::default());
+    let store_sync = store.as_ref().map(|_| vfs.host_control_view());
+    let (bytes, guest_name) = if store.is_some() || command.rootfs.is_some() {
+        if store.is_none() {
+            // Retain the runtime pseudo mounts before entering the host grant.
+            // Replacing / directly hides their original attachment points.
+            vfs.mkdir_at(trames_vfs::AT_FDCWD, b"/guest", 0o755)?;
+            vfs.mount_host(b"/guest", command.rootfs.as_ref().unwrap(), false)?;
+            for name in ["proc", "sys", "dev"] {
+                match vfs.mkdir_at(
+                    trames_vfs::AT_FDCWD,
+                    format!("/guest/{name}").as_bytes(),
+                    0o755,
+                ) {
+                    Ok(()) | Err(trames_vfs::Errno(17)) => (),
+                    Err(e) => return Err(e.into()),
+                }
+            }
+            for name in ["proc", "sys"] {
+                vfs.mount(
+                    Some(format!("/{name}").as_bytes()),
+                    format!("/guest/{name}").as_bytes(),
+                    None,
+                    4096 | 16384,
+                    None,
+                )?;
+            }
+            vfs.mount(Some(b"tmpfs"), b"/guest/dev", Some(b"tmpfs"), 2, None)?;
+            for (name, major, minor) in [
+                ("null", 1, 3),
+                ("zero", 1, 5),
+                ("full", 1, 7),
+                ("random", 1, 8),
+                ("urandom", 1, 9),
+                ("tty", 5, 0),
+            ] {
+                vfs.mknod_at(
+                    trames_vfs::AT_FDCWD,
+                    format!("/guest/dev/{name}").as_bytes(),
+                    0o20666,
+                    major * 256 + minor,
+                )?;
+            }
+            vfs.mkdir_at(trames_vfs::AT_FDCWD, b"/guest/dev/pts", 0o755)?;
+            vfs.mount(Some(b"/dev/pts"), b"/guest/dev/pts", None, 4096, None)?;
+            vfs.symlink_at(b"pts/ptmx", trames_vfs::AT_FDCWD, b"/guest/dev/ptmx")?;
+            vfs.symlink_at(b"/proc/self/fd", trames_vfs::AT_FDCWD, b"/guest/dev/fd")?;
+            vfs.chroot(b"/guest")?;
+            vfs.chdir(b"/")?;
         }
-        vfs.mount_host(b"/", &root, false)?;
         let file = vfs.executable_file_at(trames_vfs::AT_FDCWD, program.as_bytes(), 0)?;
         (file.bytes()?, program)
     } else {
@@ -158,9 +245,14 @@ pub fn run(args: Vec<String>, shell: bool) -> Result<u8, Box<dyn std::error::Err
         envp.push("TERM=xterm-256color".into());
     }
     let mut runtime = trames_session::Runtime::<trames_kvm::kernel::Cpu>::load_with_options(
-        &bytes, &argv, &envp, vfs, options,
+        &bytes,
+        &argv,
+        &envp,
+        vfs,
+        host.runtime,
     )?;
     runtime.cpu_count = command.cpus;
+    runtime.linux.trace = host.trace;
     if command.request.tty {
         let mut terminal = trames_session::Terminal::default();
         if let Some((rows, columns)) = window_size() {
@@ -178,6 +270,9 @@ pub fn run(args: Vec<String>, shell: bool) -> Result<u8, Box<dyn std::error::Err
     };
     let _raw = RawTerminal::enter(command.request.tty)?;
     let result = runtime.run(&mut output, u64::MAX);
+    if let Some(store) = store_sync {
+        store.sync()?;
+    }
     if let Some(signal) = output.signals.take_signal() {
         return Ok((128 + signal) as u8);
     }
@@ -191,8 +286,23 @@ pub fn run(args: Vec<String>, shell: bool) -> Result<u8, Box<dyn std::error::Err
 #[cfg(test)]
 mod tests {
     #[test]
+    fn store_arguments_require_a_single_value_and_preserve_literal_argv() {
+        assert!(super::host_options(vec!["--store".into()]).is_err());
+        assert!(
+            super::host_options(["--store", "a", "--store", "b"].map(String::from).into()).is_err()
+        );
+        let (argv, host) = super::host_options(
+            ["--store", "a b", "--", "app", "--store"]
+                .map(String::from)
+                .into(),
+        )
+        .unwrap();
+        assert_eq!(host.store, Some("a b".into()));
+        assert_eq!(argv, ["--", "app", "--store"]);
+    }
+    #[test]
     fn audio_flags_preserve_literal_argv_and_option_values() {
-        let (args, options) = super::audio_options(
+        let (args, host) = super::host_options(
             [
                 "--audio",
                 "--cwd",
@@ -203,9 +313,11 @@ mod tests {
             ]
             .map(String::from)
             .into(),
-        );
-        assert!(options.audio_output);
-        assert!(!options.audio_input);
+        )
+        .unwrap();
+        assert!(host.store.is_none());
+        assert!(host.runtime.audio_output);
+        assert!(!host.runtime.audio_input);
         assert_eq!(
             args,
             ["--cwd", "--audio-input", "--", "app", "--audio-input"]

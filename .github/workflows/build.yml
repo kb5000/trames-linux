@@ -33,6 +33,8 @@ jobs:
       - name: Software PCM integration tests
         if: runner.os == 'Linux'
         run: cargo test --manifest-path runtime/Cargo.toml -p trames-audio --lib --locked
+      - name: Build source-checked guest CLI
+        run: python3 runtime/scripts/build-guest-cli.py
       - run: python3 -m py_compile scripts/validate-applications.py
       - run: python3 scripts/check-boundaries.py
       - run: cargo fmt --all --check

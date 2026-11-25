@@ -226,11 +226,7 @@ impl Machine {
             - (&raw const trames_kvm_vectors_start as usize);
         set(&cpu, core_register(256), VECTOR_VA + resume as u64)?;
         set(&cpu, core_register(264), 0x3c5)?; // masked EL1h
-        set(
-            &cpu,
-            system_register(3, 0, 1, 0, 0),
-            0x30d0_0800 | 1 | 1 << 2 | 1 << 12,
-        )?;
+        set(&cpu, system_register(3, 0, 1, 0, 0), super::USER_SCTLR)?;
         let run = cpu.get_kvm_run() as *mut kvm_run;
         Ok(Self {
             cpu,

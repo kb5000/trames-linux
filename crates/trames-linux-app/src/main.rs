@@ -4,18 +4,19 @@
 use std::{process::ExitCode, time::Duration};
 use trames_kvm::{Doctor, ProbeOptions};
 mod foreground;
+mod store;
 
 const RUNTIME: &str = include_str!("../../../runtime-version.json");
 const HELP: &str = "Trames Linux 0.1.0\n\
 Usage:\n  trames doctor [--json] [--require-kvm]\n  \
 trames probe [--json] [--transport auto|smccc|mmio] [--iterations N] [--deadline-ms N]\n\
-  trames run [--cpus N] [--timeout-ms N] [--rootfs DIR] [--audio] [--audio-input] -- ELF [ARG...]\n\
+  trames run [--cpus N] [--timeout-ms N] [--rootfs DIR] [--store DIR] [--audio] [--audio-input] [--trace-syscalls] [--network off|loopback|outbound|full] -- ELF [ARG...]\n\
 The probe checks KVM execution and host requirements.\n\
   trames shell --rootfs DIR [--cpus N] [--timeout-ms N]\n\
   trames exec [--rootfs DIR] [--setenv K=V] [--cwd DIR] [-t] -- ELF [ARG...]\n\
   trames exec --socket PATH [-t] [--setenv K=V] -- COMMAND [ARG...]\n\
   trames session ls|attach --socket PATH [ID|--json|-q]\n\
-Run an ELF program or open a shell in an explicit root filesystem. Enable PCM output with --audio and capture with --audio-input. GUI and video remain under development.\n";
+Use read-file --store DIR -- /GUEST/PATH to export a stopped store file.\nUse --store DIR --rootfs DIR_OR_ARCHIVE to create a private VFS; use --store DIR to reopen it.\nRun an ELF program or open a shell in an explicit root filesystem. Enable PCM output with --audio and capture with --audio-input. GUI and video remain under development.\n";
 
 fn run() -> Result<u8, Box<dyn std::error::Error>> {
     let (selected, args) =
@@ -34,6 +35,24 @@ fn run() -> Result<u8, Box<dyn std::error::Error>> {
         return Err(
             "named environments are not configured; use --rootfs DIR or --socket PATH".into(),
         );
+    }
+    if command == "read-file" {
+        let args: Vec<_> = args.collect();
+        if args.len() != 4 || args[0] != "--store" || args[2] != "--" || !args[3].starts_with('/') {
+            return Err("usage: trames read-file --store DIR -- /GUEST/PATH".into());
+        }
+        use std::io::Write;
+        let mut vfs = store::open(std::path::Path::new(&args[1]), None)?;
+        let fd = vfs.open_at(trames_vfs::AT_FDCWD, args[3].as_bytes(), 0, 0)?;
+        let mut output = std::io::stdout().lock();
+        loop {
+            let bytes = vfs.read(fd, 65536)?;
+            if bytes.is_empty() {
+                break;
+            }
+            output.write_all(&bytes)?;
+        }
+        return Ok(0);
     }
     if command == "exec" {
         let args: Vec<_> = args.collect();

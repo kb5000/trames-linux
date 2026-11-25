@@ -18,6 +18,7 @@ trames-execution = { path = "runtime/crates/trames-execution" }
 trames-engine = { path = "runtime/crates/trames-engine" }
 trames-memory = { path = "runtime/crates/trames-memory" }
 trames-session = { path = "runtime/crates/trames-session" }
+trames-distro = { path = "runtime/crates/trames-distro" }
 trames-accel = { path = "runtime/crates/trames-accel" }
 trames-linux-abi = { package = "trames-linux", path = "runtime/crates/trames-linux" }
 trames-vfs = { path = "runtime/crates/trames-vfs", features = ["hostfs"] }
