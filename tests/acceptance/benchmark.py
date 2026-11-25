@@ -220,6 +220,8 @@ def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--runner', type=Path)
     p.add_argument('--receipt', type=Path)
+    p.add_argument('--baseline-runner', type=Path, help='interleave a second frozen KVM implementation')
+    p.add_argument('--baseline-receipt', type=Path)
     p.add_argument('--native-only', action='store_true')
     p.add_argument('--output', type=Path, required=True)
     p.add_argument('--audit', action='store_true')
@@ -238,6 +240,8 @@ def main():
         p.error('requires real 4KiB Linux with pidfd exit notification')
     if a.repeats < 1 or a.scale <= 0 or a.timeout <= 0:
         p.error('positive repeats, scale and timeout required')
+    if bool(a.baseline_runner) != bool(a.baseline_receipt) or a.native_only and a.baseline_runner:
+        p.error('paired KVM comparison requires both baseline runner/receipt and KVM mode')
     if not a.native_only and not (a.runner and a.receipt):
         p.error('KVM lanes require --runner and --receipt')
     allowed = sorted(os.sched_getaffinity(0))
@@ -278,13 +282,27 @@ def main():
             versions[program] = subprocess.check_output(['/usr/bin/' + program, '--version'], text=True)
     build = receipt(a.receipt.resolve(), a.runner.resolve()) if not a.native_only else None
     runner = a.runner.resolve() if build else None
+    baseline_runner = a.baseline_runner.resolve() if a.baseline_runner else None
+    baseline_build = receipt(a.baseline_receipt.resolve(), baseline_runner) if baseline_runner else None
     if runner:
         doctor = subprocess.run([runner, 'doctor', '--json', '--require-kvm'], capture_output=True, timeout=15)
         (out / 'doctor.stdout').write_bytes(doctor.stdout); (out / 'doctor.stderr').write_bytes(doctor.stderr)
         if doctor.returncode:
             raise RuntimeError('real KVM preflight failed')
+    if baseline_runner:
+        doctor = subprocess.run([baseline_runner, 'doctor', '--json', '--require-kvm'], capture_output=True, timeout=15)
+        (out / 'baseline-doctor.stdout').write_bytes(doctor.stdout); (out / 'baseline-doctor.stderr').write_bytes(doctor.stderr)
+        if doctor.returncode:
+            raise RuntimeError('baseline real KVM preflight failed')
     immutable = immutable_files(root)
-    lanes = ['native'] + ([] if a.native_only else list(a.transport))
+    configurations = {}
+    if not a.native_only:
+        variants = [('baseline', baseline_runner), ('candidate', runner)] if baseline_runner else [('', runner)]
+        for variant, executable in variants:
+            for transport in a.transport:
+                lane = (variant + '-' if variant else '') + transport
+                configurations[lane] = (executable, transport)
+    lanes = ['native', *configurations]
     cases = []
     randomizer = random.Random(a.seed)
     for mode in modes:
@@ -299,7 +317,7 @@ def main():
                 cases.append(dict(id=f'{mode}-{workers}-{phase}-{repeat}-{lane}', mode=mode,
                                   workers=workers, iterations=count, phase=phase, repeat=repeat, lane=lane))
     environment = dict(PATH='/usr/bin:/bin', HOME='/tmp', LANG='C', LC_ALL='C', TZ='UTC')
-    save(out / 'inputs.json', dict(schema_version=1, host=host(), build=build, lanes=lanes,
+    save(out / 'inputs.json', dict(schema_version=1, host=host(), build=build, baseline_build=baseline_build, lanes=lanes,
         workloads=modes, workers=a.workers, repeats=a.repeats, scale=a.scale, seed=a.seed,
         affinity=cpus, allowed_cpus=allowed, compiler_command=command,
         compiler_version=subprocess.check_output([command[0], '--version'], text=True), versions=versions,
@@ -331,8 +349,9 @@ def main():
             if case['lane'] == 'native':
                 invocation = native_args
             else:
-                env['TRAMES_KVM_TRANSPORT'] = case['lane']
-                invocation = [runner, 'run', '--cpus', str(case['workers']), '--rootfs', root,
+                executable, transport = configurations[case['lane']]
+                env['TRAMES_KVM_TRANSPORT'] = transport
+                invocation = [executable, 'run', '--cpus', str(case['workers']), '--rootfs', root,
                               '--timeout-ms', str(round(a.timeout * 1000)), '--', *args]
             invocation = ['/usr/bin/taskset', '-c', ','.join(str(c) for c in cpus[:case['workers']]), *invocation]
             folder = out / 'cases' / case['id']
