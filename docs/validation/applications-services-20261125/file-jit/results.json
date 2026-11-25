@@ -1,0 +1,82 @@
+[
+  {
+    "id": "smccc-1-host-file",
+    "passed": true,
+    "exit_code": 0
+  },
+  {
+    "id": "smccc-1-host-jit",
+    "passed": true,
+    "exit_code": 0
+  },
+  {
+    "id": "smccc-1-store-file",
+    "passed": true,
+    "exit_code": 0
+  },
+  {
+    "id": "smccc-1-store-jit",
+    "passed": true,
+    "exit_code": 0
+  },
+  {
+    "id": "smccc-4-host-file",
+    "passed": true,
+    "exit_code": 0
+  },
+  {
+    "id": "smccc-4-host-jit",
+    "passed": true,
+    "exit_code": 0
+  },
+  {
+    "id": "smccc-4-store-file",
+    "passed": true,
+    "exit_code": 0
+  },
+  {
+    "id": "smccc-4-store-jit",
+    "passed": true,
+    "exit_code": 0
+  },
+  {
+    "id": "mmio-1-host-file",
+    "passed": true,
+    "exit_code": 0
+  },
+  {
+    "id": "mmio-1-host-jit",
+    "passed": true,
+    "exit_code": 0
+  },
+  {
+    "id": "mmio-1-store-file",
+    "passed": true,
+    "exit_code": 0
+  },
+  {
+    "id": "mmio-1-store-jit",
+    "passed": true,
+    "exit_code": 0
+  },
+  {
+    "id": "mmio-4-host-file",
+    "passed": true,
+    "exit_code": 0
+  },
+  {
+    "id": "mmio-4-host-jit",
+    "passed": true,
+    "exit_code": 0
+  },
+  {
+    "id": "mmio-4-store-file",
+    "passed": true,
+    "exit_code": 0
+  },
+  {
+    "id": "mmio-4-store-jit",
+    "passed": true,
+    "exit_code": 0
+  }
+]

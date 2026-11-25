@@ -1,0 +1,1245 @@
+warning: unused field `repository` in `workspace.package`
+  --> Cargo.toml:32:1
+   |
+32 | repository = "https://github.com/kb5000/trames-runtime"
+   | ^^^^^^^^^^
+   |
+   = note: `cargo::unused_workspace_package_fields` is set to `warn` by default
+help: consider removing the field `workspace.package.repository`
+warning: workspace (manifest) generated 1 warning
+warning: unused variable: `source_hardware_addr`
+  --> vendor/smoltcp/src/iface/interface/ipv4.rs:89:9
+   |
+89 |         source_hardware_addr: HardwareAddress,
+   |         ^^^^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_source_hardware_addr`
+   |
+   = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: variable does not need to be mutable
+   --> vendor/smoltcp/src/iface/interface/ipv4.rs:479:35
+    |
+479 |         tx_token.consume(tx_len, |mut tx_buffer| {
+    |                                   ----^^^^^^^^^
+    |                                   |
+    |                                   help: remove this `mut`
+    |
+    = note: `#[warn(unused_mut)]` (part of `#[warn(unused)]`) on by default
+
+warning: variable does not need to be mutable
+   --> vendor/smoltcp/src/iface/interface/ipv4.rs:456:13
+    |
+456 |         let mut tx_len = ip_len;
+    |             ----^^^^^^
+    |             |
+    |             help: remove this `mut`
+
+warning: unused variable: `source_hardware_addr`
+   --> vendor/smoltcp/src/iface/interface/ipv6.rs:191:9
+    |
+191 |         source_hardware_addr: HardwareAddress,
+    |         ^^^^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_source_hardware_addr`
+
+warning: variable does not need to be mutable
+    --> vendor/smoltcp/src/iface/interface/mod.rs:1446:51
+     |
+1446 |                         tx_token.consume(tx_len, |mut tx_buffer| {
+     |                                                   ----^^^^^^^^^
+     |                                                   |
+     |                                                   help: remove this `mut`
+
+warning: variable does not need to be mutable
+    --> vendor/smoltcp/src/iface/interface/mod.rs:1471:50
+     |
+1471 |                     tx_token.consume(total_len, |mut tx_buffer| {
+     |                                                  ----^^^^^^^^^
+     |                                                  |
+     |                                                  help: remove this `mut`
+
+warning: variable does not need to be mutable
+    --> vendor/smoltcp/src/iface/interface/mod.rs:1485:61
+     |
+1485 |             IpRepr::Ipv6(_) => tx_token.consume(total_len, |mut tx_buffer| {
+     |                                                             ----^^^^^^^^^
+     |                                                             |
+     |                                                             help: remove this `mut`
+
+warning: variable does not need to be mutable
+    --> vendor/smoltcp/src/iface/interface/mod.rs:1318:13
+     |
+1318 |         let mut total_len = ip_repr.buffer_len();
+     |             ----^^^^^^^^^
+     |             |
+     |             help: remove this `mut`
+
+warning: field `hardware_addr` is never read
+   --> vendor/smoltcp/src/iface/interface/mod.rs:224:5
+    |
+210 | pub struct InterfaceInner {
+    |            -------------- field in this struct
+...
+224 |     hardware_addr: HardwareAddress,
+    |     ^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: variants `NoRoute` and `NeighborPending` are never constructed
+    --> vendor/smoltcp/src/iface/interface/mod.rs:1517:5
+     |
+1512 | enum DispatchError {
+     |      ------------- variants in this enum
+...
+1517 |     NoRoute,
+     |     ^^^^^^^
+...
+1521 |     NeighborPending,
+     |     ^^^^^^^^^^^^^^^
+     |
+     = note: `DispatchError` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+
+warning: methods `link_local_ipv6_address` and `mldv2_report_packet` are never used
+   --> vendor/smoltcp/src/iface/interface/ipv6.rs:171:8
+    |
+ 21 | impl InterfaceInner {
+    | ------------------- methods in this implementation
+...
+171 |     fn link_local_ipv6_address(&self) -> Option<Ipv6Address> {
+    |        ^^^^^^^^^^^^^^^^^^^^^^^
+...
+562 |     pub(super) fn mldv2_report_packet<'any>(
+    |                   ^^^^^^^^^^^^^^^^^^^
+
+warning: variant `HopByHopIcmpv6` is never constructed
+   --> vendor/smoltcp/src/iface/packet.rs:263:5
+    |
+255 | pub(crate) enum IpPayload<'p> {
+    |                 --------- variant in this enum
+...
+263 |     HopByHopIcmpv6(Ipv6HopByHopRepr<'p>, Icmpv6Repr<'p>),
+    |     ^^^^^^^^^^^^^^
+    |
+    = note: `IpPayload` has a derived impl for the trait `Debug`, but this is intentionally ignored during dead code analysis
+
+warning: type alias `Rest` is never used
+  --> vendor/smoltcp/src/wire/mod.rs:75:14
+   |
+75 |     pub type Rest = ::core::ops::RangeFrom<usize>;
+   |              ^^^^
+
+warning: constant `CUR_HOP_LIMIT` is never used
+   --> vendor/smoltcp/src/wire/icmpv6.rs:220:15
+    |
+220 |     pub const CUR_HOP_LIMIT: usize = 4;
+    |               ^^^^^^^^^^^^^
+
+warning: constant `ROUTER_FLAGS` is never used
+   --> vendor/smoltcp/src/wire/icmpv6.rs:221:15
+    |
+221 |     pub const ROUTER_FLAGS: usize = 5;
+    |               ^^^^^^^^^^^^
+
+warning: constant `ROUTER_LT` is never used
+   --> vendor/smoltcp/src/wire/icmpv6.rs:222:15
+    |
+222 |     pub const ROUTER_LT: Field = 6..8;
+    |               ^^^^^^^^^
+
+warning: constant `REACHABLE_TM` is never used
+   --> vendor/smoltcp/src/wire/icmpv6.rs:223:15
+    |
+223 |     pub const REACHABLE_TM: Field = 8..12;
+    |               ^^^^^^^^^^^^
+
+warning: constant `NEIGH_FLAGS` is never used
+   --> vendor/smoltcp/src/wire/icmpv6.rs:230:15
+    |
+230 |     pub const NEIGH_FLAGS: usize = 4;
+    |               ^^^^^^^^^^^
+
+warning: methods `solicited_node` and `is_solicited_node_multicast` are never used
+   --> vendor/smoltcp/src/wire/ipv6.rs:121:8
+    |
+ 79 | pub(crate) trait AddressExt {
+    |                  ---------- methods in this trait
+...
+121 |     fn solicited_node(&self) -> Address;
+    |        ^^^^^^^^^^^^^^
+...
+131 |     fn is_solicited_node_multicast(&self) -> bool;
+    |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: method `emit_header` is never used
+   --> vendor/smoltcp/src/wire/udp.rs:264:19
+    |
+221 | impl Repr {
+    | --------- method in this implementation
+...
+264 |     pub(crate) fn emit_header<T>(&self, packet: &mut Packet<&mut T>, payload_len: usize)
+    |                   ^^^^^^^^^^^
+
+warning: hiding a lifetime that's elided elsewhere is confusing
+   --> vendor/smoltcp/src/storage/assembler.rs:330:22
+    |
+330 |     pub fn iter_data(&self, first_offset: usize) -> AssemblerIter {
+    |                      ^^^^^                          ^^^^^^^^^^^^^ the same lifetime is hidden here
+    |                      |
+    |                      the lifetime is elided here
+    |
+    = help: the same lifetime is referred to in inconsistent ways, making the signature confusing
+    = note: `#[warn(mismatched_lifetime_syntaxes)]` on by default
+help: use `'_` for type paths
+    |
+330 |     pub fn iter_data(&self, first_offset: usize) -> AssemblerIter<'_> {
+    |                                                                  ++++
+
+warning: `smoltcp` (lib) generated 21 warnings (run `cargo fix --lib -p smoltcp` to apply 9 suggestions)
+    Finished `test` profile [unoptimized] target(s) in 0.17s
+     Running unittests src/lib.rs (runtime/target/debug/build/trames-vfs/2633136a097f7cb8/out/trames_vfs-2633136a097f7cb8)
+
+running 1042 tests
+test binder::tests::fd_buffer_mapping_and_process_resources_are_send_sync ... ok
+test async_io::tests::async_pipe_observes_repeated_events_shares_ofd_state_and_stops_on_disable ... ok
+test async_io::tests::status_ioctl_keeps_the_accepted_slot_and_checks_type_before_user_pointers ... ok
+test binder::tests::binder_readiness_is_per_original_thread_and_retired_poll_cannot_retarget_tid_reuse ... ok
+test acl::tests::inherited_acl_uses_creation_mode_not_umask_and_chmod_changes_the_mask ... ok
+test async_io::tests::accepted_status_control_keeps_the_original_async_endpoint_after_fd_reuse ... ok
+test acl::tests::malformed_acl_does_not_change_inode_and_equivalent_access_acl_updates_mode ... ok
+test binder::tests::completion_read_cannot_start_unrelated_process_rpc_inside_caller_locks ... ok
+test binder::tests::one_way_order_waits_for_buffer_free_but_other_nodes_progress ... ok
+test binder::tests::parcel_reference_commands_survive_remote_death_and_ignore_bad_user_counts ... ok
+test binder::tests::partial_commands_publish_consumed_bytes_and_mapping_unmap_rejects_delivery ... ok
+test binder::tests::failed_fd_import_reclaims_async_slot_and_signal_cancellation_keeps_write_effects ... ok
+test binder::tests::outgoing_rpc_waiter_does_not_suppress_server_pool_growth ... ok
+test binder::tests::malformed_offsets_do_not_publish_partial_fd_or_node_transfers ... ok
+test binder::tests::queued_transaction_holds_guest_object_until_target_buffer_is_freed ... ok
+test binder::tests::nested_callback_uses_waiting_caller_without_a_second_cpu_slot ... ok
+test binder::tests::contexts_protocol_mapping_and_disabled_selinux_queries ... ok
+test binder::tests::released_objects_are_reclaimed_by_pool_after_exporting_worker_stops_reading ... ok
+test binder::tests::dead_tokens_do_not_discard_live_window_info_batches ... ok
+test binder::tests::service_exit_wakes_sync_call_and_death_clear_ack_is_ordered ... ok
+test binder::tests::sg_parent_pointers_and_fd_arrays_use_original_shared_descriptions ... ok
+test binder::tests::malformed_or_unallocatable_replies_unwind_both_original_threads_and_allow_next_call ... ok
+test bpf::tests::crun_style_context_mask_and_branches_enforce_device_access ... ok
+test binder::tests::returned_temporary_object_acquisitions_precede_reply_completion ... ok
+test binder::tests::worker_path_views_retain_original_context_and_mmap_release_not_physical_snapshots ... ok
+test bpf::tests::factory_policy_keeps_original_files_and_refreshes_new_call_credentials ... ok
+test bpf::tests::typed_forward_verifier_rejects_unsafe_and_uninitialized_programs ... ok
+test bpf::tests::scalar_skb_load_has_real_identity_but_cannot_bypass_device_type ... ok
+test cgroup::controllers::tests::cpu_quota_is_shared_until_the_period_expires ... ok
+test binder::tests::transferred_fd_retains_ofd_across_close_reuse_and_is_cloexec ... ok
+test bpf::tests::attachments_survive_close_replace_atomically_and_follow_membership ... ok
+test binder::tests::synchronous_call_reply_and_original_buffer_reuse ... ok
+test bpf::tests::registry_quota_reclaims_dead_programs ... ok
+test cgroup::tests::accepted_kill_closes_unbound_birth_and_cannot_follow_reused_pid ... ok
+test binder::tests::racing_buffer_references_keep_handle_membership_and_node_events_ordered ... ok
+test binder::tests::retired_binder_addresses_accept_new_cookies_after_actual_reference_release ... ok
+test bpf::tests::source_cgroup_path_consumers_share_original_targets_and_control_files ... ok
+test cgroup::tests::birth_commits_the_current_group_limit_and_member_together ... ok
+test cgroup::tests::ancestor_limits_apply_across_siblings_and_release_on_unlink ... ok
+test cgroup::tests::directed_birth_pins_the_inode_and_checks_both_procs_files ... ok
+test cgroup::tests::owner_and_source_control_io_use_one_original_file_position ... ok
+test bpf::tests::worker_program_lease_keeps_identity_and_releases_registry_quota ... ok
+test cgroup::tests::freezer_keeps_original_levels_and_waits_for_real_execution_acknowledgement ... ok
+test cgroup::tests::original_cgroup_metadata_accepts_owners_modes_and_readonly_mount_rules ... ok
+test cgroup::tests::namespace_delegation_changes_only_on_successful_superblock_configuration ... ok
+test cgroup::tests::late_exit_cannot_retire_replacement_membership_and_runs_without_an_owner_view ... ok
+test cgroup::tests::rejected_birth_preserves_first_namespace_init_and_ancestor_ids ... ok
+test credentials::process_transfer_tests::nondumpable_mm_requires_a_capability_in_the_executable_owners_namespace ... ok
+test credentials::process_transfer_tests::accepted_target_matches_the_image_checked_with_real_credentials ... ok
+test cgroup::tests::population_and_pids_notifications_use_original_poll_and_inotify_resources ... ok
+test cpu_topology::tests::mask_words_follow_guest_numbering_across_word_boundaries ... ok
+test cgroup::tests::removed_group_and_reused_pid_preserve_original_zombie_location ... ok
+test cgroup::tests::shared_control_uses_callers_identity_and_permissions_and_retains_deleted_inode ... ok
+test console::tests::source_epoll_alias_and_fork_retain_complete_legacy_and_nested_watch_graphs ... ok
+test descriptor_factory::tests::fd_limit_and_flag_errors_have_no_partial_pipe_or_output_effects ... ok
+test credentials::process_transfer_tests::nondumpable_proc_fd_search_keeps_the_same_thread_group_exception ... ok
+test bpf::tests::parallel_factories_publish_original_programs_and_attachments_without_owner_collection ... ok
+test descriptor_factory::tests::factories_are_send_sync_and_publish_real_resources_into_existing_views ... ok
+test direct_io::tests::a_native_producer_can_appear_after_subscription_and_keeps_the_joined_wake_owner ... ok
+test direct_io::tests::cached_epoll_watch_is_weak_and_never_retargets_a_reused_shared_fd ... ok
+test direct_io::tests::cohort_resource_hint_follows_aliases_peer_ends_and_epoll_watches ... ok
+test descriptor_factory::tests::concurrent_creators_publish_disjoint_live_slots_and_unique_ofd_ids ... ok
+test cgroup::tests::depth_limit_is_transactional_and_storage_budget_is_separate ... ok
+test direct_io::tests::concurrent_epoll_oneshot_has_only_one_delivery_and_rotates_duplicate_watches ... ok
+test direct_io::tests::fd_reuse_keeps_handles_distinct_and_fork_status_is_live ... ok
+test direct_io::tests::atomic_eventfd_and_semaphore_preserve_concurrent_counts ... ok
+test direct_io::tests::epoll_delivery_is_shared_with_joined_waiters_and_refreshes_after_ctl ... ok
+test descriptor_factory::tests::worker_socket_creation_publishes_complete_ofds_and_keeps_creating_authority ... ok
+test direct_io::tests::last_close_in_a_different_fd_table_invalidates_epoll_resource_snapshot ... ok
+test direct_io::tests::live_byte_lookup_follows_reuse_and_new_aliases_while_accepted_calls_keep_original_ofds ... ok
+test direct_io::tests::live_epoll_controls_reach_old_views_and_never_retarget_reused_numbers ... ok
+test direct_io::tests::native_producer_liveness_follows_the_retained_event_and_its_live_descriptors ... ok
+test direct_io::tests::concurrent_live_epoll_registration_has_one_winner_and_one_oneshot ... ok
+test descriptor_factory::tests::pipe_copyout_failure_and_panic_release_both_unpublished_numbers ... ok
+test direct_io::tests::native_completion_retains_the_original_event_after_close_and_fd_reuse ... ok
+test direct_io::tests::native_completion_preserves_a_joined_owner_wake_before_park ... ok
+test directory::tests::immediate_children_preserve_byte_order_and_prefix_siblings ... ok
+test descriptor_factory::tests::netlink_namespace_targets_use_actual_shared_namespace_ofds_and_original_credentials ... ok
+test epoll::graph_tests::nested_signalfd_uses_waiting_callers_signal_reader_without_a_frozen_owner_table ... ok
+test direct_io::tests::direct_pipe_writers_share_vfs_bytes_and_keep_records_atomic ... ok
+test epoll::graph_tests::original_nested_graph_limits_cycles_aliases_and_close_reuse ... ok
+test direct_io::tests::resource_locks_are_independent_and_pipe_buf_rules_match ... ok
+test epoll::tests::exclusive_registration_is_add_only_and_cannot_target_another_epoll ... ok
+test disk_io::tests::host_write_only_cache_does_not_supply_a_read_capability ... ok
+test epoll::tests::exclusive_waiters_wake_one_eligible_interest_and_all_ordinary_interests ... ok
+test events::tests::timer_expirations_accumulate_and_disarm_clears_pending ... ok
+test events::tests::anonymous_and_socket_owners_survive_identity_changes ... ok
+test events::tests::unsupported_epoll_modes_leave_registrations_unchanged ... ok
+test events::timer_index_tests::empty_timer_index_remains_empty_until_actual_membership_changes ... ok
+test executable::tests::native_exec_namespace_defers_lookup_including_missing_names ... ok
+test executable::tests::anonymous_exec_reference_survives_last_fd_close_and_retains_ram_accounting ... ok
+test cgroup::tests::quotas_count_live_deleted_objects_and_release_them ... ok
+test events::timer_index_tests::timer_index_reads_live_state_and_tracks_fork_shared_close_and_fd_reuse ... ok
+test executable::tests::reopen_exec_magic_link_after_memfd_exec_and_last_descriptor_close ... ok
+test epoll::graph_tests::opposite_nested_adds_join_foreign_original_graphs_without_a_cycle ... ok
+test executable::tests::shebang_parser_keeps_one_optional_argument_and_rejects_invalid_headers ... ok
+test fd_allocator::tests::large_ceiling_uses_intervals_and_internal_aliases_do_not_expand_it ... ok
+test executable::tests::symlink_to_proc_magic_link_uses_the_deleted_inode_and_preserves_permissions ... ok
+test executable::tests::text_busy_follows_inode_and_last_open_description ... ok
+test fd_status::tests::accepted_status_control_uses_live_inode_permission_and_survives_fd_reuse ... ok
+test fd_status::tests::captured_file_observes_append_changes_before_effects_without_recapture ... ok
+test direct_io::tests::live_shared_and_owner_interests_share_the_original_limit_and_cursor ... ok
+test directory::tests::root_enumeration_skips_a_large_nested_tree ... ok
+test fd_status::tests::aliases_and_fork_share_status_without_changing_membership_or_cloexec ... ok
+test fd_status::tests::ignored_status_bits_and_path_descriptors_preserve_original_errors ... ok
+test fd_table::tests::captured_flags_follow_dynamic_membership_and_new_cloexec_bits ... ok
+test fd_status::tests::live_flags_resolve_reused_fd_without_retaining_old_pipe_endpoints ... ok
+test fd_status::tests::short_control_preserves_path_invalid_command_and_validation_precedence ... ok
+test epoll::graph_tests::original_interest_index_has_one_capacity_for_nested_and_flat_watches ... ok
+test fd_status::tests::pipe_capacity_is_shared_and_resizing_preserves_queued_bytes ... ok
+test fd_table::tests::clone_files_owns_one_map_and_mutations_need_no_peer_propagation ... ok
+test fd_status::tests::existing_flag_capture_resolves_new_socket_aliases_and_reuse ... ok
+test fd_status::tests::concurrent_status_updates_preserve_fixed_authority_and_fionbio_keeps_append ... ok
+test fd_table::tests::execution_map_does_not_keep_table_membership_after_last_owner_exit ... ok
+test fd_table::tests::control_retirement_releases_original_object_on_the_source ... ok
+test fd_table::tests::dup3_replaces_before_retiring_target_and_does_not_hold_a_table_borrow ... ok
+test fd_table::tests::forked_byte_cache_keeps_each_actual_membership_when_reusing_owner_capabilities ... ok
+test fd_table::tests::late_factory_and_reserved_publication_cannot_resurrect_a_retired_table ... ok
+test fd_table::tests::concurrent_task_retirements_have_one_final_close_and_preserve_accepted_operations ... ok
+test epoll::graph_tests::nested_graph_churn_and_flat_mod_do_not_lock_recursive_watch_state ... ok
+test fd_allocator::tests::split_merge_replacement_and_minimum_follow_numeric_membership ... ok
+test fd_table::tests::nofile_is_per_process_even_with_shared_files_and_threads_can_share_it ... ok
+test bpf::tests::removing_a_cgroup_during_source_policy_queries_never_uses_a_stale_group_index ... ok
+test fd_table::tests::lookup_lease_survives_shared_close_and_numeric_fd_reuse ... ok
+test fd_table::tests::range_bits_handle_holes_empty_ranges_and_preserve_fd_lifetime ... ok
+test fd_table::tests::shared_table_bits_are_live_but_fork_and_dup_have_independent_cloexec ... ok
+test fd_table::tests::task_detach_keeps_shared_ends_until_the_final_table_owner_exits ... ok
+test fd_table::tests::shared_ofd_releases_process_locks_and_last_worker_flock_immediately ... ok
+test fd_table::tests::unpublished_reservations_are_invisible_and_dup_collision_matches_linux ... ok
+test fd_table::tests::source_task_retires_real_membership_before_owner_projection_collection ... ok
+test fd_table::tests::shared_anonymous_ofds_release_at_the_last_actual_lease_not_cache_refresh ... ok
+test fd_table::tests::source_fork_retains_control_identity_and_skips_unpublished_reservations ... ok
+test file_actor::tests::scopes_restore_original_actor_and_observe_live_credentials ... ok
+test fd_table::tests::unshare_detaches_bits_and_live_flags_follow_numeric_reuse ... ok
+test fd_table::tests::shared_ring_slots_support_structural_effects_without_owner_projections ... ok
+test fd_table::tests::volatile_file_lifetime_and_offset_are_shared_without_granting_worker_byte_authority ... ok
+test fd_table::tests::simultaneous_worker_edits_and_owner_enumeration_use_the_same_membership ... ok
+test fd_table::tests::worker_membership_retains_original_ofd_across_close_and_numeric_reuse ... ok
+test file_io::tests::captured_and_published_file_authority_uses_the_callers_live_size_limit ... ok
+test file_io::tests::accepted_stat_tracks_the_original_unlinked_inode_across_fd_reuse ... ok
+test file_io::tests::accepted_file_and_flock_keep_complete_original_ofd_until_last_worker_release ... ok
+test file_caps::tests::executable_grants_respect_the_mount_bounding_set_and_no_new_privileges ... ok
+test file_io::tests::dup_fork_and_joined_io_use_one_atomic_offset_transaction ... ok
+test file_io::tests::mapping_change_rechecks_file_capability_without_an_fd_table_change ... ok
+test file_io::tests::live_file_membership_resolves_new_aliases_and_reuse_but_accepted_io_stays_original ... ok
+test file_io::tests::growth_and_append_execute_on_source_while_finite_and_sync_policy_use_full_file_calls ... ok
+test file_io::tests::persistent_file_capability_defers_without_effects_after_mapping_takes_byte_authority ... ok
+test file_io::tests::prepared_file_cache_keeps_fork_membership_separate_and_clone_files_shared ... ok
+test file_io::tests::prepared_file_caches_release_actual_unlinked_storage_at_last_close_without_a_join ... ok
+test file_io::tests::readonly_bind_and_policy_changes_are_separate_capabilities ... ok
+test file_work_tests::file_copy_keeps_imported_input_across_output_layout_changes_and_fd_reuse ... ok
+test file_work_tests::path_truncate_accepts_the_original_ofd_without_publishing_or_leaking_a_temporary_fd ... ok
+test file_io::tests::worker_file_io_delivers_inode_and_parent_notifications_without_owner_handoff ... ok
+test file_work_tests::file_copy_resumes_after_a_committed_chunk_and_a_layout_wait ... ok
+test file_work_tests::retained_file_work_observes_live_process_limit_and_reports_size_signal ... ok
+test file_work_tests::concurrent_append_keeps_every_record_and_metadata_is_visible_without_epoch_copyback ... ok
+test file_work_tests::truncate_open_retains_the_resolved_inode_and_rolls_back_unpublished_reservations ... ok
+test file_work_tests::unlink_keeps_the_original_byte_charge_until_the_last_accepted_description_drops ... ok
+test flock::tests::anonymous_pipe_locks_share_the_inode_and_socket_locks_follow_the_original_ofd ... ok
+test flock::tests::locks_in_independent_filesystems_do_not_conflict ... ok
+test flock::tests::last_worker_lease_releases_lock_and_weak_snapshots_do_not_extend_lifetime ... ok
+test flock::tests::invalid_and_path_calls_preserve_locks_but_failed_conversion_releases_old_kind ... ok
+test fs_context::tests::chroot_and_unshare_keep_paths_mask_and_files_domains_independent ... ok
+test flock::tests::simultaneous_exclusive_acquisitions_have_one_winner ... ok
+test fs_context::tests::concurrent_umask_exchanges_return_each_predecessor_exactly_once ... ok
+test fs_context::tests::fs_membership_counts_tasks_not_queries_and_retires_before_collection ... ok
+test fs_context::tests::mount_unshare_preserves_an_accepted_observers_original_context ... ok
+test fs_context::tests::mount_unshare_remaps_only_the_callers_context ... ok
+test file_work_tests::same_inode_forward_copy_repeats_only_at_eof_and_preserves_offsets ... ok
+test fs_context::tests::pivot_and_late_query_writes_never_reactivate_retired_fs_structs ... ok
+test fs_context::tests::shared_paths_and_mask_are_live_while_fork_copies_the_context ... ok
+test fs_data::tests::shared_filesystem_retains_live_inode_and_releases_it_on_last_worker_drop ... ok
+test fuse::mount::cache::tests::dropping_one_reader_keeps_the_shared_request_and_last_drop_cancels_it ... ok
+test fuse::mount::cache::tests::a_new_reader_can_retry_without_changing_the_original_error ... ok
+test fuse::mount::cache::tests::accepted_page_source_keeps_the_original_ofd_across_close_and_numeric_reuse ... ok
+test fuse::mount::cache::tests::a_later_attribute_or_active_writer_prevents_short_read_size_rollback ... ok
+test fuse::mount::cache::tests::inode_notification_invalidates_data_and_guards_against_older_short_reads ... ok
+test fuse::mount::cache::tests::page_io_uses_live_fs_credentials_and_the_original_connection_pid_namespace ... ok
+test fuse::mount::cache::tests::malformed_unknown_and_missing_inode_notifications_leave_original_reads_intact ... ok
+test fuse::mount::cache::tests::page_reads_share_the_original_request_and_publish_short_read_zeroes ... ok
+test fuse::mount::cache::tests::invalidating_an_inflight_page_cannot_publish_its_late_reply_as_current ... ok
+test executable::tests::resident_exec_lookup_accepts_private_inodes_and_reports_missing_files ... ok
+test fuse::tests::abandoned_open_releases_handle_granted_after_interrupt ... ok
+test fuse::mount::cache::tests::the_last_signed_file_page_does_not_read_past_maxbytes ... ok
+test fuse::tests::accepted_directory_reply_retains_the_last_handle_until_copy_or_cancellation ... ok
+test fuse::mount::cache::tests::physical_cache_is_charged_to_the_reader_not_the_replying_daemon ... ok
+test fuse::tests::access_tests::access_enosys_is_cached_after_the_actual_inode_request ... ok
+test fuse::tests::access_tests::access_daemon_errors_precede_readonly_and_success_samples_the_reply_time_flags ... ok
+test fuse::tests::access_tests::proc_directory_access_uses_the_retained_node_after_source_fd_reuse ... ok
+test fuse::tests::access_tests::proc_regular_fuse_file_access_keeps_its_inode_until_reply_or_cancel ... ok
+test fuse::tests::access_tests::proc_fuse_file_access_checks_live_mount_flags_at_the_linux_stages ... ok
+test fuse::tests::access_tests::proc_fuse_access_uses_real_or_effective_ids_after_the_owner_wait ... ok
+test file_io::tests::retained_native_reads_share_data_but_keep_the_original_offset_transaction ... ok
+test fuse::tests::access_tests::readonly_special_fuse_inode_delegates_write_and_f_ok_to_the_daemon ... ok
+test fuse::tests::access_tests::removed_bind_root_checks_allow_other_before_climbing_to_an_ordinary_parent ... ok
+test fuse::tests::acl_tests::delayed_init_rechecks_negotiated_permissions_with_the_original_open_intent ... ok
+test fuse::tests::acl_tests::late_public_acl_read_returns_its_observation_without_repopulating_invalidated_cache ... ok
+test fuse::tests::acl_tests::cached_inode_acl_survives_lookup_and_a_failed_acl_set_invalidates_it ... ok
+test fuse::tests::acl_tests::cancelled_owner_allows_new_fill_without_promoting_an_already_pending_follower ... ok
+test fuse::tests::acl_tests::failed_owner_and_cancelled_old_follower_leave_a_replacement_fill_owned ... ok
+test fuse::tests::access_tests::access_to_proc_memfd_and_anonymous_inode_uses_real_inode_permissions ... ok
+test fuse::tests::acl_tests::acl_query_errors_and_cancellation_keep_the_original_lookup_lifetime ... ok
+test fuse::tests::acl_tests::negotiated_acl_implies_local_checks_and_named_denial_does_not_fall_through_to_other ... ok
+test fuse::tests::acl_tests::overlapping_public_reads_preserve_first_fill_for_both_completion_orders ... ok
+test fuse::tests::acl_tests::root_acl_is_requeried_and_a_permission_refresh_discards_its_old_reply ... ok
+test fuse::tests::acl_tests::public_acl_reads_share_permission_and_default_caches_with_original_capacity ... ok
+test fuse::tests::attribute_tests::a_followed_link_retires_the_old_type_before_readlink_completes ... ok
+test fuse::tests::attribute_tests::an_older_getattr_returns_its_own_reply_without_replacing_setattr_cache ... ok
+test fuse::tests::attribute_tests::bad_identity_lookup_preserves_exclusive_create_and_path_only_open_precedence ... ok
+test fuse::tests::attribute_tests::cancelling_setattr_releases_its_writer_and_interrupts_only_the_sent_request ... ok
+test fuse::tests::attribute_tests::chmod_uses_the_accepted_node_and_only_publishes_daemon_attributes ... ok
+test fuse::tests::attribute_tests::data_fd_setattr_retains_the_original_open_until_completion_without_wire_fh ... ok
+test fuse::tests::attribute_tests::directory_attributes_are_shared_by_all_open_descriptions_after_setattr_and_getattr ... ok
+test fuse::tests::attribute_tests::chown_getattr_and_setattr_keep_the_original_empty_fd_and_writer ... ok
+test fuse::tests::attribute_tests::failed_path_operations_still_publish_lookup_attributes_and_retire_old_identities ... ok
+test fuse::tests::cancelled_lookup_forgets_late_or_already_arrived_reply ... ok
+test fuse::tests::attribute_tests::setattr_applies_but_expires_when_a_newer_read_finished_during_its_wait ... ok
+test fuse::tests::attribute_tests::timestamp_now_and_omit_have_distinct_wire_bits_and_omit_both_needs_no_lookup ... ok
+test fuse::tests::attribute_tests::malformed_and_rejected_setattr_replies_do_not_publish_requested_permissions ... ok
+test fuse::tests::create_tests::canceled_create_balances_both_resources_before_or_after_reply_arrives ... ok
+test fuse::tests::create_tests::atomic_create_masks_only_in_the_live_callback_and_resamples_on_fallback ... ok
+test fuse::tests::create_tests::atomic_create_keeps_mode_descriptor_flags_and_the_granted_handle ... ok
+test fuse::tests::data_tests::a_cancelled_inode_wait_never_consumes_or_interrupts_the_active_write ... ok
+test fuse::tests::create_tests::unsupported_create_uses_mknod_open_and_remembers_the_connection_fallback ... ok
+test fuse::tests::create_tests::exclusive_create_existing_inode_precedes_link_and_readonly_errors ... ok
+test file_io::tests::writes_share_bytes_and_metadata_with_stat_and_persistence ... ok
+test fuse::tests::data_tests::fd_truncate_reads_the_live_file_size_limit_and_delivers_its_signal ... ok
+test fuse::tests::data_tests::fd_truncate_uses_the_original_handle_and_daemon_size_for_all_aliases ... ok
+test fuse::tests::data_tests::append_serializes_original_inode_updates_and_fcntl_uses_the_live_ofd_flags ... ok
+test fuse::tests::data_tests::cancelling_an_unsent_xattr_does_not_interrupt_the_active_privilege_query ... ok
+test fuse::tests::data_tests::pathname_truncate_follows_a_daemon_symlink_to_the_original_ordinary_inode ... ok
+test fuse::tests::data_tests::stream_and_nonseekable_open_results_control_offsets_and_no_flush ... ok
+test fuse::tests::data_tests::pathname_truncate_needs_no_daemon_open_or_descriptor_slot ... ok
+test fuse::tests::data_tests::read_copyout_retains_the_original_ofd_and_commits_only_its_copied_prefix ... ok
+test fuse::tests::data_tests::sync_write_publishes_its_position_only_when_the_original_sync_succeeds ... ok
+test fuse::tests::data_tests::write_privilege_removal_and_xattr_mutation_share_the_original_inode_transaction ... ok
+test fuse::tests::data_tests::synchronized_writes_wait_for_the_original_fsync_and_keep_the_byte_count ... ok
+test fuse::tests::data_tests::truncate_open_keeps_the_original_slot_hidden_until_setattr_succeeds ... ok
+test fuse::tests::directory_tests::chdir_waits_for_daemon_search_permission_and_does_not_change_cwd_on_error ... ok
+test fuse::tests::directory_cookies_commit_after_guest_copy_and_dup_waits_on_original_position ... ok
+test fuse::tests::data_tests::zero_length_io_completes_without_a_daemon_request_or_sync ... ok
+test fuse::tests::directory_small_buffers_malformed_replies_and_cancellation_preserve_cookie ... ok
+test fuse::tests::directory_tests::chroot_capability_type_access_denial_and_cancellation_never_publish_root ... ok
+test file_work_tests::syncfs_uses_the_descriptor_filesystem_even_in_another_root_context ... ok
+test fuse::tests::directory_tests::chroot_enosys_publishes_only_the_original_shared_fs_context ... ok
+test fuse::tests::directory_tests::fresh_directory_lookup_keeps_identity_without_caching_the_path_result ... ok
+test fuse::tests::directory_tests::chroot_waits_for_access_and_keeps_original_root_inode_and_cwd ... ok
+test fuse::tests::dup_shares_handle_flush_error_consumes_slot_and_release_follows_last_close ... ok
+test fuse::tests::directory_tests::cold_cwd_projection_does_not_keep_unmounted_daemon_alive ... ok
+test fuse::tests::directory_tests::retained_directory_cursor_commits_only_complete_entries_and_cancel_keeps_the_last_cookie ... ok
+test fuse::tests::directory_tests::opening_dot_from_fuse_cwd_uses_original_directory_and_balances_lookup ... ok
+test fuse::tests::directory_tests::directory_identity_supports_fchdir_dot_parent_and_original_relative_lookup ... ok
+test fuse::tests::directory_tests::renamed_cwd_keeps_directory_identity_and_removed_cwd_can_climb_to_parent ... ok
+test fuse::tests::entry_reply_tests::an_invalid_namespace_parent_getattr_marks_its_retained_directory_bad ... ok
+test fuse::tests::entry_reply_tests::abandoned_root_lookup_and_getattr_still_update_the_retained_root ... ok
+test fuse::tests::entry_reply_tests::cancelled_invalid_entry_replies_never_invent_lookup_or_open_resources ... ok
+test fuse::tests::file_bind_tests::a_fuse_file_can_be_the_covered_target_of_an_ordinary_file_bind ... ok
+test fuse::tests::file_bind_tests::a_bound_regular_inode_uses_getattr_and_open_on_its_original_daemon_node ... ok
+test fuse::tests::file_bind_tests::a_type_changing_getattr_permanently_marks_the_original_bind_bad ... ok
+test fuse::tests::file_bind_tests::bound_file_open_samples_live_readonly_after_getattr_and_path_only_uses_the_inode ... ok
+test fuse::tests::entry_reply_tests::invalid_root_lookup_attributes_do_not_poison_but_valid_type_reuse_does ... ok
+test fuse::tests::entry_reply_tests::root_lookup_updates_the_root_before_rejecting_a_named_alias ... ok
+test fuse::tests::handshake_gates_queued_requests_and_preserves_header_identity ... ok
+test fuse::tests::file_bind_tests::bound_files_canonicalize_nodeid_generation_without_merging_reported_inode_numbers ... ok
+test fuse::tests::file_bind_tests::create_type_reuse_retires_the_bound_directory_and_keeps_the_new_handle ... ok
+test fuse::tests::file_bind_tests::a_bound_proc_file_fd_outlives_source_close_and_reuse_without_retaining_its_handle ... ok
+test fuse::tests::entry_reply_tests::invalid_atomic_and_fallback_creations_grant_no_resources_and_release_the_writer ... ok
+test fuse::tests::idle_daemon_disconnect_invalidates_the_observed_poll_state ... ok
+test fuse::tests::init_short_payload_is_zero_extended_and_oversized_payload_ends_the_connection ... ok
+test fuse::tests::interrupt_priority_retry_disable_and_reply_races ... ok
+test fuse::tests::link_tests::empty_path_cannot_resurrect_a_last_unlinked_ordinary_source ... ok
+test fuse::tests::link_tests::cancelling_link_forgets_the_original_and_late_success_grant_once_each ... ok
+test fuse::tests::lazy_unmount_keeps_an_open_file_and_implicit_flush_alive ... ok
+test fuse::tests::link_tests::empty_path_cannot_resurrect_the_last_unlinked_fuse_inode ... ok
+test fuse::tests::link_tests::hardlink_uses_the_original_source_node_and_balances_both_lookup_grants ... ok
+test fuse::tests::link_tests::a_changed_opener_identity_requires_capability_for_empty_path_fuse_link ... ok
+test fuse::tests::link_tests::alternate_nodeid_link_reply_matches_linux_and_releases_both_grants ... ok
+test fuse::tests::link_tests::link_existing_destination_and_cross_mount_errors_do_not_send_link ... ok
+test fuse::tests::link_tests::empty_path_link_keeps_the_original_path_only_fd_after_close_and_reuse ... ok
+test fuse::tests::link_tests::nofollow_link_uses_the_symlink_inode_without_readlink ... ok
+test fuse::tests::link_tests::link_enosys_becomes_eperm_and_disables_future_link_callbacks ... ok
+test fuse::tests::malformed_reply_retires_the_original_request_with_io_error ... ok
+test fuse::tests::mount_fd_tests::non_cloning_open_tree_needs_no_mount_capability_and_no_daemon_open ... ok
+test fuse::tests::mount_fd_tests::cancelling_open_tree_releases_a_late_lookup_without_publishing_an_fd ... ok
+test fuse::tests::mount_fd_tests::modern_mount_validation_and_noop_attributes_do_not_send_daemon_requests ... ok
+test fuse::tests::mount_fd_tests::open_tree_resumes_a_fuse_directory_lookup_and_attaches_the_original_inode ... ok
+test fuse::tests::mount_fd_tests::move_mount_retains_the_accepted_source_while_its_fuse_target_waits ... ok
+test fuse::tests::mount_fd_tests::mount_fd_empty_path_retains_the_original_daemon_file_and_tree_fd ... ok
+test fuse::tests::mount_fd_tests::set_attr_through_a_fuse_link_changes_only_the_resolved_mount ... ok
+test fuse::tests::link_tests::protected_hardlinks_uses_fuse_permission_semantics_and_rejects_unsafe_modes ... ok
+test fuse::tests::namespace_metadata_projection_does_not_keep_an_unmounted_daemon_alive ... ok
+test fuse::tests::namespace_tests::invalid_created_node_returns_eio_and_releases_mount_write_admission ... ok
+test fuse::tests::namespace_tests::creation_trailing_slash_and_existing_final_keep_vfs_errors ... ok
+test fuse::tests::namespace_tests::creation_samples_shared_umask_after_the_final_lookup_wait ... ok
+test fuse::tests::namespace_tests::rename2_enosys_becomes_einval_and_is_cached_only_after_a_valid_attempt ... ok
+test fuse::tests::namespace_tests::rename_keeps_both_directory_operands_until_daemon_completes ... ok
+test fuse::tests::namespace_tests::nested_mkdir_retains_parent_and_passes_original_mask_and_name ... ok
+test fuse::tests::namespace_tests::directory_fd_mutation_survives_numeric_reuse ... ok
+test fuse::tests::namespace_tests::creation_cancellation_forgets_late_reply_and_releases_mount ... ok
+test fuse::tests::namespace_tests::rename_noreplace_and_exchange_preserve_original_errors ... ok
+test fuse::tests::namespace_tests::unlink_checks_kind_and_sticky_ownership_before_daemon_mutation ... ok
+test fuse::tests::native_walk_tests::cancelled_native_walk_releases_the_original_open_reservation ... ok
+test fuse::tests::native_walk_tests::chdir_publishes_the_shared_cwd_only_after_the_native_stage ... ok
+test fuse::tests::native_walk_tests::a_native_mount_operand_reenters_the_executor_after_its_other_operand_waits_for_fuse ... ok
+test fuse::tests::native_walk_tests::followed_host_open_yields_before_io_and_keeps_its_reserved_fd ... ok
+test fuse::tests::native_walk_tests::host_symlink_rejoins_fuse_and_interrupts_only_the_new_request ... ok
+test fuse::tests::native_walk_tests::namespace_parent_uses_the_native_walk_job_for_the_host_mutation ... ok
+test fuse::tests::native_walk_tests::opening_a_bound_daemon_link_carries_the_reservation_to_a_native_target ... ok
+test fuse::tests::native_walk_tests::open_tree_returns_a_fuse_link_native_target_to_the_existing_executor ... ok
+test fuse::tests::native_walk_tests::hardlink_keeps_a_native_source_inode_while_its_destination_waits_for_a_fuse_link ... ok
+test fuse::tests::native_walk_tests::proc_host_chdir_retains_the_directory_across_native_wait_and_path_replacement ... ok
+test fuse::tests::native_walk_tests::proc_host_chroot_retains_the_directory_across_native_wait_and_path_replacement ... ok
+test fuse::tests::native_walk_tests::proc_host_anchor_follows_mount_identity_after_its_parent_moves ... ok
+test fuse::tests::negotiated_large_io_keeps_short_results_and_position ... ok
+test fuse::tests::nested_lookup_stat_returns_ino_and_forgets_each_reference ... ok
+test fuse::tests::negative_lookup_bad_entry_and_trailing_slash_do_not_grant_access ... ok
+test fuse::tests::native_walk_tests::proc_host_cwd_keeps_its_capability_after_the_target_changes_cwd ... ok
+test fuse::tests::native_walk_tests::removed_host_directory_proc_jump_can_enter_dot_and_climb_to_its_actual_parent ... ok
+test fuse::tests::parent_tests::destination_parent_lookup_failure_precedes_cross_mount_rename_rejection ... ok
+test fuse::tests::native_walk_tests::proc_host_access_keeps_the_resolved_inode_and_refreshes_its_current_mode ... ok
+test fuse::tests::parent_tests::a_parent_link_can_leave_a_readonly_fuse_mount_before_mutation_admission ... ok
+test fuse::tests::parent_tests::mkdir_parent_keeps_original_fd_and_relative_link_base_across_waits ... ok
+test fuse::tests::parent_tests::ordinary_rename_parent_is_retained_while_the_other_parent_waits_on_a_daemon ... ok
+test fuse::tests::permission_tests::local_chmod_denial_sends_no_setattr_and_does_not_keep_a_mount_writer ... ok
+test fuse::tests::permission_tests::local_xattr_permissions_precede_the_per_opcode_unsupported_cache ... ok
+test fuse::tests::permission_tests::local_search_checks_dot_and_dotdot_before_traversing_a_private_directory ... ok
+test fuse::tests::parent_tests::rename_classifies_mounts_after_following_the_source_parent_link ... ok
+test fuse::tests::permission_tests::access_local_modes_use_real_ids_across_lookup_and_permission_waits ... ok
+test fuse::tests::permission_tests::cross_parent_rename_and_exchange_check_the_moved_directory_write_mode ... ok
+test fuse::tests::permission_tests::local_access_uses_cached_modes_without_an_access_rpc_and_refreshes_a_denial_once ... ok
+test fuse::tests::permission_tests::zero_attribute_timeout_grants_only_the_completed_check_without_repeated_refresh ... ok
+test fuse::tests::permission_tests::parent_permission_wait_preserves_an_open_reservation_and_checks_control_access_mode ... ok
+test fuse::tests::proc_walk_tests::cancelled_owner_continuation_releases_its_original_open_slot ... ok
+test fuse::tests::proc_walk_tests::joined_proc_directory_can_return_to_a_daemon_and_survive_fd_reuse ... ok
+test fuse::tests::permission_tests::pending_local_chdir_keeps_its_caller_credentials_and_cancellation_releases_lookup ... ok
+test fuse::tests::permission_tests::protected_hardlink_checks_refreshed_source_modes_and_keeps_the_owner_error_bypass ... ok
+test fuse::tests::permission_tests::sticky_create_checks_the_accepted_parent_owner_policy_and_exclusive_order ... ok
+test fuse::tests::proc_walk_tests::namespace_parent_resumes_through_the_original_proc_directory ... ok
+test fuse::tests::proc_walk_tests::owner_checkpoint_can_resume_an_original_legacy_pty_open ... ok
+test fuse::tests::proc_walk_tests::proc_chdir_rejects_fuse_regular_files_and_anonymous_inodes_as_not_directories ... ok
+test fuse::tests::proc_walk_tests::owner_join_resumes_stat_without_replaying_the_fuse_link ... ok
+test fuse::tests::proc_walk_tests::proc_fd_reopen_retains_the_fuse_inode_and_gets_a_fresh_handle ... ok
+test fuse::tests::reused_daemon_mounts_share_lifetime_and_cold_metadata_cannot_reconnect ... ok
+test fuse::tests::proc_walk_tests::proc_fuse_chdir_denial_or_cancellation_does_not_publish_a_cwd ... ok
+test fuse::tests::proc_walk_tests::proc_fuse_chdir_keeps_the_original_directory_through_rename_and_fd_reuse ... ok
+test fuse::tests::proc_walk_tests::proc_fd_open_keeps_the_original_reservation_and_original_memfd_inode ... ok
+test fuse::tests::statfs_tests::descriptor_statfs_uses_original_detached_inode_after_close_and_fd_reuse ... ok
+test fuse::tests::statfs_tests::statfs_cancellation_and_bad_replies_release_the_lookup_without_path_replay ... ok
+test fuse::tests::sequential_write_and_read_share_position_but_positioned_read_does_not_wait ... ok
+test fuse::tests::statfs_tests::statfs_retains_accepted_inode_and_reads_live_flags_after_reply ... ok
+test fuse::tests::symlink_inode_tests::a_bound_relative_link_retains_its_original_parent_across_rename_and_replacement ... ok
+test fuse::tests::native_walk_tests::retained_host_chdir_and_fchdir_refresh_search_permission_before_publication ... ok
+test fuse::tests::symlink_inode_tests::path_only_nofollow_open_keeps_a_link_after_close_and_fd_reuse ... ok
+test fuse::tests::topology_tests::a_cancelled_mount_forgets_a_late_lookup_without_publishing_topology ... ok
+test fuse::tests::symlink_inode_tests::bound_daemon_link_follows_its_target_from_the_mountpoints_parent ... ok
+test fuse::tests::symlink_inode_tests::bound_link_parent_mutation_retains_the_link_after_lazy_unmount_and_replacement ... ok
+test fuse::tests::symlink_inode_tests::cancelling_readlink_releases_the_last_lookup_and_ignores_a_late_reply ... ok
+test fuse::tests::symlink_inode_tests::nofollow_tree_retains_daemon_link_for_fstat_and_empty_path_readlink ... ok
+test fuse::tests::symlink_inode_tests::bound_link_loop_and_no_symlinks_policy_do_not_replay_lookup ... ok
+test fuse::tests::topology_tests::a_fuse_directory_can_be_covered_and_unmounted_without_its_own_lookup_becoming_busy ... ok
+test fuse::tests::topology_tests::bind_through_a_fuse_link_can_still_select_an_ordinary_file ... ok
+test fuse::tests::topology_tests::mount_capability_denial_precedes_any_fuse_request ... ok
+test fuse::tests::topology_tests::identical_source_and_target_spellings_remain_separate_accepted_operands ... ok
+test fuse::tests::unread_cancel_sent_cancel_and_last_daemon_close ... ok
+test fuse::tests::waiter_registered_before_mount_observes_successive_requests ... ok
+test fuse::tests::topology_tests::umount_nofollow_rejects_a_fuse_symlink_without_readlink ... ok
+test fuse::tests::topology_tests::mounting_through_a_fuse_symlink_uses_the_resolved_target ... ok
+test fuse::tests::walk_tests::a_link_crosses_fuse_connections_and_interrupts_only_the_current_request ... ok
+test fuse::tests::topology_tests::pivot_root_resumes_the_new_root_operand_through_a_fuse_symlink ... ok
+test fuse::tests::topology_tests::topology_wait_releases_admin_and_retains_the_first_operand_for_bind_and_move ... ok
+test fuse::tests::walk_tests::a_link_wait_keeps_the_original_directory_after_fd_reuse_and_cwd_change ... ok
+test fuse::tests::walk_tests::bind_root_uses_its_retained_fuse_directory_and_dotdot_leaves_the_mount ... ok
+test fuse::tests::walk_tests::access_uses_live_mount_flags_after_the_lookup_wait ... ok
+test fuse::tests::walk_tests::access_keeps_real_ids_when_a_daemon_link_returns_to_an_ordinary_inode ... ok
+test fuse::tests::walk_tests::followed_link_can_open_an_ordinary_file_with_the_original_reserved_slot ... ok
+test fuse::tests::walk_tests::followed_relative_link_resumes_the_vfs_walk_through_dotdot ... ok
+test fuse::tests::xattr_tests::cancelled_mutation_interrupts_once_releases_writer_and_ignores_a_late_success ... ok
+test fuse::tests::xattr_tests::acl_sets_ignore_create_flags_and_default_acl_clear_on_regular_files_is_a_noop ... ok
+test fuse::tests::walk_tests::scoped_link_resolution_keeps_the_original_directory_boundary ... ok
+test fuse::tests::walk_tests::no_symlinks_rejects_before_readlink_and_nofollow_can_open_the_link_itself ... ok
+test fuse::tests::xattr_tests::capability_reads_query_then_fetch_before_returning_length_or_data ... ok
+test fuse::tests::walk_tests::link_loop_is_bounded_and_every_lookup_is_forgotten ... ok
+test fuse::tests::xattr_tests::data_fd_read_keeps_original_inode_after_close_reuse_and_flush ... ok
+test fuse::tests::xattr_tests::default_fuse_permissions_delegate_regular_access_but_keep_namespace_rules ... ok
+test fuse::tests::xattr_tests::chown_clears_capabilities_on_original_inode_and_propagates_remove_denial ... ok
+test fuse::tests::xattr_tests::get_queries_use_zero_wire_capacity_and_return_a_bounded_count_without_bytes ... ok
+test fuse::tests::xattr_tests::malformed_capability_set_is_rejected_before_sending_the_daemon_mutation ... ok
+test fuse::tests::xattr_tests::get_clamps_capacity_and_maps_only_full_buffer_erange_to_e2big ... ok
+test fuse::tests::xattr_tests::set_empty_and_remove_have_different_opcodes_and_hold_original_mount_writers ... ok
+test fuse::tests::xattr_tests::legacy_acl_reads_fetch_the_full_acl_before_applying_user_capacity ... ok
+test fuse::tests::xattr_tests::lists_require_nonempty_nul_terminated_names_and_preserve_daemon_order ... ok
+test fuse::tests::xattr_tests::enosys_is_cached_for_each_operation_after_ordinary_lookup_and_permissions ... ok
+test fuse::transport::receiver_tests::page_receivers_bind_before_publication_and_run_once_outside_transport_locks ... ok
+test fuse::transport::receiver_tests::malformed_and_disconnected_page_requests_complete_the_original_receiver ... ok
+test fuse::transport::receiver_tests::receiver_lifetime_cannot_keep_an_abandoned_page_alive ... ok
+test host_files::tests::accepted_context_observes_pending_bindings_without_retiring_or_consuming_them ... ok
+test host_files::tests::accepted_export_survives_replacement_and_namespace_alias_removal ... ok
+test fuse::tests::zero_ttl_refreshes_by_node_and_readlink_uses_daemon_target ... ok
+test fuse::tests::xattr_tests::user_symlink_attributes_are_rejected_without_following_the_symlink ... ok
+test host_files::tests::checked_commit_preserves_old_descriptors_hardlinks_and_metadata ... ok
+test host_files::tests::completed_edit_retry_needs_no_staging_quota ... ok
+test host_files::tests::checked_commit_retains_same_inode_changes_retry_and_cancellation ... ok
+test host_files::tests::checked_commit_excludes_plain_fast_writes_through_the_path_swap ... ok
+test hostfs::interop_tests::native_flock_conflicts_in_both_directions_and_follows_dup_lifetime ... ok
+test hostfs::interop_tests::native_flock_unlock_is_waitable_and_private_mapping_keeps_ofd_lock ... ok
+test hostfs::interop_tests::native_inode_watches_through_separate_grants_are_independent ... ok
+test hostfs::interop_tests::native_directory_changes_and_existing_file_writes_reach_inotify ... ok
+test hostfs::interop_tests::native_watch_rearms_on_worker_poller_and_mask_updates_release_interests ... ok
+test hostfs::interop_tests::first_native_watch_updates_already_subscribed_reads_and_epoll ... ok
+test hostfs::tests::authorized_control_mount_updates_original_namespace_without_a_new_owner ... ok
+test file_work_tests::concurrent_growth_has_one_capacity_account_and_failed_growth_rolls_back ... ok
+test hostfs::interop_tests::native_watch_wakes_the_existing_poll_and_epoll_path ... ok
+test hostfs::tests::a_later_guest_bind_mount_invalidates_the_no_child_shortcut ... ok
+test hostfs::interop_tests::short_lived_guest_names_are_preserved_and_native_echoes_are_coalesced ... ok
+test fuse::tests::native_walk_tests::xattrs_cross_fuse_and_proc_on_the_native_executor_with_the_original_host_ofd ... ok
+test fuse::tests::native_walk_tests::namespace_mutations_keep_the_proc_host_parent_after_fd_reuse_and_rename ... ok
+test hostfs::tests::bidirectional_bytes_live_size_and_retained_replacement ... ok
+test hostfs::tests::control_only_open_keeps_host_file_metadata_across_unlink ... ok
+test hostfs::tests::mount_marker_uses_the_visible_pseudo_inode_over_an_imported_directory ... ok
+test hostfs::tests::closing_the_newest_handle_does_not_lose_an_older_open_inode ... ok
+test hostfs::tests::creating_readonly_files_preserves_the_original_write_description ... ok
+test hostfs::tests::bulk_disk_job_retains_the_original_host_file_after_close_and_reuse ... ok
+test hostfs::tests::host_root_mount_renders_one_separator_for_cwd_and_descriptor_names ... ok
+test hostfs::tests::cwd_and_directory_fd_follow_a_native_directory_rename ... ok
+test hostfs::tests::directory_metadata_uses_retained_inode_after_rename_and_unlink ... ok
+test hostfs::tests::mount_does_not_walk_the_host_tree_or_charge_native_bytes_to_guest_storage ... ok
+test hostfs::tests::named_host_mount_operand_keeps_its_accepted_position ... ok
+test hostfs::tests::native_directory_emptiness_is_not_inferred_from_a_stale_lookup_cache ... ok
+test hostfs::tests::private_mapping_and_exec_keep_the_original_inode_after_native_replacement ... ok
+test hostfs::tests::path_only_handles_retain_native_symlinks_after_replacement ... ok
+test hostfs::tests::private_mapping_faults_after_guest_truncates_a_resident_page ... ok
+test hostfs::tests::private_mapping_is_lazy_cow_and_does_not_shadow_native_file_io ... ok
+test hostfs::tests::private_page_in_checks_one_mapping_and_only_changed_offsets ... ok
+test host_files::tests::failed_manifest_commit_retains_original_file_and_releases_anonymous_stage ... ok
+test hostfs::tests::readonly_is_an_immutable_host_capability_and_shared_mmap_is_explicit ... ok
+test hostfs::tests::namespace_metadata_append_and_directory_refresh ... ok
+test hostfs::tests::statx_follows_host_bind_mount_identity_after_detach ... ok
+test hostfs::xattr::tests::darwin_names_remain_native_and_trusted_names_are_filtered_for_guest_readers ... ok
+test hostfs::tests::private_page_in_history_expiry_and_eof_gaps_refresh_conservatively ... ok
+test hostfs::xattr::tests::fd_xattr_permissions_refresh_after_independent_host_mode_changes ... ok
+test hostfs::tests::rename_exchange_updates_native_names_and_retained_handles ... ok
+test hostfs::tests::symlinks_resolve_in_guest_and_native_ancestor_replacement_cannot_escape ... ok
+test inotify::tests::consumed_watch_generation_is_stale_and_only_accepted_calls_retain_the_instance ... ok
+test inotify::tests::concurrent_queue_producers_preserve_complete_events_and_byte_count ... ok
+test inotify::tests::concurrent_rename_and_shared_close_never_mix_parent_and_filename ... ok
+test hostfs::xattr::tests::accepted_native_inode_and_mount_writer_survive_close_reuse_rename_and_unlink ... ok
+test inotify::tests::denied_operations_do_not_emit_events_and_path_watch_lifetime ... ok
+test hostfs::xattr::tests::readonly_guest_permissions_symlink_policy_and_host_namespace_boundaries_apply ... ok
+test inotify::tests::shared_close_callbacks_reenter_registration_and_link_state_without_locks ... ok
+test inotify::tests::retained_close_defers_final_deletion_for_files_and_directories ... ok
+test inotify::tests::shared_close_respects_unlink_and_an_accepted_watch_keeps_its_ofd ... ok
+test hostfs::xattr::tests::native_xattr_values_flags_queries_and_empty_values_do_not_enter_private_storage ... ok
+test hostfs::xattr::tests::native_symlink_xattrs_use_the_link_inode_without_following_its_target ... ok
+test inotify::tests::shared_close_uses_live_watch_registration_and_renamed_link ... ok
+test inotify::tests::worker_oneshot_is_atomic_and_notifies_after_unlock ... ok
+test inotify::tests::shared_instance_last_worker_lease_clears_watches_without_retaining_inodes ... ok
+test inotify::tests::shared_registration_serializes_same_inode_adds_and_never_revives_ignored_wd ... ok
+test inotify::tests::unlinked_open_description_and_excl_unlink ... ok
+test inotify::tests::worker_queue_read_and_owner_epoll_share_edges_and_oneshot_state ... ok
+test inotify::tests::worker_remove_releases_index_before_return_and_notify_can_register_replacement ... ok
+test ipc::binding::tests::failed_inode_insert_releases_route_and_allows_retry ... ok
+test ipc::binding::tests::hardlinks_and_replaced_paths_keep_distinct_binding_identities ... ok
+test ipc::binding::tests::shared_identity_readers_do_not_extend_closed_socket_lifetime ... ok
+test ipc::channel::tests::closing_listener_resets_only_its_unaccepted_connections_and_error_is_consumed_once ... ok
+test ipc::channel::tests::addressed_datagrams_can_reconnect_to_the_same_or_a_new_peer_but_cannot_accept ... ok
+test ipc::channel::tests::empty_zero_length_message_waits_but_plain_read_does_not_consume_pending_error ... ok
+test ipc::binding::tests::overlay_and_bind_aliases_resolve_original_socket_after_mount_unshare ... ok
+test fuse::tests::proc_walk_tests::proc_private_volume_directory_components_keep_the_original_inode_during_native_wait ... ok
+test ipc::binding::tests::pathname_routes_cross_network_namespaces_but_abstract_names_do_not ... ok
+test ipc::channel::tests::credentials_survive_partial_reads_and_cached_worker_capabilities ... ok
+test ipc::channel::tests::connect_and_last_close_refresh_shared_fd_and_epoll_snapshots ... ok
+test ipc::channel::tests::concurrent_stream_writers_preserve_records_and_bounded_backpressure ... ok
+test ipc::channel::tests::unix_sender_budget_ignores_receive_buffer_and_growing_it_unblocks_poll ... ok
+test ipc::channel::tests::shutdown_notifies_existing_waiters_and_propagates_only_on_connected_transports ... ok
+test ipc::channel::tests::shared_rights_keep_original_peek_and_partial_delivery_on_workers ... ok
+test ipc::channel::tests::raw_unix_sockets_are_datagrams_before_publication_and_keep_fd_flags ... ok
+test ipc::channel::tests::worker_and_owner_share_bytes_offsets_and_shutdown_without_endpoint_leases ... ok
+test ipc::channel::tests::zero_length_peeks_alias_original_rights_and_consumption_detaches_only_metadata ... ok
+test ipc::datagram::tests::addressed_metadata_and_portable_rights_live_in_the_real_queue_without_owner_entries ... ok
+test ipc::datagram::tests::addressed_packets_keep_the_source_name_at_send_time_across_late_bind ... ok
+test ipc::datagram::tests::zero_length_self_datagrams_are_charged_and_capacity_probes_do_not_notify ... ok
+test ipc::datagram::tests::addressed_sender_budget_spans_receivers_and_releases_on_receive_or_final_close ... ok
+test ipc::channel::tests::explicit_credentials_and_sender_passcred_are_distinct_from_late_receive_enable ... ok
+test ipc::datagram::tests::addressed_credentials_follow_explicit_and_endpoint_requests_at_send_time ... ok
+test ipc::datagram::tests::concurrent_addressed_senders_keep_each_packets_source_identity_and_boundary ... ok
+test inotify::tests::overflow_coalescing_and_new_edges_after_drain ... ok
+test ipc::named_tests::accept_fd_exhaustion_retains_pending_connection ... ok
+test ipc::named_tests::socket_lookup_follows_inode_links_and_permission_checks ... ok
+test ipc::native::tests::clipboard_pipe_relays_preserve_bytes_backpressure_and_eof ... ok
+test ipc::native::tests::native_bridges_run_on_calling_workers_and_existing_idle_executor_without_owner_pump ... ok
+test ipc::native::tests::native_bridge_rearms_real_backpressure_in_both_directions ... ok
+test ipc::native::tests::guest_unix_stream_reaches_the_native_wayland_server_with_standard_wire_messages ... ok
+test ipc::native::tests::cold_wayland_start_removes_only_dead_x11_sockets_and_their_locks ... ok
+test ipc::native::tests::one_live_authority_observes_connect_without_any_membership_refresh ... ok
+test ipc::shared_graph_tests::accept_preflight_capacity_and_output_failure_preserve_reservations_and_queue_order ... ok
+test ipc::native::tests::live_wayland_authority_resolves_new_connections_and_never_retargets_a_grant ... ok
+test ipc::native::tests::live_authority_does_not_pin_unqueried_files_and_grant_keeps_only_accepted_ofd ... ok
+test ipc::shared_graph_tests::complete_epoll_and_shared_unix_rights_observe_one_cycle_graph ... ok
+test ipc::shared_graph_tests::accepted_unix_ofd_pins_the_endpoint_but_passive_watches_do_not ... ok
+test ipc::shared_graph_tests::concurrent_path_binders_publish_one_inode_without_overwriting_the_winner ... ok
+test ipc::shared_graph_tests::concurrent_acceptors_get_distinct_real_ofds_and_exact_peer_addresses ... ok
+test inotify::tests::worker_removed_watches_release_registration_quota_and_node_marks ... ok
+test ipc::shared_graph_tests::concurrent_unix_rights_cannot_publish_a_reciprocal_owning_cycle ... ok
+test ipc::shared_graph_tests::preconnect_subscriptions_and_options_survive_connection_publication ... ok
+test ipc::shared_graph_tests::pair_copyout_errors_and_panics_leave_no_fds_or_endpoint_quota ... ok
+test ipc::shared_graph_tests::owning_rights_include_unaccepted_listener_children_without_a_connect_graph_lock ... ok
+test ipc::native::tests::native_rights_and_clipboard_pipes_progress_without_owner_projections ... ok
+test ipc::shared_graph_tests::mixed_opaque_rights_retain_original_controls_and_import_on_source_after_close_reuse ... ok
+test ipc::shared_graph_tests::queued_unix_final_close_can_reenter_the_same_ownership_graph_from_notification ... ok
+test ipc::shared_graph_tests::raw_worker_read_discards_unix_rights_and_releases_the_original_socket ... ok
+test ipc::shared_graph_tests::waiting_connection_releases_the_listener_and_never_follows_a_rebound_address ... ok
+test ipc::shared_graph_tests::shared_unix_rights_keep_original_ofd_across_reuse_peek_and_worker_import ... ok
+test ipc::shared_graph_tests::concurrent_ring_registration_and_fd_transfer_cannot_publish_a_reciprocal_cycle ... ok
+test ipc::shared_graph_tests::opaque_ring_ownership_rejects_cycles_and_final_close_needs_no_owner_reap ... ok
+test ipc::waitall_tests::fragmented_waitall_preserves_prefix_and_nonblocking_and_eof_return_short_reads ... ok
+test ipc::shared_graph_tests::worker_final_close_releases_shared_unix_rights_without_owner_reap ... ok
+test ipc::waitall_tests::fionread_keeps_packet_boundaries_rights_and_shutdown_queues ... ok
+test ipc::waitall_tests::unix_rights_handoff_preserves_lifetime_and_rejects_direct_and_indirect_cycles ... ok
+test ipc::waitall_tests::rights_and_worker_masks_cross_the_old_256_descriptor_boundary ... ok
+test kernel_log::tests::concurrent_append_and_read_clear_do_not_lose_or_duplicate_records ... ok
+test ipc::shared_graph_tests::ring_registration_and_queued_rights_observe_cycles_in_both_admission_orders ... ok
+test keyrings::tests::create_replaces_default_and_leaves_inherited_selection_intact ... ok
+test keyrings::tests::quota_charges_real_uid_and_releases_after_last_holder_exits ... ok
+test kernel_log::tests::worker_log_capability_survives_vfs_drop_with_epoch_authority ... ok
+test kernel_log::tests::independent_readers_dup_clear_and_user_permissions ... ok
+test landlock::tests::enforcing_a_ruleset_snapshots_rules_and_open_file_authority ... ok
+test kernel_log::tests::kmsg_cursor_transactions_are_shared_with_owner_and_epoll ... ok
+test landlock::tests::network_only_rules_leave_filesystem_topology_available ... ok
+test landlock::tests::filesystem_rules_prevent_mount_topology_changes_even_with_admin_capability ... ok
+test landlock::tests::executing_a_file_requires_its_read_access_when_handled ... ok
+test ipc::shared_graph_tests::concurrent_socket_creation_uses_the_original_complete_namespace_and_ofds ... ok
+test ipc::shared_graph_tests::shared_namespace_socket_count_is_not_an_extra_process_file_limit ... ok
+test linux_namespace::tests::clone_shares_names_until_unshare_and_checks_privilege ... ok
+test landlock::tests::refer_cannot_import_authority_from_the_destination ... ok
+test linux_namespace::tests::concurrent_namespace_reservations_do_not_exceed_quota ... ok
+test linux_namespace::tests::chroot_clamps_dotdot_and_absolute_links_but_preserves_open_dirfds ... ok
+test landlock::tests::opening_a_proc_fd_and_executing_by_fd_use_the_original_hard_link ... ok
+test linux_namespace::tests::ipc_namespace_mqueue_identity_and_pinned_mounts_are_independent ... ok
+test linux_namespace::tests::namespace_quota_is_released_with_last_object_reference ... ok
+test linux_namespace::tests::namespace_fd_pins_identity_across_unshare_and_setns ... ok
+test linux_namespace::tests::worker_uts_names_and_last_namespace_reference_share_real_state ... ok
+test linux_namespace::tests::root_network_handle_binds_pins_and_reenters_without_creating_isolation ... ok
+test linux_namespace::tests::isolated_network_has_private_ports_abstract_names_and_retains_old_fds ... ok
+test linux_namespace::tests::private_cgroup_namespace_rebases_proc_and_new_mount_without_moving_tasks ... ok
+test linux_namespace::tests::network_sysctls_pin_their_namespace_and_change_actual_ping_policy ... ok
+test ipc::waitall_tests::sender_self_rights_and_deep_queue_chains_release_without_recursive_borrows ... ok
+test locks::tests::backward_ranges_readers_and_overflow_are_checked ... ok
+test locks::tests::ranges_split_merge_and_overflow_leave_existing_locks_intact ... ok
+test locks::tests::ofd_ranges_share_dup_fork_and_retained_lifetime_but_conflict_with_posix ... ok
+test locks::tests::lock_context_uses_tgid_and_frozen_namespace_visibility ... ok
+test locks::tests::original_process_lock_domain_releases_on_a_source_executor_with_live_files ... ok
+test locks::tests::record_lock_pid_context_observes_birth_and_reaping_without_recapture ... ok
+test locks::tests::shared_file_locks_release_on_any_process_alias_close_and_exit ... ok
+test locks::tests::inode_objects_isolate_mounts_but_follow_hardlinks_and_unlink ... ok
+test locks::tests::directory_pipe_and_socket_ranges_keep_real_conflicts_and_close_release ... ok
+test locks::tests::unrelated_inode_operations_do_not_take_a_global_lock ... ok
+test locks::wait_tests::ofd_waits_keep_the_original_description_and_do_not_enter_posix_deadlock_detection ... ok
+test mapped::concurrency::failed_writeback_keeps_dirty_bytes_for_retry ... ok
+test locks::wait_tests::concurrent_posix_wait_registration_cannot_publish_both_sides_of_a_cycle ... ok
+test locks::wait_tests::posix_wait_graph_detects_cycles_and_cancellation_removes_only_its_original_edge ... ok
+test locks::wait_tests::original_record_wait_wakes_on_downgrade_close_and_release_without_fd_relookup ... ok
+test mapped::demand_page_tests::unused_file_vmas_and_queries_do_not_load_or_charge_pages ... ok
+test mapped::tests::alias_fd_io_cow_truncate_permissions_and_unlinked_lifetime ... ok
+test mapped::concurrency::mapping_handoff_retains_original_ofd_until_last_remote_unmap ... ok
+test mapped::concurrency::concurrent_mapping_writes_and_flushes_preserve_each_writers_final_bytes ... ok
+test locks::tests::competing_writers_commit_once_and_readers_can_share ... ok
+test mapped::tests::cached_mapping_refreshes_after_storage_replacement_and_preserves_live_eof ... ok
+test mapped::tests::direct_file_borrows_dirty_writeback_alias_tokens_and_live_eof ... ok
+test ipc::binding::tests::restored_socket_inode_has_no_route_to_previous_live_instance ... ok
+test mapped::tests::epoch_file_io_checks_live_inode_aliases_in_any_vm_not_the_cached_fd_mask ... ok
+test mapped::tests::dirty_mapping_access_avoids_inode_and_clock_but_versions_every_write ... ok
+test mapped::tests::direct_content_refresh_keeps_mapping_generation_but_eof_and_cow_still_change ... ok
+test mapped::tests::eof_placeholders_stay_zero_and_growth_updates_existing_mappings ... ok
+test mapped::tests::mapped_code_aliases_and_fd_writes_change_decoder_tokens ... ok
+test mapped::tests::file_change_domains_survive_mapping_replacement_and_retained_views ... ok
+test mapped::tests::lower_mapping_length_follows_shared_inode_identity ... ok
+test mapped::tests::hardware_publication_keeps_resident_source_across_registry_rebuild ... ok
+test mapped::tests::page_storage_is_send_sync_and_last_worker_release_retires_the_allocation ... ok
+test mapped::tests::mapped_writeback_does_not_merge_equal_reported_inodes_from_distinct_filesystems ... ok
+test mapped::tests::range_history_coalesces_but_falls_back_on_gaps_layout_and_expiry ... ok
+test mapped::tests::mapping_under_namespace_control_retains_original_shared_authority ... ok
+test mapped::concurrency::simultaneous_first_mappings_retain_one_physical_page_per_offset ... ok
+test mapped::tests::memfd_native_views_share_guest_pages_and_keep_physical_budget_until_last_lease ... ok
+test mapped::tests::parallel_readonly_alias_dirty_fragments_private_refresh_and_live_eof ... ok
+test mapped::tests::read_only_shared_mapping_cannot_gain_write_access ... ok
+test mapped::tests::retained_writer_blocks_file_io_and_readonly_remount_without_owner_cache_updates ... ok
+test mapped::tests::retained_writer_keeps_original_ofd_after_last_mapping_provider_is_retired ... ok
+test mapped::tests::resident_metadata_domain_observes_external_shared_file_eof ... ok
+test mapped::tests::retained_writer_releases_real_inode_filesystem_and_mount_on_last_worker_drop ... ok
+test mapped::tests::live_mapping_state_is_shared_without_sampling_or_retaining_inode ... ok
+test mapped::tests::retained_writer_pins_resources_without_retaining_detached_owner_topology ... ok
+test mapped::tests::volatile_mapping_refresh_keeps_live_eof_and_change_domain ... ok
+test mapped::tests::smaps_accounts_for_live_file_alias_writes_before_worker_commit ... ok
+test mapped::tests::mappings_keep_original_ofd_through_cow_fork_discard_remap_and_final_unmap ... ok
+test memfd::allocation_tests::allocation_preserves_bytes_position_and_shared_quota ... ok
+test mapped::tests::serial_private_file_atomics_detach_without_modifying_file_or_peer ... ok
+test mapped::writers::tests::worker_clones_hold_each_inode_and_mount_until_its_last_reference ... ok
+test memfd::future_write_tests::future_write_preserves_old_vma_rights_but_denies_new_write_entries ... ok
+test mounts::boundary_tests::directory_atime_survives_remount_and_bind_keeps_its_own_policy ... ok
+test mapped::tests::workers_share_file_and_memfd_bytes_without_a_publication_copy ... ok
+test memfd::allocation_tests::foot_sparse_pool_probe_falls_back_without_charging_512_mib ... ok
+test mounts::boundary_tests::docker_tmpfs_size_is_lazy_and_strictatime_overrides_relatime ... ok
+test mounts::boundary_tests::empty_mqueue_mounts_share_identity_without_creatable_regular_files ... ok
+test mounts::boundary_tests::mountinfo_is_relative_to_chroot_and_escapes_field_bytes ... ok
+test mounts::boundary_tests::mount_max_tracks_live_sysctl_across_namespaces_and_existing_trees ... ok
+test memfd::source_tests::retained_memfd_uses_original_files_credentials_budget_flags_and_last_close_lifetime ... ok
+test mounts::boundary_tests::noexec_mapping_rejects_later_mprotect_without_changing_other_pages ... ok
+test mounts::boundary_tests::retained_directory_exec_is_valid_outside_the_new_root ... ok
+test mounts::boundary_tests::detached_subtree_remains_traversable_and_releases_its_quota ... ok
+test mounts::boundary_tests::proc_paths_keep_their_mount_identity_after_bind_and_namespace_clone ... ok
+test memfd::source_tests::native_memfd_creation_reserves_original_inode_and_fd_without_holding_fs_lock ... ok
+test mounts::fd::tests::descriptor_exhaustion_preserves_context_and_reconfiguration_reaches_bind_aliases ... ok
+test mounts::boundary_tests::systemd_tmpfs_percentage_and_inode_suffix_are_lazy_limits ... ok
+test mounts::boundary_tests::tmpfs_directory_links_and_hardlink_outside_bind_do_not_confuse_paths ... ok
+test mounts::fd::tests::detached_layer_retains_its_user_namespace_after_close ... ok
+test mounts::fd::tests::nosymfollow_is_a_live_mount_attribute_and_keeps_nofollow_capabilities ... ok
+test mounts::fd::tests::picked_tmpfs_context_retains_original_filesystem_limits_across_aliases ... ok
+test mounts::fd::tests::sysfs_write_mount_state_is_separate_from_attribute_permissions ... ok
+test mounts::fd::tests::unbindable_subtrees_are_pruned_from_both_recursive_bind_interfaces ... ok
+test mounts::propagation_tests::downstream_slave_reparents_when_its_last_immediate_master_disappears ... ok
+test mounts::propagation_tests::propagation_metadata_does_not_retain_dead_namespaces ... ok
+test mounts::propagation_tests::namespace_clone_preserves_peers_then_recursive_private_detaches_them ... ok
+test mounts::propagation_tests::shared_peer_slave_and_private_mounts_have_real_one_way_visibility ... ok
+test mounts::propagation_tests::shared_slave_group_relays_events_downstream_but_not_back_up ... ok
+test mounts::propagation_tests::tmpfs_owners_are_guest_ids_and_invalid_ids_do_not_publish_a_mount ... ok
+test kernel_log::tests::bounded_log_overrun_stream_progress_and_rate_limit ... ok
+test mapped::tests::backing_epochs_rebuild_only_changed_file_pages_and_still_check_eof_and_cow ... ok
+test mounts::tests::bind_identity_readonly_and_inode_updates ... ok
+test mounts::tests::bind_remount_accepts_rec_without_changing_nested_or_source_mounts ... ok
+test mounts::tests::pivot_preserves_the_root_slot_and_unrelated_fs_roots ... ok
+test mounts::tests::namespace_bind_order_unshare_and_last_close_match_linux ... ok
+test mounts::tests::proc_lookup_follows_the_mount_across_bind_and_overmount ... ok
+test mounts::tests::getcwd_renders_an_outside_bind_directory_until_its_name_is_removed ... ok
+test mounts::tests::shared_mount_data_observes_remount_detach_and_releases_filesystem_on_worker ... ok
+test mounts::tests::shared_mapping_pins_mount_and_blocks_readonly_remount ... ok
+test mounts::tests::recursive_bind_preserves_nested_tmpfs_and_pivot_root ... ok
+test memfd::source_tests::concurrent_original_memfd_workers_obey_live_inode_and_fd_limits ... ok
+test mounts::tests::pivot_root_dot_dot_detaches_old_root_from_retained_cwd ... ok
+test mounts::tests::unshare_mount_table_and_namespace_fd_lifetime ... ok
+test mounts::tests::tmpfs_quota_hardlinks_rename_and_lazy_unmount_keep_fd ... ok
+test mounts::watch::tests::noatime_authority_and_worker_reads_use_the_live_status_flag ... ok
+test mounts::watch::tests::moved_subtree_keeps_mount_ids_open_files_and_rejects_cycles ... ok
+test mounts::watch::tests::mount_file_keeps_its_open_process_root_after_the_task_changes_chroot ... ok
+test mounts::watch::tests::mountinfo_notifies_nested_epoll_and_pins_the_open_namespace ... ok
+test mounts::worker_tests::busy_namespace_waits_on_original_resource_and_cancellation_has_no_effects ... ok
+test mounts::watch::tests::accepted_mount_reads_share_offsets_and_keep_live_topology_after_owner_exit ... ok
+test mounts::worker_tests::captured_workers_see_original_mount_move_remount_and_unmount_without_recapture ... ok
+test mounts::worker_tests::detached_directory_is_not_mutable_namespace_root_authority ... ok
+test namespace::namei_tests::scoped_parent_walk_retries_until_all_path_changes_finish ... ok
+test namespace::namei_tests::link_timestamps_follow_access_mount_and_empty_path_descriptor ... ok
+test mounts::worker_tests::pivot_replaces_original_fs_contexts_but_preserves_subdirectories_and_open_fds ... ok
+test namespace::namei_tests::protected_create_checks_existing_files_and_fifos_in_sticky_directories ... ok
+test namespace::namei_tests::shared_link_policy_uses_filesystem_credentials_and_original_inode ... ok
+test namespace_work::tests::accepted_directory_fd_and_inode_metadata_survive_close_and_reuse ... ok
+test namespace_work::tests::explicitly_unavailable_provider_has_no_namespace_effect_before_retained_handoff ... ok
+test namespace_work::tests::canonical_cwd_root_and_clone_fs_are_visible_to_existing_query_views ... ok
+test namespace_work::tests::missing_proc_dentry_completes_on_source ... ok
+test native_images::tests::native_image_publication_observes_the_live_task_fd_limit ... ok
+test namespace_work::tests::competing_creators_do_not_replace_an_existing_directory ... ok
+test native_images::tests::native_image_bridge_marker_retains_the_original_plane_until_import_releases ... ok
+test native_images::tests::worker_image_fd_survives_dup_rights_transfer_and_import_lease ... ok
+test network::tests::bridge_sysctls_are_namespace_pinned_and_authorized ... ok
+test network::tests::managed_ipv6_controls_pin_original_namespace_and_recheck_writer ... ok
+test network::tests::forwarding_controls_pin_namespace_recheck_authority_and_validate_values ... ok
+test network::tests::ipv4_ingress_sysctls_follow_the_open_namespace_and_link ... ok
+test network::tests::accepted_control_keeps_the_original_listener_after_worker_close_and_fd_reuse ... ok
+test namespace_work::tests::executing_namespace_io_pins_only_walked_mounts_until_completion ... ok
+test network::tests::splice_preserves_bytes_under_backpressure_and_stream_half_close ... ok
+test network::tests::socket_chown_updates_original_inode_alias_and_route_uid_with_real_authority ... ok
+test network::tests::fork_dup_cloexec_and_quota_follow_socket_lifetime ... ok
+test fuse::tests::native_walk_tests::proc_host_directory_components_keep_the_original_anchor_for_stat_open_and_chdir ... ok
+test network_io::tests::a_first_dns_send_rearms_an_already_subscribed_udp_reader ... ok
+test network::tests::splice_to_datagram_commits_pipe_bytes_only_after_delivery ... ok
+test network::tests::native_and_virtual_epollet_wake_after_drain_and_new_arrival ... ok
+test network_io::tests::connected_close_is_atomic_with_accepted_leases_and_preserves_aliases ... ok
+test network_io::tests::accept_copyout_reserves_slot_without_locking_or_partial_publication ... ok
+test network_io::tests::control_publication_preserves_aliases_after_close_and_fd_reuse ... ok
+test network_io::tests::accepted_tcp_lease_survives_alias_close_and_fd_reuse_until_worker_release ... ok
+test network_io::tests::equal_fork_versions_bind_each_capture_to_its_actual_files_membership ... ok
+test network_io::tests::tcp_capabilities_refresh_without_fd_mutation_and_do_not_delay_last_close ... ok
+test network_io::tests::existing_empty_capture_observes_new_connections_and_actual_close_reuse ... ok
+test oom::tests::points_use_resident_pages_and_group_adjustment ... ok
+test network_io::tests::object_transition_waits_for_controls_without_holding_files_or_other_sockets ... ok
+test network_io::tests::worker_completion_publishes_original_tcp_to_live_aliases_with_timeouts ... ok
+test oom::tests::privilege_floor_fork_sharing_and_invalid_writes_are_atomic ... ok
+test oom::tests::worker_final_task_release_does_not_wait_for_surviving_group_member ... ok
+test oom::tests::task_paths_use_thread_credentials_and_thread_lifetime ... ok
+test oom::tests::proc_control_checks_dac_mount_and_retains_only_weak_task_identity ... ok
+test open_handle::tests::pathname_ofd_retains_real_resources_after_detach_and_owner_exit ... ok
+test network_io::tests::promoted_tcp_interest_preserves_oneshot_aliases_and_worker_control ... ok
+test open_handle::tests::pathname_ofd_uses_live_mount_flags_and_original_mount_after_unshare ... ok
+test output_resources::tests::empty_readlink_retains_the_unlinked_path_without_extending_the_original_fd ... ok
+test output_resources::tests::fd_xattr_holds_its_original_ofd_until_output_finishes_and_errors_release_it ... ok
+test network::tests::packet_info_is_per_datagram_and_source_selection_is_real ... ok
+test open_handle::tests::pathname_shared_close_releases_process_locks_then_final_flock_and_notification ... ok
+test output_resources::tests::nested_output_calls_restore_the_outer_original_resource_collection ... ok
+test oom::tests::concurrent_score_and_privilege_floor_updates_remain_one_atomic_state ... ok
+test overlay::tests::committed_lower_whiteouts_and_hardlinks_survive_another_upper ... ok
+test overlay::tests::copy_up_quota_failure_and_readonly_permissions_do_not_change_lower ... ok
+test overlay::tests::exited_namespace_releases_layers_after_accepted_queries_and_files_complete ... ok
+test overlay::tests::epoch_io_tracks_lower_mappings_and_keeps_copy_up_inodes_independent ... ok
+test overlay::tests::file_epoch_stat_needs_no_overlay_namespace_lock ... ok
+test overlay::tests::detached_overlay_can_remount_after_real_use_ends_despite_proc_observers ... ok
+test overlay::tests::layer_identity_pins_unmount_and_quota_without_retaining_detached_topology ... ok
+test overlay::tests::lazy_detach_releases_upper_lease_after_last_file_reference ... ok
+test overlay::tests::merged_layers_copy_up_and_old_descriptions_keep_lower ... ok
+test overlay::tests::metadata_hardlinks_rename_and_open_unlink ... ok
+test mounts::boundary_tests::sibling_namespaces_do_not_share_the_mount_table_quota ... ok
+test overlay::tests::pivot_root_overlay_layers_do_not_retain_parent_topology_cycle ... ok
+test overlay::tests::proc_reopens_select_current_layer_but_dup_keeps_original_data ... ok
+test overlay::tests::read_and_copy_up_notify_the_merged_inode_and_parent ... ok
+test overlay::tests::readonly_leases_options_and_layer_type_conflicts ... ok
+test overlay::tests::retained_overlay_filesystem_owns_real_layers_until_final_worker_release ... ok
+test overlay::tests::tmpfs_copy_up_keeps_a_large_lower_hole_with_a_two_page_upper ... ok
+test overlay::tests::retained_metadata_does_not_pin_overlay_layers_but_an_open_file_does ... ok
+test mounts::boundary_tests::per_namespace_mount_limit_failure_is_atomic_and_recoverable ... ok
+test overlay::tests::overlay_rename_checkpoint_and_directory_stat_share_one_lock_order ... ok
+test overlay::tests::truncating_lower_file_needs_no_space_for_discarded_data ... ok
+test overlay::tests::userxattr_whiteouts_and_opaque_are_selected_by_mount_option ... ok
+test overlay::tests::upper_directory_rename_namespace_copy_and_readonly_remount ... ok
+test overlay::tests::writable_mapping_changes_only_upper_and_read_mapping_retains_lower ... ok
+test overlay::tests::whiteouts_opaque_recreation_symlinks_and_remount ... ok
+test path_position::tests::hard_link_rebases_both_accepted_parents_inside_the_namespace_mutation ... ok
+test network_io::tests::control_and_timeout_publication_share_the_existing_admission_transaction ... ok
+test path_queries::directory_tests::partial_copy_commits_only_whole_entries_and_eof_never_touches_guest_memory ... ok
+test path_queries::control_tests::accepted_control_keeps_original_ofd_across_close_reuse_and_panic ... ok
+test overlay::tests::copy_up_does_not_pin_inode_while_waiting_for_upper_namespace ... ok
+test path_queries::directory_tests::worker_directory_open_and_detached_submount_keep_original_membership ... ok
+test path_queries::directory_tests::volatile_directory_defers_without_output_validation_or_cursor_effects ... ok
+test path_queries::directory_tests::workers_aliases_and_fork_advance_one_original_directory_cursor ... ok
+test path_queries::directory_tests::preflight_retains_original_ofd_and_faults_leave_its_cursor_untouched ... ok
+test path_queries::fd_admission_tests::frozen_fd_role_results_survive_reuse_and_restore_control_bindings_on_unwind ... ok
+test path_queries::mqueue_tests::mqueue_source_mounts_use_their_original_ipc_namespace_and_retained_mounts ... ok
+test path_queries::mqueue_tests::original_mqueue_mounts_share_live_paths_metadata_and_directory_cursors ... ok
+test mapped::tests::changed_ranges_visit_only_touched_offsets_and_all_their_aliases ... ok
+test path_queries::directory_tests::directory_walk_and_concurrent_creation_finish_without_nested_namespace_reads ... ok
+test path_queries::tests::control_only_open_retains_metadata_without_byte_access ... ok
+test path_queries::tests::control_only_open_requires_both_permissions_and_socket_open_checks_access_first ... ok
+test path_queries::tests::captured_resources_are_send_sync_and_private_control_moves_exclusively ... ok
+test path_queries::tests::concurrent_exclusive_create_has_one_inode_and_disjoint_published_fds ... ok
+test path_queries::tests::directory_queries_do_not_move_cursors_or_keep_last_close_alive ... ok
+test path_queries::tests::live_inodes_and_dirfd_follow_rename_unlink_and_fd_reuse ... ok
+test path_queries::tests::empty_access_uses_retained_inode_and_real_or_effective_ids_without_a_search_walk ... ok
+test path_queries::tests::concurrent_creation_and_directory_queries_do_not_invert_inode_namespace_locks ... ok
+test path_queries::directory_tests::worker_host_directory_uses_live_children_and_the_same_cookies ... ok
+test path_queries::tests::mount_projection_preserves_crossings_parent_identity_readonly_and_chroot ... ok
+test path_queries::tests::numeric_pid_without_provider_defers_but_global_metadata_uses_original_publication ... ok
+test path_queries::tests::concurrent_host_creators_open_one_winning_inode ... ok
+test path_queries::tests::published_file_admission_does_not_survive_its_original_epoch ... ok
+test path_queries::tests::readonly_open_truncates_once_without_granting_write_or_ftruncate_authority ... ok
+test path_queries::tests::same_resolver_covers_symlinks_permissions_errors_and_non_utf8 ... ok
+test path_queries::tests::opens_on_distinct_workers_have_distinct_ofd_lock_owners ... ok
+test path_queries::tests::worker_inotify_registration_uses_original_instances_and_inode_marks ... ok
+test path_queries::tests::worker_open_fallback_and_errors_do_not_leak_reservations_or_truncate ... ok
+test path_queries::tests::worker_open_publishes_live_membership_and_io_without_recapture ... ok
+test perf::tests::attr_negotiation_preserves_faults_and_rejects_unconnected_producers ... ok
+test perf::tests::clock_retention_does_not_retain_the_process_image_or_its_files ... ok
+test perf::tests::a_zero_wakeup_count_uses_the_buffers_byte_watermark ... ok
+test path_queries::tests::namespace_mutations_and_parallel_queries_share_real_objects ... ok
+test path_queries::tests::host_mutations_remain_visible_without_a_recapture_or_query_cache ... ok
+test perf::tests::data_page_stores_fault_in_cpu_native_worker_and_hardware_paths_and_fork_excludes_the_ring ... ok
+test perf::tests::exec_enable_is_one_shot_and_removal_freezes_values_without_reusing_the_target ... ok
+test perf::tests::final_release_does_not_reenter_a_counter_group_and_closed_leaders_detach_at_their_close_time ... ok
+test perf::tests::descendants_are_counted_live_controlled_at_their_original_clocks_and_retired_once ... ok
+test perf::tests::full_forward_ring_reports_loss_and_wraps_without_overwriting_unread_samples ... ok
+test perf::tests::group_controls_and_leader_close_preserve_surviving_independent_events ... ok
+test perf::tests::live_perf_policy_controls_new_event_and_map_admission_and_frequency_ioctl ... ok
+test perf::tests::live_counts_disable_reset_and_aliases_keep_one_original_event ... ok
+test perf::tests::inherited_samples_use_primary_ids_and_distinct_stream_ids_in_the_accepted_ring ... ok
+test perf::tests::redirected_samples_keep_the_source_identity_and_unmap_revokes_all_attachments ... ok
+test perf::tests::pinned_ring_admission_uses_the_environment_uid_and_original_mm_and_retries_live_limits ... ok
+test perf::tests::refresh_pause_and_rearm_use_existing_readiness_and_preserve_total_counts ... ok
+test perf::tests::ring_mapping_growth_and_zero_size_remap_fail_without_losing_the_original_buffer ... ok
+test perf::tests::retained_view_keeps_the_original_mapping_until_its_actual_last_actor_releases_it ... ok
+test perf::tests::thread_only_inheritance_and_child_exec_keep_the_original_event_family ... ok
+test permission_tests::directory_mutations_require_parent_write_and_import_uses_canonical_path ... ok
+test perf::tests::sampling_publishes_the_abi_and_keeps_the_original_mapped_event_after_fd_close ... ok
+test permission_tests::retained_inode_state_is_send_and_sync_without_manual_trait_overrides ... ok
+test pid_namespace::tests::dead_namespace_allocation_does_not_consume_ancestor_ids ... ok
+test pid_namespace::tests::credential_pid_uses_original_namespace_and_liveness_without_proc_projection ... ok
+test pid_namespace::tests::ancestor_ids_survive_group_leaders_but_siblings_are_invisible ... ok
+test permission_tests::inode_metadata_and_last_lease_survive_owner_drop_on_another_worker ... ok
+test pid_namespace::tests::concurrent_allocations_publish_unique_ancestor_ids_and_roll_back_limits ... ok
+test pid_namespace::tests::depth_and_live_namespace_quotas_release_without_unbounded_registry_growth ... ok
+test pid_namespace::tests::inherited_proc_mount_survives_nested_pid_namespace_and_mount_clone ... ok
+test pid_namespace::tests::ptrace_scope_is_guest_wide_and_mode_three_is_irreversible ... ok
+test pid_namespace::tests::root_translation_and_allocation_do_not_take_map_or_registry_locks ... ok
+test pid_namespace::tests::termination_and_child_allocation_commit_without_partial_ancestor_ids ... ok
+test pid_namespace::tests::weak_namespace_identity_expires_after_last_worker_reference ... ok
+test pipe::tests::byte_poll_flags_and_subscriptions_do_not_hold_pipe_endpoints_open ... ok
+test pidfd::tests::getfd_shares_the_open_description_and_uses_real_credentials ... ok
+test pipe::tests::aliases_and_shared_leases_count_one_end_but_independent_opens_count_twice ... ok
+test pipe::tests::complete_pipe_end_releases_inode_and_eof_on_the_last_worker ... ok
+test pipe::tests::fifo_hardlinks_and_replacement_preserve_resources_without_pinning_deleted_inode ... ok
+test pipe::tests::fifo_inode_identity_is_shared_without_owning_an_open_endpoint ... ok
+test pipe::tests::fifo_open_handshake_survives_peer_open_and_close_before_retry ... ok
+test pipe::tests::final_shared_endpoint_drop_on_worker_wakes_peer_without_owner_projection ... ok
+test pipe::tests::final_reader_drop_on_worker_produces_epipe_and_releases_last_buffer ... ok
+test pipe::tests::overlay_fifo_aliases_share_bytes_and_self_splice_detection ... ok
+test pipe::tests::racing_fifo_nonblocking_open_and_last_reader_close_preserves_counts ... ok
+test proc_image::tests::environment_reads_live_bytes_partially_and_does_not_touch_pages_for_eof ... ok
+test pipe::tests::shared_named_fifo_poll_uses_pipe_data_and_hangup_instead_of_regular_file_readiness ... ok
+test proc_file::published_tests::published_metadata_does_not_invent_live_pid_memory_or_override_explicit_exclusion ... ok
+test proc_file::published_tests::global_proc_text_keeps_read_access_and_rejects_writes_after_open ... ok
+test proc_file::published_tests::retained_global_file_observes_publication_and_live_provider_without_files_cycle ... ok
+test proc_file::published_tests::all_published_global_metadata_uses_the_original_resource_on_source ... ok
+test proc_image::tests::image_bytes_follow_mutations_and_setproctitle_instead_of_pointer_arrays ... ok
+test proc_inet::tests::tables_follow_the_namespace_and_last_file_reference ... ok
+test proc_source::tests::live_original_cpu_accounting_survives_migration_and_cold_publication ... ok
+test proc_source::tests::namespace_observation_on_a_worker_does_not_make_umount_busy ... ok
+test proc_source::tests::namespace_descriptors_retain_original_nsfs_identity_and_mount_authority ... ok
+test proc_source::tests::namespace_observers_do_not_replace_real_file_exec_mapping_or_cwd_uses ... ok
+test proc_source::tests::namespace_observer_sees_real_mount_updates_without_retaining_busy_references ... ok
+test proc_source::tests::original_proc_fdinfo_read_observes_its_own_position_without_relocking ... ok
+test proc_source::tests::proc_directory_magic_uses_target_inodes_across_chroot_rename_and_aliases ... ok
+test proc_source::tests::proc_observer_does_not_retain_a_dead_fs_struct_or_its_mount_uses ... ok
+test proc_source::tests::retained_view_tracks_its_original_image_instead_of_a_reused_number ... ok
+test proc_source::tests::process_resources_keep_live_files_paths_and_original_executable_on_another_thread ... ok
+test proc_source::tests::worker_namespace_open_rights_and_bound_alias_enter_the_original_live_table ... ok
+test proc_source::tests::source_resolver_reads_current_executable_and_fd_identity_through_real_proc_mounts ... ok
+test proc_source::tests::source_opens_mount_and_sysctl_controls_with_original_ofds_and_permissions ... ok
+test proc_time::tests::live_time_handles_completed_time_before_its_clock_origin_and_extra_accounting ... ok
+test proc_time::tests::live_time_preserves_original_total_and_ignores_cold_projection ... ok
+test process_tests::dup_and_fork_share_status_flags_but_cloexec_is_per_descriptor ... ok
+test process_tests::failed_dup3_does_not_close_the_target ... ok
+test process_tests::fd_authority_keeps_live_shared_status_and_independent_cloexec_changes ... ok
+test process_tests::fork_shares_storage_and_open_position_but_not_descriptor_table ... ok
+test process_tests::independent_fork_edits_cannot_share_a_file_table_version ... ok
+test process_tests::pipe_eof_waits_for_last_shared_writer_and_broken_pipe_for_last_reader ... ok
+test process_tests::unlink_keeps_open_file_and_quota_until_last_close ... ok
+test process_tests::stream_admission_follows_shared_fd_edits_and_independent_forks ... ok
+test process_tests::shared_file_table_observes_edits_after_repeated_unchanged_syncs ... ok
+test pseudo::proc_probe_tests::proc_observation_tracks_dependencies_through_aliases_and_failed_lookups ... ok
+test pseudo::proc_probe_tests::live_argument_demand_survives_alias_cwd_and_directory_fd_resolution ... ok
+test process_tests::pipe_small_writes_are_atomic_under_backpressure ... ok
+test pseudo::proc_probe_tests::proc_probe_follows_aliases_cwd_and_dirfd_even_for_missing_processes ... ok
+test pseudo::tests::absent_sysfs_file_is_looked_up_before_write_checks ... ok
+test path_position::tests::accepted_directory_walk_keeps_its_inode_after_fd_reuse_and_rename ... ok
+test pseudo::tests::caller_proc_aliases_keep_inode_identity_but_follow_the_current_reader_through_path_fds ... ok
+test pseudo::tests::common_devices_and_cross_process_privacy_have_real_behavior ... ok
+test pseudo::tests::boot_id_is_stable_across_tasks_but_fresh_in_a_new_session ... ok
+test pseudo::tests::descriptor_limits_and_status_match_dynamic_membership ... ok
+test pseudo::tests::device_directory_enumerates_only_available_embedding_devices ... ok
+test pseudo::tests::directory_links_and_mount_identity_match_live_namespace ... ok
+test pseudo::tests::fd_magic_links_keep_deleted_inodes_and_pipe_identity ... ok
+test pseudo::tests::proc_readlink_empty_path_retains_symlink_inode_and_refreshes_fd_target ... ok
+test pseudo::tests::meminfo_can_report_reclaimable_availability_separately_from_free_bytes ... ok
+test pseudo::tests::image_stats_report_original_ranges_and_redact_other_users_addresses ... ok
+test pseudo::tests::proc_limits_reports_the_runtime_address_cap_or_unlimited ... ok
+test pseudo::tests::logical_block_identity_agrees_across_mounts_stat_and_sysfs ... ok
+test pseudo::tests::proc_route_uses_guest_little_endian_addresses_for_native_and_bridge_rows ... ok
+test pseudo::tests::proc_root_inode_matches_linux_across_paths_fds_and_bind_mounts ... ok
+test pseudo::tests::proc_cache_pressure_retires_original_dead_pids_even_with_retained_inodes ... ok
+test pseudo::tests::process_views_are_live_readonly_and_outside_storage_quota ... ok
+test pseudo::tests::proc_sysctl_path_fd_reopens_with_truncation_and_keeps_network_namespace ... ok
+test pseudo::tests::proc_setgroups_reports_initial_user_namespace_policy ... ok
+test pseudo::tests::random_uuid_is_fresh_v4_readonly_and_discoverable ... ok
+test pty::shared::tests::background_terminal_calls_defer_without_consuming_bytes ... ok
+test pty::shared::tests::signal_input_defers_the_whole_prefix_then_owner_delivers_it_once ... ok
+test pseudo::tests::render_device_discovery_requires_opt_in_and_has_linux_char_identity ... ok
+test pseudo::tests::tmpfs_alias_to_proc_stderr_reopens_the_pipe_without_writing_procfs ... ok
+test pty::shared::tests::worker_packet_flow_and_output_translation_use_the_original_discipline ... ok
+test pty::shared::tests::terminal_notifications_allow_reentry_and_wake_both_endpoints ... ok
+test pty::tests::accepted_master_pins_devpts_across_close_reuse_and_worker_final_drop ... ok
+test pty::tests::devpts_linux_inode_identity_survives_bind_and_path_handles ... ok
+test pty::tests::bind_clone_and_detached_master_retain_their_devpts_instance ... ok
+test pty::tests::accepted_slave_survives_alias_close_and_fd_reuse_then_worker_notifies_hup ... ok
+test pty::tests::devpts_proc_path_reopen_allocates_a_fresh_master_and_opens_slave ... ok
+test pty::tests::concurrent_worker_devpts_creation_publishes_unique_ids_and_original_nodes ... ok
+test pty::tests::initial_host_events_do_not_escape_to_a_future_job_and_route_install_drains_pending_events ... ok
+test pty::tests::embedding_stdio_aliases_share_original_endpoints_and_session_signal_rebinding ... ok
+test pty::tests::master_close_removes_devpts_while_retained_slave_sees_eof_and_write_error ... ok
+test pty::tests::retained_pty_bytes_do_not_keep_guest_endpoints_open ... ok
+test pty::tests::independent_slave_opens_and_parallel_alias_drops_preserve_buffered_output ... ok
+test pty::tests::independent_devpts_reuses_local_numbers_but_not_terminal_identity ... ok
+test pty::tests::worker_devpts_open_defers_task_transitions_and_rolls_back_failed_creation ... ok
+test readiness::tests::callbacks_run_after_unlock_and_subscription_drop_removes_listeners ... ok
+test pty::tests::worker_peer_uses_live_ancestor_device_policy_and_original_credentials ... ok
+test shared_control_tests::host_controls_do_not_keep_guest_pipe_writers_alive ... ok
+test shared_control_tests::bridge_source_waits_retain_accepted_ofd_but_snapshots_do_not_keep_connections_alive ... ok
+test shared_control_tests::bpf_ofd_worker_lifetime_preserves_original_program_registry_and_quota ... ok
+test shared_control_tests::complete_namespace_ofds_cross_workers_and_keep_original_setns_authority ... ok
+test pty::tests::concurrent_host_close_and_route_install_deliver_hangup_once_without_pending_owner_work ... ok
+test shared_control_tests::concurrent_signal_mask_updates_publish_whole_masks_without_task_locks ... ok
+test simple_device::tests::access_and_synchronous_error_order_matches_original_device_operations ... ok
+test simple_device::tests::actual_inode_notifications_and_last_worker_close_survive_alias_and_fd_reuse ... ok
+test shared_control_tests::native_device_namespace_opens_and_metadata_use_original_shared_nodes ... ok
+test simple_device::tests::cold_concurrent_device_open_uses_one_original_cache_inode_with_distinct_ofds ... ok
+test simple_device::tests::renamed_mknod_and_live_original_mount_policy_are_not_pathname_shortcuts ... ok
+test simple_device::tests::original_device_inodes_and_native_worker_bytes_share_one_behavior ... ok
+test shared_control_tests::ipc_and_cgroup_quota_reclaims_the_last_actual_worker_lease ... ok
+test shared_control_tests::signal_mask_lifecycle_is_shared_but_readiness_stays_with_the_reading_task ... ok
+test pseudo::tests::proc_cache_pressure_reclaims_unreferenced_entries_and_preserves_open_inodes ... ok
+test readiness::tests::atomic_subscribe_retry_observes_data_or_a_notification ... ok
+test overlay::tests::failed_manifest_commit_rolls_back_whiteout_and_visible_namespace ... ok
+test storage_tests::anonymous_inode_metadata_does_not_commit_or_search_the_disk_namespace ... ok
+test storage_tests::bridge_device_is_volatile_nonseekable_and_shared_by_dup ... ok
+test storage_tests::corrupt_manifest_is_rejected_without_deleting_objects ... ok
+test storage_tests::cached_disk_handles_observe_writes_truncate_and_recycled_short_reads ... ok
+test storage_tests::cached_handles_do_not_retain_store_lock_or_confuse_replaced_inodes ... ok
+test storage_tests::corrupt_device_payloads_are_rejected_before_storage_recovery ... ok
+test storage_tests::app_private_owner_lock_retains_exclusivity_without_locking_shared_store ... 
+running 1 test
+ok
+test storage_tests::data_sync_preserves_grown_data_without_namespace_publication_on_both_paths ... ok
+test storage_tests::device_creation_failure_rolls_back_and_unprivileged_cannot_create ... ok
+test storage_tests::data_sync_survives_process_exit_without_vfs_shutdown ... ok
+test storage_tests::direct_native_mapped_writes_survive_disk_sync_unmap_and_reopen ... ok
+test storage_tests::disk_store_lock_lasts_until_the_last_process_clone_is_dropped ... ok
+test storage_tests::disk_read_lease_retains_unlinked_object_and_store_without_vfs ... ok
+test storage_tests::emit_file_provider_manifest_fixture ... ignored, emits the independent iOS File Provider manifest fixture
+test storage_tests::concurrent_inode_syncs_merge_metadata_into_the_latest_manifest ... ok
+test storage_tests::disk_read_offsets_conflicts_short_reads_and_errors_commit_once ... ok
+test storage_tests::disk_fork_and_unlink_keep_shared_offsets_and_account_open_files ... ok
+test storage_tests::directory_flushes_follow_mutations_and_retry_post_rename_errors ... ok
+test network_io::tests::closing_a_lingering_stream_parks_only_the_last_descriptor ... ok
+test storage_tests::flock_is_shared_by_dup_fork_and_released_by_last_close ... ok
+test overlay::tests::disk_reopen_persists_copy_up_whiteout_metadata_and_opaque ... ok
+test storage_tests::disk_sync_admission_keeps_ram_and_mapped_writeback_on_original_path ... ok
+test storage_tests::host_capability_nodes_cannot_be_forged_and_open_fds_observe_revocation ... ok
+test storage_tests::inode_attributes_bound_metadata_and_reject_unimplemented_security_policy ... ok
+test storage_tests::failed_namespace_commit_rolls_back_create_alias_rename_chmod_and_unlink ... ok
+test storage_tests::disk_sync_jobs_share_one_manifest_transaction_and_retain_original_resources ... ok
+test storage_tests::explicit_reset_refuses_live_stores_and_clears_unsupported_metadata ... ok
+test storage_tests::fifo_inode_persists_but_live_channel_does_not ... ok
+test storage_tests::file_sync_retains_its_mount_after_detach_and_preserves_persistent_errors ... ok
+test storage_tests::device_nodes_persist_numbers_links_and_driver_behavior ... ok
+test storage_tests::inode_sync_does_not_wait_for_unrelated_inode_metadata ... ok
+test storage_tests::persistent_guest_cwd_is_reported_by_the_source_worker ... ok
+test storage_tests::mapped_data_sync_flushes_pages_without_timestamp_checkpoint ... ok
+test storage_tests::inode_attributes_persist_share_hardlinks_and_rollback_failed_commits ... ok
+test storage_tests::hardlinked_symlinks_keep_inode_identity_and_resolve_relative_to_each_parent ... ok
+test storage_tests::inode_sync_rebuilds_positions_after_replacement_and_rename ... ok
+test storage_tests::named_socket_inodes_reopen_as_stale_endpoints ... ok
+test storage_tests::inode_sync_keeps_namespace_attributes_hardlinks_and_rollback_cache ... ok
+test storage_tests::posix_acl_persistence_and_chmod_checkpoint_failure_preserve_inode_authority ... ok
+test storage_tests::private_read_and_write_leases_follow_open_lifetime_and_guest_access ... ok
+test storage_tests::pseudo_views_do_not_enter_the_manifest_or_consume_disk_quota ... ok
+test storage_tests::ownership_sticky_modes_and_symlink_ownership_survive_reopening ... ok
+test storage_tests::private_usage_retains_mapped_and_pending_read_objects_until_release ... ok
+test storage_tests::private_file_capability_survives_reopen_and_revocation_precedes_bytes ... ok
+test storage_tests::session_import_into_shm_obeys_tmpfs_quota_and_lifetime ... ok
+test storage_tests::setgid_inheritance_and_setid_bits_follow_guest_ownership ... ok
+test storage_tests::reopened_inode_watches_keep_parent_identity_and_failed_transactions_are_silent ... ok
+test storage_tests::recover_removes_only_validated_orphan_objects_and_abandoned_manifest ... ok
+test storage_tests::socket_chown_on_disk_root_completes_on_source_without_filesystem_handoff ... ok
+test storage_tests::recorded_limits_and_writable_usr_survive_reopen ... ok
+test storage_tests::private_usage_counts_live_objects_once_through_growth_replacement_and_rollback ... ok
+test storage_tests::rename_exchange_commits_both_subtrees_or_neither ... ok
+test storage_tests::reopen_restores_byte_paths_hard_links_modes_times_and_bytes ... ok
+test storage_tests::repeated_host_import_is_atomic_preserves_open_inode_and_survives_cancel ... ok
+test storage_tests::deferred_weak_inode_collection_preserves_the_exact_live_quota ... ok
+test storage_tests::replacing_executable_updates_aliases_but_open_descriptions_keep_old_data ... ok
+test storage_tests::tmpfs_resize_commits_only_its_own_namespace ... ok
+test storage_tests::sparse_16_gib_file_exhausts_logical_quota_without_a_large_buffer ... ok
+test storage_tests::sync_file_range_flushes_only_intersecting_mapped_pages ... ok
+test storage_tests::symlinked_private_objects_and_dangling_lock_are_rejected ... ok
+test stream_transfer::tests::concurrent_transfers_cannot_duplicate_or_overconsume_one_prefix ... ok
+test stream_transfer::tests::full_pipe_wait_has_no_input_effect_and_retains_original_resources ... ok
+test stream_transfer::tests::reservations_preserve_prefix_capacity_and_wake_after_cancellation ... ok
+test stream_transfer::tests::splice_rejects_requested_overflow_before_reserving_a_pipe_prefix ... ok
+test stream_transfer::tests::tee_duplicates_the_unread_prefix_and_never_consumes_input ... ok
+test sync_file::tests::failed_copyout_releases_reserved_fd_and_info_checks_original_buffers ... ok
+test sync_file::tests::merged_points_notify_original_epoll_and_finish_without_a_service ... ok
+test sync_file::tests::unsigned_timeline_advances_follow_signed_32_bit_sequence_order ... ok
+test sync_file::tests::timeline_close_errors_pending_points_only_after_last_original_ofd ... ok
+test sysctl::tests::dump_filter_inheritance_and_linux_integer_syntax ... ok
+test sysctl::tests::perf_controls_remain_live_across_descriptor_and_namespace_aliases ... ok
+test sysctl::tests::inherited_uts_fd_uses_callers_namespace_and_guest_wide_table_events ... ok
+test sysctl::tests::task_limit_sysctl_retains_one_live_resource_across_fork_and_snapshots ... ok
+test sysctl::tests::uts_epoll_error_has_a_new_edge_for_each_change ... ok
+test sysctl::tests::uts_sysctl_offsets_and_change_cursors_follow_open_descriptions ... ok
+test sysv_message::tests::namespace_and_permissions_are_original_resources_after_unshare_or_remove ... ok
+test sysv_message::tests::existing_executors_can_fill_drain_and_remove_without_a_service_thread ... ok
+test storage_tests::staged_population_publishes_once_and_restores_checkpointing_after_error_or_panic ... ok
+test sysv_message::tests::selection_copy_truncation_and_capacity_use_one_queue_state ... ok
+test sysv_semaphore::tests::cancelled_array_wait_retains_original_set_and_rolls_back_partial_changes ... ok
+test sysv_semaphore::tests::undo_is_applied_at_last_member_exit_even_with_retained_observers ... ok
+test storage_tests::subtree_rename_updates_other_process_cwd_and_open_dirfd ... ok
+test task_namespace::tests::cancelling_a_later_wait_keeps_previous_committed_membership ... ok
+test task_namespace::tests::accepted_setns_retains_target_across_wait_close_and_fd_reuse ... ok
+test task_namespace::tests::complete_unshare_moves_original_domains_and_collects_without_replay ... ok
+test task_namespace::tests::native_notifications_keep_accepted_events_and_retarget_only_new_lookups ... ok
+test task_namespace::tests::latest_publication_retires_superseded_membership_without_collection ... ok
+test task_namespace::tests::failed_transaction_preserves_files_fs_names_and_membership ... ok
+test task_namespace::tests::parked_pidfd_join_keeps_original_mount_and_uts_after_fd_reuse ... ok
+test task_namespace::tests::pidfd_join_checks_original_authority_before_changing_any_membership ... ok
+test task_namespace::tests::publication_survives_snapshot_drop_and_repeated_owner_import ... ok
+test task_namespace::tests::serial_busy_candidate_can_resume_on_a_source_worker ... ok
+test task_namespace::tests::serial_candidate_commits_once_and_rolls_back_failed_detachment ... ok
+test storage_tests::trusted_attributes_survive_reopen_on_a_fifo ... ok
+test terminal::boundary_tests::canonical_to_raw_discards_eof_markers_and_preserves_editing_bytes ... ok
+test task_namespace::tests::shared_fs_rejects_mount_setns_before_detaching_any_context ... ok
+test task_transfer::full_vfs_handoff_retains_queued_controls_namespaces_and_original_files ... ok
+test terminal::boundary_tests::custom_speeds_and_rejected_attributes_are_atomic ... ok
+test terminal::boundary_tests::raw_minimum_and_software_flow_control ... ok
+test terminal::tests::canonical_lines_erase_eof_and_control_signals ... ok
+test terminal::boundary_tests::empty_eof_records_consume_capacity_and_read_frees_it ... ok
+test terminal::echo_tests::repeated_erases_cannot_grow_echo_past_the_budget ... ok
+test terminal::tests::raw_input_and_output_translation ... ok
+test tests::directory_entries_are_aligned_and_continue_after_small_buffers ... ok
+test tests::append_null_and_storage_limit ... ok
+test terminal::tests::output_backpressure_preserves_a_complete_translated_character ... ok
+test task_transfer::concurrent_shared_files_keep_private_caches_and_fork_the_actual_membership ... ok
+test tests::open_read_seek_write_and_fd_reuse ... ok
+test tests::directory_search_permissions_and_zero_length_writes ... ok
+test tests::paths_cannot_escape_root_or_traverse_regular_files ... ok
+test tests::imports_do_not_leave_partial_directories_at_the_node_limit ... ok
+test tests::reverse_path_hint_cannot_escape_a_bind_root_through_a_hardlink ... ok
+test tests::reverse_path_hint_validates_rename_unlink_and_replacement_inode ... ok
+test timer_io::clock_watch::tests::native_clock_event_uses_an_existing_wait_fd_without_setting_system_time ... ok
+test timer_io::sleep_tests::large_boottime_interval_keeps_canonical_remaining_without_overflowing_native_units ... ok
+test timer_io::sleep_tests::sleep_elapsed_expires_boottime_and_preserves_periodic_phase_without_advancing_monotonic ... ok
+test timer_io::tests::periodic_expirations_keep_phase_accumulate_and_saturate ... ok
+test timer_io::tests::alarm_clocks_enforce_guest_capabilities_and_use_sleep_aware_native_waits ... ok
+test timer_io::tests::owner_worker_read_and_edge_oneshot_epoll_share_timer_state ... ok
+test timer_io::sleep_tests::sleep_aware_timer_uses_a_native_readiness_fd ... ok
+test tmpfs::tests::copying_an_unwritten_extent_retains_the_quota_without_materializing_pages ... ok
+test tmpfs::tests::named_tmpfs_files_keep_the_default_seal_after_unlink ... ok
+test tmpfs::tests::tmpfs_sparse_ranges_survive_unlink_and_overlapping_reservations ... ok
+test tmpfs::tests::tmpfs_faults_charge_once_and_report_the_accessed_alias ... ok
+test uring_context_tests::original_uring_context_keeps_files_credentials_namespace_and_private_admission ... ok
+test user_namespace::tests::group_mapping_and_setgroups_policy_commit_atomically ... ok
+test user_namespace::tests::concurrent_namespace_creators_share_one_budget ... ok
+test user_namespace::tests::inherited_tun_control_keeps_its_network_owner_after_unshare ... ok
+test uring_context_tests::original_uring_context_unwind_restores_policy_files_reader_and_signal_state ... ok
+test user_namespace::tests::inode_capabilities_require_mapped_ids_and_cannot_reach_parent_objects ... ok
+test user_namespace::tests::inherited_uts_and_network_keep_their_original_user_namespace_owner ... ok
+test user_namespace::tests::malformed_or_unmapped_ranges_do_not_publish_a_partial_map ... ok
+test user_namespace::tests::maps_are_live_write_once_and_keep_internal_identities_global ... ok
+test hostfs::tests::parallel_metadata_admission_and_rename_do_not_invert_cache_locks ... ok
+test user_namespace::tests::metadata_translation_observes_late_maps_without_changing_inode_ids ... ok
+test user_namespace::tests::namespace_quota_is_per_user_and_environment_and_follows_live_handles ... ok
+test user_namespace::tests::nsfs_owner_queries_and_setns_cannot_escape_user_namespace ... ok
+test user_namespace::tests::overflow_sysctls_belong_to_each_environment_and_follow_live_mappings ... ok
+test user_namespace::tests::proc_map_ofd_retains_its_namespace_and_reopen_uses_new_opener ... ok
+test storage_tests::volume_snapshots_bound_growth_and_refresh_independently_of_budget ... ok
+test user_namespace::tests::user_namespace_authority_is_scoped_to_owned_descendants ... ok
+test uring::original_tests::opaque_registration_capture_and_source_query_retain_full_original_after_close_reuse ... ok
+test storage_tests::version_three_manifest_reopens_without_attributes_and_upgrades_on_write ... ok
+test storage_tests::symlinks_persist_resolve_relative_and_do_not_follow_on_unlink ... ok
+test storage_tests::failed_synchronous_writes_keep_the_original_position_and_preserve_written_bytes ... ok
+test storage_tests::unsupported_manifest_versions_are_rejected_without_deleting_data ... ok
+test storage_tests::stream_import_export_uses_bounded_chunks_and_rejects_over_budget ... ok
+
+test result: ok. 1041 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 3.83s
+

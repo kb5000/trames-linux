@@ -1,0 +1,6 @@
+/acceptance/docker-lifecycle.sh: 21: kill: No such process
+
+time="2026-11-25T04:56:29.834275148Z" level=info msg="Starting up"
+time="2026-11-25T04:56:29.904222166Z" level=info msg="containerd not running, starting managed containerd"
+time="2026-11-25T04:56:30.522374354Z" level=info msg="started new containerd process" address=/var/run/docker/containerd/containerd.sock module=libcontainerd pid=18
+failed to start containerd: timeout waiting for containerd to start

@@ -1,0 +1,41 @@
+   Compiling libc v0.2.190
+   Compiling trames-native v1.3.0 (/home/main.guest/trames-linux-fixes/runtime/crates/trames-native)
+   Compiling parking_lot_core v0.9.12
+   Compiling cpufeatures v0.2.17
+   Compiling vmm-sys-util v0.15.0
+   Compiling sha2 v0.10.9
+   Compiling parking_lot v0.12.5
+   Compiling trames-shared v1.3.0 (/home/main.guest/trames-linux-fixes/runtime/crates/trames-shared)
+   Compiling kvm-bindings v0.14.2
+   Compiling kvm-ioctls v0.25.1
+   Compiling trames-memory v1.3.0 (/home/main.guest/trames-linux-fixes/runtime/crates/trames-memory)
+   Compiling trames-bridge v1.3.0 (/home/main.guest/trames-linux-fixes/runtime/crates/trames-bridge)
+   Compiling trames-graphics v1.3.0 (/home/main.guest/trames-linux-fixes/runtime/crates/trames-graphics)
+   Compiling trames-engine v1.3.0 (/home/main.guest/trames-linux-fixes/runtime/crates/trames-engine)
+   Compiling trames-accel v1.3.0 (/home/main.guest/trames-linux-fixes/runtime/crates/trames-accel)
+   Compiling trames-wayland v1.3.0 (/home/main.guest/trames-linux-fixes/runtime/crates/trames-wayland)
+   Compiling trames-kvm v0.1.0 (/home/main.guest/trames-linux-fixes/crates/trames-kvm)
+   Compiling trames-vulkan v1.3.0 (/home/main.guest/trames-linux-fixes/runtime/crates/trames-vulkan)
+    Finished `test` profile [unoptimized] target(s) in 4.59s
+     Running unittests src/lib.rs (/home/main.guest/trames-linux-engine/target/debug/build/trames-kvm/9426a875233eea45/out/trames_kvm-9426a875233eea45)
+
+running 4 tests
+test aarch64::engine::hardware_checkpoints::completed_syscalls_resume_without_register_resets_or_extra_smccc_runs ... ok
+test aarch64::engine::hardware_checkpoints::every_restore_pc_and_completed_doorbell_has_a_complete_user_checkpoint ... ok
+test aarch64::engine::hardware_checkpoints::hardware_step_can_pause_inside_a_real_partial_el1_save ... ok
+test aarch64::engine::hardware_checkpoints::sparse_table_retirement_releases_empty_subtrees ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 5 filtered out; finished in 0.02s
+
+     Running tests/hardware.rs (/home/main.guest/trames-linux-engine/target/debug/build/trames-kvm/ac80bc7acd9d4aeb/out/hardware-ac80bc7acd9d4aeb)
+
+running 6 tests
+test byte_borrow_revokes_cached_stage_two_and_wakes_without_polling ... ok
+test canonical_pages_fork_cow_protection_and_unmap_reuse ... ok
+test deadline_state_and_preentry_kick_survive_worker_migration ... ok
+test duplicate_fd_aliases_share_revoke_counts_and_neighbor_pages_stay_live ... ok
+test fd_backed_native_image_keeps_original_bytes_after_image_release ... ok
+test host_managed_ranges_keep_canonical_bytes_and_fork_cow ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.20s
+

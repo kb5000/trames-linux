@@ -1,0 +1,17 @@
+{
+  "artifacts": {},
+  "artifacts_validated": true,
+  "case_inputs": "b1329271c7519492348284643df3bc3f00f4f7f516dbfff78bf0279a936f86e6",
+  "domain": "network",
+  "exit_code": 0,
+  "fingerprint": "e230ba37dbb11eb1e1c2c4f15e7821ec11aab243675596e05ab1a97360fb704d",
+  "id": "ip.address-route",
+  "logs": {
+    "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "8f467269d76f0d77796534775148164befdff44ff9ae31b368329750252ff05f"
+  },
+  "reused": false,
+  "seconds": 2.7970650200004457,
+  "status": "passed",
+  "tier": "apps"
+}

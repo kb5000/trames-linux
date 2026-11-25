@@ -1,0 +1,4 @@
+time="2026-11-25T04:58:41.972321742Z" level=info msg="Starting up"
+time="2026-11-25T04:58:42.484450988Z" level=info msg="containerd not running, starting managed containerd"
+time="2026-11-25T04:58:50.116823140Z" level=info msg="started new containerd process" address=/var/run/docker/containerd/containerd.sock module=libcontainerd pid=26
+failed to start containerd: timeout waiting for containerd to start

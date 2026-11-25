@@ -1,0 +1,48 @@
+{
+  "cases": [
+    {
+      "case_inputs": "2cb06db237d6984b6fe36eb1d2c5782099b0d586f1b991b8348336b73ec13510",
+      "domain": "systemd",
+      "exit_code": 255,
+      "fingerprint": "303cd6076868fe609f33fe24dc1e35af83a25e80fcc4031674cf87a9d623c1bd",
+      "id": "systemd.pid1-services",
+      "logs": {
+        "console": "f7f95a4f6e148e1ed8abdc23545713044d9adf6ca61e78c00daa3d715a11da35",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "reused": false,
+      "seconds": 97.88621193200379,
+      "status": "failed",
+      "tier": "apps"
+    },
+    {
+      "case_inputs": "a68277611755dd314d8f1a887f47b59514e5689159afdf2c51c2d19cd9de1c2e",
+      "domain": "containers",
+      "exit_code": 1,
+      "fingerprint": "5ece93bba9f23b7501a5cd4a790b1f1eb1bffa066c7cb44043a2c6acf8cd7e0d",
+      "id": "docker.lifecycle",
+      "logs": {
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "reused": false,
+      "seconds": 94.659474236003,
+      "status": "failed",
+      "tier": "apps"
+    }
+  ],
+  "completed": 2,
+  "counts": {
+    "blocked": 0,
+    "failed": 2,
+    "infrastructure_error": 0,
+    "not_run": 0,
+    "passed": 0,
+    "reference_failed": 0,
+    "timed_out": 0
+  },
+  "planned": 2,
+  "reused": 0,
+  "schema_version": 1
+}

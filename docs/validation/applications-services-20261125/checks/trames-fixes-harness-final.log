@@ -1,0 +1,26 @@
+....acceptance infrastructure: [Errno 17] File exists: '/tmp/tmprbf9_z14/existing'
+.............
+----------------------------------------------------------------------
+Ran 17 tests in 0.124s
+
+OK
+# Runtime application acceptance
+
+Each cell is one workflow in one execution configuration. Missing/blocked/reference failures do not count as passes.
+
+| Workflow | native |
+| --- | --- |
+| case | passed |
+
+Timing includes setup/startup and is not a qualified performance comparison.
+
+# Runtime application acceptance
+
+Each cell is one workflow in one execution configuration. Missing/blocked/reference failures do not count as passes.
+
+| Workflow | native | missing |
+| --- | --- | --- |
+| case | infrastructure_error | infrastructure_error |
+
+Timing includes setup/startup and is not a qualified performance comparison.
+

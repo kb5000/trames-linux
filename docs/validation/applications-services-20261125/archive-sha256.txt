@@ -1,0 +1,2 @@
+6fe698837fd8147caf1e50bc5f3aed77c9893b893c0c2be849a9ceecb426562d  /mnt/trames-output/acceptance-fixes-20261125/cli-bundle.tar.gz
+31c6fdde1742bb3ba7931adcab758f30e7e6a0450fa07368168bb5924c8d028b  /mnt/trames-output/acceptance-fixes-20261125/services-bundle.tar.gz

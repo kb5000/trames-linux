@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<testsuites><testsuite name="native" tests="2" failures="0"><testcase name="ip.address-route" classname="native" time="0.06440976999874692" /><testcase name="ip.namespace-bridge" classname="native" time="2.1841850420023547" /></testsuite><testsuite name="kvm-smccc-1" tests="2" failures="1"><testcase name="ip.address-route" classname="kvm-smccc-1" time="2.2931817960052285" /><testcase name="ip.namespace-bridge" classname="kvm-smccc-1" time="4.399366223995457"><failure type="failed" message="failed">ip-namespace-bridge: ok
+
+/usr/bin/ping: WARNING: setsockopt(ICMP_FILTER): Protocol not available
+/usr/bin/ping: WARNING: your kernel is veeery old. No problems.
+/usr/bin/ping: Warning: no SO_TIMESTAMP support, falling back to SIOCGSTAMP
+</failure></testcase></testsuite><testsuite name="kvm-smccc-4" tests="2" failures="1"><testcase name="ip.address-route" classname="kvm-smccc-4" time="2.399228315000073" /><testcase name="ip.namespace-bridge" classname="kvm-smccc-4" time="3.7770893099950626"><failure type="failed" message="failed">ip-namespace-bridge: ok
+
+/usr/bin/ping: WARNING: setsockopt(ICMP_FILTER): Protocol not available
+/usr/bin/ping: WARNING: your kernel is veeery old. No problems.
+/usr/bin/ping: Warning: no SO_TIMESTAMP support, falling back to SIOCGSTAMP
+</failure></testcase></testsuite><testsuite name="kvm-mmio-1" tests="2" failures="1"><testcase name="ip.address-route" classname="kvm-mmio-1" time="2.4744902579986956" /><testcase name="ip.namespace-bridge" classname="kvm-mmio-1" time="5.11894386500353"><failure type="failed" message="failed">ip-namespace-bridge: ok
+
+/usr/bin/ping: WARNING: setsockopt(ICMP_FILTER): Protocol not available
+/usr/bin/ping: WARNING: your kernel is veeery old. No problems.
+/usr/bin/ping: Warning: no SO_TIMESTAMP support, falling back to SIOCGSTAMP
+</failure></testcase></testsuite><testsuite name="kvm-mmio-4" tests="2" failures="1"><testcase name="ip.address-route" classname="kvm-mmio-4" time="2.7970650200004457" /><testcase name="ip.namespace-bridge" classname="kvm-mmio-4" time="3.977349642002082"><failure type="failed" message="failed">ip-namespace-bridge: ok
+
+/usr/bin/ping: WARNING: setsockopt(ICMP_FILTER): Protocol not available
+/usr/bin/ping: WARNING: your kernel is veeery old. No problems.
+/usr/bin/ping: Warning: no SO_TIMESTAMP support, falling back to SIOCGSTAMP
+</failure></testcase></testsuite></testsuites>

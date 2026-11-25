@@ -1,0 +1,8 @@
+Client:
+ Version:    26.1.5+dfsg1
+ Context:    default
+ Debug Mode: false
+
+Server:
+ERROR: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?
+errors pretty printing info

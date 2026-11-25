@@ -1,0 +1,16 @@
+{
+  "case_inputs": "2cb06db237d6984b6fe36eb1d2c5782099b0d586f1b991b8348336b73ec13510",
+  "domain": "systemd",
+  "exit_code": 255,
+  "fingerprint": "f40e54b5983470ae81f8c22c1b0e1dfbc8dbdbeaa80d31466319482afbbdd73c",
+  "id": "systemd.pid1-services",
+  "logs": {
+    "console": "f7f95a4f6e148e1ed8abdc23545713044d9adf6ca61e78c00daa3d715a11da35",
+    "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "reused": false,
+  "seconds": 95.87082580399874,
+  "status": "failed",
+  "tier": "apps"
+}

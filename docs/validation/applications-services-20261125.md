@@ -73,7 +73,7 @@ CLI remains `078cc9e21ceafd79f631c74bc2f52083d6282a09`.
 - Original generated-code/file capability/store reopen fixture: 16/16.
 - Existing CLI PTY/environment/signal/rootfs acceptance: 6/6.
 - Shared runtime full test batches: macOS 2232 passed, 31 explicitly ignored;
-  Linux passed. Latest affected VFS batches: macOS 1041 and Linux 1038 passed,
+  Linux 2229 passed, 15 explicitly ignored. Latest affected VFS batches: macOS 1041 and Linux 1038 passed,
   one ignored each; Linux network 207 passed. Strict clippy and target builds
   are checked on Apple and Linux. Unchanged full CPU/media evidence is reused.
 - Acceptance self-tests: Linux 17 passed; macOS 16 passed with the Linux archive
@@ -91,3 +91,54 @@ hardware jobs. There is still no registered GitHub KVM runner; this does not
 claim continuous hardware CI or an enforced branch/release policy. HVF,
 interpreter and physical iPad application adapters remain separate follow-up
 work. No Mac/iPad application deployment is part of this batch.
+
+## Reproducible evidence
+
+The final basic application and IP matrices were built from clean product
+`3338f735e041249fbc4a0d66072df2a72c6f0d51` and runtime
+`26384a8746933ea636888f57ac49e62d978a6612`. The actual
+[clean build receipt](applications-services-20261125/build-clean.json) records
+both clean flags, source input digests, toolchain, successful build argv and
+binary SHA256 `faea82dd03da357f26dad259063509ba08e19b286fc6d02a003d558424137f81`.
+
+| Profile | Native | KVM SMCCC 1/4 workers | KVM MMIO 1/4 workers | Evidence |
+| --- | --- | --- | --- | --- |
+| Basic applications | 12/12 | 12/12 each | 12/12 each | [audited table](applications-services-20261125/applications/relocated-report/report.md) |
+| IP address/route | passed | passed / passed | passed / passed | [audited table](applications-services-20261125/network/relocated-report/report.md) |
+| IP netns/bridge/ping | passed | failed / failed | failed / failed | same network report |
+| systemd PID 1/services | passed | failed / failed | failed / failed | [diagnostic table](applications-services-20261125/services-diagnostic/relocated-report/report.md) |
+| Docker lifecycle | passed | failed / failed | failed / failed | same services report |
+
+The service diagnostics use the complete final implementation before committing
+the pin manifest; their [receipt](applications-services-20261125/build-services-diagnostic.json)
+truthfully retains dirty development provenance. They are failure diagnostics,
+not release qualification of a clean build. All four final Docker cells stop
+at managed containerd startup timeout. Earlier diagnostic runs also reached
+container creation and exposed missing cgroup control/event files. All four
+final systemd cells stop at generator child alarm/protocol failure. These gates
+must pass before claiming systemd/Docker support.
+
+Each matrix directory preserves its full plan, result JSON, raw stdout/stderr,
+console where declared, deterministic artifacts, diagnostics, JSON summary and
+JUnit. Passing evidence was independently audited again after relocation.
+The [file/JIT result](applications-services-20261125/file-jit/results.json),
+[CLI result](applications-services-20261125/cli-results.json), and platform
+test/clippy logs under `applications-services-20261125/checks/` remain separate
+from application compatibility counts.
+
+Full frozen images are retained in the iPad development workspace at
+`target/local-ci/io/acceptance-fixes-20261125/`, outside Git. PAX archives preserve
+numeric owners, xattrs and ACLs. [CLI metadata](applications-services-20261125/cli-bundle.json)
+and [service metadata](applications-services-20261125/services-bundle.json)
+record the exact rootfs trees and package versions. Archive SHA256:
+
+- `cli-bundle.tar.gz`: `6fe698837fd8147caf1e50bc5f3aed77c9893b893c0c2be849a9ceecb426562d`
+- `services-bundle.tar.gz`: `31c6fdde1742bb3ba7931adcab758f30e7e6a0450fa07368168bb5924c8d028b`
+
+Clean-commit hosted checks passed: [shared runtime](https://github.com/kb5000/trames-runtime/actions/runs/45550128461),
+[native IP/application references and harness](https://github.com/kb5000/trames-runtime/actions/runs/45550128401),
+[Linux product ARM64/AMD64/macOS builds](https://github.com/kb5000/trames-linux/actions/runs/45550263256),
+[Mac product](https://github.com/kb5000/trames-mac/actions/runs/45550387024), and
+[iOS embedding](https://github.com/kb5000/trames-ipad/actions/runs/45550397591).
+Hosted build success does not qualify the still-failing KVM service gates or
+prove an AMD64 KVM executor exists.

@@ -1,0 +1,81 @@
+[0;38:5:245mProtectSystem=auto selected, but not running in an initrd, skipping.[0m
+[!p]104[?7hsystemd 257.13-1~deb13u1 running in system mode (+PAM +AUDIT +SELINUX +APPARMOR +IMA +IPE +SMACK +SECCOMP +GCRYPT -GNUTLS +OPENSSL +ACL +BLKID +CURL +ELFUTILS +FIDO2 +IDN2 -IDN +IPTC +KMOD +LIBCRYPTSETUP +LIBCRYPTSETUP_PLUGINS +LIBFDISK +PCRE2 +PWQUALITY +P11KIT +QRENCODE +TPM2 +BZIP2 +LZ4 +XZ +ZLIB +ZSTD +BPF_FRAMEWORK +BTF -XKBCOMMON -UTMP +SYSVINIT +LIBARCHIVE)
+Detected virtualization container-other.
+[0;38:5:245mNo confidential virtualization detection on this architecture[0m
+Detected architecture arm64.
+[0;38:5:245mDetected initialized system, this is not the first boot.[0m
+[0;38:5:245mKernel version 6.0.0-trames, our baseline is 5.4[0m
+[0;38:5:245mNo credentials passed from initrd.[0m
+[0;38:5:245mAcquired 0 regular credentials, 0 untrusted credentials.[0m
+
+[0;1;39mWelcome to [0m[1mDebian GNU/Linux 13 (trixie)[0m[0;1;39m![0m
+
+Hostname set to <debuerreotype>.
+[0;1;38:5:185mFailed to open netlink, ignoring: Protocol not available[0m
+[0;38:5:245mFailed to read AF_UNIX datagram queue length, ignoring: No such file or directory[0m
+[0;38:5:245mSetting '/proc/sys/fs/file-max' to '9223372036854775807'[0m
+[0;38:5:245mFailed to bump fs.file-max, ignoring: Read-only file system[0m
+[0;38:5:245mSetting '/proc/sys/fs/nr_open' to '2147483640'[0m
+[0;38:5:245mSuccessfully bumped fs.nr_open to 2147483640[0m
+[0;38:5:245mFailed to use O_TMPFILE for /run/systemd/propagate/.os-release-stage/os-release: Invalid argument[0m
+[0;1;38:5:185mFailed to enable ctrl-alt-del handling, ignoring: Operation not supported[0m
+[0;38:5:245mFailed to open /dev/tty0, ignoring: No such file or directory[0m
+[0;38:5:245mFound cgroup2 on /sys/fs/cgroup/, full unified hierarchy[0m
+[0;38:5:245mUnified cgroup hierarchy is located at /sys/fs/cgroup.[0m
+[0;38:5:245mbpf-firewall: Didn't get EBADF from BPF_PROG_DETACH, BPF firewalling is not supported: Invalid argument[0m
+[0;38:5:245mLoaded 'libbpf.so.1' via dlopen()[0m
+[0;38:5:245mbpf-socket-bind: BPF program type cgroup_sock_addr is not supported[0m
+[0;38:5:245mlibbpf: Error in bpf_object__probe_loading():Invalid argument(22). Couldn't load trivial BPF program. Make sure your kernel supports BPF (CONFIG_BPF_SYSCALL=y) and/or that RLIMIT_MEMLOCK is set to big enough value.[0m
+[0;38:5:245mlibbpf: failed to load object 'restrict_ifaces_bpf'[0m
+[0;38:5:245mlibbpf: failed to load BPF skeleton 'restrict_ifaces_bpf': -22[0m
+[0;38:5:245mrestrict-interfaces: Failed to load BPF object: Invalid argument[0m
+[0;38:5:245mrestrict-interfaces: Failed to load BPF object: Invalid argument[0m
+[0;38:5:245mController 'cpu' supported: yes[0m
+[0;38:5:245mController 'cpuacct' supported: no[0m
+[0;38:5:245mController 'cpuset' supported: yes[0m
+[0;38:5:245mController 'io' supported: no[0m
+[0;38:5:245mController 'blkio' supported: no[0m
+[0;38:5:245mController 'memory' supported: yes[0m
+[0;38:5:245mController 'devices' supported: no[0m
+[0;38:5:245mController 'pids' supported: yes[0m
+[0;38:5:245mController 'bpf-firewall' supported: no[0m
+[0;38:5:245mController 'bpf-devices' supported: yes[0m
+[0;38:5:245mController 'bpf-foreign' supported: yes[0m
+[0;38:5:245mController 'bpf-socket-bind' supported: no[0m
+[0;38:5:245mController 'bpf-restrict-network-interfaces' supported: no[0m
+[0;38:5:245mSet up TFD_TIMER_CANCEL_ON_SET timerfd.[0m
+[0;38:5:245mFailed to establish memory pressure event source, ignoring: Operation not supported[0m
+bpf-restrict-fs: BPF LSM hook not enabled in the kernel, BPF LSM not supported.
+[0;38:5:245mUsing systemd-executor binary from '/usr/lib/systemd/systemd-executor'.[0m
+[0;38:5:245mEnabling (yes) showing of status (command line).[0m
+[0;38:5:245mSuccessfully forked off '(sd-gens)' as PID 2.[0m
+[0;38:5:245mPR_SET_MM_ARG_START failed, attempting PR_SET_MM_ARG_END hack: Invalid argument[0m
+[0;38:5:245mPR_SET_MM_ARG_END hack failed, proceeding without: Invalid argument[0m
+[0;38:5:245mSuccessfully forked off '(sd-exec-strv)' as PID 3.[0m
+[0;38:5:245mAbout to execute /usr/lib/systemd/system-generators/systemd-debug-generator (null)[0m
+[0;38:5:245mSuccessfully forked off '(exec-inner)' as PID 4.[0m
+[0;38:5:245mAbout to execute /usr/lib/systemd/system-generators/systemd-fstab-generator (null)[0m
+[0;38:5:245mSuccessfully forked off '(exec-inner)' as PID 5.[0m
+[0;38:5:245mAbout to execute /usr/lib/systemd/system-generators/systemd-getty-generator (null)[0m
+[0;38:5:245mSuccessfully forked off '(exec-inner)' as PID 6.[0m
+[0;38:5:245mAbout to execute /usr/lib/systemd/system-generators/systemd-gpt-auto-generator (null)[0m
+[0;38:5:245mSuccessfully forked off '(exec-inner)' as PID 7.[0m
+[0;38:5:245mAbout to execute /usr/lib/systemd/system-generators/systemd-hibernate-resume-generator (null)[0m
+[0;38:5:245mSuccessfully forked off '(exec-inner)' as PID 8.[0m
+[0;38:5:245mAbout to execute /usr/lib/systemd/system-generators/systemd-rc-local-generator (null)[0m
+[0;38:5:245mSuccessfully forked off '(exec-inner)' as PID 9.[0m
+[0;38:5:245mAbout to execute /usr/lib/systemd/system-generators/systemd-run-generator (null)[0m
+[0;38:5:245mSuccessfully forked off '(exec-inner)' as PID 10.[0m
+[0;38:5:245mAbout to execute /usr/lib/systemd/system-generators/systemd-ssh-generator (null)[0m
+[0;38:5:245mSuccessfully forked off '(exec-inner)' as PID 11.[0m
+[0;38:5:245mAbout to execute /usr/lib/systemd/system-generators/systemd-system-update-generator (null)[0m
+[0;38:5:245mSuccessfully forked off '(exec-inner)' as PID 12.[0m
+[0;38:5:245mAbout to execute /usr/lib/systemd/system-generators/systemd-sysv-generator (null)[0m
+[0;38:5:245mSuccessfully forked off '(exec-inner)' as PID 13.[0m
+[0;38:5:245mAbout to execute /usr/lib/systemd/system-generators/systemd-tpm2-generator (null)[0m
+[0;38:5:245mSuccessfully forked off '(exec-inner)' as PID 14.[0m
+[0;38:5:245m(sd-exec-strv) terminated by signal ALRM.[0m
+[0;38:5:245m(sd-gens) failed with exit status 1.[0m
+[0;1;31mFailed to fork off sandboxing environment for executing generators: Protocol error[0m
+[[0;1;31m!!!!!![0m] Failed to start up manager.
+[0;1;31mExiting PID 1...[0m

@@ -1,0 +1,3 @@
+/usr/bin/ping: WARNING: setsockopt(ICMP_FILTER): Protocol not available
+/usr/bin/ping: WARNING: your kernel is veeery old. No problems.
+/usr/bin/ping: Warning: no SO_TIMESTAMP support, falling back to SIOCGSTAMP

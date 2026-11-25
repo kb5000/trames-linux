@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='utf-8'?>
+<testsuites><testsuite name="native" tests="2" failures="0"><testcase name="docker.lifecycle" classname="native" time="5.726709480994032" /><testcase name="systemd.pid1-services" classname="native" time="0.31703693899908103" /></testsuite><testsuite name="kvm-smccc-1" tests="2" failures="2"><testcase name="docker.lifecycle" classname="kvm-smccc-1" time="94.659474236003"><failure type="failed" message="failed">
+</failure></testcase><testcase name="systemd.pid1-services" classname="kvm-smccc-1" time="97.88621193200379"><failure type="failed" message="failed">
+</failure></testcase></testsuite><testsuite name="kvm-smccc-4" tests="2" failures="2"><testcase name="docker.lifecycle" classname="kvm-smccc-4" time="38.72628280000208"><failure type="failed" message="failed">
+</failure></testcase><testcase name="systemd.pid1-services" classname="kvm-smccc-4" time="95.99316772300517"><failure type="failed" message="failed">
+</failure></testcase></testsuite><testsuite name="kvm-mmio-1" tests="2" failures="2"><testcase name="docker.lifecycle" classname="kvm-mmio-1" time="141.78590099899884"><failure type="failed" message="failed">
+</failure></testcase><testcase name="systemd.pid1-services" classname="kvm-mmio-1" time="97.30704960000003"><failure type="failed" message="failed">
+</failure></testcase></testsuite><testsuite name="kvm-mmio-4" tests="2" failures="2"><testcase name="docker.lifecycle" classname="kvm-mmio-4" time="38.30296341599751"><failure type="failed" message="failed">
+</failure></testcase><testcase name="systemd.pid1-services" classname="kvm-mmio-4" time="95.87082580399874"><failure type="failed" message="failed">
+</failure></testcase></testsuite></testsuites>

@@ -1,0 +1,117 @@
+{
+  "build": {
+    "fingerprint": {
+      "binary_sha256": "66be3a12314450dd526def29e9e5375d80d2f25e563c015d770bf2a04ca2111e",
+      "command": [
+        "cargo",
+        "build",
+        "--workspace",
+        "--release",
+        "--locked"
+      ],
+      "flags": {
+        "CARGO_INCREMENTAL": "0"
+      },
+      "sources": {
+        "product": "2da41f927f6109de40f47f715a660bb73d46af0b1fec4db9cce1a55485ae9269",
+        "runtime": "99a45b41f26f706dd8ac3667992a7324c7f50abd37d351d7c1a0d309973ffb1c"
+      },
+      "toolchain": "rustc 1.101.0-nightly (4ebd25825 2026-10-15)\nbinary: rustc\ncommit-hash: 4ebd258257737d5b7635c116fa7d281627a7e937\ncommit-date: 2026-10-15\nhost: aarch64-unknown-linux-gnu\nrelease: 1.101.0-nightly\nLLVM version: 23.1.4\n"
+    },
+    "fingerprint_sha256": "4193e3e3c4d585416602ed460581ef206c953e2d2cdaa463b7e0aeb48ac36882",
+    "schema_version": 1,
+    "sources": {
+      "product": {
+        "commit": "4c75677e70e43e7c75907ef61c6b79909cd13d9a",
+        "dirty": true,
+        "inputs_sha256": "2da41f927f6109de40f47f715a660bb73d46af0b1fec4db9cce1a55485ae9269"
+      },
+      "runtime": {
+        "commit": "6ebd4e096ee88187eeaf61dc2b611e5774b0eeae",
+        "dirty": true,
+        "inputs_sha256": "99a45b41f26f706dd8ac3667992a7324c7f50abd37d351d7c1a0d309973ffb1c"
+      }
+    }
+  },
+  "bundle_sha256": "1bcfed4955dc5129c417312e1788fe42f41e747ebeda5ee531eba0fd8083fdfd",
+  "cases": [
+    {
+      "artifacts": [
+        "/work/systemd.result"
+      ],
+      "console": "diagnostic",
+      "diagnostics": [
+        "/work/systemd.log",
+        "/work/systemd-controller.log"
+      ],
+      "domain": "systemd",
+      "id": "systemd.pid1-services",
+      "pty": true,
+      "requires": [
+        "/usr/lib/systemd/systemd",
+        "/usr/bin/systemctl",
+        "/usr/bin/journalctl",
+        "/acceptance/systemd-boot"
+      ],
+      "script": "exec /acceptance/systemd-boot --exercise",
+      "stdout": "",
+      "tier": "apps",
+      "timeout": 240
+    },
+    {
+      "artifacts": [
+        "/work/docker.result"
+      ],
+      "diagnostics": [
+        "/work/docker.log",
+        "/work/dockerd.log",
+        "/work/docker-info.log"
+      ],
+      "domain": "containers",
+      "id": "docker.lifecycle",
+      "requires": [
+        "/usr/sbin/dockerd",
+        "/usr/bin/docker",
+        "/acceptance/docker-lifecycle.sh",
+        "/acceptance/container.tar"
+      ],
+      "script": "exec /bin/sh /acceptance/docker-lifecycle.sh",
+      "stdout": "",
+      "tier": "apps",
+      "timeout": 360
+    }
+  ],
+  "harness_sha256": "898f819af95d9e2d4a3d94829036cc6dce8718b326bcb3f20ba3cf4d355293f3",
+  "host": {
+    "arch": "aarch64",
+    "cpu": "processor\t: 0\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 1\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 2\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 3\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 4\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 5\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\n",
+    "cpu_identity": [
+      "CPU architecture: 8",
+      "CPU implementer\t: 0x61",
+      "CPU part\t: 0x000",
+      "CPU revision\t: 0",
+      "CPU variant\t: 0x0",
+      "Features\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut"
+    ],
+    "kernel": "7.0.0-43-generic",
+    "libc": [
+      "glibc",
+      "2.39"
+    ],
+    "os": "Linux",
+    "page_size": 4096
+  },
+  "performance_qualified": false,
+  "provider": {
+    "backend": "kvm",
+    "build": "4193e3e3c4d585416602ed460581ef206c953e2d2cdaa463b7e0aeb48ac36882",
+    "cpus": 4,
+    "filesystem": "store",
+    "native_container": null,
+    "native_tools": null,
+    "network": "outbound",
+    "transport": "smccc"
+  },
+  "schema_version": 1,
+  "selected_scope": "complete"
+}

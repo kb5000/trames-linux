@@ -1,0 +1,20 @@
+{
+  "artifacts": {
+    "/work/systemd.result": "6dbb2184dc6434e7e99fee9d7527752a5e6d9e4724373a568517dd74207e2aa4"
+  },
+  "artifacts_validated": true,
+  "case_inputs": "2cb06db237d6984b6fe36eb1d2c5782099b0d586f1b991b8348336b73ec13510",
+  "domain": "systemd",
+  "exit_code": 0,
+  "fingerprint": "7e620594fb9bf5a31265f1f14a0ef0d8509a83d66f71fb764227b081205f4337",
+  "id": "systemd.pid1-services",
+  "logs": {
+    "console": "bfed6a61ca6259eff45ca1fd1888e93eed6bbd0e70f5af9a5ff3fa8c85e4b205",
+    "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "reused": false,
+  "seconds": 0.31703693899908103,
+  "status": "passed",
+  "tier": "apps"
+}
