@@ -1,0 +1,19 @@
+{
+  "artifacts": {
+    "/work/decoded": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+  },
+  "artifacts_validated": true,
+  "case_inputs": "6ffd84683912afd44f007d254c691b5eb796456c227b92d762f171cfc9d06384",
+  "domain": "memory",
+  "exit_code": 0,
+  "fingerprint": "26924fdeefb987f1dbd1094ae9a99fd574263ad258d60805864a83880ea06f96",
+  "id": "hash.base64",
+  "logs": {
+    "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "64aaf0934b3fd480f0e4245c7190bfbd5a32c1cdbdbe35f5536167ffd462de1e"
+  },
+  "reused": false,
+  "seconds": 0.315373883000575,
+  "status": "passed",
+  "tier": "smoke"
+}

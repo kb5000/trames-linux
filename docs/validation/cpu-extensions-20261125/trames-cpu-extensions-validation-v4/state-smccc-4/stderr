@@ -1,0 +1,1 @@
+cpu: /home/main.guest/trames-linux-wsi-qualified/tests/fixtures/cpu-extensions.c:125: state_thread: Assertion `fpcr==expected_fpcr && fpsr==expected_fpsr' failed.

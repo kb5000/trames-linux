@@ -1,0 +1,19 @@
+{
+  "old": "ff906ed3f4caf1d33b3f3f9dd1cf423a6d78d646",
+  "new": "474ee466391e2683c1a0f48e6fb21307cc45adae",
+  "changed_files": [
+    "crates/trames-kernel/src/signal/frame.rs",
+    "crates/trames-kernel/src/signal/io_ptrace.rs",
+    "crates/trames-kernel/tests/task-signals.rs",
+    "crates/trames-session/src/workers.rs"
+  ],
+  "unrelated_working_files_preserved": 270,
+  "overlap_merged": [
+    "crates/trames-kernel/src/signal/frame.rs",
+    "crates/trames-kernel/src/signal/io_ptrace.rs",
+    "crates/trames-kernel/tests/task-signals.rs",
+    "crates/trames-session/src/workers.rs"
+  ],
+  "owner_relocated_fp_restore": "crates/trames-kernel/src/signal/return_fp.rs",
+  "owner_relocation_edits": "Only the two obsolete FP register masks were removed; the complete owner frame rewrite was retained."
+}

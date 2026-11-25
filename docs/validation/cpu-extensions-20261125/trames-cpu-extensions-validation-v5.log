@@ -1,0 +1,15 @@
+{'id': 'native-instructions', 'status': 'passed', 'exit_code': 0, 'seconds': 0.0013532179999913296}
+{'id': 'native-state', 'status': 'passed', 'exit_code': 0, 'seconds': 0.007905950999997913}
+{'id': 'native-ptrace', 'status': 'passed', 'exit_code': 0, 'seconds': 0.0014942470000107733}
+{'id': 'instructions-smccc-1', 'status': 'passed', 'exit_code': 0, 'seconds': 0.11584768599999506}
+{'id': 'state-smccc-1', 'status': 'passed', 'exit_code': 0, 'seconds': 0.114657801000007}
+{'id': 'ptrace-smccc-1', 'status': 'passed', 'exit_code': 0, 'seconds': 0.03210037499999885}
+{'id': 'instructions-smccc-4', 'status': 'passed', 'exit_code': 0, 'seconds': 0.11790525600000024}
+{'id': 'state-smccc-4', 'status': 'passed', 'exit_code': 0, 'seconds': 0.1155083919999953}
+{'id': 'ptrace-smccc-4', 'status': 'passed', 'exit_code': 0, 'seconds': 0.06411049799999091}
+{'id': 'instructions-mmio-1', 'status': 'passed', 'exit_code': 0, 'seconds': 0.11450926700000252}
+{'id': 'state-mmio-1', 'status': 'passed', 'exit_code': 0, 'seconds': 0.16788010599999836}
+{'id': 'ptrace-mmio-1', 'status': 'passed', 'exit_code': 0, 'seconds': 0.06423731099999941}
+{'id': 'instructions-mmio-4', 'status': 'passed', 'exit_code': 0, 'seconds': 0.11922183100000439}
+{'id': 'state-mmio-4', 'status': 'passed', 'exit_code': 0, 'seconds': 0.1157296689999896}
+{'id': 'ptrace-mmio-4', 'status': 'passed', 'exit_code': 0, 'seconds': 0.06418240800000774}

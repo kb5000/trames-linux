@@ -1,0 +1,97 @@
+{
+  "cases": [
+    {
+      "exit_code": 0,
+      "id": "native-instructions",
+      "seconds": 0.0013532179999913296,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "native-state",
+      "seconds": 0.007905950999997913,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "native-ptrace",
+      "seconds": 0.0014942470000107733,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "instructions-smccc-1",
+      "seconds": 0.11584768599999506,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "state-smccc-1",
+      "seconds": 0.114657801000007,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "ptrace-smccc-1",
+      "seconds": 0.03210037499999885,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "instructions-smccc-4",
+      "seconds": 0.11790525600000024,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "state-smccc-4",
+      "seconds": 0.1155083919999953,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "ptrace-smccc-4",
+      "seconds": 0.06411049799999091,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "instructions-mmio-1",
+      "seconds": 0.11450926700000252,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "state-mmio-1",
+      "seconds": 0.16788010599999836,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "ptrace-mmio-1",
+      "seconds": 0.06423731099999941,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "instructions-mmio-4",
+      "seconds": 0.11922183100000439,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "state-mmio-4",
+      "seconds": 0.1157296689999896,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "ptrace-mmio-4",
+      "seconds": 0.06418240800000774,
+      "status": "passed"
+    }
+  ],
+  "passed": 15,
+  "performance_qualified": false,
+  "planned": 15
+}

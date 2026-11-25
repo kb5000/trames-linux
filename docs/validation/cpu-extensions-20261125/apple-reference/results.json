@@ -1,0 +1,26 @@
+{
+  "cases": [
+    {
+      "id": "hvf-state-1",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "id": "hvf-ptrace-1",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "id": "hvf-state-4",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "id": "hvf-ptrace-4",
+      "exit_code": 0,
+      "passed": true
+    }
+  ],
+  "runtime": "f767b2f56dba9761f4280569b358bd3855fc69b7",
+  "binary_sha256": "c8e47edd09b813aa871a08744f9e53b62ec08e0a134e2bf9f65d969bab258a2e"
+}

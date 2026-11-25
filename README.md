@@ -21,12 +21,14 @@ Linux process/syscall semantics, ELF loading, signals, VFS and scheduling.
   returns its execution slot with the runtime's original `HardwareWait`.
 - Baseline GPR/FP/SIMD/TLS state, deadline/kick, partial EL1 save/restore recovery,
   task migration and negotiated native-bridge trap normalization.
+- Actual vCPU instruction-feature discovery, shared auxv/cpuinfo reporting,
+  extended FP controls across signals/ptrace, and architectural debugger single-step.
 
 The current product includes foreground execution, an opt-in ALSA PCM provider,
 headless Vulkan and an X11 window for the shared fixed-display Vulkan interface.
 Native XCB/Wayland surface ownership and actual software-rendered pixels have
 dedicated acceptance. Full guest desktop/input integration, hardware graphics/video,
-persistent environment management, debugger single-step and extended SVE/SME state
+persistent environment management and extended SVE/SME state
 are still pending. Raw external `SharedMapping` imports require
 an FD/alias contract; the backend refuses unsupported imports. Complete runtime
 and media 4 KiB operation remains a release gate, beyond these tested workloads.
@@ -76,8 +78,11 @@ can route to PipeWire; a direct PipeWire provider and physical audio acceptance
 remain pending.
 
 macOS and other unsupported hosts can build/run diagnosis and unit checks;
-execution fails explicitly. The baseline guest profile advertises only FP/ASIMD,
-uses shared syscall clock fallback, and promises no exact instruction budget.
+execution fails explicitly. Supported KVM guests advertise the cached instruction
+features of their actual vCPU, constrained by the implemented runtime state/ABI.
+See [CPU capability/state handling](docs/architecture/cpu-capabilities.md) and
+[native/KVM/HVF qualification](docs/validation/cpu-extensions-20261125.md).
+The backend uses shared syscall clock fallback and promises no exact instruction budget.
 No helper/coordinator thread, polling bus or application code rewrite is added.
 
 ## Automated application acceptance
@@ -109,6 +114,7 @@ On real supported KVM hardware:
 cargo test -p trames-kvm --locked -- --ignored --test-threads=1
 TRAMES_KVM_TRANSPORT=mmio cargo test -p trames-kvm --locked -- --ignored --test-threads=1
 bash scripts/validate-hardware.sh
+python3 scripts/validate-cpu.py --runner /path/to/frozen/trames --receipt /path/to/build.json --output /path/to/new-evidence
 python3 scripts/validate-audio.py # needs libasound2-dev; software PCM checks
 python3 scripts/validate-session.py
 TRAMES_KVM_TRANSPORT=mmio TRAMES_VALIDATION_OUTPUT=target/validation/session-mmio python3 scripts/validate-session.py

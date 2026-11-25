@@ -1,0 +1,97 @@
+{
+  "cases": [
+    {
+      "exit_code": 0,
+      "id": "native-instructions",
+      "seconds": 0.0016118309868033975,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "native-state",
+      "seconds": 0.007931229993118905,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "native-ptrace",
+      "seconds": 0.001559014999656938,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "instructions-smccc-1",
+      "seconds": 0.12060211900097784,
+      "status": "passed"
+    },
+    {
+      "exit_code": 134,
+      "id": "state-smccc-1",
+      "seconds": 0.06479303201194853,
+      "status": "failed"
+    },
+    {
+      "exit_code": 0,
+      "id": "ptrace-smccc-1",
+      "seconds": 0.06501879399002064,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "instructions-smccc-4",
+      "seconds": 0.0645470449962886,
+      "status": "passed"
+    },
+    {
+      "exit_code": 134,
+      "id": "state-smccc-4",
+      "seconds": 0.06470077300036792,
+      "status": "failed"
+    },
+    {
+      "exit_code": 0,
+      "id": "ptrace-smccc-4",
+      "seconds": 0.06428080701152794,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "instructions-mmio-1",
+      "seconds": 0.11573897699418012,
+      "status": "passed"
+    },
+    {
+      "exit_code": 134,
+      "id": "state-mmio-1",
+      "seconds": 0.06475599500117823,
+      "status": "failed"
+    },
+    {
+      "exit_code": 0,
+      "id": "ptrace-mmio-1",
+      "seconds": 0.032171138998819515,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "instructions-mmio-4",
+      "seconds": 0.11721627599035855,
+      "status": "passed"
+    },
+    {
+      "exit_code": 134,
+      "id": "state-mmio-4",
+      "seconds": 0.1192294700013008,
+      "status": "failed"
+    },
+    {
+      "exit_code": 0,
+      "id": "ptrace-mmio-4",
+      "seconds": 0.06459428300149739,
+      "status": "passed"
+    }
+  ],
+  "passed": 11,
+  "performance_qualified": false,
+  "planned": 15
+}

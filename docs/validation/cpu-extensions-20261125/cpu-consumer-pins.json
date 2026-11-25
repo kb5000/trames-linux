@@ -1,0 +1,16 @@
+[
+  {
+    "repository": "/Users/main/dev/trames-mac",
+    "previous": "62d6aabc64deb1345d77c76a662ad5b9baceaab6",
+    "commit": "6fa023146c9b17fb1db37f89807f299eb19ed547",
+    "runtime": "474ee466391e2683c1a0f48e6fb21307cc45adae",
+    "unrelated_working_files_preserved": 2
+  },
+  {
+    "repository": "/Users/main/dev/trames",
+    "previous": "6f6ad1cdc5277a7cdae0dc6e9c7fc27e74444758",
+    "commit": "67496f682fbfbfb2f5382b7fe052eeadabdff7a6",
+    "runtime": "474ee466391e2683c1a0f48e6fb21307cc45adae",
+    "unrelated_working_files_preserved": 23
+  }
+]

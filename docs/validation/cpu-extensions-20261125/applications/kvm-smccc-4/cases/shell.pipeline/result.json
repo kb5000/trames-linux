@@ -1,0 +1,19 @@
+{
+  "artifacts": {
+    "/work/sorted": "9ff482bbad59dc6d2dda31549c8431f4cfd280a2e6b52f4b0f761b5961593322"
+  },
+  "artifacts_validated": true,
+  "case_inputs": "7c38812729cfbaa2b343d5ffe057ebd514aeaa10d815dac49882704ca4bfc775",
+  "domain": "process",
+  "exit_code": 0,
+  "fingerprint": "b03ad6c211d3459d6bddb49d8b644d0e09084cd9a8550b7f323d84eaab14946d",
+  "id": "shell.pipeline",
+  "logs": {
+    "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "67474b3b20cb307dc79f8467244c0523d54c6ee58c76aa0236ff807feb1ee904"
+  },
+  "reused": false,
+  "seconds": 0.2666909320105333,
+  "status": "passed",
+  "tier": "smoke"
+}

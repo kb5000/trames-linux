@@ -1,0 +1,2451 @@
+{
+  "counts": {
+    "kvm-mmio-1": {
+      "passed": 12
+    },
+    "kvm-mmio-4": {
+      "passed": 12
+    },
+    "kvm-smccc-1": {
+      "passed": 12
+    },
+    "kvm-smccc-4": {
+      "passed": 12
+    },
+    "native": {
+      "passed": 12
+    }
+  },
+  "failed_cells": 0,
+  "lanes": {
+    "kvm-mmio-1": {
+      "evidence": "/home/main.guest/trames-cpu-extensions-applications/kvm-mmio-1",
+      "plan": {
+        "build": {
+          "fingerprint": {
+            "binary_sha256": "6d6b29a2f3d3fc10165a7ddd15b52b122f148161218fe8d50b04ec58f28654bf",
+            "command": [
+              "cargo",
+              "build",
+              "--release",
+              "--locked",
+              "-p",
+              "trames-linux-app"
+            ],
+            "flags": {
+              "CARGO_INCREMENTAL": "0"
+            },
+            "sources": {
+              "product": "bfa1e700e14bf1b5b46010cb955fdfab70bbdcd93f4d350026f7e1a32264cd69",
+              "runtime": "b80fa3b87a43553b622f99cf02e5d9a2588c2cd9b49d9392553abc0bf65901e5"
+            },
+            "toolchain": "rustc 1.101.0-nightly (4ebd25825 2026-10-15)\nbinary: rustc\ncommit-hash: 4ebd258257737d5b7635c116fa7d281627a7e937\ncommit-date: 2026-10-15\nhost: aarch64-unknown-linux-gnu\nrelease: 1.101.0-nightly\nLLVM version: 23.1.4\n"
+          },
+          "fingerprint_sha256": "8698bcfb023e57e439f71bf3ad65d46321bac65e99c0efba311f59c8c73f7259",
+          "schema_version": 1,
+          "sources": {
+            "product": {
+              "commit": "b391de87a5d1df7da4a21f2218392f5bf269ceee",
+              "dirty": false,
+              "inputs_sha256": "bfa1e700e14bf1b5b46010cb955fdfab70bbdcd93f4d350026f7e1a32264cd69"
+            },
+            "runtime": {
+              "commit": "f767b2f56dba9761f4280569b358bd3855fc69b7",
+              "dirty": false,
+              "inputs_sha256": "b80fa3b87a43553b622f99cf02e5d9a2588c2cd9b49d9392553abc0bf65901e5"
+            }
+          }
+        },
+        "bundle_sha256": "d437f7389e6c9d02581fd2e0c45cd01d71176310ffb17c8e466e42c2086f279c",
+        "cases": [
+          {
+            "artifacts": [
+              "/work/sorted"
+            ],
+            "domain": "process",
+            "id": "shell.pipeline",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/cmp",
+              "/usr/bin/sort",
+              "/usr/bin/tr",
+              "/usr/bin/uniq"
+            ],
+            "script": "printf 'pear\\napple\\npear\\n' | sort | uniq > sorted\nprintf 'apple\\npear\\n' > expected\ncmp sorted expected\nvalue=$(printf abc | tr a-z A-Z)\ntest \"$value\" = ABC\nprintf 'shell: ok\\n'",
+            "stdout": "shell: ok\n",
+            "tier": "smoke"
+          },
+          {
+            "artifacts": [
+              "/work/data/moved"
+            ],
+            "domain": "files",
+            "id": "coreutils.files",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/cmp",
+              "/usr/bin/cp",
+              "/usr/bin/find",
+              "/usr/bin/ln",
+              "/usr/bin/mkdir",
+              "/usr/bin/mv",
+              "/usr/bin/stat",
+              "/usr/bin/wc"
+            ],
+            "script": "mkdir data\nprintf 'payload\\n' > data/original\ncp data/original data/copy\nmv data/copy data/moved\nln data/original data/hard\nln -s original data/link\ncmp data/moved data/link\ntest \"$(stat -c %s data/hard)\" = 8\ntest \"$(find data -type f | wc -l)\" = 3\nprintf 'files: ok\\n'",
+            "stdout": "files: ok\n",
+            "tier": "smoke"
+          },
+          {
+            "domain": "files",
+            "id": "text.filters",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/awk",
+              "/usr/bin/cut",
+              "/usr/bin/grep",
+              "/usr/bin/sed"
+            ],
+            "script": "printf 'one:3\\ntwo:5\\n' > input\ngrep '^two:' input > selected\nsed 's/two/TWO/' selected > replaced\ntest \"$(cut -d: -f1 replaced)\" = TWO\ntest \"$(awk -F: '{s += $2} END {print s}' input)\" = 8\nprintf 'text: ok\\n'",
+            "stdout": "text: ok\n",
+            "tier": "smoke"
+          },
+          {
+            "artifacts": [
+              "/work/restored/source/value"
+            ],
+            "domain": "files",
+            "id": "archive.roundtrip",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/bzip2",
+              "/usr/bin/cmp",
+              "/usr/bin/gzip",
+              "/usr/bin/mkdir",
+              "/usr/bin/tar",
+              "/usr/bin/xz"
+            ],
+            "script": "mkdir source restored\nprintf 'archive payload\\n' > source/value\ntar -cf payload.tar source\ngzip -c payload.tar > payload.gz\ngzip -dc payload.gz > recovered.tar\ncmp payload.tar recovered.tar\nbzip2 -c payload.tar > payload.bz2\nbzip2 -dc payload.bz2 > recovered.tar\ncmp payload.tar recovered.tar\nxz -c payload.tar > payload.xz\nxz -dc payload.xz > recovered.tar\ncmp payload.tar recovered.tar\ntar -xf recovered.tar -C restored\ncmp source/value restored/source/value\nprintf 'archive: ok\\n'",
+            "stdout": "archive: ok\n",
+            "tier": "smoke"
+          },
+          {
+            "artifacts": [
+              "/work/decoded"
+            ],
+            "domain": "memory",
+            "id": "hash.base64",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/base64",
+              "/usr/bin/cmp",
+              "/usr/bin/cut",
+              "/usr/bin/sha256sum"
+            ],
+            "script": "printf abc > input\nbase64 input > encoded\nbase64 -d encoded > decoded\ncmp input decoded\ntest \"$(sha256sum decoded | cut -d' ' -f1)\" = ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad\nprintf 'hash: ok\\n'",
+            "stdout": "hash: ok\n",
+            "tier": "smoke"
+          },
+          {
+            "artifacts": [
+              "/work/data.json"
+            ],
+            "domain": "files",
+            "id": "python.stdlib",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/python3"
+            ],
+            "script": "python3 - <<'PY'\nimport gzip, hashlib, json, pathlib, sqlite3\np=pathlib.Path('data.json'); p.write_text(json.dumps({'answer':42},sort_keys=True))\nassert json.loads(p.read_text())['answer']==42\npayload=b'trames python payload'*1000\nassert gzip.decompress(gzip.compress(payload))==payload\nassert len(hashlib.sha256(payload).digest())==32\nc=sqlite3.connect('data.sqlite'); c.execute('create table t (v integer)'); c.executemany('insert into t values (?)',[(1,),(2,),(3,)])\nc.commit(); assert c.execute('select sum(v) from t').fetchone()[0]==6; c.close()\nprint('python: ok')\nPY",
+            "stdout": "python: ok\n",
+            "tier": "apps"
+          },
+          {
+            "domain": "process",
+            "id": "python.process-threads",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/python3"
+            ],
+            "script": "python3 - <<'PY'\nimport concurrent.futures, os, socket, subprocess, sys\npid=os.fork()\nif pid==0: os._exit(17)\nassert os.waitpid(pid,0)[1]==17<<8\np=subprocess.run([sys.executable,'-c','import sys;sys.stdout.buffer.write(sys.stdin.buffer.read()[::-1])'],input=b'payload'*20000,capture_output=True,check=True)\nassert p.stdout==(b'payload'*20000)[::-1]\na,b=socket.socketpair(); a.sendall(b'socketpair'); assert b.recv(32)==b'socketpair'; a.close(); b.close()\nwith concurrent.futures.ThreadPoolExecutor(4) as pool: assert sum(pool.map(lambda n:n*n,range(100)))==328350\nprint('python-process: ok')\nPY",
+            "stdout": "python-process: ok\n",
+            "tier": "apps"
+          },
+          {
+            "artifacts": [
+              "/work/clone/file"
+            ],
+            "domain": "process",
+            "id": "git.local-workflow",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/cmp",
+              "/usr/bin/git",
+              "/usr/bin/git-upload-pack"
+            ],
+            "script": "export GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_GLOBAL=/dev/null\ngit init -q -b main repo\ngit -C repo config user.email acceptance@localhost\ngit -C repo config user.name Acceptance\nprintf 'tracked payload\\n' > repo/file\ngit -C repo add file\ngit -C repo commit -qm initial\ngit -C repo checkout -qb feature\nprintf 'feature\\n' >> repo/file\ngit -C repo commit -qam feature\ngit -C repo checkout -q main\ngit -C repo merge -q --ff-only feature\ngit clone -q --no-local file:///work/repo clone\ncmp repo/file clone/file\ntest \"$(git -C clone rev-list --count HEAD)\" = 2\nprintf 'git: ok\\n'",
+            "stdout": "git: ok\n",
+            "tier": "apps"
+          },
+          {
+            "artifacts": [
+              "/work/downloaded"
+            ],
+            "domain": "files",
+            "id": "curl.file-transfer",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/cmp",
+              "/usr/bin/curl"
+            ],
+            "script": "printf 'curl file payload\\n' > input\ncurl --fail --silent --show-error file:///work/input -o downloaded\ncmp input downloaded\nprintf 'curl-file: ok\\n'",
+            "stdout": "curl-file: ok\n",
+            "tier": "apps"
+          },
+          {
+            "domain": "random",
+            "id": "ssh.key-roundtrip",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/cmp",
+              "/usr/bin/cut",
+              "/usr/bin/ssh-keygen"
+            ],
+            "script": "ssh-keygen -q -t ed25519 -N '' -C acceptance -f key\nssh-keygen -y -f key > derived\ncut -d' ' -f1,2 key.pub > original\ncut -d' ' -f1,2 derived > actual\ncmp actual original\nprintf 'ssh-key: ok\\n'",
+            "stdout": "ssh-key: ok\n",
+            "tier": "apps"
+          },
+          {
+            "artifacts": [
+              "/work/node.txt"
+            ],
+            "domain": "process",
+            "id": "node.workers",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/node"
+            ],
+            "script": "node - <<'JS'\nconst assert=require('assert'),fs=require('fs'),crypto=require('crypto'),{Worker}=require('worker_threads'),{execFileSync}=require('child_process');\nfs.writeFileSync('node.txt','node payload'); assert.equal(fs.readFileSync('node.txt','utf8'),'node payload');\nassert.equal(crypto.createHash('sha256').update('abc').digest('hex'),'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad');\nassert.equal(execFileSync(process.execPath,['-e','process.stdout.write(\"child\")']).toString(),'child');\nconst w=new Worker('require(\"worker_threads\").parentPort.postMessage(42)',{eval:true}); w.on('message',n=>{assert.equal(n,42); console.log('node: ok')}); w.on('error',e=>{throw e});\nJS",
+            "stdout": "node: ok\n",
+            "tier": "apps"
+          },
+          {
+            "artifacts": [
+              "/work/result"
+            ],
+            "domain": "process",
+            "id": "build.gcc-make",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/as",
+              "/usr/bin/cmp",
+              "/usr/bin/gcc",
+              "/usr/bin/ld",
+              "/usr/bin/make"
+            ],
+            "script": "printf '#include <stdio.h>\\nint main(void){puts(\"compiled: ok\");return 0;}\\n' > hello.c\nprintf 'all:\\n\\tgcc hello.c -o hello\\n' > Makefile\nmake -s\n./hello > result\nprintf 'compiled: ok\\n' > expected\ncmp expected result\nprintf 'build: ok\\n'",
+            "stdout": "build: ok\n",
+            "tier": "apps"
+          }
+        ],
+        "harness_sha256": "898f819af95d9e2d4a3d94829036cc6dce8718b326bcb3f20ba3cf4d355293f3",
+        "host": {
+          "arch": "aarch64",
+          "cpu": "processor\t: 0\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 1\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 2\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 3\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 4\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 5\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\n",
+          "cpu_identity": [
+            "CPU architecture: 8",
+            "CPU implementer\t: 0x61",
+            "CPU part\t: 0x000",
+            "CPU revision\t: 0",
+            "CPU variant\t: 0x0",
+            "Features\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut"
+          ],
+          "kernel": "7.0.0-43-generic",
+          "libc": [
+            "glibc",
+            "2.39"
+          ],
+          "os": "Linux",
+          "page_size": 4096
+        },
+        "performance_qualified": false,
+        "provider": {
+          "backend": "kvm",
+          "build": "8698bcfb023e57e439f71bf3ad65d46321bac65e99c0efba311f59c8c73f7259",
+          "cpus": 1,
+          "filesystem": "host",
+          "native_container": null,
+          "native_tools": null,
+          "network": null,
+          "transport": "mmio"
+        },
+        "schema_version": 1,
+        "selected_scope": "complete"
+      },
+      "rows": {
+        "archive.roundtrip": {
+          "artifacts": {
+            "/work/restored/source/value": "92f86a430bca3d71cc27fcedb1a9b67a487e7f1ac1c97aad57df2d40ec9f8b71"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "1aca35a4d35f301b38ede59abd940a3d401ce5a8ac905222ac4c8ad5bd60fd89",
+          "domain": "files",
+          "exit_code": 0,
+          "fingerprint": "d753132f672f6272ff8147f52effcadecd4d1acb8235c93e1676b78cc32cc877",
+          "id": "archive.roundtrip",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "f852da5cffb5c908daab6809d6656be278c5c9a7940915ede66cb03b9ddaad62"
+          },
+          "reused": false,
+          "seconds": 0.8348725130053936,
+          "status": "passed",
+          "tier": "smoke"
+        },
+        "build.gcc-make": {
+          "artifacts": {
+            "/work/result": "e0aa22aeb6f3d203407e17a4c68fdff805b1f91e92fa72fab448d03ad3eb1190"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "cad086d05af3f252fe3457259d4028bfcefaaebc7133c78839000965e3cfeb3f",
+          "domain": "process",
+          "exit_code": 0,
+          "fingerprint": "da98a4ac4620f96a86658a1d252fe22d4296436950eb5947705ec0e1d27dcdfc",
+          "id": "build.gcc-make",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "1f8f0346bf017345f7b828c2879536c11953e12c24df82a875534133bc9c777e"
+          },
+          "reused": false,
+          "seconds": 2.4403592120070243,
+          "status": "passed",
+          "tier": "apps"
+        },
+        "coreutils.files": {
+          "artifacts": {
+            "/work/data/moved": "d4e4877bac978b7952f0d544fc52ebff5411d351d129f1f056fa43f11da9af2b"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "4a83758943713ad29eaef99edd1fd37301c59f83eba42f770bc7564a93d3b3ee",
+          "domain": "files",
+          "exit_code": 0,
+          "fingerprint": "863537b7aab8f3ca7a544802ced30a54d6936e84da2452f6d4edc254220059ba",
+          "id": "coreutils.files",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "e61e4fff76b9672b00058b4adaa180f012b415f56c18c6cf537450537de5bc50"
+          },
+          "reused": false,
+          "seconds": 0.5701989509980194,
+          "status": "passed",
+          "tier": "smoke"
+        },
+        "curl.file-transfer": {
+          "artifacts": {
+            "/work/downloaded": "902ef0eee54c20542b2c85a215382b764ee2213b1ee5ff40a7919ca1f1ab2f7b"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "8e39ff503d4c6687beec70c98f9e74f75cd3c6056f3f9d7273a918fb5d6cdd9f",
+          "domain": "files",
+          "exit_code": 0,
+          "fingerprint": "75228816650030ffa0f10d76d4d1fd33c9b3c2e9a8016f21434cce466ab0928e",
+          "id": "curl.file-transfer",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "610e4fdf9479a56427a545a483d1056e6cc44fed3c1412a3750faebfc96a6b41"
+          },
+          "reused": false,
+          "seconds": 0.5252692319918424,
+          "status": "passed",
+          "tier": "apps"
+        },
+        "git.local-workflow": {
+          "artifacts": {
+            "/work/clone/file": "01f1fdca12371e5ee7f4dbe02b17618a7e099ff5fbfc471c4c07b9d796b78287"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "c244155870fee31ecbcd283223360e0eb904e8573d9ef6222e617d44afd6a1b2",
+          "domain": "process",
+          "exit_code": 0,
+          "fingerprint": "ebb6351ac6ecfdee3efbe71f33950153cb12aa54c4e25740d48bb1e12678bb06",
+          "id": "git.local-workflow",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "6feb9a8630822bdf83e13cd8ea8708f828c959b69114529fbca04b753b2be612"
+          },
+          "reused": false,
+          "seconds": 4.296768473999691,
+          "status": "passed",
+          "tier": "apps"
+        },
+        "hash.base64": {
+          "artifacts": {
+            "/work/decoded": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "6ffd84683912afd44f007d254c691b5eb796456c227b92d762f171cfc9d06384",
+          "domain": "memory",
+          "exit_code": 0,
+          "fingerprint": "6f9f06decba81534b5993b0c2262fb692a1d139de4ca8e285aea5061e75bd8d0",
+          "id": "hash.base64",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "64aaf0934b3fd480f0e4245c7190bfbd5a32c1cdbdbe35f5536167ffd462de1e"
+          },
+          "reused": false,
+          "seconds": 0.32258798100519925,
+          "status": "passed",
+          "tier": "smoke"
+        },
+        "node.workers": {
+          "artifacts": {
+            "/work/node.txt": "530ee462f1e31835a7bff9f902293bef79bb767a83a19e88abe804396af0a503"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "25391a340cb5ce9f00cd0ec95494346a4b43bdb3c5a7f238c15124f1d5d66afc",
+          "domain": "process",
+          "exit_code": 0,
+          "fingerprint": "93840f123196cf9d973a8296cf87f64d52c10166d6b58963bf1953f661b41aa4",
+          "id": "node.workers",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "b55a8f04055720422e824dac3d701614c166e734040fdf7bcca9946c9af887b1"
+          },
+          "reused": false,
+          "seconds": 6.986683718001586,
+          "status": "passed",
+          "tier": "apps"
+        },
+        "python.process-threads": {
+          "artifacts": {},
+          "artifacts_validated": true,
+          "case_inputs": "bc6ca147a3916f4507408a9bf3301e3b62ffdf35536f2aa01b7443835c6c5784",
+          "domain": "process",
+          "exit_code": 0,
+          "fingerprint": "c6b6f7b29e51ef5365a6d726737dd39cb34127f6d86195e845d67728c188dab3",
+          "id": "python.process-threads",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "7e599e86e1b71e9f48bcf403996dc83d5db97401ac1e6bcdd14993ddb99a592a"
+          },
+          "reused": false,
+          "seconds": 3.720874475999153,
+          "status": "passed",
+          "tier": "apps"
+        },
+        "python.stdlib": {
+          "artifacts": {
+            "/work/data.json": "f85ee2859e7757b5bcf33d720ead3c508e04e0d997845cfab9bf5aebe6569086"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "f499017fd29f8494e5a1eef3e14fdf5b6edf99b0cfede55d16caa6699ba6b013",
+          "domain": "files",
+          "exit_code": 0,
+          "fingerprint": "df2f6fffb6637b38ff12850e7346211a9f9c28836233cdb27e554f8c7bea3f6e",
+          "id": "python.stdlib",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "2895e016028fe1769b69bce6bdfd3760000cfdf657387ba409d6c6b8df4c7d68"
+          },
+          "reused": false,
+          "seconds": 2.5833105069905287,
+          "status": "passed",
+          "tier": "apps"
+        },
+        "shell.pipeline": {
+          "artifacts": {
+            "/work/sorted": "9ff482bbad59dc6d2dda31549c8431f4cfd280a2e6b52f4b0f761b5961593322"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "7c38812729cfbaa2b343d5ffe057ebd514aeaa10d815dac49882704ca4bfc775",
+          "domain": "process",
+          "exit_code": 0,
+          "fingerprint": "1cf586f61ca426dcb8eb341e533920af9c3294d8534ac588ceefa95ff60da097",
+          "id": "shell.pipeline",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "67474b3b20cb307dc79f8467244c0523d54c6ee58c76aa0236ff807feb1ee904"
+          },
+          "reused": false,
+          "seconds": 0.32372318299894687,
+          "status": "passed",
+          "tier": "smoke"
+        },
+        "ssh.key-roundtrip": {
+          "artifacts": {},
+          "artifacts_validated": true,
+          "case_inputs": "09440110feaf03ca2640a4a3c4fde8db56573df6c87b0834042e67338f81a7e2",
+          "domain": "random",
+          "exit_code": 0,
+          "fingerprint": "fa9a0e09e44990bc4f330e2d0d0f8621c54380173252061767230694721653c5",
+          "id": "ssh.key-roundtrip",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "cd156d550d794a8eec93e91f543399f942a2fe8c9472c1bf3003777c4d64ffa7"
+          },
+          "reused": false,
+          "seconds": 0.4711059849942103,
+          "status": "passed",
+          "tier": "apps"
+        },
+        "text.filters": {
+          "artifacts": {},
+          "artifacts_validated": true,
+          "case_inputs": "f78354480511d2741875baaf0fb7dcca94ded540441440c199f89b05848a1411",
+          "domain": "files",
+          "exit_code": 0,
+          "fingerprint": "ca2a881ae51fdab1261aac5d2d8131ec8e62d2592edaf0f1ac3cb877a9e473af",
+          "id": "text.filters",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "a780813a42edf15e8dbded28cb244ebd09efc8316dded9ee017617b60e923182"
+          },
+          "reused": false,
+          "seconds": 0.2657544430112466,
+          "status": "passed",
+          "tier": "smoke"
+        }
+      }
+    },
+    "kvm-mmio-4": {
+      "evidence": "/home/main.guest/trames-cpu-extensions-applications/kvm-mmio-4",
+      "plan": {
+        "build": {
+          "fingerprint": {
+            "binary_sha256": "6d6b29a2f3d3fc10165a7ddd15b52b122f148161218fe8d50b04ec58f28654bf",
+            "command": [
+              "cargo",
+              "build",
+              "--release",
+              "--locked",
+              "-p",
+              "trames-linux-app"
+            ],
+            "flags": {
+              "CARGO_INCREMENTAL": "0"
+            },
+            "sources": {
+              "product": "bfa1e700e14bf1b5b46010cb955fdfab70bbdcd93f4d350026f7e1a32264cd69",
+              "runtime": "b80fa3b87a43553b622f99cf02e5d9a2588c2cd9b49d9392553abc0bf65901e5"
+            },
+            "toolchain": "rustc 1.101.0-nightly (4ebd25825 2026-10-15)\nbinary: rustc\ncommit-hash: 4ebd258257737d5b7635c116fa7d281627a7e937\ncommit-date: 2026-10-15\nhost: aarch64-unknown-linux-gnu\nrelease: 1.101.0-nightly\nLLVM version: 23.1.4\n"
+          },
+          "fingerprint_sha256": "8698bcfb023e57e439f71bf3ad65d46321bac65e99c0efba311f59c8c73f7259",
+          "schema_version": 1,
+          "sources": {
+            "product": {
+              "commit": "b391de87a5d1df7da4a21f2218392f5bf269ceee",
+              "dirty": false,
+              "inputs_sha256": "bfa1e700e14bf1b5b46010cb955fdfab70bbdcd93f4d350026f7e1a32264cd69"
+            },
+            "runtime": {
+              "commit": "f767b2f56dba9761f4280569b358bd3855fc69b7",
+              "dirty": false,
+              "inputs_sha256": "b80fa3b87a43553b622f99cf02e5d9a2588c2cd9b49d9392553abc0bf65901e5"
+            }
+          }
+        },
+        "bundle_sha256": "d437f7389e6c9d02581fd2e0c45cd01d71176310ffb17c8e466e42c2086f279c",
+        "cases": [
+          {
+            "artifacts": [
+              "/work/sorted"
+            ],
+            "domain": "process",
+            "id": "shell.pipeline",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/cmp",
+              "/usr/bin/sort",
+              "/usr/bin/tr",
+              "/usr/bin/uniq"
+            ],
+            "script": "printf 'pear\\napple\\npear\\n' | sort | uniq > sorted\nprintf 'apple\\npear\\n' > expected\ncmp sorted expected\nvalue=$(printf abc | tr a-z A-Z)\ntest \"$value\" = ABC\nprintf 'shell: ok\\n'",
+            "stdout": "shell: ok\n",
+            "tier": "smoke"
+          },
+          {
+            "artifacts": [
+              "/work/data/moved"
+            ],
+            "domain": "files",
+            "id": "coreutils.files",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/cmp",
+              "/usr/bin/cp",
+              "/usr/bin/find",
+              "/usr/bin/ln",
+              "/usr/bin/mkdir",
+              "/usr/bin/mv",
+              "/usr/bin/stat",
+              "/usr/bin/wc"
+            ],
+            "script": "mkdir data\nprintf 'payload\\n' > data/original\ncp data/original data/copy\nmv data/copy data/moved\nln data/original data/hard\nln -s original data/link\ncmp data/moved data/link\ntest \"$(stat -c %s data/hard)\" = 8\ntest \"$(find data -type f | wc -l)\" = 3\nprintf 'files: ok\\n'",
+            "stdout": "files: ok\n",
+            "tier": "smoke"
+          },
+          {
+            "domain": "files",
+            "id": "text.filters",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/awk",
+              "/usr/bin/cut",
+              "/usr/bin/grep",
+              "/usr/bin/sed"
+            ],
+            "script": "printf 'one:3\\ntwo:5\\n' > input\ngrep '^two:' input > selected\nsed 's/two/TWO/' selected > replaced\ntest \"$(cut -d: -f1 replaced)\" = TWO\ntest \"$(awk -F: '{s += $2} END {print s}' input)\" = 8\nprintf 'text: ok\\n'",
+            "stdout": "text: ok\n",
+            "tier": "smoke"
+          },
+          {
+            "artifacts": [
+              "/work/restored/source/value"
+            ],
+            "domain": "files",
+            "id": "archive.roundtrip",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/bzip2",
+              "/usr/bin/cmp",
+              "/usr/bin/gzip",
+              "/usr/bin/mkdir",
+              "/usr/bin/tar",
+              "/usr/bin/xz"
+            ],
+            "script": "mkdir source restored\nprintf 'archive payload\\n' > source/value\ntar -cf payload.tar source\ngzip -c payload.tar > payload.gz\ngzip -dc payload.gz > recovered.tar\ncmp payload.tar recovered.tar\nbzip2 -c payload.tar > payload.bz2\nbzip2 -dc payload.bz2 > recovered.tar\ncmp payload.tar recovered.tar\nxz -c payload.tar > payload.xz\nxz -dc payload.xz > recovered.tar\ncmp payload.tar recovered.tar\ntar -xf recovered.tar -C restored\ncmp source/value restored/source/value\nprintf 'archive: ok\\n'",
+            "stdout": "archive: ok\n",
+            "tier": "smoke"
+          },
+          {
+            "artifacts": [
+              "/work/decoded"
+            ],
+            "domain": "memory",
+            "id": "hash.base64",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/base64",
+              "/usr/bin/cmp",
+              "/usr/bin/cut",
+              "/usr/bin/sha256sum"
+            ],
+            "script": "printf abc > input\nbase64 input > encoded\nbase64 -d encoded > decoded\ncmp input decoded\ntest \"$(sha256sum decoded | cut -d' ' -f1)\" = ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad\nprintf 'hash: ok\\n'",
+            "stdout": "hash: ok\n",
+            "tier": "smoke"
+          },
+          {
+            "artifacts": [
+              "/work/data.json"
+            ],
+            "domain": "files",
+            "id": "python.stdlib",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/python3"
+            ],
+            "script": "python3 - <<'PY'\nimport gzip, hashlib, json, pathlib, sqlite3\np=pathlib.Path('data.json'); p.write_text(json.dumps({'answer':42},sort_keys=True))\nassert json.loads(p.read_text())['answer']==42\npayload=b'trames python payload'*1000\nassert gzip.decompress(gzip.compress(payload))==payload\nassert len(hashlib.sha256(payload).digest())==32\nc=sqlite3.connect('data.sqlite'); c.execute('create table t (v integer)'); c.executemany('insert into t values (?)',[(1,),(2,),(3,)])\nc.commit(); assert c.execute('select sum(v) from t').fetchone()[0]==6; c.close()\nprint('python: ok')\nPY",
+            "stdout": "python: ok\n",
+            "tier": "apps"
+          },
+          {
+            "domain": "process",
+            "id": "python.process-threads",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/python3"
+            ],
+            "script": "python3 - <<'PY'\nimport concurrent.futures, os, socket, subprocess, sys\npid=os.fork()\nif pid==0: os._exit(17)\nassert os.waitpid(pid,0)[1]==17<<8\np=subprocess.run([sys.executable,'-c','import sys;sys.stdout.buffer.write(sys.stdin.buffer.read()[::-1])'],input=b'payload'*20000,capture_output=True,check=True)\nassert p.stdout==(b'payload'*20000)[::-1]\na,b=socket.socketpair(); a.sendall(b'socketpair'); assert b.recv(32)==b'socketpair'; a.close(); b.close()\nwith concurrent.futures.ThreadPoolExecutor(4) as pool: assert sum(pool.map(lambda n:n*n,range(100)))==328350\nprint('python-process: ok')\nPY",
+            "stdout": "python-process: ok\n",
+            "tier": "apps"
+          },
+          {
+            "artifacts": [
+              "/work/clone/file"
+            ],
+            "domain": "process",
+            "id": "git.local-workflow",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/cmp",
+              "/usr/bin/git",
+              "/usr/bin/git-upload-pack"
+            ],
+            "script": "export GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_GLOBAL=/dev/null\ngit init -q -b main repo\ngit -C repo config user.email acceptance@localhost\ngit -C repo config user.name Acceptance\nprintf 'tracked payload\\n' > repo/file\ngit -C repo add file\ngit -C repo commit -qm initial\ngit -C repo checkout -qb feature\nprintf 'feature\\n' >> repo/file\ngit -C repo commit -qam feature\ngit -C repo checkout -q main\ngit -C repo merge -q --ff-only feature\ngit clone -q --no-local file:///work/repo clone\ncmp repo/file clone/file\ntest \"$(git -C clone rev-list --count HEAD)\" = 2\nprintf 'git: ok\\n'",
+            "stdout": "git: ok\n",
+            "tier": "apps"
+          },
+          {
+            "artifacts": [
+              "/work/downloaded"
+            ],
+            "domain": "files",
+            "id": "curl.file-transfer",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/cmp",
+              "/usr/bin/curl"
+            ],
+            "script": "printf 'curl file payload\\n' > input\ncurl --fail --silent --show-error file:///work/input -o downloaded\ncmp input downloaded\nprintf 'curl-file: ok\\n'",
+            "stdout": "curl-file: ok\n",
+            "tier": "apps"
+          },
+          {
+            "domain": "random",
+            "id": "ssh.key-roundtrip",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/cmp",
+              "/usr/bin/cut",
+              "/usr/bin/ssh-keygen"
+            ],
+            "script": "ssh-keygen -q -t ed25519 -N '' -C acceptance -f key\nssh-keygen -y -f key > derived\ncut -d' ' -f1,2 key.pub > original\ncut -d' ' -f1,2 derived > actual\ncmp actual original\nprintf 'ssh-key: ok\\n'",
+            "stdout": "ssh-key: ok\n",
+            "tier": "apps"
+          },
+          {
+            "artifacts": [
+              "/work/node.txt"
+            ],
+            "domain": "process",
+            "id": "node.workers",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/node"
+            ],
+            "script": "node - <<'JS'\nconst assert=require('assert'),fs=require('fs'),crypto=require('crypto'),{Worker}=require('worker_threads'),{execFileSync}=require('child_process');\nfs.writeFileSync('node.txt','node payload'); assert.equal(fs.readFileSync('node.txt','utf8'),'node payload');\nassert.equal(crypto.createHash('sha256').update('abc').digest('hex'),'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad');\nassert.equal(execFileSync(process.execPath,['-e','process.stdout.write(\"child\")']).toString(),'child');\nconst w=new Worker('require(\"worker_threads\").parentPort.postMessage(42)',{eval:true}); w.on('message',n=>{assert.equal(n,42); console.log('node: ok')}); w.on('error',e=>{throw e});\nJS",
+            "stdout": "node: ok\n",
+            "tier": "apps"
+          },
+          {
+            "artifacts": [
+              "/work/result"
+            ],
+            "domain": "process",
+            "id": "build.gcc-make",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/as",
+              "/usr/bin/cmp",
+              "/usr/bin/gcc",
+              "/usr/bin/ld",
+              "/usr/bin/make"
+            ],
+            "script": "printf '#include <stdio.h>\\nint main(void){puts(\"compiled: ok\");return 0;}\\n' > hello.c\nprintf 'all:\\n\\tgcc hello.c -o hello\\n' > Makefile\nmake -s\n./hello > result\nprintf 'compiled: ok\\n' > expected\ncmp expected result\nprintf 'build: ok\\n'",
+            "stdout": "build: ok\n",
+            "tier": "apps"
+          }
+        ],
+        "harness_sha256": "898f819af95d9e2d4a3d94829036cc6dce8718b326bcb3f20ba3cf4d355293f3",
+        "host": {
+          "arch": "aarch64",
+          "cpu": "processor\t: 0\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 1\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 2\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 3\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 4\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 5\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\n",
+          "cpu_identity": [
+            "CPU architecture: 8",
+            "CPU implementer\t: 0x61",
+            "CPU part\t: 0x000",
+            "CPU revision\t: 0",
+            "CPU variant\t: 0x0",
+            "Features\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut"
+          ],
+          "kernel": "7.0.0-43-generic",
+          "libc": [
+            "glibc",
+            "2.39"
+          ],
+          "os": "Linux",
+          "page_size": 4096
+        },
+        "performance_qualified": false,
+        "provider": {
+          "backend": "kvm",
+          "build": "8698bcfb023e57e439f71bf3ad65d46321bac65e99c0efba311f59c8c73f7259",
+          "cpus": 4,
+          "filesystem": "host",
+          "native_container": null,
+          "native_tools": null,
+          "network": null,
+          "transport": "mmio"
+        },
+        "schema_version": 1,
+        "selected_scope": "complete"
+      },
+      "rows": {
+        "archive.roundtrip": {
+          "artifacts": {
+            "/work/restored/source/value": "92f86a430bca3d71cc27fcedb1a9b67a487e7f1ac1c97aad57df2d40ec9f8b71"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "1aca35a4d35f301b38ede59abd940a3d401ce5a8ac905222ac4c8ad5bd60fd89",
+          "domain": "files",
+          "exit_code": 0,
+          "fingerprint": "7d5d579f4c1b05233b34cf9ea4273b0ab5fe0348cc8c8515af408d4eba0825e0",
+          "id": "archive.roundtrip",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "f852da5cffb5c908daab6809d6656be278c5c9a7940915ede66cb03b9ddaad62"
+          },
+          "reused": false,
+          "seconds": 0.7761837560101412,
+          "status": "passed",
+          "tier": "smoke"
+        },
+        "build.gcc-make": {
+          "artifacts": {
+            "/work/result": "e0aa22aeb6f3d203407e17a4c68fdff805b1f91e92fa72fab448d03ad3eb1190"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "cad086d05af3f252fe3457259d4028bfcefaaebc7133c78839000965e3cfeb3f",
+          "domain": "process",
+          "exit_code": 0,
+          "fingerprint": "a4f06ea211ee4aa280ccf7e9846b6965b2694f2b9e1e704d66a80af0f6239742",
+          "id": "build.gcc-make",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "1f8f0346bf017345f7b828c2879536c11953e12c24df82a875534133bc9c777e"
+          },
+          "reused": false,
+          "seconds": 2.2843396219977876,
+          "status": "passed",
+          "tier": "apps"
+        },
+        "coreutils.files": {
+          "artifacts": {
+            "/work/data/moved": "d4e4877bac978b7952f0d544fc52ebff5411d351d129f1f056fa43f11da9af2b"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "4a83758943713ad29eaef99edd1fd37301c59f83eba42f770bc7564a93d3b3ee",
+          "domain": "files",
+          "exit_code": 0,
+          "fingerprint": "5f2958bd57b84d8b4da30d0214bf7bc37469bc5bc67d3d93e4d98c32e00b26b8",
+          "id": "coreutils.files",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "e61e4fff76b9672b00058b4adaa180f012b415f56c18c6cf537450537de5bc50"
+          },
+          "reused": false,
+          "seconds": 0.6246734250016743,
+          "status": "passed",
+          "tier": "smoke"
+        },
+        "curl.file-transfer": {
+          "artifacts": {
+            "/work/downloaded": "902ef0eee54c20542b2c85a215382b764ee2213b1ee5ff40a7919ca1f1ab2f7b"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "8e39ff503d4c6687beec70c98f9e74f75cd3c6056f3f9d7273a918fb5d6cdd9f",
+          "domain": "files",
+          "exit_code": 0,
+          "fingerprint": "64599f75eadd9f9d1e447fdfe59840399221bf590498ad36718e2d6ab4e30791",
+          "id": "curl.file-transfer",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "610e4fdf9479a56427a545a483d1056e6cc44fed3c1412a3750faebfc96a6b41"
+          },
+          "reused": false,
+          "seconds": 0.5167748509993544,
+          "status": "passed",
+          "tier": "apps"
+        },
+        "git.local-workflow": {
+          "artifacts": {
+            "/work/clone/file": "01f1fdca12371e5ee7f4dbe02b17618a7e099ff5fbfc471c4c07b9d796b78287"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "c244155870fee31ecbcd283223360e0eb904e8573d9ef6222e617d44afd6a1b2",
+          "domain": "process",
+          "exit_code": 0,
+          "fingerprint": "533f97dcf88cbd290270134d8ca22413b48a6e332cae5cbddb0a444a9933979a",
+          "id": "git.local-workflow",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "6feb9a8630822bdf83e13cd8ea8708f828c959b69114529fbca04b753b2be612"
+          },
+          "reused": false,
+          "seconds": 4.922564084001351,
+          "status": "passed",
+          "tier": "apps"
+        },
+        "hash.base64": {
+          "artifacts": {
+            "/work/decoded": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "6ffd84683912afd44f007d254c691b5eb796456c227b92d762f171cfc9d06384",
+          "domain": "memory",
+          "exit_code": 0,
+          "fingerprint": "26924fdeefb987f1dbd1094ae9a99fd574263ad258d60805864a83880ea06f96",
+          "id": "hash.base64",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "64aaf0934b3fd480f0e4245c7190bfbd5a32c1cdbdbe35f5536167ffd462de1e"
+          },
+          "reused": false,
+          "seconds": 0.315373883000575,
+          "status": "passed",
+          "tier": "smoke"
+        },
+        "node.workers": {
+          "artifacts": {
+            "/work/node.txt": "530ee462f1e31835a7bff9f902293bef79bb767a83a19e88abe804396af0a503"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "25391a340cb5ce9f00cd0ec95494346a4b43bdb3c5a7f238c15124f1d5d66afc",
+          "domain": "process",
+          "exit_code": 0,
+          "fingerprint": "a51bd2121eac7f6f5c4648411f61962f8fcfc0119678d473af9607e091258799",
+          "id": "node.workers",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "b55a8f04055720422e824dac3d701614c166e734040fdf7bcca9946c9af887b1"
+          },
+          "reused": false,
+          "seconds": 6.675350307996268,
+          "status": "passed",
+          "tier": "apps"
+        },
+        "python.process-threads": {
+          "artifacts": {},
+          "artifacts_validated": true,
+          "case_inputs": "bc6ca147a3916f4507408a9bf3301e3b62ffdf35536f2aa01b7443835c6c5784",
+          "domain": "process",
+          "exit_code": 0,
+          "fingerprint": "b2e4d6612be9bffbfbddc32596ff42de8982e17f05d7e9fa37db9d5776cd72d9",
+          "id": "python.process-threads",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "7e599e86e1b71e9f48bcf403996dc83d5db97401ac1e6bcdd14993ddb99a592a"
+          },
+          "reused": false,
+          "seconds": 4.882278094999492,
+          "status": "passed",
+          "tier": "apps"
+        },
+        "python.stdlib": {
+          "artifacts": {
+            "/work/data.json": "f85ee2859e7757b5bcf33d720ead3c508e04e0d997845cfab9bf5aebe6569086"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "f499017fd29f8494e5a1eef3e14fdf5b6edf99b0cfede55d16caa6699ba6b013",
+          "domain": "files",
+          "exit_code": 0,
+          "fingerprint": "3221ae34db5cb06916aeadb9b9b4b680b3bf37306d9b65cf4e1951826d633697",
+          "id": "python.stdlib",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "2895e016028fe1769b69bce6bdfd3760000cfdf657387ba409d6c6b8df4c7d68"
+          },
+          "reused": false,
+          "seconds": 2.9112605200061807,
+          "status": "passed",
+          "tier": "apps"
+        },
+        "shell.pipeline": {
+          "artifacts": {
+            "/work/sorted": "9ff482bbad59dc6d2dda31549c8431f4cfd280a2e6b52f4b0f761b5961593322"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "7c38812729cfbaa2b343d5ffe057ebd514aeaa10d815dac49882704ca4bfc775",
+          "domain": "process",
+          "exit_code": 0,
+          "fingerprint": "1c6cf9b390c0dff3345354216d29354faf333e89865da6208b953bee5cfa9162",
+          "id": "shell.pipeline",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "67474b3b20cb307dc79f8467244c0523d54c6ee58c76aa0236ff807feb1ee904"
+          },
+          "reused": false,
+          "seconds": 0.31778264199965633,
+          "status": "passed",
+          "tier": "smoke"
+        },
+        "ssh.key-roundtrip": {
+          "artifacts": {},
+          "artifacts_validated": true,
+          "case_inputs": "09440110feaf03ca2640a4a3c4fde8db56573df6c87b0834042e67338f81a7e2",
+          "domain": "random",
+          "exit_code": 0,
+          "fingerprint": "353a04baec63e2947d2aaec3afd33ed63cd561bef09ce9c445a8dc734df730d1",
+          "id": "ssh.key-roundtrip",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "cd156d550d794a8eec93e91f543399f942a2fe8c9472c1bf3003777c4d64ffa7"
+          },
+          "reused": false,
+          "seconds": 0.5683784330030903,
+          "status": "passed",
+          "tier": "apps"
+        },
+        "text.filters": {
+          "artifacts": {},
+          "artifacts_validated": true,
+          "case_inputs": "f78354480511d2741875baaf0fb7dcca94ded540441440c199f89b05848a1411",
+          "domain": "files",
+          "exit_code": 0,
+          "fingerprint": "7693f90bb8baa8eafda65cff646c021bc4038b4c5923d5da6f4e59ef19a3db28",
+          "id": "text.filters",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "a780813a42edf15e8dbded28cb244ebd09efc8316dded9ee017617b60e923182"
+          },
+          "reused": false,
+          "seconds": 0.3167080499988515,
+          "status": "passed",
+          "tier": "smoke"
+        }
+      }
+    },
+    "kvm-smccc-1": {
+      "evidence": "/home/main.guest/trames-cpu-extensions-applications/kvm-smccc-1",
+      "plan": {
+        "build": {
+          "fingerprint": {
+            "binary_sha256": "6d6b29a2f3d3fc10165a7ddd15b52b122f148161218fe8d50b04ec58f28654bf",
+            "command": [
+              "cargo",
+              "build",
+              "--release",
+              "--locked",
+              "-p",
+              "trames-linux-app"
+            ],
+            "flags": {
+              "CARGO_INCREMENTAL": "0"
+            },
+            "sources": {
+              "product": "bfa1e700e14bf1b5b46010cb955fdfab70bbdcd93f4d350026f7e1a32264cd69",
+              "runtime": "b80fa3b87a43553b622f99cf02e5d9a2588c2cd9b49d9392553abc0bf65901e5"
+            },
+            "toolchain": "rustc 1.101.0-nightly (4ebd25825 2026-10-15)\nbinary: rustc\ncommit-hash: 4ebd258257737d5b7635c116fa7d281627a7e937\ncommit-date: 2026-10-15\nhost: aarch64-unknown-linux-gnu\nrelease: 1.101.0-nightly\nLLVM version: 23.1.4\n"
+          },
+          "fingerprint_sha256": "8698bcfb023e57e439f71bf3ad65d46321bac65e99c0efba311f59c8c73f7259",
+          "schema_version": 1,
+          "sources": {
+            "product": {
+              "commit": "b391de87a5d1df7da4a21f2218392f5bf269ceee",
+              "dirty": false,
+              "inputs_sha256": "bfa1e700e14bf1b5b46010cb955fdfab70bbdcd93f4d350026f7e1a32264cd69"
+            },
+            "runtime": {
+              "commit": "f767b2f56dba9761f4280569b358bd3855fc69b7",
+              "dirty": false,
+              "inputs_sha256": "b80fa3b87a43553b622f99cf02e5d9a2588c2cd9b49d9392553abc0bf65901e5"
+            }
+          }
+        },
+        "bundle_sha256": "d437f7389e6c9d02581fd2e0c45cd01d71176310ffb17c8e466e42c2086f279c",
+        "cases": [
+          {
+            "artifacts": [
+              "/work/sorted"
+            ],
+            "domain": "process",
+            "id": "shell.pipeline",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/cmp",
+              "/usr/bin/sort",
+              "/usr/bin/tr",
+              "/usr/bin/uniq"
+            ],
+            "script": "printf 'pear\\napple\\npear\\n' | sort | uniq > sorted\nprintf 'apple\\npear\\n' > expected\ncmp sorted expected\nvalue=$(printf abc | tr a-z A-Z)\ntest \"$value\" = ABC\nprintf 'shell: ok\\n'",
+            "stdout": "shell: ok\n",
+            "tier": "smoke"
+          },
+          {
+            "artifacts": [
+              "/work/data/moved"
+            ],
+            "domain": "files",
+            "id": "coreutils.files",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/cmp",
+              "/usr/bin/cp",
+              "/usr/bin/find",
+              "/usr/bin/ln",
+              "/usr/bin/mkdir",
+              "/usr/bin/mv",
+              "/usr/bin/stat",
+              "/usr/bin/wc"
+            ],
+            "script": "mkdir data\nprintf 'payload\\n' > data/original\ncp data/original data/copy\nmv data/copy data/moved\nln data/original data/hard\nln -s original data/link\ncmp data/moved data/link\ntest \"$(stat -c %s data/hard)\" = 8\ntest \"$(find data -type f | wc -l)\" = 3\nprintf 'files: ok\\n'",
+            "stdout": "files: ok\n",
+            "tier": "smoke"
+          },
+          {
+            "domain": "files",
+            "id": "text.filters",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/awk",
+              "/usr/bin/cut",
+              "/usr/bin/grep",
+              "/usr/bin/sed"
+            ],
+            "script": "printf 'one:3\\ntwo:5\\n' > input\ngrep '^two:' input > selected\nsed 's/two/TWO/' selected > replaced\ntest \"$(cut -d: -f1 replaced)\" = TWO\ntest \"$(awk -F: '{s += $2} END {print s}' input)\" = 8\nprintf 'text: ok\\n'",
+            "stdout": "text: ok\n",
+            "tier": "smoke"
+          },
+          {
+            "artifacts": [
+              "/work/restored/source/value"
+            ],
+            "domain": "files",
+            "id": "archive.roundtrip",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/bzip2",
+              "/usr/bin/cmp",
+              "/usr/bin/gzip",
+              "/usr/bin/mkdir",
+              "/usr/bin/tar",
+              "/usr/bin/xz"
+            ],
+            "script": "mkdir source restored\nprintf 'archive payload\\n' > source/value\ntar -cf payload.tar source\ngzip -c payload.tar > payload.gz\ngzip -dc payload.gz > recovered.tar\ncmp payload.tar recovered.tar\nbzip2 -c payload.tar > payload.bz2\nbzip2 -dc payload.bz2 > recovered.tar\ncmp payload.tar recovered.tar\nxz -c payload.tar > payload.xz\nxz -dc payload.xz > recovered.tar\ncmp payload.tar recovered.tar\ntar -xf recovered.tar -C restored\ncmp source/value restored/source/value\nprintf 'archive: ok\\n'",
+            "stdout": "archive: ok\n",
+            "tier": "smoke"
+          },
+          {
+            "artifacts": [
+              "/work/decoded"
+            ],
+            "domain": "memory",
+            "id": "hash.base64",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/base64",
+              "/usr/bin/cmp",
+              "/usr/bin/cut",
+              "/usr/bin/sha256sum"
+            ],
+            "script": "printf abc > input\nbase64 input > encoded\nbase64 -d encoded > decoded\ncmp input decoded\ntest \"$(sha256sum decoded | cut -d' ' -f1)\" = ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad\nprintf 'hash: ok\\n'",
+            "stdout": "hash: ok\n",
+            "tier": "smoke"
+          },
+          {
+            "artifacts": [
+              "/work/data.json"
+            ],
+            "domain": "files",
+            "id": "python.stdlib",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/python3"
+            ],
+            "script": "python3 - <<'PY'\nimport gzip, hashlib, json, pathlib, sqlite3\np=pathlib.Path('data.json'); p.write_text(json.dumps({'answer':42},sort_keys=True))\nassert json.loads(p.read_text())['answer']==42\npayload=b'trames python payload'*1000\nassert gzip.decompress(gzip.compress(payload))==payload\nassert len(hashlib.sha256(payload).digest())==32\nc=sqlite3.connect('data.sqlite'); c.execute('create table t (v integer)'); c.executemany('insert into t values (?)',[(1,),(2,),(3,)])\nc.commit(); assert c.execute('select sum(v) from t').fetchone()[0]==6; c.close()\nprint('python: ok')\nPY",
+            "stdout": "python: ok\n",
+            "tier": "apps"
+          },
+          {
+            "domain": "process",
+            "id": "python.process-threads",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/python3"
+            ],
+            "script": "python3 - <<'PY'\nimport concurrent.futures, os, socket, subprocess, sys\npid=os.fork()\nif pid==0: os._exit(17)\nassert os.waitpid(pid,0)[1]==17<<8\np=subprocess.run([sys.executable,'-c','import sys;sys.stdout.buffer.write(sys.stdin.buffer.read()[::-1])'],input=b'payload'*20000,capture_output=True,check=True)\nassert p.stdout==(b'payload'*20000)[::-1]\na,b=socket.socketpair(); a.sendall(b'socketpair'); assert b.recv(32)==b'socketpair'; a.close(); b.close()\nwith concurrent.futures.ThreadPoolExecutor(4) as pool: assert sum(pool.map(lambda n:n*n,range(100)))==328350\nprint('python-process: ok')\nPY",
+            "stdout": "python-process: ok\n",
+            "tier": "apps"
+          },
+          {
+            "artifacts": [
+              "/work/clone/file"
+            ],
+            "domain": "process",
+            "id": "git.local-workflow",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/cmp",
+              "/usr/bin/git",
+              "/usr/bin/git-upload-pack"
+            ],
+            "script": "export GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_GLOBAL=/dev/null\ngit init -q -b main repo\ngit -C repo config user.email acceptance@localhost\ngit -C repo config user.name Acceptance\nprintf 'tracked payload\\n' > repo/file\ngit -C repo add file\ngit -C repo commit -qm initial\ngit -C repo checkout -qb feature\nprintf 'feature\\n' >> repo/file\ngit -C repo commit -qam feature\ngit -C repo checkout -q main\ngit -C repo merge -q --ff-only feature\ngit clone -q --no-local file:///work/repo clone\ncmp repo/file clone/file\ntest \"$(git -C clone rev-list --count HEAD)\" = 2\nprintf 'git: ok\\n'",
+            "stdout": "git: ok\n",
+            "tier": "apps"
+          },
+          {
+            "artifacts": [
+              "/work/downloaded"
+            ],
+            "domain": "files",
+            "id": "curl.file-transfer",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/cmp",
+              "/usr/bin/curl"
+            ],
+            "script": "printf 'curl file payload\\n' > input\ncurl --fail --silent --show-error file:///work/input -o downloaded\ncmp input downloaded\nprintf 'curl-file: ok\\n'",
+            "stdout": "curl-file: ok\n",
+            "tier": "apps"
+          },
+          {
+            "domain": "random",
+            "id": "ssh.key-roundtrip",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/cmp",
+              "/usr/bin/cut",
+              "/usr/bin/ssh-keygen"
+            ],
+            "script": "ssh-keygen -q -t ed25519 -N '' -C acceptance -f key\nssh-keygen -y -f key > derived\ncut -d' ' -f1,2 key.pub > original\ncut -d' ' -f1,2 derived > actual\ncmp actual original\nprintf 'ssh-key: ok\\n'",
+            "stdout": "ssh-key: ok\n",
+            "tier": "apps"
+          },
+          {
+            "artifacts": [
+              "/work/node.txt"
+            ],
+            "domain": "process",
+            "id": "node.workers",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/node"
+            ],
+            "script": "node - <<'JS'\nconst assert=require('assert'),fs=require('fs'),crypto=require('crypto'),{Worker}=require('worker_threads'),{execFileSync}=require('child_process');\nfs.writeFileSync('node.txt','node payload'); assert.equal(fs.readFileSync('node.txt','utf8'),'node payload');\nassert.equal(crypto.createHash('sha256').update('abc').digest('hex'),'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad');\nassert.equal(execFileSync(process.execPath,['-e','process.stdout.write(\"child\")']).toString(),'child');\nconst w=new Worker('require(\"worker_threads\").parentPort.postMessage(42)',{eval:true}); w.on('message',n=>{assert.equal(n,42); console.log('node: ok')}); w.on('error',e=>{throw e});\nJS",
+            "stdout": "node: ok\n",
+            "tier": "apps"
+          },
+          {
+            "artifacts": [
+              "/work/result"
+            ],
+            "domain": "process",
+            "id": "build.gcc-make",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/as",
+              "/usr/bin/cmp",
+              "/usr/bin/gcc",
+              "/usr/bin/ld",
+              "/usr/bin/make"
+            ],
+            "script": "printf '#include <stdio.h>\\nint main(void){puts(\"compiled: ok\");return 0;}\\n' > hello.c\nprintf 'all:\\n\\tgcc hello.c -o hello\\n' > Makefile\nmake -s\n./hello > result\nprintf 'compiled: ok\\n' > expected\ncmp expected result\nprintf 'build: ok\\n'",
+            "stdout": "build: ok\n",
+            "tier": "apps"
+          }
+        ],
+        "harness_sha256": "898f819af95d9e2d4a3d94829036cc6dce8718b326bcb3f20ba3cf4d355293f3",
+        "host": {
+          "arch": "aarch64",
+          "cpu": "processor\t: 0\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 1\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 2\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 3\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 4\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 5\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\n",
+          "cpu_identity": [
+            "CPU architecture: 8",
+            "CPU implementer\t: 0x61",
+            "CPU part\t: 0x000",
+            "CPU revision\t: 0",
+            "CPU variant\t: 0x0",
+            "Features\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut"
+          ],
+          "kernel": "7.0.0-43-generic",
+          "libc": [
+            "glibc",
+            "2.39"
+          ],
+          "os": "Linux",
+          "page_size": 4096
+        },
+        "performance_qualified": false,
+        "provider": {
+          "backend": "kvm",
+          "build": "8698bcfb023e57e439f71bf3ad65d46321bac65e99c0efba311f59c8c73f7259",
+          "cpus": 1,
+          "filesystem": "host",
+          "native_container": null,
+          "native_tools": null,
+          "network": null,
+          "transport": "smccc"
+        },
+        "schema_version": 1,
+        "selected_scope": "complete"
+      },
+      "rows": {
+        "archive.roundtrip": {
+          "artifacts": {
+            "/work/restored/source/value": "92f86a430bca3d71cc27fcedb1a9b67a487e7f1ac1c97aad57df2d40ec9f8b71"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "1aca35a4d35f301b38ede59abd940a3d401ce5a8ac905222ac4c8ad5bd60fd89",
+          "domain": "files",
+          "exit_code": 0,
+          "fingerprint": "448cf87205acb85e4ea28632fb72dab8160dc4f60234a7a4e966cd81576c09f6",
+          "id": "archive.roundtrip",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "f852da5cffb5c908daab6809d6656be278c5c9a7940915ede66cb03b9ddaad62"
+          },
+          "reused": false,
+          "seconds": 0.6722945679939585,
+          "status": "passed",
+          "tier": "smoke"
+        },
+        "build.gcc-make": {
+          "artifacts": {
+            "/work/result": "e0aa22aeb6f3d203407e17a4c68fdff805b1f91e92fa72fab448d03ad3eb1190"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "cad086d05af3f252fe3457259d4028bfcefaaebc7133c78839000965e3cfeb3f",
+          "domain": "process",
+          "exit_code": 0,
+          "fingerprint": "548dcb0bd6be73de63c4e094e827557ee4794fe140d7f7044a96a89d45514fd1",
+          "id": "build.gcc-make",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "1f8f0346bf017345f7b828c2879536c11953e12c24df82a875534133bc9c777e"
+          },
+          "reused": false,
+          "seconds": 1.8500637149991235,
+          "status": "passed",
+          "tier": "apps"
+        },
+        "coreutils.files": {
+          "artifacts": {
+            "/work/data/moved": "d4e4877bac978b7952f0d544fc52ebff5411d351d129f1f056fa43f11da9af2b"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "4a83758943713ad29eaef99edd1fd37301c59f83eba42f770bc7564a93d3b3ee",
+          "domain": "files",
+          "exit_code": 0,
+          "fingerprint": "8b194d523035f519755529c745ba2270dd51022a54d7f4179be971f5efb16760",
+          "id": "coreutils.files",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "e61e4fff76b9672b00058b4adaa180f012b415f56c18c6cf537450537de5bc50"
+          },
+          "reused": false,
+          "seconds": 0.5740347359969746,
+          "status": "passed",
+          "tier": "smoke"
+        },
+        "curl.file-transfer": {
+          "artifacts": {
+            "/work/downloaded": "902ef0eee54c20542b2c85a215382b764ee2213b1ee5ff40a7919ca1f1ab2f7b"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "8e39ff503d4c6687beec70c98f9e74f75cd3c6056f3f9d7273a918fb5d6cdd9f",
+          "domain": "files",
+          "exit_code": 0,
+          "fingerprint": "41c7db0e21d977eb9d752ed22f6d33f3fd159b71fae00e3708e53955f0c7f58a",
+          "id": "curl.file-transfer",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "610e4fdf9479a56427a545a483d1056e6cc44fed3c1412a3750faebfc96a6b41"
+          },
+          "reused": false,
+          "seconds": 0.4684187750099227,
+          "status": "passed",
+          "tier": "apps"
+        },
+        "git.local-workflow": {
+          "artifacts": {
+            "/work/clone/file": "01f1fdca12371e5ee7f4dbe02b17618a7e099ff5fbfc471c4c07b9d796b78287"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "c244155870fee31ecbcd283223360e0eb904e8573d9ef6222e617d44afd6a1b2",
+          "domain": "process",
+          "exit_code": 0,
+          "fingerprint": "596cae2b2ca30d6362f9b04ec6b78fed5c3e563ced9cfbdf84073f83e9c1acd4",
+          "id": "git.local-workflow",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "6feb9a8630822bdf83e13cd8ea8708f828c959b69114529fbca04b753b2be612"
+          },
+          "reused": false,
+          "seconds": 4.021116368996445,
+          "status": "passed",
+          "tier": "apps"
+        },
+        "hash.base64": {
+          "artifacts": {
+            "/work/decoded": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "6ffd84683912afd44f007d254c691b5eb796456c227b92d762f171cfc9d06384",
+          "domain": "memory",
+          "exit_code": 0,
+          "fingerprint": "5e826abcbdda74435edd1db906722178373f6c8f41622fc2f58f9a70f74a6291",
+          "id": "hash.base64",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "64aaf0934b3fd480f0e4245c7190bfbd5a32c1cdbdbe35f5536167ffd462de1e"
+          },
+          "reused": false,
+          "seconds": 0.3168632580054691,
+          "status": "passed",
+          "tier": "smoke"
+        },
+        "node.workers": {
+          "artifacts": {
+            "/work/node.txt": "530ee462f1e31835a7bff9f902293bef79bb767a83a19e88abe804396af0a503"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "25391a340cb5ce9f00cd0ec95494346a4b43bdb3c5a7f238c15124f1d5d66afc",
+          "domain": "process",
+          "exit_code": 0,
+          "fingerprint": "3a2a5208e439795aaac85bd89cc90f9ecbbfca6f72d22875519e12aa49ba254c",
+          "id": "node.workers",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "b55a8f04055720422e824dac3d701614c166e734040fdf7bcca9946c9af887b1"
+          },
+          "reused": false,
+          "seconds": 5.272041820004233,
+          "status": "passed",
+          "tier": "apps"
+        },
+        "python.process-threads": {
+          "artifacts": {},
+          "artifacts_validated": true,
+          "case_inputs": "bc6ca147a3916f4507408a9bf3301e3b62ffdf35536f2aa01b7443835c6c5784",
+          "domain": "process",
+          "exit_code": 0,
+          "fingerprint": "4e5f656230da4114bc6adcc9df85226dc23e98c366fd1c64622c40154ea19d50",
+          "id": "python.process-threads",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "7e599e86e1b71e9f48bcf403996dc83d5db97401ac1e6bcdd14993ddb99a592a"
+          },
+          "reused": false,
+          "seconds": 3.435519128004671,
+          "status": "passed",
+          "tier": "apps"
+        },
+        "python.stdlib": {
+          "artifacts": {
+            "/work/data.json": "f85ee2859e7757b5bcf33d720ead3c508e04e0d997845cfab9bf5aebe6569086"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "f499017fd29f8494e5a1eef3e14fdf5b6edf99b0cfede55d16caa6699ba6b013",
+          "domain": "files",
+          "exit_code": 0,
+          "fingerprint": "0abe0fefe1eb8cc3202a90f507786bd4580209a2f43bda7b07ac16c901f43ae6",
+          "id": "python.stdlib",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "2895e016028fe1769b69bce6bdfd3760000cfdf657387ba409d6c6b8df4c7d68"
+          },
+          "reused": false,
+          "seconds": 2.4973697530076606,
+          "status": "passed",
+          "tier": "apps"
+        },
+        "shell.pipeline": {
+          "artifacts": {
+            "/work/sorted": "9ff482bbad59dc6d2dda31549c8431f4cfd280a2e6b52f4b0f761b5961593322"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "7c38812729cfbaa2b343d5ffe057ebd514aeaa10d815dac49882704ca4bfc775",
+          "domain": "process",
+          "exit_code": 0,
+          "fingerprint": "5becbe088a7fac10e8c087978c65153de5946a9e99e785fa84534bf3b2f3723f",
+          "id": "shell.pipeline",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "67474b3b20cb307dc79f8467244c0523d54c6ee58c76aa0236ff807feb1ee904"
+          },
+          "reused": false,
+          "seconds": 0.3251430099917343,
+          "status": "passed",
+          "tier": "smoke"
+        },
+        "ssh.key-roundtrip": {
+          "artifacts": {},
+          "artifacts_validated": true,
+          "case_inputs": "09440110feaf03ca2640a4a3c4fde8db56573df6c87b0834042e67338f81a7e2",
+          "domain": "random",
+          "exit_code": 0,
+          "fingerprint": "872b878175833842e8858f16ea75f02e9c866327eec79a796f80a0cfdc979a71",
+          "id": "ssh.key-roundtrip",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "cd156d550d794a8eec93e91f543399f942a2fe8c9472c1bf3003777c4d64ffa7"
+          },
+          "reused": false,
+          "seconds": 0.46863853599643335,
+          "status": "passed",
+          "tier": "apps"
+        },
+        "text.filters": {
+          "artifacts": {},
+          "artifacts_validated": true,
+          "case_inputs": "f78354480511d2741875baaf0fb7dcca94ded540441440c199f89b05848a1411",
+          "domain": "files",
+          "exit_code": 0,
+          "fingerprint": "356a71f4432bc61559ecb0292ad2580d9d9a252f3fe44520a90419ade8ff22b8",
+          "id": "text.filters",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "a780813a42edf15e8dbded28cb244ebd09efc8316dded9ee017617b60e923182"
+          },
+          "reused": false,
+          "seconds": 0.2681299669930013,
+          "status": "passed",
+          "tier": "smoke"
+        }
+      }
+    },
+    "kvm-smccc-4": {
+      "evidence": "/home/main.guest/trames-cpu-extensions-applications/kvm-smccc-4",
+      "plan": {
+        "build": {
+          "fingerprint": {
+            "binary_sha256": "6d6b29a2f3d3fc10165a7ddd15b52b122f148161218fe8d50b04ec58f28654bf",
+            "command": [
+              "cargo",
+              "build",
+              "--release",
+              "--locked",
+              "-p",
+              "trames-linux-app"
+            ],
+            "flags": {
+              "CARGO_INCREMENTAL": "0"
+            },
+            "sources": {
+              "product": "bfa1e700e14bf1b5b46010cb955fdfab70bbdcd93f4d350026f7e1a32264cd69",
+              "runtime": "b80fa3b87a43553b622f99cf02e5d9a2588c2cd9b49d9392553abc0bf65901e5"
+            },
+            "toolchain": "rustc 1.101.0-nightly (4ebd25825 2026-10-15)\nbinary: rustc\ncommit-hash: 4ebd258257737d5b7635c116fa7d281627a7e937\ncommit-date: 2026-10-15\nhost: aarch64-unknown-linux-gnu\nrelease: 1.101.0-nightly\nLLVM version: 23.1.4\n"
+          },
+          "fingerprint_sha256": "8698bcfb023e57e439f71bf3ad65d46321bac65e99c0efba311f59c8c73f7259",
+          "schema_version": 1,
+          "sources": {
+            "product": {
+              "commit": "b391de87a5d1df7da4a21f2218392f5bf269ceee",
+              "dirty": false,
+              "inputs_sha256": "bfa1e700e14bf1b5b46010cb955fdfab70bbdcd93f4d350026f7e1a32264cd69"
+            },
+            "runtime": {
+              "commit": "f767b2f56dba9761f4280569b358bd3855fc69b7",
+              "dirty": false,
+              "inputs_sha256": "b80fa3b87a43553b622f99cf02e5d9a2588c2cd9b49d9392553abc0bf65901e5"
+            }
+          }
+        },
+        "bundle_sha256": "d437f7389e6c9d02581fd2e0c45cd01d71176310ffb17c8e466e42c2086f279c",
+        "cases": [
+          {
+            "artifacts": [
+              "/work/sorted"
+            ],
+            "domain": "process",
+            "id": "shell.pipeline",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/cmp",
+              "/usr/bin/sort",
+              "/usr/bin/tr",
+              "/usr/bin/uniq"
+            ],
+            "script": "printf 'pear\\napple\\npear\\n' | sort | uniq > sorted\nprintf 'apple\\npear\\n' > expected\ncmp sorted expected\nvalue=$(printf abc | tr a-z A-Z)\ntest \"$value\" = ABC\nprintf 'shell: ok\\n'",
+            "stdout": "shell: ok\n",
+            "tier": "smoke"
+          },
+          {
+            "artifacts": [
+              "/work/data/moved"
+            ],
+            "domain": "files",
+            "id": "coreutils.files",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/cmp",
+              "/usr/bin/cp",
+              "/usr/bin/find",
+              "/usr/bin/ln",
+              "/usr/bin/mkdir",
+              "/usr/bin/mv",
+              "/usr/bin/stat",
+              "/usr/bin/wc"
+            ],
+            "script": "mkdir data\nprintf 'payload\\n' > data/original\ncp data/original data/copy\nmv data/copy data/moved\nln data/original data/hard\nln -s original data/link\ncmp data/moved data/link\ntest \"$(stat -c %s data/hard)\" = 8\ntest \"$(find data -type f | wc -l)\" = 3\nprintf 'files: ok\\n'",
+            "stdout": "files: ok\n",
+            "tier": "smoke"
+          },
+          {
+            "domain": "files",
+            "id": "text.filters",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/awk",
+              "/usr/bin/cut",
+              "/usr/bin/grep",
+              "/usr/bin/sed"
+            ],
+            "script": "printf 'one:3\\ntwo:5\\n' > input\ngrep '^two:' input > selected\nsed 's/two/TWO/' selected > replaced\ntest \"$(cut -d: -f1 replaced)\" = TWO\ntest \"$(awk -F: '{s += $2} END {print s}' input)\" = 8\nprintf 'text: ok\\n'",
+            "stdout": "text: ok\n",
+            "tier": "smoke"
+          },
+          {
+            "artifacts": [
+              "/work/restored/source/value"
+            ],
+            "domain": "files",
+            "id": "archive.roundtrip",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/bzip2",
+              "/usr/bin/cmp",
+              "/usr/bin/gzip",
+              "/usr/bin/mkdir",
+              "/usr/bin/tar",
+              "/usr/bin/xz"
+            ],
+            "script": "mkdir source restored\nprintf 'archive payload\\n' > source/value\ntar -cf payload.tar source\ngzip -c payload.tar > payload.gz\ngzip -dc payload.gz > recovered.tar\ncmp payload.tar recovered.tar\nbzip2 -c payload.tar > payload.bz2\nbzip2 -dc payload.bz2 > recovered.tar\ncmp payload.tar recovered.tar\nxz -c payload.tar > payload.xz\nxz -dc payload.xz > recovered.tar\ncmp payload.tar recovered.tar\ntar -xf recovered.tar -C restored\ncmp source/value restored/source/value\nprintf 'archive: ok\\n'",
+            "stdout": "archive: ok\n",
+            "tier": "smoke"
+          },
+          {
+            "artifacts": [
+              "/work/decoded"
+            ],
+            "domain": "memory",
+            "id": "hash.base64",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/base64",
+              "/usr/bin/cmp",
+              "/usr/bin/cut",
+              "/usr/bin/sha256sum"
+            ],
+            "script": "printf abc > input\nbase64 input > encoded\nbase64 -d encoded > decoded\ncmp input decoded\ntest \"$(sha256sum decoded | cut -d' ' -f1)\" = ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad\nprintf 'hash: ok\\n'",
+            "stdout": "hash: ok\n",
+            "tier": "smoke"
+          },
+          {
+            "artifacts": [
+              "/work/data.json"
+            ],
+            "domain": "files",
+            "id": "python.stdlib",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/python3"
+            ],
+            "script": "python3 - <<'PY'\nimport gzip, hashlib, json, pathlib, sqlite3\np=pathlib.Path('data.json'); p.write_text(json.dumps({'answer':42},sort_keys=True))\nassert json.loads(p.read_text())['answer']==42\npayload=b'trames python payload'*1000\nassert gzip.decompress(gzip.compress(payload))==payload\nassert len(hashlib.sha256(payload).digest())==32\nc=sqlite3.connect('data.sqlite'); c.execute('create table t (v integer)'); c.executemany('insert into t values (?)',[(1,),(2,),(3,)])\nc.commit(); assert c.execute('select sum(v) from t').fetchone()[0]==6; c.close()\nprint('python: ok')\nPY",
+            "stdout": "python: ok\n",
+            "tier": "apps"
+          },
+          {
+            "domain": "process",
+            "id": "python.process-threads",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/python3"
+            ],
+            "script": "python3 - <<'PY'\nimport concurrent.futures, os, socket, subprocess, sys\npid=os.fork()\nif pid==0: os._exit(17)\nassert os.waitpid(pid,0)[1]==17<<8\np=subprocess.run([sys.executable,'-c','import sys;sys.stdout.buffer.write(sys.stdin.buffer.read()[::-1])'],input=b'payload'*20000,capture_output=True,check=True)\nassert p.stdout==(b'payload'*20000)[::-1]\na,b=socket.socketpair(); a.sendall(b'socketpair'); assert b.recv(32)==b'socketpair'; a.close(); b.close()\nwith concurrent.futures.ThreadPoolExecutor(4) as pool: assert sum(pool.map(lambda n:n*n,range(100)))==328350\nprint('python-process: ok')\nPY",
+            "stdout": "python-process: ok\n",
+            "tier": "apps"
+          },
+          {
+            "artifacts": [
+              "/work/clone/file"
+            ],
+            "domain": "process",
+            "id": "git.local-workflow",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/cmp",
+              "/usr/bin/git",
+              "/usr/bin/git-upload-pack"
+            ],
+            "script": "export GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_GLOBAL=/dev/null\ngit init -q -b main repo\ngit -C repo config user.email acceptance@localhost\ngit -C repo config user.name Acceptance\nprintf 'tracked payload\\n' > repo/file\ngit -C repo add file\ngit -C repo commit -qm initial\ngit -C repo checkout -qb feature\nprintf 'feature\\n' >> repo/file\ngit -C repo commit -qam feature\ngit -C repo checkout -q main\ngit -C repo merge -q --ff-only feature\ngit clone -q --no-local file:///work/repo clone\ncmp repo/file clone/file\ntest \"$(git -C clone rev-list --count HEAD)\" = 2\nprintf 'git: ok\\n'",
+            "stdout": "git: ok\n",
+            "tier": "apps"
+          },
+          {
+            "artifacts": [
+              "/work/downloaded"
+            ],
+            "domain": "files",
+            "id": "curl.file-transfer",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/cmp",
+              "/usr/bin/curl"
+            ],
+            "script": "printf 'curl file payload\\n' > input\ncurl --fail --silent --show-error file:///work/input -o downloaded\ncmp input downloaded\nprintf 'curl-file: ok\\n'",
+            "stdout": "curl-file: ok\n",
+            "tier": "apps"
+          },
+          {
+            "domain": "random",
+            "id": "ssh.key-roundtrip",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/cmp",
+              "/usr/bin/cut",
+              "/usr/bin/ssh-keygen"
+            ],
+            "script": "ssh-keygen -q -t ed25519 -N '' -C acceptance -f key\nssh-keygen -y -f key > derived\ncut -d' ' -f1,2 key.pub > original\ncut -d' ' -f1,2 derived > actual\ncmp actual original\nprintf 'ssh-key: ok\\n'",
+            "stdout": "ssh-key: ok\n",
+            "tier": "apps"
+          },
+          {
+            "artifacts": [
+              "/work/node.txt"
+            ],
+            "domain": "process",
+            "id": "node.workers",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/node"
+            ],
+            "script": "node - <<'JS'\nconst assert=require('assert'),fs=require('fs'),crypto=require('crypto'),{Worker}=require('worker_threads'),{execFileSync}=require('child_process');\nfs.writeFileSync('node.txt','node payload'); assert.equal(fs.readFileSync('node.txt','utf8'),'node payload');\nassert.equal(crypto.createHash('sha256').update('abc').digest('hex'),'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad');\nassert.equal(execFileSync(process.execPath,['-e','process.stdout.write(\"child\")']).toString(),'child');\nconst w=new Worker('require(\"worker_threads\").parentPort.postMessage(42)',{eval:true}); w.on('message',n=>{assert.equal(n,42); console.log('node: ok')}); w.on('error',e=>{throw e});\nJS",
+            "stdout": "node: ok\n",
+            "tier": "apps"
+          },
+          {
+            "artifacts": [
+              "/work/result"
+            ],
+            "domain": "process",
+            "id": "build.gcc-make",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/as",
+              "/usr/bin/cmp",
+              "/usr/bin/gcc",
+              "/usr/bin/ld",
+              "/usr/bin/make"
+            ],
+            "script": "printf '#include <stdio.h>\\nint main(void){puts(\"compiled: ok\");return 0;}\\n' > hello.c\nprintf 'all:\\n\\tgcc hello.c -o hello\\n' > Makefile\nmake -s\n./hello > result\nprintf 'compiled: ok\\n' > expected\ncmp expected result\nprintf 'build: ok\\n'",
+            "stdout": "build: ok\n",
+            "tier": "apps"
+          }
+        ],
+        "harness_sha256": "898f819af95d9e2d4a3d94829036cc6dce8718b326bcb3f20ba3cf4d355293f3",
+        "host": {
+          "arch": "aarch64",
+          "cpu": "processor\t: 0\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 1\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 2\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 3\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 4\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 5\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\n",
+          "cpu_identity": [
+            "CPU architecture: 8",
+            "CPU implementer\t: 0x61",
+            "CPU part\t: 0x000",
+            "CPU revision\t: 0",
+            "CPU variant\t: 0x0",
+            "Features\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut"
+          ],
+          "kernel": "7.0.0-43-generic",
+          "libc": [
+            "glibc",
+            "2.39"
+          ],
+          "os": "Linux",
+          "page_size": 4096
+        },
+        "performance_qualified": false,
+        "provider": {
+          "backend": "kvm",
+          "build": "8698bcfb023e57e439f71bf3ad65d46321bac65e99c0efba311f59c8c73f7259",
+          "cpus": 4,
+          "filesystem": "host",
+          "native_container": null,
+          "native_tools": null,
+          "network": null,
+          "transport": "smccc"
+        },
+        "schema_version": 1,
+        "selected_scope": "complete"
+      },
+      "rows": {
+        "archive.roundtrip": {
+          "artifacts": {
+            "/work/restored/source/value": "92f86a430bca3d71cc27fcedb1a9b67a487e7f1ac1c97aad57df2d40ec9f8b71"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "1aca35a4d35f301b38ede59abd940a3d401ce5a8ac905222ac4c8ad5bd60fd89",
+          "domain": "files",
+          "exit_code": 0,
+          "fingerprint": "420ca637048230cb9cda0788b4c2ddfca4b4f3404f202b7d9a5c35907bfa5286",
+          "id": "archive.roundtrip",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "f852da5cffb5c908daab6809d6656be278c5c9a7940915ede66cb03b9ddaad62"
+          },
+          "reused": false,
+          "seconds": 0.6672562939929776,
+          "status": "passed",
+          "tier": "smoke"
+        },
+        "build.gcc-make": {
+          "artifacts": {
+            "/work/result": "e0aa22aeb6f3d203407e17a4c68fdff805b1f91e92fa72fab448d03ad3eb1190"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "cad086d05af3f252fe3457259d4028bfcefaaebc7133c78839000965e3cfeb3f",
+          "domain": "process",
+          "exit_code": 0,
+          "fingerprint": "5c802d20c9129497dd4c9dbecdedaa14a63383b979fdb9e7f58f465256dc21c0",
+          "id": "build.gcc-make",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "1f8f0346bf017345f7b828c2879536c11953e12c24df82a875534133bc9c777e"
+          },
+          "reused": false,
+          "seconds": 1.9312387989921262,
+          "status": "passed",
+          "tier": "apps"
+        },
+        "coreutils.files": {
+          "artifacts": {
+            "/work/data/moved": "d4e4877bac978b7952f0d544fc52ebff5411d351d129f1f056fa43f11da9af2b"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "4a83758943713ad29eaef99edd1fd37301c59f83eba42f770bc7564a93d3b3ee",
+          "domain": "files",
+          "exit_code": 0,
+          "fingerprint": "78e9f4703a50ba37e7a01d3d4e1be0323d4b9dd11f1d090919f2c9ca470b74e8",
+          "id": "coreutils.files",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "e61e4fff76b9672b00058b4adaa180f012b415f56c18c6cf537450537de5bc50"
+          },
+          "reused": false,
+          "seconds": 0.5221953489963198,
+          "status": "passed",
+          "tier": "smoke"
+        },
+        "curl.file-transfer": {
+          "artifacts": {
+            "/work/downloaded": "902ef0eee54c20542b2c85a215382b764ee2213b1ee5ff40a7919ca1f1ab2f7b"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "8e39ff503d4c6687beec70c98f9e74f75cd3c6056f3f9d7273a918fb5d6cdd9f",
+          "domain": "files",
+          "exit_code": 0,
+          "fingerprint": "28d714d4482779677962c70977defb8e8df534d4e0ebbed22ca9c13caf6281d6",
+          "id": "curl.file-transfer",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "610e4fdf9479a56427a545a483d1056e6cc44fed3c1412a3750faebfc96a6b41"
+          },
+          "reused": false,
+          "seconds": 0.5310324259917252,
+          "status": "passed",
+          "tier": "apps"
+        },
+        "git.local-workflow": {
+          "artifacts": {
+            "/work/clone/file": "01f1fdca12371e5ee7f4dbe02b17618a7e099ff5fbfc471c4c07b9d796b78287"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "c244155870fee31ecbcd283223360e0eb904e8573d9ef6222e617d44afd6a1b2",
+          "domain": "process",
+          "exit_code": 0,
+          "fingerprint": "8393f9fd167ed3046b4c3cc8fdbd12983adbcfbfa6eaa1ac1f1b42d9ace81d69",
+          "id": "git.local-workflow",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "6feb9a8630822bdf83e13cd8ea8708f828c959b69114529fbca04b753b2be612"
+          },
+          "reused": false,
+          "seconds": 4.422708373997011,
+          "status": "passed",
+          "tier": "apps"
+        },
+        "hash.base64": {
+          "artifacts": {
+            "/work/decoded": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "6ffd84683912afd44f007d254c691b5eb796456c227b92d762f171cfc9d06384",
+          "domain": "memory",
+          "exit_code": 0,
+          "fingerprint": "26904869cdf0d26e0eca397ed415645d97fc8d6111a53e74e28b29ea024cbe3d",
+          "id": "hash.base64",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "64aaf0934b3fd480f0e4245c7190bfbd5a32c1cdbdbe35f5536167ffd462de1e"
+          },
+          "reused": false,
+          "seconds": 0.265153635002207,
+          "status": "passed",
+          "tier": "smoke"
+        },
+        "node.workers": {
+          "artifacts": {
+            "/work/node.txt": "530ee462f1e31835a7bff9f902293bef79bb767a83a19e88abe804396af0a503"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "25391a340cb5ce9f00cd0ec95494346a4b43bdb3c5a7f238c15124f1d5d66afc",
+          "domain": "process",
+          "exit_code": 0,
+          "fingerprint": "9a28e07fb3b8d921b5bda7167c2308b790cde510ef5bb0d13dfba74b034db0cc",
+          "id": "node.workers",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "b55a8f04055720422e824dac3d701614c166e734040fdf7bcca9946c9af887b1"
+          },
+          "reused": false,
+          "seconds": 5.676034775999142,
+          "status": "passed",
+          "tier": "apps"
+        },
+        "python.process-threads": {
+          "artifacts": {},
+          "artifacts_validated": true,
+          "case_inputs": "bc6ca147a3916f4507408a9bf3301e3b62ffdf35536f2aa01b7443835c6c5784",
+          "domain": "process",
+          "exit_code": 0,
+          "fingerprint": "77900dcd7376b5d925be308b70715a61cb84f2eead30e373e05637d9e01b7b5d",
+          "id": "python.process-threads",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "7e599e86e1b71e9f48bcf403996dc83d5db97401ac1e6bcdd14993ddb99a592a"
+          },
+          "reused": false,
+          "seconds": 3.511224402987864,
+          "status": "passed",
+          "tier": "apps"
+        },
+        "python.stdlib": {
+          "artifacts": {
+            "/work/data.json": "f85ee2859e7757b5bcf33d720ead3c508e04e0d997845cfab9bf5aebe6569086"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "f499017fd29f8494e5a1eef3e14fdf5b6edf99b0cfede55d16caa6699ba6b013",
+          "domain": "files",
+          "exit_code": 0,
+          "fingerprint": "cf8a08a105f0625edaff893aaea57383580b765ecae4c4594a650938f02225cb",
+          "id": "python.stdlib",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "2895e016028fe1769b69bce6bdfd3760000cfdf657387ba409d6c6b8df4c7d68"
+          },
+          "reused": false,
+          "seconds": 2.4875459519971628,
+          "status": "passed",
+          "tier": "apps"
+        },
+        "shell.pipeline": {
+          "artifacts": {
+            "/work/sorted": "9ff482bbad59dc6d2dda31549c8431f4cfd280a2e6b52f4b0f761b5961593322"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "7c38812729cfbaa2b343d5ffe057ebd514aeaa10d815dac49882704ca4bfc775",
+          "domain": "process",
+          "exit_code": 0,
+          "fingerprint": "b03ad6c211d3459d6bddb49d8b644d0e09084cd9a8550b7f323d84eaab14946d",
+          "id": "shell.pipeline",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "67474b3b20cb307dc79f8467244c0523d54c6ee58c76aa0236ff807feb1ee904"
+          },
+          "reused": false,
+          "seconds": 0.2666909320105333,
+          "status": "passed",
+          "tier": "smoke"
+        },
+        "ssh.key-roundtrip": {
+          "artifacts": {},
+          "artifacts_validated": true,
+          "case_inputs": "09440110feaf03ca2640a4a3c4fde8db56573df6c87b0834042e67338f81a7e2",
+          "domain": "random",
+          "exit_code": 0,
+          "fingerprint": "1bae20ffe40b562793d4e3a38b31fa3a6eac948c2a98f5a5dbf391445e7c8a53",
+          "id": "ssh.key-roundtrip",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "cd156d550d794a8eec93e91f543399f942a2fe8c9472c1bf3003777c4d64ffa7"
+          },
+          "reused": false,
+          "seconds": 0.5402129619906191,
+          "status": "passed",
+          "tier": "apps"
+        },
+        "text.filters": {
+          "artifacts": {},
+          "artifacts_validated": true,
+          "case_inputs": "f78354480511d2741875baaf0fb7dcca94ded540441440c199f89b05848a1411",
+          "domain": "files",
+          "exit_code": 0,
+          "fingerprint": "d6b3fdd4ea29b7569f6a82202f2db59b2338af415e203f4203e92d9feac5c3ad",
+          "id": "text.filters",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "a780813a42edf15e8dbded28cb244ebd09efc8316dded9ee017617b60e923182"
+          },
+          "reused": false,
+          "seconds": 0.26535402800072916,
+          "status": "passed",
+          "tier": "smoke"
+        }
+      }
+    },
+    "native": {
+      "evidence": "/home/main.guest/trames-applications-final-native",
+      "plan": {
+        "build": null,
+        "bundle_sha256": "d437f7389e6c9d02581fd2e0c45cd01d71176310ffb17c8e466e42c2086f279c",
+        "cases": [
+          {
+            "artifacts": [
+              "/work/sorted"
+            ],
+            "domain": "process",
+            "id": "shell.pipeline",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/cmp",
+              "/usr/bin/sort",
+              "/usr/bin/tr",
+              "/usr/bin/uniq"
+            ],
+            "script": "printf 'pear\\napple\\npear\\n' | sort | uniq > sorted\nprintf 'apple\\npear\\n' > expected\ncmp sorted expected\nvalue=$(printf abc | tr a-z A-Z)\ntest \"$value\" = ABC\nprintf 'shell: ok\\n'",
+            "stdout": "shell: ok\n",
+            "tier": "smoke"
+          },
+          {
+            "artifacts": [
+              "/work/data/moved"
+            ],
+            "domain": "files",
+            "id": "coreutils.files",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/cmp",
+              "/usr/bin/cp",
+              "/usr/bin/find",
+              "/usr/bin/ln",
+              "/usr/bin/mkdir",
+              "/usr/bin/mv",
+              "/usr/bin/stat",
+              "/usr/bin/wc"
+            ],
+            "script": "mkdir data\nprintf 'payload\\n' > data/original\ncp data/original data/copy\nmv data/copy data/moved\nln data/original data/hard\nln -s original data/link\ncmp data/moved data/link\ntest \"$(stat -c %s data/hard)\" = 8\ntest \"$(find data -type f | wc -l)\" = 3\nprintf 'files: ok\\n'",
+            "stdout": "files: ok\n",
+            "tier": "smoke"
+          },
+          {
+            "domain": "files",
+            "id": "text.filters",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/awk",
+              "/usr/bin/cut",
+              "/usr/bin/grep",
+              "/usr/bin/sed"
+            ],
+            "script": "printf 'one:3\\ntwo:5\\n' > input\ngrep '^two:' input > selected\nsed 's/two/TWO/' selected > replaced\ntest \"$(cut -d: -f1 replaced)\" = TWO\ntest \"$(awk -F: '{s += $2} END {print s}' input)\" = 8\nprintf 'text: ok\\n'",
+            "stdout": "text: ok\n",
+            "tier": "smoke"
+          },
+          {
+            "artifacts": [
+              "/work/restored/source/value"
+            ],
+            "domain": "files",
+            "id": "archive.roundtrip",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/bzip2",
+              "/usr/bin/cmp",
+              "/usr/bin/gzip",
+              "/usr/bin/mkdir",
+              "/usr/bin/tar",
+              "/usr/bin/xz"
+            ],
+            "script": "mkdir source restored\nprintf 'archive payload\\n' > source/value\ntar -cf payload.tar source\ngzip -c payload.tar > payload.gz\ngzip -dc payload.gz > recovered.tar\ncmp payload.tar recovered.tar\nbzip2 -c payload.tar > payload.bz2\nbzip2 -dc payload.bz2 > recovered.tar\ncmp payload.tar recovered.tar\nxz -c payload.tar > payload.xz\nxz -dc payload.xz > recovered.tar\ncmp payload.tar recovered.tar\ntar -xf recovered.tar -C restored\ncmp source/value restored/source/value\nprintf 'archive: ok\\n'",
+            "stdout": "archive: ok\n",
+            "tier": "smoke"
+          },
+          {
+            "artifacts": [
+              "/work/decoded"
+            ],
+            "domain": "memory",
+            "id": "hash.base64",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/base64",
+              "/usr/bin/cmp",
+              "/usr/bin/cut",
+              "/usr/bin/sha256sum"
+            ],
+            "script": "printf abc > input\nbase64 input > encoded\nbase64 -d encoded > decoded\ncmp input decoded\ntest \"$(sha256sum decoded | cut -d' ' -f1)\" = ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad\nprintf 'hash: ok\\n'",
+            "stdout": "hash: ok\n",
+            "tier": "smoke"
+          },
+          {
+            "artifacts": [
+              "/work/data.json"
+            ],
+            "domain": "files",
+            "id": "python.stdlib",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/python3"
+            ],
+            "script": "python3 - <<'PY'\nimport gzip, hashlib, json, pathlib, sqlite3\np=pathlib.Path('data.json'); p.write_text(json.dumps({'answer':42},sort_keys=True))\nassert json.loads(p.read_text())['answer']==42\npayload=b'trames python payload'*1000\nassert gzip.decompress(gzip.compress(payload))==payload\nassert len(hashlib.sha256(payload).digest())==32\nc=sqlite3.connect('data.sqlite'); c.execute('create table t (v integer)'); c.executemany('insert into t values (?)',[(1,),(2,),(3,)])\nc.commit(); assert c.execute('select sum(v) from t').fetchone()[0]==6; c.close()\nprint('python: ok')\nPY",
+            "stdout": "python: ok\n",
+            "tier": "apps"
+          },
+          {
+            "domain": "process",
+            "id": "python.process-threads",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/python3"
+            ],
+            "script": "python3 - <<'PY'\nimport concurrent.futures, os, socket, subprocess, sys\npid=os.fork()\nif pid==0: os._exit(17)\nassert os.waitpid(pid,0)[1]==17<<8\np=subprocess.run([sys.executable,'-c','import sys;sys.stdout.buffer.write(sys.stdin.buffer.read()[::-1])'],input=b'payload'*20000,capture_output=True,check=True)\nassert p.stdout==(b'payload'*20000)[::-1]\na,b=socket.socketpair(); a.sendall(b'socketpair'); assert b.recv(32)==b'socketpair'; a.close(); b.close()\nwith concurrent.futures.ThreadPoolExecutor(4) as pool: assert sum(pool.map(lambda n:n*n,range(100)))==328350\nprint('python-process: ok')\nPY",
+            "stdout": "python-process: ok\n",
+            "tier": "apps"
+          },
+          {
+            "artifacts": [
+              "/work/clone/file"
+            ],
+            "domain": "process",
+            "id": "git.local-workflow",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/cmp",
+              "/usr/bin/git",
+              "/usr/bin/git-upload-pack"
+            ],
+            "script": "export GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_GLOBAL=/dev/null\ngit init -q -b main repo\ngit -C repo config user.email acceptance@localhost\ngit -C repo config user.name Acceptance\nprintf 'tracked payload\\n' > repo/file\ngit -C repo add file\ngit -C repo commit -qm initial\ngit -C repo checkout -qb feature\nprintf 'feature\\n' >> repo/file\ngit -C repo commit -qam feature\ngit -C repo checkout -q main\ngit -C repo merge -q --ff-only feature\ngit clone -q --no-local file:///work/repo clone\ncmp repo/file clone/file\ntest \"$(git -C clone rev-list --count HEAD)\" = 2\nprintf 'git: ok\\n'",
+            "stdout": "git: ok\n",
+            "tier": "apps"
+          },
+          {
+            "artifacts": [
+              "/work/downloaded"
+            ],
+            "domain": "files",
+            "id": "curl.file-transfer",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/cmp",
+              "/usr/bin/curl"
+            ],
+            "script": "printf 'curl file payload\\n' > input\ncurl --fail --silent --show-error file:///work/input -o downloaded\ncmp input downloaded\nprintf 'curl-file: ok\\n'",
+            "stdout": "curl-file: ok\n",
+            "tier": "apps"
+          },
+          {
+            "domain": "random",
+            "id": "ssh.key-roundtrip",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/cmp",
+              "/usr/bin/cut",
+              "/usr/bin/ssh-keygen"
+            ],
+            "script": "ssh-keygen -q -t ed25519 -N '' -C acceptance -f key\nssh-keygen -y -f key > derived\ncut -d' ' -f1,2 key.pub > original\ncut -d' ' -f1,2 derived > actual\ncmp actual original\nprintf 'ssh-key: ok\\n'",
+            "stdout": "ssh-key: ok\n",
+            "tier": "apps"
+          },
+          {
+            "artifacts": [
+              "/work/node.txt"
+            ],
+            "domain": "process",
+            "id": "node.workers",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/node"
+            ],
+            "script": "node - <<'JS'\nconst assert=require('assert'),fs=require('fs'),crypto=require('crypto'),{Worker}=require('worker_threads'),{execFileSync}=require('child_process');\nfs.writeFileSync('node.txt','node payload'); assert.equal(fs.readFileSync('node.txt','utf8'),'node payload');\nassert.equal(crypto.createHash('sha256').update('abc').digest('hex'),'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad');\nassert.equal(execFileSync(process.execPath,['-e','process.stdout.write(\"child\")']).toString(),'child');\nconst w=new Worker('require(\"worker_threads\").parentPort.postMessage(42)',{eval:true}); w.on('message',n=>{assert.equal(n,42); console.log('node: ok')}); w.on('error',e=>{throw e});\nJS",
+            "stdout": "node: ok\n",
+            "tier": "apps"
+          },
+          {
+            "artifacts": [
+              "/work/result"
+            ],
+            "domain": "process",
+            "id": "build.gcc-make",
+            "requires": [
+              "/bin/sh",
+              "/usr/bin/as",
+              "/usr/bin/cmp",
+              "/usr/bin/gcc",
+              "/usr/bin/ld",
+              "/usr/bin/make"
+            ],
+            "script": "printf '#include <stdio.h>\\nint main(void){puts(\"compiled: ok\");return 0;}\\n' > hello.c\nprintf 'all:\\n\\tgcc hello.c -o hello\\n' > Makefile\nmake -s\n./hello > result\nprintf 'compiled: ok\\n' > expected\ncmp expected result\nprintf 'build: ok\\n'",
+            "stdout": "build: ok\n",
+            "tier": "apps"
+          }
+        ],
+        "harness_sha256": "898f819af95d9e2d4a3d94829036cc6dce8718b326bcb3f20ba3cf4d355293f3",
+        "host": {
+          "arch": "aarch64",
+          "cpu": "processor\t: 0\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 1\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 2\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 3\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 4\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 5\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\n",
+          "cpu_identity": [
+            "CPU architecture: 8",
+            "CPU implementer\t: 0x61",
+            "CPU part\t: 0x000",
+            "CPU revision\t: 0",
+            "CPU variant\t: 0x0",
+            "Features\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut"
+          ],
+          "kernel": "7.0.0-43-generic",
+          "libc": [
+            "glibc",
+            "2.39"
+          ],
+          "os": "Linux",
+          "page_size": 4096
+        },
+        "performance_qualified": false,
+        "provider": {
+          "backend": "native",
+          "build": null,
+          "cpus": 1,
+          "filesystem": null,
+          "native_container": null,
+          "native_tools": {
+            "/usr/bin/mount": "a4e2960330ff237a185306d9d92df1fc69ee77d8abe9d3282f662f54e13f01f4",
+            "/usr/bin/python3.12": "c86f21d0da9290ece2d7d49a3f7ed52aed59cb029abdf0ea25c79634f6cbe960",
+            "/usr/bin/unshare": "e0c145c3d4c06686544b1362ed64da819539166a5e1e6fd96093aea4d2539b6a"
+          },
+          "network": null,
+          "transport": null
+        },
+        "schema_version": 1,
+        "selected_scope": "complete"
+      },
+      "rows": {
+        "archive.roundtrip": {
+          "artifacts": {
+            "/work/restored/source/value": "92f86a430bca3d71cc27fcedb1a9b67a487e7f1ac1c97aad57df2d40ec9f8b71"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "1aca35a4d35f301b38ede59abd940a3d401ce5a8ac905222ac4c8ad5bd60fd89",
+          "domain": "files",
+          "exit_code": 0,
+          "fingerprint": "352647fe2c120361befd696e9169ea65c88aed8d639f52210d2371ccf6aaf9cf",
+          "id": "archive.roundtrip",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "f852da5cffb5c908daab6809d6656be278c5c9a7940915ede66cb03b9ddaad62"
+          },
+          "reused": true,
+          "reused_from": "/home/main.guest/trames-applications-services-clean/native/cases/archive.roundtrip",
+          "seconds": 0.01647672799299471,
+          "status": "passed",
+          "tier": "smoke"
+        },
+        "build.gcc-make": {
+          "artifacts": {
+            "/work/result": "e0aa22aeb6f3d203407e17a4c68fdff805b1f91e92fa72fab448d03ad3eb1190"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "cad086d05af3f252fe3457259d4028bfcefaaebc7133c78839000965e3cfeb3f",
+          "domain": "process",
+          "exit_code": 0,
+          "fingerprint": "3a232f369f04f6f6421eebb0df2f3d8465dd646f61d0768e518986078ec1c76a",
+          "id": "build.gcc-make",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "1f8f0346bf017345f7b828c2879536c11953e12c24df82a875534133bc9c777e"
+          },
+          "reused": true,
+          "reused_from": "/home/main.guest/trames-applications-services-clean/native/cases/build.gcc-make",
+          "seconds": 0.03263570500712376,
+          "status": "passed",
+          "tier": "apps"
+        },
+        "coreutils.files": {
+          "artifacts": {
+            "/work/data/moved": "d4e4877bac978b7952f0d544fc52ebff5411d351d129f1f056fa43f11da9af2b"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "4a83758943713ad29eaef99edd1fd37301c59f83eba42f770bc7564a93d3b3ee",
+          "domain": "files",
+          "exit_code": 0,
+          "fingerprint": "0dd2454b37876e7c5988acb5dc6e3f7e71d69915884c925430478bfb0df014e4",
+          "id": "coreutils.files",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "e61e4fff76b9672b00058b4adaa180f012b415f56c18c6cf537450537de5bc50"
+          },
+          "reused": true,
+          "reused_from": "/home/main.guest/trames-applications-services-clean/native/cases/coreutils.files",
+          "seconds": 0.016175541008124128,
+          "status": "passed",
+          "tier": "smoke"
+        },
+        "curl.file-transfer": {
+          "artifacts": {
+            "/work/downloaded": "902ef0eee54c20542b2c85a215382b764ee2213b1ee5ff40a7919ca1f1ab2f7b"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "8e39ff503d4c6687beec70c98f9e74f75cd3c6056f3f9d7273a918fb5d6cdd9f",
+          "domain": "files",
+          "exit_code": 0,
+          "fingerprint": "d70e873f1ea8c3c55f64e17dc74a3779b0ae6021ec8cee9a19bb341bc22a394c",
+          "id": "curl.file-transfer",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "610e4fdf9479a56427a545a483d1056e6cc44fed3c1412a3750faebfc96a6b41"
+          },
+          "reused": true,
+          "reused_from": "/home/main.guest/trames-applications-services-clean/native/cases/curl.file-transfer",
+          "seconds": 0.016165927998372354,
+          "status": "passed",
+          "tier": "apps"
+        },
+        "git.local-workflow": {
+          "artifacts": {
+            "/work/clone/file": "01f1fdca12371e5ee7f4dbe02b17618a7e099ff5fbfc471c4c07b9d796b78287"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "c244155870fee31ecbcd283223360e0eb904e8573d9ef6222e617d44afd6a1b2",
+          "domain": "process",
+          "exit_code": 0,
+          "fingerprint": "ed5fcb1b2b92830189f7ef419ecbbe12c231d4e1db84b14657d7e506fdf7e450",
+          "id": "git.local-workflow",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "6feb9a8630822bdf83e13cd8ea8708f828c959b69114529fbca04b753b2be612"
+          },
+          "reused": true,
+          "reused_from": "/home/main.guest/trames-applications-services-clean/native/cases/git.local-workflow",
+          "seconds": 0.03267268500349019,
+          "status": "passed",
+          "tier": "apps"
+        },
+        "hash.base64": {
+          "artifacts": {
+            "/work/decoded": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "6ffd84683912afd44f007d254c691b5eb796456c227b92d762f171cfc9d06384",
+          "domain": "memory",
+          "exit_code": 0,
+          "fingerprint": "6e0c82b07531bc2f4afd21f2326d2572c67d3a0aad6968d4bb6c94a0ccd75348",
+          "id": "hash.base64",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "64aaf0934b3fd480f0e4245c7190bfbd5a32c1cdbdbe35f5536167ffd462de1e"
+          },
+          "reused": true,
+          "reused_from": "/home/main.guest/trames-applications-services-clean/native/cases/hash.base64",
+          "seconds": 0.01615638699149713,
+          "status": "passed",
+          "tier": "smoke"
+        },
+        "node.workers": {
+          "artifacts": {
+            "/work/node.txt": "530ee462f1e31835a7bff9f902293bef79bb767a83a19e88abe804396af0a503"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "25391a340cb5ce9f00cd0ec95494346a4b43bdb3c5a7f238c15124f1d5d66afc",
+          "domain": "process",
+          "exit_code": 0,
+          "fingerprint": "6b119f545e0624217044841bee4c73cb7cb55166411880438d08e3dfddad455a",
+          "id": "node.workers",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "b55a8f04055720422e824dac3d701614c166e734040fdf7bcca9946c9af887b1"
+          },
+          "reused": true,
+          "reused_from": "/home/main.guest/trames-applications-services-clean/native/cases/node.workers",
+          "seconds": 0.11496417700254824,
+          "status": "passed",
+          "tier": "apps"
+        },
+        "python.process-threads": {
+          "artifacts": {},
+          "artifacts_validated": true,
+          "case_inputs": "bc6ca147a3916f4507408a9bf3301e3b62ffdf35536f2aa01b7443835c6c5784",
+          "domain": "process",
+          "exit_code": 0,
+          "fingerprint": "c3f149b11afd6381b8598589aa6d99d260919d341833829c41796919dd3c14d3",
+          "id": "python.process-threads",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "7e599e86e1b71e9f48bcf403996dc83d5db97401ac1e6bcdd14993ddb99a592a"
+          },
+          "reused": false,
+          "seconds": 0.11510518800059799,
+          "status": "passed",
+          "tier": "apps"
+        },
+        "python.stdlib": {
+          "artifacts": {
+            "/work/data.json": "f85ee2859e7757b5bcf33d720ead3c508e04e0d997845cfab9bf5aebe6569086"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "f499017fd29f8494e5a1eef3e14fdf5b6edf99b0cfede55d16caa6699ba6b013",
+          "domain": "files",
+          "exit_code": 0,
+          "fingerprint": "3d99c891d54150c749e3a384e32db5ddbee3bf3a398476fab819c3618633ecbf",
+          "id": "python.stdlib",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "2895e016028fe1769b69bce6bdfd3760000cfdf657387ba409d6c6b8df4c7d68"
+          },
+          "reused": true,
+          "reused_from": "/home/main.guest/trames-applications-services-clean/native/cases/python.stdlib",
+          "seconds": 0.11893367700395174,
+          "status": "passed",
+          "tier": "apps"
+        },
+        "shell.pipeline": {
+          "artifacts": {
+            "/work/sorted": "9ff482bbad59dc6d2dda31549c8431f4cfd280a2e6b52f4b0f761b5961593322"
+          },
+          "artifacts_validated": true,
+          "case_inputs": "7c38812729cfbaa2b343d5ffe057ebd514aeaa10d815dac49882704ca4bfc775",
+          "domain": "process",
+          "exit_code": 0,
+          "fingerprint": "fc02b6aefc089ff71272cb08b651db256d4423fd446bd10ad42963b3236fc88d",
+          "id": "shell.pipeline",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "67474b3b20cb307dc79f8467244c0523d54c6ee58c76aa0236ff807feb1ee904"
+          },
+          "reused": true,
+          "reused_from": "/home/main.guest/trames-applications-services-clean/native/cases/shell.pipeline",
+          "seconds": 0.016515631999936886,
+          "status": "passed",
+          "tier": "smoke"
+        },
+        "ssh.key-roundtrip": {
+          "artifacts": {},
+          "artifacts_validated": true,
+          "case_inputs": "09440110feaf03ca2640a4a3c4fde8db56573df6c87b0834042e67338f81a7e2",
+          "domain": "random",
+          "exit_code": 0,
+          "fingerprint": "bcf6df5f925390a7db6a7007c0bc30cbd0628150ceb0dc323ab45c337356e809",
+          "id": "ssh.key-roundtrip",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "cd156d550d794a8eec93e91f543399f942a2fe8c9472c1bf3003777c4d64ffa7"
+          },
+          "reused": true,
+          "reused_from": "/home/main.guest/trames-applications-services-clean/native/cases/ssh.key-roundtrip",
+          "seconds": 0.01613064800039865,
+          "status": "passed",
+          "tier": "apps"
+        },
+        "text.filters": {
+          "artifacts": {},
+          "artifacts_validated": true,
+          "case_inputs": "f78354480511d2741875baaf0fb7dcca94ded540441440c199f89b05848a1411",
+          "domain": "files",
+          "exit_code": 0,
+          "fingerprint": "895669d8610ce82e12a03e275124877de901cc9d729c1b92d1beb790c1ec9c47",
+          "id": "text.filters",
+          "logs": {
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "a780813a42edf15e8dbded28cb244ebd09efc8316dded9ee017617b60e923182"
+          },
+          "reused": true,
+          "reused_from": "/home/main.guest/trames-applications-services-clean/native/cases/text.filters",
+          "seconds": 0.016222532009123825,
+          "status": "passed",
+          "tier": "smoke"
+        }
+      }
+    }
+  },
+  "performance_qualified": false,
+  "schema_version": 1,
+  "workflow_count": 12
+}

@@ -1,0 +1,96 @@
+{
+  "build": {
+    "fingerprint": {
+      "binary_sha256": "44f1f61e8e3db16e57af99f128d8a4be8566a81894cb1bf1697ac13a5e370834",
+      "command": [
+        "cargo",
+        "build",
+        "--release",
+        "--locked",
+        "-p",
+        "trames-linux-app"
+      ],
+      "flags": {
+        "CARGO_INCREMENTAL": "0"
+      },
+      "sources": {
+        "product": "e19e7c61183473c5240dd1bb1cbb3707f7a43b805d8236d1288842ebf033c46c",
+        "runtime": "7a28f06e1f73cc074e8a41eb4657a479cc86d90247592c764d43970ae9b09fe4"
+      },
+      "toolchain": "rustc 1.101.0-nightly (4ebd25825 2026-10-15)\nbinary: rustc\ncommit-hash: 4ebd258257737d5b7635c116fa7d281627a7e937\ncommit-date: 2026-10-15\nhost: aarch64-unknown-linux-gnu\nrelease: 1.101.0-nightly\nLLVM version: 23.1.4\n"
+    },
+    "fingerprint_sha256": "f490013942ad691b8b7185bdaa08294ce90368764d172156637efaa545aa5a10",
+    "schema_version": 1,
+    "sources": {
+      "product": {
+        "commit": "bd98544344bfe4c5c177de9818f5e0992c9df101",
+        "dirty": false,
+        "inputs_sha256": "e19e7c61183473c5240dd1bb1cbb3707f7a43b805d8236d1288842ebf033c46c"
+      },
+      "runtime": {
+        "commit": "474ee466391e2683c1a0f48e6fb21307cc45adae",
+        "dirty": false,
+        "inputs_sha256": "7a28f06e1f73cc074e8a41eb4657a479cc86d90247592c764d43970ae9b09fe4"
+      }
+    }
+  },
+  "compiler_command": [
+    "cc",
+    "-O2",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-march=armv8.6-a+crypto+sha3+sm4+fp16",
+    "-fno-pie",
+    "-no-pie",
+    "-pthread",
+    "/home/main.guest/trames-linux-wsi-qualified/tests/fixtures/cpu-extensions.c",
+    "-o",
+    "/home/main.guest/trames-cpu-extensions-validation-v5/original-cpu-elf"
+  ],
+  "controller_sha256": "0c9293b3ac6007eebaf39de003e0b56b2ca6d62aed4a3aae12d57ef78573544a",
+  "fixture_binary_sha256": "31924d3532c1871cd9d85cda6e14b4aa0d437fac4b3503dbd97bb83ea8cda8e0",
+  "fixture_source_sha256": "837fbc74497d7325108b36accab11f84979a4e3151c5543119d9715593a6c1f1",
+  "host": {
+    "arch": "aarch64",
+    "cpu": "processor\t: 0\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 1\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 2\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 3\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 4\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 5\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\n",
+    "cpu_identity": [
+      "CPU architecture: 8",
+      "CPU implementer\t: 0x61",
+      "CPU part\t: 0x000",
+      "CPU revision\t: 0",
+      "CPU variant\t: 0x0",
+      "Features\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp flagm2 frint i8mm bf16 bti afp rpres ebf16 lut"
+    ],
+    "kernel": "7.0.0-43-generic",
+    "libc": [
+      "glibc",
+      "2.39"
+    ],
+    "os": "Linux",
+    "page_size": 4096
+  },
+  "performance_qualified": false,
+  "profile": {
+    "architecture": "aarch64",
+    "features": "fp asimd aes pmull sha1 sha2 crc32 atomics fphp asimdhp asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 afp rpres ebf16 lut",
+    "hwcap": 783546363,
+    "hwcap2": 562954251559297,
+    "kvm_capabilities": {
+      "guest_debug": true,
+      "mte": false,
+      "paca": true,
+      "pacg": true,
+      "sve": false
+    },
+    "registers": {
+      "id_aa64isar0_el1": 153421459058925856,
+      "id_aa64isar1_el1": 4541056039325698,
+      "id_aa64isar2_el1": 72057594037927952,
+      "id_aa64mmfr1_el1": 17592474476576,
+      "id_aa64mmfr2_el1": 1153203052598001681,
+      "id_aa64pfr0_el1": 1225260574444683537
+    }
+  },
+  "rootfs_sha256": "c276ee18032942fd3fa33e2f661c0a1dd3d2e1d348b87c55e81f583e9b845ff5"
+}

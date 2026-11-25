@@ -1,0 +1,89 @@
+{
+  "cases": [
+    {
+      "exit_code": 0,
+      "id": "native-instructions",
+      "seconds": 0.0013613220071420074,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "native-state",
+      "seconds": 0.007694075000472367,
+      "status": "passed"
+    },
+    {
+      "exit_code": -6,
+      "id": "native-ptrace",
+      "seconds": 1.0501122410059907,
+      "status": "failed"
+    },
+    {
+      "exit_code": 0,
+      "id": "instructions-smccc-1",
+      "seconds": 0.11709912501100916,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "state-smccc-1",
+      "seconds": 0.11498445700271986,
+      "status": "passed"
+    },
+    {
+      "id": "ptrace-smccc-1",
+      "status": "reference_failed"
+    },
+    {
+      "exit_code": 0,
+      "id": "instructions-smccc-4",
+      "seconds": 0.12473202400724404,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "state-smccc-4",
+      "seconds": 0.11463629700301681,
+      "status": "passed"
+    },
+    {
+      "id": "ptrace-smccc-4",
+      "status": "reference_failed"
+    },
+    {
+      "exit_code": 0,
+      "id": "instructions-mmio-1",
+      "seconds": 0.12279672699514776,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "state-mmio-1",
+      "seconds": 0.16869327699532732,
+      "status": "passed"
+    },
+    {
+      "id": "ptrace-mmio-1",
+      "status": "reference_failed"
+    },
+    {
+      "exit_code": 0,
+      "id": "instructions-mmio-4",
+      "seconds": 0.11592143999587279,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "state-mmio-4",
+      "seconds": 0.11468982299265917,
+      "status": "passed"
+    },
+    {
+      "id": "ptrace-mmio-4",
+      "status": "reference_failed"
+    }
+  ],
+  "passed": 10,
+  "performance_qualified": false,
+  "planned": 15
+}

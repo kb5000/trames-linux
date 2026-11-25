@@ -1,0 +1,329 @@
+warning: unused field `repository` in `workspace.package`
+  --> Cargo.toml:32:1
+   |
+32 | repository = "https://github.com/kb5000/trames-runtime"
+   | ^^^^^^^^^^
+   |
+   = note: `cargo::unused_workspace_package_fields` is set to `warn` by default
+help: consider removing the field `workspace.package.repository`
+warning: workspace (manifest) generated 1 warning
+warning: unused variable: `source_hardware_addr`
+  --> vendor/smoltcp/src/iface/interface/ipv4.rs:89:9
+   |
+89 |         source_hardware_addr: HardwareAddress,
+   |         ^^^^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_source_hardware_addr`
+   |
+   = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: variable does not need to be mutable
+   --> vendor/smoltcp/src/iface/interface/ipv4.rs:480:35
+    |
+480 |         tx_token.consume(tx_len, |mut tx_buffer| {
+    |                                   ----^^^^^^^^^
+    |                                   |
+    |                                   help: remove this `mut`
+    |
+    = note: `#[warn(unused_mut)]` (part of `#[warn(unused)]`) on by default
+
+warning: variable does not need to be mutable
+   --> vendor/smoltcp/src/iface/interface/ipv4.rs:457:13
+    |
+457 |         let mut tx_len = ip_len;
+    |             ----^^^^^^
+    |             |
+    |             help: remove this `mut`
+
+warning: unused variable: `source_hardware_addr`
+   --> vendor/smoltcp/src/iface/interface/ipv6.rs:191:9
+    |
+191 |         source_hardware_addr: HardwareAddress,
+    |         ^^^^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_source_hardware_addr`
+
+warning: variable does not need to be mutable
+    --> vendor/smoltcp/src/iface/interface/mod.rs:1448:51
+     |
+1448 |                         tx_token.consume(tx_len, |mut tx_buffer| {
+     |                                                   ----^^^^^^^^^
+     |                                                   |
+     |                                                   help: remove this `mut`
+
+warning: variable does not need to be mutable
+    --> vendor/smoltcp/src/iface/interface/mod.rs:1473:50
+     |
+1473 |                     tx_token.consume(total_len, |mut tx_buffer| {
+     |                                                  ----^^^^^^^^^
+     |                                                  |
+     |                                                  help: remove this `mut`
+
+warning: variable does not need to be mutable
+    --> vendor/smoltcp/src/iface/interface/mod.rs:1487:61
+     |
+1487 |             IpRepr::Ipv6(_) => tx_token.consume(total_len, |mut tx_buffer| {
+     |                                                             ----^^^^^^^^^
+     |                                                             |
+     |                                                             help: remove this `mut`
+
+warning: variable does not need to be mutable
+    --> vendor/smoltcp/src/iface/interface/mod.rs:1320:13
+     |
+1320 |         let mut total_len = ip_repr.buffer_len();
+     |             ----^^^^^^^^^
+     |             |
+     |             help: remove this `mut`
+
+warning: field `hardware_addr` is never read
+   --> vendor/smoltcp/src/iface/interface/mod.rs:224:5
+    |
+210 | pub struct InterfaceInner {
+    |            -------------- field in this struct
+...
+224 |     hardware_addr: HardwareAddress,
+    |     ^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: variants `NoRoute` and `NeighborPending` are never constructed
+    --> vendor/smoltcp/src/iface/interface/mod.rs:1519:5
+     |
+1514 | enum DispatchError {
+     |      ------------- variants in this enum
+...
+1519 |     NoRoute,
+     |     ^^^^^^^
+...
+1523 |     NeighborPending,
+     |     ^^^^^^^^^^^^^^^
+     |
+     = note: `DispatchError` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+
+warning: methods `link_local_ipv6_address` and `mldv2_report_packet` are never used
+   --> vendor/smoltcp/src/iface/interface/ipv6.rs:171:8
+    |
+ 21 | impl InterfaceInner {
+    | ------------------- methods in this implementation
+...
+171 |     fn link_local_ipv6_address(&self) -> Option<Ipv6Address> {
+    |        ^^^^^^^^^^^^^^^^^^^^^^^
+...
+563 |     pub(super) fn mldv2_report_packet<'any>(
+    |                   ^^^^^^^^^^^^^^^^^^^
+
+warning: variant `HopByHopIcmpv6` is never constructed
+   --> vendor/smoltcp/src/iface/packet.rs:263:5
+    |
+255 | pub(crate) enum IpPayload<'p> {
+    |                 --------- variant in this enum
+...
+263 |     HopByHopIcmpv6(Ipv6HopByHopRepr<'p>, Icmpv6Repr<'p>),
+    |     ^^^^^^^^^^^^^^
+    |
+    = note: `IpPayload` has a derived impl for the trait `Debug`, but this is intentionally ignored during dead code analysis
+
+warning: type alias `Rest` is never used
+  --> vendor/smoltcp/src/wire/mod.rs:75:14
+   |
+75 |     pub type Rest = ::core::ops::RangeFrom<usize>;
+   |              ^^^^
+
+warning: constant `CUR_HOP_LIMIT` is never used
+   --> vendor/smoltcp/src/wire/icmpv6.rs:220:15
+    |
+220 |     pub const CUR_HOP_LIMIT: usize = 4;
+    |               ^^^^^^^^^^^^^
+
+warning: constant `ROUTER_FLAGS` is never used
+   --> vendor/smoltcp/src/wire/icmpv6.rs:221:15
+    |
+221 |     pub const ROUTER_FLAGS: usize = 5;
+    |               ^^^^^^^^^^^^
+
+warning: constant `ROUTER_LT` is never used
+   --> vendor/smoltcp/src/wire/icmpv6.rs:222:15
+    |
+222 |     pub const ROUTER_LT: Field = 6..8;
+    |               ^^^^^^^^^
+
+warning: constant `REACHABLE_TM` is never used
+   --> vendor/smoltcp/src/wire/icmpv6.rs:223:15
+    |
+223 |     pub const REACHABLE_TM: Field = 8..12;
+    |               ^^^^^^^^^^^^
+
+warning: constant `NEIGH_FLAGS` is never used
+   --> vendor/smoltcp/src/wire/icmpv6.rs:230:15
+    |
+230 |     pub const NEIGH_FLAGS: usize = 4;
+    |               ^^^^^^^^^^^
+
+warning: methods `solicited_node` and `is_solicited_node_multicast` are never used
+   --> vendor/smoltcp/src/wire/ipv6.rs:121:8
+    |
+ 79 | pub(crate) trait AddressExt {
+    |                  ---------- methods in this trait
+...
+121 |     fn solicited_node(&self) -> Address;
+    |        ^^^^^^^^^^^^^^
+...
+131 |     fn is_solicited_node_multicast(&self) -> bool;
+    |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: method `emit_header` is never used
+   --> vendor/smoltcp/src/wire/udp.rs:264:19
+    |
+221 | impl Repr {
+    | --------- method in this implementation
+...
+264 |     pub(crate) fn emit_header<T>(&self, packet: &mut Packet<&mut T>, payload_len: usize)
+    |                   ^^^^^^^^^^^
+
+warning: hiding a lifetime that's elided elsewhere is confusing
+   --> vendor/smoltcp/src/storage/assembler.rs:330:22
+    |
+330 |     pub fn iter_data(&self, first_offset: usize) -> AssemblerIter {
+    |                      ^^^^^                          ^^^^^^^^^^^^^ the same lifetime is hidden here
+    |                      |
+    |                      the lifetime is elided here
+    |
+    = help: the same lifetime is referred to in inconsistent ways, making the signature confusing
+    = note: `#[warn(mismatched_lifetime_syntaxes)]` on by default
+help: use `'_` for type paths
+    |
+330 |     pub fn iter_data(&self, first_offset: usize) -> AssemblerIter<'_> {
+    |                                                                  ++++
+
+warning: `smoltcp` (lib) generated 21 warnings (run `cargo fix --lib -p smoltcp` to apply 9 suggestions)
+   Compiling trames-kernel v1.3.0 (/home/main.guest/trames-linux-wsi-qualified/runtime/crates/trames-kernel)
+   Compiling trames-session v1.3.0 (/home/main.guest/trames-linux-wsi-qualified/runtime/crates/trames-session)
+    Finished `release` profile [optimized] target(s) in 14.86s
+     Running unittests src/lib.rs (/home/main.guest/trames-linux-engine/target/release/build/trames-kernel/9bbc08e3c6493477/out/trames_kernel-9bbc08e3c6493477)
+
+running 106 tests
+test children::tests::observer_exit_handoff_survives_nowait_adoption_and_tracer_departure ... ok
+test children::tests::copyout_order_and_nowait_faults_match_native_linux ... ok
+test children::tests::nowait_retains_exit_identity_until_one_actual_consumer ... ok
+test children::tests::parked_pidfd_wait_keeps_original_child_after_close_and_slot_reuse ... ok
+test children::tests::failed_copyout_still_consumes_the_exit_like_native_linux ... ok
+test children::tests::scalar_wait_arguments_use_linux_int_widths_without_output_preflight ... ok
+test children::tests::reparenting_notifies_both_families_and_moves_wait_authority ... ok
+test children::tests::reap_cleanup_runs_outside_child_locks_in_both_registration_orders ... ok
+test children::tests::validation_no_children_and_nohang_outputs_preserve_the_abi ... ok
+test children::tests::stop_continue_events_are_consumed_once_per_group_transition ... ok
+test children::tests::worker_reaping_hides_pid_from_signals_and_limits_before_owner_drop ... ok
+test family::tests::adopted_zombie_uses_actual_new_parent_disposition_and_retires_pid_before_owner_collection ... ok
+test children::tests::wait_selection_and_siginfo_use_the_callers_pid_namespace ... ok
+test family::tests::adoption_moves_original_parent_scalar_threads_wait_and_later_job_notices_together ... ok
+test family::tests::delayed_original_exit_cannot_adopt_or_complete_a_reused_process_identity ... ok
+test family::tests::live_parent_member_supplies_disposition_after_its_leader_exits ... ok
+test family::tests::namespace_init_reaps_owned_zombies_but_outer_parents_keep_their_wait_rights ... ok
+test family::tests::nonleader_exec_replaces_presence_without_losing_original_family_or_children ... ok
+test family::tests::namespace_reaper_boundary_and_original_victim_plan_do_not_cross_into_host_family ... ok
+test family::tests::nested_namespace_completion_follows_original_victims_not_cleanup_order ... ok
+test family::tests::orphan_transition_notifies_every_process_only_after_the_last_job_link_is_lost ... ok
+test limits::tests::cpu_limit_uses_process_seconds_and_claims_each_soft_threshold_once ... ok
+test limits::gvisor_regressions::source_sysctl_write_updates_preexisting_limits_and_fresh_path_captures ... ok
+test family::tests::birth_and_namespace_shutdown_share_one_original_publication_transaction ... ok
+test limits::tests::retained_old_limit_object_cannot_keep_a_reaped_pid_visible_or_retarget_reuse ... ok
+test limits::tests::shared_thread_limits_update_live_handles_but_forks_remain_independent ... ok
+test power::tests::power_policy_preserves_authority_magic_commands_and_namespace_order ... ok
+test rseq::tests::fork_inherits_a_registration_and_exec_clear_never_writes_the_old_address_space ... ok
+test rseq::tests::post_commit_and_uninterrupted_execution_do_not_branch_to_abort ... ok
+test children::tests::concurrent_parent_threads_cannot_reap_the_same_child_twice ... ok
+test limits::tests::concurrent_alias_transactions_keep_pairs_and_original_fd_enforcement_together ... ok
+test rseq::tests::registration_errno_order_and_failed_unregister_keep_the_original_state ... ok
+test signal::actions::tests::shared_dispositions_fork_and_exec_keep_the_correct_domains ... ok
+test rseq::tests::preemption_migration_and_signal_abort_before_exposing_the_new_cpu ... ok
+test signal::actions::tests::common_abi_preserves_aliasing_faults_sign_extended_flags_and_query_admission ... ok
+test rseq::tests::bad_signature_version_flags_and_abort_range_are_detected_before_pc_change ... ok
+test signal::actions::tests::unsupported_flag_probes_install_handlers_and_report_only_supported_bits ... ok
+test signal::fault::tests::original_fault_replaces_only_its_thread_info_and_has_delivery_priority ... ok
+test signal::actions::tests::concurrent_exchanges_publish_whole_records_and_return_distinct_predecessors ... ok
+test signal::io::guest::tests::continued_signal_uses_the_session_permission_exception_for_all_send_apis ... ok
+test signal::frame::sme_tests::live_sme_signal_uses_contiguous_extra_context_and_restores_all_state ... ok
+test signal::frame::sme_tests::too_small_altstack_does_not_partially_deliver_sme_signal ... ok
+test signal::frame::sme_tests::sme_frame_validation_is_atomic_for_bad_vl_extra_and_zt ... ok
+test signal::frame::sme_tests::nonstreaming_sme_signal_keeps_baseline_frame_size_and_nested_tls ... ok
+test signal::io::guest::tests::guest_routes_preserve_permissions_zombies_and_reaped_pid_incarnations ... ok
+test signal::io::guest::tests::queued_signals_retain_payload_and_enforce_kernel_code_permissions ... ok
+test signal::io::ptrace::tests::designated_debugger_follows_the_original_task_and_its_descendants ... ok
+test signal::io::guest::tests::host_signal_uses_original_private_inbox_and_live_init_policy ... ok
+test signal::io::ptrace::tests::regset_prefix_preserves_tls_and_rejects_privileged_state ... ok
+test signal::io::ptrace::tests::tracer_retirement_releases_a_stopped_child_and_closes_future_admission ... ok
+test signal::io::ptrace::tests::syscall_info_reports_full_size_and_copies_only_the_requested_prefix ... ok
+test signal::io::ptrace::tests::tracing_requests_resolve_the_target_before_reading_arguments ... ok
+test signal::io::scheduling::tests::inherited_nice_limit_authorizes_only_original_guest_priority_range ... ok
+test signal::io::scheduling::tests::namespace_selection_retirement_and_rekey_cannot_retarget_old_task_objects ... ok
+test signal::io::scheduling::tests::original_target_authority_fault_order_and_unsupported_results ... ok
+test signal::io::scheduling::tests::priority_keeps_original_zombie_authority_until_reaped_without_a_cpu ... ok
+test signal::io::scheduling::tests::reset_on_fork_and_io_priority_follow_the_original_task ... ok
+test signal::io::scheduling::tests::scheduler_attributes_preserve_nice_limit_and_size_negotiation ... ok
+test signal::io::tests::blocked_and_ignored_dispositions_keep_linux_sigio_default_termination ... ok
+test signal::io::scheduling::tests::priority_sets_keep_original_partial_effects_and_fork_attributes_are_independent ... ok
+test signal::io::scheduling::tests::concurrent_source_updates_only_touch_each_original_task ... ok
+test signal::io::tests::accepted_process_kill_survives_exec_leader_retirement_and_tid_reuse ... ok
+test signal::io::tests::file_size_resource_signal_preserves_origin_ignores_discard_and_retired_targets ... ok
+test signal::io::tests::frozen_delivery_selects_default_fatal_among_deferred_signals ... ok
+test signal::io::tests::pending_timer_overrun_does_not_create_another_signalfd_readiness_edge ... ok
+test signal::io::tests::process_pending_is_shared_and_old_pid_owners_do_not_retarget_reused_ids ... ok
+test signal::io::tests::standard_signal_preserves_sender_and_each_distinct_timer ... ok
+test signal::io::tests::timer_job_control_clears_opposing_queues_and_resumes_ignored_or_masked_cont ... ok
+test signal::pid_identity::coalesced_and_discarded_signals_release_only_their_own_sender_references ... ok
+test signal::pid_identity::group_and_session_members_retain_identity_after_leader_task_retires ... ok
+test task::tests::live_limit_changes_reuse_existing_admission_without_revoking_tasks ... ok
+test signal::pending::tests::realtime_budget_preserves_fifo_and_cannot_drop_sigkill ... ok
+test task_control::cpu_clock_regression::process_clock_keeps_retired_original_threads_and_does_not_charge_other_groups ... ok
+test task_control::tests::accepted_group_exit_closes_new_task_publication ... ok
+test task_control::tests::affinity_completion_follows_original_running_lease_across_rekey_and_exit ... ok
+test task::tests::concurrent_births_allocate_once_and_exhaustion_cannot_wrap ... ok
+test task_control::tests::affinity_wait_callbacks_can_reenter_the_original_group_after_departure ... ok
+test task_control::tests::backend_interrupt_binding_closes_both_stop_entry_races_without_stopping_peers ... ok
+test task::tests::source_reap_refunds_once_while_owner_and_directory_still_retain_task ... ok
+test task_control::tests::continuation_during_group_stop_preserves_latest_wait_event_and_notification ... ok
+test task_control::tests::exec_rekeys_the_original_member_and_replaces_the_retired_leader ... ok
+test task_control::tests::concurrent_stop_and_continue_generation_never_leave_opposing_pending_signals ... ok
+test task_control::tests::late_owner_hold_publication_cannot_resurrect_a_retired_member ... ok
+test task_control::tests::final_status_waits_for_original_cleanup_and_ignores_finish_order ... ok
+test task_control::tests::pending_kill_prevents_a_late_stop_acknowledgement ... ok
+test task_control::tests::stale_cleanup_cannot_retire_a_rekeyed_original_member ... ok
+test signal::pid_identity::reaped_sender_identity_survives_dequeue_until_each_abi_consumer_finishes ... ok
+test task_parent::tests::leader_thread_exit_keeps_the_original_live_process_signal_target ... ok
+test task_parent::tests::nonleader_exec_survivor_keeps_original_children_through_future_tid_publication ... ok
+test task_control::tests::stop_acknowledgement_waits_for_running_members_and_original_kernel_work ... ok
+test task_parent::tests::explicit_reparenting_removes_original_link_before_old_parent_exit ... ok
+test task_parent::tests::retired_identity_cannot_notify_children_of_a_reused_numeric_tid ... ok
+test timers::cpu::tests::process_and_thread_alarms_follow_their_original_clocks ... ok
+test timers::cpu::tests::process_sleep_uses_group_execution_and_cancels_its_exact_entry ... ok
+test task_parent::tests::source_retirement_notifies_original_children_and_retargets_to_original_survivor ... ok
+test timers::tests::cpu_intervals_share_execution_across_threads_and_keep_independent_phase ... ok
+test timers::cpu::tests::silent_cpu_timer_keeps_phase_without_installing_accounting_work ... ok
+test timers::tests::expiration_batches_do_not_spin_and_keep_pending_overrun_and_target_identity ... ok
+test timers::tests::notification_free_timers_keep_periodic_phase_without_a_deadline_or_signal ... ok
+test timers::tests::exec_removes_posix_timers_but_keeps_process_real_interval_timer ... ok
+test usage::tests::io_counts_operations_and_only_transferred_bytes ... ok
+test timers::tests::timer_abi_faults_aliases_and_retirement_preserve_original_state ... ok
+test timers::tests::concurrent_rearming_and_expiry_leave_exactly_the_live_deadline_index ... ok
+test task::tests::concurrent_admission_reserves_capacity_before_publication ... ok
+test task_parent::tests::simultaneous_individual_exits_keep_one_actual_last_member ... ok
+test children::tests::subscription_and_exit_race_always_observes_a_result_or_notification ... ok
+
+test result: ok. 106 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.07s
+
+     Running tests/task-signals.rs (/home/main.guest/trames-linux-engine/target/release/build/trames-kernel/5795ab0e2b37bdb5/out/task_signals-5795ab0e2b37bdb5)
+
+running 2 tests
+test fork_and_exec_preserve_task_ownership_without_copying_pending_signals ... ok
+test failed_frame_publication_and_malformed_return_leave_complete_task_state_intact ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests trames_kernel
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests trames_session
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

@@ -1,0 +1,89 @@
+{
+  "cases": [
+    {
+      "exit_code": 0,
+      "id": "native-instructions",
+      "seconds": 0.0016196390060940757,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "native-state",
+      "seconds": 0.007889703003456816,
+      "status": "passed"
+    },
+    {
+      "exit_code": -6,
+      "id": "native-ptrace",
+      "seconds": 1.129815612002858,
+      "status": "failed"
+    },
+    {
+      "exit_code": 133,
+      "id": "instructions-smccc-1",
+      "seconds": 0.007804635999491438,
+      "status": "failed"
+    },
+    {
+      "exit_code": 133,
+      "id": "state-smccc-1",
+      "seconds": 0.007879442986450158,
+      "status": "failed"
+    },
+    {
+      "id": "ptrace-smccc-1",
+      "status": "reference_failed"
+    },
+    {
+      "exit_code": 133,
+      "id": "instructions-smccc-4",
+      "seconds": 0.008050424003158696,
+      "status": "failed"
+    },
+    {
+      "exit_code": 133,
+      "id": "state-smccc-4",
+      "seconds": 0.003638688998762518,
+      "status": "failed"
+    },
+    {
+      "id": "ptrace-smccc-4",
+      "status": "reference_failed"
+    },
+    {
+      "exit_code": 133,
+      "id": "instructions-mmio-1",
+      "seconds": 0.003970965000917204,
+      "status": "failed"
+    },
+    {
+      "exit_code": 133,
+      "id": "state-mmio-1",
+      "seconds": 0.0035470169968903065,
+      "status": "failed"
+    },
+    {
+      "id": "ptrace-mmio-1",
+      "status": "reference_failed"
+    },
+    {
+      "exit_code": 133,
+      "id": "instructions-mmio-4",
+      "seconds": 0.003518173994962126,
+      "status": "failed"
+    },
+    {
+      "exit_code": 133,
+      "id": "state-mmio-4",
+      "seconds": 0.008111934002954513,
+      "status": "failed"
+    },
+    {
+      "id": "ptrace-mmio-4",
+      "status": "reference_failed"
+    }
+  ],
+  "passed": 2,
+  "performance_qualified": false,
+  "planned": 15
+}

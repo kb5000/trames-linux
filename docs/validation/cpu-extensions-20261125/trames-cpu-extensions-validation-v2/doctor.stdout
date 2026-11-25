@@ -1,0 +1,41 @@
+{
+  "host": {
+    "arm_ipa_bits": 40,
+    "backend_implemented": true,
+    "cpu": {
+      "architecture": "aarch64",
+      "features": "fp asimd aes pmull sha1 sha2 crc32 atomics fphp asimdhp asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 afp rpres ebf16 lut",
+      "hwcap": 783546363,
+      "hwcap2": 562954251559297,
+      "kvm_capabilities": {
+        "guest_debug": true,
+        "mte": false,
+        "paca": true,
+        "pacg": true,
+        "sve": false
+      },
+      "registers": {
+        "id_aa64isar0_el1": 153421459058925856,
+        "id_aa64isar1_el1": 4541056039325698,
+        "id_aa64isar2_el1": 72057594037927952,
+        "id_aa64mmfr1_el1": 17592474476576,
+        "id_aa64mmfr2_el1": 1153203052598001681,
+        "id_aa64pfr0_el1": 1225260574444683537
+      }
+    },
+    "host_arch": "aarch64",
+    "host_os": "linux",
+    "host_page_size": 4096,
+    "immediate_exit": true,
+    "issues": [],
+    "kvm_api_version": 12,
+    "max_vcpus": 512,
+    "memory_slots": 32767,
+    "smccc_forwarding": true,
+    "user_memory": true
+  },
+  "runtime": {
+    "commit": "ff906ed3f4caf1d33b3f3f9dd1cf423a6d78d646",
+    "repository": "https://github.com/kb5000/trames-runtime"
+  }
+}

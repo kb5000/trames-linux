@@ -1,0 +1,35 @@
+{
+  "fingerprint": {
+    "binary_sha256": "1dbaf31eecb5e264998708c51524c639949366c2fd3cf699214ba6a3ba6742ba",
+    "command": [
+      "cargo",
+      "build",
+      "--release",
+      "--locked",
+      "-p",
+      "trames-linux-app"
+    ],
+    "flags": {
+      "CARGO_INCREMENTAL": "0"
+    },
+    "sources": {
+      "product": "665c9b59cb06d1701ead88f4d7a3e8899a324d663b78ba91c1a5b7e91ac5ea49",
+      "runtime": "82f3c779a224d0971a054c5c54dbac511f4f769fde0342a2117ff697b7860292"
+    },
+    "toolchain": "rustc 1.101.0-nightly (4ebd25825 2026-10-15)\nbinary: rustc\ncommit-hash: 4ebd258257737d5b7635c116fa7d281627a7e937\ncommit-date: 2026-10-15\nhost: aarch64-unknown-linux-gnu\nrelease: 1.101.0-nightly\nLLVM version: 23.1.4\n"
+  },
+  "fingerprint_sha256": "d039f920b7d94036c94b83c4443e9353f746bc507e1e8474230d275ca0f8abb7",
+  "schema_version": 1,
+  "sources": {
+    "product": {
+      "commit": "2a9aee02bddbb3e3149dfdf588352d4af4698dd7",
+      "dirty": false,
+      "inputs_sha256": "665c9b59cb06d1701ead88f4d7a3e8899a324d663b78ba91c1a5b7e91ac5ea49"
+    },
+    "runtime": {
+      "commit": "ff906ed3f4caf1d33b3f3f9dd1cf423a6d78d646",
+      "dirty": false,
+      "inputs_sha256": "82f3c779a224d0971a054c5c54dbac511f4f769fde0342a2117ff697b7860292"
+    }
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "cases": [
+    {
+      "id": "hvf-state-1",
+      "exit_code": 0,
+      "passed": true,
+      "command": [
+        "/private/tmp/trames-cpu-extensions-final-mac-run",
+        "debug",
+        "run",
+        "--rootfs",
+        "/Users/main/dev/trames/target/local-ci/io/cpu-extensions-apple-final/hvf-state-1/scratch",
+        "--cpus",
+        "1",
+        "--timeout",
+        "30",
+        "--no-windows",
+        "/test/cpu",
+        "state"
+      ]
+    },
+    {
+      "id": "hvf-ptrace-1",
+      "exit_code": 0,
+      "passed": true,
+      "command": [
+        "/private/tmp/trames-cpu-extensions-final-mac-run",
+        "debug",
+        "run",
+        "--rootfs",
+        "/Users/main/dev/trames/target/local-ci/io/cpu-extensions-apple-final/hvf-ptrace-1/scratch",
+        "--cpus",
+        "1",
+        "--timeout",
+        "30",
+        "--no-windows",
+        "/test/cpu",
+        "ptrace"
+      ]
+    },
+    {
+      "id": "hvf-state-4",
+      "exit_code": 0,
+      "passed": true,
+      "command": [
+        "/private/tmp/trames-cpu-extensions-final-mac-run",
+        "debug",
+        "run",
+        "--rootfs",
+        "/Users/main/dev/trames/target/local-ci/io/cpu-extensions-apple-final/hvf-state-4/scratch",
+        "--cpus",
+        "4",
+        "--timeout",
+        "30",
+        "--no-windows",
+        "/test/cpu",
+        "state"
+      ]
+    },
+    {
+      "id": "hvf-ptrace-4",
+      "exit_code": 0,
+      "passed": true,
+      "command": [
+        "/private/tmp/trames-cpu-extensions-final-mac-run",
+        "debug",
+        "run",
+        "--rootfs",
+        "/Users/main/dev/trames/target/local-ci/io/cpu-extensions-apple-final/hvf-ptrace-4/scratch",
+        "--cpus",
+        "4",
+        "--timeout",
+        "30",
+        "--no-windows",
+        "/test/cpu",
+        "ptrace"
+      ]
+    }
+  ],
+  "runtime": "474ee466391e2683c1a0f48e6fb21307cc45adae",
+  "binary_sha256": "9e529d735edd1561435bb2365b71db2f525b0704efc2995ee50fbafc25ebe57b",
+  "manifest": {
+    "repository": "https://github.com/kb5000/trames-runtime.git",
+    "revision": "474ee466391e2683c1a0f48e6fb21307cc45adae",
+    "extracted_content_sha256": "e99e6ada9e4e80cd18289288ed1b007fec9cfb653676b7cc15b427a9352fa25e"
+  },
+  "fixture_binary_sha256": "31924d3532c1871cd9d85cda6e14b4aa0d437fac4b3503dbd97bb83ea8cda8e0"
+}
