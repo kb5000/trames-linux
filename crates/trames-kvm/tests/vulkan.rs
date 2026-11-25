@@ -48,7 +48,7 @@ fn wait(b: &mut Backend, m: &mut Memory, dev: u64, fence: u64) {
 #[test]
 #[ignore = "requires ARM64 KVM, 4KiB pages and Vulkan external_memory_host"]
 fn vulkan_host_buffer_and_kvm_share_original_bytes_without_shadow_transfers() {
-    let mut b = Backend::new();
+    let mut b = Backend::new().with_native_pointer_imports(false);
     let mut m = Memory::default();
     m.map(PACKET, 0x4000, Permissions::RW).unwrap();
     m.map(DATA, 4 << 20, Permissions::RW).unwrap();

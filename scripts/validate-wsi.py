@@ -21,7 +21,7 @@ import time
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT/'runtime/tests/acceptance'))
 from common import digest, save, tree_digest
-from run import receipt
+from run import receipt, execute
 
 
 def compile_fixture(output, name, args):
@@ -78,7 +78,11 @@ def render(case, argv, env, probe, title, user_close=False):
                 if time.monotonic()>=deadline:raise RuntimeError('native server pixels differ')
                 time.sleep(0.02)
             if pixels.stdout!=b'pixels: 320x240 green\n':raise RuntimeError('unexpected native pixel geometry')
-            if user_close:subprocess.run([probe,title,'close'],env=env,check=True,timeout=5)
+            if user_close:
+                subprocess.run([probe,title,'close'],env=env,check=True,timeout=5)
+                # Keep the guest's original input pipe open until the host close
+                # event cancels the session. communicate() would send EOF first.
+                process.wait(timeout=15)
             else:process.stdin.write(b'q');process.stdin.flush()
             rest,_=process.communicate(timeout=15);stdout.write(rest);stdout.flush();code=process.returncode
             if code:raise RuntimeError('renderer exit '+str(code))
@@ -144,19 +148,20 @@ def main():
             rows.append(targets)
             native=render(out/'native-case',[out/'native'],env,out/'probe','Trames WSI native');rows.append(dict(id='native-render',**native))
             headless_env=env|{'DISPLAY':'invalid-no-display','WAYLAND_DISPLAY':'invalid-no-display'}
-            headless=subprocess.run([out/'native','headless'],env=headless_env,capture_output=True,timeout=30)
-            (out/'native-headless.stdout').write_bytes(headless.stdout);(out/'native-headless.stderr').write_bytes(headless.stderr)
-            headless_passed=headless.returncode==0 and headless.stdout==b'headless: ok\n'
-            rows.append(dict(id='native-headless',status='passed' if headless_passed else 'failed',exit_code=headless.returncode))
+            native_headless=out/'native-headless';native_headless.mkdir()
+            headless=execute([out/'native','headless'],headless_env,native_headless,30)
+            headless_stdout=(native_headless/'stdout').read_bytes()
+            headless_passed=headless['status']=='completed' and headless['exit_code']==0 and headless_stdout==b'headless: ok\n'
+            rows.append(dict(id='native-headless',**headless)|dict(status='passed' if headless_passed else headless['status'] if headless['status']!='completed' else 'failed'))
             for transport in ([] if a.native_only else ['smccc','mmio']):
                 for cpus in [1,4]:
                     headless_case=out/f'headless-{transport}-{cpus}';headless_case.mkdir()
                     if headless_passed:
                         scratch=out/(headless_case.name+'-rootfs');shutil.copytree(root,scratch)
                         try:
-                            result=subprocess.run([runner,'run','--cpus',str(cpus),'--rootfs',scratch,'--vulkan-icd',icd,'--timeout-ms','30000','--setenv','VK_DRIVER_FILES=/usr/share/vulkan/icd.d/trames.json','--','/test/wsi','headless'],env=headless_env|{'TRAMES_KVM_TRANSPORT':transport},capture_output=True,timeout=35)
-                            (headless_case/'stdout').write_bytes(result.stdout);(headless_case/'stderr').write_bytes(result.stderr)
-                            rows.append(dict(id=headless_case.name,status='passed' if result.returncode==0 and result.stdout==headless.stdout else 'failed',exit_code=result.returncode))
+                            result=execute([runner,'run','--cpus',str(cpus),'--rootfs',scratch,'--vulkan-icd',icd,'--timeout-ms','30000','--setenv','VK_DRIVER_FILES=/usr/share/vulkan/icd.d/trames.json','--','/test/wsi','headless'],headless_env|{'TRAMES_KVM_TRANSPORT':transport},headless_case,35)
+                            passed=result['status']=='completed' and result['exit_code']==0 and (headless_case/'stdout').read_bytes()==headless_stdout
+                            rows.append(dict(id=headless_case.name,**result)|dict(status='passed' if passed else result['status'] if result['status']!='completed' else 'failed'))
                         finally:shutil.rmtree(scratch)
                     else:rows.append(dict(id=headless_case.name,status='reference_failed'))
                     for close in ([False,True] if cpus==4 else [False]):

@@ -204,6 +204,7 @@ impl Cpu {
     }
 }
 impl trames_engine::Cpu for Cpu {
+    const NATIVE_POINTER_IMPORTS: bool = false;
     type Engine = Engine;
     const FEATURES: Features = Features {
         hwcap: 3,
