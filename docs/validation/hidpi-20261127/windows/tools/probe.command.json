@@ -1,0 +1,12 @@
+[
+  "cc",
+  "-O2",
+  "-Wall",
+  "-Wextra",
+  "-Werror",
+  "/mnt/trames-output/linux-keyboard-source/tests/fixtures/window-probe.c",
+  "-lxcb",
+  "-lxcb-xtest",
+  "-o",
+  "/mnt/trames-output/linux-hidpi/windows/tools/probe"
+]

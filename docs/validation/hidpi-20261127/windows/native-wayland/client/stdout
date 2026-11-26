@@ -1,0 +1,72 @@
+
+running 1 test
+configured parent 240 160 max=0 full=0 resizing=0 active=0
+configured parent 240 160 max=0 full=0 resizing=0 active=0
+focus parent
+configured parent 240 160 max=0 full=0 resizing=0 active=1
+configured parent 240 160 max=0 full=0 resizing=0 active=1
+blur parent
+configured parent 240 160 max=0 full=0 resizing=0 active=0
+focus parent
+configured parent 240 160 max=0 full=0 resizing=0 active=1
+command m
+configured parent 800 568 max=1 full=0 resizing=0 active=1
+command n
+pointer-enter parent
+configured parent 240 160 max=0 full=0 resizing=0 active=1
+command f
+configured parent 800 600 max=0 full=1 resizing=0 active=1
+command u
+configured parent 240 160 max=0 full=0 resizing=0 active=1
+command m
+configured parent 800 568 max=1 full=0 resizing=0 active=1
+command f
+configured parent 800 600 max=1 full=1 resizing=0 active=1
+command u
+configured parent 800 600 max=1 full=1 resizing=0 active=1
+configured parent 800 568 max=1 full=0 resizing=0 active=1
+command n
+configured parent 800 568 max=1 full=0 resizing=0 active=1
+configured parent 240 160 max=0 full=0 resizing=0 active=1
+command v
+pointer-enter parent
+pointer-button 1 gesture=118 pointed=1
+gesture v 33
+pointer-button 0 gesture=0 pointed=1
+command r
+pointer-button 1 gesture=114 pointed=1
+gesture r 37
+pointer-button 0 gesture=0 pointed=1
+configured parent 240 160 max=0 full=0 resizing=1 active=1
+configured parent 250 170 max=0 full=0 resizing=1 active=1
+configured parent 270 190 max=0 full=0 resizing=1 active=1
+command i
+blur parent
+configured parent 270 190 max=0 full=0 resizing=1 active=0
+configured parent 270 190 max=0 full=0 resizing=0 active=0
+focus parent
+configured parent 270 190 max=0 full=0 resizing=0 active=1
+command c
+configured child 240 160 max=0 full=0 resizing=0 active=0
+configured child 240 160 max=0 full=0 resizing=0 active=0
+blur parent
+configured parent 270 190 max=0 full=0 resizing=0 active=0
+focus child
+configured child 240 160 max=0 full=0 resizing=0 active=1
+configured parent 270 190 max=0 full=0 resizing=0 active=0
+configured child 240 160 max=0 full=0 resizing=0 active=1
+command d
+command x
+blur destroyed
+focus parent
+configured parent 270 190 max=0 full=0 resizing=0 active=1
+blur parent
+configured parent 270 190 max=0 full=0 resizing=0 active=0
+configured parent 270 190 max=0 full=0 resizing=0 active=0
+command s
+command q
+window-done
+test desktop::tests::native_wayland_desktop ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 11 filtered out; finished in 1.42s
+

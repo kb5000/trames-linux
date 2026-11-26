@@ -1,0 +1,8 @@
+[
+  "/mnt/trames-output/linux-window/wm-native/usr/bin/openbox",
+  "--debug",
+  "--config-file",
+  "/mnt/trames-output/linux-hidpi/windows/kvm-smccc-4-host-x11-xwayland/openbox.xml",
+  "--startup",
+  "/usr/bin/touch /mnt/trames-output/linux-hidpi/windows/kvm-smccc-4-host-x11-xwayland/wm-ready"
+]

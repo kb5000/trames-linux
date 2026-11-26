@@ -1,0 +1,411 @@
+00:00:00.000 [INFO] [sway/main.c:338] Sway version 1.9
+00:00:00.000 [INFO] [sway/main.c:339] wlroots version 0.17.1
+00:00:00.001 [INFO] [sway/main.c:120] Linux lima-linux 7.0.0-44-generic #44~24.04.1-Ubuntu SMP PREEMPT_DYNAMIC Tue Nov 10 21:06:24 UTC 2 aarch64 aarch64 aarch64 GNU/Linux
+00:00:00.002 [INFO] [sway/main.c:136] Contents of /etc/lsb-release:
+00:00:00.002 [INFO] [sway/main.c:120] DISTRIB_ID=Ubuntu
+00:00:00.003 [INFO] [sway/main.c:120] DISTRIB_RELEASE=24.04
+00:00:00.003 [INFO] [sway/main.c:120] DISTRIB_CODENAME=noble
+00:00:00.004 [INFO] [sway/main.c:120] DISTRIB_DESCRIPTION="Ubuntu 24.04.5 LTS"
+00:00:00.004 [INFO] [sway/main.c:136] Contents of /etc/os-release:
+00:00:00.005 [INFO] [sway/main.c:120] PRETTY_NAME="Ubuntu 24.04.5 LTS"
+00:00:00.005 [INFO] [sway/main.c:120] NAME="Ubuntu"
+00:00:00.006 [INFO] [sway/main.c:120] VERSION_ID="24.04"
+00:00:00.006 [INFO] [sway/main.c:120] VERSION="24.04.5 LTS (Noble Numbat)"
+00:00:00.007 [INFO] [sway/main.c:120] VERSION_CODENAME=noble
+00:00:00.007 [INFO] [sway/main.c:120] ID=ubuntu
+00:00:00.008 [INFO] [sway/main.c:120] ID_LIKE=debian
+00:00:00.008 [INFO] [sway/main.c:120] HOME_URL="https://www.ubuntu.com/"
+00:00:00.008 [INFO] [sway/main.c:120] SUPPORT_URL="https://help.ubuntu.com/"
+00:00:00.009 [INFO] [sway/main.c:120] BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+00:00:00.009 [INFO] [sway/main.c:120] PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+00:00:00.010 [INFO] [sway/main.c:120] UBUNTU_CODENAME=noble
+00:00:00.010 [INFO] [sway/main.c:120] LOGO=ubuntu-logo
+00:00:00.011 [INFO] [sway/main.c:136] Contents of /etc/debian_version:
+00:00:00.011 [INFO] [sway/main.c:120] trixie/sid
+00:00:00.012 [INFO] [sway/main.c:108] LD_LIBRARY_PATH=/mnt/trames-output/linux-hidpi/native/usr/lib/aarch64-linux-gnu:/mnt/trames-output/linux-window/wm-native/usr/lib/aarch64-linux-gnu:/mnt/trames-output/linux-keyboard/libs/usr/lib/aarch64-linux-gnu
+00:00:00.012 [INFO] [sway/main.c:108] LD_PRELOAD=
+00:00:00.012 [INFO] [sway/main.c:108] PATH=/mnt/trames-output/linux-hidpi/native/usr/bin:/mnt/trames-output/linux-keyboard/native-tools/usr/bin:/home/main.guest/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+00:00:00.013 [INFO] [sway/main.c:108] SWAYSOCK=
+00:00:00.013 [INFO] [sway/main.c:376] Starting sway version 1.9
+00:00:00.014 [DEBUG] [sway/server.c:129] Initializing Wayland server
+00:00:00.015 [INFO] [wlr] [backend/backend.c:309] Loading user-specified backends due to WLR_BACKENDS: headless
+00:00:00.015 [INFO] [wlr] [backend/headless/backend.c:67] Creating headless backend
+00:00:00.016 [INFO] [wlr] [util/env.c:25] Loading WLR_RENDERER option: pixman
+00:00:00.016 [INFO] [wlr] [render/pixman/renderer.c:537] Creating pixman renderer
+00:00:00.017 [DEBUG] [wlr] [render/allocator/allocator.c:124] Trying to create shm allocator
+00:00:00.017 [DEBUG] [wlr] [render/allocator/shm.c:118] Created shm allocator
+00:00:00.018 [DEBUG] [wlr] [types/wlr_drm_lease_v1.c:710] No DRM backend supplied, failed to create wlr_drm_lease_v1_manager
+00:00:00.018 [DEBUG] [sway/server.c:264] Failed to create wlr_drm_lease_device_v1
+00:00:00.019 [INFO] [sway/server.c:265] VR will not be available
+00:00:00.020 [INFO] [wlr] [backend/headless/backend.c:67] Creating headless backend
+00:00:00.021 [INFO] [sway/config.c:416] Loading config from /mnt/trames-output/linux-hidpi/matrix/native-wayland-vulkan/sway.conf
+00:00:00.022 [DEBUG] [sway/config.c:838] Read line 1: xwayland disable
+00:00:00.023 [INFO] [sway/commands.c:381] Config command: xwayland disable
+00:00:00.023 [INFO] [sway/commands.c:404] After replacement: xwayland disable
+00:00:00.023 [DEBUG] [sway/config.c:838] Read line 2: output HEADLESS-1 mode 1280x960 scale 1 pos 0 0
+00:00:00.024 [INFO] [sway/commands.c:381] Config command: output HEADLESS-1 mode 1280x960 scale 1 pos 0 0
+00:00:00.024 [INFO] [sway/commands.c:404] After replacement: output HEADLESS-1 mode 1280x960 scale 1 pos 0 0
+00:00:00.025 [DEBUG] [sway/commands.c:436] Subcommand: mode 1280x960 scale 1 pos 0 0
+00:00:00.025 [DEBUG] [sway/commands.c:436] Subcommand: scale 1 pos 0 0
+00:00:00.026 [DEBUG] [sway/commands.c:436] Subcommand: pos 0 0
+00:00:00.026 [DEBUG] [sway/config/output.c:218] Adding non-wildcard output config
+00:00:00.027 [DEBUG] [sway/config/output.c:235] Config stored for output HEADLESS-1 (enabled: -1) (1280x960@-1.000000Hz position 0,0 scale 1.000000 subpixel unknown transform -1) (bg (null) (null)) (power -1) (max render time: -1)
+00:00:00.027 [DEBUG] [sway/config.c:838] Read line 3: output HEADLESS-2 mode 1600x1200 scale 1.25 pos 1280 0
+00:00:00.028 [INFO] [sway/commands.c:381] Config command: output HEADLESS-2 mode 1600x1200 scale 1.25 pos 1280 0
+00:00:00.028 [INFO] [sway/commands.c:404] After replacement: output HEADLESS-2 mode 1600x1200 scale 1.25 pos 1280 0
+00:00:00.029 [DEBUG] [sway/commands.c:436] Subcommand: mode 1600x1200 scale 1.25 pos 1280 0
+00:00:00.029 [DEBUG] [sway/commands.c:436] Subcommand: scale 1.25 pos 1280 0
+00:00:00.030 [DEBUG] [sway/commands.c:436] Subcommand: pos 1280 0
+00:00:00.030 [DEBUG] [sway/config/output.c:218] Adding non-wildcard output config
+00:00:00.031 [DEBUG] [sway/config/output.c:235] Config stored for output HEADLESS-2 (enabled: -1) (1600x1200@-1.000000Hz position 1280,0 scale 1.250000 subpixel unknown transform -1) (bg (null) (null)) (power -1) (max render time: -1)
+00:00:00.031 [DEBUG] [sway/config.c:838] Read line 4: seat seat0 fallback true
+00:00:00.032 [INFO] [sway/commands.c:381] Config command: seat seat0 fallback true
+00:00:00.032 [INFO] [sway/commands.c:404] After replacement: seat seat0 fallback true
+00:00:00.032 [DEBUG] [sway/commands.c:436] Subcommand: fallback true
+00:00:00.033 [DEBUG] [sway/config/seat.c:66] Adding non-wildcard seat config
+00:00:00.033 [DEBUG] [sway/config/seat.c:83] Config stored for seat seat0
+00:00:00.034 [DEBUG] [sway/config.c:838] Read line 5: default_border none
+00:00:00.034 [INFO] [sway/commands.c:381] Config command: default_border none
+00:00:00.035 [INFO] [sway/commands.c:404] After replacement: default_border none
+00:00:00.035 [DEBUG] [sway/config.c:838] Read line 6: default_floating_border none
+00:00:00.035 [INFO] [sway/commands.c:381] Config command: default_floating_border none
+00:00:00.036 [INFO] [sway/commands.c:404] After replacement: default_floating_border none
+00:00:00.036 [DEBUG] [sway/config.c:838] Read line 7: for_window [title="Trames HiDPI"] floating enable, move to output HEADLESS-1
+00:00:00.037 [INFO] [sway/commands.c:381] Config command: for_window [title="Trames HiDPI"] floating enable, move to output HEADLESS-1
+00:00:00.037 [INFO] [sway/commands.c:404] After replacement: for_window [title="Trames HiDPI"] floating enable, move to output HEADLESS-1
+00:00:00.038 [DEBUG] [sway/criteria.c:726] Found pair: title=Trames HiDPI
+00:00:00.038 [DEBUG] [sway/commands/for_window.c:34] for_window: '[title="Trames HiDPI"]' -> 'floating enable, move to output HEADLESS-1' added
+00:00:00.038 [DEBUG] [sway/config.c:838] Read line 8: focus_follows_mouse no
+00:00:00.039 [INFO] [sway/commands.c:381] Config command: focus_follows_mouse no
+00:00:00.039 [INFO] [sway/commands.c:404] After replacement: focus_follows_mouse no
+00:00:00.042 [INFO] [sway/realtime.c:35] Failed to set scheduling priority to 1
+00:00:00.043 [INFO] [sway/server.c:384] Starting backend on wayland display 'wayland-1'
+00:00:00.043 [INFO] [wlr] [backend/headless/backend.c:17] Starting headless backend
+00:00:00.044 [DEBUG] [sway/desktop/output.c:1019] New output 0xb1b601c028f0: HEADLESS-1 (non-desktop: 0)
+00:00:00.044 [DEBUG] [sway/config/output.c:401] Turning on output HEADLESS-1
+00:00:00.045 [DEBUG] [sway/config/output.c:409] Set HEADLESS-1 mode to 1280x960 (-1.000000 Hz)
+00:00:00.045 [DEBUG] [sway/config/output.c:256] Assigning custom mode to HEADLESS-1
+00:00:00.045 [DEBUG] [sway/config/output.c:520] Committing output HEADLESS-1
+00:00:00.046 [DEBUG] [wlr] [types/output/render.c:168] Attaching empty buffer to output for modeset
+00:00:00.046 [DEBUG] [wlr] [types/output/swapchain.c:27] Choosing primary buffer format XR24 (0x34325258) for output 'HEADLESS-1'
+00:00:00.047 [DEBUG] [wlr] [types/output/swapchain.c:96] Testing swapchain for output 'HEADLESS-1'
+00:00:00.047 [DEBUG] [wlr] [render/swapchain.c:106] Allocating new swapchain buffer
+00:00:00.048 [DEBUG] [wlr] [render/pixman/renderer.c:152] Created pixman buffer 1280x960
+00:00:00.049 [DEBUG] [sway/config/output.c:566] Set HEADLESS-1 position to 0, 0
+00:00:00.049 [DEBUG] [wlr] [types/output/cursor.c:458] Falling back to software cursor on output 'HEADLESS-1'
+00:00:00.050 [DEBUG] [sway/tree/workspace.c:277] Workspace: Generating new workspace name for output HEADLESS-1
+00:00:00.050 [DEBUG] [sway/tree/output.c:127] Creating default workspace 1
+00:00:00.051 [DEBUG] [sway/tree/workspace.c:65] Adding workspace 1 for output HEADLESS-1
+00:00:00.053 [DEBUG] [wlr] [xcursor/wlr_xcursor.c:225] Loaded cursor theme 'default' at size 24 (59 available cursors)
+00:00:00.054 [DEBUG] [sway/desktop/layer_shell.c:229] Usable area changed, rearranging output
+00:00:00.054 [DEBUG] [sway/tree/arrange.c:263] Usable area for ws: 1280x960@0,0
+00:00:00.054 [DEBUG] [sway/tree/arrange.c:297] Arranging workspace '1' at 0.000000, 0.000000
+00:00:00.055 [DEBUG] [sway/tree/arrange.c:263] Usable area for ws: 1280x960@0,0
+00:00:00.055 [DEBUG] [sway/tree/arrange.c:297] Arranging workspace '1' at 0.000000, 0.000000
+00:00:00.056 [DEBUG] [sway/desktop/transaction.c:398] Transaction 0xb1b601c350c0 committing with 2 instructions
+00:00:00.056 [DEBUG] [sway/desktop/transaction.c:294] Applying transaction 0xb1b601c350c0
+00:00:00.056 [DEBUG] [sway/desktop/output.c:1019] New output 0xb1b601c02270: HEADLESS-2 (non-desktop: 0)
+00:00:00.057 [DEBUG] [sway/config/output.c:401] Turning on output HEADLESS-2
+00:00:00.057 [DEBUG] [sway/config/output.c:409] Set HEADLESS-2 mode to 1600x1200 (-1.000000 Hz)
+00:00:00.058 [DEBUG] [sway/config/output.c:256] Assigning custom mode to HEADLESS-2
+00:00:00.058 [DEBUG] [sway/config/output.c:476] Set HEADLESS-2 scale to 1.250000
+00:00:00.059 [DEBUG] [sway/config/output.c:520] Committing output HEADLESS-2
+00:00:00.059 [DEBUG] [wlr] [types/output/render.c:168] Attaching empty buffer to output for modeset
+00:00:00.059 [DEBUG] [wlr] [types/output/swapchain.c:27] Choosing primary buffer format XR24 (0x34325258) for output 'HEADLESS-2'
+00:00:00.060 [DEBUG] [wlr] [types/output/swapchain.c:96] Testing swapchain for output 'HEADLESS-2'
+00:00:00.060 [DEBUG] [wlr] [render/swapchain.c:106] Allocating new swapchain buffer
+00:00:00.061 [DEBUG] [wlr] [render/pixman/renderer.c:152] Created pixman buffer 1600x1200
+00:00:00.063 [DEBUG] [sway/config/output.c:559] Set HEADLESS-2 scale_filter to linear
+00:00:00.063 [DEBUG] [sway/config/output.c:566] Set HEADLESS-2 position to 1280, 0
+00:00:00.063 [DEBUG] [sway/tree/arrange.c:263] Usable area for ws: 1280x960@0,0
+00:00:00.064 [DEBUG] [sway/tree/arrange.c:297] Arranging workspace '1' at 0.000000, 0.000000
+00:00:00.064 [DEBUG] [sway/desktop/transaction.c:398] Transaction 0xb1b601c7c600 committing with 1 instructions
+00:00:00.065 [DEBUG] [sway/desktop/transaction.c:294] Applying transaction 0xb1b601c7c600
+00:00:00.065 [DEBUG] [wlr] [types/output/cursor.c:458] Falling back to software cursor on output 'HEADLESS-2'
+00:00:00.066 [DEBUG] [sway/tree/workspace.c:277] Workspace: Generating new workspace name for output HEADLESS-2
+00:00:00.066 [DEBUG] [sway/tree/output.c:127] Creating default workspace 2
+00:00:00.066 [DEBUG] [sway/tree/workspace.c:65] Adding workspace 2 for output HEADLESS-2
+00:00:00.067 [DEBUG] [sway/desktop/layer_shell.c:229] Usable area changed, rearranging output
+00:00:00.067 [DEBUG] [sway/tree/arrange.c:263] Usable area for ws: 1280x960@0,0
+00:00:00.068 [DEBUG] [sway/tree/arrange.c:297] Arranging workspace '2' at 1280.000000, 0.000000
+00:00:00.068 [DEBUG] [sway/tree/arrange.c:263] Usable area for ws: 1280x960@0,0
+00:00:00.069 [DEBUG] [sway/tree/arrange.c:297] Arranging workspace '1' at 0.000000, 0.000000
+00:00:00.069 [DEBUG] [sway/tree/arrange.c:263] Usable area for ws: 1280x960@0,0
+00:00:00.069 [DEBUG] [sway/tree/arrange.c:297] Arranging workspace '2' at 1280.000000, 0.000000
+00:00:00.070 [DEBUG] [sway/desktop/transaction.c:398] Transaction 0xb1b601c70ce0 committing with 3 instructions
+00:00:00.070 [DEBUG] [sway/desktop/transaction.c:294] Applying transaction 0xb1b601c70ce0
+00:00:00.071 [INFO] [wlr] [backend/headless/backend.c:17] Starting headless backend
+00:00:00.071 [INFO] [sway/server.c:396] Running compositor on wayland display 'wayland-1'
+00:00:00.072 [DEBUG] [sway/input/input-manager.c:443] adding virtual pointer: '0:0:wlr_virtual_pointer_v1'
+00:00:00.072 [DEBUG] [sway/input/seat.c:974] adding device 0:0:wlr_virtual_pointer_v1 to seat seat0
+00:00:00.073 [DEBUG] [sway/input/seat.c:722] Applying input mapping to 0:0:wlr_virtual_pointer_v1
+00:00:00.076 [DEBUG] [wlr] [xcursor/wlr_xcursor.c:225] Loaded cursor theme 'default' at size 30 (59 available cursors)
+00:00:00.077 [DEBUG] [wlr] [types/output/cursor.c:458] Falling back to software cursor on output 'HEADLESS-2'
+00:00:00.077 [DEBUG] [wlr] [types/output/cursor.c:458] Falling back to software cursor on output 'HEADLESS-1'
+00:00:00.095 [DEBUG] [wlr] [types/wlr_compositor.c:692] New wlr_surface 0xb1b601dcdda0 (res 0xb1b601c4a9e0)
+00:00:00.095 [DEBUG] [wlr] [types/xdg_shell/wlr_xdg_surface.c:388] new xdg_surface 0xb1b601dce150 (res 0xb1b601c4ab00)
+00:00:00.096 [DEBUG] [sway/desktop/xdg_shell.c:530] New xdg_shell toplevel title='Trames HiDPI' app_id='org.project-trames.Trames'
+00:00:00.097 [DEBUG] [wlr] [types/output/render.c:187] Disabling direct scan-out on output 'HEADLESS-1' (locks: 1)
+00:00:00.105 [DEBUG] [wlr] [types/output/render.c:187] Enabling direct scan-out on output 'HEADLESS-1' (locks: 0)
+00:00:00.116 [DEBUG] [sway/tree/view.c:421] View 0xb1b601c971e0 updated CSD to 1
+00:00:00.118 [DEBUG] [sway/tree/arrange.c:263] Usable area for ws: 1280x960@0,0
+00:00:00.118 [DEBUG] [sway/tree/arrange.c:297] Arranging workspace '1' at 0.000000, 0.000000
+00:00:00.119 [DEBUG] [sway/tree/arrange.c:77] Arranging 0xfffff608da58 horizontally
+00:00:00.119 [DEBUG] [sway/tree/view.c:513] Checking criteria [title="Trames HiDPI"]
+00:00:00.120 [DEBUG] [sway/tree/view.c:518] for_window '[title="Trames HiDPI"]' matches view 0xb1b601c971e0, cmd: 'floating enable, move to output HEADLESS-1'
+00:00:00.120 [INFO] [sway/commands.c:261] Handling command 'floating enable'
+00:00:00.121 [DEBUG] [sway/tree/arrange.c:263] Usable area for ws: 1280x960@0,0
+00:00:00.121 [DEBUG] [sway/tree/arrange.c:297] Arranging workspace '1' at 0.000000, 0.000000
+00:00:00.121 [INFO] [sway/commands.c:261] Handling command 'move to output HEADLESS-1'
+00:00:00.122 [DEBUG] [sway/tree/arrange.c:263] Usable area for ws: 1280x960@0,0
+00:00:00.122 [DEBUG] [sway/tree/arrange.c:297] Arranging workspace '1' at 0.000000, 0.000000
+00:00:00.123 [DEBUG] [sway/tree/arrange.c:263] Usable area for ws: 1280x960@0,0
+00:00:00.123 [DEBUG] [sway/tree/arrange.c:297] Arranging workspace '1' at 0.000000, 0.000000
+00:00:00.124 [DEBUG] [sway/desktop/transaction.c:398] Transaction 0xb1b601c56e80 committing with 3 instructions
+00:00:00.125 [DEBUG] [sway/desktop/transaction.c:494] Transaction 0xb1b601c56e80 is ready
+00:00:00.125 [DEBUG] [sway/desktop/transaction.c:294] Applying transaction 0xb1b601c56e80
+00:00:00.126 [DEBUG] [sway/tree/container.c:1320] Container 0xb1b601c9be00 entered output 0xb1b601c70810
+00:00:00.127 [DEBUG] [sway/desktop/transaction.c:398] Transaction 0xb1b601dcd5c0 committing with 1 instructions
+00:00:00.127 [DEBUG] [sway/desktop/transaction.c:294] Applying transaction 0xb1b601dcd5c0
+00:00:00.236 [DEBUG] [wlr] [types/output/render.c:187] Disabling direct scan-out on output 'HEADLESS-1' (locks: 1)
+00:00:00.238 [DEBUG] [wlr] [types/output/render.c:187] Enabling direct scan-out on output 'HEADLESS-1' (locks: 0)
+00:00:00.295 [DEBUG] [sway/ipc-server.c:197] New client: fd 22
+00:00:00.296 [DEBUG] [sway/criteria.c:726] Found pair: title=Trames HiDPI
+00:00:00.296 [INFO] [sway/commands.c:261] Handling command 'move container to output HEADLESS-2'
+00:00:00.297 [DEBUG] [sway/tree/container.c:726] Transformed container 0xb1b601c9be00 to coords (1800.000000, 400.000000)
+00:00:00.297 [DEBUG] [sway/tree/arrange.c:263] Usable area for ws: 1280x960@0,0
+00:00:00.297 [DEBUG] [sway/tree/arrange.c:297] Arranging workspace '1' at 0.000000, 0.000000
+00:00:00.298 [DEBUG] [sway/tree/arrange.c:263] Usable area for ws: 1280x960@0,0
+00:00:00.298 [DEBUG] [sway/tree/arrange.c:297] Arranging workspace '2' at 1280.000000, 0.000000
+00:00:00.299 [DEBUG] [sway/desktop/transaction.c:398] Transaction 0xb1b601c3fc80 committing with 4 instructions
+00:00:00.299 [DEBUG] [sway/desktop/transaction.c:294] Applying transaction 0xb1b601c3fc80
+00:00:00.300 [DEBUG] [sway/tree/container.c:1332] Container 0xb1b601c9be00 left output 0xb1b601c70810
+00:00:00.300 [DEBUG] [sway/tree/container.c:1320] Container 0xb1b601c9be00 entered output 0xb1b601c7c030
+00:00:00.302 [INFO] [sway/ipc-server.c:571] IPC Client 22 disconnected
+00:00:00.306 [DEBUG] [wlr] [types/output/render.c:187] Disabling direct scan-out on output 'HEADLESS-2' (locks: 1)
+00:00:00.319 [DEBUG] [wlr] [types/output/render.c:187] Enabling direct scan-out on output 'HEADLESS-2' (locks: 0)
+00:00:00.539 [DEBUG] [wlr] [types/output/render.c:187] Disabling direct scan-out on output 'HEADLESS-2' (locks: 1)
+00:00:00.541 [DEBUG] [wlr] [types/output/render.c:187] Enabling direct scan-out on output 'HEADLESS-2' (locks: 0)
+00:00:00.630 [DEBUG] [sway/ipc-server.c:197] New client: fd 20
+00:00:00.630 [INFO] [sway/commands.c:261] Handling command 'seat seat0 cursor set 1920 480'
+00:00:00.631 [DEBUG] [sway/commands.c:436] Subcommand: cursor set 1920 480
+00:00:00.631 [INFO] [sway/ipc-server.c:571] IPC Client 20 disconnected
+00:00:00.633 [DEBUG] [sway/ipc-server.c:197] New client: fd 20
+00:00:00.633 [INFO] [sway/commands.c:261] Handling command 'output HEADLESS-2 scale 1.5'
+00:00:00.634 [DEBUG] [sway/commands.c:436] Subcommand: scale 1.5
+00:00:00.634 [DEBUG] [sway/config/output.c:212] Merging on top of existing output config
+00:00:00.635 [DEBUG] [sway/config/output.c:235] Config stored for output HEADLESS-2 (enabled: -1) (1600x1200@-1.000000Hz position 1280,0 scale 1.500000 subpixel unknown transform -1) (bg (null) (null)) (power -1) (max render time: -1)
+00:00:00.635 [DEBUG] [sway/config/output.c:401] Turning on output HEADLESS-2
+00:00:00.636 [DEBUG] [sway/config/output.c:409] Set HEADLESS-2 mode to 1600x1200 (-1.000000 Hz)
+00:00:00.636 [DEBUG] [sway/config/output.c:256] Assigning custom mode to HEADLESS-2
+00:00:00.636 [DEBUG] [sway/config/output.c:476] Set HEADLESS-2 scale to 1.500000
+00:00:00.637 [DEBUG] [sway/config/output.c:520] Committing output HEADLESS-2
+00:00:00.638 [DEBUG] [sway/desktop/layer_shell.c:229] Usable area changed, rearranging output
+00:00:00.638 [DEBUG] [sway/tree/arrange.c:263] Usable area for ws: 1066x800@0,0
+00:00:00.639 [DEBUG] [sway/tree/arrange.c:297] Arranging workspace '2' at 1280.000000, 0.000000
+00:00:00.639 [DEBUG] [sway/tree/arrange.c:263] Usable area for ws: 1066x800@0,0
+00:00:00.640 [DEBUG] [sway/tree/arrange.c:297] Arranging workspace '2' at 1280.000000, 0.000000
+00:00:00.640 [DEBUG] [sway/desktop/transaction.c:398] Transaction 0xb1b601d371b0 committing with 2 instructions
+00:00:00.641 [DEBUG] [sway/desktop/transaction.c:294] Applying transaction 0xb1b601d371b0
+00:00:00.641 [DEBUG] [sway/tree/arrange.c:263] Usable area for ws: 1280x960@0,0
+00:00:00.641 [DEBUG] [sway/tree/arrange.c:297] Arranging workspace '1' at 0.000000, 0.000000
+00:00:00.642 [DEBUG] [sway/tree/arrange.c:263] Usable area for ws: 1066x800@0,0
+00:00:00.642 [DEBUG] [sway/tree/arrange.c:297] Arranging workspace '2' at 1280.000000, 0.000000
+00:00:00.643 [DEBUG] [sway/desktop/transaction.c:398] Transaction 0xb1b601d371b0 committing with 3 instructions
+00:00:00.643 [DEBUG] [sway/desktop/transaction.c:294] Applying transaction 0xb1b601d371b0
+00:00:00.647 [DEBUG] [wlr] [xcursor/wlr_xcursor.c:225] Loaded cursor theme 'default' at size 36 (59 available cursors)
+00:00:00.647 [DEBUG] [wlr] [types/output/cursor.c:458] Falling back to software cursor on output 'HEADLESS-2'
+00:00:00.648 [DEBUG] [sway/config/output.c:566] Set HEADLESS-2 position to 1280, 0
+00:00:00.648 [DEBUG] [sway/tree/arrange.c:263] Usable area for ws: 1280x960@0,0
+00:00:00.649 [DEBUG] [sway/tree/arrange.c:297] Arranging workspace '1' at 0.000000, 0.000000
+00:00:00.649 [DEBUG] [sway/tree/arrange.c:263] Usable area for ws: 1066x800@0,0
+00:00:00.650 [DEBUG] [sway/tree/arrange.c:297] Arranging workspace '2' at 1280.000000, 0.000000
+00:00:00.650 [DEBUG] [sway/desktop/transaction.c:398] Transaction 0xb1b601c4df40 committing with 3 instructions
+00:00:00.651 [DEBUG] [sway/desktop/transaction.c:294] Applying transaction 0xb1b601c4df40
+00:00:00.651 [DEBUG] [sway/input/seat.c:722] Applying input mapping to 0:0:wlr_virtual_pointer_v1
+00:00:00.652 [INFO] [sway/ipc-server.c:571] IPC Client 20 disconnected
+00:00:00.656 [DEBUG] [wlr] [types/output/render.c:187] Disabling direct scan-out on output 'HEADLESS-2' (locks: 1)
+00:00:00.671 [DEBUG] [wlr] [types/output/render.c:187] Enabling direct scan-out on output 'HEADLESS-2' (locks: 0)
+00:00:00.785 [DEBUG] [sway/ipc-server.c:197] New client: fd 19
+00:00:00.785 [DEBUG] [sway/criteria.c:726] Found pair: title=Trames HiDPI
+00:00:00.786 [INFO] [sway/commands.c:261] Handling command 'move container to output HEADLESS-1'
+00:00:00.786 [DEBUG] [sway/tree/container.c:726] Transformed container 0xb1b601c9be00 to coords (648.480300, 496.000000)
+00:00:00.787 [DEBUG] [sway/tree/arrange.c:263] Usable area for ws: 1066x800@0,0
+00:00:00.787 [DEBUG] [sway/tree/arrange.c:297] Arranging workspace '2' at 1280.000000, 0.000000
+00:00:00.787 [DEBUG] [sway/tree/arrange.c:263] Usable area for ws: 1280x960@0,0
+00:00:00.788 [DEBUG] [sway/tree/arrange.c:297] Arranging workspace '1' at 0.000000, 0.000000
+00:00:00.788 [DEBUG] [sway/desktop/transaction.c:398] Transaction 0xb1b601d3c7e0 committing with 3 instructions
+00:00:00.789 [DEBUG] [sway/desktop/transaction.c:294] Applying transaction 0xb1b601d3c7e0
+00:00:00.789 [DEBUG] [sway/tree/container.c:1320] Container 0xb1b601c9be00 entered output 0xb1b601c70810
+00:00:00.790 [DEBUG] [sway/tree/container.c:1332] Container 0xb1b601c9be00 left output 0xb1b601c7c030
+00:00:00.791 [INFO] [sway/ipc-server.c:571] IPC Client 19 disconnected
+00:00:00.793 [DEBUG] [sway/tree/arrange.c:263] Usable area for ws: 1280x960@0,0
+00:00:00.793 [DEBUG] [sway/tree/arrange.c:297] Arranging workspace '1' at 0.000000, 0.000000
+00:00:00.794 [DEBUG] [sway/tree/arrange.c:263] Usable area for ws: 1066x800@0,0
+00:00:00.794 [DEBUG] [sway/tree/arrange.c:297] Arranging workspace '2' at 1280.000000, 0.000000
+00:00:00.794 [DEBUG] [sway/desktop/transaction.c:398] Transaction 0xb1b601c4afd0 committing with 4 instructions
+00:00:00.798 [DEBUG] [sway/desktop/transaction.c:494] Transaction 0xb1b601c4afd0 is ready
+00:00:00.798 [DEBUG] [sway/desktop/transaction.c:294] Applying transaction 0xb1b601c4afd0
+00:00:00.799 [DEBUG] [sway/tree/container.c:1332] Container 0xb1b601c9be00 left output 0xb1b601c70810
+00:00:00.799 [DEBUG] [sway/tree/container.c:1320] Container 0xb1b601c9be00 entered output 0xb1b601c7c030
+00:00:00.800 [DEBUG] [sway/desktop/transaction.c:398] Transaction 0xb1b601e21f00 committing with 1 instructions
+00:00:00.800 [DEBUG] [sway/desktop/transaction.c:294] Applying transaction 0xb1b601e21f00
+00:00:00.801 [DEBUG] [sway/ipc-server.c:197] New client: fd 18
+00:00:00.801 [INFO] [sway/ipc-server.c:571] IPC Client 18 disconnected
+00:00:00.820 [DEBUG] [sway/tree/arrange.c:263] Usable area for ws: 1280x960@0,0
+00:00:00.821 [DEBUG] [sway/tree/arrange.c:297] Arranging workspace '1' at 0.000000, 0.000000
+00:00:00.821 [DEBUG] [sway/tree/arrange.c:263] Usable area for ws: 1066x800@0,0
+00:00:00.822 [DEBUG] [sway/tree/arrange.c:297] Arranging workspace '2' at 1280.000000, 0.000000
+00:00:00.822 [DEBUG] [sway/desktop/transaction.c:398] Transaction 0xb1b601e22950 committing with 3 instructions
+00:00:00.826 [DEBUG] [sway/desktop/transaction.c:494] Transaction 0xb1b601e22950 is ready
+00:00:00.827 [DEBUG] [sway/desktop/transaction.c:294] Applying transaction 0xb1b601e22950
+00:00:00.828 [DEBUG] [sway/desktop/transaction.c:398] Transaction 0xb1b601e22af0 committing with 1 instructions
+00:00:00.828 [DEBUG] [sway/desktop/transaction.c:294] Applying transaction 0xb1b601e22af0
+00:00:00.829 [DEBUG] [sway/ipc-server.c:197] New client: fd 18
+00:00:00.829 [DEBUG] [sway/criteria.c:726] Found pair: title=Trames HiDPI
+00:00:00.830 [INFO] [sway/commands.c:261] Handling command 'move container to output HEADLESS-2'
+00:00:00.831 [DEBUG] [sway/tree/arrange.c:263] Usable area for ws: 1066x800@0,0
+00:00:00.831 [DEBUG] [sway/tree/arrange.c:297] Arranging workspace '2' at 1280.000000, 0.000000
+00:00:00.832 [DEBUG] [sway/tree/arrange.c:263] Usable area for ws: 1066x800@0,0
+00:00:00.832 [DEBUG] [sway/tree/arrange.c:297] Arranging workspace '2' at 1280.000000, 0.000000
+00:00:00.833 [DEBUG] [sway/desktop/transaction.c:398] Transaction 0xb1b601d416a0 committing with 2 instructions
+00:00:00.833 [DEBUG] [sway/desktop/transaction.c:294] Applying transaction 0xb1b601d416a0
+00:00:00.834 [INFO] [sway/ipc-server.c:571] IPC Client 18 disconnected
+00:00:00.835 [DEBUG] [sway/ipc-server.c:197] New client: fd 18
+00:00:00.836 [INFO] [sway/commands.c:261] Handling command 'output HEADLESS-2 disable'
+00:00:00.836 [DEBUG] [sway/commands.c:436] Subcommand: disable
+00:00:00.837 [DEBUG] [sway/config/output.c:212] Merging on top of existing output config
+00:00:00.837 [DEBUG] [sway/config/output.c:235] Config stored for output HEADLESS-2 (enabled: 0) (1600x1200@-1.000000Hz position 1280,0 scale 1.500000 subpixel unknown transform -1) (bg (null) (null)) (power -1) (max render time: -1)
+00:00:00.838 [DEBUG] [sway/config/output.c:396] Turning off output HEADLESS-2
+00:00:00.838 [DEBUG] [sway/config/output.c:520] Committing output HEADLESS-2
+00:00:00.839 [DEBUG] [sway/config/output.c:533] Disabling output HEADLESS-2
+00:00:00.839 [DEBUG] [sway/tree/output.c:264] Disabling output 'HEADLESS-2'
+00:00:00.840 [DEBUG] [sway/tree/arrange.c:263] Usable area for ws: 1280x960@0,0
+00:00:00.840 [DEBUG] [sway/tree/arrange.c:297] Arranging workspace '1' at 0.000000, 0.000000
+00:00:00.841 [DEBUG] [sway/tree/arrange.c:263] Usable area for ws: 1280x960@0,0
+00:00:00.841 [DEBUG] [sway/tree/container.c:726] Transformed container 0xb1b601c9be00 to coords (520.000000, 400.000000)
+00:00:00.841 [DEBUG] [sway/tree/arrange.c:297] Arranging workspace '2' at 0.000000, 0.000000
+00:00:00.842 [DEBUG] [sway/input/seat.c:722] Applying input mapping to 0:0:wlr_virtual_pointer_v1
+00:00:00.842 [DEBUG] [sway/tree/arrange.c:263] Usable area for ws: 1280x960@0,0
+00:00:00.843 [DEBUG] [sway/tree/arrange.c:297] Arranging workspace '1' at 0.000000, 0.000000
+00:00:00.843 [DEBUG] [sway/tree/arrange.c:263] Usable area for ws: 1280x960@0,0
+00:00:00.844 [DEBUG] [sway/tree/arrange.c:297] Arranging workspace '2' at 0.000000, 0.000000
+00:00:00.844 [DEBUG] [sway/desktop/transaction.c:398] Transaction 0xb1b601e22af0 committing with 5 instructions
+00:00:00.845 [DEBUG] [sway/desktop/transaction.c:294] Applying transaction 0xb1b601e22af0
+00:00:00.845 [DEBUG] [sway/tree/container.c:1320] Container 0xb1b601c9be00 entered output 0xb1b601c70810
+00:00:00.846 [INFO] [sway/ipc-server.c:571] IPC Client 18 disconnected
+00:00:00.847 [DEBUG] [sway/ipc-server.c:197] New client: fd 13
+00:00:00.848 [INFO] [sway/commands.c:261] Handling command 'output HEADLESS-2 enable scale 2'
+00:00:00.848 [DEBUG] [sway/commands.c:436] Subcommand: enable scale 2
+00:00:00.849 [DEBUG] [sway/commands.c:436] Subcommand: scale 2
+00:00:00.849 [DEBUG] [sway/config/output.c:212] Merging on top of existing output config
+00:00:00.850 [DEBUG] [sway/config/output.c:235] Config stored for output HEADLESS-2 (enabled: 1) (1600x1200@-1.000000Hz position 1280,0 scale 2.000000 subpixel unknown transform -1) (bg (null) (null)) (power -1) (max render time: -1)
+00:00:00.850 [DEBUG] [sway/config/output.c:401] Turning on output HEADLESS-2
+00:00:00.851 [DEBUG] [sway/config/output.c:409] Set HEADLESS-2 mode to 1600x1200 (-1.000000 Hz)
+00:00:00.851 [DEBUG] [sway/config/output.c:256] Assigning custom mode to HEADLESS-2
+00:00:00.852 [DEBUG] [sway/config/output.c:476] Set HEADLESS-2 scale to 2.000000
+00:00:00.852 [DEBUG] [sway/config/output.c:520] Committing output HEADLESS-2
+00:00:00.853 [DEBUG] [wlr] [types/output/render.c:168] Attaching empty buffer to output for modeset
+00:00:00.853 [DEBUG] [wlr] [types/output/swapchain.c:27] Choosing primary buffer format XR24 (0x34325258) for output 'HEADLESS-2'
+00:00:00.854 [DEBUG] [wlr] [types/output/swapchain.c:96] Testing swapchain for output 'HEADLESS-2'
+00:00:00.854 [DEBUG] [wlr] [render/swapchain.c:106] Allocating new swapchain buffer
+00:00:00.854 [DEBUG] [wlr] [render/pixman/renderer.c:152] Created pixman buffer 1600x1200
+00:00:00.856 [DEBUG] [sway/config/output.c:559] Set HEADLESS-2 scale_filter to nearest
+00:00:00.857 [DEBUG] [sway/config/output.c:566] Set HEADLESS-2 position to 1280, 0
+00:00:00.857 [DEBUG] [sway/tree/arrange.c:263] Usable area for ws: 1280x960@0,0
+00:00:00.858 [DEBUG] [sway/tree/arrange.c:297] Arranging workspace '1' at 0.000000, 0.000000
+00:00:00.858 [DEBUG] [sway/tree/arrange.c:263] Usable area for ws: 1280x960@0,0
+00:00:00.859 [DEBUG] [sway/tree/arrange.c:297] Arranging workspace '2' at 0.000000, 0.000000
+00:00:00.859 [DEBUG] [sway/desktop/transaction.c:398] Transaction 0xb1b601e21f00 committing with 3 instructions
+00:00:00.859 [DEBUG] [sway/desktop/transaction.c:294] Applying transaction 0xb1b601e21f00
+00:00:00.867 [DEBUG] [wlr] [xcursor/wlr_xcursor.c:225] Loaded cursor theme 'default' at size 48 (59 available cursors)
+00:00:00.867 [DEBUG] [wlr] [types/output/cursor.c:458] Falling back to software cursor on output 'HEADLESS-2'
+00:00:00.868 [DEBUG] [sway/tree/workspace.c:277] Workspace: Generating new workspace name for output HEADLESS-2
+00:00:00.868 [DEBUG] [sway/tree/output.c:127] Creating default workspace 3
+00:00:00.869 [DEBUG] [sway/tree/workspace.c:65] Adding workspace 3 for output HEADLESS-2
+00:00:00.869 [DEBUG] [sway/desktop/layer_shell.c:229] Usable area changed, rearranging output
+00:00:00.869 [DEBUG] [sway/tree/arrange.c:263] Usable area for ws: 800x600@0,0
+00:00:00.870 [DEBUG] [sway/tree/arrange.c:297] Arranging workspace '3' at 1280.000000, 0.000000
+00:00:00.870 [DEBUG] [sway/tree/arrange.c:263] Usable area for ws: 1280x960@0,0
+00:00:00.871 [DEBUG] [sway/tree/arrange.c:297] Arranging workspace '1' at 0.000000, 0.000000
+00:00:00.871 [DEBUG] [sway/tree/arrange.c:263] Usable area for ws: 1280x960@0,0
+00:00:00.872 [DEBUG] [sway/tree/arrange.c:297] Arranging workspace '2' at 0.000000, 0.000000
+00:00:00.872 [DEBUG] [sway/tree/arrange.c:263] Usable area for ws: 800x600@0,0
+00:00:00.872 [DEBUG] [sway/tree/arrange.c:297] Arranging workspace '3' at 1280.000000, 0.000000
+00:00:00.873 [DEBUG] [sway/input/seat.c:722] Applying input mapping to 0:0:wlr_virtual_pointer_v1
+00:00:00.873 [DEBUG] [sway/desktop/transaction.c:398] Transaction 0xb1b601e7bd90 committing with 5 instructions
+00:00:00.874 [DEBUG] [sway/desktop/transaction.c:294] Applying transaction 0xb1b601e7bd90
+00:00:00.874 [DEBUG] [wlr] [backend/headless/output.c:38] Unsupported output state fields: 0x80
+00:00:00.875 [INFO] [sway/ipc-server.c:571] IPC Client 13 disconnected
+00:00:00.877 [DEBUG] [sway/ipc-server.c:197] New client: fd 13
+00:00:00.877 [DEBUG] [sway/criteria.c:726] Found pair: title=Trames HiDPI
+00:00:00.878 [INFO] [sway/commands.c:261] Handling command 'move container to output HEADLESS-2'
+00:00:00.878 [DEBUG] [sway/tree/container.c:726] Transformed container 0xb1b601c9be00 to coords (1560.000000, 220.000000)
+00:00:00.879 [DEBUG] [sway/tree/workspace.c:145] Destroying workspace '2'
+00:00:00.879 [DEBUG] [sway/tree/arrange.c:263] Usable area for ws: 800x600@0,0
+00:00:00.879 [DEBUG] [sway/tree/arrange.c:297] Arranging workspace '3' at 1280.000000, 0.000000
+00:00:00.880 [DEBUG] [sway/desktop/transaction.c:398] Transaction 0xb1b601c7c600 committing with 4 instructions
+00:00:00.880 [DEBUG] [sway/desktop/transaction.c:294] Applying transaction 0xb1b601c7c600
+00:00:00.881 [DEBUG] [sway/tree/container.c:1332] Container 0xb1b601c9be00 left output 0xb1b601c70810
+00:00:00.881 [DEBUG] [sway/tree/container.c:1320] Container 0xb1b601c9be00 entered output 0xb1b601c7c030
+00:00:00.882 [INFO] [sway/ipc-server.c:571] IPC Client 13 disconnected
+00:00:00.885 [DEBUG] [wlr] [types/output/render.c:187] Disabling direct scan-out on output 'HEADLESS-2' (locks: 1)
+00:00:00.900 [DEBUG] [wlr] [types/output/render.c:187] Enabling direct scan-out on output 'HEADLESS-2' (locks: 0)
+00:00:00.982 [DEBUG] [sway/ipc-server.c:197] New client: fd 20
+00:00:00.983 [INFO] [sway/commands.c:261] Handling command 'output HEADLESS-2 transform 90'
+00:00:00.983 [DEBUG] [sway/commands.c:436] Subcommand: transform 90
+00:00:00.984 [DEBUG] [sway/config/output.c:212] Merging on top of existing output config
+00:00:00.984 [DEBUG] [sway/config/output.c:235] Config stored for output HEADLESS-2 (enabled: 1) (1600x1200@-1.000000Hz position 1280,0 scale 2.000000 subpixel unknown transform 3) (bg (null) (null)) (power -1) (max render time: -1)
+00:00:00.985 [DEBUG] [sway/config/output.c:401] Turning on output HEADLESS-2
+00:00:00.985 [DEBUG] [sway/config/output.c:409] Set HEADLESS-2 mode to 1600x1200 (-1.000000 Hz)
+00:00:00.986 [DEBUG] [sway/config/output.c:256] Assigning custom mode to HEADLESS-2
+00:00:00.986 [DEBUG] [sway/config/output.c:452] Set HEADLESS-2 transform to 3
+00:00:00.987 [DEBUG] [sway/config/output.c:520] Committing output HEADLESS-2
+00:00:00.987 [DEBUG] [sway/desktop/layer_shell.c:229] Usable area changed, rearranging output
+00:00:00.987 [DEBUG] [sway/tree/arrange.c:263] Usable area for ws: 600x800@0,0
+00:00:00.988 [DEBUG] [sway/tree/arrange.c:297] Arranging workspace '3' at 1280.000000, 0.000000
+00:00:00.988 [DEBUG] [sway/tree/arrange.c:263] Usable area for ws: 600x800@0,0
+00:00:00.989 [DEBUG] [sway/tree/arrange.c:297] Arranging workspace '3' at 1280.000000, 0.000000
+00:00:00.989 [DEBUG] [sway/desktop/transaction.c:398] Transaction 0xb1b601e20150 committing with 2 instructions
+00:00:00.990 [DEBUG] [sway/desktop/transaction.c:294] Applying transaction 0xb1b601e20150
+00:00:00.990 [DEBUG] [sway/tree/arrange.c:263] Usable area for ws: 1280x960@0,0
+00:00:00.990 [DEBUG] [sway/tree/arrange.c:297] Arranging workspace '1' at 0.000000, 0.000000
+00:00:00.991 [DEBUG] [sway/tree/arrange.c:263] Usable area for ws: 600x800@0,0
+00:00:00.991 [DEBUG] [sway/tree/arrange.c:297] Arranging workspace '3' at 1280.000000, 0.000000
+00:00:00.992 [DEBUG] [sway/desktop/transaction.c:398] Transaction 0xb1b601e20150 committing with 3 instructions
+00:00:00.992 [DEBUG] [sway/desktop/transaction.c:294] Applying transaction 0xb1b601e20150
+00:00:00.993 [DEBUG] [wlr] [types/output/cursor.c:458] Falling back to software cursor on output 'HEADLESS-2'
+00:00:00.993 [DEBUG] [sway/config/output.c:566] Set HEADLESS-2 position to 1280, 0
+00:00:00.994 [DEBUG] [sway/tree/arrange.c:263] Usable area for ws: 1280x960@0,0
+00:00:00.994 [DEBUG] [sway/tree/arrange.c:297] Arranging workspace '1' at 0.000000, 0.000000
+00:00:00.995 [DEBUG] [sway/tree/arrange.c:263] Usable area for ws: 600x800@0,0
+00:00:00.995 [DEBUG] [sway/tree/arrange.c:297] Arranging workspace '3' at 1280.000000, 0.000000
+00:00:00.995 [DEBUG] [sway/desktop/transaction.c:398] Transaction 0xb1b601e20150 committing with 3 instructions
+00:00:00.996 [DEBUG] [sway/desktop/transaction.c:294] Applying transaction 0xb1b601e20150
+00:00:00.996 [DEBUG] [sway/input/seat.c:722] Applying input mapping to 0:0:wlr_virtual_pointer_v1
+00:00:00.997 [INFO] [sway/ipc-server.c:571] IPC Client 20 disconnected
+00:00:01.000 [DEBUG] [sway/tree/arrange.c:263] Usable area for ws: 600x800@0,0
+00:00:01.000 [DEBUG] [sway/tree/arrange.c:297] Arranging workspace '3' at 1280.000000, 0.000000
+00:00:01.002 [DEBUG] [sway/desktop/transaction.c:398] Transaction 0xb1b601c9c050 committing with 5 instructions
+00:00:01.003 [DEBUG] [sway/desktop/transaction.c:294] Applying transaction 0xb1b601c9c050
+00:00:01.006 [DEBUG] [sway/input/input-manager.c:202] removing device: '0:0:wlr_virtual_pointer_v1'
+00:00:01.007 [DEBUG] [sway/input/seat.c:994] removing device 0:0:wlr_virtual_pointer_v1 from seat seat0
+00:00:01.007 [DEBUG] [wlr] [types/output/cursor.c:458] Falling back to software cursor on output 'HEADLESS-2'
+00:00:01.007 [DEBUG] [wlr] [types/output/cursor.c:458] Falling back to software cursor on output 'HEADLESS-1'
+00:00:01.009 [INFO] [sway/main.c:418] Shutting down sway
+00:00:01.010 [DEBUG] [sway/tree/output.c:264] Disabling output 'HEADLESS-1'
+00:00:01.010 [DEBUG] [sway/tree/workspace.c:145] Destroying workspace '1'
+00:00:01.011 [DEBUG] [sway/tree/arrange.c:263] Usable area for ws: 600x800@0,0
+00:00:01.011 [DEBUG] [sway/tree/arrange.c:297] Arranging workspace '3' at 1280.000000, 0.000000
+00:00:01.012 [DEBUG] [sway/tree/output.c:287] Destroying output 'HEADLESS-1'
+00:00:01.012 [DEBUG] [sway/desktop/transaction.c:398] Transaction 0xb1b601c18f90 committing with 4 instructions
+00:00:01.013 [DEBUG] [sway/desktop/transaction.c:294] Applying transaction 0xb1b601c18f90
+00:00:01.013 [DEBUG] [sway/tree/arrange.c:263] Usable area for ws: 600x800@0,0
+00:00:01.014 [DEBUG] [sway/tree/arrange.c:297] Arranging workspace '3' at 1280.000000, 0.000000
+00:00:01.014 [DEBUG] [sway/desktop/transaction.c:398] Transaction 0xb1b601c18f90 committing with 1 instructions
+00:00:01.015 [DEBUG] [sway/desktop/transaction.c:294] Applying transaction 0xb1b601c18f90
+00:00:01.015 [DEBUG] [sway/tree/output.c:264] Disabling output 'HEADLESS-2'
+00:00:01.016 [DEBUG] [sway/tree/workspace.c:145] Destroying workspace '3'
+00:00:01.016 [DEBUG] [sway/tree/output.c:287] Destroying output 'HEADLESS-2'
+00:00:01.017 [DEBUG] [sway/desktop/transaction.c:398] Transaction 0xb1b601c9c050 committing with 2 instructions
+00:00:01.017 [DEBUG] [sway/desktop/transaction.c:294] Applying transaction 0xb1b601c9c050

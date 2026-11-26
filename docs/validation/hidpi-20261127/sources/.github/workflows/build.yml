@@ -1,0 +1,60 @@
+name: Build and unit checks
+on:
+  push:
+    branches: [main]
+    paths-ignore: ['docs/**', 'README.md']
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: Platform to check
+        type: choice
+        default: all
+        options: [all, ubuntu-24.04, ubuntu-24.04-arm, macos-15]
+      scope:
+        description: Reuse passed checks and run release build only when selected
+        type: choice
+        default: all
+        options: [all, release]
+permissions:
+  contents: read
+jobs:
+  build-unit:
+    name: Build/unit (${{ matrix.os }}) — no hardware claim
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ${{ fromJSON(github.event_name == 'workflow_dispatch' && inputs.platform != 'all' && format('["{0}"]', inputs.platform) || '["ubuntu-24.04","ubuntu-24.04-arm","macos-15"]') }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: ${{ matrix.os == 'macos-15' && 30 || 15 }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: nightly-2026-10-16
+          components: rustfmt,clippy
+      - name: Install PCM test headers
+        if: runner.os == 'Linux'
+        run: sudo apt-get update -qq && sudo apt-get install -y libasound2-dev
+      - name: Compile PCM ABI oracle
+        if: runner.os == 'Linux'
+        run: python3 runtime/scripts/check-alsa-abi.py
+      - name: Software PCM integration tests
+        if: runner.os == 'Linux'
+        run: cargo test --manifest-path runtime/Cargo.toml -p trames-audio --lib --locked
+      - name: Build source-checked guest CLI
+        run: python3 runtime/scripts/build-guest-cli.py
+      - run: python3 -m py_compile scripts/validate-applications.py scripts/validate-desktop-interop.py scripts/validate-xwayland-ime.py scripts/validate-keyboard.py scripts/validate-windows.py scripts/validate-window-parent.py scripts/validate-hidpi.py
+      - name: Native reference for original 4KiB memory ELF
+        if: runner.os == 'Linux'
+        run: python3 tests/acceptance/validate-memory.py --native-only --output target/validation/memory-4k-native
+      - run: python3 scripts/check-boundaries.py
+      - run: cargo fmt --all --check
+      - if: ${{ inputs.scope != 'release' }}
+        run: cargo clippy --workspace --all-targets --locked -- -D warnings
+      - if: ${{ inputs.scope != 'release' }}
+        run: cargo test --workspace --locked
+      - run: cargo build --workspace --release --locked
+      - run: target/release/trames doctor --json

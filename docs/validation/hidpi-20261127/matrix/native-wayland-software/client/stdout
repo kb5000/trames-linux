@@ -1,0 +1,58 @@
+
+running 1 test
+removed 
+output 16 HEADLESS-1 pos=0,0 logical=0,0 pixels=1280,960 integer=1 transform=0
+output 16 HEADLESS-1 pos=0,0 logical=1280,960 pixels=1280,960 integer=1 transform=0
+output 17 HEADLESS-2 pos=0,0 logical=0,0 pixels=1600,1200 integer=2 transform=0
+output 17 HEADLESS-2 pos=1280,0 logical=1280,960 pixels=1600,1200 integer=2 transform=0
+scale 120
+paint logical=240,160 pixels=240,160 scale=120 full=0 max=0
+scale 120
+paint logical=240,160 pixels=240,160 scale=120 full=0 max=0
+paint logical=240,160 pixels=240,160 scale=120 full=0 max=0
+paint logical=240,160 pixels=240,160 scale=120 full=0 max=0
+enter HEADLESS-1
+leave HEADLESS-1
+enter HEADLESS-2
+scale 150
+paint logical=240,160 pixels=300,200 scale=150 full=0 max=0
+paint logical=240,160 pixels=300,200 scale=150 full=0 max=0
+pointer 120.00 80.00
+pointer 120.00 80.00
+pointer 120.00 80.00
+output 17 HEADLESS-2 pos=1280,0 logical=1066,800 pixels=1600,1200 integer=2 transform=0
+scale 180
+paint logical=240,160 pixels=360,240 scale=180 full=0 max=0
+enter HEADLESS-1
+leave HEADLESS-2
+scale 120
+paint logical=240,160 pixels=240,160 scale=120 full=0 max=0
+command f
+paint logical=1066,800 pixels=1066,800 scale=120 full=1 max=0
+pointer 640.00 480.00
+leave HEADLESS-1
+enter HEADLESS-2
+scale 180
+paint logical=1066,800 pixels=1599,1200 scale=180 full=1 max=0
+command u
+paint logical=1066,800 pixels=1599,1200 scale=180 full=1 max=0
+paint logical=240,160 pixels=360,240 scale=180 full=0 max=0
+leave HEADLESS-2
+removed HEADLESS-2
+enter HEADLESS-1
+scale 120
+paint logical=240,160 pixels=240,160 scale=120 full=0 max=0
+scale 240
+paint logical=240,160 pixels=480,320 scale=240 full=0 max=0
+output 18 HEADLESS-2 pos=0,0 logical=0,0 pixels=1600,1200 integer=2 transform=0
+enter HEADLESS-2
+output 18 HEADLESS-2 pos=1280,0 logical=800,600 pixels=1600,1200 integer=2 transform=0
+leave HEADLESS-1
+paint logical=240,160 pixels=480,320 scale=240 full=0 max=0
+output 18 HEADLESS-2 pos=1280,0 logical=600,800 pixels=1600,1200 integer=2 transform=3
+command q
+hidpi-done
+test desktop::tests::native_wayland_desktop ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 11 filtered out; finished in 0.90s
+

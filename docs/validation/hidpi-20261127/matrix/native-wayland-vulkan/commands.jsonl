@@ -1,0 +1,9 @@
+{"command": "[title=\"Trames HiDPI\"] move container to output HEADLESS-2", "response": [{"success": true}]}
+{"command": "seat seat0 cursor set 1920 480", "response": [{"success": true}]}
+{"command": "output HEADLESS-2 scale 1.5", "response": [{"success": true}]}
+{"command": "[title=\"Trames HiDPI\"] move container to output HEADLESS-1", "response": [{"success": true}]}
+{"command": "[title=\"Trames HiDPI\"] move container to output HEADLESS-2", "response": [{"success": true}]}
+{"command": "output HEADLESS-2 disable", "response": [{"success": true}]}
+{"command": "output HEADLESS-2 enable scale 2", "response": [{"success": true}]}
+{"command": "[title=\"Trames HiDPI\"] move container to output HEADLESS-2", "response": [{"success": true}]}
+{"command": "output HEADLESS-2 transform 90", "response": [{"success": true}]}

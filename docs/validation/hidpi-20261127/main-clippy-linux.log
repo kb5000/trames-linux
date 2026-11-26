@@ -1,0 +1,17 @@
+warning: unused field `repository` in `workspace.package`
+  --> Cargo.toml:32:1
+   |
+32 | repository = "https://github.com/project-trames/trames-runtime"
+   | ^^^^^^^^^^
+   |
+   = note: `cargo::unused_workspace_package_fields` is set to `warn` by default
+help: consider removing the field `workspace.package.repository`
+warning: workspace (manifest) generated 1 warning
+    Checking trames-shared v1.3.0 (/mnt/trames-output/linux-hidpi/main-runtime-source/crates/trames-shared)
+    Checking wayland-backend v0.3.17 (/mnt/trames-output/linux-hidpi/main-runtime-source/vendor/wayland-backend)
+    Checking trames-memory v1.3.0 (/mnt/trames-output/linux-hidpi/main-runtime-source/crates/trames-memory)
+    Checking wayland-server v0.31.14
+    Checking wayland-protocols v0.32.13
+    Checking trames-graphics v1.3.0 (/mnt/trames-output/linux-hidpi/main-runtime-source/crates/trames-graphics)
+    Checking trames-wayland v1.3.0 (/mnt/trames-output/linux-hidpi/main-runtime-source/crates/trames-wayland)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 1.89s

@@ -1,0 +1,7 @@
+[
+  "/mnt/trames-output/linux-hidpi/windows/tools/unit_binary",
+  "desktop::tests::native_wayland_desktop",
+  "--ignored",
+  "--exact",
+  "--nocapture"
+]

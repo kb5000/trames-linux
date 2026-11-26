@@ -1,0 +1,134 @@
+Openbox-Debug: --config-file /mnt/trames-output/linux-hidpi/windows/kvm-smccc-1-host-x11-xwayland/openbox.xml
+Openbox-Debug: --startup /usr/bin/touch /mnt/trames-output/linux-hidpi/windows/kvm-smccc-1-host-x11-xwayland/wm-ready
+Openbox-Debug: Failed to connect to session manager: SESSION_MANAGER environment variable not defined
+Openbox-Debug: Monitor 0 @ 0,0 1024x768
+
+Openbox-Debug: Full desktop @ 0,0 1024x768
+
+Openbox-Debug: Moving to desktop 1
+Openbox-Message: Unable to find a valid menu file "menu.xml"
+Openbox-Debug: not managing override redirect window 0x20011f
+Openbox-Debug: UPDATE DESKTOP NAMES
+Openbox-Debug: Managing window: 0x400002
+Openbox-Debug: client area: 0 0  240 160  bw 0
+Openbox-Debug: Normal hints: min size (160 100) max size (640 480)
+Openbox-Debug: size inc (1 1) base size (-1 -1)
+Openbox-Debug: client desktop set to the current desktop: 0
+Openbox-Debug: Setting client Trames window parent colormap: 0x20
+Openbox-Debug: Window type: 7
+Openbox-Debug: Window group: 0x0
+Openbox-Debug: Window name: trames class: Trames role:  title: Trames window parent
+Openbox-Debug: Window group name:  group class: 
+Openbox-Debug: Going to try activate new window? yes
+Openbox-Debug: Want to focus window 0x400002 at time 12208313 launched at 0 (last user interaction time 0) request from other, allow other desktop: no, desktop switch time 0
+Openbox-Debug: Unknown launch time, using 0 - independent window
+Openbox-Debug: Allowing focus stealing for Trames window parent at time 12208313 (last user interaction time 0)
+Openbox-Debug: Positioned: no @ 0 0
+Openbox-Debug: Sized: no @ 240 160
+Openbox-Debug: placement choice 0 is monitor 0
+Openbox-Debug:   - placement choice
+Openbox-Debug:   - primary monitor
+Openbox-Debug: setting window size to 244x181
+Openbox-Debug: placing window 0x400002 at 390, 293 with size 240 x 160. some restrictions may apply
+Openbox-Debug: placed window 0x400002 at 390, 293 with size 240 x 160
+Openbox-Debug: Sending ConfigureNotify to Trames window parent for 392,312 240x160
+Openbox-Debug: Managed window 0x400002 plate 0x200173 (Trames)
+Openbox-Debug: net_wm_state Add 304 303 for 0x400002
+Openbox-Debug: Sending ConfigureNotify to Trames window parent for 0,18 640x480
+Openbox-Debug: net_wm_state Remove 304 303 for 0x400002
+Openbox-Debug: Sending ConfigureNotify to Trames window parent for 392,312 240x160
+Openbox-Debug: Update NORMAL hints
+Openbox-Debug: Normal hints: min size (160 100) max size (2147483647 2147483647)
+Openbox-Debug: size inc (1 1) base size (-1 -1)
+Openbox-Debug: net_wm_state Add 309 0 for 0x400002
+Openbox-Debug: Window Trames window parent going fullscreen (1)
+Openbox-Debug: Sending ConfigureNotify to Trames window parent for 0,0 1024x768
+Openbox-Debug: Update NORMAL hints
+Openbox-Debug: Normal hints: min size (160 100) max size (640 480)
+Openbox-Debug: size inc (1 1) base size (-1 -1)
+Openbox-Debug: net_wm_state Remove 309 0 for 0x400002
+Openbox-Debug: Window Trames window parent going fullscreen (0)
+Openbox-Debug: Sending ConfigureNotify to Trames window parent for 392,312 240x160
+Openbox-Debug: net_wm_state Add 304 303 for 0x400002
+Openbox-Debug: Sending ConfigureNotify to Trames window parent for 0,18 640x480
+Openbox-Debug: Update NORMAL hints
+Openbox-Debug: Normal hints: min size (160 100) max size (2147483647 2147483647)
+Openbox-Debug: size inc (1 1) base size (-1 -1)
+Openbox-Debug: net_wm_state Add 309 0 for 0x400002
+Openbox-Debug: Window Trames window parent going fullscreen (1)
+Openbox-Debug: Sending ConfigureNotify to Trames window parent for 0,0 1024x768
+Openbox-Debug: Update NORMAL hints
+Openbox-Debug: Normal hints: min size (160 100) max size (640 480)
+Openbox-Debug: size inc (1 1) base size (-1 -1)
+Openbox-Debug: net_wm_state Remove 309 0 for 0x400002
+Openbox-Debug: Window Trames window parent going fullscreen (0)
+Openbox-Debug: Sending ConfigureNotify to Trames window parent for 0,18 640x480
+Openbox-Debug: net_wm_state Remove 304 303 for 0x400002
+Openbox-Debug: Sending ConfigureNotify to Trames window parent for 392,312 240x160
+Openbox-Debug: Want to focus window 0x400002 at time 12209571 launched at 0 (last user interaction time 0) request from user, allow other desktop: yes, desktop switch time 0
+Openbox-Debug: Unknown launch time, using 0 - independent window
+Openbox-Debug: Allowing focus stealing for Trames window parent at time 12209571 (last user interaction time 0)
+Openbox-Debug: net_wm_moveresize for 0x400002 direction 8
+Openbox-Debug: Sending ConfigureNotify to Trames window parent for 412,332 240x160
+Openbox-Debug: Want to focus window 0x400002 at time 12209690 launched at 0 (last user interaction time 12209606) request from user, allow other desktop: yes, desktop switch time 0
+Openbox-Debug: Unknown launch time, using 12209606 - independent window
+Openbox-Debug: Allowing focus stealing for Trames window parent at time 12209690 (last user interaction time 12209606)
+Openbox-Debug: net_wm_moveresize for 0x400002 direction 4
+Openbox-Debug: Iconifying window: 0x400002
+Openbox-Debug: UnmapNotify for window 0x400002 eventwin 0x400002 sendevent 0 ignores left 1
+Openbox-Debug: MapRequest for 0x400002
+Openbox-Debug: Want to focus window 0x400002 at time 12209800 launched at 0 (last user interaction time 0) request from user, allow other desktop: no, desktop switch time 0
+Openbox-Debug: Unknown launch time, using 0 - independent window
+Openbox-Debug: Allowing focus stealing for Trames window parent at time 12209800 (last user interaction time 0)
+Openbox-Debug: Uniconifying window: 0x400002
+Openbox-Debug: net_active_window for 0x400002 source=user
+Openbox-Debug: (APPLICATION BUG) _NET_ACTIVE_WINDOW message for window Trames window parent is missing a timestamp
+Openbox-Debug: Want to focus window 0x400002 at time 12209800 launched at 0 (last user interaction time 0) request from user, allow other desktop: no, desktop switch time 0
+Openbox-Debug: Unknown launch time, using 0 - independent window
+Openbox-Debug: Allowing focus stealing for Trames window parent at time 12209800 (last user interaction time 0)
+Openbox-Debug: Sending ConfigureNotify to Trames window parent for 412,332 260x180
+Openbox-Debug: Managing window: 0x400004
+Openbox-Debug: client area: 0 0  240 160  bw 0
+Openbox-Debug: Normal hints: min size (160 100) max size (640 480)
+Openbox-Debug: size inc (1 1) base size (-1 -1)
+Openbox-Debug: client desktop set from parents: 0x0
+Openbox-Debug: Setting client Trames window child colormap: 0x20
+Openbox-Debug: Window type: 6
+Openbox-Debug: Window group: 0x0
+Openbox-Debug: Window name: trames class: Trames role:  title: Trames window child
+Openbox-Debug: Window group name:  group class: 
+Openbox-Debug: Going to try activate new window? yes
+Openbox-Debug: Want to focus window 0x400004 at time 12209843 launched at 0 (last user interaction time 0) request from other, allow other desktop: no, desktop switch time 0
+Openbox-Debug: Unknown launch time, using 12208843 - window in inactive group
+Openbox-Debug: Allowing focus stealing for Trames window child at time 12209843 (last user interaction time 0)
+Openbox-Debug: Positioned: no @ 0 0
+Openbox-Debug: Sized: no @ 240 160
+Openbox-Debug: placement choice 0 is monitor 0
+Openbox-Debug:   - parent on monitor
+Openbox-Debug:   - placement choice
+Openbox-Debug:   - primary monitor
+Openbox-Debug: placing dialog
+Openbox-Debug: setting window size to 244x181
+Openbox-Debug: placing window 0x400004 at 420, 323 with size 240 x 160. some restrictions may apply
+Openbox-Debug: placed window 0x400004 at 420, 323 with size 240 x 160
+Openbox-Debug: Sending ConfigureNotify to Trames window child for 422,342 240x160
+Openbox-Debug: Managed window 0x400004 plate 0x20038c (Trames)
+Openbox-Debug: Update NORMAL hints
+Openbox-Debug: Normal hints: min size (160 100) max size (640 480)
+Openbox-Debug: size inc (1 1) base size (-1 -1)
+Openbox-Debug: UnmapNotify for window 0x400004 eventwin 0x400004 sendevent 0 ignores left 0
+Openbox-Debug: Unmanaging window: 0x400004 plate 0x20038c (Trames) (Trames window child)
+Openbox-Debug: Sending ConfigureNotify to Trames window child for 420,323 240x160
+Openbox-Debug: Unmanaged window 0x400004
+Openbox-Debug: Want to focus window 0x400002 at time 12209937 launched at 0 (last user interaction time 0) request from user, allow other desktop: yes, desktop switch time 0
+Openbox-Debug: Unknown launch time, using 0 - independent window
+Openbox-Debug: Allowing focus stealing for Trames window parent at time 12209937 (last user interaction time 0)
+Openbox-Debug: ConfigureRequest for "Trames window parent" desktop 0 wmstate 1 visible 1
+Openbox-Debug:                      x 410 y 313 w 260 h 180 b 0
+Openbox-Debug: ConfigureRequest x(0) 410 y(0) 313 w(4) 300 h(8) 200 move 0 resize 1
+Openbox-Debug: Granting ConfigureRequest x 410 y 313 w 300 h 200
+Openbox-Debug: UnmapNotify for window 0x400002 eventwin 0x400002 sendevent 0 ignores left 0
+Openbox-Debug: Unmanaging window: 0x400002 plate 0x200173 (Trames) (Trames window parent)
+Openbox-Debug: Sending ConfigureNotify to Trames window parent for 410,313 300x200
+Openbox-Debug: Unmanaged window 0x400002
+Openbox-Debug: Caught signal 15. Exiting.

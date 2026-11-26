@@ -1,0 +1,20 @@
+[
+  "/mnt/trames-output/linux-hidpi/interop/tools/runner",
+  "run",
+  "--rootfs",
+  "/mnt/trames-output/linux-hidpi/interop/kvm-smccc-1-x11-vulkan/rootfs",
+  "--desktop",
+  "x11",
+  "--desktop-renderer",
+  "auto",
+  "--cpus",
+  "1",
+  "--timeout-ms",
+  "60000",
+  "--vulkan-icd",
+  "/mnt/trames-output/linux-hidpi/interop/tools/guest_icd",
+  "--setenv",
+  "VK_DRIVER_FILES=/usr/share/vulkan/icd.d/trames.json",
+  "--",
+  "/test/gpu"
+]

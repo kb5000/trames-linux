@@ -201,6 +201,11 @@ source. An external guest program is not automatically a host-linked library.
 For optional native-driver, graphics or video bundles, retain the original
 bundle notices and exact source/build inputs in addition to the Rust notices.
 
+The display test fixture retains the upstream wlr virtual-pointer protocol XML
+from [wlr-protocols](https://github.com/swaywm/wlr-protocols), with its original
+Josef Gajdusek MIT notice inside the XML. It generates test client stubs and is
+not linked into the product.
+
 ## CI tools
 
 GitHub Actions used by this repository: `actions/checkout@v4`, `actions/upload-artifact@v4`, `dtolnay/rust-toolchain@master`. Their upstream action implementations are MIT-licensed build services, not linked product libraries.

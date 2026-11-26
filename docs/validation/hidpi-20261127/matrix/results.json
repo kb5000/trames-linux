@@ -1,0 +1,367 @@
+{
+  "complete": true,
+  "passed": true,
+  "rows": [
+    {
+      "id": "reference-wayland",
+      "status": "passed",
+      "host": "wayland",
+      "renderer": "software",
+      "transport": null,
+      "cpus": 1,
+      "screenshots": [
+        {
+          "output": "HEADLESS-1",
+          "pixels": [
+            1280,
+            960
+          ],
+          "alternating_run": 240
+        },
+        {
+          "output": "HEADLESS-2",
+          "pixels": [
+            1600,
+            1200
+          ],
+          "alternating_run": 300
+        },
+        {
+          "output": "HEADLESS-2",
+          "pixels": [
+            1600,
+            1200
+          ],
+          "alternating_run": 360
+        },
+        {
+          "output": "HEADLESS-2",
+          "pixels": [
+            1600,
+            1200
+          ],
+          "alternating_run": 480
+        }
+      ],
+      "physical_gpu_qualified": false
+    },
+    {
+      "id": "native-wayland-software",
+      "status": "passed",
+      "host": "wayland",
+      "renderer": "software",
+      "transport": null,
+      "cpus": 1,
+      "screenshots": [
+        {
+          "output": "HEADLESS-1",
+          "pixels": [
+            1280,
+            960
+          ],
+          "alternating_run": 240
+        },
+        {
+          "output": "HEADLESS-2",
+          "pixels": [
+            1600,
+            1200
+          ],
+          "alternating_run": 300
+        },
+        {
+          "output": "HEADLESS-2",
+          "pixels": [
+            1600,
+            1200
+          ],
+          "alternating_run": 360
+        },
+        {
+          "output": "HEADLESS-2",
+          "pixels": [
+            1600,
+            1200
+          ],
+          "alternating_run": 480
+        }
+      ],
+      "physical_gpu_qualified": false
+    },
+    {
+      "id": "native-wayland-vulkan",
+      "status": "passed",
+      "host": "wayland",
+      "renderer": "vulkan",
+      "transport": null,
+      "cpus": 1,
+      "screenshots": [
+        {
+          "output": "HEADLESS-1",
+          "pixels": [
+            1280,
+            960
+          ],
+          "alternating_run": 240
+        },
+        {
+          "output": "HEADLESS-2",
+          "pixels": [
+            1600,
+            1200
+          ],
+          "alternating_run": 300
+        },
+        {
+          "output": "HEADLESS-2",
+          "pixels": [
+            1600,
+            1200
+          ],
+          "alternating_run": 360
+        },
+        {
+          "output": "HEADLESS-2",
+          "pixels": [
+            1600,
+            1200
+          ],
+          "alternating_run": 480
+        }
+      ],
+      "physical_gpu_qualified": false
+    },
+    {
+      "id": "native-x11-software",
+      "status": "passed",
+      "host": "x11",
+      "renderer": "software",
+      "transport": null,
+      "cpus": 1,
+      "screenshots": [],
+      "physical_gpu_qualified": false
+    },
+    {
+      "id": "native-x11-vulkan",
+      "status": "passed",
+      "host": "x11",
+      "renderer": "vulkan",
+      "transport": null,
+      "cpus": 1,
+      "screenshots": [],
+      "physical_gpu_qualified": false
+    },
+    {
+      "id": "kvm-smccc-1-wayland",
+      "status": "passed",
+      "host": "wayland",
+      "renderer": "software",
+      "transport": "smccc",
+      "cpus": 1,
+      "screenshots": [
+        {
+          "output": "HEADLESS-1",
+          "pixels": [
+            1280,
+            960
+          ],
+          "alternating_run": 240
+        },
+        {
+          "output": "HEADLESS-2",
+          "pixels": [
+            1600,
+            1200
+          ],
+          "alternating_run": 300
+        },
+        {
+          "output": "HEADLESS-2",
+          "pixels": [
+            1600,
+            1200
+          ],
+          "alternating_run": 360
+        },
+        {
+          "output": "HEADLESS-2",
+          "pixels": [
+            1600,
+            1200
+          ],
+          "alternating_run": 480
+        }
+      ],
+      "physical_gpu_qualified": false
+    },
+    {
+      "id": "kvm-smccc-1-x11",
+      "status": "passed",
+      "host": "x11",
+      "renderer": "software",
+      "transport": "smccc",
+      "cpus": 1,
+      "screenshots": [],
+      "physical_gpu_qualified": false
+    },
+    {
+      "id": "kvm-smccc-4-wayland",
+      "status": "passed",
+      "host": "wayland",
+      "renderer": "software",
+      "transport": "smccc",
+      "cpus": 4,
+      "screenshots": [
+        {
+          "output": "HEADLESS-1",
+          "pixels": [
+            1280,
+            960
+          ],
+          "alternating_run": 240
+        },
+        {
+          "output": "HEADLESS-2",
+          "pixels": [
+            1600,
+            1200
+          ],
+          "alternating_run": 300
+        },
+        {
+          "output": "HEADLESS-2",
+          "pixels": [
+            1600,
+            1200
+          ],
+          "alternating_run": 360
+        },
+        {
+          "output": "HEADLESS-2",
+          "pixels": [
+            1600,
+            1200
+          ],
+          "alternating_run": 480
+        }
+      ],
+      "physical_gpu_qualified": false
+    },
+    {
+      "id": "kvm-smccc-4-x11",
+      "status": "passed",
+      "host": "x11",
+      "renderer": "software",
+      "transport": "smccc",
+      "cpus": 4,
+      "screenshots": [],
+      "physical_gpu_qualified": false
+    },
+    {
+      "id": "kvm-mmio-1-wayland",
+      "status": "passed",
+      "host": "wayland",
+      "renderer": "software",
+      "transport": "mmio",
+      "cpus": 1,
+      "screenshots": [
+        {
+          "output": "HEADLESS-1",
+          "pixels": [
+            1280,
+            960
+          ],
+          "alternating_run": 240
+        },
+        {
+          "output": "HEADLESS-2",
+          "pixels": [
+            1600,
+            1200
+          ],
+          "alternating_run": 300
+        },
+        {
+          "output": "HEADLESS-2",
+          "pixels": [
+            1600,
+            1200
+          ],
+          "alternating_run": 360
+        },
+        {
+          "output": "HEADLESS-2",
+          "pixels": [
+            1600,
+            1200
+          ],
+          "alternating_run": 480
+        }
+      ],
+      "physical_gpu_qualified": false
+    },
+    {
+      "id": "kvm-mmio-1-x11",
+      "status": "passed",
+      "host": "x11",
+      "renderer": "software",
+      "transport": "mmio",
+      "cpus": 1,
+      "screenshots": [],
+      "physical_gpu_qualified": false
+    },
+    {
+      "id": "kvm-mmio-4-wayland",
+      "status": "passed",
+      "host": "wayland",
+      "renderer": "software",
+      "transport": "mmio",
+      "cpus": 4,
+      "screenshots": [
+        {
+          "output": "HEADLESS-1",
+          "pixels": [
+            1280,
+            960
+          ],
+          "alternating_run": 240
+        },
+        {
+          "output": "HEADLESS-2",
+          "pixels": [
+            1600,
+            1200
+          ],
+          "alternating_run": 300
+        },
+        {
+          "output": "HEADLESS-2",
+          "pixels": [
+            1600,
+            1200
+          ],
+          "alternating_run": 360
+        },
+        {
+          "output": "HEADLESS-2",
+          "pixels": [
+            1600,
+            1200
+          ],
+          "alternating_run": 480
+        }
+      ],
+      "physical_gpu_qualified": false
+    },
+    {
+      "id": "kvm-mmio-4-x11",
+      "status": "passed",
+      "host": "x11",
+      "renderer": "software",
+      "transport": "mmio",
+      "cpus": 4,
+      "screenshots": [],
+      "physical_gpu_qualified": false
+    }
+  ]
+}

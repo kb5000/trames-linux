@@ -11,6 +11,10 @@ mod desktop;
 #[cfg(target_os = "linux")]
 mod desktop_wayland;
 mod display;
+#[cfg(any(target_os = "linux", test))]
+mod display_scale;
+#[cfg(target_os = "linux")]
+mod displays_x11;
 mod foreground;
 #[cfg(target_os = "linux")]
 mod gpu_desktop;

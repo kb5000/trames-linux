@@ -51,8 +51,10 @@ mod x11 {
         Configure(u64, u32, u32, trames_wayland::WindowState, u64),
         Close(u64),
         Presented(u64, u64),
+        Outputs(Vec<trames_wayland::DesktopOutput>),
+        WindowOutputs(u64, Vec<u64>, u32),
     }
-    type Metadata = (String, Option<u32>, (u32, u32), (u32, u32));
+    type Metadata = (String, Option<u32>, (u32, u32), (u32, u32), u32);
     struct Window {
         id: u32,
         gc: u32,
@@ -67,6 +69,8 @@ mod x11 {
         confirmed: Option<trames_wayland::WindowState>,
         dispatched: trames_wayland::WindowRequest,
         expected_size: Option<(u32, u32)>,
+        scale: crate::display_scale::Scale,
+        output_state: Option<(Vec<u64>, u32)>,
         interaction: Option<(u32, u32)>,
         metadata: Option<Metadata>,
     }
@@ -78,6 +82,8 @@ mod x11 {
         ime: crate::ime_x11::Ime,
         keyboard: crate::keyboard_x11::Keyboard,
         wm: crate::window_x11::Manager,
+        displays: crate::displays_x11::Displays,
+        displays_dirty: bool,
         press: Option<(u64, i16, i16, u8, u32)>,
         screen: usize,
         server: Server,
@@ -138,7 +144,8 @@ mod x11 {
             let initial = VecDeque::from([Command::Map(map), Command::Repeat(rate, delay)]);
             let ime = crate::ime_x11::Ime::new(connection.clone(), screen)?;
             let clipboard = crate::clipboard_x11::Clipboard::new(&connection, screen, &server)?;
-            server.output_scale(0, 1)?;
+            let displays = crate::displays_x11::Displays::new(&connection, screen)?;
+            server.desktop_outputs(displays.descriptors())?;
             server.manage_windows()?;
             let wm = crate::window_x11::Manager::new(&connection)?;
             Ok(Self {
@@ -147,6 +154,8 @@ mod x11 {
                 mode,
                 clipboard,
                 wm,
+                displays,
+                displays_dirty: false,
                 press: None,
                 ime,
                 keyboard,
@@ -207,6 +216,10 @@ mod x11 {
                     }
                     Command::Close(id) => self.server.close(*id),
                     Command::Presented(id, revision) => self.server.presented(*id, *revision, 0),
+                    Command::Outputs(outputs) => self.server.desktop_outputs(outputs.clone()),
+                    Command::WindowOutputs(id, outputs, scale) => {
+                        self.server.window_outputs(*id, outputs.clone(), *scale)
+                    }
                 };
                 match result {
                     Ok(()) => {
@@ -261,6 +274,15 @@ mod x11 {
                     continue;
                 }
                 if self.clipboard.event(&self.connection, &event)? {
+                    continue;
+                }
+                if matches!(
+                    &event,
+                    Event::RandrNotify(_) | Event::RandrScreenChangeNotify(_)
+                ) || matches!(&event,Event::PropertyNotify(e) if e.atom==self.displays.resource)
+                    || matches!(&event,Event::ConfigureNotify(e) if e.window==self.connection.setup().roots[self.screen].root)
+                {
+                    self.displays_dirty = true;
                     continue;
                 }
                 let native = match &event {
@@ -396,6 +418,20 @@ mod x11 {
                     _ => (),
                 }
             }
+            if self.displays_dirty {
+                self.displays.refresh(&self.connection)?;
+                self.commands
+                    .push_back(Command::Outputs(self.displays.descriptors()));
+                self.displays_dirty = false;
+                let windows = self
+                    .windows
+                    .iter()
+                    .map(|(&id, w)| (id, w.id))
+                    .collect::<Vec<_>>();
+                for (id, native) in windows {
+                    self.confirm_window(id, native)?;
+                }
+            }
             self.clipboard.poll(&self.connection, &self.server)?;
             self.flush_commands()?;
             let snapshot = self.server.snapshot();
@@ -445,10 +481,10 @@ mod x11 {
                         if w.scene.revision != scene.revision {
                             let bounds = scene.bounds();
                             if bounds != w.bounds {
-                                let size = (
+                                let size = w.scale.size((
                                     bounds[2].clamp(1, 4096) as u32,
                                     bounds[3].clamp(1, 4096) as u32,
-                                );
+                                ));
                                 if w.expected_size == Some(size) {
                                     w.expected_size = None;
                                 }
@@ -497,7 +533,11 @@ mod x11 {
                             .get(&scene.id)
                             .copied()
                             .unwrap_or_default();
-                        self.create(scene, next, request)?;
+                        let output = snapshot
+                            .fullscreen_outputs
+                            .get(&scene.id)
+                            .and_then(|id| self.displays.fullscreen_index(*id));
+                        self.create(scene, next, request, output)?;
                     }
                 }
                 let ids = self
@@ -516,10 +556,17 @@ mod x11 {
                             || m.1 != parent
                             || m.2 != scene.min_size
                             || m.3 != scene.max_size
+                            || m.4 != w.scale.0
                     }) {
-                        self.wm.metadata(&self.connection, w.id, &scene, parent)?;
-                        w.metadata =
-                            Some((scene.title.clone(), parent, scene.min_size, scene.max_size));
+                        self.wm
+                            .metadata(&self.connection, w.id, &scene, parent, w.scale)?;
+                        w.metadata = Some((
+                            scene.title.clone(),
+                            parent,
+                            scene.min_size,
+                            scene.max_size,
+                            w.scale.0,
+                        ));
                     }
                     let next = snapshot
                         .window_states
@@ -532,6 +579,21 @@ mod x11 {
                         .copied()
                         .unwrap_or_default();
                     if request != w.dispatched {
+                        if next.fullscreen {
+                            if let Some(index) = snapshot
+                                .fullscreen_outputs
+                                .get(&scene.id)
+                                .and_then(|id| self.displays.fullscreen_index(*id))
+                            {
+                                self.wm.fullscreen_output(
+                                    &self.connection,
+                                    root,
+                                    w.id,
+                                    index,
+                                    true,
+                                )?;
+                            }
+                        }
                         for field in request.changes(w.dispatched) {
                             self.wm
                                 .state(&self.connection, root, w.id, w.state, next, field)?;
@@ -676,25 +738,69 @@ mod x11 {
                 .reply()
                 .map_err(error)?;
             let size = (
-                u32::from(g.width).clamp(1, 4096),
-                u32::from(g.height).clamp(1, 4096),
+                u32::from(g.width).clamp(1, 16384),
+                u32::from(g.height).clamp(1, 16384),
             );
+            let root = self.connection.setup().roots[self.screen].root;
+            let position = self
+                .connection
+                .translate_coordinates(native, root, 0, 0)
+                .map_err(error)?
+                .reply()
+                .map_err(error)?;
+            let (outputs, scale) = self.displays.membership([
+                i32::from(position.dst_x),
+                i32::from(position.dst_y),
+                size.0 as i32,
+                size.1 as i32,
+            ]);
+            let parent = self.windows[&id]
+                .scene
+                .parent
+                .and_then(|p| self.windows.get(&p).map(|w| w.id));
             let w = self.windows.get_mut(&id).unwrap();
+            if w.output_state.as_ref() != Some(&(outputs.clone(), scale.0)) {
+                self.commands
+                    .push_back(Command::WindowOutputs(id, outputs.clone(), scale.0));
+                w.output_state = Some((outputs, scale.0));
+            }
+            if scale != w.scale {
+                w.scale = scale;
+                w.metadata = None;
+                w.dirty = true;
+                self.wm
+                    .metadata(&self.connection, native, &w.scene, parent, scale)?;
+                if !next.maximized && !next.fullscreen && !next.minimized {
+                    let target = scale.size((w.bounds[2] as u32, w.bounds[3] as u32));
+                    self.connection
+                        .configure_window(
+                            native,
+                            &xproto::ConfigureWindowAux::new()
+                                .width(target.0)
+                                .height(target.1),
+                        )
+                        .map_err(error)?;
+                    w.expected_size = Some(target);
+                    return Ok(());
+                }
+            }
             if w.confirmed == Some(next) && size == w.size {
                 return Ok(());
             }
             if size != w.size {
                 w.size = size;
-                w.expected_size =
-                    (w.bounds[2] != size.0 as i32 || w.bounds[3] != size.1 as i32).then_some(size);
+                w.expected_size = (w.scale.size((w.bounds[2] as u32, w.bounds[3] as u32)) != size)
+                    .then_some(size);
                 w.dirty = true;
             }
             w.state = Some(next);
             w.confirmed = Some(next);
-            let width = (i64::from(size.0) - i64::from(w.bounds[2]) + i64::from(w.scene.width))
-                .clamp(1, 4096) as u32;
-            let height = (i64::from(size.1) - i64::from(w.bounds[3]) + i64::from(w.scene.height))
-                .clamp(1, 4096) as u32;
+            let width = (i64::from(w.scale.logical(size.0)) - i64::from(w.bounds[2])
+                + i64::from(w.scene.width))
+            .clamp(1, 4096) as u32;
+            let height = (i64::from(w.scale.logical(size.1)) - i64::from(w.bounds[3])
+                + i64::from(w.scene.height))
+            .clamp(1, 4096) as u32;
             self.commands.push_back(Command::Configure(
                 id,
                 width,
@@ -709,12 +815,14 @@ mod x11 {
             scene: WindowSnapshot,
             next: trames_wayland::WindowState,
             request: trames_wayland::WindowRequest,
+            output: Option<u32>,
         ) -> io::Result<()> {
             let bounds = scene.bounds();
-            let size = (
+            let scale = self.displays.initial_scale();
+            let size = scale.size((
                 bounds[2].clamp(1, 4096) as u32,
                 bounds[3].clamp(1, 4096) as u32,
-            );
+            ));
             let id = self.connection.generate_id().map_err(error)?;
             let gc = self.connection.generate_id().map_err(error)?;
             let root = &self.connection.setup().roots[self.screen];
@@ -779,9 +887,14 @@ mod x11 {
                     b"trames\0Trames\0",
                 )
                 .map_err(error)?;
-            self.wm.metadata(&self.connection, id, &scene, None)?;
+            self.wm
+                .metadata(&self.connection, id, &scene, None, scale)?;
             self.wm
                 .state(&self.connection, root.root, id, None, next, 7)?;
+            if let Some(index) = output {
+                self.wm
+                    .fullscreen_output(&self.connection, root.root, id, index, false)?;
+            }
             self.connection.map_window(id).map_err(error)?;
             self.windows.insert(
                 scene.id,
@@ -799,6 +912,8 @@ mod x11 {
                     confirmed: None,
                     dispatched: request,
                     expected_size: None,
+                    scale,
+                    output_state: None,
                     interaction: None,
                     metadata: None,
                 },

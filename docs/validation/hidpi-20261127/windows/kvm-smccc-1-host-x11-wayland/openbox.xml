@@ -1,0 +1,1 @@
+<openbox_config xmlns="http://openbox.org/3.4/rc"><theme><name>Onyx</name></theme><focus><focusNew>yes</focusNew></focus><keyboard><keybind key="A-Tab"><action name="NextWindow"/></keybind></keyboard></openbox_config>

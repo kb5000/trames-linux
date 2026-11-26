@@ -1,0 +1,14 @@
+[
+  "/mnt/trames-output/linux-hidpi/windows/tools/runner",
+  "run",
+  "--rootfs",
+  "/mnt/trames-output/linux-hidpi/windows/kvm-mmio-4-host-wayland-wayland/rootfs",
+  "--desktop",
+  "wayland",
+  "--cpus",
+  "4",
+  "--timeout-ms",
+  "60000",
+  "--",
+  "/test/window"
+]

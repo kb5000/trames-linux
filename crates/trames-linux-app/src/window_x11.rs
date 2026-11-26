@@ -13,6 +13,7 @@ pub struct Manager {
     max_v: u32,
     full: u32,
     hidden: u32,
+    monitors: u32,
     change: u32,
     moveresize: u32,
     name: u32,
@@ -34,6 +35,7 @@ impl Manager {
             max_v: atom(b"_NET_WM_STATE_MAXIMIZED_VERT")?,
             full: atom(b"_NET_WM_STATE_FULLSCREEN")?,
             hidden: atom(b"_NET_WM_STATE_HIDDEN")?,
+            monitors: atom(b"_NET_WM_FULLSCREEN_MONITORS")?,
             change: atom(b"WM_CHANGE_STATE")?,
             moveresize: atom(b"_NET_WM_MOVERESIZE")?,
             name: atom(b"_NET_WM_NAME")?,
@@ -126,12 +128,35 @@ impl Manager {
         }
         Ok(())
     }
+    pub fn fullscreen_output(
+        &self,
+        c: &XCBConnection,
+        root: u32,
+        id: u32,
+        index: u32,
+        mapped: bool,
+    ) -> io::Result<()> {
+        if mapped {
+            self.message(c, root, id, self.monitors, [index, index, index, index, 1])
+        } else {
+            c.change_property32(
+                PropMode::REPLACE,
+                id,
+                self.monitors,
+                AtomEnum::CARDINAL,
+                &[index; 4],
+            )
+            .map_err(err)?;
+            Ok(())
+        }
+    }
     pub fn metadata(
         &self,
         c: &XCBConnection,
         id: u32,
         scene: &WindowSnapshot,
         parent: Option<u32>,
+        scale: crate::display_scale::Scale,
     ) -> io::Result<()> {
         c.change_property8(
             PropMode::REPLACE,
@@ -162,30 +187,40 @@ impl Manager {
         );
         if scene.min_size != (0, 0) {
             hints[0] |= 1 << 4;
-            hints[5] = scene.min_size.0.saturating_add(extra.0).min(4096);
-            hints[6] = scene.min_size.1.saturating_add(extra.1).min(4096);
+            hints[5] = scale
+                .pixels(scene.min_size.0.saturating_add(extra.0))
+                .min(16384);
+            hints[6] = scale
+                .pixels(scene.min_size.1.saturating_add(extra.1))
+                .min(16384);
         }
         if scene.max_size != (0, 0) {
             hints[0] |= 1 << 5;
             hints[7] = if scene.max_size.0 == 0 {
-                4096
+                16384
             } else {
-                scene
-                    .max_size
-                    .0
-                    .max(scene.min_size.0)
-                    .saturating_add(extra.0)
-                    .min(4096)
+                scale
+                    .pixels(
+                        scene
+                            .max_size
+                            .0
+                            .max(scene.min_size.0)
+                            .saturating_add(extra.0),
+                    )
+                    .min(16384)
             };
             hints[8] = if scene.max_size.1 == 0 {
-                4096
+                16384
             } else {
-                scene
-                    .max_size
-                    .1
-                    .max(scene.min_size.1)
-                    .saturating_add(extra.1)
-                    .min(4096)
+                scale
+                    .pixels(
+                        scene
+                            .max_size
+                            .1
+                            .max(scene.min_size.1)
+                            .saturating_add(extra.1),
+                    )
+                    .min(16384)
             };
         }
         c.change_property32(

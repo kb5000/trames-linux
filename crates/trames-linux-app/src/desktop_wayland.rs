@@ -3,7 +3,7 @@
 //! armed across that wait, including when native WSI shares the wl_display.
 use crate::clipboard::{Bridge, Reader, Request, Writer};
 use std::{
-    collections::{BTreeMap, VecDeque},
+    collections::{BTreeMap, BTreeSet, VecDeque},
     io,
     os::fd::AsFd,
     sync::Arc,
@@ -14,17 +14,26 @@ use wayland_client::{
     delegate_noop,
     protocol::{
         wl_buffer, wl_callback, wl_compositor, wl_data_device, wl_data_device_manager,
-        wl_data_offer, wl_data_source, wl_keyboard, wl_pointer, wl_registry, wl_seat, wl_shm,
-        wl_shm_pool, wl_surface,
+        wl_data_offer, wl_data_source, wl_keyboard, wl_output, wl_pointer, wl_registry, wl_seat,
+        wl_shm, wl_shm_pool, wl_surface,
     },
     Connection, Dispatch, EventQueue, Proxy, QueueHandle, WEnum,
 };
 use wayland_protocols::{
-    wp::text_input::{
-        zv1::client::{zwp_text_input_manager_v1 as m1, zwp_text_input_v1 as t1},
-        zv3::client::{zwp_text_input_manager_v3 as m3, zwp_text_input_v3 as t3},
+    wp::{
+        fractional_scale::v1::client::{
+            wp_fractional_scale_manager_v1 as fm, wp_fractional_scale_v1 as fs,
+        },
+        text_input::{
+            zv1::client::{zwp_text_input_manager_v1 as m1, zwp_text_input_v1 as t1},
+            zv3::client::{zwp_text_input_manager_v3 as m3, zwp_text_input_v3 as t3},
+        },
+        viewporter::client::{wp_viewport, wp_viewporter as vp},
     },
-    xdg::shell::client::{xdg_surface, xdg_toplevel, xdg_wm_base},
+    xdg::{
+        shell::client::{xdg_surface, xdg_toplevel, xdg_wm_base},
+        xdg_output::zv1::client::{zxdg_output_manager_v1 as om, zxdg_output_v1 as oo},
+    },
 };
 fn error(e: impl std::fmt::Display) -> io::Error {
     io::Error::other(e.to_string())
@@ -38,6 +47,8 @@ enum Command {
     Close(u64),
     Presented(u64, u64),
     Clipboard,
+    Outputs(Vec<trames_wayland::DesktopOutput>),
+    WindowOutputs(u64, Vec<u64>, u32),
 }
 type Metadata = (
     String,
@@ -46,6 +57,15 @@ type Metadata = (
     (u32, u32),
     (u32, u32),
 );
+struct HostOutput {
+    proxy: wl_output::WlOutput,
+    xdg: Option<oo::ZxdgOutputV1>,
+    data: trames_wayland::DesktopOutput,
+    integer: i32,
+    logical: bool,
+    logical_position: bool,
+    ready: bool,
+}
 struct Window {
     gpu: Option<crate::gpu_desktop::Renderer>,
     surface: wl_surface::WlSurface,
@@ -66,8 +86,33 @@ struct Window {
     interaction: Option<(u32, u32)>,
     metadata: Option<Metadata>,
     geometry: Option<[i32; 4]>,
+    scale: crate::display_scale::Scale,
+    entered: BTreeSet<u32>,
+    output_state: Option<(Vec<u64>, u32)>,
+    fractional: Option<fs::WpFractionalScaleV1>,
+    viewport: Option<wp_viewport::WpViewport>,
+    preferred: Option<u32>,
+    preferred_changed: bool,
+    fallback_scale: u32,
+    pixel_config: Option<((u32, u32), u32)>,
 }
 impl Window {
+    fn pixels(&self) -> (u32, u32) {
+        self.scale.size(self.size)
+    }
+    fn pixel_configuration(&mut self) {
+        if self.pixel_config == Some((self.size, self.scale.0)) {
+            return;
+        }
+        if let Some(viewport) = &self.viewport {
+            self.surface.set_buffer_scale(1);
+            viewport.set_destination(self.size.0 as i32, self.size.1 as i32);
+        } else {
+            self.surface
+                .set_buffer_scale(self.scale.0.div_ceil(120) as i32);
+        }
+        self.pixel_config = Some((self.size, self.scale.0));
+    }
     fn native_geometry(&self) -> [i32; 4] {
         let extra = (
             self.bounds[2] - self.scene.width as i32,
@@ -84,6 +129,12 @@ impl Window {
 impl Drop for Window {
     fn drop(&mut self) {
         self.gpu.take();
+        if let Some(f) = self.fractional.take() {
+            f.destroy();
+        }
+        if let Some(v) = self.viewport.take() {
+            v.destroy();
+        }
         self.callback.take();
         for b in self.buffers.drain(..) {
             b.destroy();
@@ -104,6 +155,11 @@ struct State {
     keyboard: Option<wl_keyboard::WlKeyboard>,
     pointer: Option<wl_pointer::WlPointer>,
     windows: BTreeMap<u64, Window>,
+    outputs: BTreeMap<u32, HostOutput>,
+    outputs_dirty: bool,
+    output_manager: Option<om::ZxdgOutputManagerV1>,
+    fractional_manager: Option<fm::WpFractionalScaleManagerV1>,
+    viewporter: Option<vp::WpViewporter>,
     commands: VecDeque<Command>,
     revision: Option<u64>,
     focus: Option<u64>,
@@ -153,6 +209,11 @@ impl State {
             keyboard: None,
             pointer: None,
             windows: BTreeMap::new(),
+            outputs: BTreeMap::new(),
+            outputs_dirty: false,
+            output_manager: None,
+            fractional_manager: None,
+            viewporter: None,
             commands: VecDeque::new(),
             revision: None,
             focus: None,
@@ -189,6 +250,13 @@ impl State {
         })
     }
     fn services(&mut self, q: &QueueHandle<Self>) {
+        if let Some(manager) = &self.output_manager {
+            for (&id, o) in &mut self.outputs {
+                if o.xdg.is_none() {
+                    o.xdg = Some(manager.get_xdg_output(&o.proxy, q, id));
+                }
+            }
+        }
         if let Some(seat) = &self.seat {
             if self.data.is_none() {
                 if let Some(m) = &self.data_manager {
@@ -204,6 +272,95 @@ impl State {
                 if let Some(m) = &self.manager1 {
                     self.text1 = Some(m.create_text_input(q, ()));
                 }
+            }
+        }
+    }
+    fn sync_outputs(&mut self) {
+        if self.outputs_dirty {
+            let outputs = self
+                .outputs
+                .values()
+                .filter(|o| o.ready)
+                .map(|o| {
+                    let mut data = o.data.clone();
+                    let oriented = if data.transform % 2 == 1 {
+                        (data.pixel_size.1, data.pixel_size.0)
+                    } else {
+                        data.pixel_size
+                    };
+                    if !o.logical {
+                        data.logical_size = (
+                            oriented.0 / (o.integer.max(1) as u32),
+                            oriented.1 / (o.integer.max(1) as u32),
+                        );
+                    }
+                    if data.logical_size.0 > 0 {
+                        data.scale_120 = ((u64::from(oriented.0) * 120
+                            + u64::from(data.logical_size.0) / 2)
+                            / u64::from(data.logical_size.0))
+                        .clamp(120, 480) as u32;
+                    }
+                    data
+                })
+                .collect();
+            self.commands.push_back(Command::Outputs(outputs));
+            self.outputs_dirty = false;
+        }
+        for (&id, w) in &mut self.windows {
+            let members = w
+                .entered
+                .iter()
+                .filter(|id| self.outputs.contains_key(id))
+                .map(|&v| u64::from(v))
+                .collect::<Vec<_>>();
+            let fallback = w
+                .entered
+                .iter()
+                .filter_map(|id| {
+                    self.outputs.get(id).map(|o| {
+                        let pixels = if o.data.transform % 2 == 1 {
+                            o.data.pixel_size.1
+                        } else {
+                            o.data.pixel_size.0
+                        };
+                        if o.logical && o.data.logical_size.0 > 0 {
+                            ((u64::from(pixels) * 120 + u64::from(o.data.logical_size.0) / 2)
+                                / u64::from(o.data.logical_size.0))
+                            .clamp(120, 480) as u32
+                        } else {
+                            o.integer.max(1) as u32 * 120
+                        }
+                    })
+                })
+                .max()
+                .unwrap_or(w.scale.0);
+            // Some hosts keep a stale preferred-scale hint when an output is
+            // unplugged. Fresh hints win; otherwise use the current membership.
+            let moved = w
+                .output_state
+                .as_ref()
+                .is_some_and(|(old, _)| old != &members);
+            let density_changed = w.fallback_scale != fallback;
+            w.fallback_scale = fallback;
+            if (moved || density_changed) && !w.preferred_changed {
+                w.preferred = None;
+            }
+            let requested = w.preferred.unwrap_or(fallback);
+            w.preferred_changed = false;
+            let scale = if w.viewport.is_some() {
+                requested
+            } else {
+                requested.div_ceil(120) * 120
+            };
+            let scale = crate::display_scale::Scale::new(scale);
+            if w.output_state.as_ref() != Some(&(members.clone(), scale.0)) {
+                self.commands
+                    .push_back(Command::WindowOutputs(id, members.clone(), scale.0));
+                w.output_state = Some((members, scale.0));
+            }
+            if w.scale != scale {
+                w.scale = scale;
+                w.dirty = true;
             }
         }
     }
@@ -388,6 +545,10 @@ impl State {
                 Command::Close(id) => self.server.close(*id),
                 Command::Presented(id, r) => self.server.presented(*id, *r, 0),
                 Command::Clipboard => self.server.clipboard_changed(),
+                Command::Outputs(outputs) => self.server.desktop_outputs(outputs.clone()),
+                Command::WindowOutputs(id, outputs, scale) => {
+                    self.server.window_outputs(*id, outputs.clone(), *scale)
+                }
             };
             match r {
                 Ok(()) => {
@@ -400,6 +561,7 @@ impl State {
         Ok(())
     }
     fn refresh(&mut self, q: &QueueHandle<Self>) -> io::Result<()> {
+        self.sync_outputs();
         let snapshot = self.server.snapshot();
         self.context = snapshot.text;
         self.sync_text();
@@ -449,6 +611,14 @@ impl State {
                         bounds[2].clamp(1, 4096) as u32,
                         bounds[3].clamp(1, 4096) as u32,
                     );
+                    let fractional = self
+                        .fractional_manager
+                        .as_ref()
+                        .map(|m| m.get_fractional_scale(&surface, q, scene.id));
+                    let viewport = self
+                        .viewporter
+                        .as_ref()
+                        .map(|m| m.get_viewport(&surface, q, ()));
                     surface.commit();
                     self.windows.insert(
                         scene.id,
@@ -472,6 +642,15 @@ impl State {
                             interaction: None,
                             metadata: None,
                             geometry: None,
+                            scale: crate::display_scale::Scale::default(),
+                            entered: BTreeSet::new(),
+                            output_state: None,
+                            fractional,
+                            viewport,
+                            preferred: None,
+                            preferred_changed: false,
+                            fallback_scale: 120,
+                            pixel_config: None,
                         },
                     );
                 }
@@ -561,6 +740,7 @@ impl State {
             }
             self.revision = Some(snapshot.revision);
         }
+        self.sync_outputs();
         let shm = self
             .shm
             .as_ref()
@@ -570,6 +750,11 @@ impl State {
             .values_mut()
             .filter(|w| w.configured && w.dirty && w.callback.is_none())
         {
+            let pixels = w.pixels();
+            if pixels.0 > 16384 || pixels.1 > 16384 {
+                return Err(error("native framebuffer exceeds 16384 pixels per axis"));
+            }
+            w.pixel_configuration();
             if self.mode.gpu(&w.scene) {
                 if w.gpu.as_ref().is_some_and(|g| !g.matches(&w.scene)) {
                     w.gpu.take();
@@ -583,7 +768,7 @@ impl State {
                                 surface: w.surface.id().as_ptr() as usize,
                             },
                             &w.scene,
-                            w.size,
+                            pixels,
                         )
                     }?);
                 }
@@ -591,7 +776,7 @@ impl State {
                 w.gpu
                     .as_mut()
                     .unwrap()
-                    .present(&w.scene, w.size, w.bounds)?;
+                    .present(&w.scene, pixels, w.bounds)?;
                 w.presented = Some(w.scene.revision);
                 w.dirty = false;
                 if let Some((width, height, state, request)) = w.confirmation.take() {
@@ -605,17 +790,17 @@ impl State {
             if w.buffers.len() >= 3 {
                 continue;
             }
-            let pixels = crate::desktop::render(&w.scene, w.size, w.bounds, false)?;
+            let image = crate::desktop::render(&w.scene, pixels, w.bounds, false)?;
             let file = trames_shared::SharedFile::anonymous()?;
-            file.set_len(pixels.len())?;
-            file.write_at(0, &pixels)?;
+            file.set_len(image.len())?;
+            file.write_at(0, &image)?;
             let fd = file.duplicate_fd()?;
-            let pool = shm.create_pool(fd.as_fd(), pixels.len() as i32, q, ());
+            let pool = shm.create_pool(fd.as_fd(), image.len() as i32, q, ());
             let buffer = pool.create_buffer(
                 0,
-                w.size.0 as i32,
-                w.size.1 as i32,
-                (w.size.0 * 4) as i32,
+                pixels.0 as i32,
+                pixels.1 as i32,
+                (pixels.0 * 4) as i32,
                 wl_shm::Format::Xrgb8888,
                 q,
                 w.scene.id,
@@ -623,7 +808,7 @@ impl State {
             pool.destroy();
             w.surface.attach(Some(&buffer), 0, 0);
             w.surface
-                .damage_buffer(0, 0, w.size.0 as i32, w.size.1 as i32);
+                .damage_buffer(0, 0, pixels.0 as i32, pixels.1 as i32);
             w.callback = Some(w.surface.frame(q, w.scene.id));
             w.surface.commit();
             w.buffers.push(buffer);
@@ -661,7 +846,14 @@ impl State {
                         }
                         2 => {
                             if next.fullscreen {
-                                w.top.set_fullscreen(None);
+                                w.top.set_fullscreen(
+                                    snapshot
+                                        .fullscreen_outputs
+                                        .get(&id)
+                                        .and_then(|id| u32::try_from(*id).ok())
+                                        .and_then(|id| self.outputs.get(&id))
+                                        .map(|o| &o.proxy),
+                                );
                             } else {
                                 w.top.unset_fullscreen();
                             }
@@ -701,7 +893,8 @@ impl Desktop {
         if state.compositor.is_none() || state.shm.is_none() || state.shell.is_none() {
             return Err(error("Wayland host requires compositor, SHM and xdg-shell"));
         }
-        state.server.output_scale(0, 1)?;
+        state.sync_outputs();
+        state.flush()?;
         state.server.manage_windows()?;
         Ok(Self {
             wake: None,
@@ -808,6 +1001,20 @@ impl Dispatch<wl_registry::WlRegistry, ()> for State {
         _: &Connection,
         q: &QueueHandle<Self>,
     ) {
+        if let wl_registry::Event::GlobalRemove { name } = &e {
+            if let Some(o) = s.outputs.remove(name) {
+                if let Some(x) = o.xdg {
+                    x.destroy();
+                }
+                if o.proxy.version() >= 3 {
+                    o.proxy.release();
+                }
+                s.outputs_dirty = true;
+            }
+            for w in s.windows.values_mut() {
+                w.entered.remove(name);
+            }
+        }
         if let wl_registry::Event::Global {
             name,
             interface,
@@ -815,7 +1022,40 @@ impl Dispatch<wl_registry::WlRegistry, ()> for State {
         } = e
         {
             match interface.as_str() {
-                "wl_compositor" => s.compositor = Some(r.bind(name, version.min(4), q, ())),
+                "wl_compositor" => s.compositor = Some(r.bind(name, version.min(6), q, ())),
+                "wp_viewporter" => s.viewporter = Some(r.bind(name, 1, q, ())),
+                "wp_fractional_scale_manager_v1" => {
+                    s.fractional_manager = Some(r.bind(name, 1, q, ()))
+                }
+                "zxdg_output_manager_v1" => {
+                    s.output_manager = Some(r.bind(name, version.min(3), q, ()))
+                }
+                "wl_output" => {
+                    let proxy = r.bind(name, version.min(4), q, name);
+                    s.outputs.insert(
+                        name,
+                        HostOutput {
+                            proxy,
+                            xdg: None,
+                            data: trames_wayland::DesktopOutput {
+                                id: u64::from(name),
+                                name: format!("WL-{name}"),
+                                description: format!("Wayland output {name}"),
+                                position: (0, 0),
+                                logical_size: (0, 0),
+                                pixel_size: (0, 0),
+                                physical_mm: (0, 0),
+                                scale_120: 120,
+                                refresh_millihz: 60000,
+                                transform: 0,
+                            },
+                            integer: 1,
+                            logical: false,
+                            logical_position: false,
+                            ready: false,
+                        },
+                    );
+                }
                 "wl_shm" => s.shm = Some(r.bind(name, 1, q, ())),
                 "xdg_wm_base" => s.shell = Some(r.bind(name, version.min(3), q, ())),
                 "wl_seat" => s.seat = Some(r.bind(name, version.min(7), q, ())),
@@ -1300,15 +1540,135 @@ impl Dispatch<t1::ZwpTextInputV1, ()> for State {
 delegate_noop!(State:ignore wl_compositor::WlCompositor);
 impl Dispatch<wl_surface::WlSurface, u64> for State {
     fn event(
-        _: &mut Self,
+        s: &mut Self,
         _: &wl_surface::WlSurface,
-        _: wl_surface::Event,
-        _: &u64,
+        e: wl_surface::Event,
+        id: &u64,
         _: &Connection,
         _: &QueueHandle<Self>,
     ) {
+        if let Some(w) = s.windows.get_mut(id) {
+            match e {
+                wl_surface::Event::Enter { output } => {
+                    if let Some(id) = output.data::<u32>() {
+                        w.entered.insert(*id);
+                    }
+                }
+                wl_surface::Event::Leave { output } => {
+                    if let Some(id) = output.data::<u32>() {
+                        w.entered.remove(id);
+                    }
+                }
+                wl_surface::Event::PreferredBufferScale { factor } if w.fractional.is_none() => {
+                    w.preferred = Some(factor.max(1) as u32 * 120);
+                    w.preferred_changed = true;
+                }
+                _ => (),
+            }
+        }
     }
 }
+impl Dispatch<wl_output::WlOutput, u32> for State {
+    fn event(
+        s: &mut Self,
+        _: &wl_output::WlOutput,
+        e: wl_output::Event,
+        id: &u32,
+        _: &Connection,
+        _: &QueueHandle<Self>,
+    ) {
+        if let Some(o) = s.outputs.get_mut(id) {
+            match e {
+                wl_output::Event::Geometry {
+                    x,
+                    y,
+                    physical_width,
+                    physical_height,
+                    transform: WEnum::Value(t),
+                    ..
+                } => {
+                    if !o.logical_position {
+                        o.data.position = (x, y);
+                    }
+                    o.data.physical_mm = (physical_width, physical_height);
+                    o.data.transform = t as u32;
+                }
+                wl_output::Event::Mode {
+                    flags: WEnum::Value(flags),
+                    width,
+                    height,
+                    refresh,
+                } if flags.contains(wl_output::Mode::Current) => {
+                    o.data.pixel_size = (width.max(1) as u32, height.max(1) as u32);
+                    o.data.refresh_millihz = refresh;
+                }
+                wl_output::Event::Scale { factor } => o.integer = factor.clamp(1, 4),
+                wl_output::Event::Name { name } => o.data.name = name,
+                wl_output::Event::Description { description } => o.data.description = description,
+                wl_output::Event::Done => {
+                    o.ready = true;
+                    s.outputs_dirty = true;
+                }
+                _ => (),
+            }
+            if o.proxy.version() < 2 && o.data.pixel_size.0 > 0 {
+                o.ready = true;
+                s.outputs_dirty = true;
+            }
+        }
+    }
+}
+impl Dispatch<oo::ZxdgOutputV1, u32> for State {
+    fn event(
+        s: &mut Self,
+        _: &oo::ZxdgOutputV1,
+        e: oo::Event,
+        id: &u32,
+        _: &Connection,
+        _: &QueueHandle<Self>,
+    ) {
+        if let Some(o) = s.outputs.get_mut(id) {
+            match e {
+                oo::Event::LogicalPosition { x, y } => {
+                    o.data.position = (x, y);
+                    o.logical_position = true;
+                }
+                oo::Event::LogicalSize { width, height } => {
+                    o.data.logical_size = (width.max(1) as u32, height.max(1) as u32);
+                    o.logical = true;
+                }
+                oo::Event::Name { name } => o.data.name = name,
+                oo::Event::Description { description } => o.data.description = description,
+                oo::Event::Done => {
+                    o.ready = true;
+                    s.outputs_dirty = true;
+                }
+                _ => (),
+            }
+        }
+    }
+}
+impl Dispatch<fs::WpFractionalScaleV1, u64> for State {
+    fn event(
+        s: &mut Self,
+        _: &fs::WpFractionalScaleV1,
+        e: fs::Event,
+        id: &u64,
+        _: &Connection,
+        _: &QueueHandle<Self>,
+    ) {
+        if let fs::Event::PreferredScale { scale } = e {
+            if let Some(w) = s.windows.get_mut(id) {
+                w.preferred = Some(scale);
+                w.preferred_changed = true;
+            }
+        }
+    }
+}
+delegate_noop!(State:ignore vp::WpViewporter);
+delegate_noop!(State:ignore wp_viewport::WpViewport);
+delegate_noop!(State:ignore fm::WpFractionalScaleManagerV1);
+delegate_noop!(State:ignore om::ZxdgOutputManagerV1);
 delegate_noop!(State:ignore wl_shm::WlShm);
 delegate_noop!(State:ignore wl_shm_pool::WlShmPool);
 delegate_noop!(State:ignore wl_data_device_manager::WlDataDeviceManager);

@@ -1,0 +1,70 @@
+configured parent 240 160 max=0 full=0 resizing=0 active=0
+configured parent 240 160 max=0 full=0 resizing=0 active=0
+pointer-enter parent
+focus parent
+configured parent 240 160 max=0 full=0 resizing=0 active=1
+command m
+configured parent 640 480 max=1 full=0 resizing=0 active=1
+command n
+configured parent 240 160 max=0 full=0 resizing=0 active=1
+command f
+configured parent 240 160 max=0 full=1 resizing=0 active=1
+configured parent 992 736 max=0 full=1 resizing=0 active=1
+command u
+configured parent 640 480 max=0 full=1 resizing=0 active=1
+configured parent 240 160 max=0 full=0 resizing=0 active=1
+command m
+configured parent 640 480 max=1 full=0 resizing=0 active=1
+command f
+configured parent 992 718 max=1 full=0 resizing=0 active=1
+configured parent 992 718 max=1 full=1 resizing=0 active=1
+configured parent 992 736 max=0 full=1 resizing=0 active=1
+command u
+configured parent 640 480 max=0 full=1 resizing=0 active=1
+configured parent 640 480 max=0 full=0 resizing=0 active=1
+configured parent 640 480 max=1 full=0 resizing=0 active=1
+command n
+configured parent 240 160 max=0 full=0 resizing=0 active=1
+command v
+pointer-button 1 gesture=118 pointed=1
+gesture v 26
+pointer-button 0 gesture=0 pointed=1
+blur parent
+configured parent 240 160 max=0 full=0 resizing=0 active=0
+focus parent
+configured parent 240 160 max=0 full=0 resizing=0 active=1
+command r
+pointer-button 1 gesture=114 pointed=1
+gesture r 38
+pointer-button 0 gesture=0 pointed=1
+blur parent
+configured parent 240 160 max=0 full=0 resizing=0 active=0
+configured parent 250 170 max=0 full=0 resizing=0 active=0
+focus parent
+configured parent 250 170 max=0 full=0 resizing=0 active=1
+command i
+blur parent
+configured parent 250 170 max=0 full=0 resizing=0 active=0
+configured parent 250 170 max=0 full=0 resizing=0 active=0
+configured parent 250 170 max=0 full=0 resizing=0 active=0
+focus parent
+configured parent 250 170 max=0 full=0 resizing=0 active=1
+command c
+configured child 240 160 max=0 full=0 resizing=0 active=0
+configured child 240 160 max=0 full=0 resizing=0 active=0
+pointer-enter child
+blur parent
+configured parent 250 170 max=0 full=0 resizing=0 active=0
+focus child
+configured child 240 160 max=0 full=0 resizing=0 active=1
+command d
+command x
+blur destroyed
+pointer-enter parent
+focus parent
+configured parent 250 170 max=0 full=0 resizing=0 active=1
+pointer-button 1 gesture=0 pointed=1
+pointer-button 0 gesture=0 pointed=1
+command s
+command q
+window-done

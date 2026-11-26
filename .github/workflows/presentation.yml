@@ -2,7 +2,7 @@ name: Native Linux presentation references
 on:
   push:
     branches: [main]
-    paths: ['runtime', 'Cargo.lock', 'crates/trames-linux-app/**', 'scripts/validate-wsi.py', 'scripts/validate-desktop.py', 'scripts/validate-keyboard.py', 'tests/fixtures/keyboard-*.c', 'scripts/validate-windows.py', 'scripts/validate-window-parent.py', 'tests/fixtures/window-*.c', 'scripts/validate-xwayland-ime.py', 'tests/fixtures/xim-control.c', 'scripts/validate-desktop-interop.py', 'tests/fixtures/interop-*.c', 'tests/fixtures/desktop-*.c', 'tools/xwayland-launcher.c', 'tests/fixtures/*wsi*', 'tests/fixtures/x11-probe.c', 'tests/fixtures/wayland-target.c', '.github/workflows/presentation.yml']
+    paths: ['runtime', 'Cargo.lock', 'crates/trames-linux-app/**', 'scripts/validate-wsi.py', 'scripts/validate-desktop.py', 'scripts/validate-keyboard.py', 'tests/fixtures/keyboard-*.c', 'scripts/validate-hidpi.py', 'tests/fixtures/hidpi-*.c', 'tests/fixtures/wlr-virtual-pointer-unstable-v1.xml', 'scripts/validate-windows.py', 'scripts/validate-window-parent.py', 'tests/fixtures/window-*.c', 'scripts/validate-xwayland-ime.py', 'tests/fixtures/xim-control.c', 'scripts/validate-desktop-interop.py', 'tests/fixtures/interop-*.c', 'tests/fixtures/desktop-*.c', 'tools/xwayland-launcher.c', 'tests/fixtures/*wsi*', 'tests/fixtures/x11-probe.c', 'tests/fixtures/wayland-target.c', '.github/workflows/presentation.yml']
   pull_request:
   workflow_dispatch:
 permissions:
@@ -24,7 +24,7 @@ jobs:
         with:
           toolchain: nightly-2026-10-16
       - name: Install software display prerequisites
-        run: sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends openbox libxkbcommon-x11-0 libx11-dev x11-xkb-utils x11-xserver-utils libvulkan-dev mesa-vulkan-drivers libxcb1-dev libxcb-xtest0-dev libwayland-dev libwayland-bin wayland-protocols xvfb weston
+        run: sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends openbox libxkbcommon-x11-0 libx11-dev x11-xkb-utils x11-xserver-utils libvulkan-dev mesa-vulkan-drivers libxcb1-dev libxcb-xtest0-dev libwayland-dev libwayland-bin wayland-protocols xvfb weston sway grim
       - name: Compile original XTEST sequence peer
         run: |
           mkdir -p target
@@ -68,6 +68,13 @@ jobs:
         run: |
           unit=$(python3 -c 'import json; a=[json.loads(x) for x in open("target/wsi-unit.jsonl")]; a=[x["executable"] for x in a if x.get("reason")=="compiler-artifact" and x.get("profile",{}).get("test") and x.get("target",{}).get("kind")==["bin"] and x.get("executable")]; assert len(a)==1,a; print(a[0])')
           python3 scripts/validate-window-parent.py --native-only --unit-binary "$unit" --output target/validation/window-parent-native
+      - name: Exercise HiDPI, fractional pixels, multiple displays and hotplug
+        shell: bash
+        run: |
+          unit=$(python3 -c 'import json; a=[json.loads(x) for x in open("target/wsi-unit.jsonl")]; a=[x["executable"] for x in a if x.get("reason")=="compiler-artifact" and x.get("profile",{}).get("test") and x.get("target",{}).get("kind")==["bin"] and x.get("executable")]; assert len(a)==1,a; print(a[0])')
+          export VK_DRIVER_FILES=$(find /usr/share/vulkan/icd.d -name 'lvp_icd*.json' -print -quit)
+          test -n "$VK_DRIVER_FILES"
+          python3 scripts/validate-hidpi.py --unit-binary "$unit" --output target/validation/hidpi-native
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -79,5 +86,6 @@ jobs:
             target/validation/keyboard-native/
             target/validation/windows-native/
             target/validation/window-parent-native/
+            target/validation/hidpi-native/
           if-no-files-found: error
           retention-days: 14

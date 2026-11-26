@@ -1,0 +1,28 @@
+output 16 LEFT pos=0,0 logical=0,0 pixels=512,768 integer=1 transform=0
+output 16 LEFT pos=0,0 logical=512,768 pixels=512,768 integer=1 transform=0
+output 17 RIGHT pos=0,0 logical=0,0 pixels=512,768 integer=2 transform=0
+output 17 RIGHT pos=512,0 logical=410,614 pixels=512,768 integer=2 transform=0
+scale 120
+paint logical=240,160 pixels=240,160 scale=120 full=0 max=0
+enter LEFT
+scale 120
+paint logical=240,160 pixels=240,160 scale=120 full=0 max=0
+paint logical=240,160 pixels=240,160 scale=120 full=0 max=0
+paint logical=240,160 pixels=240,160 scale=120 full=0 max=0
+leave LEFT
+enter RIGHT
+scale 150
+paint logical=240,160 pixels=300,200 scale=150 full=0 max=0
+paint logical=240,160 pixels=300,200 scale=150 full=0 max=0
+pointer 120.00 80.00
+pointer 120.00 80.00
+pointer 120.00 80.00
+paint logical=320,200 pixels=400,250 scale=150 full=0 max=0
+enter LEFT
+leave RIGHT
+scale 120
+paint logical=320,200 pixels=320,200 scale=120 full=0 max=0
+paint logical=320,200 pixels=320,200 scale=120 full=0 max=0
+removed RIGHT
+command q
+hidpi-done

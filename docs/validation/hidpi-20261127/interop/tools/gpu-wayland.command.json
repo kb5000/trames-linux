@@ -1,0 +1,16 @@
+[
+  "cc",
+  "-O2",
+  "-Wall",
+  "-Wextra",
+  "-Werror",
+  "-I/mnt/trames-output/linux-hidpi/interop/tools",
+  "-DTRAMES_WSI_WAYLAND",
+  "/mnt/trames-output/linux-keyboard-source/tests/fixtures/vulkan-wsi.c",
+  "/mnt/trames-output/linux-keyboard-source/tests/fixtures/wayland-target.c",
+  "/mnt/trames-output/linux-hidpi/interop/tools/xdg-shell-protocol.c",
+  "-lvulkan",
+  "-lwayland-client",
+  "-o",
+  "/mnt/trames-output/linux-hidpi/interop/tools/gpu-wayland"
+]

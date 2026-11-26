@@ -1,0 +1,16 @@
+[
+  "/mnt/trames-output/linux-hidpi/matrix/tools/runner",
+  "run",
+  "--rootfs",
+  "/mnt/trames-output/linux-hidpi/matrix/kvm-mmio-4-x11/rootfs",
+  "--desktop",
+  "x11",
+  "--desktop-renderer",
+  "software",
+  "--cpus",
+  "4",
+  "--timeout-ms",
+  "60000",
+  "--",
+  "/test/hidpi"
+]

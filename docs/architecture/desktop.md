@@ -89,6 +89,60 @@ cannot be combined with `--desktop`; `--display-size` applies only to that fixed
 display. The host frontend is selected independently of whether the guest
 application uses Wayland or original Xwayland.
 
+## HiDPI and multiple outputs
+
+Both native frontends import actual host output identities, logical positions,
+pixel modes, physical dimensions, rotation and logical sizes. Two monitors at the
+same density remain distinct `wl_output` objects. Removal sends surface leave
+before global removal; reinsertion has a fresh protocol lifetime. Native output
+mode opts into the additive Runtime `desktop_outputs`/`window_outputs` API; the
+existing Apple `output_scale` API and `WindowSnapshot` layout remain available.
+No CPU execution path, page geometry or guest instructions change.
+
+Window content/configure sizes, input positions, popup geometry and IME carets
+remain logical. Buffers and native X11 window dimensions use pixels. Native
+Wayland imports per-surface fractional-scale hints, integer buffer-scale hints
+and output enter/leave; it uses a viewport with buffer scale 1 for fractional
+buffers. Integer-only hosts use the corresponding integer buffer scale. A fresh
+host hint wins; after migration/hotplug without a fresh hint, current output
+membership supplies the fallback. Rendering rounds positive physical dimensions
+to the nearest integer, with ties upward. SHM and Vulkan composition share this
+size conversion. The supported density range is 1x–4x (1/120 units).
+
+X11 imports RandR 1.5 monitors and watches RandR notifications, root configuration
+and resource changes. Older servers fall back to the root screen. `Xft.dpi` in
+`RESOURCE_MANAGER` supplies the session density; otherwise physical DPI supplies
+a quarter-step estimate. X11 has no universal per-monitor UI-density setting.
+Override it by connector/monitor name when necessary:
+
+```sh
+TRAMES_DESKTOP_OUTPUT_SCALES='DP-1=1.25,HDMI-1=2' trames run --desktop x11 --rootfs ROOT -- /usr/bin/app
+```
+
+`*=1.5` supplies a default override. Values must be finite and within 1–4;
+settings are read at desktop setup. Floating X11 windows preserve logical size
+when crossing monitors; maximized/fullscreen sizes follow host confirmation.
+Minimum/maximum size hints are converted to physical pixels. Explicit guest
+fullscreen output selection maps to the native Wayland output, or to matching
+Xinerama indices through EWMH on X11; the host window manager determines support.
+X11 monitors without a matching Xinerama screen use normal WM placement.
+
+Guest clients must use buffer scale or fractional-scale/viewporter to render
+additional detail. Legacy X11/Xwayland applications can continue using their
+existing resolution; increasing the presentation scale cannot create detail
+absent from their buffers. There is no claim of automatic toolkit DPI repair.
+The multi-output topology describes screens, not global placement of individual
+native Wayland toplevels (which that protocol does not expose).
+
+`python3 scripts/validate-hidpi.py --unit-binary UNIT --output OUT` exercises an
+original Sway headless compositor and Xvfb/Openbox, including 125%/150%/2x,
+migration, native pixel stripes, logical pointer coordinates, scaled size hints,
+rotation, fullscreen target selection and hotplug. It requires Sway, grim and
+xrandr in addition to the normal native test dependencies. The retained virtual
+pointer XML carries its upstream MIT notice. Add `--runner RUNNER --receipt JSON`
+for both actual KVM transports with one/four workers. These are software display
+checks; physical GPU/multiple physical monitor qualification remains separate.
+
 ## Automated acceptance
 
 `python3 scripts/validate-desktop.py --native-only --unit-binary UNIT --output OUT`

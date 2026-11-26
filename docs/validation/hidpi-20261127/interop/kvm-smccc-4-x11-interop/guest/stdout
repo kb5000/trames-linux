@@ -1,0 +1,30 @@
+selection 0
+size 240 160
+frame 1
+size 240 160
+focus-in keys=0
+modifiers 0 0
+text-enter
+selection 1
+size 240 160
+modifiers 0 0
+copy-ready
+selection 1
+clipboard-sent
+frame 2
+frame 3
+clipboard-cancelled
+selection 1
+modifiers 0 0
+paste host 剪贴板 🧪
+text-ready
+preedit 拼音 6 6
+text-done 1
+preedit  0 0
+text-done 1
+preedit  0 0
+text-done 1
+commit 中文输入 ✅
+preedit  0 0
+text-done 1
+interop-done

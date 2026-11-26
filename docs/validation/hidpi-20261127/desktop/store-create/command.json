@@ -1,0 +1,20 @@
+[
+  "/mnt/trames-output/linux-hidpi/desktop/runner",
+  "run",
+  "--store",
+  "/mnt/trames-output/linux-hidpi/desktop/store",
+  "--rootfs",
+  "/mnt/trames-output/linux-hidpi/desktop/rootfs",
+  "--desktop",
+  "x11",
+  "--xwayland-launcher",
+  "/mnt/trames-output/linux-hidpi/desktop/launcher",
+  "--cpus",
+  "4",
+  "--timeout-ms",
+  "60000",
+  "--",
+  "/bin/sh",
+  "-ec",
+  "exec /test/client"
+]

@@ -1,0 +1,10 @@
+[
+  "weston",
+  "--backend=x11",
+  "--renderer=pixman",
+  "--shell=desktop-shell.so",
+  "--width=800",
+  "--height=600",
+  "--socket=windows",
+  "--config=/mnt/trames-output/linux-hidpi/windows/kvm-mmio-4-host-wayland-wayland/weston.ini"
+]

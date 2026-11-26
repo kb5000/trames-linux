@@ -1,0 +1,16 @@
+[
+  "/mnt/trames-output/linux-hidpi/interop/tools/runner",
+  "run",
+  "--rootfs",
+  "/mnt/trames-output/linux-hidpi/interop/kvm-smccc-4-x11-interop/rootfs",
+  "--desktop",
+  "x11",
+  "--desktop-renderer",
+  "auto",
+  "--cpus",
+  "4",
+  "--timeout-ms",
+  "60000",
+  "--",
+  "/test/interop"
+]

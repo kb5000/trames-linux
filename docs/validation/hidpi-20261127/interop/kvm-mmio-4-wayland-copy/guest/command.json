@@ -1,0 +1,16 @@
+[
+  "/mnt/trames-output/linux-hidpi/interop/tools/runner",
+  "run",
+  "--rootfs",
+  "/mnt/trames-output/linux-hidpi/interop/kvm-mmio-4-wayland-copy/rootfs",
+  "--desktop",
+  "wayland",
+  "--desktop-renderer",
+  "auto",
+  "--cpus",
+  "4",
+  "--timeout-ms",
+  "60000",
+  "--",
+  "/test/interop"
+]

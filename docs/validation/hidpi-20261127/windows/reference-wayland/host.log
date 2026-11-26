@@ -1,0 +1,63 @@
+Date: 2026-11-27 HKT
+[04:55:52.299] weston 13.0.0
+               https://wayland.freedesktop.org
+               Bug reports to: https://gitlab.freedesktop.org/wayland/weston/issues/
+               Build: 13.0.0
+[04:55:52.299] Command line: weston --backend=x11 --renderer=pixman --shell=desktop-shell.so --width=800 --height=600 --socket=windows --config=/mnt/trames-output/linux-hidpi/windows/reference-wayland/weston.ini
+[04:55:52.300] OS: Linux, 7.0.0-44-generic, #44~24.04.1-Ubuntu SMP PREEMPT_DYNAMIC Tue Nov 10 21:06:24 UTC 2, aarch64
+[04:55:52.300] Flight recorder: enabled
+[04:55:52.300] Using config file '/mnt/trames-output/linux-hidpi/windows/reference-wayland/weston.ini'
+[04:55:52.300] Output repaint window is 7 ms maximum.
+[04:55:52.300] Loading module '/usr/lib/aarch64-linux-gnu/libweston-13/x11-backend.so'
+[04:55:52.303] Using Pixman renderer
+[04:55:52.305] Registered plugin API 'weston_windowed_output_api_v2' of size 16
+[04:55:52.305] Color manager: no-op
+[04:55:52.305] Output 'screen0' attempts EOTF mode: SDR
+[04:55:52.305] Output 'screen0' using color profile: stock sRGB color profile
+[04:55:52.306] Found visual, bits per value: 8, red_mask: 00ff0000, green_mask: 0000ff00, blue_mask: 000000ff
+[04:55:52.306] Visual depth is 24
+[04:55:52.306] Found format for depth 24, bpp: 32
+[04:55:52.306] Will use x8r8g8b8 format for SHM surfaces
+[04:55:52.306] x11 output 800x600, window id 2097157
+[04:55:52.306] Output 'screen0' enabled with head(s) screen0
+[04:55:52.306] Compositor capabilities:
+               arbitrary surface rotation: yes
+               screen capture uses y-flip: no
+               cursor planes: no
+               arbitrary resolutions: no
+               view mask clipping: yes
+               explicit sync: no
+               color operations: no
+               presentation clock: CLOCK_MONOTONIC_RAW, id 4
+               presentation clock resolution: 0.000000001 s
+[04:55:52.308] Loading module '/usr/lib/aarch64-linux-gnu/weston/desktop-shell.so'
+[04:55:52.308] launching '/nonexistent/trames-input-method'
+[04:55:52.308] launching '/usr/libexec/weston-desktop-shell'
+Error: Couldn't launch client '/nonexistent/trames-input-method'
+[04:55:52.309] input_method disconnected, respawning...
+[04:55:52.309] launching '/nonexistent/trames-input-method'
+[04:55:52.309] /nonexistent/trames-input-method exited with status 1
+Error: Couldn't launch client '/nonexistent/trames-input-method'
+[04:55:52.310] input_method disconnected, respawning...
+[04:55:52.310] launching '/nonexistent/trames-input-method'
+Error: Couldn't launch client '/nonexistent/trames-input-method'
+[04:55:52.310] /nonexistent/trames-input-method exited with status 1
+[04:55:52.311] input_method disconnected, respawning...
+[04:55:52.311] launching '/nonexistent/trames-input-method'
+[04:55:52.311] /nonexistent/trames-input-method exited with status 1
+Error: Couldn't launch client '/nonexistent/trames-input-method'
+[04:55:52.312] input_method disconnected, respawning...
+[04:55:52.312] launching '/nonexistent/trames-input-method'
+[04:55:52.312] /nonexistent/trames-input-method exited with status 1
+Error: Couldn't launch client '/nonexistent/trames-input-method'
+[04:55:52.312] input_method disconnected, respawning...
+[04:55:52.312] launching '/nonexistent/trames-input-method'
+Error: Couldn't launch client '/nonexistent/trames-input-method'
+[04:55:52.313] /nonexistent/trames-input-method exited with status 1
+[04:55:52.313] input_method disconnected, giving up.
+[04:55:52.313] /nonexistent/trames-input-method exited with status 1
+could not load cursor 'dnd-move'
+could not load cursor 'dnd-copy'
+could not load cursor 'dnd-none'
+[04:55:53.575] caught signal 15
+[04:55:53.575] BUG: finalizing a layer with views still on it.

@@ -1,0 +1,44 @@
+Date: 2026-11-27 HKT
+[04:57:16.290] weston 13.0.0
+               https://wayland.freedesktop.org
+               Bug reports to: https://gitlab.freedesktop.org/wayland/weston/issues/
+               Build: 13.0.0
+[04:57:16.290] Command line: weston --backend=x11 --renderer=pixman --shell=desktop-shell.so --width=320 --height=240 --socket=interop --config=/mnt/trames-output/linux-hidpi/interop/kvm-mmio-4-wayland-ime/weston.ini
+[04:57:16.290] OS: Linux, 7.0.0-44-generic, #44~24.04.1-Ubuntu SMP PREEMPT_DYNAMIC Tue Nov 10 21:06:24 UTC 2, aarch64
+[04:57:16.291] Flight recorder: enabled
+[04:57:16.291] Using config file '/mnt/trames-output/linux-hidpi/interop/kvm-mmio-4-wayland-ime/weston.ini'
+[04:57:16.291] Output repaint window is 7 ms maximum.
+[04:57:16.291] Loading module '/usr/lib/aarch64-linux-gnu/libweston-13/x11-backend.so'
+[04:57:16.294] Using Pixman renderer
+[04:57:16.296] Registered plugin API 'weston_windowed_output_api_v2' of size 16
+[04:57:16.296] Color manager: no-op
+[04:57:16.296] Output 'screen0' attempts EOTF mode: SDR
+[04:57:16.296] Output 'screen0' using color profile: stock sRGB color profile
+[04:57:16.297] Found visual, bits per value: 8, red_mask: 00ff0000, green_mask: 0000ff00, blue_mask: 000000ff
+[04:57:16.297] Visual depth is 24
+[04:57:16.297] Found format for depth 24, bpp: 32
+[04:57:16.297] Will use x8r8g8b8 format for SHM surfaces
+[04:57:16.297] x11 output 320x240, window id 2097157
+[04:57:16.297] Output 'screen0' enabled with head(s) screen0
+[04:57:16.297] Compositor capabilities:
+               arbitrary surface rotation: yes
+               screen capture uses y-flip: no
+               cursor planes: no
+               arbitrary resolutions: no
+               view mask clipping: yes
+               explicit sync: no
+               color operations: no
+               presentation clock: CLOCK_MONOTONIC_RAW, id 4
+               presentation clock resolution: 0.000000001 s
+[04:57:16.299] Loading module '/usr/lib/aarch64-linux-gnu/weston/desktop-shell.so'
+[04:57:16.299] launching '/mnt/trames-output/linux-hidpi/interop/tools/input-method'
+[04:57:16.299] launching '/usr/libexec/weston-desktop-shell'
+method-ready
+could not load cursor 'dnd-move'
+could not load cursor 'dnd-copy'
+could not load cursor 'dnd-none'
+method-active
+surrounding a中文b 7 7
+method-sent
+[04:57:16.455] caught signal 15
+[04:57:16.455] BUG: finalizing a layer with views still on it.
