@@ -404,3 +404,114 @@ fn duplicate_fd_aliases_share_revoke_counts_and_neighbor_pages_stay_live() {
     }
     assert_eq!(u64::from_le_bytes(view.read_array::<8>(DATA).unwrap()), 3);
 }
+
+#[test]
+#[ignore = "requires real ARM64 Linux KVM and 4KiB host pages"]
+fn retained_writes_republish_after_join_and_follow_original_address_space() {
+    use std::sync::{
+        atomic::{AtomicUsize, Ordering},
+        Arc,
+    };
+    use trames_memory::{MemoryError, PageBacking, SharedPage};
+    struct Backing {
+        bytes: Arc<SharedPage>,
+        publications: AtomicUsize,
+        identity: u64,
+    }
+    impl PageBacking for Backing {
+        fn parallel_key(&self) -> Option<(u64, u64)> {
+            Some((self.identity, 0))
+        }
+        fn shared_page(&self) -> Option<Arc<SharedPage>> {
+            Some(self.bytes.clone())
+        }
+        fn check(&self, _: u64) -> Result<(), MemoryError> {
+            Ok(())
+        }
+        fn read(&self, offset: usize, out: &mut [u8]) -> Result<(), MemoryError> {
+            self.bytes.copy_read(offset, out);
+            Ok(())
+        }
+        fn write(&self, offset: usize, bytes: &[u8]) -> Result<(), MemoryError> {
+            self.bytes.copy_write(offset, bytes);
+            Ok(())
+        }
+        fn publish_write(&self, _: usize, _: usize) -> Result<(), MemoryError> {
+            self.publications.fetch_add(1, Ordering::Relaxed);
+            Ok(())
+        }
+        fn sync(&self) -> Result<(), MemoryError> {
+            Ok(())
+        }
+        fn version(&self) -> u64 {
+            self.bytes.revision()
+        }
+        fn writable(&self) -> bool {
+            true
+        }
+        fn next_page(&self, _: u64) -> Result<Arc<dyn PageBacking>, MemoryError> {
+            Err(MemoryError::InvalidRange)
+        }
+    }
+    let backing = || {
+        Arc::new(Backing {
+            bytes: Arc::new(SharedPage::zero()),
+            publications: AtomicUsize::new(0),
+            identity: trames_memory::new_backing_identity(),
+        })
+    };
+    let original = backing();
+    let replacement = backing();
+    let code = [0xf9400141, 0x91000421, 0xf9000141, 0xd4000001, 0x17fffffc];
+    let (mut first, mut memory) = setup(&code);
+    memory.unmap(DATA, 4096).unwrap();
+    memory
+        .map_backed(DATA, vec![original.clone()], true, Permissions::RW, false)
+        .unwrap();
+    let (mut second, mut other) = setup(&code);
+    let mut engine = Engine::default();
+    let mut registry = Registry::default();
+    for round in 1..=4 {
+        Cpu::prepare_hardware_memory(&mut memory, &mut registry).unwrap();
+        let mut view = memory.parallel_view(&mut registry).unwrap();
+        view.enable_hardware();
+        for _ in 0..3 {
+            let start = std::time::Instant::now();
+            loop {
+                match first.run_parallel(&mut engine, &mut view, u64::MAX) {
+                    SliceOutcome::Syscall { .. } => break,
+                    SliceOutcome::Yield { .. } if start.elapsed().as_secs() < 3 => {}
+                    other => panic!("shared write: {other:?}"),
+                }
+            }
+        }
+        drop(view);
+        let before = original.publications.load(Ordering::Relaxed);
+        memory.commit_parallel().unwrap();
+        assert!(original.publications.load(Ordering::Relaxed) > before);
+        assert_eq!(word(&memory), round * 3);
+        syscall(&mut second, &mut engine, &mut other);
+        assert_eq!(word(&other), round);
+    }
+    memory.protect(DATA, 4096, Permissions::R).unwrap();
+    // Reach the read-only original binding without dirty publication or store.
+    first.set_pc(CODE + 12);
+    let before = original.publications.load(Ordering::Relaxed);
+    syscall(&mut first, &mut engine, &mut memory);
+    assert_eq!(original.publications.load(Ordering::Relaxed), before);
+    memory.unmap(DATA, 4096).unwrap();
+    memory
+        .map_backed(
+            DATA,
+            vec![replacement.clone()],
+            true,
+            Permissions::RW,
+            false,
+        )
+        .unwrap();
+    first.set_pc(CODE);
+    syscall(&mut first, &mut engine, &mut memory);
+    assert_eq!(word(&memory), 1);
+    assert!(replacement.publications.load(Ordering::Relaxed) > 0);
+    assert_eq!(original.publications.load(Ordering::Relaxed), before);
+}

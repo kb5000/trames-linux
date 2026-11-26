@@ -20,7 +20,8 @@ use std::{
 };
 use trames_execution::{ExecutionExit, ExitReason, InstructionCount};
 use trames_memory::{
-    parallel::View, Access, CpuMemory, HardwarePageInfo, HardwareStorage, HardwareWait, MemoryError,
+    parallel::View, Access, CpuMemory, HardwarePageInfo, HardwareStorage, HardwareWait,
+    HardwareWriteFrame, MemoryError,
 };
 
 const VECTOR: u64 = 0xffff_ffff_ffff_8000;
@@ -141,6 +142,53 @@ impl Tables {
 struct Page {
     owner: Weak<dyn HardwareStorage>,
     info: HardwarePageInfo,
+    write: Option<HardwareWriteFrame>,
+}
+/// Current writable bindings, with the same joined-epoch publication contract
+/// as HVF. Membership changes only while this worker's page tables are stopped.
+/// Tokens/epochs retain metadata, never the physical guest allocation.
+#[derive(Default)]
+struct Writes {
+    words: BTreeMap<usize, u64>,
+    epochs: BTreeMap<usize, (usize, Arc<std::sync::atomic::AtomicU64>)>,
+}
+impl Writes {
+    fn track(&mut self, old: Option<&HardwareWriteFrame>, new: Option<&HardwareWriteFrame>) {
+        if let Some(epoch) = old.and_then(|write| write.publication_epoch()) {
+            let key = Arc::as_ptr(epoch) as usize;
+            let entry = self.epochs.get_mut(&key).expect("tracked allocation epoch");
+            entry.0 -= 1;
+            if entry.0 == 0 {
+                self.epochs.remove(&key);
+            }
+        }
+        if let Some(epoch) = new.and_then(|write| write.publication_epoch()) {
+            self.epochs
+                .entry(Arc::as_ptr(epoch) as usize)
+                .or_insert_with(|| (0, epoch.clone()))
+                .0 += 1;
+        }
+        if let Some((word, bit)) = old.and_then(|write| write.publication_word()) {
+            let bits = self.words.get_mut(&word).expect("tracked publication word");
+            *bits &= !bit;
+            if *bits == 0 {
+                self.words.remove(&word);
+            }
+        }
+        if let Some((word, bit)) = new.and_then(|write| write.publication_word()) {
+            *self.words.entry(word).or_default() |= bit;
+        }
+    }
+    fn publish(&self, memory: &View) -> Result<()> {
+        memory.mark_hardware_private_writes();
+        for (_, epoch) in self.epochs.values() {
+            epoch.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
+        }
+        for (&word, &bits) in &self.words {
+            memory.mark_hardware_write_word(word, bits)?;
+        }
+        Ok(())
+    }
 }
 // Match the existing HVF ownership model: stopped roots retain translation
 // metadata and weak physical aliases, never the lifetime of a retired mm/RAM.
@@ -149,6 +197,7 @@ const CACHED_PAGES: usize = 32768;
 struct AddressSpace {
     tables: Tables,
     pages: BTreeMap<u64, Page>,
+    writes: Writes,
     asid: u16,
     used: u64,
 }
@@ -167,6 +216,7 @@ pub(crate) struct Executor {
     mailbox: Arc<Allocation>,
     _vectors: Arc<Allocation>,
     pages: BTreeMap<u64, Page>,
+    writes: Writes,
     vm: Arc<Vm>,
     id: u64,
     run: *mut kvm_run,
@@ -306,6 +356,7 @@ impl Executor {
             mailbox,
             _vectors: vectors,
             pages: BTreeMap::new(),
+            writes: Writes::default(),
             vm,
             id,
             run,
@@ -506,6 +557,7 @@ impl Executor {
                     AddressSpace {
                         tables: Tables::new(&self.vm)?,
                         pages: BTreeMap::new(),
+                        writes: Writes::default(),
                         asid,
                         used: 0,
                     }
@@ -520,6 +572,7 @@ impl Executor {
             let old = AddressSpace {
                 tables: std::mem::replace(&mut self.tables, next.tables),
                 pages: std::mem::replace(&mut self.pages, next.pages),
+                writes: std::mem::replace(&mut self.writes, next.writes),
                 asid: std::mem::replace(&mut self.asid, next.asid),
                 used: self.clock,
             };
@@ -564,9 +617,26 @@ impl Executor {
             // stopped worker can use its tables; TLBI precedes the next EL0 entry.
             for va in changed {
                 self.tables.pte(&self.vm, va, 0)?;
-                self.pages.remove(&va);
+                let old = self.pages.remove(&va).expect("retired page");
+                self.writes.track(old.write.as_ref(), None);
                 self.invalidate |= 1;
             }
+            // Frozen snapshot indices may change even when a physical binding
+            // survives. Refresh membership at the original mapping boundary.
+            self.writes = Writes::default();
+            for (&va, page) in &mut self.pages {
+                page.write = page
+                    .info
+                    .writable
+                    .then(|| memory.hardware_write_frame(va))
+                    .transpose()?;
+                self.writes.track(None, page.write.as_ref());
+            }
+        }
+        if self.version != Some(version) {
+            // A joined epoch clears publication. Conservatively mark its live
+            // writable bindings before reentry, once per epoch, as HVF does.
+            self.writes.publish(memory)?;
         }
         self.version = Some(version);
         Ok(())
@@ -626,13 +696,24 @@ impl Executor {
             self.vm
                 .publish_code(owner.physical_address(), owner.pointer())?;
         }
+        let write = info
+            .writable
+            .then(|| memory.hardware_write_frame(va))
+            .transpose()?;
         self.tables
             .pte(&self.vm, va, owner.physical_address() | Self::flags(info))?;
+        self.writes.track(
+            self.pages.get(&va).and_then(|page| page.write.as_ref()),
+            write.as_ref(),
+        );
+        // The cold export already publishes a newly writable binding before
+        // any direct hardware store; later short SVCs need no page walk.
         self.pages.insert(
             va,
             Page {
                 owner: Arc::downgrade(&owner),
                 info,
+                write,
             },
         );
         self.invalidate |= if info.permissions.execute { 3 } else { 1 };
@@ -863,14 +944,6 @@ impl Executor {
                 }?);
             }
         })();
-        // Runtime publication happens after hardware stores stop, under its
-        // existing dirty-byte/code/accounting rules. Owners remain retained.
-        memory.mark_hardware_private_writes();
-        for (&va, page) in &self.pages {
-            if page.info.writable {
-                memory.mark_hardware_write(va)?;
-            }
-        }
         drop(deadline);
         result
     }
