@@ -179,7 +179,7 @@ impl Writes {
             *self.words.entry(word).or_default() |= bit;
         }
     }
-    fn publish(&self, memory: &View) -> Result<()> {
+    fn publish(&self, memory: &View) -> std::result::Result<(), MemoryError> {
         memory.mark_hardware_private_writes();
         for (_, epoch) in self.epochs.values() {
             epoch.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
@@ -522,7 +522,7 @@ impl Executor {
         }
         f
     }
-    fn synchronize(&mut self, memory: &View) -> Result<()> {
+    fn synchronize(&mut self, memory: &View) -> std::result::Result<(), super::EngineError> {
         let id = memory.instruction_identity().0;
         let version = memory.hardware_view_version();
         if self.memory_id != id {
