@@ -1,0 +1,21 @@
+{
+  "complete": true,
+  "passed": true,
+  "rows": [
+    {
+      "id": "kvm-mmio-4-host-x11-xwayland",
+      "status": "passed",
+      "latched_shift": true,
+      "german": true,
+      "french": true,
+      "russian_group": true,
+      "altgr": true,
+      "caps_across_map_change": true,
+      "numlock": true,
+      "focus_release": true,
+      "physical_down_events_during_hold": 3,
+      "repeat_policy": "original-X11-server"
+    }
+  ],
+  "physical_gpu_qualified": false
+}

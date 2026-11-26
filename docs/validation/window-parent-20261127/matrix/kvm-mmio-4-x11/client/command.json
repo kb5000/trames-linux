@@ -1,0 +1,14 @@
+[
+  "/mnt/trames-output/linux-window/parent-release/tools/runner",
+  "run",
+  "--rootfs",
+  "/mnt/trames-output/linux-window/parent-release/kvm-mmio-4-x11/rootfs",
+  "--desktop",
+  "x11",
+  "--cpus",
+  "4",
+  "--timeout-ms",
+  "30000",
+  "--",
+  "/test/parent-error"
+]

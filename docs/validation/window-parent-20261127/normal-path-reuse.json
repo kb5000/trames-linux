@@ -1,0 +1,12 @@
+{
+  "baseline_runtime": "aadee76adb3edcdd1addb7b9f7eb38bf1959249f",
+  "baseline_product": "ed05b1b3196af9a8de6bf07fc99fada131e7c979",
+  "baseline_runner_sha256": "dfbed0960aeddaeda32afe915aba64c9421536b4afed3cb8c66afc1af6a9bc39",
+  "runtime_pin": "7b4eae68b12a480460b2ca71145826b59f7e4dfb",
+  "main_integration": "acf1253410eed9eb4deac9a3e223013a2f615ecf",
+  "concurrent_main": "8bfc094824419bb0493b2d81c9d99e5169cbbfd7",
+  "changed_runtime_paths": [
+    "crates/trames-wayland/src/shell.rs"
+  ],
+  "reason": "Only the invalid cyclic-parent error branch changes. Retain the 89-cell normal-flow cohort and test this branch independently with the original generated protocol error oracle."
+}

@@ -1,0 +1,8 @@
+baseline-invalid-code: failed as expected (old code 3)
+native-x11: passed
+native-wayland: passed
+kvm-smccc-1-x11: passed
+kvm-smccc-1-wayland: passed
+kvm-mmio-4-x11: passed
+kvm-mmio-4-wayland: passed
+{"passed": true, "cases": 6, "baseline_reproduced": true}

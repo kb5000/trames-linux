@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "parent_protocol_cells": 6,
+  "old_error_reproduced": true,
+  "reused_normal_cells": 89,
+  "runtime_pin": "7b4eae68b12a480460b2ca71145826b59f7e4dfb",
+  "runner_sha256": "63dbda755349387a80fca77ef4f2277b3ba84da6dfe6b96dc46bbabbcb203b24",
+  "cloud_checks_complete": false
+}

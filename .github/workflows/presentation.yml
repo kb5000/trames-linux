@@ -2,7 +2,7 @@ name: Native Linux presentation references
 on:
   push:
     branches: [main]
-    paths: ['runtime', 'Cargo.lock', 'crates/trames-linux-app/**', 'scripts/validate-wsi.py', 'scripts/validate-desktop.py', 'scripts/validate-keyboard.py', 'tests/fixtures/keyboard-*.c', 'scripts/validate-windows.py', 'tests/fixtures/window-*.c', 'scripts/validate-xwayland-ime.py', 'tests/fixtures/xim-control.c', 'scripts/validate-desktop-interop.py', 'tests/fixtures/interop-*.c', 'tests/fixtures/desktop-*.c', 'tools/xwayland-launcher.c', 'tests/fixtures/*wsi*', 'tests/fixtures/x11-probe.c', 'tests/fixtures/wayland-target.c', '.github/workflows/presentation.yml']
+    paths: ['runtime', 'Cargo.lock', 'crates/trames-linux-app/**', 'scripts/validate-wsi.py', 'scripts/validate-desktop.py', 'scripts/validate-keyboard.py', 'tests/fixtures/keyboard-*.c', 'scripts/validate-windows.py', 'scripts/validate-window-parent.py', 'tests/fixtures/window-*.c', 'scripts/validate-xwayland-ime.py', 'tests/fixtures/xim-control.c', 'scripts/validate-desktop-interop.py', 'tests/fixtures/interop-*.c', 'tests/fixtures/desktop-*.c', 'tools/xwayland-launcher.c', 'tests/fixtures/*wsi*', 'tests/fixtures/x11-probe.c', 'tests/fixtures/wayland-target.c', '.github/workflows/presentation.yml']
   pull_request:
   workflow_dispatch:
 permissions:
@@ -63,6 +63,11 @@ jobs:
         run: |
           unit=$(python3 -c 'import json; a=[json.loads(x) for x in open("target/wsi-unit.jsonl")]; a=[x["executable"] for x in a if x.get("reason")=="compiler-artifact" and x.get("profile",{}).get("test") and x.get("target",{}).get("kind")==["bin"] and x.get("executable")]; assert len(a)==1,a; print(a[0])')
           python3 scripts/validate-windows.py --native-only --unit-binary "$unit" --output target/validation/windows-native
+      - name: Exercise standard cyclic-parent protocol errors
+        shell: bash
+        run: |
+          unit=$(python3 -c 'import json; a=[json.loads(x) for x in open("target/wsi-unit.jsonl")]; a=[x["executable"] for x in a if x.get("reason")=="compiler-artifact" and x.get("profile",{}).get("test") and x.get("target",{}).get("kind")==["bin"] and x.get("executable")]; assert len(a)==1,a; print(a[0])')
+          python3 scripts/validate-window-parent.py --native-only --unit-binary "$unit" --output target/validation/window-parent-native
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -73,5 +78,6 @@ jobs:
             target/validation/desktop-interop-native/
             target/validation/keyboard-native/
             target/validation/windows-native/
+            target/validation/window-parent-native/
           if-no-files-found: error
           retention-days: 14

@@ -1,0 +1,7 @@
+{
+  "lib/aarch64-linux-gnu/libc.so.6": "2544e7902ec1bd3a68b526b6af427c34d2a98e56b9dbf8395b4b498dd2112cd6",
+  "lib/aarch64-linux-gnu/libffi.so.8": "9dd873a938c4d7df76912d01f6a28aa4aa73d583bd20485a0dbfe5aa9673a191",
+  "lib/aarch64-linux-gnu/libwayland-client.so.0": "f31270db49694b1236d0e161ee23765ed82acec9c01bc9e0d6444e8d744f85e2",
+  "lib/ld-linux-aarch64.so.1": "124e3f166bdc0be365eaa6dc59e415b876b0841a40463edd1b0e084b518bb7cd",
+  "test/parent-error": "7bcacc150c518afcc5fcdd573a31cbaff59acd024a7958d433003f40e7746d15"
+}

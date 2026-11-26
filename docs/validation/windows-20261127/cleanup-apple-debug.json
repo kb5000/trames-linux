@@ -1,0 +1,6 @@
+{
+  "removed_cache": "/Users/main/dev/trames-linux/target/debug",
+  "distinct_file_logical_bytes": 6845371126,
+  "allocated_bytes_before": 6876426240,
+  "reason": "All affected Apple checks completed; this reproducible debug/dependency cache is no longer required for this delivery. Final frozen Linux binaries, the existing VM and shared Linux build cache remain."
+}

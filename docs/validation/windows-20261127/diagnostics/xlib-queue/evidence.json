@@ -1,0 +1,7 @@
+{
+  "peer_sha256": "37ecd6f27b433ecc8b8031e97f4260e4765e1371a3c774fc6f92c58a77b97c6f",
+  "runner_sha256": "dfbed0960aeddaeda32afe915aba64c9421536b4afed3cb8c66afc1af6a9bc39",
+  "unit_sha256": "7ae14b6ec5e5ce6598749730d63fab11ce8c039da4ee2a2c5cb4ddb5e0af6fac",
+  "original_libX11": true,
+  "observation": "Original Xlib had queued events immediately before the fixture would block in poll; the queue guard drains them before sleeping."
+}

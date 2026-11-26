@@ -1,0 +1,7 @@
+[
+  "/mnt/trames-output/linux-window/parent-release/tools/baseline_unit",
+  "desktop::tests::native_wayland_desktop",
+  "--ignored",
+  "--exact",
+  "--nocapture"
+]

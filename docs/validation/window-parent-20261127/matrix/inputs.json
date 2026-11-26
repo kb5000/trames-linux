@@ -1,0 +1,40 @@
+{
+  "binaries": {
+    "baseline_unit": "7ae14b6ec5e5ce6598749730d63fab11ce8c039da4ee2a2c5cb4ddb5e0af6fac",
+    "runner": "63dbda755349387a80fca77ef4f2277b3ba84da6dfe6b96dc46bbabbcb203b24",
+    "unit_binary": "a54176b29dbbf8be9cffe6852e3e558cf02b1fe6a0774f324c214d945a6e12f0"
+  },
+  "peer_sha256": "7bcacc150c518afcc5fcdd573a31cbaff59acd024a7958d433003f40e7746d15",
+  "protocol_sha256": "9d9e27038ca722f159a361293f8c6cd270dab907ab52de5b8ecfbb8d6b9651c2",
+  "runtime_pin": {
+    "commit": "7b4eae68b12a480460b2ca71145826b59f7e4dfb",
+    "repository": "https://github.com/project-trames/trames-runtime"
+  },
+  "sources": {
+    "runtime-version.json": "2d8116c428e7947534de124c0d6a6fdeb96aed50fd27a8f3fc748590ceb3bfa6",
+    "runtime/crates/trames-wayland/src/android.rs": "f9a72cd89c37140650071d1c0be49a31a0e872b01505e850fbad7d6f08bdda3e",
+    "runtime/crates/trames-wayland/src/frame.rs": "e3359fde1054fb3e8a7f59799e214ba30eca51a552fcadeb834dcd8c1e303543",
+    "runtime/crates/trames-wayland/src/gpu.rs": "4ac0684704b9da4864841c5431917bb0170ec69690cd168e83feecdde173c7a0",
+    "runtime/crates/trames-wayland/src/input.rs": "7183192a2e2926c395ccf3a3062c2323a238a6e1d302fae18a7e034d68b8b3d8",
+    "runtime/crates/trames-wayland/src/lib.rs": "424f51b9839d3e13ed870d81ad2219f7e3a59513f9639eb07f76fc41c07bc720",
+    "runtime/crates/trames-wayland/src/output.rs": "ab1a55c0bf353bf66a7b6fc9f05c6487e196f68d46588ebfa74a86fb0c0d967e",
+    "runtime/crates/trames-wayland/src/popup.rs": "bccc8ee2ebb510238d0c9d19a3a8dc0aeeacbf2f9b0bdbabdbc12b0bc9022548",
+    "runtime/crates/trames-wayland/src/protocol.rs": "61ccbe5d594f4c90eefdfb83241018818927252a3a38ae61e30971193976e03c",
+    "runtime/crates/trames-wayland/src/scene.rs": "ffcb037001204c7f2e05f177e44f59800f6fa1ed239ad9238bf4d3014a7a904f",
+    "runtime/crates/trames-wayland/src/selection.rs": "46a3182a6ebb22d7fbd0e6435e96e9464c38f8cd9cf29a483030d571b5dcc9fd",
+    "runtime/crates/trames-wayland/src/server.rs": "d71216c9d25e7a9d3c1f1f7e54fc71fcb9089fe4847603f196dfa69c6409dc68",
+    "runtime/crates/trames-wayland/src/shell.rs": "772f1eafa6e0d995b436169940623c2203d318ac1dc53a3feac08f2ee1334aad",
+    "runtime/crates/trames-wayland/src/subsurface.rs": "23c98af925d686037168082d1d677717e54907d03390820187dc98904792200c",
+    "runtime/crates/trames-wayland/src/text.rs": "05f87cf218a2a1ec30f1989a089918f0dc4eea17a04d159c060651f4b80d436e",
+    "runtime/crates/trames-wayland/src/viewport.rs": "924a00e530e2aeea4756f232292c2273efbd2da090d32af16bfef1de1c89e2c9",
+    "runtime/crates/trames-wayland/src/window.rs": "899d63bd08aac7926e3b6f06e5553687b2b8f11c8d52f36eefefaf13bfae8b78",
+    "runtime/crates/trames-wayland/src/wsi.rs": "1b4b444d9410cbdeb620240c723d970f164b869ffba96cd0bdf2cabc05cb8b44",
+    "runtime/crates/trames-wayland/src/xwayland.rs": "dcbe70992e5e83459e423da40af0c1cdcdbe85ef115588795a977f6121e90eb5",
+    "runtime/crates/trames-wayland/src/xwm.rs": "f3c5d25536bc1f47fc269a06cb196f47559222e7855799e39277217d9865c635",
+    "scripts/validate-desktop.py": "0477b2da7a64907492872dc6b69d64bee2d7f9fd064464293c84353aa6f5a744",
+    "scripts/validate-window-parent.py": "d6e0544133124310137e2dddb7c6ce9b3b6605cf5d945082f8bd04c024ddd506",
+    "scripts/validate-windows.py": "8d5041e3c2e60110e7e6cb88ff000915e4462cdca2acc4d0c354a54a5999f015",
+    "tests/fixtures/window-client.c": "2396bffb7a698d7909be563caaf51f724eabd9abedb283d3fcf27ec908b71227",
+    "tests/fixtures/window-parent-error.c": "f707d485f9449d3dc6893f364174c8ac025c0bf892e1370f8e2e2dbe9128aceb"
+  }
+}

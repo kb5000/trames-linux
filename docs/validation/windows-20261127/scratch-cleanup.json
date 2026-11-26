@@ -1,0 +1,121 @@
+{
+  "removed": [
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-window/windows-before-queue-guard",
+      "logical_bytes": 46097233
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-window/windows-prototype2",
+      "logical_bytes": 45470901
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-window/keyboard-before-focus",
+      "logical_bytes": 51928487
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-window/native-v1",
+      "logical_bytes": 13530717
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-window/keyboard-focus-diagnostic",
+      "logical_bytes": 51715961
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-window/keyboard-prototype1",
+      "logical_bytes": 51632016
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-window/windows-before-focus",
+      "logical_bytes": 46096343
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-window/native-v18",
+      "logical_bytes": 13651654
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-window/native-v20",
+      "logical_bytes": 13579737
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-window/diagnostic-wayland",
+      "logical_bytes": 13626651
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-window/native-v21",
+      "logical_bytes": 13538879
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-window/keyboard-queue-diagnostic",
+      "logical_bytes": 51715910
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-window/keyboard-remaining",
+      "logical_bytes": 51854189
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-window/kvm-candidate-v2",
+      "logical_bytes": 45476655
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-window/keyboard-before-queue-guard",
+      "logical_bytes": 52594554
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-window/windows-prototype1",
+      "logical_bytes": 45433387
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-window/native-v2",
+      "logical_bytes": 13531977
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-window/kvm-candidate",
+      "logical_bytes": 45484263
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-window/xim-before-control",
+      "logical_bytes": 45511098
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-window/native-v12",
+      "logical_bytes": 13616468
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-window/native-v15",
+      "logical_bytes": 13643663
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-window/keyboard-release/tools/runner",
+      "logical_bytes": 31737648
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-window/keyboard-release/tools/unit_binary",
+      "logical_bytes": 13208992
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-window/interop-release/tools/runner",
+      "logical_bytes": 31737648
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-window/interop-release/tools/unit_binary",
+      "logical_bytes": 13208992
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-window/xim-release/runner",
+      "logical_bytes": 31737648
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-window/xim-release/unit_binary",
+      "logical_bytes": 13208992
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-window/desktop-release/runner",
+      "logical_bytes": 31737648
+    }
+  ],
+  "logical_bytes": 906308311,
+  "retained_frozen_pair": "/Users/main/dev/trames/target/local-ci/io/linux-window/windows-release/tools",
+  "new_vm_images": 0,
+  "retained_existing_vm": true,
+  "retained_shared_linux_build_cache": true
+}

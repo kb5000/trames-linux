@@ -1,0 +1,49 @@
+{
+  "complete": true,
+  "passed": true,
+  "rows": [
+    {
+      "id": "native-x11",
+      "status": "passed",
+      "protocol_error": 1,
+      "interface": "xdg_toplevel"
+    },
+    {
+      "id": "native-wayland",
+      "status": "passed",
+      "protocol_error": 1,
+      "interface": "xdg_toplevel"
+    },
+    {
+      "id": "kvm-smccc-1-x11",
+      "status": "passed",
+      "protocol_error": 1,
+      "interface": "xdg_toplevel"
+    },
+    {
+      "id": "kvm-smccc-1-wayland",
+      "status": "passed",
+      "protocol_error": 1,
+      "interface": "xdg_toplevel"
+    },
+    {
+      "id": "kvm-mmio-4-x11",
+      "status": "passed",
+      "protocol_error": 1,
+      "interface": "xdg_toplevel"
+    },
+    {
+      "id": "kvm-mmio-4-wayland",
+      "status": "passed",
+      "protocol_error": 1,
+      "interface": "xdg_toplevel"
+    }
+  ],
+  "baseline": {
+    "id": "baseline-invalid-code",
+    "status": "failed-as-expected",
+    "incorrect_error": 3,
+    "return_code": 101
+  },
+  "physical_gpu_qualified": false
+}

@@ -1,0 +1,9 @@
+xdg_toplevel@9: error 3: cyclic window parent
+peer: /mnt/trames-output/linux-keyboard-source/tests/fixtures/window-parent-error.c:7: main: Assertion `interface&&!strcmp(interface->name,"xdg_toplevel")&&error==XDG_TOPLEVEL_ERROR_INVALID_PARENT' failed.
+
+thread 'desktop::tests::native_wayland_desktop' (92614) panicked at crates/trames-linux-app/src/desktop.rs:1011:17:
+assertion failed: status.success()
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+thread 'desktop::tests::native_wayland_desktop' (92614) panicked at crates/trames-linux-app/src/desktop.rs:1021:16:
+called `Result::unwrap()` on an `Err` value: Any { .. }

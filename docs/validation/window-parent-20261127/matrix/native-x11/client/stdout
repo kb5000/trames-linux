@@ -1,0 +1,10 @@
+
+running 1 test
+configured parent 240 160 max=0 full=0 resizing=0 active=0
+configured child 240 160 max=0 full=0 resizing=0 active=0
+parent-error code=1 interface=xdg_toplevel id=9
+parent-error-done
+test desktop::tests::native_wayland_desktop ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 8 filtered out; finished in 0.01s
+

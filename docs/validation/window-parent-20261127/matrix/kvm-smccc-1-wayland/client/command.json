@@ -1,0 +1,14 @@
+[
+  "/mnt/trames-output/linux-window/parent-release/tools/runner",
+  "run",
+  "--rootfs",
+  "/mnt/trames-output/linux-window/parent-release/kvm-smccc-1-wayland/rootfs",
+  "--desktop",
+  "wayland",
+  "--cpus",
+  "1",
+  "--timeout-ms",
+  "30000",
+  "--",
+  "/test/parent-error"
+]

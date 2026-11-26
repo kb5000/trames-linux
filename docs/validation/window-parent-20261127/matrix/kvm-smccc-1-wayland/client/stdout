@@ -1,0 +1,15 @@
+configured parent 240 160 max=0 full=0 resizing=0 active=0
+configured child 240 160 max=0 full=0 resizing=0 active=0
+configured parent 240 160 max=0 full=0 resizing=0 active=0
+focus parent
+configured parent 240 160 max=0 full=0 resizing=0 active=1
+configured child 240 160 max=0 full=0 resizing=0 active=0
+blur parent
+configured parent 240 160 max=0 full=0 resizing=0 active=0
+focus child
+configured child 240 160 max=0 full=0 resizing=0 active=1
+pointer-enter parent
+configured parent 240 160 max=0 full=0 resizing=0 active=0
+configured child 240 160 max=0 full=0 resizing=0 active=1
+parent-error code=1 interface=xdg_toplevel id=9
+parent-error-done

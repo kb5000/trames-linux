@@ -1,0 +1,11 @@
+Openbox-Debug: --config-file /mnt/trames-output/linux-window/parent-release/baseline-invalid-code/openbox.xml
+Openbox-Debug: --startup /usr/bin/touch /mnt/trames-output/linux-window/parent-release/baseline-invalid-code/wm-ready
+Openbox-Debug: Failed to connect to session manager: SESSION_MANAGER environment variable not defined
+Openbox-Debug: Monitor 0 @ 0,0 1024x768
+
+Openbox-Debug: Full desktop @ 0,0 1024x768
+
+Openbox-Debug: Moving to desktop 1
+Openbox-Message: Unable to find a valid menu file "menu.xml"
+Openbox-Debug: not managing override redirect window 0x20011f
+Openbox-Debug: Caught signal 15. Exiting.
