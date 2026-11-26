@@ -1,5 +1,12 @@
 # Worker-local KVM execution budgets — 2026-11-26
 
+Follow-up: the 18 iPad QEMU failures recorded below were closed as conformance-test
+issues by Runtime `2c5cc31` / iPad `229838ae`. Final three-lane coverage is
+542 passing cases plus three original ignores, using 538 unchanged passes and
+four exact rechecks per lane. See the [CI closure record](https://github.com/project-trames/trames-ipad/blob/b9af900494b80c604ebc2334a229890ffbc994d5/docs/validation/runtime-conformance-20261126.md).
+The frozen Linux C8 performance cohort and historical CI snapshots below remain
+unchanged.
+
 Final Linux `501a77ebcbec55f04792496aa14675f848c839c4` retains one bounded
 execution deadline across short syscalls within a Runtime worker assignment.
 It releases that registration before parking, changing tasks or invoking a

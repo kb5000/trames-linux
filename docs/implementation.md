@@ -207,8 +207,11 @@ executions and 15 separate traces show timer/mask calls about 80%–98% lower,
 getpid wall medians 2.2%–4.9% better, with small workload regressions retained.
 The initial candidate's host-I/O cancellation defect, negative reproduction and
 separate full 320-execution cohort remain in the record. Final Linux and shared
-Runtime hosted checks pass. Broad iPad ARM64-under-QEMU conformance still has
-18 unresolved source-worker failures, so paired release readiness is not claimed.
+Runtime hosted checks pass. The 18 iPad QEMU failures discovered in that cohort
+were subsequently closed as conformance-test issues, with final Runtime
+`2c5cc31` / iPad `229838ae` checks. See the [follow-up validation](https://github.com/project-trames/trames-ipad/blob/b9af900494b80c604ebc2334a229890ffbc994d5/docs/validation/runtime-conformance-20261126.md).
+The frozen Linux Runtime pin and measurements remain unchanged; full paired
+product/device release gates remain separate.
 
 See the [complete source-bound evidence and offline audit](validation/kvm-budget-reuse-20261126.md).
 The next Linux product batch is guest desktop/input on the existing software X11
