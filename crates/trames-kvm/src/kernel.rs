@@ -290,6 +290,30 @@ impl trames_engine::Cpu for Cpu {
             ))
         }
     }
+    fn begin_execution(
+        engine: &mut Engine,
+    ) -> Result<Option<std::sync::Arc<dyn trames_engine::ExecutionInterrupt>>, CpuFault> {
+        #[cfg(all(target_os = "linux", target_arch = "aarch64"))]
+        {
+            let executor = engine.prepare()?;
+            executor
+                .begin_assignment()
+                .map_err(|e| CpuFault::Host(e.to_string()))?;
+            Ok(Some(executor.interrupt()))
+        }
+        #[cfg(not(all(target_os = "linux", target_arch = "aarch64")))]
+        {
+            Self::execution_interrupt(engine)
+        }
+    }
+    fn finish_execution(engine: &mut Engine) {
+        #[cfg(all(target_os = "linux", target_arch = "aarch64"))]
+        if let Some(executor) = engine.executor.as_mut() {
+            executor.finish_assignment();
+        }
+        #[cfg(not(all(target_os = "linux", target_arch = "aarch64")))]
+        let _ = engine;
+    }
     fn prepare_hardware_memory(
         memory: &mut Memory,
         registry: &mut Registry,

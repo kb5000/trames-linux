@@ -27,11 +27,20 @@ for line in subprocess.check_output(['ldd','/bin/sh'],text=True).splitlines():
         path=Path(name);dest=rootfs/path.relative_to('/');dest.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(path,dest)
 shell=subprocess.run([str(binary),'shell','--rootfs',str(rootfs),'--no-pty','--timeout-ms','5000'],input=b"printf 'shell-ok\\n'\nexit 9\n",capture_output=True,timeout=10)
 record('explicit-rootfs-shell',shell.returncode==9 and shell.stdout==b'shell-ok\n',code=shell.returncode,stdout=shell.stdout.decode(errors='replace'),stderr=shell.stderr.decode(errors='replace'))
-for mode,sig in [('spin',signal.SIGINT),('sleep',signal.SIGTERM)]:
+for mode,sig in [('spin',signal.SIGINT),('syscall-spin',signal.SIGINT),('sleep',signal.SIGTERM)]:
     p=subprocess.Popen([str(binary),'run','--',str(fixture),mode],stdin=subprocess.DEVNULL,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
     time.sleep(.15);began=time.monotonic();p.send_signal(sig)
     try:stdout,stderr=p.communicate(timeout=3);record('cancel/'+mode,p.returncode==128+sig,code=p.returncode,seconds=time.monotonic()-began,stderr=stderr.decode(errors='replace'))
     except subprocess.TimeoutExpired:p.kill();p.communicate();record('cancel/'+mode,False,error='timeout')
+# A stream of short SVCs must not renew its quantum forever or suppress host cancellation.
+for mode in ['spin','syscall-spin','sleep']:
+    began=time.monotonic()
+    try:
+        result=subprocess.run([str(binary),'run','--timeout-ms','200','--',str(fixture),mode],stdin=subprocess.DEVNULL,capture_output=True,timeout=4)
+        elapsed=time.monotonic()-began
+        record('deadline/'+mode,result.returncode==2 and result.stdout==b'' and result.stderr==b'trames: session cancelled by its host\n' and .15<=elapsed<3,code=result.returncode,seconds=elapsed,stderr=result.stderr.decode(errors='replace'))
+    except subprocess.TimeoutExpired:
+        record('deadline/'+mode,False,error='timeout')
 master,slave=pty.openpty();fcntl.ioctl(slave,termios.TIOCSWINSZ,struct.pack('HHHH',31,99,0,0));saved=termios.tcgetattr(slave)
 p=subprocess.Popen([str(binary),'run','--pty','--',str(fixture),'tty'],stdin=slave,stdout=slave,stderr=slave,close_fds=True)
 data=b'';sent=False;began=time.monotonic()

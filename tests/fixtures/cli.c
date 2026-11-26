@@ -4,6 +4,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/ioctl.h>
+#include <sys/syscall.h>
 int main(int argc,char **argv) {
     if(argc<2)return 80;
     if(!strcmp(argv[1],"stdio")) {
@@ -12,6 +13,7 @@ int main(int argc,char **argv) {
     }
     if(!strcmp(argv[1],"env")) {char cwd[256];if(!getcwd(cwd,sizeof cwd))return 83;printf("%s:%s\n",cwd,getenv("CLI_VALUE"));return 0;}
     if(!strcmp(argv[1],"tty")) {struct winsize size;if(!isatty(0)||ioctl(0,TIOCGWINSZ,&size))return 84;printf("tty:%u,%u\n",size.ws_row,size.ws_col);fflush(stdout);char line[128];if(!fgets(line,sizeof line,stdin))return 85;printf("line:%s",line);return 0;}
+    if(!strcmp(argv[1],"syscall-spin")) {for(;;)(void)syscall(SYS_getpid);}
     if(!strcmp(argv[1],"spin")) {for(;;)__asm__ volatile("":::"memory");}
     if(!strcmp(argv[1],"sleep")) {sleep(30);return 0;}
     return 86;

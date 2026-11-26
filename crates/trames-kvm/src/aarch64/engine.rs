@@ -2,7 +2,7 @@
 //! Worker-local vCPU and sparse 4KiB stage-1 tables, with canonical runtime RAM.
 use super::machine::{core_register, set, system_register};
 use crate::{
-    deadline::Timer,
+    deadline::{Deadline, Timer},
     mailbox::Mailbox,
     storage::{Allocation, Vm, PAGE},
     Aarch64State, Error, Result,
@@ -233,6 +233,8 @@ pub(crate) struct Executor {
     run: *mut kvm_run,
     interrupt: Arc<crate::deadline::Interrupt>,
     timer: Timer,
+    assignment: bool,
+    budget: Option<(Instant, Deadline)>,
     memory_id: u64,
     asid: u16,
     asid_base: u16,
@@ -373,6 +375,8 @@ impl Executor {
             run,
             interrupt,
             timer,
+            assignment: false,
+            budget: None,
             memory_id: 0,
             asid: asid_base,
             asid_base,
@@ -388,6 +392,19 @@ impl Executor {
             resume_resets: 0,
             _local: PhantomData,
         })
+    }
+    pub fn begin_assignment(&mut self) -> Result<()> {
+        if self.assignment {
+            return Err(Error("nested KVM worker assignment".into()));
+        }
+        self.assignment = true;
+        Ok(())
+    }
+    pub fn finish_assignment(&mut self) {
+        // Release the signal target while the vCPU mapping is still live, before
+        // host waits, a different task, or a caught unwind can leave this worker.
+        drop(self.budget.take());
+        self.assignment = false;
     }
     pub fn interrupt(&self) -> Arc<dyn trames_execution::ExecutionInterrupt> {
         self.interrupt.clone()
@@ -854,11 +871,35 @@ impl Executor {
         if state.tpidr2_el0 != 0 {
             return Err(Error("SME context is not supported by KVM baseline".into()).into());
         }
+        let retained = self.budget.take();
+        if retained
+            .as_ref()
+            .is_some_and(|(end, _)| Instant::now() >= *end)
+        {
+            // Kernel dispatch counts against this assignment's wall budget too.
+            // A short SVC must not buy another full quantum on every return.
+            drop(retained);
+            return Ok(ExecutionExit {
+                reason: ExitReason::Yield,
+                instructions: InstructionCount::Unavailable,
+            });
+        }
         self.synchronize(memory)?;
         self.start(state)?;
         let begin = Instant::now();
-        let mut deadline =
-            Some(unsafe { self.timer.arm(&raw mut (*self.run).immediate_exit, quantum) }?);
+        let (end, mut deadline) = match retained {
+            Some((end, guard)) => (end, Some(guard)),
+            None => (begin + quantum, None),
+        };
+        if deadline.is_none() {
+            deadline = Some(unsafe {
+                self.timer.arm(
+                    &raw mut (*self.run).immediate_exit,
+                    end.saturating_duration_since(Instant::now())
+                        .max(Duration::from_nanos(1)),
+                )
+            }?);
+        }
         if self.interrupt.take_request() {
             unsafe {
                 (&raw mut (*self.run).immediate_exit).write_volatile(1);
@@ -885,14 +926,13 @@ impl Executor {
                             let (wait, generation) = self.vm.wait_for_lease();
                             if let Some(wait) = wait {
                                 self.wait = Some(wait);
-                            } else if lease_retry != Some(generation) && begin.elapsed() < quantum {
+                            } else if lease_retry != Some(generation) && Instant::now() < end {
                                 lease_retry = Some(generation);
                                 self.start(state)?;
                                 deadline = Some(unsafe {
                                     self.timer.arm(
                                         &raw mut (*self.run).immediate_exit,
-                                        quantum
-                                            .saturating_sub(begin.elapsed())
+                                        end.saturating_duration_since(Instant::now())
                                             .max(Duration::from_nanos(1)),
                                     )
                                 }?);
@@ -918,8 +958,7 @@ impl Executor {
                 });
             }
             self.fault(memory, &mailbox)?;
-            drop(deadline.take());
-            if begin.elapsed() >= quantum {
+            if Instant::now() >= end {
                 return Ok(ExecutionExit {
                     reason: ExitReason::Yield,
                     instructions: InstructionCount::Unavailable,
@@ -943,19 +982,21 @@ impl Executor {
                 deadline = Some(unsafe {
                     self.timer.arm(
                         &raw mut (*self.run).immediate_exit,
-                        quantum
-                            .saturating_sub(begin.elapsed())
+                        end.saturating_duration_since(Instant::now())
                             .max(Duration::from_nanos(1)),
                     )
                 }?);
             }
         })();
-        drop(deadline);
+        if self.assignment && matches!(&result, Ok(exit) if exit.reason == ExitReason::Syscall) {
+            self.budget = deadline.map(|guard| (end, guard));
+        }
         result
     }
 }
 impl Drop for Executor {
     fn drop(&mut self) {
+        self.finish_assignment();
         self.interrupt.retire();
         unsafe {
             std::mem::ManuallyDrop::drop(&mut self.cpu);
@@ -967,6 +1008,74 @@ impl Drop for Executor {
 #[cfg(test)]
 mod hardware_checkpoints {
     use super::*;
+    #[test]
+    #[ignore = "requires real ARM64 Linux KVM and 4KiB host pages"]
+    fn assignment_reuses_budget_and_stops_it_before_the_next_task() {
+        use trames_memory::{Memory, Permissions};
+        let mut memory = Memory::default();
+        memory.map(0x10000, 4096, Permissions::RW).unwrap();
+        memory
+            .write(0x10000, &[0x01, 0x00, 0x00, 0xd4, 0xff, 0xff, 0xff, 0x17])
+            .unwrap();
+        memory.protect(0x10000, 4096, Permissions::RX).unwrap();
+        let mut registry = trames_memory::parallel::Registry::default();
+        registry.use_hardware();
+        memory.prepare_hardware().unwrap();
+        let mut view = memory.parallel_view(&mut registry).unwrap();
+        view.enable_hardware();
+        let mut executor = Executor::new().unwrap();
+        let mut state = Aarch64State {
+            pc: 0x10000,
+            ..Default::default()
+        };
+        executor.begin_assignment().unwrap();
+        let quantum = Duration::from_secs(1);
+        assert_eq!(
+            executor.run(&mut state, &mut view, quantum).unwrap().reason,
+            ExitReason::Syscall
+        );
+        let end = executor.budget.as_ref().unwrap().0;
+        for _ in 0..32 {
+            assert_eq!(
+                executor.run(&mut state, &mut view, quantum).unwrap().reason,
+                ExitReason::Syscall
+            );
+            assert_eq!(
+                executor.budget.as_ref().unwrap().0,
+                end,
+                "SVC must not renew the slice"
+            );
+        }
+        // An expired retained slice must yield without executing the next SVC.
+        executor.budget.as_mut().unwrap().0 = Instant::now();
+        let saved = state.clone();
+        assert_eq!(
+            executor.run(&mut state, &mut view, quantum).unwrap().reason,
+            ExitReason::Yield
+        );
+        assert_eq!(state, saved);
+        assert!(executor.budget.is_none());
+        executor.finish_assignment();
+        // A parked assignment must not retain a live timer or signal target.
+        executor.begin_assignment().unwrap();
+        assert_eq!(
+            executor.run(&mut state, &mut view, quantum).unwrap().reason,
+            ExitReason::Syscall
+        );
+        executor.finish_assignment();
+        assert!(executor.budget.is_none());
+        assert!(!executor.assignment);
+        // The signal-target lifetime is independently covered by timer tests;
+        // this test also drops the vCPU with a new assignment still armed.
+        executor.begin_assignment().unwrap();
+        assert_eq!(
+            executor.run(&mut state, &mut view, quantum).unwrap().reason,
+            ExitReason::Syscall
+        );
+        drop(executor);
+        let next = Executor::new().unwrap();
+        drop(next);
+    }
     #[test]
     #[ignore = "requires real ARM64 Linux KVM and 4KiB host pages"]
     fn repeated_deadlines_preserve_the_entire_el0_register_bank() {

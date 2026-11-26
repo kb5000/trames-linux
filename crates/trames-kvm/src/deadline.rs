@@ -81,7 +81,10 @@ fn reserved_signal() -> Result<i32> {
                 ));
             }
             let mut action: libc::sigaction = unsafe { std::mem::zeroed() };
-            action.sa_flags = libc::SA_SIGINFO;
+            // An assignment budget can expire during a short host syscall. Restart
+            // restartable host I/O instead of leaking our private tick as EINTR.
+            // KVM immediate_exit and nonrestartable waits still return promptly.
+            action.sa_flags = libc::SA_SIGINFO | libc::SA_RESTART;
             action.sa_sigaction = handler as *const () as usize;
             unsafe { libc::sigemptyset(&mut action.sa_mask) };
             if unsafe { libc::sigaction(signal, &action, ptr::null_mut()) } != 0 {
@@ -303,6 +306,27 @@ mod tests {
             Some(libc::EINTR)
         );
         assert_eq!(unsafe { pointer.read_volatile() }, 1);
+    }
+    #[test]
+    fn private_tick_restarts_host_pipe_io() {
+        let timer = Timer::new().unwrap();
+        let mut byte = 0u8;
+        let pointer = &raw mut byte;
+        let mut fds = [-1; 2];
+        assert_eq!(unsafe { libc::pipe(fds.as_mut_ptr()) }, 0);
+        let writer = std::thread::spawn(move || {
+            std::thread::sleep(Duration::from_millis(30));
+            assert_eq!(unsafe { libc::write(fds[1], b"x".as_ptr().cast(), 1) }, 1);
+            assert_eq!(unsafe { libc::close(fds[1]) }, 0);
+        });
+        let guard = unsafe { timer.arm(pointer, Duration::from_millis(5)) }.unwrap();
+        let mut value = 0u8;
+        assert_eq!(unsafe { libc::read(fds[0], (&raw mut value).cast(), 1) }, 1);
+        assert_eq!(value, b'x');
+        assert_eq!(unsafe { pointer.read_volatile() }, 1);
+        drop(guard);
+        assert_eq!(unsafe { libc::close(fds[0]) }, 0);
+        writer.join().unwrap();
     }
     #[test]
     fn queued_expiry_cannot_cancel_a_fresh_arm_of_the_same_timer() {
