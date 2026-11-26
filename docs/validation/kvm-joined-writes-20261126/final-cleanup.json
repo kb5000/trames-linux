@@ -1,0 +1,22 @@
+{
+  "scope": "completed and archived raw comparisons, qualified selection and supplemental round; preserve raw failure, all unique runners and one byte-identical/superset input root",
+  "removed": [
+    {
+      "removed": "/home/main.guest/trames-kvm-joined-writes-compact-performance/rootfs",
+      "retained_input_superset": "/home/main.guest/trames-kvm-timer-before-performance/rootfs",
+      "files": 169,
+      "identical_full_tree": true,
+      "bytes_map_sha256": "8b5fa4f033b033efcf2fc80f3aaa26aacfc9a3464b135d3295c7a2af648c2bce",
+      "allocated_bytes_before": 132444160
+    },
+    {
+      "removed": "/home/main.guest/trames-kvm-joined-writes-build-retry/rootfs",
+      "retained_input_superset": "/home/main.guest/trames-kvm-timer-before-performance/rootfs",
+      "files": 18,
+      "identical_full_tree": false,
+      "bytes_map_sha256": "001a5011ba2b9ad6f6044e520cbf6b2ad3e4a913fdbf46108bdbf6115c587c89",
+      "allocated_bytes_before": 39272448
+    }
+  ],
+  "guest_free_bytes_after": 858824704
+}

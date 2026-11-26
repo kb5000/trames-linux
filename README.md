@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  Run unmodified ARM64 Linux binaries with bare-metal CPU performance and isolated userspace OS services.<br>
+  Run unmodified ARM64 Linux binaries with hardware-accelerated CPU execution and isolated userspace OS services.<br>
   KVM accelerates hardware execution and page translation; Trames Runtime handles all system calls without booting a guest kernel.
 </p>
 
@@ -231,7 +231,7 @@ bash scripts/validate-hardware.sh
 | **Host CLI & Runtime** | [Shared Host CLI Design](docs/architecture/host-cli.md) · [Implementation Ledger](docs/implementation.md) |
 | **Acceleration & Media** | [Vulkan Presentation & Compute](docs/architecture/presentation.md) · [ALSA PCM Provider](docs/architecture/audio.md) |
 | **Testing & Methodology** | [Acceptance Test Design](docs/architecture/acceptance.md) · [Memory & Performance Acceptance](docs/architecture/memory-performance-acceptance.md) |
-| **Evidence & Benchmarks** | [Hardware Validation Records](docs/validation/) |
+| **Evidence & Benchmarks** | [Hardware Validation Records](docs/validation/) · [KVM Memory Publication](docs/validation/kvm-joined-writes-20261126.md) |
 
 ---
 

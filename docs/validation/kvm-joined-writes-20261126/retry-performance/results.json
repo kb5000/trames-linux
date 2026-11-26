@@ -1,0 +1,365 @@
+{
+  "audit_controller_sha256": "6b8a120845cc0b3618e06afbcd028a46e1d27ab06fde3c820f38e72993ce0b16",
+  "comparisons": [
+    {
+      "lane": "baseline-mmio",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 25037948000,
+          "median": 25037948000,
+          "minimum": 25037948000
+        },
+        "involuntary_switches": {
+          "maximum": 520,
+          "median": 520,
+          "minimum": 520
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 156004352,
+          "median": 156004352,
+          "minimum": 156004352
+        },
+        "major_faults": {
+          "maximum": 1,
+          "median": 1,
+          "minimum": 1
+        },
+        "minor_faults": {
+          "maximum": 309167,
+          "median": 309167,
+          "minimum": 309167
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 140766208,
+          "median": 140766208,
+          "minimum": 140766208
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 156073984,
+          "median": 156073984,
+          "minimum": 156073984
+        },
+        "system_ns": {
+          "maximum": 14757538000,
+          "median": 14757538000,
+          "minimum": 14757538000
+        },
+        "user_ns": {
+          "maximum": 10280410000,
+          "median": 10280410000,
+          "minimum": 10280410000
+        },
+        "voluntary_switches": {
+          "maximum": 445,
+          "median": 445,
+          "minimum": 445
+        },
+        "wall_ns": {
+          "maximum": 25517464437,
+          "median": 25517464437,
+          "minimum": 25517464437
+        },
+        "work_ns": {
+          "maximum": 25439442516,
+          "median": 25439442516,
+          "minimum": 25439442516
+        }
+      },
+      "mode": "build",
+      "samples": 1,
+      "wall_time_ratio_to_native": 8.08318972192778,
+      "work_time_ratio_to_native": 8.061220762938738,
+      "workers": 1
+    },
+    {
+      "lane": "baseline-smccc",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 25243909000,
+          "median": 25243909000,
+          "minimum": 25243909000
+        },
+        "involuntary_switches": {
+          "maximum": 521,
+          "median": 521,
+          "minimum": 521
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 155848704,
+          "median": 155848704,
+          "minimum": 155848704
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 309471,
+          "median": 309471,
+          "minimum": 309471
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 140434432,
+          "median": 140434432,
+          "minimum": 140434432
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 155553792,
+          "median": 155553792,
+          "minimum": 155553792
+        },
+        "system_ns": {
+          "maximum": 14291096000,
+          "median": 14291096000,
+          "minimum": 14291096000
+        },
+        "user_ns": {
+          "maximum": 10952813000,
+          "median": 10952813000,
+          "minimum": 10952813000
+        },
+        "voluntary_switches": {
+          "maximum": 532,
+          "median": 532,
+          "minimum": 532
+        },
+        "wall_ns": {
+          "maximum": 25667858326,
+          "median": 25667858326,
+          "minimum": 25667858326
+        },
+        "work_ns": {
+          "maximum": 25586969480,
+          "median": 25586969480,
+          "minimum": 25586969480
+        }
+      },
+      "mode": "build",
+      "samples": 1,
+      "wall_time_ratio_to_native": 8.130830126827997,
+      "work_time_ratio_to_native": 8.1079689345837,
+      "workers": 1
+    },
+    {
+      "lane": "candidate-mmio",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 25065509000,
+          "median": 25065509000,
+          "minimum": 25065509000
+        },
+        "involuntary_switches": {
+          "maximum": 521,
+          "median": 521,
+          "minimum": 521
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 156143616,
+          "median": 156143616,
+          "minimum": 156143616
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 309422,
+          "median": 309422,
+          "minimum": 309422
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 139997184,
+          "median": 139997184,
+          "minimum": 139997184
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 155394048,
+          "median": 155394048,
+          "minimum": 155394048
+        },
+        "system_ns": {
+          "maximum": 15658663000,
+          "median": 15658663000,
+          "minimum": 15658663000
+        },
+        "user_ns": {
+          "maximum": 9406846000,
+          "median": 9406846000,
+          "minimum": 9406846000
+        },
+        "voluntary_switches": {
+          "maximum": 484,
+          "median": 484,
+          "minimum": 484
+        },
+        "wall_ns": {
+          "maximum": 25514368216,
+          "median": 25514368216,
+          "minimum": 25514368216
+        },
+        "work_ns": {
+          "maximum": 25433863189,
+          "median": 25433863189,
+          "minimum": 25433863189
+        }
+      },
+      "mode": "build",
+      "samples": 1,
+      "wall_time_ratio_to_baseline": 0.9998786626701237,
+      "wall_time_ratio_to_native": 8.082208929270038,
+      "work_time_ratio_to_baseline": 0.9997806820256973,
+      "work_time_ratio_to_native": 8.059452792330603,
+      "workers": 1
+    },
+    {
+      "lane": "candidate-smccc",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 22368859000,
+          "median": 22368859000,
+          "minimum": 22368859000
+        },
+        "involuntary_switches": {
+          "maximum": 503,
+          "median": 503,
+          "minimum": 503
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 156139520,
+          "median": 156139520,
+          "minimum": 156139520
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 309275,
+          "median": 309275,
+          "minimum": 309275
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 140251136,
+          "median": 140251136,
+          "minimum": 140251136
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 155000832,
+          "median": 155000832,
+          "minimum": 155000832
+        },
+        "system_ns": {
+          "maximum": 13215263000,
+          "median": 13215263000,
+          "minimum": 13215263000
+        },
+        "user_ns": {
+          "maximum": 9153596000,
+          "median": 9153596000,
+          "minimum": 9153596000
+        },
+        "voluntary_switches": {
+          "maximum": 476,
+          "median": 476,
+          "minimum": 476
+        },
+        "wall_ns": {
+          "maximum": 22734130521,
+          "median": 22734130521,
+          "minimum": 22734130521
+        },
+        "work_ns": {
+          "maximum": 22653999143,
+          "median": 22653999143,
+          "minimum": 22653999143
+        }
+      },
+      "mode": "build",
+      "samples": 1,
+      "wall_time_ratio_to_baseline": 0.8857042232452907,
+      "wall_time_ratio_to_native": 7.2015105818216005,
+      "work_time_ratio_to_baseline": 0.8853725002762617,
+      "work_time_ratio_to_native": 7.178572727774629,
+      "workers": 1
+    },
+    {
+      "lane": "native",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 3124218000,
+          "median": 3124218000,
+          "minimum": 3124218000
+        },
+        "involuntary_switches": {
+          "maximum": 68,
+          "median": 68,
+          "minimum": 68
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 56217600,
+          "median": 56217600,
+          "minimum": 56217600
+        },
+        "major_faults": {
+          "maximum": 1,
+          "median": 1,
+          "minimum": 1
+        },
+        "minor_faults": {
+          "maximum": 123560,
+          "median": 123560,
+          "minimum": 123560
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 54321152,
+          "median": 54321152,
+          "minimum": 54321152
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 58486784,
+          "median": 58486784,
+          "minimum": 58486784
+        },
+        "system_ns": {
+          "maximum": 83729000,
+          "median": 83729000,
+          "minimum": 83729000
+        },
+        "user_ns": {
+          "maximum": 3040489000,
+          "median": 3040489000,
+          "minimum": 3040489000
+        },
+        "voluntary_switches": {
+          "maximum": 118,
+          "median": 118,
+          "minimum": 118
+        },
+        "wall_ns": {
+          "maximum": 3156855810,
+          "median": 3156855810,
+          "minimum": 3156855810
+        },
+        "work_ns": {
+          "maximum": 3155780404,
+          "median": 3155780404,
+          "minimum": 3155780404
+        }
+      },
+      "mode": "build",
+      "samples": 1,
+      "wall_time_ratio_to_native": 1.0,
+      "work_time_ratio_to_native": 1.0,
+      "workers": 1
+    }
+  ],
+  "failures": [],
+  "inputs_sha256": "6db9a3ce92d506944fa40262503eae9415628ba014db12333ad85185ff8eeb20",
+  "passed": true,
+  "samples_sha256": "7e5182b0ea6b8a1e9ea3252e8e369cae792821677e6a14afffabdff2bcca649e",
+  "schema_version": 1,
+  "scope": "this host/configuration; no universal near-native performance claim"
+}

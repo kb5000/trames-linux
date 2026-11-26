@@ -1,0 +1,23 @@
+{
+  "passed": true,
+  "checks": {
+    "paired_round_retry_selection_verified": true,
+    "selection_negative_cases": 2,
+    "retained_original_clock_warning": true,
+    "supplemental_raw_executions": 10,
+    "performance_total_executions": 240,
+    "performance_measured_samples": 180,
+    "retained_initial_trial_executions": 240,
+    "unchanged_auditor_negative_cases_reused": 4,
+    "core_memory": 77,
+    "cpu_state_ptrace": 15,
+    "application_kvm_cells": 48,
+    "reused_native_application_cells": 12,
+    "stock_fuse_functional_and_shutdown": 144,
+    "real_kvm_library_and_hardware": 36,
+    "software_vulkan_and_kvm_4k_buffer_aliases": 2,
+    "sampling_host_and_guest_accounted": true
+  },
+  "raw_archive_sha256": "8312b1fb9e1725056b6b73aab5248d78054eef88b9315c640171f0200885d59f",
+  "full_product_4k_qualified": false
+}

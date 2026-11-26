@@ -1,0 +1,31 @@
+{
+  "scope": "only completed acceptance runner duplicates; preserve every path, bytes, mode and owner via hardlinks",
+  "files": [
+    {
+      "path": "/home/main.guest/trames-kvm-joined-writes-compact-applications/kvm-smccc-1/runner",
+      "canonical": "/home/main.guest/trames-kvm-joined-writes-compact-applications/runner",
+      "sha256": "345289fd15f4fad74ccc971ccfcefbd725919c12f049e7c3c914c06ee77590e4",
+      "allocated_duplicate_bytes_before": 27594752
+    },
+    {
+      "path": "/home/main.guest/trames-kvm-joined-writes-compact-applications/kvm-smccc-4/runner",
+      "canonical": "/home/main.guest/trames-kvm-joined-writes-compact-applications/runner",
+      "sha256": "345289fd15f4fad74ccc971ccfcefbd725919c12f049e7c3c914c06ee77590e4",
+      "allocated_duplicate_bytes_before": 27594752
+    },
+    {
+      "path": "/home/main.guest/trames-kvm-joined-writes-compact-applications/kvm-mmio-1/runner",
+      "canonical": "/home/main.guest/trames-kvm-joined-writes-compact-applications/runner",
+      "sha256": "345289fd15f4fad74ccc971ccfcefbd725919c12f049e7c3c914c06ee77590e4",
+      "allocated_duplicate_bytes_before": 27594752
+    },
+    {
+      "path": "/home/main.guest/trames-kvm-joined-writes-compact-applications/kvm-mmio-4/runner",
+      "canonical": "/home/main.guest/trames-kvm-joined-writes-compact-applications/runner",
+      "sha256": "345289fd15f4fad74ccc971ccfcefbd725919c12f049e7c3c914c06ee77590e4",
+      "allocated_duplicate_bytes_before": 27594752
+    }
+  ],
+  "reclaimed_allocated_bytes": 110379008,
+  "guest_free_bytes_after": 871510016
+}

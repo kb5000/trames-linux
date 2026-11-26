@@ -125,3 +125,17 @@ The first retained comparison is [vCPU timer reuse](../validation/kvm-timer-reus
 Its six-workload sequential data remains separate from the interleaved micro
 comparison and from traced diagnostics. Reporting/audit changes derive results
 from raw samples and do not trigger benchmark or hardware reexecution.
+
+## KVM publication and profiling boundaries
+
+KVM retains a checked write set per stopped address-space root, using the same
+Runtime publication words/allocation epochs as HVF. Mapping generations refresh
+membership; joined epochs re-publish before reentry; cold writable exports mark
+new bindings before hardware stores. Ordinary private Page metadata stays compact.
+No per-execute page scan, instruction rewriting or new resource thread is needed.
+
+Sampling a nested KVM process also needs an explicit host/guest report scope.
+Host-only rows can account for a small fraction of the recorded distribution.
+An address at a hypercall return can include transition attribution or sampling
+skid; it cannot establish that instruction's latency or a bare-metal ceiling.
+See the [complete cohort and diagnostics](../validation/kvm-joined-writes-20261126.md).

@@ -1,0 +1,12 @@
+{
+  "baseline_commit": "88b6d8505ad51a5a0d96fb10ba4e6666367eea0c",
+  "baseline_binary_sha256": "d9641f0fbd8af8b2ef04b4e854efebbdbee91329af0e0b8be49a10f2895d5378",
+  "method": "Match actual baseline nm symbols and objdump instructions to the private adapter's guest relocation base; observed before measuring candidate performance",
+  "guest_vector_base": "0xffffffffffff8000",
+  "elf_vector_start": "0x6c3800",
+  "locations": [
+    {"guest_pc":"0xffffffffffff8b04","samples_percent":77.53,"elf_pc":"0x6c4304","symbol":"trames_engine_hvc_return","instruction":"b trames_engine_resume","preceding_instruction":"hvc #0"},
+    {"guest_pc":"0xffffffffffff8860","samples_percent":14.29,"elf_pc":"0x6c4060","symbol":"trames_engine_resume+0x60","instruction":"msr fpcr, x0"}
+  ],
+  "scope": "Sampling attribution includes nested transition/skid; not a per-instruction latency or bare-metal ceiling"
+}

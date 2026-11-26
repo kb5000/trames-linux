@@ -1,0 +1,55 @@
+{
+  "scope": "only completed acceptance runner duplicates; preserve every path, bytes, mode and owner via hardlinks",
+  "files": [
+    {
+      "path": "/home/main.guest/trames-kvm-timer-applications/kvm-smccc-1/runner",
+      "canonical": "/home/main.guest/trames-kvm-timer-applications/runner",
+      "sha256": "af26f5c6d34cdab5f9dae69a7671e7276895dde711b2b9784e7a67051164060c",
+      "allocated_duplicate_bytes_before": 27586560
+    },
+    {
+      "path": "/home/main.guest/trames-kvm-timer-applications/kvm-smccc-4/runner",
+      "canonical": "/home/main.guest/trames-kvm-timer-applications/runner",
+      "sha256": "af26f5c6d34cdab5f9dae69a7671e7276895dde711b2b9784e7a67051164060c",
+      "allocated_duplicate_bytes_before": 27586560
+    },
+    {
+      "path": "/home/main.guest/trames-kvm-timer-applications/kvm-mmio-1/runner",
+      "canonical": "/home/main.guest/trames-kvm-timer-applications/runner",
+      "sha256": "af26f5c6d34cdab5f9dae69a7671e7276895dde711b2b9784e7a67051164060c",
+      "allocated_duplicate_bytes_before": 27586560
+    },
+    {
+      "path": "/home/main.guest/trames-kvm-timer-applications/kvm-mmio-4/runner",
+      "canonical": "/home/main.guest/trames-kvm-timer-applications/runner",
+      "sha256": "af26f5c6d34cdab5f9dae69a7671e7276895dde711b2b9784e7a67051164060c",
+      "allocated_duplicate_bytes_before": 27586560
+    },
+    {
+      "path": "/home/main.guest/trames-kvm-joined-writes-applications/kvm-smccc-1/runner",
+      "canonical": "/home/main.guest/trames-kvm-joined-writes-applications/runner",
+      "sha256": "516192d95b315c1a7f05e6aa0dd7abd66bfcb465365a4fe8acc93d9e720fe5c1",
+      "allocated_duplicate_bytes_before": 27586560
+    },
+    {
+      "path": "/home/main.guest/trames-kvm-joined-writes-applications/kvm-smccc-4/runner",
+      "canonical": "/home/main.guest/trames-kvm-joined-writes-applications/runner",
+      "sha256": "516192d95b315c1a7f05e6aa0dd7abd66bfcb465365a4fe8acc93d9e720fe5c1",
+      "allocated_duplicate_bytes_before": 27586560
+    },
+    {
+      "path": "/home/main.guest/trames-kvm-joined-writes-applications/kvm-mmio-1/runner",
+      "canonical": "/home/main.guest/trames-kvm-joined-writes-applications/runner",
+      "sha256": "516192d95b315c1a7f05e6aa0dd7abd66bfcb465365a4fe8acc93d9e720fe5c1",
+      "allocated_duplicate_bytes_before": 27586560
+    },
+    {
+      "path": "/home/main.guest/trames-kvm-joined-writes-applications/kvm-mmio-4/runner",
+      "canonical": "/home/main.guest/trames-kvm-joined-writes-applications/runner",
+      "sha256": "516192d95b315c1a7f05e6aa0dd7abd66bfcb465365a4fe8acc93d9e720fe5c1",
+      "allocated_duplicate_bytes_before": 27586560
+    }
+  ],
+  "reclaimed_allocated_bytes": 220692480,
+  "guest_free_bytes_after": 1043771392
+}

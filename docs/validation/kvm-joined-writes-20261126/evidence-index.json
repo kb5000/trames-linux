@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "files": {
+    "audit.py": "5f0cf9381777e2384703392d76c511a03921dfbcc79e6ee6e5e9a2044882176b",
+    "cloud-checks.json": "0c248b82abb35d088ac3add48238d35e8dfa48756b6de6258219b69b3ea04403",
+    "final-cleanup.json": "068a311aade76571d8299c5775a8e1f3d5f4a161bc852b5375f3c0a24fe1e881",
+    "initial-performance/report.md": "5899b33665e2d7b29115790df033003124672c65e2f18f905c8a2170155c7d1b",
+    "initial-performance/results.json": "438a45bcb6ab8b5ced2b16e848250c013f6debec17ca3f5d2529c76c445c1292",
+    "kvm-joined-writes-compact-dedup.json": "9627271992192d70fa08120f9bdd4f2c88f9e74ac0d83ce0d1347e3bd4a9e101",
+    "kvm-joined-writes-dedup.json": "9c73d822f40e3d81cbfc1213f0f9687e41ad1ec0704342023f2a3eebcfe68303",
+    "kvm-joined-writes-initial-cleanup.json": "9a829bd6ce8b21d69319b77acad394f649bbb3b925653a7d902588d98b301212",
+    "original-performance/report.md": "c713935c05c44c168dc2df539d5b308887fdef8f79d2aa9e5a27bd8016b47db1",
+    "original-performance/results.json": "b2085c8a232fc2ee87da4688bb3d56481217576ae3d757394b29bd61da504eff",
+    "performance/report.md": "0379f19d688d7ba6585e23deb8101aaa0d6f5bda6bac8d4821e441e3af3e126a",
+    "performance/results.json": "1deb94143b726dc4a57375007653c42d69321fc94f6f74f27647aa46ae226779",
+    "profile-symbols.json": "4b3f4c0c83d30401cea80038d4c77b96f8d4cff3b8e9981abb5fa270b14dc8fb",
+    "qualified-sources/cpu-extensions.c": "837fbc74497d7325108b36accab11f84979a4e3151c5543119d9715593a6c1f1",
+    "qualified-sources/memory-4k.c": "ad428421faf1fbbe1313d0ac3c13a372ca977fc7306d0fd7f3362410e6a0c382",
+    "qualified-sources/performance-node.js": "f4403c7c87b7038361f2307b90c91308cf5bce45882f0292ca5ed106663d6181",
+    "qualified-sources/performance.c": "7eb841b7569694f5149d5cc1130efbbf1c39f60f7163bd6d5725058098ce0b7d",
+    "qualified-sources/validate-cpu.py": "0c9293b3ac6007eebaf39de003e0b56b2ca6d62aed4a3aae12d57ef78573544a",
+    "qualified-sources/validate-memory.py": "c8717f810f13d1f4b8382a45dc2b600b0ba09a37a7bf337d940197ea1f62c7f7",
+    "qualified-sources/vectors.S": "46004b0a4bfc5cf5dcbc15981e90a08ead8bed88b02afe8a89b872abf27df82e",
+    "raw-evidence.tar.gz": "8312b1fb9e1725056b6b73aab5248d78054eef88b9315c640171f0200885d59f",
+    "retry-performance/report.md": "08a4825357b9384574ddee39ef72ea9fe8752f1d8f2d214ab465bbc0bc30850d",
+    "retry-performance/results.json": "59907494276bef4262cf7c2d60d07b980eebb886f8b9f09628dacc3bccfcf938",
+    "source-scope.json": "4ae5b6eaa8113f67bff00bb7ee6af8ca4ac69f30c245471061236b22a5b11dd6",
+    "../kvm-timer-reuse-20261126/audit-controller.py": "6b8a120845cc0b3618e06afbcd028a46e1d27ab06fde3c820f38e72993ce0b16",
+    "../kvm-timer-reuse-20261126/audit-support/common.py": "3815523ff0cc8b2dc272e2ebd6678447b80fd46f7699bced6d96163821eeb6b0",
+    "../kvm-timer-reuse-20261126/audit-support/run.py": "cb6b0805ea110134dfeea1c1ddaf7c5adcae550d2c4538994aba24224582a6e5",
+    "../kvm-timer-reuse-20261126/audit-result.json": "4e746b1e369c2a5ce074b9fdb72dcea1f551fd93d8d75cffc7aa05c47b9c4e5d"
+  }
+}

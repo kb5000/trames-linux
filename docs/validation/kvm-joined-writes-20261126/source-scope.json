@@ -1,0 +1,11 @@
+{
+  "baseline": "88b6d8505ad51a5a0d96fb10ba4e6666367eea0c",
+  "candidate": "c0955881e5554c659f8e15dc1c1c4cf129f02607",
+  "runtime": "a37a84d4b3c66f21ddb581f8f4b0427f50793e0d",
+  "cli": "da18836903d8e37bbb92cc32cc7ec78f8cf457bc",
+  "changed_files": [
+    "crates/trames-kvm/src/aarch64/engine.rs",
+    "crates/trames-kvm/tests/hardware.rs"
+  ],
+  "unchanged_adapter_source_sha256": "46004b0a4bfc5cf5dcbc15981e90a08ead8bed88b02afe8a89b872abf27df82e"
+}

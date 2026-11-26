@@ -1,0 +1,47 @@
+{
+  "observed_at": "2026-11-26 01:51:52 UTC",
+  "repository": "project-trames/trames-linux",
+  "candidate_source": "c0955881e5554c659f8e15dc1c1c4cf129f02607",
+  "candidate_checks": [
+    {
+      "name": "Build/unit (macos-15) — no hardware claim",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/project-trames/trames-linux/actions/runs/45736900892/job/139632209681"
+    },
+    {
+      "name": "Build/unit (ubuntu-24.04) — no hardware claim",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/project-trames/trames-linux/actions/runs/45736900892/job/139632209487"
+    },
+    {
+      "name": "Build/unit (ubuntu-24.04-arm) — no hardware claim",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/project-trames/trames-linux/actions/runs/45736900892/job/139632209257"
+    }
+  ],
+  "initial_source": "6259a61e3e2f98311fcf9018439d206051599d8b",
+  "initial_checks": [
+    {
+      "name": "Build/unit (ubuntu-24.04-arm) — no hardware claim",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/project-trames/trames-linux/actions/runs/45734442484/job/139624151919"
+    },
+    {
+      "name": "Build/unit (macos-15) — no hardware claim",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/project-trames/trames-linux/actions/runs/45734442484/job/139624151916"
+    },
+    {
+      "name": "Build/unit (ubuntu-24.04) — no hardware claim",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/project-trames/trames-linux/actions/runs/45734442484/job/139624151573"
+    }
+  ],
+  "scope": "Hosted build/unit jobs; real KVM, software Vulkan buffers and workload distributions are recorded separately. Unchanged shared Apple/Runtime checks retain their previous frozen identities."
+}

@@ -1,0 +1,4190 @@
+{
+  "audit_controller_sha256": "6b8a120845cc0b3618e06afbcd028a46e1d27ab06fde3c820f38e72993ce0b16",
+  "comparisons": [
+    {
+      "lane": "baseline-mmio",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 24481266000,
+          "median": 23814312000,
+          "minimum": 23793412000
+        },
+        "involuntary_switches": {
+          "maximum": 534,
+          "median": 503,
+          "minimum": 502
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 156528640,
+          "median": 156528640,
+          "minimum": 156516352
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 309273,
+          "median": 309270,
+          "minimum": 309269
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 141213696,
+          "median": 141202432,
+          "minimum": 140735488
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 156528640,
+          "median": 156459008,
+          "minimum": 156049408
+        },
+        "system_ns": {
+          "maximum": 14185399000,
+          "median": 14108400000,
+          "minimum": 14077389000
+        },
+        "user_ns": {
+          "maximum": 10372866000,
+          "median": 9716023000,
+          "minimum": 9628913000
+        },
+        "voluntary_switches": {
+          "maximum": 466,
+          "median": 459,
+          "minimum": 445
+        },
+        "wall_ns": {
+          "maximum": 24937135241,
+          "median": 24219051243,
+          "minimum": 24151787628
+        },
+        "work_ns": {
+          "maximum": 24866594825,
+          "median": 24150225893,
+          "minimum": 24081710838
+        }
+      },
+      "mode": "build",
+      "samples": 3,
+      "wall_time_ratio_to_native": 7.786560494274884,
+      "work_time_ratio_to_native": 7.7667636903473465,
+      "workers": 1
+    },
+    {
+      "lane": "candidate-mmio",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 22549966000,
+          "median": 22316151000,
+          "minimum": 22256436000
+        },
+        "involuntary_switches": {
+          "maximum": 501,
+          "median": 499,
+          "minimum": 477
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 155734016,
+          "median": 155615232,
+          "minimum": 155615232
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 309168,
+          "median": 309167,
+          "minimum": 309163
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 140487680,
+          "median": 140271616,
+          "minimum": 139977728
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 155832320,
+          "median": 155394048,
+          "minimum": 154734592
+        },
+        "system_ns": {
+          "maximum": 13490069000,
+          "median": 13464510000,
+          "minimum": 13385639000
+        },
+        "user_ns": {
+          "maximum": 9164327000,
+          "median": 8851641000,
+          "minimum": 8766367000
+        },
+        "voluntary_switches": {
+          "maximum": 474,
+          "median": 442,
+          "minimum": 433
+        },
+        "wall_ns": {
+          "maximum": 22903775739,
+          "median": 22609956776,
+          "minimum": 22310591872
+        },
+        "work_ns": {
+          "maximum": 22834191541,
+          "median": 22540894595,
+          "minimum": 22241555616
+        }
+      },
+      "mode": "build",
+      "samples": 3,
+      "wall_time_ratio_to_baseline": 0.9335607967935955,
+      "wall_time_ratio_to_native": 7.269227619316793,
+      "work_time_ratio_to_baseline": 0.9333616461754725,
+      "work_time_ratio_to_native": 7.2491993434784865,
+      "workers": 1
+    },
+    {
+      "lane": "candidate-smccc",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 20594096000,
+          "median": 20589769000,
+          "minimum": 20541357000
+        },
+        "involuntary_switches": {
+          "maximum": 510,
+          "median": 505,
+          "minimum": 461
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 155619328,
+          "median": 155615232,
+          "minimum": 155615232
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 309169,
+          "median": 309152,
+          "minimum": 309146
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 140354560,
+          "median": 140203008,
+          "minimum": 140182528
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 155693056,
+          "median": 155111424,
+          "minimum": 155074560
+        },
+        "system_ns": {
+          "maximum": 11665160000,
+          "median": 11641779000,
+          "minimum": 11560905000
+        },
+        "user_ns": {
+          "maximum": 9033191000,
+          "median": 8924609000,
+          "minimum": 8899578000
+        },
+        "voluntary_switches": {
+          "maximum": 430,
+          "median": 430,
+          "minimum": 421
+        },
+        "wall_ns": {
+          "maximum": 20959299758,
+          "median": 20916984691,
+          "minimum": 20540842294
+        },
+        "work_ns": {
+          "maximum": 20893450684,
+          "median": 20850821755,
+          "minimum": 20476138403
+        }
+      },
+      "mode": "build",
+      "samples": 3,
+      "wall_time_ratio_to_native": 6.724927620827741,
+      "work_time_ratio_to_native": 6.705668346049642,
+      "workers": 1
+    },
+    {
+      "lane": "native",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 3105215000,
+          "median": 3081108000,
+          "minimum": 3079909000
+        },
+        "involuntary_switches": {
+          "maximum": 74,
+          "median": 62,
+          "minimum": 58
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 56332288,
+          "median": 56217600,
+          "minimum": 56217600
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 123593,
+          "median": 123534,
+          "minimum": 123520
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 55527424,
+          "median": 55524352,
+          "minimum": 55499776
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 59719680,
+          "median": 59699200,
+          "minimum": 59691008
+        },
+        "system_ns": {
+          "maximum": 90152000,
+          "median": 86275000,
+          "minimum": 77535000
+        },
+        "user_ns": {
+          "maximum": 3027680000,
+          "median": 2994833000,
+          "minimum": 2989757000
+        },
+        "voluntary_switches": {
+          "maximum": 113,
+          "median": 111,
+          "minimum": 110
+        },
+        "wall_ns": {
+          "maximum": 3180513532,
+          "median": 3110365772,
+          "minimum": 3094951522
+        },
+        "work_ns": {
+          "maximum": 3179627184,
+          "median": 3109432301,
+          "minimum": 3094120339
+        }
+      },
+      "mode": "build",
+      "samples": 3,
+      "wall_time_ratio_to_native": 1.0,
+      "work_time_ratio_to_native": 1.0,
+      "workers": 1
+    },
+    {
+      "lane": "baseline-mmio",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 123575945000,
+          "median": 122506165000,
+          "minimum": 114996158000
+        },
+        "involuntary_switches": {
+          "maximum": 663,
+          "median": 604,
+          "minimum": 543
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 533434368,
+          "median": 516673536,
+          "minimum": 512303104
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 333742,
+          "median": 327384,
+          "minimum": 326220
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 476623872,
+          "median": 460379136,
+          "minimum": 455291904
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 533233664,
+          "median": 516763648,
+          "minimum": 511320064
+        },
+        "system_ns": {
+          "maximum": 63822530000,
+          "median": 62807528000,
+          "minimum": 59363918000
+        },
+        "user_ns": {
+          "maximum": 59753415000,
+          "median": 59698637000,
+          "minimum": 55632240000
+        },
+        "voluntary_switches": {
+          "maximum": 18935,
+          "median": 17311,
+          "minimum": 16136
+        },
+        "wall_ns": {
+          "maximum": 32340110317,
+          "median": 32047319696,
+          "minimum": 30347196946
+        },
+        "work_ns": {
+          "maximum": 32252542139,
+          "median": 31957512153,
+          "minimum": 30259693091
+        }
+      },
+      "mode": "build",
+      "samples": 3,
+      "wall_time_ratio_to_native": 32.58810134698559,
+      "work_time_ratio_to_native": 32.525101089517655,
+      "workers": 4
+    },
+    {
+      "lane": "baseline-smccc",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 119152486000,
+          "median": 115914721000,
+          "minimum": 115873797000
+        },
+        "involuntary_switches": {
+          "maximum": 586,
+          "median": 578,
+          "minimum": 536
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 508252160,
+          "median": 504201216,
+          "minimum": 500731904
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 327487,
+          "median": 326205,
+          "minimum": 325443
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 451568640,
+          "median": 447620096,
+          "minimum": 444560384
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 507199488,
+          "median": 503025664,
+          "minimum": 499871744
+        },
+        "system_ns": {
+          "maximum": 57713771000,
+          "median": 56196275000,
+          "minimum": 55611932000
+        },
+        "user_ns": {
+          "maximum": 61438715000,
+          "median": 60302789000,
+          "minimum": 59677522000
+        },
+        "voluntary_switches": {
+          "maximum": 17736,
+          "median": 17354,
+          "minimum": 16979
+        },
+        "wall_ns": {
+          "maximum": 31288993595,
+          "median": 30572571967,
+          "minimum": 30531638022
+        },
+        "work_ns": {
+          "maximum": 31197038152,
+          "median": 30484284804,
+          "minimum": 30447092771
+        }
+      },
+      "mode": "build",
+      "samples": 3,
+      "wall_time_ratio_to_native": 31.088468026327966,
+      "work_time_ratio_to_native": 31.02570813850632,
+      "workers": 4
+    },
+    {
+      "lane": "candidate-mmio",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 118480880000,
+          "median": 116497205000,
+          "minimum": 114709845000
+        },
+        "involuntary_switches": {
+          "maximum": 612,
+          "median": 554,
+          "minimum": 528
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 531628032,
+          "median": 522326016,
+          "minimum": 506388480
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 334718,
+          "median": 334183,
+          "minimum": 326486
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 475948032,
+          "median": 470430720,
+          "minimum": 450527232
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 531853312,
+          "median": 521850880,
+          "minimum": 506195968
+        },
+        "system_ns": {
+          "maximum": 62422739000,
+          "median": 61855571000,
+          "minimum": 60054920000
+        },
+        "user_ns": {
+          "maximum": 56058141000,
+          "median": 54654925000,
+          "minimum": 54641634000
+        },
+        "voluntary_switches": {
+          "maximum": 18901,
+          "median": 17750,
+          "minimum": 16703
+        },
+        "wall_ns": {
+          "maximum": 31094973256,
+          "median": 30741987603,
+          "minimum": 30245483566
+        },
+        "work_ns": {
+          "maximum": 31007542206,
+          "median": 30644450150,
+          "minimum": 30156328730
+        }
+      },
+      "mode": "build",
+      "samples": 3,
+      "wall_time_ratio_to_baseline": 0.9592686032597314,
+      "wall_time_ratio_to_native": 31.260742462009436,
+      "work_time_ratio_to_baseline": 0.95891225835373,
+      "work_time_ratio_to_native": 31.18871813893273,
+      "workers": 4
+    },
+    {
+      "lane": "candidate-smccc",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 113086107000,
+          "median": 109519067000,
+          "minimum": 108578319000
+        },
+        "involuntary_switches": {
+          "maximum": 587,
+          "median": 540,
+          "minimum": 535
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 517591040,
+          "median": 499728384,
+          "minimum": 499531776
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 332907,
+          "median": 327986,
+          "minimum": 325725
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 461124608,
+          "median": 444125184,
+          "minimum": 443019264
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 515604480,
+          "median": 500244480,
+          "minimum": 498081792
+        },
+        "system_ns": {
+          "maximum": 56117061000,
+          "median": 53862749000,
+          "minimum": 53862211000
+        },
+        "user_ns": {
+          "maximum": 56969046000,
+          "median": 55656856000,
+          "minimum": 54715570000
+        },
+        "voluntary_switches": {
+          "maximum": 17817,
+          "median": 16753,
+          "minimum": 16696
+        },
+        "wall_ns": {
+          "maximum": 29933495967,
+          "median": 28991465923,
+          "minimum": 28763413341
+        },
+        "work_ns": {
+          "maximum": 29849418276,
+          "median": 28901261171,
+          "minimum": 28678716188
+        }
+      },
+      "mode": "build",
+      "samples": 3,
+      "wall_time_ratio_to_baseline": 0.9482835122374839,
+      "wall_time_ratio_to_native": 29.480681650089,
+      "work_time_ratio_to_baseline": 0.9480708291771279,
+      "work_time_ratio_to_native": 29.414568840681255,
+      "workers": 4
+    },
+    {
+      "lane": "native",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 3860332000,
+          "median": 3793089000,
+          "minimum": 3784136000
+        },
+        "involuntary_switches": {
+          "maximum": 58,
+          "median": 55,
+          "minimum": 51
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 56336384,
+          "median": 56217600,
+          "minimum": 56217600
+        },
+        "major_faults": {
+          "maximum": 4,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 123584,
+          "median": 123574,
+          "minimum": 123540
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 147699712,
+          "median": 147559424,
+          "minimum": 143553536
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 208367616,
+          "median": 208048128,
+          "minimum": 204185600
+        },
+        "system_ns": {
+          "maximum": 114225000,
+          "median": 102818000,
+          "minimum": 101595000
+        },
+        "user_ns": {
+          "maximum": 3757514000,
+          "median": 3691494000,
+          "minimum": 3669911000
+        },
+        "voluntary_switches": {
+          "maximum": 152,
+          "median": 112,
+          "minimum": 111
+        },
+        "wall_ns": {
+          "maximum": 1003461146,
+          "median": 983405549,
+          "minimum": 974023091
+        },
+        "work_ns": {
+          "maximum": 1002690053,
+          "median": 982549203,
+          "minimum": 973170578
+        }
+      },
+      "mode": "build",
+      "samples": 3,
+      "wall_time_ratio_to_native": 1.0,
+      "work_time_ratio_to_native": 1.0,
+      "workers": 4
+    },
+    {
+      "lane": "baseline-mmio",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 75550000,
+          "median": 73978000,
+          "minimum": 73589000
+        },
+        "involuntary_switches": {
+          "maximum": 17,
+          "median": 13,
+          "minimum": 12
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 21368832,
+          "median": 21368832,
+          "minimum": 21368832
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 1494,
+          "median": 1493,
+          "minimum": 1492
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 35840,
+          "median": 22016.0,
+          "minimum": 8192
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 1392640,
+          "median": 1368064,
+          "minimum": 4096
+        },
+        "system_ns": {
+          "maximum": 13917000,
+          "median": 11933000,
+          "minimum": 9863000
+        },
+        "user_ns": {
+          "maximum": 64115000,
+          "median": 61656000,
+          "minimum": 61633000
+        },
+        "voluntary_switches": {
+          "maximum": 18,
+          "median": 16,
+          "minimum": 16
+        },
+        "wall_ns": {
+          "maximum": 77737099,
+          "median": 75917190,
+          "minimum": 74145705
+        },
+        "work_ns": {
+          "maximum": 59786753,
+          "median": 58300510,
+          "minimum": 57587238
+        }
+      },
+      "mode": "cpu",
+      "samples": 3,
+      "wall_time_ratio_to_native": 1.3719863841576116,
+      "work_time_ratio_to_native": 1.0647646471569763,
+      "workers": 1
+    },
+    {
+      "lane": "baseline-smccc",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 72836000,
+          "median": 72489000,
+          "minimum": 71444000
+        },
+        "involuntary_switches": {
+          "maximum": 15,
+          "median": 14,
+          "minimum": 12
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 21368832,
+          "median": 21368832,
+          "minimum": 21368832
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 1495,
+          "median": 1494,
+          "minimum": 1494
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 166912,
+          "median": 162816,
+          "minimum": 29696
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 1388544,
+          "median": 1372160,
+          "minimum": 1372160
+        },
+        "system_ns": {
+          "maximum": 12899000,
+          "median": 12734000,
+          "minimum": 9977000
+        },
+        "user_ns": {
+          "maximum": 62859000,
+          "median": 59755000,
+          "minimum": 58545000
+        },
+        "voluntary_switches": {
+          "maximum": 18,
+          "median": 16,
+          "minimum": 16
+        },
+        "wall_ns": {
+          "maximum": 73744059,
+          "median": 73232056,
+          "minimum": 71880088
+        },
+        "work_ns": {
+          "maximum": 58190289,
+          "median": 58050622,
+          "minimum": 57373881
+        }
+      },
+      "mode": "cpu",
+      "samples": 3,
+      "wall_time_ratio_to_native": 1.3234602560483038,
+      "work_time_ratio_to_native": 1.0602008464603998,
+      "workers": 1
+    },
+    {
+      "lane": "candidate-mmio",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 75869000,
+          "median": 72950000,
+          "minimum": 72367000
+        },
+        "involuntary_switches": {
+          "maximum": 17,
+          "median": 16,
+          "minimum": 15
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 21368832,
+          "median": 21368832,
+          "minimum": 21368832
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 1489,
+          "median": 1488,
+          "minimum": 1487
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 220160,
+          "median": 128000.0,
+          "minimum": 35840
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 1388544,
+          "median": 1384448,
+          "minimum": 1384448
+        },
+        "system_ns": {
+          "maximum": 12887000,
+          "median": 8984000,
+          "minimum": 8105000
+        },
+        "user_ns": {
+          "maximum": 66885000,
+          "median": 64845000,
+          "minimum": 59480000
+        },
+        "voluntary_switches": {
+          "maximum": 18,
+          "median": 18,
+          "minimum": 18
+        },
+        "wall_ns": {
+          "maximum": 77146895,
+          "median": 76011404,
+          "minimum": 73368208
+        },
+        "work_ns": {
+          "maximum": 60414628,
+          "median": 57778500,
+          "minimum": 57393265
+        }
+      },
+      "mode": "cpu",
+      "samples": 3,
+      "wall_time_ratio_to_baseline": 1.0012410101058797,
+      "wall_time_ratio_to_native": 1.3736890331254807,
+      "work_time_ratio_to_baseline": 0.9910462189781873,
+      "work_time_ratio_to_native": 1.0552309776665652,
+      "workers": 1
+    },
+    {
+      "lane": "candidate-smccc",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 75009000,
+          "median": 71770000,
+          "minimum": 71424000
+        },
+        "involuntary_switches": {
+          "maximum": 15,
+          "median": 12,
+          "minimum": 11
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 21368832,
+          "median": 21368832,
+          "minimum": 21368832
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 1489,
+          "median": 1488,
+          "minimum": 1486
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 155648,
+          "median": 12288,
+          "minimum": 8192
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 1318912,
+          "median": 4096,
+          "minimum": 4096
+        },
+        "system_ns": {
+          "maximum": 12071000,
+          "median": 10856000,
+          "minimum": 6977000
+        },
+        "user_ns": {
+          "maximum": 64793000,
+          "median": 64153000,
+          "minimum": 59353000
+        },
+        "voluntary_switches": {
+          "maximum": 18,
+          "median": 17,
+          "minimum": 16
+        },
+        "wall_ns": {
+          "maximum": 76261731,
+          "median": 72162021,
+          "minimum": 71835566
+        },
+        "work_ns": {
+          "maximum": 60899652,
+          "median": 57334778,
+          "minimum": 57226515
+        }
+      },
+      "mode": "cpu",
+      "samples": 3,
+      "wall_time_ratio_to_baseline": 0.985388434267092,
+      "wall_time_ratio_to_native": 1.3041224295221627,
+      "work_time_ratio_to_baseline": 0.987668624808189,
+      "work_time_ratio_to_native": 1.047127112044021,
+      "workers": 1
+    },
+    {
+      "lane": "native",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 55370000,
+          "median": 55134000,
+          "minimum": 54609000
+        },
+        "involuntary_switches": {
+          "maximum": 7,
+          "median": 7,
+          "minimum": 5
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 21368832,
+          "median": 21368832,
+          "minimum": 21368832
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 81,
+          "median": 80,
+          "minimum": 80
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 385024,
+          "median": 303104,
+          "minimum": 8192
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 1388544,
+          "median": 1384448,
+          "minimum": 4096
+        },
+        "system_ns": {
+          "maximum": 1969000,
+          "median": 988000,
+          "minimum": 0
+        },
+        "user_ns": {
+          "maximum": 54609000,
+          "median": 54382000,
+          "minimum": 53165000
+        },
+        "voluntary_switches": {
+          "maximum": 3,
+          "median": 3,
+          "minimum": 3
+        },
+        "wall_ns": {
+          "maximum": 55527958,
+          "median": 55333778,
+          "minimum": 54793132
+        },
+        "work_ns": {
+          "maximum": 55036254,
+          "median": 54754363,
+          "minimum": 54347118
+        }
+      },
+      "mode": "cpu",
+      "samples": 3,
+      "wall_time_ratio_to_native": 1.0,
+      "work_time_ratio_to_native": 1.0,
+      "workers": 1
+    },
+    {
+      "lane": "baseline-mmio",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 273587000,
+          "median": 272711000,
+          "minimum": 272696000
+        },
+        "involuntary_switches": {
+          "maximum": 4,
+          "median": 2,
+          "minimum": 2
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 21368832,
+          "median": 21368832,
+          "minimum": 21368832
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 1852,
+          "median": 1852,
+          "minimum": 1849
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 155648,
+          "median": 29696,
+          "minimum": 12288
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 1388544,
+          "median": 1384448,
+          "minimum": 4096
+        },
+        "system_ns": {
+          "maximum": 30182000,
+          "median": 27847000,
+          "minimum": 19478000
+        },
+        "user_ns": {
+          "maximum": 253218000,
+          "median": 244864000,
+          "minimum": 243405000
+        },
+        "voluntary_switches": {
+          "maximum": 85,
+          "median": 81,
+          "minimum": 80
+        },
+        "wall_ns": {
+          "maximum": 131223715,
+          "median": 128117010,
+          "minimum": 125450613
+        },
+        "work_ns": {
+          "maximum": 91372712,
+          "median": 90415672,
+          "minimum": 87745904
+        }
+      },
+      "mode": "cpu",
+      "samples": 3,
+      "wall_time_ratio_to_native": 2.1398750298515523,
+      "work_time_ratio_to_native": 1.5234979380738034,
+      "workers": 4
+    },
+    {
+      "lane": "baseline-smccc",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 271375000,
+          "median": 271111000,
+          "minimum": 270201000
+        },
+        "involuntary_switches": {
+          "maximum": 6,
+          "median": 5,
+          "minimum": 1
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 21368832,
+          "median": 21368832,
+          "minimum": 21368832
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 1864,
+          "median": 1861,
+          "minimum": 1859
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 159744,
+          "median": 30720,
+          "minimum": 26624
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 1388544,
+          "median": 1384448,
+          "minimum": 4096
+        },
+        "system_ns": {
+          "maximum": 26924000,
+          "median": 19954000,
+          "minimum": 18137000
+        },
+        "user_ns": {
+          "maximum": 252974000,
+          "median": 251421000,
+          "minimum": 243277000
+        },
+        "voluntary_switches": {
+          "maximum": 85,
+          "median": 83,
+          "minimum": 81
+        },
+        "wall_ns": {
+          "maximum": 130203443,
+          "median": 124360092,
+          "minimum": 121308166
+        },
+        "work_ns": {
+          "maximum": 92409607,
+          "median": 87643675,
+          "minimum": 86731450
+        }
+      },
+      "mode": "cpu",
+      "samples": 3,
+      "wall_time_ratio_to_native": 2.077125087299819,
+      "work_time_ratio_to_native": 1.4767899767167638,
+      "workers": 4
+    },
+    {
+      "lane": "candidate-mmio",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 275639000,
+          "median": 273796000,
+          "minimum": 273242000
+        },
+        "involuntary_switches": {
+          "maximum": 4,
+          "median": 3,
+          "minimum": 3
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 21368832,
+          "median": 21368832,
+          "minimum": 21368832
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 1849,
+          "median": 1846,
+          "minimum": 1813
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 159744,
+          "median": 29696,
+          "minimum": 12288
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 1388544,
+          "median": 4096,
+          "minimum": 4096
+        },
+        "system_ns": {
+          "maximum": 25058000,
+          "median": 24223000,
+          "minimum": 23301000
+        },
+        "user_ns": {
+          "maximum": 250581000,
+          "median": 250495000,
+          "minimum": 249019000
+        },
+        "voluntary_switches": {
+          "maximum": 86,
+          "median": 83,
+          "minimum": 82
+        },
+        "wall_ns": {
+          "maximum": 130307029,
+          "median": 126126786,
+          "minimum": 114611340
+        },
+        "work_ns": {
+          "maximum": 89224423,
+          "median": 88956760,
+          "minimum": 73371511
+        }
+      },
+      "mode": "cpu",
+      "samples": 3,
+      "wall_time_ratio_to_baseline": 0.9844655756483858,
+      "wall_time_ratio_to_native": 2.1066333030784152,
+      "work_time_ratio_to_baseline": 0.9838643902353565,
+      "work_time_ratio_to_native": 1.4989153698678055,
+      "workers": 4
+    },
+    {
+      "lane": "candidate-smccc",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 271829000,
+          "median": 269791000,
+          "minimum": 269141000
+        },
+        "involuntary_switches": {
+          "maximum": 5,
+          "median": 1,
+          "minimum": 1
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 21368832,
+          "median": 21368832,
+          "minimum": 21368832
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 1860,
+          "median": 1847,
+          "minimum": 1842
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 30720,
+          "median": 26624,
+          "minimum": 4096
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 1392640,
+          "median": 1388544,
+          "minimum": 4096
+        },
+        "system_ns": {
+          "maximum": 24012000,
+          "median": 20234000,
+          "minimum": 17289000
+        },
+        "user_ns": {
+          "maximum": 254540000,
+          "median": 249557000,
+          "minimum": 245129000
+        },
+        "voluntary_switches": {
+          "maximum": 85,
+          "median": 83,
+          "minimum": 82
+        },
+        "wall_ns": {
+          "maximum": 133223030,
+          "median": 128724229,
+          "minimum": 126119070
+        },
+        "work_ns": {
+          "maximum": 92132871,
+          "median": 88191288,
+          "minimum": 86957415
+        }
+      },
+      "mode": "cpu",
+      "samples": 3,
+      "wall_time_ratio_to_baseline": 1.0350927450262741,
+      "wall_time_ratio_to_native": 2.1500171083761095,
+      "work_time_ratio_to_baseline": 1.006248174782721,
+      "work_time_ratio_to_native": 1.4860172186086607,
+      "workers": 4
+    },
+    {
+      "lane": "native",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 230095000,
+          "median": 229866000,
+          "minimum": 227742000
+        },
+        "involuntary_switches": {
+          "maximum": 25,
+          "median": 5,
+          "minimum": 3
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 21368832,
+          "median": 21368832,
+          "minimum": 21368832
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 93,
+          "median": 92,
+          "minimum": 92
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 311296,
+          "median": 221184,
+          "minimum": 221184
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 1388544,
+          "median": 4096,
+          "minimum": 4096
+        },
+        "system_ns": {
+          "maximum": 2000000,
+          "median": 969000,
+          "minimum": 0
+        },
+        "user_ns": {
+          "maximum": 229866000,
+          "median": 228095000,
+          "minimum": 226773000
+        },
+        "voluntary_switches": {
+          "maximum": 7,
+          "median": 7,
+          "minimum": 6
+        },
+        "wall_ns": {
+          "maximum": 97054388,
+          "median": 59871258,
+          "minimum": 58458172
+        },
+        "work_ns": {
+          "maximum": 96491409,
+          "median": 59347420,
+          "minimum": 57918236
+        }
+      },
+      "mode": "cpu",
+      "samples": 3,
+      "wall_time_ratio_to_native": 1.0,
+      "work_time_ratio_to_native": 1.0,
+      "workers": 4
+    },
+    {
+      "lane": "baseline-mmio",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 488507000,
+          "median": 477022000,
+          "minimum": 469231000
+        },
+        "involuntary_switches": {
+          "maximum": 20,
+          "median": 18,
+          "minimum": 18
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 21368832,
+          "median": 21368832,
+          "minimum": 21368832
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 1495,
+          "median": 1493,
+          "minimum": 1491
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 17134592,
+          "median": 17134592,
+          "minimum": 17130496
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 19075072,
+          "median": 19066880,
+          "minimum": 19066880
+        },
+        "system_ns": {
+          "maximum": 265020000,
+          "median": 230116000,
+          "minimum": 224758000
+        },
+        "user_ns": {
+          "maximum": 246906000,
+          "median": 244473000,
+          "minimum": 223487000
+        },
+        "voluntary_switches": {
+          "maximum": 19,
+          "median": 18,
+          "minimum": 18
+        },
+        "wall_ns": {
+          "maximum": 494004253,
+          "median": 483552216,
+          "minimum": 476825699
+        },
+        "work_ns": {
+          "maximum": 476776530,
+          "median": 467243368,
+          "minimum": 459988322
+        }
+      },
+      "mode": "getpid",
+      "samples": 3,
+      "wall_time_ratio_to_native": 294.72113979853856,
+      "work_time_ratio_to_native": 408.40381374598803,
+      "workers": 1
+    },
+    {
+      "lane": "baseline-smccc",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 368671000,
+          "median": 368497000,
+          "minimum": 367494000
+        },
+        "involuntary_switches": {
+          "maximum": 17,
+          "median": 15,
+          "minimum": 12
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 21368832,
+          "median": 21368832,
+          "minimum": 21368832
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 1496,
+          "median": 1494,
+          "minimum": 1493
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 17134592,
+          "median": 17134592,
+          "minimum": 17130496
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 19075072,
+          "median": 19075072,
+          "minimum": 19058688
+        },
+        "system_ns": {
+          "maximum": 241131000,
+          "median": 164535000,
+          "minimum": 135607000
+        },
+        "user_ns": {
+          "maximum": 232890000,
+          "median": 202959000,
+          "minimum": 127540000
+        },
+        "voluntary_switches": {
+          "maximum": 16,
+          "median": 16,
+          "minimum": 16
+        },
+        "wall_ns": {
+          "maximum": 375005902,
+          "median": 372547700,
+          "minimum": 370572057
+        },
+        "work_ns": {
+          "maximum": 359524028,
+          "median": 357583925,
+          "minimum": 355121389
+        }
+      },
+      "mode": "getpid",
+      "samples": 3,
+      "wall_time_ratio_to_native": 227.06479081325108,
+      "work_time_ratio_to_native": 312.5536898027397,
+      "workers": 1
+    },
+    {
+      "lane": "candidate-mmio",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 467168000,
+          "median": 466640000,
+          "minimum": 466374000
+        },
+        "involuntary_switches": {
+          "maximum": 18,
+          "median": 18,
+          "minimum": 16
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 21368832,
+          "median": 21368832,
+          "minimum": 21368832
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 1487,
+          "median": 1485,
+          "minimum": 1485
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 16413696,
+          "median": 16413696,
+          "minimum": 16413696
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 18354176,
+          "median": 18354176,
+          "minimum": 18337792
+        },
+        "system_ns": {
+          "maximum": 242218000,
+          "median": 237526000,
+          "minimum": 234660000
+        },
+        "user_ns": {
+          "maximum": 231714000,
+          "median": 229642000,
+          "minimum": 224422000
+        },
+        "voluntary_switches": {
+          "maximum": 19,
+          "median": 18,
+          "minimum": 18
+        },
+        "wall_ns": {
+          "maximum": 477315659,
+          "median": 475413805,
+          "minimum": 472188587
+        },
+        "work_ns": {
+          "maximum": 459128047,
+          "median": 457457990,
+          "minimum": 455614807
+        }
+      },
+      "mode": "getpid",
+      "samples": 3,
+      "wall_time_ratio_to_baseline": 0.9831695301340527,
+      "wall_time_ratio_to_native": 289.76084453630165,
+      "work_time_ratio_to_baseline": 0.9790572137130901,
+      "work_time_ratio_to_native": 399.8506999559468,
+      "workers": 1
+    },
+    {
+      "lane": "candidate-smccc",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 366953000,
+          "median": 365757000,
+          "minimum": 364550000
+        },
+        "involuntary_switches": {
+          "maximum": 19,
+          "median": 16,
+          "minimum": 14
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 21368832,
+          "median": 21368832,
+          "minimum": 21368832
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 1488,
+          "median": 1487,
+          "minimum": 1486
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 16413696,
+          "median": 16413696,
+          "minimum": 16413696
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 18354176,
+          "median": 18354176,
+          "minimum": 18354176
+        },
+        "system_ns": {
+          "maximum": 220311000,
+          "median": 180414000,
+          "minimum": 165721000
+        },
+        "user_ns": {
+          "maximum": 201232000,
+          "median": 185343000,
+          "minimum": 144239000
+        },
+        "voluntary_switches": {
+          "maximum": 18,
+          "median": 18,
+          "minimum": 16
+        },
+        "wall_ns": {
+          "maximum": 374699200,
+          "median": 373334839,
+          "minimum": 372317479
+        },
+        "work_ns": {
+          "maximum": 358208291,
+          "median": 356152531,
+          "minimum": 354237018
+        }
+      },
+      "mode": "getpid",
+      "samples": 3,
+      "wall_time_ratio_to_baseline": 1.002112854273426,
+      "wall_time_ratio_to_native": 227.5445456268654,
+      "work_time_ratio_to_baseline": 0.9959970404150578,
+      "work_time_ratio_to_native": 311.30255001433477,
+      "workers": 1
+    },
+    {
+      "lane": "native",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 1596000,
+          "median": 1503000,
+          "minimum": 1391000
+        },
+        "involuntary_switches": {
+          "maximum": 4,
+          "median": 2,
+          "minimum": 2
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 21368832,
+          "median": 21368832,
+          "minimum": 21368832
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 81,
+          "median": 81,
+          "minimum": 80
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 446464,
+          "median": 73728,
+          "minimum": 8192
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 1384448,
+          "median": 4096,
+          "minimum": 4096
+        },
+        "system_ns": {
+          "maximum": 1596000,
+          "median": 1503000,
+          "minimum": 0
+        },
+        "user_ns": {
+          "maximum": 1391000,
+          "median": 0,
+          "minimum": 0
+        },
+        "voluntary_switches": {
+          "maximum": 3,
+          "median": 2,
+          "minimum": 2
+        },
+        "wall_ns": {
+          "maximum": 1755455,
+          "median": 1640711,
+          "minimum": 1516330
+        },
+        "work_ns": {
+          "maximum": 1155817,
+          "median": 1144072,
+          "minimum": 1139262
+        }
+      },
+      "mode": "getpid",
+      "samples": 3,
+      "wall_time_ratio_to_native": 1.0,
+      "work_time_ratio_to_native": 1.0,
+      "workers": 1
+    },
+    {
+      "lane": "baseline-mmio",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 2371589000,
+          "median": 2367878000,
+          "minimum": 2367097000
+        },
+        "involuntary_switches": {
+          "maximum": 9,
+          "median": 6,
+          "minimum": 6
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 21368832,
+          "median": 21368832,
+          "minimum": 21368832
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 1855,
+          "median": 1855,
+          "minimum": 1848
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 17863680,
+          "median": 17863680,
+          "minimum": 17859584
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 19963904,
+          "median": 19963904,
+          "minimum": 19963904
+        },
+        "system_ns": {
+          "maximum": 1689200000,
+          "median": 1500573000,
+          "minimum": 1495526000
+        },
+        "user_ns": {
+          "maximum": 871571000,
+          "median": 871016000,
+          "minimum": 678678000
+        },
+        "voluntary_switches": {
+          "maximum": 91,
+          "median": 84,
+          "minimum": 79
+        },
+        "wall_ns": {
+          "maximum": 853437127,
+          "median": 847336375,
+          "minimum": 827352178
+        },
+        "work_ns": {
+          "maximum": 806331324,
+          "median": 803062088,
+          "minimum": 785180019
+        }
+      },
+      "mode": "getpid",
+      "samples": 3,
+      "wall_time_ratio_to_native": 451.50361086141146,
+      "work_time_ratio_to_native": 603.8487592356151,
+      "workers": 4
+    },
+    {
+      "lane": "baseline-smccc",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 1862032000,
+          "median": 1852678000,
+          "minimum": 1844876000
+        },
+        "involuntary_switches": {
+          "maximum": 12,
+          "median": 8,
+          "minimum": 6
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 21368832,
+          "median": 21368832,
+          "minimum": 21368832
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 1858,
+          "median": 1857,
+          "minimum": 1855
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 17863680,
+          "median": 17859584,
+          "minimum": 17859584
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 19968000,
+          "median": 19963904,
+          "minimum": 19963904
+        },
+        "system_ns": {
+          "maximum": 1120744000,
+          "median": 1097970000,
+          "minimum": 998288000
+        },
+        "user_ns": {
+          "maximum": 846588000,
+          "median": 764062000,
+          "minimum": 731934000
+        },
+        "voluntary_switches": {
+          "maximum": 87,
+          "median": 84,
+          "minimum": 83
+        },
+        "wall_ns": {
+          "maximum": 669673091,
+          "median": 668743192,
+          "minimum": 664584333
+        },
+        "work_ns": {
+          "maximum": 631108737,
+          "median": 629674587,
+          "minimum": 624269785
+        }
+      },
+      "mode": "getpid",
+      "samples": 3,
+      "wall_time_ratio_to_native": 356.3401440508041,
+      "work_time_ratio_to_native": 473.4730026031915,
+      "workers": 4
+    },
+    {
+      "lane": "candidate-mmio",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 2376708000,
+          "median": 2369080000,
+          "minimum": 2362797000
+        },
+        "involuntary_switches": {
+          "maximum": 8,
+          "median": 6,
+          "minimum": 2
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 21368832,
+          "median": 21368832,
+          "minimum": 21368832
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 1857,
+          "median": 1848,
+          "minimum": 1845
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 17138688,
+          "median": 17138688,
+          "minimum": 17130496
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 19243008,
+          "median": 19243008,
+          "minimum": 19226624
+        },
+        "system_ns": {
+          "maximum": 1536114000,
+          "median": 1528471000,
+          "minimum": 1445256000
+        },
+        "user_ns": {
+          "maximum": 931452000,
+          "median": 840609000,
+          "minimum": 826683000
+        },
+        "voluntary_switches": {
+          "maximum": 85,
+          "median": 82,
+          "minimum": 81
+        },
+        "wall_ns": {
+          "maximum": 851597701,
+          "median": 834620738,
+          "minimum": 832489846
+        },
+        "work_ns": {
+          "maximum": 811998619,
+          "median": 798293971,
+          "minimum": 795339256
+        }
+      },
+      "mode": "getpid",
+      "samples": 3,
+      "wall_time_ratio_to_baseline": 0.984993401233365,
+      "wall_time_ratio_to_native": 444.72807733152734,
+      "work_time_ratio_to_baseline": 0.9940625798786308,
+      "work_time_ratio_to_native": 600.2634554622657,
+      "workers": 4
+    },
+    {
+      "lane": "candidate-smccc",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 1864009000,
+          "median": 1842706000,
+          "minimum": 1839339000
+        },
+        "involuntary_switches": {
+          "maximum": 12,
+          "median": 11,
+          "minimum": 10
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 21368832,
+          "median": 21368832,
+          "minimum": 21368832
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 1851,
+          "median": 1849,
+          "minimum": 1849
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 17155072,
+          "median": 17142784,
+          "minimum": 17138688
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 19259392,
+          "median": 19251200,
+          "minimum": 19243008
+        },
+        "system_ns": {
+          "maximum": 1130208000,
+          "median": 1032616000,
+          "minimum": 1014316000
+        },
+        "user_ns": {
+          "maximum": 831393000,
+          "median": 828390000,
+          "minimum": 709131000
+        },
+        "voluntary_switches": {
+          "maximum": 88,
+          "median": 83,
+          "minimum": 78
+        },
+        "wall_ns": {
+          "maximum": 672873460,
+          "median": 670604180,
+          "minimum": 644467059
+        },
+        "work_ns": {
+          "maximum": 634281488,
+          "median": 631726844,
+          "minimum": 610324281
+        }
+      },
+      "mode": "getpid",
+      "samples": 3,
+      "wall_time_ratio_to_baseline": 1.0027828141239605,
+      "wall_time_ratio_to_native": 357.33177243660276,
+      "work_time_ratio_to_baseline": 1.003259234281278,
+      "work_time_ratio_to_native": 475.01616204453546,
+      "workers": 4
+    },
+    {
+      "lane": "native",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 5408000,
+          "median": 5402000,
+          "minimum": 5376000
+        },
+        "involuntary_switches": {
+          "maximum": 2,
+          "median": 2,
+          "minimum": 2
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 21368832,
+          "median": 21368832,
+          "minimum": 21368832
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 93,
+          "median": 92,
+          "minimum": 92
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 81920,
+          "median": 77824,
+          "minimum": 73728
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 4096,
+          "median": 4096,
+          "minimum": 4096
+        },
+        "system_ns": {
+          "maximum": 5408000,
+          "median": 4322000,
+          "minimum": 4032000
+        },
+        "user_ns": {
+          "maximum": 1344000,
+          "median": 1080000,
+          "minimum": 0
+        },
+        "voluntary_switches": {
+          "maximum": 7,
+          "median": 6,
+          "minimum": 6
+        },
+        "wall_ns": {
+          "maximum": 1877247,
+          "median": 1876699,
+          "minimum": 1865244
+        },
+        "work_ns": {
+          "maximum": 1351293,
+          "median": 1329906,
+          "minimum": 1325295
+        }
+      },
+      "mode": "getpid",
+      "samples": 3,
+      "wall_time_ratio_to_native": 1.0,
+      "work_time_ratio_to_native": 1.0,
+      "workers": 4
+    },
+    {
+      "lane": "baseline-mmio",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 218901000,
+          "median": 218165000,
+          "minimum": 217484000
+        },
+        "involuntary_switches": {
+          "maximum": 18,
+          "median": 16,
+          "minimum": 14
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 29745152,
+          "median": 29745152,
+          "minimum": 29741056
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 4145,
+          "median": 4143,
+          "minimum": 4142
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 33792,
+          "median": 8192,
+          "minimum": 8192
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 1388544,
+          "median": 4096,
+          "minimum": 4096
+        },
+        "system_ns": {
+          "maximum": 127041000,
+          "median": 124806000,
+          "minimum": 120498000
+        },
+        "user_ns": {
+          "maximum": 96986000,
+          "median": 93359000,
+          "minimum": 91860000
+        },
+        "voluntary_switches": {
+          "maximum": 19,
+          "median": 16,
+          "minimum": 16
+        },
+        "wall_ns": {
+          "maximum": 224945710,
+          "median": 224431401,
+          "minimum": 223490802
+        },
+        "work_ns": {
+          "maximum": 18262161,
+          "median": 18187506,
+          "minimum": 18161330
+        }
+      },
+      "mode": "memory",
+      "samples": 3,
+      "wall_time_ratio_to_native": 13.129603405731054,
+      "work_time_ratio_to_native": 1.1719182008775708,
+      "workers": 1
+    },
+    {
+      "lane": "baseline-smccc",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 194947000,
+          "median": 194862000,
+          "minimum": 194830000
+        },
+        "involuntary_switches": {
+          "maximum": 14,
+          "median": 13,
+          "minimum": 12
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 29745152,
+          "median": 29745152,
+          "minimum": 29736960
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 4143,
+          "median": 4142,
+          "minimum": 4140
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 166912,
+          "median": 26624,
+          "minimum": 8192
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 1392640,
+          "median": 1388544,
+          "minimum": 4096
+        },
+        "system_ns": {
+          "maximum": 113588000,
+          "median": 107221000,
+          "minimum": 101312000
+        },
+        "user_ns": {
+          "maximum": 93518000,
+          "median": 87726000,
+          "minimum": 81274000
+        },
+        "voluntary_switches": {
+          "maximum": 19,
+          "median": 18,
+          "minimum": 16
+        },
+        "wall_ns": {
+          "maximum": 204332059,
+          "median": 200427895,
+          "minimum": 199758764
+        },
+        "work_ns": {
+          "maximum": 17944067,
+          "median": 17917370,
+          "minimum": 17720691
+        }
+      },
+      "mode": "memory",
+      "samples": 3,
+      "wall_time_ratio_to_native": 11.725359112272823,
+      "work_time_ratio_to_native": 1.1545118948611073,
+      "workers": 1
+    },
+    {
+      "lane": "candidate-mmio",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 214979000,
+          "median": 213202000,
+          "minimum": 213127000
+        },
+        "involuntary_switches": {
+          "maximum": 16,
+          "median": 16,
+          "minimum": 13
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 29093888,
+          "median": 29089792,
+          "minimum": 29089792
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 4135,
+          "median": 4135,
+          "minimum": 4134
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 33792,
+          "median": 14336,
+          "minimum": 12288
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 1392640,
+          "median": 4096,
+          "minimum": 4096
+        },
+        "system_ns": {
+          "maximum": 131655000,
+          "median": 128845000,
+          "minimum": 125650000
+        },
+        "user_ns": {
+          "maximum": 89329000,
+          "median": 84282000,
+          "minimum": 81547000
+        },
+        "voluntary_switches": {
+          "maximum": 18,
+          "median": 18,
+          "minimum": 16
+        },
+        "wall_ns": {
+          "maximum": 221016760,
+          "median": 219418398,
+          "minimum": 218440218
+        },
+        "work_ns": {
+          "maximum": 17350926,
+          "median": 17343146,
+          "minimum": 17303546
+        }
+      },
+      "mode": "memory",
+      "samples": 3,
+      "wall_time_ratio_to_baseline": 0.9776635400498168,
+      "wall_time_ratio_to_native": 12.836334545097154,
+      "work_time_ratio_to_baseline": 0.9535747232193353,
+      "work_time_ratio_to_native": 1.117511574037531,
+      "workers": 1
+    },
+    {
+      "lane": "candidate-smccc",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 192270000,
+          "median": 191524000,
+          "minimum": 190813000
+        },
+        "involuntary_switches": {
+          "maximum": 20,
+          "median": 17,
+          "minimum": 15
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 29089792,
+          "median": 29089792,
+          "minimum": 29085696
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 4134,
+          "median": 4133,
+          "minimum": 4133
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 31744,
+          "median": 8192,
+          "minimum": 4096
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 1388544,
+          "median": 1380352,
+          "minimum": 4096
+        },
+        "system_ns": {
+          "maximum": 113215000,
+          "median": 101109000,
+          "minimum": 97853000
+        },
+        "user_ns": {
+          "maximum": 92960000,
+          "median": 90415000,
+          "minimum": 79055000
+        },
+        "voluntary_switches": {
+          "maximum": 19,
+          "median": 18,
+          "minimum": 18
+        },
+        "wall_ns": {
+          "maximum": 198895174,
+          "median": 197641015,
+          "minimum": 197604316
+        },
+        "work_ns": {
+          "maximum": 17266458,
+          "median": 17172250,
+          "minimum": 17141818
+        }
+      },
+      "mode": "memory",
+      "samples": 3,
+      "wall_time_ratio_to_baseline": 0.9860953486539387,
+      "wall_time_ratio_to_native": 11.562322081909306,
+      "work_time_ratio_to_baseline": 0.9584135394871011,
+      "work_time_ratio_to_native": 1.1064998315337937,
+      "workers": 1
+    },
+    {
+      "lane": "native",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 16626000,
+          "median": 16600000,
+          "minimum": 16416000
+        },
+        "involuntary_switches": {
+          "maximum": 4,
+          "median": 4,
+          "minimum": 4
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 21368832,
+          "median": 21368832,
+          "minimum": 21368832
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 2131,
+          "median": 2130,
+          "minimum": 2129
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 307200,
+          "median": 233472,
+          "minimum": 217088
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 1384448,
+          "median": 4096,
+          "minimum": 4096
+        },
+        "system_ns": {
+          "maximum": 2771000,
+          "median": 1953000,
+          "minimum": 1931000
+        },
+        "user_ns": {
+          "maximum": 14647000,
+          "median": 14485000,
+          "minimum": 13855000
+        },
+        "voluntary_switches": {
+          "maximum": 3,
+          "median": 3,
+          "minimum": 3
+        },
+        "wall_ns": {
+          "maximum": 17214178,
+          "median": 17093540,
+          "minimum": 16972014
+        },
+        "work_ns": {
+          "maximum": 15638297,
+          "median": 15519433,
+          "minimum": 15405837
+        }
+      },
+      "mode": "memory",
+      "samples": 3,
+      "wall_time_ratio_to_native": 1.0,
+      "work_time_ratio_to_native": 1.0,
+      "workers": 1
+    },
+    {
+      "lane": "baseline-mmio",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 1353270000,
+          "median": 1308737000,
+          "minimum": 1152850000
+        },
+        "involuntary_switches": {
+          "maximum": 13,
+          "median": 9,
+          "minimum": 5
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 62775296,
+          "median": 62279680,
+          "minimum": 61857792
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 12330,
+          "median": 12241,
+          "minimum": 12162
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 60265472,
+          "median": 60208128,
+          "minimum": 59950080
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 62566400,
+          "median": 62468096,
+          "minimum": 62107648
+        },
+        "system_ns": {
+          "maximum": 724789000,
+          "median": 671550000,
+          "minimum": 575424000
+        },
+        "user_ns": {
+          "maximum": 637187000,
+          "median": 628481000,
+          "minimum": 577426000
+        },
+        "voluntary_switches": {
+          "maximum": 92,
+          "median": 85,
+          "minimum": 79
+        },
+        "wall_ns": {
+          "maximum": 1183853017,
+          "median": 1161734598,
+          "minimum": 1086594781
+        },
+        "work_ns": {
+          "maximum": 205297440,
+          "median": 176162127,
+          "minimum": 74982014
+        }
+      },
+      "mode": "memory",
+      "samples": 3,
+      "wall_time_ratio_to_native": 34.07075231945935,
+      "work_time_ratio_to_native": 6.396389329748843,
+      "workers": 4
+    },
+    {
+      "lane": "baseline-smccc",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 1368613000,
+          "median": 1217927000,
+          "minimum": 972674000
+        },
+        "involuntary_switches": {
+          "maximum": 6,
+          "median": 6,
+          "minimum": 4
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 62783488,
+          "median": 62251008,
+          "minimum": 61599744
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 12381,
+          "median": 12266,
+          "minimum": 12110
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 60677120,
+          "median": 56787968,
+          "minimum": 56554496
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 62959616,
+          "median": 58875904,
+          "minimum": 58634240
+        },
+        "system_ns": {
+          "maximum": 636977000,
+          "median": 561113000,
+          "minimum": 414469000
+        },
+        "user_ns": {
+          "maximum": 731636000,
+          "median": 656814000,
+          "minimum": 558205000
+        },
+        "voluntary_switches": {
+          "maximum": 87,
+          "median": 84,
+          "minimum": 82
+        },
+        "wall_ns": {
+          "maximum": 1180639219,
+          "median": 1050238029,
+          "minimum": 943509923
+        },
+        "work_ns": {
+          "maximum": 277777889,
+          "median": 165628690,
+          "minimum": 59287843
+        }
+      },
+      "mode": "memory",
+      "samples": 3,
+      "wall_time_ratio_to_native": 30.80083852554434,
+      "work_time_ratio_to_native": 6.013923670530379,
+      "workers": 4
+    },
+    {
+      "lane": "candidate-mmio",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 1422378000,
+          "median": 1280721000,
+          "minimum": 1069833000
+        },
+        "involuntary_switches": {
+          "maximum": 11,
+          "median": 9,
+          "minimum": 8
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 61730816,
+          "median": 61730816,
+          "minimum": 61206528
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 12299,
+          "median": 12277,
+          "minimum": 12125
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 59892736,
+          "median": 59757568,
+          "minimum": 52995072
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 62148608,
+          "median": 62025728,
+          "minimum": 55070720
+        },
+        "system_ns": {
+          "maximum": 713633000,
+          "median": 675656000,
+          "minimum": 515068000
+        },
+        "user_ns": {
+          "maximum": 708745000,
+          "median": 605065000,
+          "minimum": 554765000
+        },
+        "voluntary_switches": {
+          "maximum": 105,
+          "median": 101,
+          "minimum": 78
+        },
+        "wall_ns": {
+          "maximum": 1165742819,
+          "median": 1108735925,
+          "minimum": 1027780748
+        },
+        "work_ns": {
+          "maximum": 186523662,
+          "median": 175354092,
+          "minimum": 59292406
+        }
+      },
+      "mode": "memory",
+      "samples": 3,
+      "wall_time_ratio_to_baseline": 0.9543797067839414,
+      "wall_time_ratio_to_native": 32.51643460855391,
+      "work_time_ratio_to_baseline": 0.9954131173722716,
+      "work_time_ratio_to_native": 6.36704984265203,
+      "workers": 4
+    },
+    {
+      "lane": "candidate-smccc",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 1144746000,
+          "median": 1107732000,
+          "minimum": 975956000
+        },
+        "involuntary_switches": {
+          "maximum": 8,
+          "median": 6,
+          "minimum": 6
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 61845504,
+          "median": 61591552,
+          "minimum": 61079552
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 12260,
+          "median": 12233,
+          "minimum": 12121
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 58074112,
+          "median": 57062400,
+          "minimum": 56046592
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 60157952,
+          "median": 59129856,
+          "minimum": 58138624
+        },
+        "system_ns": {
+          "maximum": 514515000,
+          "median": 506594000,
+          "minimum": 424501000
+        },
+        "user_ns": {
+          "maximum": 638152000,
+          "median": 593217000,
+          "minimum": 551455000
+        },
+        "voluntary_switches": {
+          "maximum": 83,
+          "median": 83,
+          "minimum": 80
+        },
+        "wall_ns": {
+          "maximum": 1025172862,
+          "median": 991272354,
+          "minimum": 946013426
+        },
+        "work_ns": {
+          "maximum": 155409330,
+          "median": 142842501,
+          "minimum": 56285117
+        }
+      },
+      "mode": "memory",
+      "samples": 3,
+      "wall_time_ratio_to_baseline": 0.9438549420495228,
+      "wall_time_ratio_to_native": 29.071523661604363,
+      "work_time_ratio_to_baseline": 0.8624260748545436,
+      "work_time_ratio_to_native": 5.186564585650344,
+      "workers": 4
+    },
+    {
+      "lane": "native",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 115899000,
+          "median": 109974000,
+          "minimum": 109964000
+        },
+        "involuntary_switches": {
+          "maximum": 5,
+          "median": 4,
+          "minimum": 3
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 34164736,
+          "median": 34164736,
+          "minimum": 34164736
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 8289,
+          "median": 8289,
+          "minimum": 8288
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 237568,
+          "median": 233472,
+          "minimum": 212992
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 1388544,
+          "median": 4096,
+          "minimum": 4096
+        },
+        "system_ns": {
+          "maximum": 7785000,
+          "median": 7785000,
+          "minimum": 5039000
+        },
+        "user_ns": {
+          "maximum": 110860000,
+          "median": 102189000,
+          "minimum": 102179000
+        },
+        "voluntary_switches": {
+          "maximum": 8,
+          "median": 7,
+          "minimum": 6
+        },
+        "wall_ns": {
+          "maximum": 34323173,
+          "median": 34097709,
+          "minimum": 34075518
+        },
+        "work_ns": {
+          "maximum": 28530505,
+          "median": 27540870,
+          "minimum": 27074567
+        }
+      },
+      "mode": "memory",
+      "samples": 3,
+      "wall_time_ratio_to_native": 1.0,
+      "work_time_ratio_to_native": 1.0,
+      "workers": 4
+    },
+    {
+      "lane": "baseline-mmio",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 162319000,
+          "median": 162272000,
+          "minimum": 161971000
+        },
+        "involuntary_switches": {
+          "maximum": 18,
+          "median": 14,
+          "minimum": 13
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 21368832,
+          "median": 21368832,
+          "minimum": 21368832
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 2781,
+          "median": 2781,
+          "minimum": 2780
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 33792,
+          "median": 12288,
+          "minimum": 8192
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 1388544,
+          "median": 4096,
+          "minimum": 4096
+        },
+        "system_ns": {
+          "maximum": 107981000,
+          "median": 106583000,
+          "minimum": 98732000
+        },
+        "user_ns": {
+          "maximum": 63540000,
+          "median": 55736000,
+          "minimum": 53990000
+        },
+        "voluntary_switches": {
+          "maximum": 17,
+          "median": 16,
+          "minimum": 16
+        },
+        "wall_ns": {
+          "maximum": 167366349,
+          "median": 166717993,
+          "minimum": 166479308
+        },
+        "work_ns": {
+          "maximum": 150524004,
+          "median": 150298403,
+          "minimum": 149816592
+        }
+      },
+      "mode": "mmap",
+      "samples": 3,
+      "wall_time_ratio_to_native": 121.18713723198326,
+      "work_time_ratio_to_native": 172.50971941334595,
+      "workers": 1
+    },
+    {
+      "lane": "baseline-smccc",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 141253000,
+          "median": 140815000,
+          "minimum": 140558000
+        },
+        "involuntary_switches": {
+          "maximum": 15,
+          "median": 14,
+          "minimum": 14
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 21368832,
+          "median": 21368832,
+          "minimum": 21368832
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 2780,
+          "median": 2779,
+          "minimum": 2777
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 166912,
+          "median": 29696,
+          "minimum": 29696
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 1388544,
+          "median": 1388544,
+          "minimum": 1388544
+        },
+        "system_ns": {
+          "maximum": 82142000,
+          "median": 80855000,
+          "minimum": 76580000
+        },
+        "user_ns": {
+          "maximum": 63978000,
+          "median": 60398000,
+          "minimum": 58673000
+        },
+        "voluntary_switches": {
+          "maximum": 16,
+          "median": 16,
+          "minimum": 16
+        },
+        "wall_ns": {
+          "maximum": 148281237,
+          "median": 145164129,
+          "minimum": 144790771
+        },
+        "work_ns": {
+          "maximum": 129827628,
+          "median": 129808088,
+          "minimum": 129602866
+        }
+      },
+      "mode": "mmap",
+      "samples": 3,
+      "wall_time_ratio_to_native": 105.5196557115723,
+      "work_time_ratio_to_native": 148.99131588552487,
+      "workers": 1
+    },
+    {
+      "lane": "candidate-mmio",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 163108000,
+          "median": 162381000,
+          "minimum": 162043000
+        },
+        "involuntary_switches": {
+          "maximum": 18,
+          "median": 16,
+          "minimum": 13
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 21368832,
+          "median": 21368832,
+          "minimum": 21368832
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 2773,
+          "median": 2772,
+          "minimum": 2771
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 8192,
+          "median": 8192,
+          "minimum": 8192
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 1388544,
+          "median": 4096,
+          "minimum": 4096
+        },
+        "system_ns": {
+          "maximum": 112493000,
+          "median": 105483000,
+          "minimum": 103824000
+        },
+        "user_ns": {
+          "maximum": 58219000,
+          "median": 57625000,
+          "minimum": 49888000
+        },
+        "voluntary_switches": {
+          "maximum": 18,
+          "median": 18,
+          "minimum": 18
+        },
+        "wall_ns": {
+          "maximum": 167581765,
+          "median": 167377234,
+          "minimum": 167016638
+        },
+        "work_ns": {
+          "maximum": 150829026,
+          "median": 150819251,
+          "minimum": 150433672
+        }
+      },
+      "mode": "mmap",
+      "samples": 3,
+      "wall_time_ratio_to_baseline": 1.0039542282637723,
+      "wall_time_ratio_to_native": 121.66633883523163,
+      "work_time_ratio_to_baseline": 1.0034654260431497,
+      "work_time_ratio_to_native": 173.10753908769738,
+      "workers": 1
+    },
+    {
+      "lane": "candidate-smccc",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 146460000,
+          "median": 142491000,
+          "minimum": 140160000
+        },
+        "involuntary_switches": {
+          "maximum": 18,
+          "median": 13,
+          "minimum": 12
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 21368832,
+          "median": 21368832,
+          "minimum": 21368832
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 2773,
+          "median": 2773,
+          "minimum": 2772
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 159744,
+          "median": 8192,
+          "minimum": 8192
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 1323008,
+          "median": 4096,
+          "minimum": 4096
+        },
+        "system_ns": {
+          "maximum": 90204000,
+          "median": 83933000,
+          "minimum": 76451000
+        },
+        "user_ns": {
+          "maximum": 63709000,
+          "median": 58558000,
+          "minimum": 56256000
+        },
+        "voluntary_switches": {
+          "maximum": 19,
+          "median": 17,
+          "minimum": 17
+        },
+        "wall_ns": {
+          "maximum": 151101558,
+          "median": 149841020,
+          "minimum": 144559919
+        },
+        "work_ns": {
+          "maximum": 132481042,
+          "median": 130044917,
+          "minimum": 129114365
+        }
+      },
+      "mode": "mmap",
+      "samples": 3,
+      "wall_time_ratio_to_baseline": 1.0322179524116457,
+      "wall_time_ratio_to_native": 108.91928295778098,
+      "work_time_ratio_to_baseline": 1.0018244548829653,
+      "work_time_ratio_to_native": 149.26314381931167,
+      "workers": 1
+    },
+    {
+      "lane": "native",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 1239000,
+          "median": 1224000,
+          "minimum": 1202000
+        },
+        "involuntary_switches": {
+          "maximum": 4,
+          "median": 2,
+          "minimum": 2
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 21368832,
+          "median": 21368832,
+          "minimum": 21368832
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 849,
+          "median": 848,
+          "minimum": 848
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 221184,
+          "median": 217088,
+          "minimum": 73728
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 1392640,
+          "median": 4096,
+          "minimum": 4096
+        },
+        "system_ns": {
+          "maximum": 1239000,
+          "median": 1224000,
+          "minimum": 1202000
+        },
+        "user_ns": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "voluntary_switches": {
+          "maximum": 3,
+          "median": 2,
+          "minimum": 2
+        },
+        "wall_ns": {
+          "maximum": 1408789,
+          "median": 1375707,
+          "minimum": 1346907
+        },
+        "work_ns": {
+          "maximum": 922766,
+          "median": 871246,
+          "minimum": 870788
+        }
+      },
+      "mode": "mmap",
+      "samples": 3,
+      "wall_time_ratio_to_native": 1.0,
+      "work_time_ratio_to_native": 1.0,
+      "workers": 1
+    },
+    {
+      "lane": "baseline-mmio",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 1723810000,
+          "median": 1704897000,
+          "minimum": 1698852000
+        },
+        "involuntary_switches": {
+          "maximum": 5,
+          "median": 5,
+          "minimum": 3
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 21368832,
+          "median": 21368832,
+          "minimum": 21368832
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 6926,
+          "median": 6922,
+          "minimum": 6920
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 18457600,
+          "median": 18412544,
+          "minimum": 18408448
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 20631552,
+          "median": 20590592,
+          "minimum": 20586496
+        },
+        "system_ns": {
+          "maximum": 910581000,
+          "median": 881370000,
+          "minimum": 879745000
+        },
+        "user_ns": {
+          "maximum": 823527000,
+          "median": 819107000,
+          "minimum": 813229000
+        },
+        "voluntary_switches": {
+          "maximum": 8439,
+          "median": 8389,
+          "minimum": 8347
+        },
+        "wall_ns": {
+          "maximum": 726431509,
+          "median": 724311485,
+          "minimum": 723468874
+        },
+        "work_ns": {
+          "maximum": 688337262,
+          "median": 686297241,
+          "minimum": 685055005
+        }
+      },
+      "mode": "mmap",
+      "samples": 3,
+      "wall_time_ratio_to_native": 78.43170745599426,
+      "work_time_ratio_to_native": 79.57862017794004,
+      "workers": 4
+    },
+    {
+      "lane": "baseline-smccc",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 1716214000,
+          "median": 1633803000,
+          "minimum": 1614280000
+        },
+        "involuntary_switches": {
+          "maximum": 6,
+          "median": 5,
+          "minimum": 1
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 21368832,
+          "median": 21368832,
+          "minimum": 21368832
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 6941,
+          "median": 6930,
+          "minimum": 6846
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 18469888,
+          "median": 18445312,
+          "minimum": 18445312
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 20668416,
+          "median": 20623360,
+          "minimum": 20611072
+        },
+        "system_ns": {
+          "maximum": 821491000,
+          "median": 806543000,
+          "minimum": 782313000
+        },
+        "user_ns": {
+          "maximum": 909671000,
+          "median": 851490000,
+          "minimum": 792789000
+        },
+        "voluntary_switches": {
+          "maximum": 9302,
+          "median": 9040,
+          "minimum": 8961
+        },
+        "wall_ns": {
+          "maximum": 696616511,
+          "median": 683051960,
+          "minimum": 675054234
+        },
+        "work_ns": {
+          "maximum": 661516964,
+          "median": 641390081,
+          "minimum": 636701608
+        }
+      },
+      "mode": "mmap",
+      "samples": 3,
+      "wall_time_ratio_to_native": 73.9639403950132,
+      "work_time_ratio_to_native": 74.37147433002313,
+      "workers": 4
+    },
+    {
+      "lane": "candidate-mmio",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 1732510000,
+          "median": 1715024000,
+          "minimum": 1695455000
+        },
+        "involuntary_switches": {
+          "maximum": 6,
+          "median": 6,
+          "minimum": 2
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 21368832,
+          "median": 21368832,
+          "minimum": 21368832
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 6951,
+          "median": 6898,
+          "minimum": 6892
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 17712128,
+          "median": 17712128,
+          "minimum": 17708032
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 19898368,
+          "median": 19894272,
+          "minimum": 19890176
+        },
+        "system_ns": {
+          "maximum": 916861000,
+          "median": 916723000,
+          "minimum": 912591000
+        },
+        "user_ns": {
+          "maximum": 815649000,
+          "median": 802433000,
+          "minimum": 778732000
+        },
+        "voluntary_switches": {
+          "maximum": 8414,
+          "median": 8404,
+          "minimum": 8387
+        },
+        "wall_ns": {
+          "maximum": 738408681,
+          "median": 724282877,
+          "minimum": 719541021
+        },
+        "work_ns": {
+          "maximum": 696179313,
+          "median": 682796831,
+          "minimum": 681446010
+        }
+      },
+      "mode": "mmap",
+      "samples": 3,
+      "wall_time_ratio_to_baseline": 0.999960503180479,
+      "wall_time_ratio_to_native": 78.42860965300015,
+      "work_time_ratio_to_baseline": 0.9948995715108813,
+      "work_time_ratio_to_native": 79.17273511645972,
+      "workers": 4
+    },
+    {
+      "lane": "candidate-smccc",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 1626303000,
+          "median": 1623491000,
+          "minimum": 1619389000
+        },
+        "involuntary_switches": {
+          "maximum": 4,
+          "median": 1,
+          "minimum": 1
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 21368832,
+          "median": 21368832,
+          "minimum": 21368832
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 6928,
+          "median": 6901,
+          "minimum": 6893
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 17724416,
+          "median": 17708032,
+          "minimum": 17703936
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 19939328,
+          "median": 19902464,
+          "minimum": 19873792
+        },
+        "system_ns": {
+          "maximum": 791939000,
+          "median": 791927000,
+          "minimum": 789698000
+        },
+        "user_ns": {
+          "maximum": 834364000,
+          "median": 833793000,
+          "minimum": 827462000
+        },
+        "voluntary_switches": {
+          "maximum": 9140,
+          "median": 9055,
+          "minimum": 8884
+        },
+        "wall_ns": {
+          "maximum": 687335280,
+          "median": 686204825,
+          "minimum": 666336126
+        },
+        "work_ns": {
+          "maximum": 651028894,
+          "median": 643667206,
+          "minimum": 632675679
+        }
+      },
+      "mode": "mmap",
+      "samples": 3,
+      "wall_time_ratio_to_baseline": 1.0046158494296686,
+      "wall_time_ratio_to_native": 74.30534680710156,
+      "work_time_ratio_to_baseline": 1.0035502965628182,
+      "work_time_ratio_to_native": 74.63551511970873,
+      "workers": 4
+    },
+    {
+      "lane": "native",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 13200000,
+          "median": 12963000,
+          "minimum": 12848000
+        },
+        "involuntary_switches": {
+          "maximum": 1,
+          "median": 1,
+          "minimum": 1
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 21368832,
+          "median": 21368832,
+          "minimum": 21368832
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 3165,
+          "median": 3164,
+          "minimum": 3164
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 512000,
+          "median": 147456,
+          "minimum": 77824
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 1392640,
+          "median": 1388544,
+          "minimum": 1376256
+        },
+        "system_ns": {
+          "maximum": 13200000,
+          "median": 12963000,
+          "minimum": 12848000
+        },
+        "user_ns": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "voluntary_switches": {
+          "maximum": 488,
+          "median": 457,
+          "minimum": 437
+        },
+        "wall_ns": {
+          "maximum": 9264532,
+          "median": 9234932,
+          "minimum": 8639994
+        },
+        "work_ns": {
+          "maximum": 8686510,
+          "median": 8624141,
+          "minimum": 8065965
+        }
+      },
+      "mode": "mmap",
+      "samples": 3,
+      "wall_time_ratio_to_native": 1.0,
+      "work_time_ratio_to_native": 1.0,
+      "workers": 4
+    },
+    {
+      "lane": "baseline-mmio",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 3639293000,
+          "median": 3629549000,
+          "minimum": 3624596000
+        },
+        "involuntary_switches": {
+          "maximum": 33,
+          "median": 32,
+          "minimum": 31
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 122654720,
+          "median": 122576896,
+          "minimum": 122568704
+        },
+        "major_faults": {
+          "maximum": 4,
+          "median": 4,
+          "minimum": 4
+        },
+        "minor_faults": {
+          "maximum": 27882,
+          "median": 27881,
+          "minimum": 27874
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 91972608,
+          "median": 91958272,
+          "minimum": 91911168
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 122368000,
+          "median": 122359808,
+          "minimum": 122265600
+        },
+        "system_ns": {
+          "maximum": 2252157000,
+          "median": 2224691000,
+          "minimum": 2183775000
+        },
+        "user_ns": {
+          "maximum": 1455518000,
+          "median": 1404858000,
+          "minimum": 1372439000
+        },
+        "voluntary_switches": {
+          "maximum": 32,
+          "median": 25,
+          "minimum": 22
+        },
+        "wall_ns": {
+          "maximum": 3689248933,
+          "median": 3681766651,
+          "minimum": 3666439021
+        },
+        "work_ns": {
+          "maximum": 51959957,
+          "median": 50993499,
+          "minimum": 50699415
+        }
+      },
+      "mode": "node",
+      "samples": 3,
+      "wall_time_ratio_to_native": 33.16276292399066,
+      "work_time_ratio_to_native": 1.893659997905568,
+      "workers": 1
+    },
+    {
+      "lane": "baseline-smccc",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 3379772000,
+          "median": 3371662000,
+          "minimum": 3361541000
+        },
+        "involuntary_switches": {
+          "maximum": 35,
+          "median": 34,
+          "minimum": 34
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 122638336,
+          "median": 122597376,
+          "minimum": 122531840
+        },
+        "major_faults": {
+          "maximum": 4,
+          "median": 4,
+          "minimum": 4
+        },
+        "minor_faults": {
+          "maximum": 27878,
+          "median": 27876,
+          "minimum": 27871
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 91960320,
+          "median": 91952128,
+          "minimum": 91890688
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 122482688,
+          "median": 122445824,
+          "minimum": 122265600
+        },
+        "system_ns": {
+          "maximum": 1982473000,
+          "median": 1948558000,
+          "minimum": 1943566000
+        },
+        "user_ns": {
+          "maximum": 1436206000,
+          "median": 1423104000,
+          "minimum": 1379068000
+        },
+        "voluntary_switches": {
+          "maximum": 28,
+          "median": 24,
+          "minimum": 22
+        },
+        "wall_ns": {
+          "maximum": 3460204694,
+          "median": 3431566745,
+          "minimum": 3411057716
+        },
+        "work_ns": {
+          "maximum": 50737273,
+          "median": 50376655,
+          "minimum": 50184379
+        }
+      },
+      "mode": "node",
+      "samples": 3,
+      "wall_time_ratio_to_native": 30.90913825062112,
+      "work_time_ratio_to_native": 1.8707532974309042,
+      "workers": 1
+    },
+    {
+      "lane": "candidate-mmio",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 2851594000,
+          "median": 2847392000,
+          "minimum": 2832108000
+        },
+        "involuntary_switches": {
+          "maximum": 38,
+          "median": 29,
+          "minimum": 29
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 122593280,
+          "median": 122585088,
+          "minimum": 122257408
+        },
+        "major_faults": {
+          "maximum": 4,
+          "median": 4,
+          "minimum": 4
+        },
+        "minor_faults": {
+          "maximum": 27885,
+          "median": 27885,
+          "minimum": 27867
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 91530240,
+          "median": 91517952,
+          "minimum": 91515904
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 121868288,
+          "median": 121860096,
+          "minimum": 121679872
+        },
+        "system_ns": {
+          "maximum": 1492154000,
+          "median": 1478129000,
+          "minimum": 1466298000
+        },
+        "user_ns": {
+          "maximum": 1381094000,
+          "median": 1373465000,
+          "minimum": 1339954000
+        },
+        "voluntary_switches": {
+          "maximum": 29,
+          "median": 28,
+          "minimum": 26
+        },
+        "wall_ns": {
+          "maximum": 2916066880,
+          "median": 2901752813,
+          "minimum": 2878061597
+        },
+        "work_ns": {
+          "maximum": 50286299,
+          "median": 45177280,
+          "minimum": 44759169
+        }
+      },
+      "mode": "node",
+      "samples": 3,
+      "wall_time_ratio_to_baseline": 0.7881414245011585,
+      "wall_time_ratio_to_native": 26.136947211308208,
+      "work_time_ratio_to_baseline": 0.8859419511494985,
+      "work_time_ratio_to_native": 1.677672833358214,
+      "workers": 1
+    },
+    {
+      "lane": "candidate-smccc",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 2595189000,
+          "median": 2584838000,
+          "minimum": 2546691000
+        },
+        "involuntary_switches": {
+          "maximum": 30,
+          "median": 27,
+          "minimum": 26
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 122560512,
+          "median": 122515456,
+          "minimum": 122404864
+        },
+        "major_faults": {
+          "maximum": 4,
+          "median": 4,
+          "minimum": 4
+        },
+        "minor_faults": {
+          "maximum": 27879,
+          "median": 27875,
+          "minimum": 27874
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 91608064,
+          "median": 91493376,
+          "minimum": 91468800
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 122048512,
+          "median": 121839616,
+          "minimum": 121720832
+        },
+        "system_ns": {
+          "maximum": 1240961000,
+          "median": 1219075000,
+          "minimum": 1217866000
+        },
+        "user_ns": {
+          "maximum": 1366972000,
+          "median": 1354228000,
+          "minimum": 1327616000
+        },
+        "voluntary_switches": {
+          "maximum": 23,
+          "median": 23,
+          "minimum": 16
+        },
+        "wall_ns": {
+          "maximum": 2645909070,
+          "median": 2619490082,
+          "minimum": 2562133854
+        },
+        "work_ns": {
+          "maximum": 46795965,
+          "median": 45190486,
+          "minimum": 43567773
+        }
+      },
+      "mode": "node",
+      "samples": 3,
+      "wall_time_ratio_to_baseline": 0.7633510511828905,
+      "wall_time_ratio_to_native": 23.59452317476892,
+      "work_time_ratio_to_baseline": 0.897052136550154,
+      "work_time_ratio_to_native": 1.6781632424186383,
+      "workers": 1
+    },
+    {
+      "lane": "native",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 130327000,
+          "median": 110796000,
+          "minimum": 110502000
+        },
+        "involuntary_switches": {
+          "maximum": 63,
+          "median": 62,
+          "minimum": 61
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 62210048,
+          "median": 62193664,
+          "minimum": 61747200
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 6443,
+          "median": 6440,
+          "minimum": 6433
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 48128,
+          "median": 39936,
+          "minimum": 8192
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 4096,
+          "median": 4096,
+          "minimum": 4096
+        },
+        "system_ns": {
+          "maximum": 20961000,
+          "median": 19910000,
+          "minimum": 17506000
+        },
+        "user_ns": {
+          "maximum": 112821000,
+          "median": 90592000,
+          "minimum": 89835000
+        },
+        "voluntary_switches": {
+          "maximum": 77,
+          "median": 76,
+          "minimum": 76
+        },
+        "wall_ns": {
+          "maximum": 134239914,
+          "median": 111021107,
+          "minimum": 110749139
+        },
+        "work_ns": {
+          "maximum": 27781503,
+          "median": 26928540,
+          "minimum": 26853128
+        }
+      },
+      "mode": "node",
+      "samples": 3,
+      "wall_time_ratio_to_native": 1.0,
+      "work_time_ratio_to_native": 1.0,
+      "workers": 1
+    },
+    {
+      "lane": "baseline-mmio",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 23791970000,
+          "median": 23749550000,
+          "minimum": 23169875000
+        },
+        "involuntary_switches": {
+          "maximum": 82,
+          "median": 81,
+          "minimum": 76
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 169717760,
+          "median": 168730624,
+          "minimum": 168706048
+        },
+        "major_faults": {
+          "maximum": 7,
+          "median": 7,
+          "minimum": 7
+        },
+        "minor_faults": {
+          "maximum": 39474,
+          "median": 39383,
+          "minimum": 39345
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 130571264,
+          "median": 129944576,
+          "minimum": 129702912
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 169897984,
+          "median": 168939520,
+          "minimum": 168779776
+        },
+        "system_ns": {
+          "maximum": 12381471000,
+          "median": 12377302000,
+          "minimum": 12347270000
+        },
+        "user_ns": {
+          "maximum": 11414668000,
+          "median": 11402280000,
+          "minimum": 10788404000
+        },
+        "voluntary_switches": {
+          "maximum": 5570,
+          "median": 5549,
+          "minimum": 5321
+        },
+        "wall_ns": {
+          "maximum": 8709671882,
+          "median": 8657112521,
+          "minimum": 8554535587
+        },
+        "work_ns": {
+          "maximum": 152117072,
+          "median": 148994419,
+          "minimum": 128018477
+        }
+      },
+      "mode": "node",
+      "samples": 3,
+      "wall_time_ratio_to_native": 41.638243556741116,
+      "work_time_ratio_to_native": 3.961752263042976,
+      "workers": 4
+    },
+    {
+      "lane": "baseline-smccc",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 22579718000,
+          "median": 22529842000,
+          "minimum": 21795239000
+        },
+        "involuntary_switches": {
+          "maximum": 131,
+          "median": 78,
+          "minimum": 78
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 169140224,
+          "median": 168579072,
+          "minimum": 168574976
+        },
+        "major_faults": {
+          "maximum": 7,
+          "median": 7,
+          "minimum": 7
+        },
+        "minor_faults": {
+          "maximum": 39396,
+          "median": 39386,
+          "minimum": 39296
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 130452480,
+          "median": 129747968,
+          "minimum": 129526784
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 169398272,
+          "median": 168902656,
+          "minimum": 168574976
+        },
+        "system_ns": {
+          "maximum": 10865571000,
+          "median": 10808553000,
+          "minimum": 10550804000
+        },
+        "user_ns": {
+          "maximum": 11721289000,
+          "median": 11714147000,
+          "minimum": 11244435000
+        },
+        "voluntary_switches": {
+          "maximum": 5568,
+          "median": 5556,
+          "minimum": 5546
+        },
+        "wall_ns": {
+          "maximum": 8309745892,
+          "median": 8263206358,
+          "minimum": 7997169612
+        },
+        "work_ns": {
+          "maximum": 169536296,
+          "median": 152140890,
+          "minimum": 150138135
+        }
+      },
+      "mode": "node",
+      "samples": 3,
+      "wall_time_ratio_to_native": 39.74366719381303,
+      "work_time_ratio_to_native": 4.045416729729134,
+      "workers": 4
+    },
+    {
+      "lane": "candidate-mmio",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 20784899000,
+          "median": 19941106000,
+          "minimum": 19481179000
+        },
+        "involuntary_switches": {
+          "maximum": 68,
+          "median": 67,
+          "minimum": 64
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 168706048,
+          "median": 168677376,
+          "minimum": 167931904
+        },
+        "major_faults": {
+          "maximum": 7,
+          "median": 7,
+          "minimum": 7
+        },
+        "minor_faults": {
+          "maximum": 39547,
+          "median": 39415,
+          "minimum": 39234
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 129920000,
+          "median": 129633280,
+          "minimum": 129076224
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 168841216,
+          "median": 168787968,
+          "minimum": 167948288
+        },
+        "system_ns": {
+          "maximum": 9929860000,
+          "median": 9663953000,
+          "minimum": 9362187000
+        },
+        "user_ns": {
+          "maximum": 10855039000,
+          "median": 10277153000,
+          "minimum": 10118992000
+        },
+        "voluntary_switches": {
+          "maximum": 5624,
+          "median": 5305,
+          "minimum": 5280
+        },
+        "wall_ns": {
+          "maximum": 7840953870,
+          "median": 7476484954,
+          "minimum": 7397073935
+        },
+        "work_ns": {
+          "maximum": 149350590,
+          "median": 143701092,
+          "minimum": 138797033
+        }
+      },
+      "mode": "node",
+      "samples": 3,
+      "wall_time_ratio_to_baseline": 0.8636234005118807,
+      "wall_time_ratio_to_native": 35.95976149181467,
+      "work_time_ratio_to_baseline": 0.9644729847230049,
+      "work_time_ratio_to_native": 3.8210030298701785,
+      "workers": 4
+    },
+    {
+      "lane": "candidate-smccc",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 19560452000,
+          "median": 19201262000,
+          "minimum": 17623325000
+        },
+        "involuntary_switches": {
+          "maximum": 67,
+          "median": 63,
+          "minimum": 54
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 168878080,
+          "median": 168460288,
+          "minimum": 167772160
+        },
+        "major_faults": {
+          "maximum": 7,
+          "median": 7,
+          "minimum": 7
+        },
+        "minor_faults": {
+          "maximum": 39371,
+          "median": 39248,
+          "minimum": 39031
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 130161664,
+          "median": 129879040,
+          "minimum": 129285120
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 168964096,
+          "median": 168439808,
+          "minimum": 167800832
+        },
+        "system_ns": {
+          "maximum": 8100221000,
+          "median": 7965350000,
+          "minimum": 7345748000
+        },
+        "user_ns": {
+          "maximum": 11460231000,
+          "median": 11235912000,
+          "minimum": 10277577000
+        },
+        "voluntary_switches": {
+          "maximum": 5578,
+          "median": 5426,
+          "minimum": 5384
+        },
+        "wall_ns": {
+          "maximum": 7271968194,
+          "median": 7112902427,
+          "minimum": 6692947925
+        },
+        "work_ns": {
+          "maximum": 148945803,
+          "median": 120371172,
+          "minimum": 97746294
+        }
+      },
+      "mode": "node",
+      "samples": 3,
+      "wall_time_ratio_to_baseline": 0.8607920604710136,
+      "wall_time_ratio_to_native": 34.211033174436544,
+      "work_time_ratio_to_baseline": 0.7911822521874297,
+      "work_time_ratio_to_native": 3.2006619192638035,
+      "workers": 4
+    },
+    {
+      "lane": "native",
+      "metrics": {
+        "cpu_ns": {
+          "maximum": 370493000,
+          "median": 369450000,
+          "minimum": 362460000
+        },
+        "involuntary_switches": {
+          "maximum": 77,
+          "median": 77,
+          "minimum": 70
+        },
+        "largest_process_peak_rss_bytes": {
+          "maximum": 85282816,
+          "median": 84828160,
+          "minimum": 84451328
+        },
+        "major_faults": {
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0
+        },
+        "minor_faults": {
+          "maximum": 13509,
+          "median": 13373,
+          "minimum": 13314
+        },
+        "sampled_tree_peak_pss_bytes": {
+          "maximum": 26624,
+          "median": 17408.0,
+          "minimum": 8192
+        },
+        "sampled_tree_peak_rss_bytes": {
+          "maximum": 1388544,
+          "median": 1388544,
+          "minimum": 4096
+        },
+        "system_ns": {
+          "maximum": 61580000,
+          "median": 55024000,
+          "minimum": 52355000
+        },
+        "user_ns": {
+          "maximum": 314426000,
+          "median": 310105000,
+          "minimum": 308913000
+        },
+        "voluntary_switches": {
+          "maximum": 155,
+          "median": 143,
+          "minimum": 139
+        },
+        "wall_ns": {
+          "maximum": 210267707,
+          "median": 207912529,
+          "minimum": 203837552
+        },
+        "work_ns": {
+          "maximum": 41613421,
+          "median": 37608212,
+          "minimum": 34875178
+        }
+      },
+      "mode": "node",
+      "samples": 3,
+      "wall_time_ratio_to_native": 1.0,
+      "work_time_ratio_to_native": 1.0,
+      "workers": 4
+    }
+  ],
+  "failures": [
+    "build-1-sample-1-baseline-smccc",
+    "incomplete distribution: build/1/baseline-smccc"
+  ],
+  "inputs_sha256": "faec36ef0266afb3eb57a8fa4d7fda554602cbd5fd93abebb6d2755e77cc270e",
+  "passed": false,
+  "samples_sha256": "36d6f30f33c6bdeca77df249ba58ded68582cd843513975ad9d722ba2419e0d9",
+  "schema_version": 1,
+  "scope": "this host/configuration; no universal near-native performance claim"
+}

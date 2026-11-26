@@ -179,6 +179,19 @@ profiles, both transports and 1/4 workers. The timer cohort also passes core
 
 See [source-bound evidence, limitations and offline audit](validation/kvm-timer-reuse-20261126.md).
 
+## Joined-epoch KVM write publication
+
+KVM now uses the shared Runtime's existing grouped dirty words and allocation
+epochs, publishing live writable bindings once per joined round. Mapping changes
+prepare replacement metadata on the stopped worker. Ordinary private pages keep
+their original compact Page representation and no publication token; repeated
+short SVCs no longer traverse all cached writable pages.
+
+The real hardware regression covers repeated SVCs, joined writeback, address-space
+switches, protection and backing replacement. Full scoped results, both candidate
+cohorts and sampling limitations are recorded in the
+[source-bound validation](validation/kvm-joined-writes-20261126.md).
+
 ## Next dependency batch: Linux providers
 
 1. Complete Linux DMA-BUF image imports/exports, guest desktop/input presentation,
