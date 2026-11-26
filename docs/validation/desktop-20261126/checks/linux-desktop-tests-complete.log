@@ -1,0 +1,268 @@
+warning: unused variable: `source_hardware_addr`
+  --> runtime/vendor/smoltcp/src/iface/interface/ipv4.rs:89:9
+   |
+89 |         source_hardware_addr: HardwareAddress,
+   |         ^^^^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_source_hardware_addr`
+   |
+   = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: variable does not need to be mutable
+   --> runtime/vendor/smoltcp/src/iface/interface/ipv4.rs:480:35
+    |
+480 |         tx_token.consume(tx_len, |mut tx_buffer| {
+    |                                   ----^^^^^^^^^
+    |                                   |
+    |                                   help: remove this `mut`
+    |
+    = note: `#[warn(unused_mut)]` (part of `#[warn(unused)]`) on by default
+
+warning: variable does not need to be mutable
+   --> runtime/vendor/smoltcp/src/iface/interface/ipv4.rs:457:13
+    |
+457 |         let mut tx_len = ip_len;
+    |             ----^^^^^^
+    |             |
+    |             help: remove this `mut`
+
+warning: unused variable: `source_hardware_addr`
+   --> runtime/vendor/smoltcp/src/iface/interface/ipv6.rs:191:9
+    |
+191 |         source_hardware_addr: HardwareAddress,
+    |         ^^^^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_source_hardware_addr`
+
+warning: variable does not need to be mutable
+    --> runtime/vendor/smoltcp/src/iface/interface/mod.rs:1448:51
+     |
+1448 |                         tx_token.consume(tx_len, |mut tx_buffer| {
+     |                                                   ----^^^^^^^^^
+     |                                                   |
+     |                                                   help: remove this `mut`
+
+warning: variable does not need to be mutable
+    --> runtime/vendor/smoltcp/src/iface/interface/mod.rs:1473:50
+     |
+1473 |                     tx_token.consume(total_len, |mut tx_buffer| {
+     |                                                  ----^^^^^^^^^
+     |                                                  |
+     |                                                  help: remove this `mut`
+
+warning: variable does not need to be mutable
+    --> runtime/vendor/smoltcp/src/iface/interface/mod.rs:1487:61
+     |
+1487 |             IpRepr::Ipv6(_) => tx_token.consume(total_len, |mut tx_buffer| {
+     |                                                             ----^^^^^^^^^
+     |                                                             |
+     |                                                             help: remove this `mut`
+
+warning: variable does not need to be mutable
+    --> runtime/vendor/smoltcp/src/iface/interface/mod.rs:1320:13
+     |
+1320 |         let mut total_len = ip_repr.buffer_len();
+     |             ----^^^^^^^^^
+     |             |
+     |             help: remove this `mut`
+
+warning: field `hardware_addr` is never read
+   --> runtime/vendor/smoltcp/src/iface/interface/mod.rs:224:5
+    |
+210 | pub struct InterfaceInner {
+    |            -------------- field in this struct
+...
+224 |     hardware_addr: HardwareAddress,
+    |     ^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: variants `NoRoute` and `NeighborPending` are never constructed
+    --> runtime/vendor/smoltcp/src/iface/interface/mod.rs:1519:5
+     |
+1514 | enum DispatchError {
+     |      ------------- variants in this enum
+...
+1519 |     NoRoute,
+     |     ^^^^^^^
+...
+1523 |     NeighborPending,
+     |     ^^^^^^^^^^^^^^^
+     |
+     = note: `DispatchError` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+
+warning: methods `link_local_ipv6_address` and `mldv2_report_packet` are never used
+   --> runtime/vendor/smoltcp/src/iface/interface/ipv6.rs:171:8
+    |
+ 21 | impl InterfaceInner {
+    | ------------------- methods in this implementation
+...
+171 |     fn link_local_ipv6_address(&self) -> Option<Ipv6Address> {
+    |        ^^^^^^^^^^^^^^^^^^^^^^^
+...
+563 |     pub(super) fn mldv2_report_packet<'any>(
+    |                   ^^^^^^^^^^^^^^^^^^^
+
+warning: variant `HopByHopIcmpv6` is never constructed
+   --> runtime/vendor/smoltcp/src/iface/packet.rs:263:5
+    |
+255 | pub(crate) enum IpPayload<'p> {
+    |                 --------- variant in this enum
+...
+263 |     HopByHopIcmpv6(Ipv6HopByHopRepr<'p>, Icmpv6Repr<'p>),
+    |     ^^^^^^^^^^^^^^
+    |
+    = note: `IpPayload` has a derived impl for the trait `Debug`, but this is intentionally ignored during dead code analysis
+
+warning: type alias `Rest` is never used
+  --> runtime/vendor/smoltcp/src/wire/mod.rs:75:14
+   |
+75 |     pub type Rest = ::core::ops::RangeFrom<usize>;
+   |              ^^^^
+
+warning: constant `CUR_HOP_LIMIT` is never used
+   --> runtime/vendor/smoltcp/src/wire/icmpv6.rs:220:15
+    |
+220 |     pub const CUR_HOP_LIMIT: usize = 4;
+    |               ^^^^^^^^^^^^^
+
+warning: constant `ROUTER_FLAGS` is never used
+   --> runtime/vendor/smoltcp/src/wire/icmpv6.rs:221:15
+    |
+221 |     pub const ROUTER_FLAGS: usize = 5;
+    |               ^^^^^^^^^^^^
+
+warning: constant `ROUTER_LT` is never used
+   --> runtime/vendor/smoltcp/src/wire/icmpv6.rs:222:15
+    |
+222 |     pub const ROUTER_LT: Field = 6..8;
+    |               ^^^^^^^^^
+
+warning: constant `REACHABLE_TM` is never used
+   --> runtime/vendor/smoltcp/src/wire/icmpv6.rs:223:15
+    |
+223 |     pub const REACHABLE_TM: Field = 8..12;
+    |               ^^^^^^^^^^^^
+
+warning: constant `NEIGH_FLAGS` is never used
+   --> runtime/vendor/smoltcp/src/wire/icmpv6.rs:230:15
+    |
+230 |     pub const NEIGH_FLAGS: usize = 4;
+    |               ^^^^^^^^^^^
+
+warning: methods `solicited_node` and `is_solicited_node_multicast` are never used
+   --> runtime/vendor/smoltcp/src/wire/ipv6.rs:121:8
+    |
+ 79 | pub(crate) trait AddressExt {
+    |                  ---------- methods in this trait
+...
+121 |     fn solicited_node(&self) -> Address;
+    |        ^^^^^^^^^^^^^^
+...
+131 |     fn is_solicited_node_multicast(&self) -> bool;
+    |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: method `emit_header` is never used
+   --> runtime/vendor/smoltcp/src/wire/udp.rs:264:19
+    |
+221 | impl Repr {
+    | --------- method in this implementation
+...
+264 |     pub(crate) fn emit_header<T>(&self, packet: &mut Packet<&mut T>, payload_len: usize)
+    |                   ^^^^^^^^^^^
+
+warning: hiding a lifetime that's elided elsewhere is confusing
+   --> runtime/vendor/smoltcp/src/storage/assembler.rs:330:22
+    |
+330 |     pub fn iter_data(&self, first_offset: usize) -> AssemblerIter {
+    |                      ^^^^^                          ^^^^^^^^^^^^^ the same lifetime is hidden here
+    |                      |
+    |                      the lifetime is elided here
+    |
+    = help: the same lifetime is referred to in inconsistent ways, making the signature confusing
+    = note: `#[warn(mismatched_lifetime_syntaxes)]` on by default
+help: use `'_` for type paths
+    |
+330 |     pub fn iter_data(&self, first_offset: usize) -> AssemblerIter<'_> {
+    |                                                                  ++++
+
+warning: `smoltcp` (lib) generated 21 warnings (run `cargo fix --lib -p smoltcp` to apply 9 suggestions)
+    Finished `release` profile [optimized] target(s) in 0.33s
+     Running unittests src/lib.rs (/mnt/trames-output/linux-desktop-target/release/build/trames-kvm/cadf3c09a455562f/out/trames_kvm-cadf3c09a455562f)
+
+running 26 tests
+test aarch64::engine::hardware_checkpoints::address_space_cache_is_bounded_and_does_not_retain_retired_guest_pages ... ignored, requires real ARM64 Linux KVM and 4KiB host pages
+test aarch64::engine::hardware_checkpoints::address_space_switch_retains_shared_code_and_withdraws_private_data ... ignored, requires real ARM64 Linux KVM and 4KiB host pages
+test aarch64::engine::hardware_checkpoints::assignment_reuses_budget_and_stops_it_before_the_next_task ... ignored, requires real ARM64 Linux KVM and 4KiB host pages
+test aarch64::engine::hardware_checkpoints::completed_syscalls_resume_without_register_resets_or_extra_smccc_runs ... ignored, requires real ARM64 Linux KVM and 4KiB host pages
+test aarch64::engine::hardware_checkpoints::every_restore_pc_and_completed_doorbell_has_a_complete_user_checkpoint ... ignored, requires real ARM64 Linux KVM and 4KiB host pages
+test aarch64::engine::hardware_checkpoints::hardware_step_can_pause_inside_a_real_partial_el1_save ... ignored, requires real ARM64 Linux KVM and 4KiB host pages
+test aarch64::engine::hardware_checkpoints::independent_executors_keep_user_and_private_translations_separate ... ignored, requires real ARM64 Linux KVM and 4KiB host pages
+test aarch64::engine::hardware_checkpoints::interrupted_completed_notification_preserves_the_pending_syscall ... ignored, requires real ARM64 Linux KVM and 4KiB host pages
+test aarch64::engine::hardware_checkpoints::interrupted_restore_preserves_a_pending_read_only_revocation ... ignored, requires real ARM64 Linux KVM and 4KiB host pages
+test aarch64::engine::hardware_checkpoints::repeated_deadlines_preserve_the_entire_el0_register_bank ... ignored, requires real ARM64 Linux KVM and 4KiB host pages
+test aarch64::engine::hardware_checkpoints::sparse_table_retirement_releases_empty_subtrees ... ignored, requires real ARM64 Linux KVM and 4KiB host pages
+test aarch64::features::tests::id_fields_never_turn_reserved_or_stateful_extensions_into_guest_promises ... ok
+test aarch64::features::tests::real_nested_kvm_ids_expose_native_instruction_families ... ok
+test aarch64::tables::tests::four_kib_pages_have_independent_permissions_and_a_real_hole ... ok
+test aarch64::tables::tests::high_guest_virtual_addresses_do_not_become_identity_gpa ... ok
+test deadline::tests::a_real_kick_interrupts_even_a_future_deadline ... ok
+test deadline::tests::assignment_restores_both_original_signal_masks ... ok
+test deadline::tests::disarming_a_guard_keeps_its_original_byte_untouched ... ok
+test deadline::tests::a_retired_timer_notification_cannot_touch_a_different_vcpu ... ok
+test deadline::tests::nested_arm_rejection_preserves_the_original_notification_target ... ok
+test tests::unsupported_hosts_cannot_report_a_hardware_pass ... ok
+test tests::user_inputs_are_bounded_and_unknown_transports_fail ... ok
+test deadline::tests::kernel_timer_interrupts_a_blocking_thread_without_a_helper ... ok
+test deadline::tests::explicit_kick_interrupts_host_pipe_io ... ok
+test deadline::tests::private_tick_restarts_host_pipe_io ... ok
+test deadline::tests::queued_expiry_cannot_cancel_a_fresh_arm_of_the_same_timer ... ok
+
+test result: ok. 15 passed; 0 failed; 11 ignored; 0 measured; 0 filtered out; finished in 1.04s
+
+     Running tests/hardware.rs (/mnt/trames-output/linux-desktop-target/release/build/trames-kvm/2ae98ac7d81aaad6/out/hardware-2ae98ac7d81aaad6)
+
+running 8 tests
+test architectural_step_retries_faults_and_survives_task_and_worker_switches ... ignored, requires real ARM64 Linux KVM and 4KiB host pages
+test byte_borrow_revokes_cached_stage_two_and_wakes_without_polling ... ignored, requires real ARM64 Linux KVM and 4KiB host pages
+test canonical_pages_fork_cow_protection_and_unmap_reuse ... ignored, requires real ARM64 Linux KVM and 4KiB host pages
+test deadline_state_and_preentry_kick_survive_worker_migration ... ignored, requires real ARM64 Linux KVM and 4KiB host pages
+test duplicate_fd_aliases_share_revoke_counts_and_neighbor_pages_stay_live ... ignored, requires real ARM64 Linux KVM and 4KiB host pages
+test fd_backed_native_image_keeps_original_bytes_after_image_release ... ignored, requires real ARM64 Linux KVM and 4KiB host pages
+test host_managed_ranges_keep_canonical_bytes_and_fork_cow ... ignored, requires real ARM64 Linux KVM and 4KiB host pages
+test retained_writes_republish_after_join_and_follow_original_address_space ... ignored, requires real ARM64 Linux KVM and 4KiB host pages
+
+test result: ok. 0 passed; 0 failed; 8 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/vulkan.rs (/mnt/trames-output/linux-desktop-target/release/build/trames-kvm/f558068dee88f606/out/vulkan-f558068dee88f606)
+
+running 1 test
+test vulkan_host_buffer_and_kvm_share_original_bytes_without_shadow_transfers ... ignored, requires ARM64 KVM, 4KiB pages and Vulkan external_memory_host
+
+test result: ok. 0 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (/mnt/trames-output/linux-desktop-target/release/build/trames-linux-app/4fe218c8e6ffd342/out/trames-4fe218c8e6ffd342)
+
+running 8 tests
+test desktop::tests::native_wayland_desktop ... ignored, requires X11 and the original libwayland desktop fixture
+test display::wayland_tests::original_wayland_target_uses_native_surface_and_retains_its_connection ... ignored, requires Weston/libwayland fixture; validate-wsi.py supplies both
+test display::x11::tests::x11_events_resize_and_surface_teardown_keep_original_native_owners ... ignored, requires a real X11 server and Vulkan XCB ICD; validate-wsi.py provides Xvfb
+test foreground::tests::desktop_options_keep_software_mode_and_guest_arguments ... ok
+test foreground::tests::audio_flags_preserve_literal_argv_and_option_values ... ok
+test foreground::tests::display_and_gpu_options_preserve_guest_arguments_and_validate_geometry ... ok
+test foreground::tests::store_arguments_require_a_single_value_and_preserve_literal_argv ... ok
+test store::tests::import_is_create_only_and_owned_files_survive_reopen ... ok
+
+test result: ok. 5 passed; 0 failed; 3 ignored; 0 measured; 0 filtered out; finished in 0.04s
+
+     Running tests/cli.rs (/mnt/trames-output/linux-desktop-target/release/build/trames-linux-app/2aa72da031bfebaa/out/cli-2aa72da031bfebaa)
+
+running 3 tests
+test shared_exec_client_keeps_large_binary_stdin_and_separate_output_streams ... ok
+test doctor_reports_host_and_runtime_without_claiming_a_hardware_run ... ok
+test invalid_probe_requests_fail_without_a_success_report ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+   Doc-tests trames_kvm
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/mnt/trames-output/linux-desktop-source/scripts/validate-desktop.py", line 198, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/mnt/trames-output/linux-desktop-source/scripts/validate-desktop.py", line 175, in main
+    try:record(dict(id=name,status='passed',**interaction(child,out/'probe',env,x11)))
+                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/trames-output/linux-desktop-source/scripts/validate-desktop.py", line 78, in interaction
+    checks.append(pixels(probe_binary,env,TITLE,b'pixels 240 160 20c040\n'))
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/trames-output/linux-desktop-source/scripts/validate-desktop.py", line 71, in pixels
+    if time.monotonic()>deadline:raise RuntimeError('pixel mismatch: '+repr(locals().get('value'))+' expected '+repr(expected))
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: pixel mismatch: None expected b'pixels 240 160 20c040\n'

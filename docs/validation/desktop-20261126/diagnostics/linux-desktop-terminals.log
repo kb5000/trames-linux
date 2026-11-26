@@ -1,0 +1,24 @@
+Traceback (most recent call last):
+  File "/mnt/trames-output/linux-desktop-source/scripts/validate-desktop.py", line 187, in main
+    try:probe(out/'probe',env,title,'focus');break
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/trames-output/linux-desktop-source/scripts/validate-desktop.py", line 63, in probe
+    def probe(binary,env,title,*args):return subprocess.check_output([str(binary),title,*map(str,args)],env=env,stderr=subprocess.PIPE)
+                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/subprocess.py", line 466, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/mnt/trames-output/linux-desktop-terminals/probe', '*', 'focus']' returned non-zero exit status 2.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/mnt/trames-output/linux-desktop-source/scripts/validate-desktop.py", line 198, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/mnt/trames-output/linux-desktop-source/scripts/validate-desktop.py", line 190, in main
+    if time.monotonic()>deadline:raise RuntimeError('terminal window missing '+title)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: terminal window missing *

@@ -12,6 +12,8 @@ repository = "https://github.com/project-trames/trames-linux"
 
 [workspace.dependencies]
 trames-cli-common = { path = "cli/crates/trames-cli-common" }
+trames-shared = { path = "runtime/crates/trames-shared" }
+trames-wayland = { path = "runtime/crates/trames-wayland" }
 trames-graphics = { path = "runtime/crates/trames-graphics" }
 trames-vulkan = { path = "runtime/crates/trames-vulkan" }
 trames-execution = { path = "runtime/crates/trames-execution" }

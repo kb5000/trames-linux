@@ -154,6 +154,15 @@ target/release/trames read-file --store /path/to/store -- /root/data
 
 ## Graphics and Audio
 
+### Wayland and Xwayland desktop
+
+Use `--desktop x11` to display guest SHM windows with keyboard, pointer, wheel and focus support. Applications use the shared Runtime Wayland compositor; X11 applications use original Xwayland and the authenticated launcher. See [desktop setup and boundaries](docs/architecture/desktop.md).
+
+```sh
+target/release/trames run --rootfs /path/to/rootfs --desktop x11 -- /usr/bin/weston-terminal
+```
+
+
 ### Vulkan Compute & Presentation
 
 Trames Linux supports headless Vulkan compute and windowed presentation via X11 when a compatible host Vulkan library and matching guest ICD are configured. Use `--vulkan-icd` to install the guest SDK; `--vulkan` uses an already installed SDK:

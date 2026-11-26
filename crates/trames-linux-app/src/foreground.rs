@@ -17,6 +17,7 @@ struct Output {
     pty: bool,
     window: Option<(u16, u16)>,
     display: Option<crate::display::HostDisplay>,
+    desktop: Option<crate::desktop::Desktop>,
 }
 impl GuestOutput for Output {
     fn source_console(&mut self) -> Arc<dyn trames_vfs::ConsoleIo> {
@@ -38,6 +39,9 @@ impl GuestOutput for Output {
         if let Some(display) = &self.display {
             display.interest(wait)?;
         }
+        if let Some(desktop) = &mut self.desktop {
+            desktop.interest(wait)?;
+        }
         if let Some(deadline) = self.deadline {
             wait.until(deadline);
         }
@@ -47,6 +51,9 @@ impl GuestOutput for Output {
         self.signals.drain();
         if let Some(display) = &mut self.display {
             display.poll()?;
+        }
+        if let Some(desktop) = &mut self.desktop {
+            desktop.poll()?;
         }
         Ok(trames_linux_abi::HostState::from_cancelled(
             self.cancellation_requested(),
@@ -97,6 +104,8 @@ struct HostOptions {
     network: Option<trames_vfs::NetworkMode>,
     trace: bool,
     display: bool,
+    desktop: bool,
+    xwayland_launcher: Option<std::path::PathBuf>,
     display_size: Option<(u32, u32)>,
     vulkan_icd: Option<std::path::PathBuf>,
 }
@@ -149,6 +158,26 @@ fn host_options(args: Vec<String>) -> Result<(Vec<String>, HostOptions), String>
                 );
                 host.runtime.vulkan_accelerator = true;
             }
+            "--desktop" => {
+                if host.desktop {
+                    return Err("duplicate --desktop".into());
+                }
+                if args.next().as_deref() != Some("x11") {
+                    return Err("--desktop requires x11".into());
+                }
+                host.desktop = true;
+            }
+            "--xwayland-launcher" => {
+                if host.xwayland_launcher.is_some() {
+                    return Err("duplicate --xwayland-launcher".into());
+                }
+                host.xwayland_launcher = Some(
+                    args.next()
+                        .filter(|p| p != "--")
+                        .ok_or("missing --xwayland-launcher executable")?
+                        .into(),
+                );
+            }
             "--display" => {
                 if host.display {
                     return Err("duplicate --display".into());
@@ -184,6 +213,15 @@ fn host_options(args: Vec<String>) -> Result<(Vec<String>, HostOptions), String>
             }
             _ => out.push(arg),
         }
+    }
+    if host.desktop && host.display {
+        return Err("choose --desktop x11 or --display x11".into());
+    }
+    if host.desktop && host.display_size.is_some() {
+        return Err("desktop windows use guest application sizes".into());
+    }
+    if host.xwayland_launcher.is_some() && !host.desktop {
+        return Err("--xwayland-launcher requires --desktop x11".into());
     }
     if host.display_size.is_some() && !host.display {
         return Err("--display-size requires --display x11".into());
@@ -296,8 +334,61 @@ pub fn run(args: Vec<String>, shell: bool) -> Result<u8, Box<dyn std::error::Err
         .collect();
     let mut envp = vec![
         "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin".into(),
-        "LANG=C".into(),
+        if host.desktop {
+            "LANG=C.UTF-8".into()
+        } else {
+            "LANG=C".into()
+        },
     ];
+    let desktop_server = if host.desktop {
+        // Native IPC belongs to this session. A direct host-root grant cannot
+        // create guest socket inodes, and must not export them to the host.
+        for path in [b"/run".as_slice(), b"/run/user", b"/run/user/0", b"/tmp"] {
+            match vfs.mkdir_at(trames_vfs::AT_FDCWD, path, 0o755) {
+                Ok(()) | Err(trames_vfs::Errno(17)) => (),
+                Err(e) => return Err(e.into()),
+            }
+        }
+        vfs.mount(
+            Some(b"tmpfs"),
+            b"/run/user/0",
+            Some(b"tmpfs"),
+            0,
+            Some(b"mode=0700"),
+        )?;
+        vfs.mount(
+            Some(b"tmpfs"),
+            b"/tmp",
+            Some(b"tmpfs"),
+            0,
+            Some(b"mode=1777"),
+        )?;
+        vfs.mkdir_at(trames_vfs::AT_FDCWD, b"/tmp/.X11-unix", 0o1777)?;
+        // GUI terminals allocate their own PTYs. The compatibility /dev/pts
+        // bind has no pts/ptmx entry; give this desktop a real devpts instance.
+        vfs.mount(
+            Some(b"devpts"),
+            b"/dev/pts",
+            Some(b"devpts"),
+            0,
+            Some(b"newinstance,mode=0620,ptmxmode=0666"),
+        )?;
+
+        let server = vfs.enable_wayland(b"/run/user/0")?;
+        envp.extend([
+            "HOME=/root".into(),
+            "XDG_RUNTIME_DIR=/run/user/0".into(),
+            "WAYLAND_DISPLAY=wayland-0".into(),
+            "GDK_BACKEND=wayland".into(),
+        ]);
+        Some(server)
+    } else {
+        None
+    };
+    if let Some(path) = host.xwayland_launcher {
+        trames_distro::install_xwayland_launcher(&mut std::fs::File::open(path)?, &mut vfs)
+            .map_err(|e| format!("install Xwayland launcher: {e}"))?;
+    }
     for entry in command.request.environment {
         let key = entry.split_once('=').unwrap().0;
         envp.retain(|old: &String| old.split_once('=').is_none_or(|(k, _)| k != key));
@@ -337,6 +428,9 @@ pub fn run(args: Vec<String>, shell: bool) -> Result<u8, Box<dyn std::error::Err
         }
         runtime.enable_terminal(terminal)?;
     }
+    let desktop = desktop_server
+        .map(crate::desktop::Desktop::open)
+        .transpose()?;
     let mut output = Output {
         source: Arc::new(trames_vfs::NativeConsole::stdio()),
         deadline: command.timeout.map(|t| Instant::now() + t),
@@ -344,6 +438,7 @@ pub fn run(args: Vec<String>, shell: bool) -> Result<u8, Box<dyn std::error::Err
         pty: command.request.tty,
         window: None,
         display,
+        desktop,
     };
     let _raw = RawTerminal::enter(command.request.tty)?;
     let result = runtime.run(&mut output, u64::MAX);
@@ -398,6 +493,36 @@ mod tests {
             vec!["--display", "x11", "--display-size", "0x600"],
             vec!["--display", "x11", "--display-size", "800x4097"],
             vec!["--vulkan-icd", "--"],
+        ] {
+            assert!(super::host_options(args.into_iter().map(String::from).collect()).is_err());
+        }
+    }
+    #[test]
+    fn desktop_options_keep_software_mode_and_guest_arguments() {
+        let (args, host) = super::host_options(
+            [
+                "--desktop",
+                "x11",
+                "--xwayland-launcher",
+                "launcher",
+                "--",
+                "app",
+                "--desktop",
+            ]
+            .map(String::from)
+            .into(),
+        )
+        .unwrap();
+        assert_eq!(args, ["--", "app", "--desktop"]);
+        assert!(host.desktop && !host.runtime.vulkan_accelerator);
+        assert_eq!(host.xwayland_launcher, Some("launcher".into()));
+        for args in [
+            vec!["--desktop"],
+            vec!["--desktop", "other"],
+            vec!["--desktop", "x11", "--desktop", "x11"],
+            vec!["--desktop", "x11", "--display", "x11"],
+            vec!["--desktop", "x11", "--display-size", "800x600"],
+            vec!["--xwayland-launcher", "launcher"],
         ] {
             assert!(super::host_options(args.into_iter().map(String::from).collect()).is_err());
         }

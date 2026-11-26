@@ -1,0 +1,19 @@
+{
+  "artifacts": {
+    "/work/downloaded": "902ef0eee54c20542b2c85a215382b764ee2213b1ee5ff40a7919ca1f1ab2f7b"
+  },
+  "artifacts_validated": true,
+  "case_inputs": "8e39ff503d4c6687beec70c98f9e74f75cd3c6056f3f9d7273a918fb5d6cdd9f",
+  "domain": "files",
+  "exit_code": 0,
+  "fingerprint": "d94dcca76fa0597e9f436be23a4fee0d7814693ce828d01a1de6311f6008c17f",
+  "id": "curl.file-transfer",
+  "logs": {
+    "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "610e4fdf9479a56427a545a483d1056e6cc44fed3c1412a3750faebfc96a6b41"
+  },
+  "reused": false,
+  "seconds": 0.46785688900126843,
+  "status": "passed",
+  "tier": "apps"
+}

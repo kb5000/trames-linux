@@ -958,6 +958,7 @@ dependencies = [
 name = "trames-linux-app"
 version = "0.1.0"
 dependencies = [
+ "libc",
  "libloading",
  "serde_json",
  "trames-cli-common",
@@ -966,8 +967,10 @@ dependencies = [
  "trames-linux",
  "trames-memory",
  "trames-session",
+ "trames-shared",
  "trames-vfs",
  "trames-vulkan",
+ "trames-wayland",
  "x11rb",
 ]
 

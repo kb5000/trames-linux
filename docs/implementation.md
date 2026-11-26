@@ -214,8 +214,28 @@ The frozen Linux Runtime pin and measurements remain unchanged; full paired
 product/device release gates remain separate.
 
 See the [complete source-bound evidence and offline audit](validation/kvm-budget-reuse-20261126.md).
-The next Linux product batch is guest desktop/input on the existing software X11
-path, then native Wayland readiness and hardware-specific GPU/media gates.
+The software X11 guest desktop/input batch is delivered below. Native host
+Wayland, clipboard/IME and hardware-specific GPU/media gates remain follow-ups.
+
+## Shared SHM desktop and input
+
+- `--desktop x11` presents shared Wayland/Xwayland scenes with keyboard, pointer,
+  wheel, focus, resize, Expose and close on the existing foreground HostWait.
+  XCB buffered events and compositor command backpressure retain real readiness;
+  no new window/coordinator thread or retry timer is added.
+- Session-local tmpfs IPC and a real devpts instance support original GUI
+  terminals through both direct host roots and managed-store cold reopen.
+  The shared namespace-aware SDK installer now also handles Xwayland executables.
+- Final ARM64 4 KiB nested KVM qualification passes 13 software desktop gates,
+  including 8 host-rootfs transport/worker cells, 2 store lifecycle cells and
+  original Weston Terminal/xterm keyboard commands with continued CLI input.
+  Runtime integration separately passes 77 memory and 48 application cells;
+  their exact source/binary reuse boundary is retained in the evidence.
+- Linux and Apple product checks and 42 shared distro tests per platform pass.
+  Hosted native ARM64/AMD64 presentation CI now includes desktop/input acceptance.
+
+See [usage and boundaries](architecture/desktop.md) and
+[qualification, frozen inputs and offline audit](validation/desktop-20261126.md).
 
 ## Next dependency batch: Linux providers
 

@@ -1,0 +1,19 @@
+{
+  "artifacts": {
+    "/work/data.json": "f85ee2859e7757b5bcf33d720ead3c508e04e0d997845cfab9bf5aebe6569086"
+  },
+  "artifacts_validated": true,
+  "case_inputs": "f499017fd29f8494e5a1eef3e14fdf5b6edf99b0cfede55d16caa6699ba6b013",
+  "domain": "files",
+  "exit_code": 0,
+  "fingerprint": "ead1b83cddc619c51c30c1c4d707b2737b8faef0d656bb7e97343ab5f4f2f4a7",
+  "id": "python.stdlib",
+  "logs": {
+    "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "2895e016028fe1769b69bce6bdfd3760000cfdf657387ba409d6c6b8df4c7d68"
+  },
+  "reused": false,
+  "seconds": 1.0375197200046387,
+  "status": "passed",
+  "tier": "apps"
+}

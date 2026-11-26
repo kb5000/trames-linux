@@ -1,0 +1,476 @@
+{
+  "cases": [
+    {
+      "exit_code": 0,
+      "id": "native-geometry",
+      "seconds": 0.0022659669994027354,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "native-protection",
+      "seconds": 0.0025069859984796494,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "native-holes",
+      "seconds": 0.0022016709990566596,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "native-owners",
+      "seconds": 0.002343307001865469,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "native-file-offsets",
+      "seconds": 0.0024693999948794954,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "native-truncate",
+      "seconds": 0.0024128949953592382,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "native-discard-remap",
+      "seconds": 0.002657955999893602,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "native-cow",
+      "seconds": 0.002223756004241295,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "native-threads",
+      "seconds": 0.008934609999414533,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "native-retire",
+      "seconds": 0.01695943999948213,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "native-exec",
+      "seconds": 0.004681154998252168,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "geometry-smccc-1",
+      "seconds": 0.0333284190055565,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "protection-smccc-1",
+      "seconds": 0.03349255699868081,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "holes-smccc-1",
+      "seconds": 0.033394674996088725,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "owners-smccc-1",
+      "seconds": 0.0676144960016245,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "file-offsets-smccc-1",
+      "seconds": 0.03363377600180684,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "truncate-smccc-1",
+      "seconds": 0.03378370499558514,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "discard-remap-smccc-1",
+      "seconds": 0.03332704400236253,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "cow-smccc-1",
+      "seconds": 0.034066225998685695,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "threads-smccc-1",
+      "seconds": 0.3170170540033723,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "retire-smccc-1",
+      "seconds": 1.372117770006298,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "exec-smccc-1",
+      "seconds": 0.06638656499853823,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "geometry-smccc-2",
+      "seconds": 0.033465678003267385,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "protection-smccc-2",
+      "seconds": 0.03376045099867042,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "holes-smccc-2",
+      "seconds": 0.03318074000708293,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "owners-smccc-2",
+      "seconds": 0.03363344199897256,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "file-offsets-smccc-2",
+      "seconds": 0.03332495899667265,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "truncate-smccc-2",
+      "seconds": 0.03381491400068626,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "discard-remap-smccc-2",
+      "seconds": 0.0336333579980419,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "cow-smccc-2",
+      "seconds": 0.06619771700206911,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "threads-smccc-2",
+      "seconds": 0.41719098000612576,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "retire-smccc-2",
+      "seconds": 1.171976163997897,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "exec-smccc-2",
+      "seconds": 0.0665698689990677,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "geometry-smccc-4",
+      "seconds": 0.03382807999878423,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "protection-smccc-4",
+      "seconds": 0.03412002100230893,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "holes-smccc-4",
+      "seconds": 0.03369186200143304,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "owners-smccc-4",
+      "seconds": 0.033938756001589354,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "file-offsets-smccc-4",
+      "seconds": 0.03429495100135682,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "truncate-smccc-4",
+      "seconds": 0.03400259400223149,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "discard-remap-smccc-4",
+      "seconds": 0.03344188399933046,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "cow-smccc-4",
+      "seconds": 0.033795078001276124,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "threads-smccc-4",
+      "seconds": 0.41948689399578143,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "retire-smccc-4",
+      "seconds": 1.3729789560020436,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "exec-smccc-4",
+      "seconds": 0.06653944800200406,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "geometry-mmio-1",
+      "seconds": 0.034066473999700975,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "protection-mmio-1",
+      "seconds": 0.033661982997728046,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "holes-mmio-1",
+      "seconds": 0.03393967099691508,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "owners-mmio-1",
+      "seconds": 0.03349213700130349,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "file-offsets-mmio-1",
+      "seconds": 0.03371257099934155,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "truncate-mmio-1",
+      "seconds": 0.033780493002268486,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "discard-remap-mmio-1",
+      "seconds": 0.03352443100447999,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "cow-mmio-1",
+      "seconds": 0.033403005996660795,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "threads-mmio-1",
+      "seconds": 0.4172004959982587,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "retire-mmio-1",
+      "seconds": 1.3738723560018116,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "exec-mmio-1",
+      "seconds": 0.06610887100396212,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "geometry-mmio-2",
+      "seconds": 0.03401417699933518,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "protection-mmio-2",
+      "seconds": 0.03334062399517279,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "holes-mmio-2",
+      "seconds": 0.03391262700461084,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "owners-mmio-2",
+      "seconds": 0.03328674600197701,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "file-offsets-mmio-2",
+      "seconds": 0.03364623100060271,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "truncate-mmio-2",
+      "seconds": 0.0336390640004538,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "discard-remap-mmio-2",
+      "seconds": 0.03382699500070885,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "cow-mmio-2",
+      "seconds": 0.06959897500200896,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "threads-mmio-2",
+      "seconds": 0.36984752199350623,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "retire-mmio-2",
+      "seconds": 1.6738118319990463,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "exec-mmio-2",
+      "seconds": 0.06602702900272561,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "geometry-mmio-4",
+      "seconds": 0.03377849100070307,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "protection-mmio-4",
+      "seconds": 0.03362718699645484,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "holes-mmio-4",
+      "seconds": 0.03327461799926823,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "owners-mmio-4",
+      "seconds": 0.03379378299723612,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "file-offsets-mmio-4",
+      "seconds": 0.034008675000222865,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "truncate-mmio-4",
+      "seconds": 0.03315723400010029,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "discard-remap-mmio-4",
+      "seconds": 0.033868746999360155,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "cow-mmio-4",
+      "seconds": 0.03386633100308245,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "threads-mmio-4",
+      "seconds": 0.41727338999771746,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "retire-mmio-4",
+      "seconds": 1.5726110269970377,
+      "status": "passed"
+    },
+    {
+      "exit_code": 0,
+      "id": "exec-mmio-4",
+      "seconds": 0.06660932199883973,
+      "status": "passed"
+    }
+  ],
+  "full_product_4k_qualified": false,
+  "native_only": false,
+  "passed": 77,
+  "planned": 77,
+  "remaining_release_domains": [
+    "same-host KVM plus accelerated GPU",
+    "image/FD/sync imports",
+    "physical PCM and A/V clocks",
+    "hardware video"
+  ]
+}

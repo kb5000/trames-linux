@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "archived_files": 415,
+  "desktop": 13,
+  "memory": 77,
+  "applications": 48,
+  "runtime": "fd1463fea2aa46b691fbdb62e686e00473debf0a",
+  "final_runner_sha256": "930fc229e757ba8231316a90df7f76b572c36de6d1b14c34211490ee07dc7532",
+  "headless_runner_sha256": "93edad3557fc141330b4e2806c58b22d3a8c3a6708bd933ee0b7bd0dc3c6117d",
+  "physical_gpu_qualified": false
+}

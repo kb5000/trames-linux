@@ -1,0 +1,18 @@
+[
+  "/mnt/trames-output/linux-desktop-final/runner",
+  "run",
+  "--rootfs",
+  "/mnt/trames-output/linux-desktop-final/rootfs",
+  "--desktop",
+  "x11",
+  "--xwayland-launcher",
+  "/mnt/trames-output/linux-desktop-final/launcher",
+  "--cpus",
+  "4",
+  "--timeout-ms",
+  "60000",
+  "--",
+  "/bin/sh",
+  "-ec",
+  "rm -f /tmp/gui-result; weston-terminal --shell=/bin/sh & pid=$!; while [ ! -f /tmp/gui-result ]; do sleep .05; done; cat /tmp/gui-result; kill \"$pid\"; wait \"$pid\" || :; echo cli-survived; read reply; [ \"$reply\" = resume ]"
+]
