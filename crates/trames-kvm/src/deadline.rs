@@ -23,7 +23,13 @@ thread_local! {
     static ACTIVE: Cell<Option<Active>> = const { Cell::new(None) };
 }
 static NEXT: AtomicUsize = AtomicUsize::new(1);
-static SIGNAL: OnceLock<std::result::Result<i32, String>> = OnceLock::new();
+static TIMER_SIGNAL: OnceLock<std::result::Result<i32, String>> = OnceLock::new();
+static KICK_SIGNAL: OnceLock<std::result::Result<i32, String>> = OnceLock::new();
+#[derive(Clone, Copy)]
+enum SignalKind {
+    Timer,
+    Kick,
+}
 
 unsafe extern "C" fn handler(_: i32, info: *mut libc::siginfo_t, _: *mut libc::c_void) {
     if info.is_null() {
@@ -67,33 +73,37 @@ unsafe extern "C" fn handler(_: i32, info: *mut libc::siginfo_t, _: *mut libc::c
         unsafe { active.pointer.write_volatile(1) };
     });
 }
-fn reserved_signal() -> Result<i32> {
-    SIGNAL
-        .get_or_init(|| {
-            let signal = libc::SIGRTMIN() + 4;
-            let mut old: libc::sigaction = unsafe { std::mem::zeroed() };
-            if unsafe { libc::sigaction(signal, ptr::null(), &mut old) } != 0 {
-                return Err(std::io::Error::last_os_error().to_string());
-            }
-            if old.sa_sigaction != libc::SIG_DFL {
-                return Err(format!(
-                    "reserved deadline signal {signal} already has an owner"
-                ));
-            }
-            let mut action: libc::sigaction = unsafe { std::mem::zeroed() };
-            // An assignment budget can expire during a short host syscall. Restart
-            // restartable host I/O instead of leaking our private tick as EINTR.
-            // KVM immediate_exit and nonrestartable waits still return promptly.
-            action.sa_flags = libc::SA_SIGINFO | libc::SA_RESTART;
-            action.sa_sigaction = handler as *const () as usize;
-            unsafe { libc::sigemptyset(&mut action.sa_mask) };
-            if unsafe { libc::sigaction(signal, &action, ptr::null_mut()) } != 0 {
-                return Err(std::io::Error::last_os_error().to_string());
-            }
-            Ok(signal)
-        })
-        .clone()
-        .map_err(|e| Error::context("install KVM deadline signal", e))
+fn reserved_signal(kind: SignalKind) -> Result<i32> {
+    let (slot, offset, restart) = match kind {
+        SignalKind::Timer => (&TIMER_SIGNAL, 4, libc::SA_RESTART),
+        SignalKind::Kick => (&KICK_SIGNAL, 5, 0),
+    };
+    slot.get_or_init(|| {
+        let signal = libc::SIGRTMIN() + offset;
+        let mut old: libc::sigaction = unsafe { std::mem::zeroed() };
+        if unsafe { libc::sigaction(signal, ptr::null(), &mut old) } != 0 {
+            return Err(std::io::Error::last_os_error().to_string());
+        }
+        if old.sa_sigaction != libc::SIG_DFL {
+            return Err(format!(
+                "reserved deadline signal {signal} already has an owner"
+            ));
+        }
+        let mut action: libc::sigaction = unsafe { std::mem::zeroed() };
+        // An assignment budget can expire during a short host syscall. Restart
+        // restartable host I/O instead of leaking our private tick as EINTR.
+        // Explicit kicks use a different signal without SA_RESTART, so a
+        // real cancellation retains its original host-I/O interrupt behavior.
+        action.sa_flags = libc::SA_SIGINFO | restart;
+        action.sa_sigaction = handler as *const () as usize;
+        unsafe { libc::sigemptyset(&mut action.sa_mask) };
+        if unsafe { libc::sigaction(signal, &action, ptr::null_mut()) } != 0 {
+            return Err(std::io::Error::last_os_error().to_string());
+        }
+        Ok(signal)
+    })
+    .clone()
+    .map_err(|e| Error::context("install KVM deadline signal", e))
 }
 
 /// Creator-thread resource, retained for the vCPU lifetime. Identity allocation
@@ -101,12 +111,14 @@ fn reserved_signal() -> Result<i32> {
 pub(crate) struct Timer {
     timer: libc::timer_t,
     signal: i32,
+    kick_signal: i32,
     token: usize,
     _thread_affine: PhantomData<Rc<()>>,
 }
 impl Timer {
     pub(crate) fn new() -> Result<Self> {
-        let signal = reserved_signal()?;
+        let signal = reserved_signal(SignalKind::Timer)?;
+        let kick_signal = reserved_signal(SignalKind::Kick)?;
         let token = NEXT.fetch_add(1, Ordering::Relaxed);
         let mut event: libc::sigevent = unsafe { std::mem::zeroed() };
         event.sigev_notify = libc::SIGEV_THREAD_ID;
@@ -123,6 +135,7 @@ impl Timer {
         Ok(Self {
             timer,
             signal,
+            kick_signal,
             token,
             _thread_affine: PhantomData,
         })
@@ -144,6 +157,7 @@ impl Timer {
         unsafe {
             libc::sigemptyset(&mut mask);
             libc::sigaddset(&mut mask, self.signal);
+            libc::sigaddset(&mut mask, self.kick_signal);
         }
         let error = unsafe { libc::pthread_sigmask(libc::SIG_BLOCK, &mask, &mut old_mask) };
         if error != 0 {
@@ -155,6 +169,7 @@ impl Timer {
         let guard = Deadline {
             timer: self.timer,
             signal: self.signal,
+            kick_signal: self.kick_signal,
             old_mask,
             _thread_affine: PhantomData,
         };
@@ -183,7 +198,10 @@ impl Timer {
             ));
         }
         let mut running_mask = guard.old_mask;
-        unsafe { libc::sigdelset(&mut running_mask, self.signal) };
+        unsafe {
+            libc::sigdelset(&mut running_mask, self.signal);
+            libc::sigdelset(&mut running_mask, self.kick_signal);
+        }
         let error =
             unsafe { libc::pthread_sigmask(libc::SIG_SETMASK, &running_mask, ptr::null_mut()) };
         if error != 0 {
@@ -205,6 +223,7 @@ impl Drop for Timer {
 pub(crate) struct Deadline {
     timer: libc::timer_t,
     signal: i32,
+    kick_signal: i32,
     old_mask: libc::sigset_t,
     _thread_affine: PhantomData<Rc<()>>,
 }
@@ -218,6 +237,7 @@ impl Drop for Deadline {
             let mut mask: libc::sigset_t = std::mem::zeroed();
             libc::sigemptyset(&mut mask);
             libc::sigaddset(&mut mask, self.signal);
+            libc::sigaddset(&mut mask, self.kick_signal);
             libc::pthread_sigmask(libc::SIG_BLOCK, &mask, ptr::null_mut());
             let zero: libc::itimerspec = std::mem::zeroed();
             libc::timer_settime(self.timer, 0, &zero, ptr::null_mut());
@@ -246,7 +266,7 @@ impl Interrupt {
         Ok(std::sync::Arc::new(Self {
             owner: std::sync::Mutex::new(Some(unsafe { libc::pthread_self() })),
             requested: std::sync::atomic::AtomicBool::new(false),
-            signal: reserved_signal()?,
+            signal: reserved_signal(SignalKind::Kick)?,
         }))
     }
     pub fn take_request(&self) -> bool {
@@ -329,6 +349,60 @@ mod tests {
         writer.join().unwrap();
     }
     #[test]
+    fn explicit_kick_interrupts_host_pipe_io() {
+        let timer = Timer::new().unwrap();
+        let mut byte = 0u8;
+        let pointer = &raw mut byte;
+        let mut fds = [-1; 2];
+        assert_eq!(unsafe { libc::pipe(fds.as_mut_ptr()) }, 0);
+        let owner = unsafe { libc::pthread_self() };
+        let signal = timer.kick_signal;
+        let sender = std::thread::spawn(move || {
+            std::thread::sleep(Duration::from_millis(10));
+            assert_eq!(unsafe { libc::pthread_kill(owner, signal) }, 0);
+            std::thread::sleep(Duration::from_millis(20));
+            assert_eq!(unsafe { libc::write(fds[1], b"x".as_ptr().cast(), 1) }, 1);
+            assert_eq!(unsafe { libc::close(fds[1]) }, 0);
+        });
+        let guard = unsafe { timer.arm(pointer, Duration::from_secs(60)) }.unwrap();
+        let mut value = 0u8;
+        assert_eq!(
+            unsafe { libc::read(fds[0], (&raw mut value).cast(), 1) },
+            -1
+        );
+        assert_eq!(
+            std::io::Error::last_os_error().raw_os_error(),
+            Some(libc::EINTR)
+        );
+        assert_eq!(unsafe { pointer.read_volatile() }, 1);
+        sender.join().unwrap();
+        assert_eq!(unsafe { libc::close(fds[0]) }, 0);
+        drop(guard);
+    }
+    #[test]
+    fn assignment_restores_both_original_signal_masks() {
+        let timer = Timer::new().unwrap();
+        let _timer_mask = block(timer.signal);
+        let _kick_mask = block(timer.kick_signal);
+        let current = || unsafe {
+            let mut mask: libc::sigset_t = std::mem::zeroed();
+            assert_eq!(
+                libc::pthread_sigmask(libc::SIG_BLOCK, ptr::null(), &mut mask),
+                0
+            );
+            (
+                libc::sigismember(&mask, timer.signal),
+                libc::sigismember(&mask, timer.kick_signal),
+            )
+        };
+        assert_eq!(current(), (1, 1));
+        let mut byte = 0u8;
+        let guard = unsafe { timer.arm(&raw mut byte, Duration::from_secs(60)) }.unwrap();
+        assert_eq!(current(), (0, 0));
+        drop(guard);
+        assert_eq!(current(), (1, 1));
+    }
+    #[test]
     fn queued_expiry_cannot_cancel_a_fresh_arm_of_the_same_timer() {
         let timer = Timer::new().unwrap();
         let _mask = block(timer.signal);
@@ -392,7 +466,7 @@ mod tests {
         let pointer = &raw mut byte;
         let _guard = unsafe { timer.arm(pointer, Duration::from_secs(60)) }.unwrap();
         assert_eq!(
-            unsafe { libc::pthread_kill(libc::pthread_self(), timer.signal) },
+            unsafe { libc::pthread_kill(libc::pthread_self(), timer.kick_signal) },
             0
         );
         assert_eq!(unsafe { pointer.read_volatile() }, 1);
@@ -440,7 +514,7 @@ mod tests {
         unsafe { handler(timer.signal, &mut info, ptr::null_mut()) };
         assert_eq!(unsafe { pointer.read_volatile() }, 0);
         assert_eq!(
-            unsafe { libc::pthread_kill(libc::pthread_self(), timer.signal) },
+            unsafe { libc::pthread_kill(libc::pthread_self(), timer.kick_signal) },
             0
         );
         assert_eq!(unsafe { pointer.read_volatile() }, 1);
@@ -455,7 +529,7 @@ mod tests {
         let guard = unsafe { timer.arm(original, Duration::from_secs(60)) }.unwrap();
         assert!(unsafe { timer.arm(rejected, Duration::from_secs(60)) }.is_err());
         assert_eq!(
-            unsafe { libc::pthread_kill(libc::pthread_self(), timer.signal) },
+            unsafe { libc::pthread_kill(libc::pthread_self(), timer.kick_signal) },
             0
         );
         assert_eq!(unsafe { original.read_volatile() }, 1);
@@ -463,7 +537,7 @@ mod tests {
         drop(guard);
         let _guard = unsafe { timer.arm(rejected, Duration::from_secs(60)) }.unwrap();
         assert_eq!(
-            unsafe { libc::pthread_kill(libc::pthread_self(), timer.signal) },
+            unsafe { libc::pthread_kill(libc::pthread_self(), timer.kick_signal) },
             0
         );
         assert_eq!(unsafe { rejected.read_volatile() }, 1);
