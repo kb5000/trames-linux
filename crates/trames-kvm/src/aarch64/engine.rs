@@ -617,21 +617,30 @@ impl Executor {
             // stopped worker can use its tables; TLBI precedes the next EL0 entry.
             for va in changed {
                 self.tables.pte(&self.vm, va, 0)?;
-                let old = self.pages.remove(&va).expect("retired page");
-                self.writes.track(old.write.as_ref(), None);
+                self.pages.remove(&va);
                 self.invalidate |= 1;
             }
             // Frozen snapshot indices may change even when a physical binding
             // survives. Refresh membership at the original mapping boundary.
-            self.writes = Writes::default();
-            for (&va, page) in &mut self.pages {
-                page.write = page
-                    .info
-                    .writable
-                    .then(|| memory.hardware_write_frame(va))
-                    .transpose()?;
-                self.writes.track(None, page.write.as_ref());
+            // Prepare all fallible tokens before replacing membership. An
+            // admission failure leaves retry/retirement bookkeeping coherent.
+            let bindings = self
+                .pages
+                .iter()
+                .map(|(&va, page)| {
+                    page.info
+                        .writable
+                        .then(|| memory.hardware_write_frame(va))
+                        .transpose()
+                        .map(|write| (va, write))
+                })
+                .collect::<std::result::Result<Vec<_>, MemoryError>>()?;
+            let mut writes = Writes::default();
+            for (va, write) in bindings {
+                writes.track(None, write.as_ref());
+                self.pages.get_mut(&va).expect("retained page").write = write;
             }
+            self.writes = writes;
         }
         if self.version != Some(version) {
             // A joined epoch clears publication. Conservatively mark its live
