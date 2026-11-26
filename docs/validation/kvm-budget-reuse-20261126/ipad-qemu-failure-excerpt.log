@@ -1,0 +1,167 @@
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	﻿2026-11-26T04:48:43.1729771Z ##[group]Run cargo test -p trames-compute -p trames-native -p trames-cpu -p trames-memory -p trames-accel -p trames-vfs -p trames-core --target aarch64-unknown-linux-musl --locked
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:48:43.1730646Z ^[[36;1mcargo test -p trames-compute -p trames-native -p trames-cpu -p trames-memory -p trames-accel -p trames-vfs -p trames-core --target aarch64-unknown-linux-musl --locked^[[0m
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:48:43.1731268Z ^[[36;1mcargo build -p trames-cli --target aarch64-unknown-linux-musl --release --locked^[[0m
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:48:43.1763679Z shell: /usr/bin/python3 scripts/runtime-ci-reuse.py {0}
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:48:43.1763951Z env:
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:48:43.1764233Z   CARGO_TARGET_AARCH64_UNKNOWN_LINUX_MUSL_LINKER: aarch64-linux-gnu-gcc
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:48:43.1764570Z   CARGO_TARGET_AARCH64_UNKNOWN_LINUX_MUSL_RUNNER: qemu-aarch64 -cpu max
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:48:43.1765060Z   TRAMES_RUNNER: /home/runner/work/trames-ipad/trames-ipad/tests/differential/arm-runner.sh
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:48:43.1765403Z   CARGO_HOME: /home/runner/.cargo
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:48:43.1765643Z   CARGO_INCREMENTAL: 0
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:48:43.1765817Z   CARGO_TERM_COLOR: always
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:48:43.1765990Z ##[endgroup]
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3193100Z assertion `left == right` failed
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3193180Z   left: [0, 0, 0, 0]
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3193245Z  right: [42, 0, 0, 0]
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3193420Z note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3193425Z 
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3193667Z ---- process::dormant_tests::caught_and_fatal_signals_reach_cold_futex_tasks_without_owner_adoption stdout ----
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3193671Z 
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3194122Z thread 'process::dormant_tests::caught_and_fatal_signals_reach_cold_futex_tasks_without_owner_adoption' (22768) panicked at crates/trames-core/../../runtime/crates/trames-session/src/process_dormant_tests.rs:287:13:
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3194386Z assertion `left == right` failed
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3194462Z   left: [0, 0, 0, 0]
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3194523Z  right: [2, 0, 0, 0]
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3194526Z 
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3194752Z ---- process::dispatch_tests::final_dispatch_family_and_canonical_errors_complete_on_source stdout ----
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3194914Z final-dispatch CPUs=4 slots=4 filter=false cohorts=1 returned={} scopes=0
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3194918Z 
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3195345Z thread 'process::dispatch_tests::final_dispatch_family_and_canonical_errors_complete_on_source' (22765) panicked at crates/trames-core/../../runtime/crates/trames-session/src/process_dispatch_tests.rs:140:13:
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3195436Z assertion `left == right` failed: pid 1
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3195509Z   left: [0, 0, 0, 0]
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3195570Z  right: [1, 0, 0, 0]
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3195573Z 
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3195821Z ---- process::dormant_tests::cross_mm_shared_futex_wake_admits_the_original_dormant_task_without_joining_peers stdout ----
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3196012Z dormant CPUs=4 slots=4 root_x0=12288 root_x19=1 marker=[0, 0, 0, 0] cohorts=1 scopes=1 returned={}
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3196017Z 
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3196466Z thread 'process::dormant_tests::cross_mm_shared_futex_wake_admits_the_original_dormant_task_without_joining_peers' (22774) panicked at crates/trames-core/../../runtime/crates/trames-session/src/process_dormant_tests.rs:111:9:
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3196684Z assertion `left == right` failed: the original cold mm must continue before this cohort drains
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3196755Z   left: [0, 0, 0, 0]
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3196817Z  right: [1, 0, 0, 0]
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3196820Z 
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3197049Z ---- process::file_advice_tests::guest_file_cache_advice_and_live_fd_replacement_complete_on_source stdout ----
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3197193Z file-advice CPUs=4 slots=4 filter=false cohorts=1 returned={} scopes=0
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3197197Z 
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3197641Z thread 'process::file_advice_tests::guest_file_cache_advice_and_live_fd_replacement_complete_on_source' (22881) panicked at crates/trames-core/../../runtime/crates/trames-session/src/process_file_advice_tests.rs:118:13:
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3197761Z assertion `left == right` failed: pid 1
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3197857Z   left: [0, 0, 0, 0]
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3197915Z  right: [1, 0, 0, 0]
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3197918Z 
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3198129Z ---- process::ioctl_tests::binder_call_reply_parks_original_workers_with_one_or_many_cpu_slots stdout ----
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3198133Z 
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3198549Z thread 'process::ioctl_tests::binder_call_reply_parks_original_workers_with_one_or_many_cpu_slots' (22967) panicked at crates/trames-core/../../runtime/crates/trames-session/src/process_ioctl_tests.rs:171:9:
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3198629Z assertion `left == right` failed
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3198686Z   left: [0, 0, 0, 0]
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3198752Z  right: [1, 0, 0, 0]
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3198756Z 
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3198979Z ---- process::ioctl_tests::descriptor_ioctl_family_finishes_on_source_workers_without_joined_dispatch stdout ----
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3199149Z ioctl CPUs=4 slots=4 filtered=false marker=[0, 0, 0, 0] cohorts=1 scopes=0 returned={}
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3199156Z 
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3199597Z thread 'process::ioctl_tests::descriptor_ioctl_family_finishes_on_source_workers_without_joined_dispatch' (22972) panicked at crates/trames-core/../../runtime/crates/trames-session/src/process_ioctl_tests.rs:280:9:
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3199682Z assertion `left == right` failed
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3199740Z   left: [0, 0, 0, 0]
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3199810Z  right: [1, 0, 0, 0]
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3199813Z 
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3200039Z ---- process::lock_tests::posix_ofd_and_directory_flock_contention_completes_on_original_source_workers stdout ----
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3200165Z file-lock CPUs=4 slots=4 filter=false cohorts=1 returned={}
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3200170Z 
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3200616Z thread 'process::lock_tests::posix_ofd_and_directory_flock_contention_completes_on_original_source_workers' (23143) panicked at crates/trames-core/../../runtime/crates/trames-session/src/process_lock_tests.rs:67:9:
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3200716Z assertion `left == right` failed
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3200778Z   left: [0, 0, 0, 0]
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3200842Z  right: [1, 0, 0, 0]
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3200845Z 
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3201071Z ---- process::lock_tests::posix_deadlock_graph_spans_original_workers_and_releases_the_surviving_waiter stdout ----
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3201190Z file-lock CPUs=4 slots=4 filter=false cohorts=1 returned={}
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3201193Z 
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3201763Z thread 'process::lock_tests::posix_deadlock_graph_spans_original_workers_and_releases_the_surviving_waiter' (23140) panicked at crates/trames-core/../../runtime/crates/trames-session/src/process_lock_tests.rs:67:9:
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3201852Z assertion `left == right` failed
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3201911Z   left: [0, 0, 0, 0]
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3201984Z  right: [1, 0, 0, 0]
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3201989Z 
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3202242Z ---- process::published_proc_tests::published_global_metadata_and_registered_uring_complete_in_the_original_cohort stdout ----
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3202407Z published CPUs=4 slots=4 filtered=false marker=[0, 0, 0, 0] cohorts=1 returned={}
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3202444Z 
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3202937Z thread 'process::published_proc_tests::published_global_metadata_and_registered_uring_complete_in_the_original_cohort' (23644) panicked at crates/trames-core/../../runtime/crates/trames-session/src/process_published_proc_tests.rs:114:9:
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3203017Z assertion `left == right` failed
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3203075Z   left: [0, 0, 0, 0]
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3203142Z  right: [1, 0, 0, 0]
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3203145Z 
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3203417Z ---- process::lifecycle::dispatch_calls::tests::cold_original_memory_matches_canonical_terminal_results_across_the_full_abi stdout ----
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3203429Z 
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3203944Z thread 'process::lifecycle::dispatch_calls::tests::cold_original_memory_matches_canonical_terminal_results_across_the_full_abi' (23001) panicked at crates/trames-core/../../runtime/crates/trames-session/src/process_lifecycle_dispatch.rs:762:17:
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3204105Z assertion `left == right` failed: syscall=153 args=[0, 0, 0, 0, 0, 0]
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3204174Z   left: 2
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3204233Z  right: 1
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3204237Z 
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3204479Z ---- process::source_fault_tests::caught_cpu_and_rejected_native_faults_restore_the_original_frame_on_source stdout ----
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3204678Z source-fault CPUs=4 slots=4 filter=false alt=false kind=0 cohorts=1 marker=[0, 0, 0, 0] returned={}
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3204682Z 
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3205142Z thread 'process::source_fault_tests::caught_cpu_and_rejected_native_faults_restore_the_original_frame_on_source' (24795) panicked at crates/trames-core/../../runtime/crates/trames-session/src/process_source_fault_tests.rs:130:17:
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3205226Z assertion `left == right` failed
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3205298Z   left: [0, 0, 0, 0]
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3205355Z  right: [1, 0, 0, 0]
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3205359Z 
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3205607Z ---- process::source_fault_tests::signal_frame_failures_and_bad_sigreturn_finish_on_source_without_stopping_peer stdout ----
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3205614Z 
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3206138Z thread 'process::source_fault_tests::signal_frame_failures_and_bad_sigreturn_finish_on_source_without_stopping_peer' (24798) panicked at crates/trames-core/../../runtime/crates/trames-session/src/process_source_fault_tests.rs:233:13:
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3206211Z assertion `left == right` failed
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3206280Z   left: None
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3206350Z  right: Some(11)
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3206353Z 
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3206558Z ---- process::tests::continuous_peers_cancel_at_control_checkpoints_and_commit_the_exact_budget stdout ----
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3206562Z 
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3206966Z thread 'process::tests::continuous_peers_cancel_at_control_checkpoints_and_commit_the_exact_budget' (24883) panicked at crates/trames-core/../../runtime/crates/trames-session/src/process.rs:8471:9:
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3207077Z assertion failed: k.instructions > 0
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3207084Z 
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3207292Z ---- process::tests::one_runnable_actor_admits_an_original_record_wait_and_releases_it_on_source stdout ----
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3207297Z 
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3207698Z thread 'process::tests::one_runnable_actor_admits_an_original_record_wait_and_releases_it_on_source' (24929) panicked at crates/trames-core/../../runtime/crates/trames-session/src/process.rs:6926:13:
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3207778Z assertion `left == right` failed
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3207837Z   left: [0, 0, 0, 0]
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3207908Z  right: [1, 0, 0, 0]
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3207911Z 
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3208132Z ---- process::time_tests::time_observations_complete_on_source_with_faults_nulls_overlap_and_filter stdout ----
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3208274Z time CPUs=4 slots=4 filtered=false marker=[0, 0, 0, 0] cohorts=1 returned={}
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3208280Z 
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3208708Z thread 'process::time_tests::time_observations_complete_on_source_with_faults_nulls_overlap_and_filter' (25000) panicked at crates/trames-core/../../runtime/crates/trames-session/src/process_time_tests.rs:92:9:
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3208813Z assertion `left == right` failed
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3208872Z   left: [0, 0, 0, 0]
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3208939Z  right: [1, 0, 0, 0]
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3208942Z 
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3209217Z ---- process::uring_original_tests::original_uring_body_keeps_accepted_resources_without_a_join_in_blocking_and_async_enter stdout ----
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3209396Z original-uring CPUs=4 slots=4 filtered=false flags=0 marker=[0, 0, 0, 0] cohorts=1 returned={}
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3209400Z 
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3209912Z thread 'process::uring_original_tests::original_uring_body_keeps_accepted_resources_without_a_join_in_blocking_and_async_enter' (25023) panicked at crates/trames-core/../../runtime/crates/trames-session/src/process_uring_original_tests.rs:280:13:
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3210008Z assertion `left == right` failed
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3210067Z   left: [0, 0, 0, 0]
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3210152Z  right: [1, 0, 0, 0]
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3210156Z 
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3210381Z ---- process::vm::tests::vm_commit_quiesces_shared_backings_but_keeps_an_unrelated_vm_running stdout ----
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3210385Z 
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3210775Z thread 'process::vm::tests::vm_commit_quiesces_shared_backings_but_keeps_an_unrelated_vm_running' (25181) panicked at crates/trames-core/../../runtime/crates/trames-session/src/process_vm.rs:974:9:
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3210876Z an unrelated VM stopped during the mapping commit
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3210881Z 
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3210883Z 
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3210951Z failures:
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3211152Z     process::completion_tests::explicit_host_cancel_finishes_on_source_without_a_stopped_host_hook
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3211326Z     process::dispatch_tests::final_dispatch_family_and_canonical_errors_complete_on_source
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3211726Z     process::dormant_tests::caught_and_fatal_signals_reach_cold_futex_tasks_without_owner_adoption
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3211957Z     process::dormant_tests::cross_mm_shared_futex_wake_admits_the_original_dormant_task_without_joining_peers
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3212135Z     process::file_advice_tests::guest_file_cache_advice_and_live_fd_replacement_complete_on_source
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3212314Z     process::ioctl_tests::binder_call_reply_parks_original_workers_with_one_or_many_cpu_slots
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3212508Z     process::ioctl_tests::descriptor_ioctl_family_finishes_on_source_workers_without_joined_dispatch
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3212744Z     process::lifecycle::dispatch_calls::tests::cold_original_memory_matches_canonical_terminal_results_across_the_full_abi
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3212941Z     process::lock_tests::posix_deadlock_graph_spans_original_workers_and_releases_the_surviving_waiter
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3213169Z     process::lock_tests::posix_ofd_and_directory_flock_contention_completes_on_original_source_workers
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3213446Z     process::published_proc_tests::published_global_metadata_and_registered_uring_complete_in_the_original_cohort
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3213700Z     process::source_fault_tests::caught_cpu_and_rejected_native_faults_restore_the_original_frame_on_source
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3213979Z     process::source_fault_tests::signal_frame_failures_and_bad_sigreturn_finish_on_source_without_stopping_peer
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3214212Z     process::tests::continuous_peers_cancel_at_control_checkpoints_and_commit_the_exact_budget
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3214440Z     process::tests::one_runnable_actor_admits_an_original_record_wait_and_releases_it_on_source
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3214685Z     process::time_tests::time_observations_complete_on_source_with_faults_nulls_overlap_and_filter
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3215009Z     process::uring_original_tests::original_uring_body_keeps_accepted_resources_without_a_join_in_blocking_and_async_enter
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3215225Z     process::vm::tests::vm_commit_quiesces_shared_backings_but_keeps_an_unrelated_vm_running
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3215237Z 
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3215519Z test result: FAILED. 524 passed; 18 failed; 3 ignored; 0 measured; 0 filtered out; finished in 348.33s
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3215524Z 
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3496228Z ^[[1m^[[91merror^[[0m: test failed, to rerun pass `-p trames-core --test kernel-conformance`
+runtime	Execute ARM64 compute, memory and native worker tests under the independent oracle	2026-11-26T04:57:24.3687968Z ##[error]Process completed with exit code 101.

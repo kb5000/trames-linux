@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "baseline": "f52564f980620807d2baf76f25e6b218ce52d746",
+  "candidate": "5e57bb19b64702ea8bc9861085977945780866c1",
+  "cohort_runtime": "c34ad9e8fc5bbd247a253b1b1e734e5ef921ff91",
+  "cli": "8dd30e46dffdaf4fd9c412591edb557748e8d737",
+  "final_runtime": "c8ac3f9fc67856c55f9d25915fed19397e496ced",
+  "android_changed_files": [
+    "crates/trames-distro/src/android.rs"
+  ],
+  "android_production_prefix_sha256": "6196add4c0b64d2a78181c70cad9a80b69f7083703fdcdf59c5b10f1cf729fbe",
+  "apple": {
+    "mac": "3a4fb92",
+    "mac_final": "d536c85",
+    "ipad": "686cf0b7",
+    "ipad_final": "040b2506"
+  },
+  "qualified_sources": {
+    "kvm-engine.rs": {
+      "path": "crates/trames-kvm/src/aarch64/engine.rs",
+      "sha256": "d3c1d01d83e1158ca88f6351a6eae6a7572326f830028babdeadbf8ca2072a30"
+    },
+    "deadline.rs": {
+      "path": "crates/trames-kvm/src/deadline.rs",
+      "sha256": "f1bf9ae174de08f7b9e82422ea012ac4a5818ce51a615153b6ce95fe0801a8b6"
+    },
+    "kernel.rs": {
+      "path": "crates/trames-kvm/src/kernel.rs",
+      "sha256": "ec054755c7f13b8a3014222169f20efbcf0b83285b3befb91a6881adf31f72f7"
+    },
+    "cli.c": {
+      "path": "tests/fixtures/cli.c",
+      "sha256": "78019f0b4559d0e6f0931193cc12d81b51f31f730ce9f54cc39876c4b3b767bc"
+    },
+    "validate-cli.py": {
+      "path": "scripts/validate-cli.py",
+      "sha256": "12e318e39733460aa1436bd0c37429cb8e8955122e74d5e7166024920b9a88f2"
+    },
+    "performance.c": {
+      "path": "tests/fixtures/performance.c",
+      "sha256": "7eb841b7569694f5149d5cc1130efbbf1c39f60f7163bd6d5725058098ce0b7d"
+    },
+    "performance-node.js": {
+      "path": "tests/fixtures/performance-node.js",
+      "sha256": "f4403c7c87b7038361f2307b90c91308cf5bce45882f0292ca5ed106663d6181"
+    },
+    "memory-4k.c": {
+      "path": "tests/fixtures/memory-4k.c",
+      "sha256": "ad428421faf1fbbe1313d0ac3c13a372ca977fc7306d0fd7f3362410e6a0c382"
+    },
+    "validate-memory.py": {
+      "path": "tests/acceptance/validate-memory.py",
+      "sha256": "c8717f810f13d1f4b8382a45dc2b600b0ba09a37a7bf337d940197ea1f62c7f7"
+    },
+    "cpu-extensions.c": {
+      "path": "tests/fixtures/cpu-extensions.c",
+      "sha256": "837fbc74497d7325108b36accab11f84979a4e3151c5543119d9715593a6c1f1"
+    },
+    "validate-cpu.py": {
+      "path": "scripts/validate-cpu.py",
+      "sha256": "0c9293b3ac6007eebaf39de003e0b56b2ca6d62aed4a3aae12d57ef78573544a"
+    },
+    "validate-clock.py": {
+      "path": "scripts/validate-clock.py",
+      "sha256": "fa38ee12d9df90584aa3af40ebf36295b6340338cffd1f473573fd05cc503e9a"
+    }
+  }
+}

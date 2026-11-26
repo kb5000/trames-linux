@@ -1,0 +1,336 @@
+warning: unused field `repository` in `workspace.package`
+  --> Cargo.toml:32:1
+   |
+32 | repository = "https://github.com/project-trames/trames-runtime"
+   | ^^^^^^^^^^
+   |
+   = note: `cargo::unused_workspace_package_fields` is set to `warn` by default
+help: consider removing the field `workspace.package.repository`
+warning: workspace (manifest) generated 1 warning
+   Compiling cfg-if v1.0.5
+   Compiling bitflags v2.13.2
+   Compiling unicode-ident v1.0.26
+   Compiling scopeguard v1.2.0
+   Compiling smallvec v1.16.3
+   Compiling libc v0.2.190
+   Compiling memchr v2.8.3
+   Compiling typenum v1.20.1
+   Compiling serde_core v1.0.229
+   Compiling wayland-backend v0.3.17 (/private/tmp/trames-budget-android-runtime/vendor/wayland-backend)
+   Compiling once_cell v1.21.4
+   Compiling zerocopy v0.8.63
+   Compiling getrandom v0.2.17
+   Compiling lock_api v0.4.14
+   Compiling proc-macro2 v1.0.107
+   Compiling itoa v1.0.18
+   Compiling wayland-sys v0.31.11
+   Compiling const-random-macro v0.1.16
+   Compiling downcast-rs v1.2.1
+   Compiling simdutf8 v0.1.5
+   Compiling byteorder v1.5.0
+   Compiling trames-graphics v1.3.0 (/private/tmp/trames-budget-android-runtime/crates/trames-graphics)
+   Compiling smoltcp v0.12.0 (/private/tmp/trames-budget-android-runtime/vendor/smoltcp)
+   Compiling quote v1.0.47
+   Compiling quick-xml v0.41.0
+   Compiling hash32 v0.3.1
+   Compiling const-random v0.1.18
+   Compiling encoding_rs v0.8.42
+   Compiling stable_deref_trait v1.2.1
+   Compiling syn v3.0.7
+   Compiling x11rb-protocol v0.13.2
+   Compiling heapless v0.8.0
+   Compiling errno v0.3.14
+   Compiling rustix v1.1.5
+   Compiling generic-array v0.14.7
+   Compiling parking_lot_core v0.9.12
+   Compiling parking_lot v0.12.5
+   Compiling wayland-scanner v0.31.11
+   Compiling cpufeatures v0.2.17
+   Compiling nix v0.31.3
+   Compiling block-buffer v0.10.4
+   Compiling crypto-common v0.1.7
+   Compiling digest v0.10.7
+   Compiling xim-ctext v0.4.1
+   Compiling syn v2.0.119
+   Compiling xim-parser v0.2.2
+   Compiling trames-net v1.3.0 (/private/tmp/trames-budget-android-runtime/crates/trames-net)
+   Compiling adler2 v2.0.1
+   Compiling managed v0.8.0
+   Compiling hashbrown v0.16.1
+   Compiling bitflags v1.3.2
+   Compiling simd-adler32 v0.3.10
+   Compiling log v0.4.34
+   Compiling miniz_oxide v0.9.1
+   Compiling serde_derive v1.0.229
+   Compiling trames-shared v1.3.0 (/private/tmp/trames-budget-android-runtime/crates/trames-shared)
+   Compiling gethostname v1.1.0
+   Compiling sha2 v0.10.9
+   Compiling serde_json v1.0.151
+warning: unused variable: `source_hardware_addr`
+  --> vendor/smoltcp/src/iface/interface/ipv4.rs:89:9
+   |
+89 |         source_hardware_addr: HardwareAddress,
+   |         ^^^^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_source_hardware_addr`
+   |
+   = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: variable does not need to be mutable
+   --> vendor/smoltcp/src/iface/interface/ipv4.rs:480:35
+    |
+480 |         tx_token.consume(tx_len, |mut tx_buffer| {
+    |                                   ----^^^^^^^^^
+    |                                   |
+    |                                   help: remove this `mut`
+    |
+    = note: `#[warn(unused_mut)]` (part of `#[warn(unused)]`) on by default
+
+warning: variable does not need to be mutable
+   --> vendor/smoltcp/src/iface/interface/ipv4.rs:457:13
+    |
+457 |         let mut tx_len = ip_len;
+    |             ----^^^^^^
+    |             |
+    |             help: remove this `mut`
+
+warning: unused variable: `source_hardware_addr`
+   --> vendor/smoltcp/src/iface/interface/ipv6.rs:191:9
+    |
+191 |         source_hardware_addr: HardwareAddress,
+    |         ^^^^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_source_hardware_addr`
+
+   Compiling trames-memory v1.3.0 (/private/tmp/trames-budget-android-runtime/crates/trames-memory)
+warning: variable does not need to be mutable
+    --> vendor/smoltcp/src/iface/interface/mod.rs:1448:51
+     |
+1448 |                         tx_token.consume(tx_len, |mut tx_buffer| {
+     |                                                   ----^^^^^^^^^
+     |                                                   |
+     |                                                   help: remove this `mut`
+
+warning: variable does not need to be mutable
+    --> vendor/smoltcp/src/iface/interface/mod.rs:1473:50
+     |
+1473 |                     tx_token.consume(total_len, |mut tx_buffer| {
+     |                                                  ----^^^^^^^^^
+     |                                                  |
+     |                                                  help: remove this `mut`
+
+warning: variable does not need to be mutable
+    --> vendor/smoltcp/src/iface/interface/mod.rs:1487:61
+     |
+1487 |             IpRepr::Ipv6(_) => tx_token.consume(total_len, |mut tx_buffer| {
+     |                                                             ----^^^^^^^^^
+     |                                                             |
+     |                                                             help: remove this `mut`
+
+warning: variable does not need to be mutable
+    --> vendor/smoltcp/src/iface/interface/mod.rs:1320:13
+     |
+1320 |         let mut total_len = ip_repr.buffer_len();
+     |             ----^^^^^^^^^
+     |             |
+     |             help: remove this `mut`
+
+   Compiling wayland-server v0.31.14
+   Compiling socket2 v0.6.1
+warning: field `hardware_addr` is never read
+   --> vendor/smoltcp/src/iface/interface/mod.rs:224:5
+    |
+210 | pub struct InterfaceInner {
+    |            -------------- field in this struct
+...
+224 |     hardware_addr: HardwareAddress,
+    |     ^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: variants `NoRoute` and `NeighborPending` are never constructed
+    --> vendor/smoltcp/src/iface/interface/mod.rs:1519:5
+     |
+1514 | enum DispatchError {
+     |      ------------- variants in this enum
+...
+1519 |     NoRoute,
+     |     ^^^^^^^
+...
+1523 |     NeighborPending,
+     |     ^^^^^^^^^^^^^^^
+     |
+     = note: `DispatchError` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+
+warning: methods `link_local_ipv6_address` and `mldv2_report_packet` are never used
+   --> vendor/smoltcp/src/iface/interface/ipv6.rs:171:8
+    |
+ 21 | impl InterfaceInner {
+    | ------------------- methods in this implementation
+...
+171 |     fn link_local_ipv6_address(&self) -> Option<Ipv6Address> {
+    |        ^^^^^^^^^^^^^^^^^^^^^^^
+...
+563 |     pub(super) fn mldv2_report_packet<'any>(
+    |                   ^^^^^^^^^^^^^^^^^^^
+
+warning: variant `HopByHopIcmpv6` is never constructed
+   --> vendor/smoltcp/src/iface/packet.rs:263:5
+    |
+255 | pub(crate) enum IpPayload<'p> {
+    |                 --------- variant in this enum
+...
+263 |     HopByHopIcmpv6(Ipv6HopByHopRepr<'p>, Icmpv6Repr<'p>),
+    |     ^^^^^^^^^^^^^^
+    |
+    = note: `IpPayload` has a derived impl for the trait `Debug`, but this is intentionally ignored during dead code analysis
+
+warning: type alias `Rest` is never used
+  --> vendor/smoltcp/src/wire/mod.rs:75:14
+   |
+75 |     pub type Rest = ::core::ops::RangeFrom<usize>;
+   |              ^^^^
+
+warning: constant `CUR_HOP_LIMIT` is never used
+   --> vendor/smoltcp/src/wire/icmpv6.rs:220:15
+    |
+220 |     pub const CUR_HOP_LIMIT: usize = 4;
+    |               ^^^^^^^^^^^^^
+
+warning: constant `ROUTER_FLAGS` is never used
+   --> vendor/smoltcp/src/wire/icmpv6.rs:221:15
+    |
+221 |     pub const ROUTER_FLAGS: usize = 5;
+    |               ^^^^^^^^^^^^
+
+warning: constant `ROUTER_LT` is never used
+   --> vendor/smoltcp/src/wire/icmpv6.rs:222:15
+    |
+222 |     pub const ROUTER_LT: Field = 6..8;
+    |               ^^^^^^^^^
+
+warning: constant `REACHABLE_TM` is never used
+   --> vendor/smoltcp/src/wire/icmpv6.rs:223:15
+    |
+223 |     pub const REACHABLE_TM: Field = 8..12;
+    |               ^^^^^^^^^^^^
+
+warning: constant `NEIGH_FLAGS` is never used
+   --> vendor/smoltcp/src/wire/icmpv6.rs:230:15
+    |
+230 |     pub const NEIGH_FLAGS: usize = 4;
+    |               ^^^^^^^^^^^
+
+warning: methods `solicited_node` and `is_solicited_node_multicast` are never used
+   --> vendor/smoltcp/src/wire/ipv6.rs:121:8
+    |
+ 79 | pub(crate) trait AddressExt {
+    |                  ---------- methods in this trait
+...
+121 |     fn solicited_node(&self) -> Address;
+    |        ^^^^^^^^^^^^^^
+...
+131 |     fn is_solicited_node_multicast(&self) -> bool;
+    |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: method `emit_header` is never used
+   --> vendor/smoltcp/src/wire/udp.rs:264:19
+    |
+221 | impl Repr {
+    | --------- method in this implementation
+...
+264 |     pub(crate) fn emit_header<T>(&self, packet: &mut Packet<&mut T>, payload_len: usize)
+    |                   ^^^^^^^^^^^
+
+warning: hiding a lifetime that's elided elsewhere is confusing
+   --> vendor/smoltcp/src/storage/assembler.rs:330:22
+    |
+330 |     pub fn iter_data(&self, first_offset: usize) -> AssemblerIter {
+    |                      ^^^^^                          ^^^^^^^^^^^^^ the same lifetime is hidden here
+    |                      |
+    |                      the lifetime is elided here
+    |
+    = help: the same lifetime is referred to in inconsistent ways, making the signature confusing
+    = note: `#[warn(mismatched_lifetime_syntaxes)]` on by default
+help: use `'_` for type paths
+    |
+330 |     pub fn iter_data(&self, first_offset: usize) -> AssemblerIter<'_> {
+    |                                                                  ++++
+
+   Compiling getrandom v0.3.4
+   Compiling crc32fast v1.5.2
+   Compiling x11rb v0.13.2
+   Compiling equivalent v1.0.3
+   Compiling crc-catalog v2.5.0
+   Compiling hashbrown v0.17.1
+   Compiling winnow v1.0.5
+   Compiling crc v3.4.0
+   Compiling flate2 v1.1.10
+   Compiling toml_parser v1.1.5+spec-1.1.0
+   Compiling ahash v0.8.12
+   Compiling indexmap v2.14.2
+   Compiling trames-distro v1.3.0 (/private/tmp/trames-budget-android-runtime/crates/trames-distro)
+   Compiling serde v1.0.229
+   Compiling constant_time_eq v0.6.1
+   Compiling getrandom v0.4.3
+   Compiling xim v0.5.0
+   Compiling serde_spanned v1.1.3
+   Compiling toml_datetime v1.1.3+spec-1.1.0
+   Compiling filetime v0.2.29
+   Compiling typed-path v0.13.0
+   Compiling toml_writer v1.2.0+spec-1.1.0
+   Compiling tar v0.4.46
+   Compiling zeroize_derive v1.5.0
+   Compiling ext4-view v1.0.0 (/private/tmp/trames-budget-android-runtime/vendor/ext4-view)
+   Compiling wayland-protocols v0.32.13
+   Compiling toml v1.2.1+spec-1.1.0
+warning: `smoltcp` (lib) generated 21 warnings (run `cargo fix --lib -p smoltcp` to apply 9 suggestions)
+   Compiling zeroize v1.9.1
+   Compiling trames-bridge v1.3.0 (/private/tmp/trames-budget-android-runtime/crates/trames-bridge)
+   Compiling trames-elf v1.3.0 (/private/tmp/trames-budget-android-runtime/crates/trames-elf)
+   Compiling zip v9.5.1
+   Compiling trames-wayland v1.3.0 (/private/tmp/trames-budget-android-runtime/crates/trames-wayland)
+   Compiling trames-vfs v1.3.0 (/private/tmp/trames-budget-android-runtime/crates/trames-vfs)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 32.38s
+     Running unittests src/lib.rs (/Users/main/dev/trames-linux/target/debug/build/trames-distro/c452e75f98cbb195/out/trames_distro-c452e75f98cbb195)
+
+running 40 tests
+test bionic::tests::exact_static_patch_is_reversible_and_rejects_mismatch ... ok
+test android::tests::arm64_audio_launcher_preserves_original_service_policy_and_other_sections ... ok
+test bionic::tests::rejects_wrong_image_and_abi ... ok
+test environment::tests::grants_bind_identity_and_mount_authority ... ok
+test android_package::tests::plan_only_accepts_pinned_images_and_legacy_does_not_scan_whole_archive ... ok
+test environment::tests::guest_requests_never_grant_host_access ... ok
+test environment::tests::defaults_roundtrip_and_errors ... ok
+test environment::tests::memory_and_identity ... ok
+test environment::tests::owner_defaults_allow_but_imported_config_cannot_authorize_itself ... ok
+test environment::tests::embedded_profile_overrides_defaults_without_authority ... ok
+test environment::tests::task_capacity_manifest_and_cli_share_the_live_resource_and_reject_unknown_configuration ... ok
+test android::tests::package_rejects_foreign_init_missing_hal_and_incompatible_contract ... ok
+test android::tests::cold_media_adapter_uses_original_init_and_no_camera_mode ... ok
+test android_package::tests::invalid_or_tampered_adapters_fail_before_opening_upstream_images ... ok
+test progress::tests::reports_real_bytes_and_callback_can_stop_the_import ... ok
+test android::tests::full_init_profile_keeps_storage_writable_and_derives_primary_zygote ... ok
+test android_package::tests::hwc_adapter_is_digest_checked_and_requires_matching_hal_selection ... ok
+test systemd::tests::imported_machine_identity_is_renewed_consistently ... ok
+test systemd::tests::missing_machine_identity_is_seeded_once_and_existing_identity_is_preserved ... ok
+test systemd::tests::machine_identity_follows_a_linked_etc_directory ... ok
+test systemd::tests::original_notify_endpoint_authenticates_init_and_latches_one_shutdown ... ok
+test android::tests::boot_resets_property_socket_state_but_keeps_data_and_user_overlay ... ok
+test tests::invalid_musl_does_not_modify_existing_loader_or_user_data ... ok
+test static_libc::tests::provenance_restores_old_derivative_for_recipe_upgrade ... ok
+test tests::rejects_host_paths_and_traversal ... ok
+test tests::mismatch_leaves_namespace_unchanged ... ok
+test static_libc::tests::unsupported_images_are_not_downgraded_and_changed_loader_restores_owned_code ... ok
+test tests::resolver_uses_guest_directory_links_and_preserves_configuration ... ok
+test static_libc::tests::owned_corruption_and_bad_resources_fail_before_replacement ... ok
+test timezone::tests::invalid_timezone_input_leaves_the_namespace_untouched ... ok
+test static_libc::tests::cold_selection_is_idempotent_reversible_and_preserves_unrelated_data ... ok
+test vulkan::tests::egl_adapter_install_is_atomic_and_keeps_apk_owned_mesa ... ok
+test timezone::tests::timezone_update_replaces_a_dangling_link_preserves_identity_and_is_idempotent ... ok
+test vulkan::tests::refreshes_old_instance_manifest_without_replacing_identical_library ... ok
+test vulkan::tests::repeated_install_keeps_inodes_updates_bundles_and_preserves_user_files ... ok
+test rootfs::directory_tests::directory_snapshot_imports_sparse_files_as_contiguous_payloads ... ok
+test vulkan::tests::paired_gallium_can_exceed_the_small_icd_limit_and_keeps_package_files ... ok
+test vulkan::tests::sdk_installers_follow_host_mount_chroot_and_directory_aliases ... ok
+test android_package::tests::ext4_preserves_hardlinks_symlinks_permissions_ids_and_excludes_mutable_payloads ... ok
+test environment::tests::cli_installation_replaces_an_older_script_and_remains_executable ... ok
+
+test result: ok. 40 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.09s
+

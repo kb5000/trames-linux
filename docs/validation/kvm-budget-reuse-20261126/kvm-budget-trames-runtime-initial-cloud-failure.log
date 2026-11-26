@@ -1,0 +1,157 @@
+anifest) generated 1 warning
+2026-11-26T04:18:27.5540894Z     Finished `test` profile [unoptimized + debuginfo] target(s) in 2m 07s
+2026-11-26T04:18:27.5679225Z      Running unittests src/lib.rs (target/debug/build/trames-accel/1da21c847cd6e0da/out/trames_accel-1da21c847cd6e0da)
+2026-11-26T04:18:27.5691894Z 
+2026-11-26T04:18:27.5692659Z running 28 tests
+2026-11-26T04:18:27.5699848Z test allocator::tests::failed_cas_resumes_original_slow_free_with_saved_metadata_and_index ... ok
+2026-11-26T04:18:27.5703484Z test allocator::tests::original_enframe_and_atomic_free_share_guest_headers_and_masks ... ok
+2026-11-26T04:18:27.5704235Z test allocator::tests::borrowed_native_reads_preserve_real_fork_cow_and_do_not_reuse_parent_headers ... ok
+2026-11-26T04:18:27.5707918Z test bionic::tests::jemalloc_pop_push_preserve_original_bin_ticker_and_stats ... ok
+2026-11-26T04:18:27.5712247Z test allocator::tests::slow_free_and_invalid_metadata_fall_back_without_partial_invalidation ... ok
+2026-11-26T04:18:27.5713443Z test bionic::tests::search_sets_and_case_comparison_stop_at_guard_page ... ok
+2026-11-26T04:18:27.5729026Z test allocator::tests::output_preflight_preserves_available_mask_and_parallel_frees_are_coherent ... ok
+2026-11-26T04:18:27.5731561Z test callbacks::tests::size_and_backing_fallback_precede_array_effects ... ok
+2026-11-26T04:18:27.5735414Z test integer::tests::invalid_bases_do_not_read_input_and_boundary_end_keeps_tags ... ok
+2026-11-26T04:18:27.5750923Z test glibc::tests::glibc_entries_share_cpu_faults_and_retire_without_byte_limits ... ok
+2026-11-26T04:18:27.5838637Z test native::tests::all_pure_entries_match_coordinator_on_parallel_views ... ok
+2026-11-26T04:18:27.5846880Z test native::tests::cached_stub_tokens_follow_live_backing_aliases_and_eof_checks ... ok
+2026-11-26T04:18:27.5880490Z test native::tests::cached_stubs_recheck_pages_across_fork_remap_protection_and_cross_page_mutation ... ok
+2026-11-26T04:18:27.5887996Z test native::tests::copy_overlap_cow_and_tagged_return_are_preserved ... ok
+2026-11-26T04:18:27.5888659Z test native::tests::device_transport_defers_without_effects_and_rechecks_code_before_authorization ... ok
+2026-11-26T04:18:27.5889240Z test native::tests::early_stops_and_precise_fault_leave_destination_untouched ... ok
+2026-11-26T04:18:27.6097976Z test native::tests::bulk_ceiling_copy_move_fill_search_and_first_invalid_page ... ok
+2026-11-26T04:18:27.6111391Z test native::tests::huge_compare_search_bounds_stop_early_and_complete_past_old_ceiling ... ok
+2026-11-26T04:18:27.6114979Z test native::tests::rejection_and_invalid_large_ranges_have_no_memory_effects ... ok
+2026-11-26T04:18:27.6140880Z test native::tests::searches_stop_at_reached_pages_preserve_tags_and_fault_at_reached_unmapped_pages ... ok
+2026-11-26T04:18:27.6172179Z test numeric::tests::reached_faults_do_not_publish_partial_results_and_long_inputs_complete ... ok
+2026-11-26T04:18:27.6173113Z test numeric::tests::stops_at_delimiters_handles_page_split_and_keeps_tagged_end_pointer ... ok
+2026-11-26T04:18:27.6200531Z test strings::tests::concat_handles_page_splits_bounds_zero_guard_cow_and_no_partial_fallback ... ok
+2026-11-26T04:18:27.6203093Z test strings::tests::copies_preflight_whole_output_cow_padding_truncation_shared_and_writeonly ... ok
+2026-11-26T04:18:27.6203966Z test strings::tests::searches_stop_at_nul_before_guard_and_preserve_unsigned_matches_and_tags ... ok
+2026-11-26T04:18:27.6723561Z test native::tests::multi_megabyte_copy_retires_one_native_entry_and_reverse_overflow_is_a_fault ... ok
+2026-11-26T04:18:27.9113492Z test callbacks::tests::smoothsort_preserves_records_for_small_large_equal_and_ordered_arrays ... ok
+2026-11-26T04:18:28.0826482Z test callbacks::tests::malformed_continuations_reject_without_host_panics_or_large_work ... ok
+2026-11-26T04:18:28.0826890Z 
+2026-11-26T04:18:28.0827248Z test result: ok. 28 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.51s
+2026-11-26T04:18:28.0827526Z 
+2026-11-26T04:18:28.0827807Z      Running unittests src/lib.rs (target/debug/build/trames-audio/88150209821fd182/out/trames_audio-88150209821fd182)
+2026-11-26T04:18:28.0839990Z 
+2026-11-26T04:18:28.0840157Z running 2 tests
+2026-11-26T04:18:28.0846042Z test tests::capability_and_wire_failures_do_not_open_a_host_device ... ok
+2026-11-26T04:18:28.3742002Z test linux_tests::alsa_bytes_readiness_controls_and_original_endpoint_lifetime ... ok
+2026-11-26T04:18:28.3742386Z 
+2026-11-26T04:18:28.3742775Z test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.29s
+2026-11-26T04:18:28.3743039Z 
+2026-11-26T04:18:28.3748339Z      Running unittests src/lib.rs (target/debug/build/trames-bridge/1c899cbce025deab/out/trames_bridge-1c899cbce025deab)
+2026-11-26T04:18:28.3755652Z 
+2026-11-26T04:18:28.3756138Z running 13 tests
+2026-11-26T04:18:28.3759621Z test hash::tests::disabled_fallback_and_known_vectors ... ok
+2026-11-26T04:18:28.3760538Z test tests::cancellation_expiration_and_drop_reject_late_replies ... ok
+2026-11-26T04:18:28.3775774Z test tests::clipboard_cli_and_host_exec_have_independent_authority ... ok
+2026-11-26T04:18:28.3776485Z test tests::accepted_commands_have_no_total_timeout_and_input_is_connection_owned ... ok
+2026-11-26T04:18:28.3777200Z test tests::coalesced_frames_partial_tail_and_full_pending_queue_allow_cancel ... ok
+2026-11-26T04:18:28.3778067Z test tests::connections_and_sessions_cannot_cancel_each_others_requests ... ok
+2026-11-26T04:18:28.3778776Z test tests::native_effect_requires_a_claimed_reply_and_capacity_does_not_consume ... ok
+2026-11-26T04:18:28.3779478Z test tests::native_provider_scope_filters_metadata_and_rejects_unlisted_transfers ... ok
+2026-11-26T04:18:28.3780306Z test tests::fragmented_frames_and_malformed_input_never_reach_host ... ok
+2026-11-26T04:18:28.3781167Z test tests::replies_notify_original_connection_after_unlock_and_pure_peek_never_notifies ... ok
+2026-11-26T04:18:28.3781923Z test tests::expired_ticket_loses_authority_even_when_timeout_output_is_full ... ok
+2026-11-26T04:18:28.3782633Z test tests::request_limits_duplicate_ids_and_output_backpressure_are_bounded ... ok
+2026-11-26T04:18:28.3803752Z test tests::output_backpressure_uses_original_stream_wakeup_and_edge_epochs ... ok
+2026-11-26T04:18:28.3804038Z 
+2026-11-26T04:18:28.3804279Z test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+2026-11-26T04:18:28.3804628Z 
+2026-11-26T04:18:28.3806965Z      Running unittests src/lib.rs (target/debug/build/trames-control/f8ab5787105b3739/out/trames_control-f8ab5787105b3739)
+2026-11-26T04:18:28.3815187Z 
+2026-11-26T04:18:28.3815317Z running 5 tests
+2026-11-26T04:18:28.3821669Z test ui::tests::host_arguments_are_literal_and_global_flags_stop_at_separator ... ok
+2026-11-26T04:18:28.3822463Z test tests::binary_codec_roundtrips_and_rejects_malformed_padding ... ok
+2026-11-26T04:18:28.3822939Z test copy::tests::copies_binary_trees_links_and_preserves_self_and_no_clobber ... ok
+2026-11-26T04:18:28.3823441Z test ui::tests::timeout_rejects_zero_and_overflow ... ok
+2026-11-26T04:18:28.3823901Z test archive::tests::streaming_roundtrip_uses_copy_semantics_and_rejects_directory_without_r ... ok
+2026-11-26T04:18:28.3824249Z 
+2026-11-26T04:18:28.3824484Z test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+2026-11-26T04:18:28.3824747Z 
+2026-11-26T04:18:28.3825210Z      Running unittests src/main.rs (target/debug/build/trames-control/f3cd1725cbfac171/out/trames-f3cd1725cbfac171)
+2026-11-26T04:18:28.3832739Z 
+2026-11-26T04:18:28.3832879Z running 0 tests
+2026-11-26T04:18:28.3833070Z 
+2026-11-26T04:18:28.3833310Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+2026-11-26T04:18:28.3833637Z 
+2026-11-26T04:18:28.3834214Z      Running unittests src/lib.rs (target/debug/build/trames-distro/f3c7c3031abe53a1/out/trames_distro-f3c7c3031abe53a1)
+2026-11-26T04:18:28.3846466Z 
+2026-11-26T04:18:28.3846603Z running 40 tests
+2026-11-26T04:18:28.3850529Z test android::tests::arm64_audio_launcher_preserves_original_service_policy_and_other_sections ... ok
+2026-11-26T04:18:28.3896247Z test android::tests::package_rejects_foreign_init_missing_hal_and_incompatible_contract ... ok
+2026-11-26T04:18:28.3902298Z test android::tests::full_init_profile_keeps_storage_writable_and_derives_primary_zygote ... FAILED
+2026-11-26T04:18:28.3910676Z test android::tests::cold_media_adapter_uses_original_init_and_no_camera_mode ... ok
+2026-11-26T04:18:28.3911482Z test android::tests::boot_resets_property_socket_state_but_keeps_data_and_user_overlay ... ok
+2026-11-26T04:18:28.3944720Z test android_package::tests::plan_only_accepts_pinned_images_and_legacy_does_not_scan_whole_archive ... ok
+2026-11-26T04:18:28.3945706Z test bionic::tests::exact_static_patch_is_reversible_and_rejects_mismatch ... ok
+2026-11-26T04:18:28.3960016Z test bionic::tests::rejects_wrong_image_and_abi ... ok
+2026-11-26T04:18:28.3960683Z test android_package::tests::hwc_adapter_is_digest_checked_and_requires_matching_hal_selection ... ok
+2026-11-26T04:18:28.3961496Z test environment::tests::defaults_roundtrip_and_errors ... ok
+2026-11-26T04:18:28.3963705Z test android_package::tests::invalid_or_tampered_adapters_fail_before_opening_upstream_images ... ok
+2026-11-26T04:18:28.3973469Z test environment::tests::embedded_profile_overrides_defaults_without_authority ... ok
+2026-11-26T04:18:28.3987599Z test environment::tests::grants_bind_identity_and_mount_authority ... ok
+2026-11-26T04:18:28.3988625Z test environment::tests::guest_requests_never_grant_host_access ... ok
+2026-11-26T04:18:28.3989248Z test environment::tests::memory_and_identity ... ok
+2026-11-26T04:18:28.3990051Z test environment::tests::owner_defaults_allow_but_imported_config_cannot_authorize_itself ... ok
+2026-11-26T04:18:28.3990916Z test environment::tests::task_capacity_manifest_and_cli_share_the_live_resource_and_reject_unknown_configuration ... ok
+2026-11-26T04:18:28.3991594Z test progress::tests::reports_real_bytes_and_callback_can_stop_the_import ... ok
+2026-11-26T04:18:28.4021378Z test static_libc::tests::cold_selection_is_idempotent_reversible_and_preserves_unrelated_data ... ok
+2026-11-26T04:18:28.4038677Z test rootfs::directory_tests::directory_snapshot_imports_sparse_files_as_contiguous_payloads ... ok
+2026-11-26T04:18:28.4051011Z test static_libc::tests::owned_corruption_and_bad_resources_fail_before_replacement ... ok
+2026-11-26T04:18:28.4060517Z test android_package::tests::ext4_preserves_hardlinks_symlinks_permissions_ids_and_excludes_mutable_payloads ... ok
+2026-11-26T04:18:28.4061545Z test systemd::tests::imported_machine_identity_is_renewed_consistently ... ok
+2026-11-26T04:18:28.4064806Z test static_libc::tests::provenance_restores_old_derivative_for_recipe_upgrade ... ok
+2026-11-26T04:18:28.4065948Z test static_libc::tests::unsupported_images_are_not_downgraded_and_changed_loader_restores_owned_code ... ok
+2026-11-26T04:18:28.4068845Z test systemd::tests::missing_machine_identity_is_seeded_once_and_existing_identity_is_preserved ... ok
+2026-11-26T04:18:28.4070175Z test systemd::tests::machine_identity_follows_a_linked_etc_directory ... ok
+2026-11-26T04:18:28.4082640Z test systemd::tests::original_notify_endpoint_authenticates_init_and_latches_one_shutdown ... ok
+2026-11-26T04:18:28.4093975Z test tests::rejects_host_paths_and_traversal ... ok
+2026-11-26T04:18:28.4094751Z test tests::mismatch_leaves_namespace_unchanged ... ok
+2026-11-26T04:18:28.4095260Z test tests::invalid_musl_does_not_modify_existing_loader_or_user_data ... ok
+2026-11-26T04:18:28.4095854Z test tests::resolver_uses_guest_directory_links_and_preserves_configuration ... ok
+2026-11-26T04:18:28.4096543Z test timezone::tests::timezone_update_replaces_a_dangling_link_preserves_identity_and_is_idempotent ... ok
+2026-11-26T04:18:28.4097228Z test vulkan::tests::egl_adapter_install_is_atomic_and_keeps_apk_owned_mesa ... ok
+2026-11-26T04:18:28.4100144Z test timezone::tests::invalid_timezone_input_leaves_the_namespace_untouched ... ok
+2026-11-26T04:18:28.4116143Z test vulkan::tests::repeated_install_keeps_inodes_updates_bundles_and_preserves_user_files ... ok
+2026-11-26T04:18:28.4131539Z test vulkan::tests::refreshes_old_instance_manifest_without_replacing_identical_library ... ok
+2026-11-26T04:18:28.4197478Z test vulkan::tests::sdk_installers_follow_host_mount_chroot_and_directory_aliases ... ok
+2026-11-26T04:18:28.4296172Z test environment::tests::cli_installation_replaces_an_older_script_and_remains_executable ... ok
+2026-11-26T04:18:28.4489154Z test vulkan::tests::paired_gallium_can_exceed_the_small_icd_limit_and_keeps_package_files ... ok
+2026-11-26T04:18:28.4491744Z 
+2026-11-26T04:18:28.4491904Z failures:
+2026-11-26T04:18:28.4492126Z 
+2026-11-26T04:18:28.4492533Z ---- android::tests::full_init_profile_keeps_storage_writable_and_derives_primary_zygote stdout ----
+2026-11-26T04:18:28.4492938Z 
+2026-11-26T04:18:28.4493411Z thread 'android::tests::full_init_profile_keeps_storage_writable_and_derives_primary_zygote' (6978) panicked at crates/trames-distro/src/android.rs:667:70:
+2026-11-26T04:18:28.4494124Z called `Result::unwrap()` on an `Err` value: Errno(30)
+2026-11-26T04:18:28.4494656Z note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+2026-11-26T04:18:28.4494937Z 
+2026-11-26T04:18:28.4494941Z 
+2026-11-26T04:18:28.4495049Z failures:
+2026-11-26T04:18:28.4495512Z     android::tests::full_init_profile_keeps_storage_writable_and_derives_primary_zygote
+2026-11-26T04:18:28.4495859Z 
+2026-11-26T04:18:28.4496074Z test result: FAILED. 39 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.06s
+2026-11-26T04:18:28.4496335Z 
+2026-11-26T04:18:28.4497231Z error: test failed, to rerun pass `-p trames-distro --lib`
+2026-11-26T04:18:28.4536294Z ##[error]Process completed with exit code 101.
+2026-11-26T04:18:28.4654205Z Post job cleanup.
+2026-11-26T04:18:28.5297015Z [command]/usr/bin/git version
+2026-11-26T04:18:28.5328199Z git version 2.56.1
+2026-11-26T04:18:28.5353056Z Temporarily overriding HOME='/home/runner/work/_temp/5573a06b-3102-4790-ab3a-33dc16853722' before making global git config changes
+2026-11-26T04:18:28.5354255Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-26T04:18:28.5356831Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/trames-runtime/trames-runtime
+2026-11-26T04:18:28.5385733Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-26T04:18:28.5410285Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-26T04:18:28.5571072Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-26T04:18:28.5597639Z http.https://github.com/.extraheader
+2026-11-26T04:18:28.5604365Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-11-26T04:18:28.5630034Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-26T04:18:28.5803408Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-26T04:18:28.5832900Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-26T04:18:28.6110855Z Cleaning up orphan processes
+2026-11-26T04:18:28.6497771Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+

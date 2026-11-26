@@ -1,0 +1,28 @@
+{
+  "passed": true,
+  "checks": {
+    "clean_receipts_and_byte_identical_initial_binaries": true,
+    "raw_executions": 320,
+    "measured_samples": 240,
+    "unchanged_auditor_negative_controls_reused": 4,
+    "memory": 77,
+    "cpu": 15,
+    "clock_consistency": 5,
+    "cli_pty_cancellation_and_host_deadlines": 20,
+    "kvm_applications": 48,
+    "reused_verified_native_applications": 12,
+    "separate_instrumented_diagnostics": 15,
+    "real_kvm_library_and_hardware": 38,
+    "android_native_semantics_and_linux_mac_tests": [
+      40,
+      40
+    ],
+    "download_integrity_cases": 4,
+    "apple_and_ios_compile": true
+  },
+  "explicit_host_io_kick_qualified": false,
+  "qualification": "Historical data and original gates only; superseded after explicit host-I/O kick regression",
+  "full_product_4k_qualified": false,
+  "cohort_runtime": "c34ad9e8fc5bbd247a253b1b1e734e5ef921ff91",
+  "final_runtime": "c8ac3f9fc67856c55f9d25915fed19397e496ced"
+}

@@ -1,0 +1,35 @@
+{
+  "source_sha256": "e54e8b464e9bd1666d4a991ee851674285b708353489e9934636657b40c226d8",
+  "cases": [
+    {
+      "id": "fallback",
+      "exit_code": 0,
+      "passed": true,
+      "stdout": "/tmp/trames-download-tests-3p8vi34p/fallback/.fixture.tar.XgbwfY: OK\n",
+      "stderr": ""
+    },
+    {
+      "id": "tampered-download",
+      "exit_code": 1,
+      "passed": true,
+      "stdout": "/tmp/trames-download-tests-3p8vi34p/tampered-download/.fixture.tar.Ljxd7P: FAILED\n",
+      "stderr": "sha256sum: WARNING: 1 computed checksum did NOT match\n"
+    },
+    {
+      "id": "tampered-cache",
+      "exit_code": 1,
+      "passed": true,
+      "stdout": "fixture.tar: FAILED\n",
+      "stderr": "sha256sum: WARNING: 1 computed checksum did NOT match\n"
+    },
+    {
+      "id": "valid-cache",
+      "exit_code": 0,
+      "passed": true,
+      "stdout": "fixture.tar: OK\n",
+      "stderr": ""
+    }
+  ],
+  "passed": 4,
+  "planned": 4
+}

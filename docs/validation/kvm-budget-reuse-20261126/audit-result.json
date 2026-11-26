@@ -1,0 +1,34 @@
+{
+  "passed": true,
+  "qualification": "Scoped final KVM evidence and archive integrity; broad iPad oracle remains unqualified",
+  "checks": {
+    "linux_cloud_and_shared_runtime_mac_ci": true,
+    "ipad_broad_oracle_unresolved_failures": 18,
+    "initial_explicit_host_io_kick_regression_reproduced": true,
+    "production_runtime_equivalence": true,
+    "final_raw_executions": 320,
+    "initial_raw_executions": 320,
+    "final_measured_samples": 240,
+    "initial_measured_samples": 240,
+    "unchanged_auditor_negative_controls_reused": 4,
+    "memory": 77,
+    "cpu": 15,
+    "clock_consistency": 5,
+    "cli_pty_cancellation_and_host_deadlines": 20,
+    "kvm_applications": 48,
+    "reused_verified_native_applications": 12,
+    "separate_instrumented_diagnostics": 15,
+    "real_kvm_library_and_hardware": 38,
+    "host_tick_restart_and_explicit_kick_interrupt_are_distinct": true,
+    "android_native_semantics_and_linux_mac_tests": [
+      40,
+      40
+    ],
+    "download_integrity_cases": 4,
+    "apple_and_ios_compile": true,
+    "temporary_rootfs_cleanup_verified": true
+  },
+  "full_product_4k_qualified": false,
+  "cohort_runtime": "c8ac3f9fc67856c55f9d25915fed19397e496ced",
+  "final_runtime": "c8ac3f9fc67856c55f9d25915fed19397e496ced"
+}

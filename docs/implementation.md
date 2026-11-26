@@ -192,6 +192,28 @@ switches, protection and backing replacement. Full scoped results, both candidat
 cohorts and sampling limitations are recorded in the
 [source-bound validation](validation/kvm-joined-writes-20261126.md).
 
+## Worker-local execution budgets
+
+Linux `501a77e` retains one absolute execution deadline across short syscalls in
+an original worker assignment, then releases it before parking/native dispatch
+or vCPU destruction. Private timer ticks restart eligible host I/O; a separate
+explicit-kick signal interrupts it. Runtime `c34ad9e` adds static default begin/
+finish hooks; final pin `c8ac3f9` changes only an Android test thereafter. No new
+coordinator, instruction patch or per-SVC ABI check is introduced.
+
+Final scoped KVM checks pass: hardware 38, core 4 KiB 77, CPU/state 15, clock 5,
+CLI/PTY/cancellation 20, and application workflows 48. Final 320 raw/240 measured
+executions and 15 separate traces show timer/mask calls about 80%–98% lower,
+getpid wall medians 2.2%–4.9% better, with small workload regressions retained.
+The initial candidate's host-I/O cancellation defect, negative reproduction and
+separate full 320-execution cohort remain in the record. Final Linux and shared
+Runtime hosted checks pass. Broad iPad ARM64-under-QEMU conformance still has
+18 unresolved source-worker failures, so paired release readiness is not claimed.
+
+See the [complete source-bound evidence and offline audit](validation/kvm-budget-reuse-20261126.md).
+The next Linux product batch is guest desktop/input on the existing software X11
+path, then native Wayland readiness and hardware-specific GPU/media gates.
+
 ## Next dependency batch: Linux providers
 
 1. Complete Linux DMA-BUF image imports/exports, guest desktop/input presentation,
