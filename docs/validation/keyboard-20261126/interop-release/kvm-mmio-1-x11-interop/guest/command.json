@@ -1,0 +1,16 @@
+[
+  "/mnt/trames-output/linux-keyboard/interop-release/tools/runner",
+  "run",
+  "--rootfs",
+  "/mnt/trames-output/linux-keyboard/interop-release/kvm-mmio-1-x11-interop/rootfs",
+  "--desktop",
+  "x11",
+  "--desktop-renderer",
+  "auto",
+  "--cpus",
+  "1",
+  "--timeout-ms",
+  "60000",
+  "--",
+  "/test/interop"
+]

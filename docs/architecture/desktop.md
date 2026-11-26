@@ -74,12 +74,16 @@ retained scene. Resize negotiates guest content dimensions; title changes and
 guest window removal update the original host window. A host close requests
 closure of that guest toplevel; the CLI/session can continue after GUI exit.
 
-Keyboard input currently uses Xorg/Xwayland's evdev keycodes and the shared US
-keymap. Pointer coordinates, buttons, wheel and keyboard modifiers are translated
-into the existing `InputEvent` API. Native Wayland uses the host seat keycodes
-and modifier events. Focus loss clears held keys/buttons through the shared seat.
-Full physical keyboard layout negotiation, EWMH window state and interactive
-client-side move/resize gestures remain follow-up work.
+Keyboard input follows the active host XKB-v1 map. Native X11 imports its core
+keyboard map through libxkbcommon-x11 and listens for keyboard/map/state/control
+notifications; native Wayland relays the compositor's keymap FD and repeat info.
+Depressed, latched and locked modifiers and the layout group stay distinct.
+Physical evdev events do not generate compositor-side repeats: Wayland clients
+use repeat-info, and original Xwayland uses its own server repeat policy.
+Pointer coordinates, buttons and wheel retain the existing `InputEvent` API.
+Focus loss clears held keys/buttons while retaining native lock/group state.
+EWMH window state and interactive client-side move/resize gestures remain
+follow-up work.
 
 The original `--display x11` fixed Vulkan display remains a separate mode. It
 cannot be combined with `--desktop`; `--display-size` applies only to that fixed
@@ -185,3 +189,40 @@ before its XIM server is registered. This exercises confirmed Unicode input
 through both the host XIM and the shared guest XIM service. Xlib development
 headers are needed for this extra gate (`X11_CFLAGS` and `X11_LIBS` may select
 an extracted development package).
+
+## Host keyboard layouts
+
+The X11 frontend requires the host's `libxkbcommon.so.0` and
+`libxkbcommon-x11.so.0` (Ubuntu/Debian: `libxkbcommon-x11-0`). These are loaded only
+when selecting host X11. Headless execution and the native Wayland frontend do
+not load the X11 keyboard library. XKB extension negotiation and keymap/control
+queries occur at setup or configuration changes, not for ordinary keys or CPU
+execution. Detectable autorepeat is enabled on the frontend's own X11 client;
+host settings are not changed.
+
+The shared Runtime accepts an owned, NUL-terminated XKB-v1 map and creates its
+retained FD before enqueueing the update, so allocation/I/O failures reach the
+frontend. A map replacement updates existing keyboards and republishes the
+current modifier state. Newly bound clients receive the current map, repeat
+policy and state. Existing Apple callers retain the original Key event API and
+its default US map; no Linux API, dependency or ABI check enters CPU execution.
+
+Xwayland key events and input-method commits retain the existing XWM connection.
+Physical events target Xwayland's enumerated native keyboard using the public
+XInput event form of XTEST. Core XTEST's separate default-US device would otherwise
+replace the master map on first input. Native modifier/lock/latch/group updates
+also use that XWM connection, avoiding a second Wayland state update toggling
+Caps Lock again. The pinned XKB request binding omits the modLatches wire byte;
+the adapter fills that public field, checked against the original distribution
+C header at compile time in `tests/fixtures/keyboard-control.c`.
+
+`python3 scripts/validate-keyboard.py --native-only --unit-binary UNIT --output OUT`
+compares the original X11/Wayland references and production frontends. Add
+`--runner RUNNER --receipt RECEIPT --rootfs DESKTOP_ROOTFS --launcher LAUNCHER`
+to run the 16-cell real KVM matrix for both transports, one/four vCPUs, both host
+frontends and guest Wayland/Xwayland. The gate uses original Xlib/libxkbcommon,
+actual German/French/Russian layouts, AltGr, Caps Lock across a map change,
+Num Lock, layout groups, focus release and distinct physical/server repeat
+semantics. Xlib development headers, `setxkbmap` and `xset` are test prerequisites.
+No coordinator or input service thread is added. See the
+[keyboard validation record](../validation/keyboard-20261126.md).

@@ -1,0 +1,2874 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+//! Shared byte resources. No namespace, descriptor-table Rc or guest memory lives
+//! behind these handles. Admitted mutations use actual shared Files/OFD ownership.
+use super::*;
+use crate::readiness::Readiness;
+use std::sync::{LockResult, Mutex, MutexGuard, PoisonError};
+
+/// A retained event object for native asynchronous completions. It carries no
+/// guest descriptor-table borrow or guest pointer, and does not resolve a reused FD.
+#[derive(Clone)]
+pub struct NativeEvent(Arc<NativeWriter>);
+struct NativeWriter {
+    counter: Arc<EventCounter>,
+    owner: std::thread::Thread,
+}
+impl Drop for NativeWriter {
+    fn drop(&mut self) {
+        if self.counter.native_writers.fetch_sub(1, Ordering::Relaxed) == 1 {
+            self.counter.readiness.notify_atomic();
+        }
+    }
+}
+impl NativeEvent {
+    /// Retain only a weak native producer: the stream owns its descriptors and
+    /// unregisters before native close. Already parked readers reattach on wake.
+    pub fn attach_source(&self, source: std::sync::Weak<dyn trames_shared::ReadinessDriver>) {
+        let sources = self
+            .0
+            .counter
+            .native_sources
+            .get_or_init(|| Box::new(Mutex::new(Vec::new())));
+        let mut sources = sources.lock().unwrap();
+        sources.retain(|s| s.strong_count() != 0);
+        sources.push(source);
+        drop(sources);
+        self.0.counter.readiness.notify_atomic();
+    }
+    pub fn notify(&self) {
+        // Saturation already leaves the level-triggered descriptor readable.
+        let _ = self.0.counter.write(&1u64.to_le_bytes());
+        // Workers use ordinary resource subscriptions. The joined owner may
+        // instead be parked with every guest task blocked; retain its wake
+        // token even if completion wins the race with park_timeout().
+        self.0.owner.unpark();
+    }
+}
+
+type NativeSources = Mutex<Vec<std::sync::Weak<dyn trames_shared::ReadinessDriver>>>;
+pub(super) struct EventCounter {
+    // No allocation for ordinary eventfds, GPU or callback-only producers.
+    native_sources: std::sync::OnceLock<Box<NativeSources>>,
+    count: AtomicU64,
+    native_writers: AtomicU64,
+    semaphore: bool,
+    readiness: Arc<Readiness>,
+    epoch: [AtomicU64; 2],
+}
+impl trames_shared::ReadinessDriver for EventCounter {
+    fn external(&self) -> bool {
+        self.native_writers.load(Ordering::Relaxed) != 0
+    }
+    fn notification_only(&self) -> bool {
+        self.native_sources.get().is_none_or(|sources| {
+            sources
+                .lock()
+                .unwrap()
+                .iter()
+                .all(|s| s.strong_count() == 0)
+        })
+    }
+    fn attach(&self, events: Arc<HostEvents>) -> std::io::Result<()> {
+        if let Some(sources) = self.native_sources.get() {
+            let producers: Vec<_> = sources
+                .lock()
+                .unwrap()
+                .iter()
+                .filter_map(std::sync::Weak::upgrade)
+                .collect();
+            for producer in producers {
+                producer.attach(events.clone())?;
+            }
+        }
+        Ok(())
+    }
+}
+impl EventCounter {
+    pub(super) fn new(count: u64, semaphore: bool) -> Self {
+        Self {
+            native_sources: Default::default(),
+            count: AtomicU64::new(count),
+            native_writers: AtomicU64::new(0),
+            semaphore,
+            readiness: Arc::default(),
+            epoch: [AtomicU64::new(0), AtomicU64::new(0)],
+        }
+    }
+    pub(super) fn read(&self, count: usize) -> Result<Vec<u8>> {
+        if count < 8 {
+            return Err(Errno(22));
+        }
+        // Eventfd is an actual synchronization operation: acquiring the counter
+        // observes data published before a successful writer's release RMW.
+        let old = self
+            .count
+            .try_update(Ordering::Acquire, Ordering::Relaxed, |n| {
+                (n != 0).then(|| if self.semaphore { n - 1 } else { 0 })
+            })
+            .map_err(|_| Errno(11))?;
+        self.epoch[1].fetch_add(1, Ordering::Relaxed);
+        self.readiness.notify_atomic();
+        Ok((if self.semaphore { 1 } else { old })
+            .to_le_bytes()
+            .to_vec())
+    }
+    pub(super) fn write(&self, bytes: &[u8]) -> Result<usize> {
+        if bytes.len() != 8 {
+            return Err(Errno(22));
+        }
+        let value = u64::from_le_bytes(bytes.try_into().expect("eight bytes"));
+        if value == u64::MAX {
+            return Err(Errno(22));
+        }
+        self.count
+            .try_update(Ordering::Release, Ordering::Relaxed, |n| {
+                n.checked_add(value).filter(|n| *n < u64::MAX)
+            })
+            .map_err(|_| Errno(11))?;
+        self.epoch[0].fetch_add(1, Ordering::Relaxed);
+        self.readiness.notify_atomic();
+        Ok(8)
+    }
+    pub(super) fn poll(&self, events: u16) -> u16 {
+        let count = self.count.load(Ordering::Relaxed);
+        (if count > 0 { events & 1 } else { 0 })
+            | (if count < u64::MAX - 1 { events & 4 } else { 0 })
+    }
+    pub(super) fn epoch(&self) -> [u64; 2] {
+        self.epoch.each_ref().map(|n| n.load(Ordering::Relaxed))
+    }
+}
+
+pub(super) struct PipeData {
+    pub bytes: VecDeque<u8>,
+    pub capacity: usize,
+    pub readers: u32,
+    pub writers: u32,
+    pub read_epoch: u64,
+    pub write_epoch: u64,
+    pub io_epoch: [u64; 2],
+    pub read_reserved: bool,
+    pub write_reserved: usize,
+}
+impl PipeData {
+    pub(super) fn new() -> Self {
+        Self {
+            bytes: VecDeque::new(),
+            capacity: PIPE_CAPACITY,
+            readers: 0,
+            writers: 0,
+            read_epoch: 0,
+            write_epoch: 0,
+            io_epoch: [0; 2],
+            read_reserved: false,
+            write_reserved: 0,
+        }
+    }
+    pub(super) fn write_room(&self) -> usize {
+        self.capacity - self.bytes.len() - self.write_reserved
+    }
+    // File splice inserts a page buffer. Free bytes at the tail of an
+    // occupied page can serve byte writes but cannot accept a file page.
+    pub(super) fn transfer_room(&self, file_pages: bool) -> usize {
+        let room = self.write_room();
+        if file_pages {
+            room & !(trames_memory::PAGE_SIZE as usize - 1)
+        } else {
+            room
+        }
+    }
+    pub(super) fn readable(&self) -> bool {
+        !self.read_reserved && !self.bytes.is_empty()
+    }
+    pub(super) fn poll(
+        &self,
+        read: bool,
+        write: bool,
+        initial_write_epoch: u64,
+        events: u16,
+    ) -> u16 {
+        let mut ready = 0;
+        if read {
+            if self.readable() {
+                ready |= events & poll_mask::READ_NORMAL;
+            }
+            if self.writers == 0 && self.write_epoch != initial_write_epoch {
+                ready |= 16;
+            }
+        }
+        if write {
+            if self.write_room() >= 4096 {
+                ready |= events & poll_mask::WRITE_NORMAL;
+            }
+            if self.readers == 0 {
+                ready |= 8;
+            }
+        }
+        ready
+    }
+    // The original pipe algorithms, shared by VFS and worker-local calls.
+    pub(super) fn read(&mut self, count: usize) -> Result<Vec<u8>> {
+        if count == 0 {
+            return Ok(Vec::new());
+        }
+        if self.read_reserved || self.bytes.is_empty() && self.writers != 0 {
+            return Err(Errno(11));
+        }
+        let n = count.min(self.bytes.len());
+        if n != 0 {
+            self.io_epoch[1] = self.io_epoch[1].wrapping_add(1);
+        }
+        Ok(self.bytes.drain(..n).collect())
+    }
+    pub(super) fn write(&mut self, bytes: &[u8]) -> Result<usize> {
+        if self.readers == 0 {
+            return Err(Errno(32));
+        }
+        if bytes.is_empty() {
+            return Ok(0);
+        }
+        let room = self.write_room();
+        if room == 0 || bytes.len() <= 4096 && room < bytes.len() {
+            return Err(Errno(11));
+        }
+        let n = room.min(bytes.len());
+        self.bytes.extend(&bytes[..n]);
+        self.io_epoch[0] = self.io_epoch[0].wrapping_add(1);
+        Ok(n)
+    }
+}
+
+// Every legacy, splice and native-relay path also uses this guard. Notifications
+// happen after unlock, so a wake callback can safely retry the same pipe.
+pub(super) struct PipeResource {
+    data: Mutex<PipeData>,
+    pub(super) readiness: Arc<Readiness>,
+}
+pub(super) struct PipeGuard<'a> {
+    guard: Option<MutexGuard<'a, PipeData>>,
+    source: &'a PipeResource,
+    before: [u64; 2],
+}
+impl PipeResource {
+    pub fn new() -> Self {
+        Self {
+            data: Mutex::new(PipeData::new()),
+            readiness: Arc::default(),
+        }
+    }
+    pub fn lock<'a>(&'a self) -> LockResult<PipeGuard<'a>> {
+        let wrap = |guard: MutexGuard<'a, PipeData>| {
+            let before = guard.io_epoch;
+            PipeGuard {
+                guard: Some(guard),
+                source: self,
+                before,
+            }
+        };
+        match self.data.lock() {
+            Ok(guard) => Ok(wrap(guard)),
+            Err(error) => Err(PoisonError::new(wrap(error.into_inner()))),
+        }
+    }
+}
+impl std::ops::Deref for PipeGuard<'_> {
+    type Target = PipeData;
+    fn deref(&self) -> &PipeData {
+        self.guard.as_ref().unwrap()
+    }
+}
+impl std::ops::DerefMut for PipeGuard<'_> {
+    fn deref_mut(&mut self) -> &mut PipeData {
+        self.guard.as_mut().unwrap()
+    }
+}
+impl Drop for PipeGuard<'_> {
+    fn drop(&mut self) {
+        let changed = self.guard.as_ref().unwrap().io_epoch != self.before;
+        drop(self.guard.take());
+        if changed {
+            self.source.readiness.notify_locked();
+        }
+    }
+}
+
+/// A frozen poll-only capability; no FD table, Rc or guest memory is retained.
+pub trait DirectPoll: Send + Sync {
+    fn bind_task(&self, _tid: u32) -> Option<Arc<dyn DirectPoll>> {
+        None
+    }
+    fn into_uring(self: Arc<Self>) -> Option<Arc<Uring>> {
+        None
+    }
+    fn identity(&self) -> usize;
+    fn poll(&self, events: u16) -> (u16, [u64; 2]);
+    fn subscribe(&self, signal: &Arc<IoSignal>) -> IoSubscription;
+}
+#[derive(Clone)]
+enum ByteResource {
+    Perf(Arc<perf::Event>),
+    Fuse(Arc<fuse::Device>),
+    MessageQueue(Arc<posix_mq::Queue>),
+    Tun(Arc<trames_net::tun::Connection>),
+    Console(console::ConsoleEndpoint),
+    Cgroup(Arc<cgroup::CgroupFile>, Option<cgroup::CgroupAccess>),
+    TcpPoll(trames_net::TcpPoll),
+    SocketPoll(std::sync::Weak<NetSocket>),
+    ProcWatch(Arc<readiness::ProcWatch>),
+    Regular,
+    Bpf,
+    SimpleDevice(simple_device::Kind),
+    Device(pseudo::Device),
+    UnixControl(std::sync::Weak<ipc::LocalResource>),
+    UnixDatagram(Arc<ipc::channel::Resource>),
+    Kmsg(Arc<kernel_log::Kmsg>),
+    Bridge(std::sync::Weak<trames_bridge::Connection>),
+    PollOnly(Arc<dyn DirectPoll>),
+    Event(Arc<EventCounter>),
+    Timer(Arc<TimerFd>),
+    Signal(Arc<events::SignalMask>, Arc<dyn SignalReader>),
+    Inotify(inotify::Capability),
+    Epoll(DirectEpoll),
+    Unix {
+        data: Arc<ipc::channel::Resource>,
+        side: usize,
+    },
+    Pty {
+        data: Arc<pty::PtyIo>,
+        master: bool,
+    },
+    Pipe {
+        data: Arc<PipeResource>,
+        read: bool,
+        write: bool,
+        initial_write_epoch: u64,
+    },
+}
+#[derive(Clone)]
+pub(super) enum WatchResource {
+    Original(OpenWeak),
+    Nested(OpenWeak),
+    Shared(std::sync::Weak<SharedOpenDescription>),
+    Owner(DirectFd),
+}
+impl WatchResource {
+    pub(super) fn live(&self) -> bool {
+        match self {
+            Self::Original(open) | Self::Nested(open) => open.strong_count() != 0,
+            Self::Shared(open) => open.strong_count() != 0,
+            Self::Owner(fd) => fd.origin.as_ref().is_none_or(OfdIdentity::is_live),
+        }
+    }
+    pub(super) fn is_nested(&self) -> bool {
+        matches!(self, Self::Nested(_))
+    }
+    pub(super) fn original_open(&self) -> Option<OpenHandle> {
+        match self {
+            Self::Original(open) | Self::Nested(open) => open.upgrade(),
+            Self::Shared(open) => open.upgrade().map(OpenHandle::Shared),
+            Self::Owner(fd) => fd.origin.as_ref()?.open().map(OpenHandle::Shared),
+        }
+    }
+    pub(super) fn nested(&self) -> Option<Arc<epoll::LiveEpoll>> {
+        if !self.is_nested() {
+            return None;
+        }
+        let open = self.original_open()?;
+        let result = match &open.borrow().anonymous {
+            Some(events::Anonymous::Epoll(live)) => Some(live.clone()),
+            _ => None,
+        };
+        result
+    }
+    pub(super) fn accepted(fd: &DirectFd) -> Self {
+        if let Some(file) = &fd._file {
+            Self::Shared(Arc::downgrade(&file.open))
+        } else {
+            Self::Owner(fd.clone())
+        }
+    }
+    pub(super) fn notification(fd: &DirectFd) -> Self {
+        let mut target = Self::accepted(fd);
+        if let Self::Owner(fd) = &mut target {
+            // An OFD-owned notification must not retain its own async status
+            // through an owner-only poll projection. Polling uses no mutable
+            // byte-I/O flags; liveness still follows the weak original OFD.
+            fd.status = StatusFlags::from(fd.status.get());
+        }
+        target
+    }
+    pub(super) fn resolve(&self) -> Option<DirectFd> {
+        self.resolve_with(None)
+    }
+    pub(super) fn resolve_with(&self, reader: Option<&Arc<dyn SignalReader>>) -> Option<DirectFd> {
+        let fd = match self {
+            Self::Original(open) | Self::Nested(open) => {
+                DirectFd::source_poll(open.upgrade()?, reader)?
+            }
+            Self::Shared(weak) => {
+                DirectFd::source_poll(OpenHandle::Shared(weak.upgrade()?), reader)?
+            }
+            Self::Owner(fd) => fd
+                .origin
+                .as_ref()
+                .is_none_or(OfdIdentity::is_live)
+                .then(|| fd.clone())?,
+        };
+        Some(fd.bind_context(reader, None))
+    }
+}
+pub(super) type DirectWatch = ((u32, u64), Arc<Mutex<events::WatchState>>, WatchResource);
+#[derive(Clone)]
+struct DirectEpoll {
+    accepted_revision: Option<u64>,
+    live: Arc<epoll::LiveEpoll>,
+    signal_reader: Option<Arc<dyn SignalReader>>,
+}
+impl DirectEpoll {
+    fn snapshot(&self) -> Arc<Vec<DirectWatch>> {
+        self.live.snapshot()
+    }
+}
+/// Retained byte authority with immutable access bits and live OFD status.
+/// It is Send + Sync by composition; no unsafe Rc/RefCell conversion is used.
+#[derive(Clone)]
+pub struct DirectFd {
+    resource: ByteResource,
+    flags: u32,
+    status: StatusFlags,
+    _file: Option<SharedFd>,
+    pub(super) origin: Option<OfdIdentity>,
+}
+/// One accepted poll lookup, including an original OFD whose caller-context
+/// provider must be attached later. Missing capability never becomes EBADF.
+pub enum PollBinding {
+    Direct(DirectFd),
+    Original(SharedFd),
+}
+impl DirectFd {
+    fn resource_device(open: &SharedOpenDescription) -> Option<pseudo::Device> {
+        let node = open.node.as_ref()?;
+        if node.regular_file || node.simple_device.is_some() {
+            return None;
+        }
+        let n = node.borrow();
+        match n.content {
+            Content::Device(device) if device.source_open() => Some(device),
+            _ => None,
+        }
+    }
+    /// Read-only tty probes on an actual non-terminal never need guest bytes.
+    /// Real terminals, including embedding PTY 0, retain their PTY authority.
+    pub fn terminal_query_error(&self) -> Option<Errno> {
+        if matches!(self.resource, ByteResource::Pty { .. }) {
+            None
+        } else {
+            Some(Errno(if self.flags & O_PATH != 0 { 9 } else { 25 }))
+        }
+    }
+    pub fn check_device_ioctl(&self, request: u32) -> Result<()> {
+        if let Some(file) = &self._file {
+            return file.open.check_device_ioctl(request);
+        }
+        self.origin
+            .as_ref()
+            .and_then(OfdIdentity::open)
+            .map_or(Ok(()), |open| open.check_device_ioctl(request))
+    }
+    pub fn check_read_access(&self) -> Result<()> {
+        if !fd_can_read(self.flags) {
+            Err(Errno(9))
+        } else {
+            Ok(())
+        }
+    }
+    pub fn is_signalfd(&self) -> bool {
+        matches!(self.resource, ByteResource::Signal(..))
+    }
+    pub fn take_signal_record(&self) -> Option<[u8; 128]> {
+        let ByteResource::Signal(mask, reader) = &self.resource else {
+            return None;
+        };
+        reader.take(mask.get())
+    }
+    fn bind_context(
+        mut self,
+        reader: Option<&Arc<dyn SignalReader>>,
+        cgroups: Option<&cgroup::CgroupAccess>,
+    ) -> Self {
+        match &mut self.resource {
+            ByteResource::Epoll(epoll) => epoll.signal_reader = reader.cloned(),
+            ByteResource::Cgroup(_, caller) => *caller = cgroups.cloned(),
+            ByteResource::PollOnly(poll) => {
+                if let Some(bound) = reader
+                    .and_then(|r| r.global_tid())
+                    .and_then(|tid| poll.bind_task(tid))
+                {
+                    *poll = bound;
+                }
+            }
+            _ => {}
+        }
+        self
+    }
+    fn signal(
+        file: SharedFd,
+        mask: Arc<events::SignalMask>,
+        reader: Arc<dyn SignalReader>,
+    ) -> Self {
+        Self {
+            resource: ByteResource::Signal(mask, reader),
+            flags: file.open.flags.get(),
+            status: file.open.flags.clone(),
+            origin: None,
+            _file: Some(file),
+        }
+    }
+    pub(super) fn set_async(&self, number: u32, enabled: bool) -> Result<u64> {
+        let _update = self.status.lock_update();
+        if self.status.get() & O_PATH != 0 {
+            return Err(Errno(9));
+        }
+        self.status.async_state().enable(self, number, enabled)?;
+        self.status.set_async(enabled);
+        Ok(0)
+    }
+    pub(super) fn set_status(&self, number: u32, flags: u32) -> Result<u64> {
+        let _update = self.status.lock_update();
+        self.status
+            .async_state()
+            .enable(self, number, flags & 0x2000 != 0)?;
+        self.status.store_locked(flags)?;
+        Ok(0)
+    }
+    pub(super) fn supports_async(&self) -> bool {
+        matches!(
+            self.resource,
+            ByteResource::Pipe { .. }
+                | ByteResource::Unix { .. }
+                | ByteResource::UnixDatagram(_)
+                | ByteResource::UnixControl(_)
+                | ByteResource::Pty { .. }
+        )
+    }
+    pub(super) fn uring_poll(open: &Arc<SharedOpenDescription>, ring: Arc<Uring>) -> Self {
+        Self {
+            resource: ByteResource::PollOnly(ring),
+            flags: open.flags.get(),
+            status: open.flags.clone(),
+            _file: None,
+            origin: Some(OfdIdentity::new(open)),
+        }
+    }
+
+    pub(super) fn tcp_poll(open: &Arc<SharedOpenDescription>, tcp: trames_net::TcpPoll) -> Self {
+        Self {
+            resource: ByteResource::TcpPoll(tcp),
+            flags: open.flags.get(),
+            status: open.flags.clone(),
+            _file: None,
+            origin: Some(OfdIdentity::new(open)),
+        }
+    }
+    pub(super) fn snapshot_tcp_poll(open: &OpenDescription) -> Option<Self> {
+        Some(Self::tcp_poll(
+            &open.shared,
+            open.socket.as_ref()?.direct_tcp()?.poll_only(),
+        ))
+    }
+    pub fn ofd_identity(&self) -> OfdIdentity {
+        self._file.as_ref().map_or_else(
+            || self.origin.as_ref().expect("prepared OFD identity").clone(),
+            SharedFd::ofd_identity,
+        )
+    }
+    pub fn shared_file(&self) -> Option<SharedFd> {
+        self._file.clone()
+    }
+    pub fn retains_ofd(&self) -> bool {
+        self._file.is_some()
+    }
+    pub(super) fn regular_poll(open: &SharedOpenDescription) -> Self {
+        Self {
+            resource: ByteResource::Regular,
+            flags: open.flags.get(),
+            status: open.flags.clone(),
+            _file: None,
+            origin: None,
+        }
+    }
+    pub(super) fn socket_poll(open: &SharedOpenDescription) -> Option<Self> {
+        let socket = open.socket.as_ref()?;
+        Some(Self {
+            resource: ByteResource::SocketPoll(Arc::downgrade(socket)),
+            flags: open.flags.get(),
+            status: open.flags.clone(),
+            _file: None,
+            origin: None,
+        })
+    }
+    /// Poll authority remains available while potentially blocking native bytes
+    /// use the already bounded host-file executor instead of occupying a CPU.
+    pub(super) fn set_bpf_poll(&mut self) {
+        self.resource = ByteResource::Bpf;
+    }
+    pub fn host_console(&self) -> bool {
+        matches!(&self.resource,ByteResource::Console(console) if console.io.host_work())
+    }
+    pub fn is_netlink(&self) -> bool {
+        matches!(&self.resource, ByteResource::SocketPoll(socket) if socket.upgrade().is_some_and(|socket| socket.is_netlink()))
+    }
+    pub(super) fn shared_byte(open: &SharedOpenDescription) -> Option<Self> {
+        let resource = if let Some(console) = open.console.get() {
+            ByteResource::Console(console.clone())
+        } else if let Some(watch) = open.proc_watch() {
+            ByteResource::ProcWatch(watch.clone())
+        } else if let Some(log) = &open.kernel_log {
+            ByteResource::Kmsg(log.clone())
+        } else if let Some(bridge) = &open.bridge {
+            ByteResource::Bridge(Arc::downgrade(bridge))
+        } else if let Some(local) = &open.local {
+            match local.direct().or_else(|| local.direct_message()) {
+                Some((data, side)) => ByteResource::Unix { data, side },
+                None if local.addressed_datagram() => {
+                    ByteResource::UnixDatagram(local.datagram_resource())
+                }
+                None => ByteResource::UnixControl(Arc::downgrade(local)),
+            }
+        } else if let Some(end) = &open.pty {
+            ByteResource::Pty {
+                data: end.pair.io.clone(),
+                master: end.master,
+            }
+        } else {
+            match &open.control {
+                Some(events::SharedControl::Perf(event)) => ByteResource::Perf(event.clone()),
+                Some(events::SharedControl::MessageQueue(q)) => {
+                    ByteResource::MessageQueue(q.clone())
+                }
+                Some(events::SharedControl::FuseFile(_)) => return None,
+                Some(events::SharedControl::Fuse(file)) => ByteResource::Fuse(file.clone()),
+                Some(events::SharedControl::Tun(file, _)) => ByteResource::Tun(file.clone()),
+                Some(events::SharedControl::Pid(pid)) => ByteResource::PollOnly(pid.clone()),
+                Some(events::SharedControl::Sync(file)) => {
+                    ByteResource::PollOnly(file.poll_handle())
+                }
+                Some(events::SharedControl::Binder(process)) => {
+                    ByteResource::PollOnly(process.poll_handle())
+                }
+                // Sharing OFD ownership grants no creator-task signal queue or
+                // BPF byte authority. These retain their original ABI handling.
+                Some(
+                    events::SharedControl::Uring(_)
+                    | events::SharedControl::Signal(_)
+                    | events::SharedControl::MountTree(_)
+                    | events::SharedControl::FsContext(_)
+                    | events::SharedControl::Landlock(_)
+                    | events::SharedControl::Bpf(_),
+                ) => return None,
+                Some(events::SharedControl::Cgroup(file)) => {
+                    ByteResource::Cgroup(file.clone(), None)
+                }
+                Some(events::SharedControl::Event(counter)) => ByteResource::Event(counter.clone()),
+                Some(events::SharedControl::Timer(timer)) => ByteResource::Timer(timer.clone()),
+                Some(events::SharedControl::Inotify(instance)) => {
+                    ByteResource::Inotify(instance.capability())
+                }
+                Some(events::SharedControl::Epoll(live)) => Self::epoll_byte(live)?,
+                None if open
+                    .node
+                    .as_ref()
+                    .is_some_and(|n| n.simple_device.is_some()) =>
+                {
+                    ByteResource::SimpleDevice(open.node.as_ref()?.simple_device?)
+                }
+                None => {
+                    if let Some(device) = Self::resource_device(open) {
+                        ByteResource::Device(device)
+                    } else {
+                        let end = open.pipe.as_ref()?;
+                        ByteResource::Pipe {
+                            data: end.data.clone(),
+                            read: end.read,
+                            write: end.write,
+                            initial_write_epoch: end.initial_write_epoch,
+                        }
+                    }
+                }
+            }
+        };
+        Some(Self {
+            resource,
+            flags: open.flags.get(),
+            status: open.flags.clone(),
+            _file: None,
+            origin: None,
+        })
+    }
+    fn epoll_byte(live: &Arc<epoll::LiveEpoll>) -> Option<ByteResource> {
+        Some(ByteResource::Epoll(DirectEpoll {
+            accepted_revision: None,
+            signal_reader: None,
+            live: live.clone(),
+        }))
+    }
+    pub(super) fn source_poll(
+        open: OpenHandle,
+        reader: Option<&Arc<dyn SignalReader>>,
+    ) -> Option<Self> {
+        let view = open.borrow();
+        let mut fd = if let Some(events::Anonymous::Signal(mask)) = &view.anonymous {
+            Self::signal(
+                SharedFd::new(view.shared.clone()),
+                mask.clone(),
+                reader?.clone(),
+            )
+        } else {
+            match &open {
+                OpenHandle::Shared(file) => SharedFd::new(file.clone()).direct_poll()?,
+                OpenHandle::Owner(_) => Self::snapshot(&view)
+                    .or_else(|| Self::snapshot_tcp_poll(&view))
+                    .or_else(|| SharedFd::new(view.shared.clone()).direct_poll())?,
+            }
+        };
+        if fd.origin.is_none() {
+            fd.origin = Some(OfdIdentity::new(&view.shared));
+        }
+        Some(fd.bind_context(reader, None))
+    }
+    fn epoll_complete(&self, stack: &mut [usize; 5], depth: usize) -> bool {
+        let ByteResource::Epoll(epoll) = &self.resource else {
+            return true;
+        };
+        let id = Arc::as_ptr(&epoll.live) as usize;
+        // A DEL/reverse-ADD can overlap immutable snapshots. That transient
+        // branch is not an absent provider or a reason to stop all workers.
+        if depth == stack.len() || stack[..depth].contains(&id) {
+            return true;
+        }
+        stack[depth] = id;
+        epoll.snapshot().iter().all(|(_, state, resource)| {
+            if !state.lock().unwrap().armed {
+                return true;
+            }
+            match resource.resolve_with(epoll.signal_reader.as_ref()) {
+                Some(fd) => fd.epoll_complete(stack, depth + 1),
+                None => !resource.live(),
+            }
+        })
+    }
+    pub(super) fn epoll_has_providers(&self) -> bool {
+        self.epoll_complete(&mut [0; 5], 0)
+    }
+    pub fn poll_has_providers(&self) -> bool {
+        self.epoll_has_providers()
+    }
+    pub fn refresh_epoll(&self) -> Option<Self> {
+        let ByteResource::Epoll(epoll) = &self.resource else {
+            return Some(self.clone());
+        };
+        let revision = epoll.live.revision();
+        if epoll.accepted_revision != Some(revision) && !self.epoll_complete(&mut [0; 5], 0) {
+            return None;
+        }
+        let mut result = self.clone();
+        if let ByteResource::Epoll(epoll) = &mut result.resource {
+            epoll.accepted_revision = Some(revision);
+        }
+        Some(result)
+    }
+    pub fn epoll_accepted_revision(&self) -> Option<u64> {
+        match &self.resource {
+            ByteResource::Epoll(epoll) => epoll.accepted_revision,
+            _ => None,
+        }
+    }
+    pub(super) fn with_ofd(mut self, file: SharedFd) -> Self {
+        self._file = Some(file);
+        self
+    }
+    // A conservative scheduling hint, never an access/FD authority check.
+    // Original nested interests use the same bounded topology traversal as
+    // readiness; no graph lock spans a scheduling hint.
+    fn shares_resource(&self, other: &Self) -> bool {
+        match (&self.resource, &other.resource) {
+            (ByteResource::Console(a), ByteResource::Console(b)) => {
+                a.stream == b.stream && Arc::ptr_eq(&a.io, &b.io)
+            }
+            (ByteResource::TcpPoll(a), ByteResource::TcpPoll(b)) => a.shares_socket(b),
+            (ByteResource::SocketPoll(a), ByteResource::SocketPoll(b)) => {
+                std::sync::Weak::ptr_eq(a, b)
+            }
+            (ByteResource::Fuse(a), ByteResource::Fuse(b)) => Arc::ptr_eq(a, b),
+            (ByteResource::Tun(a), ByteResource::Tun(b)) => Arc::ptr_eq(a, b),
+            (ByteResource::Kmsg(a), ByteResource::Kmsg(b)) => a.same_log(b),
+            (ByteResource::Bridge(a), ByteResource::Bridge(b)) => std::sync::Weak::ptr_eq(a, b),
+            (ByteResource::Epoll(a), _) => {
+                let Some(_traversal) = epoll::Traversal::enter(&a.live) else {
+                    return false;
+                };
+                a.snapshot().iter().any(|(_, _, fd)| {
+                    fd.resolve_with(a.signal_reader.as_ref())
+                        .is_some_and(|fd| fd.shares_resource(other))
+                })
+            }
+            (_, ByteResource::Epoll(b)) => {
+                let Some(_traversal) = epoll::Traversal::enter(&b.live) else {
+                    return false;
+                };
+                b.snapshot().iter().any(|(_, _, fd)| {
+                    fd.resolve_with(b.signal_reader.as_ref())
+                        .is_some_and(|fd| self.shares_resource(&fd))
+                })
+            }
+            (ByteResource::Signal(a, _), ByteResource::Signal(b, _)) => Arc::ptr_eq(a, b),
+            (ByteResource::Perf(a), ByteResource::Perf(b)) => Arc::ptr_eq(a, b),
+            (ByteResource::Event(a), ByteResource::Event(b)) => Arc::ptr_eq(a, b),
+            (ByteResource::Timer(a), ByteResource::Timer(b)) => Arc::ptr_eq(a, b),
+            (ByteResource::Inotify(a), ByteResource::Inotify(b)) => Arc::ptr_eq(&a.queue, &b.queue),
+            (ByteResource::Pipe { data: a, .. }, ByteResource::Pipe { data: b, .. }) => {
+                Arc::ptr_eq(a, b)
+            }
+            (ByteResource::UnixDatagram(a), ByteResource::UnixDatagram(b)) => Arc::ptr_eq(a, b),
+            (ByteResource::Unix { data: a, .. }, ByteResource::Unix { data: b, .. }) => {
+                Arc::ptr_eq(a, b)
+            }
+            (ByteResource::Pty { data: a, .. }, ByteResource::Pty { data: b, .. }) => {
+                Arc::ptr_eq(a, b)
+            }
+            _ => false,
+        }
+    }
+    /// Native interests of this accepted resource, not every open watch.
+    pub fn native_wait_fds(&self) -> Vec<HostFd> {
+        match &self.resource {
+            ByteResource::Console(console) => console.io.native_wait_fds(console.stream),
+            ByteResource::TcpPoll(tcp) => tcp.poll_event_fd().map(Into::into).into_iter().collect(),
+            ByteResource::SocketPoll(socket) => socket
+                .upgrade()
+                .and_then(|socket| socket.wait_sources().ok())
+                .map_or_else(Vec::new, |(fds, _)| {
+                    fds.into_iter().map(Into::into).collect()
+                }),
+            ByteResource::Timer(timer) => timer.native_fds(),
+            #[cfg(all(feature = "hostfs", unix))]
+            ByteResource::Inotify(queue) => queue.native_fd().map(Into::into).into_iter().collect(),
+            ByteResource::Epoll(epoll) => {
+                let Some(_traversal) = epoll::Traversal::enter(&epoll.live) else {
+                    return Vec::new();
+                };
+                epoll
+                    .snapshot()
+                    .iter()
+                    .filter(|(_, state, _)| state.lock().unwrap().armed)
+                    .filter_map(|(_, _, fd)| fd.resolve_with(epoll.signal_reader.as_ref()))
+                    .flat_map(|fd| fd.native_wait_fds())
+                    .collect()
+            }
+            _ => Vec::new(),
+        }
+    }
+    pub fn subscribe(&self, signal: &Arc<crate::IoSignal>) -> Vec<crate::IoSubscription> {
+        match &self.resource {
+            ByteResource::Console(console) => {
+                let mut subscriptions = console.io.subscribe(signal);
+                subscriptions.extend(console.io.native_wait_fds(console.stream).into_iter().map(
+                    |fd| {
+                        IoSubscription::native_direction(
+                            Ok(fd),
+                            console.stream != ConsoleStream::Input,
+                            signal,
+                        )
+                    },
+                ));
+                subscriptions
+            }
+            ByteResource::SocketPoll(socket) => {
+                let Some(socket) = socket.upgrade() else {
+                    return Vec::new();
+                };
+                if let Some(subscription) = socket.subscribe(signal) {
+                    return vec![subscription];
+                }
+                // The ordinary connected TCP path above keeps its stable
+                // native observer. Unconnected/UDP/packet-stack sockets use
+                // their original live native set and existing fabric timer.
+                let mut subscriptions = vec![socket.subscribe_changes(signal)];
+                subscriptions.extend(socket.subscribe_io_ready(signal, true));
+                match socket.wait_sources() {
+                    Ok((fds, _)) => subscriptions.extend(
+                        fds.into_iter()
+                            .map(|fd| IoSubscription::native(Ok(fd.into()), signal)),
+                    ),
+                    Err(error) => subscriptions.push(IoSubscription::native(Err(error), signal)),
+                }
+                subscriptions
+            }
+            ByteResource::TcpPoll(tcp) => vec![IoSubscription::native(
+                tcp.poll_event_fd().map(Into::into),
+                signal,
+            )],
+            ByteResource::Fuse(file) => vec![file.subscribe(signal)],
+            ByteResource::Tun(file) => file.subscribe(signal).into_iter().collect(),
+            ByteResource::ProcWatch(watch) => vec![watch.subscribe(signal)],
+            ByteResource::MessageQueue(q) => vec![q.subscribe(signal)],
+            ByteResource::Cgroup(file, _) => vec![file.subscribe(signal)],
+            ByteResource::Bpf
+            | ByteResource::Regular
+            | ByteResource::SimpleDevice(_)
+            | ByteResource::Device(_) => Vec::new(),
+            ByteResource::UnixControl(local) => local
+                .upgrade()
+                .map(|local| local.subscribe(signal))
+                .into_iter()
+                .collect(),
+            ByteResource::Kmsg(log) => vec![log.subscribe(signal)],
+            ByteResource::Bridge(bridge) => bridge
+                .upgrade()
+                .map(|b| b.subscribe(signal))
+                .into_iter()
+                .collect(),
+            ByteResource::PollOnly(poll) => vec![poll.subscribe(signal)],
+            ByteResource::Perf(event) => vec![event.subscribe(signal)],
+            ByteResource::Event(counter) => vec![counter.readiness.subscribe(signal)],
+            ByteResource::Timer(timer) => timer.subscribe(signal),
+            ByteResource::Signal(mask, reader) => {
+                let mut subs = reader.subscribe(signal);
+                subs.push(mask.changed.subscribe(signal));
+                subs
+            }
+            ByteResource::Inotify(queue) => vec![queue.queue.subscribe(signal)],
+            ByteResource::Pipe { data, .. } => vec![data.readiness.subscribe(signal)],
+            ByteResource::Unix { data, .. } | ByteResource::UnixDatagram(data) => {
+                vec![data.readiness.subscribe(signal)]
+            }
+            ByteResource::Pty { data, .. } => vec![data.subscribe(signal)],
+            ByteResource::Epoll(epoll) => {
+                let Some(_traversal) = epoll::Traversal::enter(&epoll.live) else {
+                    return Vec::new();
+                };
+                let mut subscriptions = vec![epoll.live.changed.subscribe(signal)];
+                subscriptions.extend(
+                    epoll
+                        .snapshot()
+                        .iter()
+                        .filter(|(_, state, _)| state.lock().unwrap().armed)
+                        .flat_map(|(key, state, target)| {
+                            let Some(fd) = target.resolve_with(epoll.signal_reader.as_ref()) else {
+                                return Vec::new();
+                            };
+                            if state.lock().unwrap().events & epoll::EXCLUSIVE == 0 {
+                                return fd.subscribe(signal);
+                            }
+                            let target = target.clone();
+                            let reader = epoll.signal_reader.clone();
+                            let baseline =
+                                Mutex::new(fd.peek_poll(state.lock().unwrap().events as u16));
+                            let state = Arc::downgrade(state);
+                            let exclusive = IoSignal::exclusive(signal, key.1, move || {
+                                let (Some(state), Some(fd)) =
+                                    (state.upgrade(), target.resolve_with(reader.as_ref()))
+                                else {
+                                    return false;
+                                };
+                                let state = state.lock().unwrap();
+                                let (ready, epoch) = fd.peek_poll(state.events as u16);
+                                let mut previous = baseline.lock().unwrap();
+                                let changed =
+                                    poll_mask::new_edges(ready, previous.0, epoch, previous.1) != 0
+                                        || ready & (8 | 16) != 0;
+                                *previous = (ready, epoch);
+                                state.armed && ready != 0 && changed && state.ready(ready, epoch)
+                            });
+                            fd.subscribe(&exclusive)
+                                .into_iter()
+                                .map(|s| s.retain_signal(exclusive.clone()))
+                                .collect()
+                        }),
+                );
+                subscriptions
+            }
+        }
+    }
+    pub(super) fn snapshot(open: &OpenDescription) -> Option<Self> {
+        let resource = if let Some(console) = open.console.get() {
+            ByteResource::Console(console.clone())
+        } else if let Some(watch) = open.proc_watch() {
+            ByteResource::ProcWatch(watch.clone())
+        } else if let Some(log) = &open.kernel_log {
+            ByteResource::Kmsg(log.clone())
+        } else if let Some(bridge) = &open.bridge {
+            ByteResource::Bridge(Arc::downgrade(bridge))
+        } else if let Some(events::Anonymous::Perf(event)) = &open.anonymous {
+            ByteResource::Perf(event.clone())
+        } else if let Some(events::Anonymous::Event(counter)) = &open.anonymous {
+            ByteResource::Event(counter.clone())
+        } else if let Some(events::Anonymous::Timer(timer)) = &open.anonymous {
+            ByteResource::Timer(timer.clone())
+        } else if let Some(events::Anonymous::Inotify(instance)) = &open.anonymous {
+            ByteResource::Inotify(instance.capability())
+        } else if let Some(events::Anonymous::Epoll(shared)) = &open.anonymous {
+            Self::epoll_byte(shared)?
+        } else if matches!(open.kind, FdKind::PipeRead | FdKind::PipeWrite) {
+            let end = open.pipe.as_ref()?;
+            ByteResource::Pipe {
+                data: end.data.clone(),
+                read: end.read,
+                write: end.write,
+                initial_write_epoch: end.initial_write_epoch,
+            }
+        } else if let Some((data, side)) = open
+            .local
+            .as_ref()
+            .and_then(|s| s.direct().or_else(|| s.direct_message()))
+        {
+            ByteResource::Unix { data, side }
+        } else if let Some(end) = &open.pty {
+            ByteResource::Pty {
+                data: end.pair.io.clone(),
+                master: end.master,
+            }
+        } else {
+            return None;
+        };
+        Some(Self {
+            resource,
+            flags: open.flags.get(),
+            status: open.flags.clone(),
+            _file: None,
+            origin: Some(OfdIdentity::new(&open.shared)),
+        })
+    }
+    /// Ring RECV has an explicit copied/reported length ABI. Keep the general
+    /// scalar syscall snapshot's existing admission unchanged.
+    pub(super) fn snapshot_uring(open: &OpenDescription) -> Option<Self> {
+        Self::snapshot(open).or_else(|| {
+            let (data, side) = open.local.as_ref()?.direct_message()?;
+            Some(Self {
+                resource: ByteResource::Unix { data, side },
+                flags: open.flags.get(),
+                status: open.flags.clone(),
+                _file: None,
+                origin: Some(OfdIdentity::new(&open.shared)),
+            })
+        })
+    }
+    fn snapshot_poll(
+        open: &OpenDescription,
+        polls: &BTreeMap<usize, Arc<dyn DirectPoll>>,
+    ) -> Option<Self> {
+        if let Some(fd) = Self::snapshot_tcp_poll(open) {
+            return Some(fd);
+        }
+        if let Some(watch) = open.proc_watch() {
+            return Some(Self {
+                resource: ByteResource::ProcWatch(watch.clone()),
+                flags: open.flags.get(),
+                status: open.flags.clone(),
+                _file: None,
+                origin: Some(OfdIdentity::new(&open.shared)),
+            });
+        }
+        let resource = match &open.anonymous {
+            Some(events::Anonymous::Uring(ring)) => {
+                ByteResource::PollOnly(polls.get(&(Arc::as_ptr(ring) as usize))?.clone())
+            }
+            Some(events::Anonymous::Epoll(shared)) => Self::epoll_byte(shared)?,
+            _ => return Self::snapshot(open),
+        };
+        Some(Self {
+            resource,
+            flags: open.flags.get(),
+            status: open.flags.clone(),
+            _file: None,
+            origin: Some(OfdIdentity::new(&open.shared)),
+        })
+    }
+    pub fn is_poll_only(&self) -> bool {
+        matches!(
+            self.resource,
+            ByteResource::SocketPoll(_)
+                | ByteResource::TcpPoll(_)
+                | ByteResource::UnixControl(_)
+                | ByteResource::PollOnly(_)
+                | ByteResource::Bpf
+                | ByteResource::Regular
+                | ByteResource::ProcWatch(_)
+        )
+    }
+    pub fn poll_resources(&self) -> Vec<Arc<dyn DirectPoll>> {
+        match &self.resource {
+            ByteResource::PollOnly(poll) => vec![poll.clone()],
+            ByteResource::Epoll(epoll) => {
+                let Some(_traversal) = epoll::Traversal::enter(&epoll.live) else {
+                    return Vec::new();
+                };
+                epoll
+                    .snapshot()
+                    .iter()
+                    .filter(|(_, state, _)| state.lock().unwrap().armed)
+                    .flat_map(|(_, _, fd)| {
+                        fd.resolve_with(epoll.signal_reader.as_ref())
+                            .map(|fd| fd.poll_resources())
+                            .unwrap_or_default()
+                    })
+                    .collect()
+            }
+            _ => Vec::new(),
+        }
+    }
+    pub fn poll_identities(&self) -> Vec<usize> {
+        match &self.resource {
+            ByteResource::PollOnly(poll) => vec![poll.identity()],
+            ByteResource::Epoll(epoll) => {
+                let Some(_traversal) = epoll::Traversal::enter(&epoll.live) else {
+                    return Vec::new();
+                };
+                epoll
+                    .snapshot()
+                    .iter()
+                    .filter(|(_, state, _)| state.lock().unwrap().armed)
+                    .flat_map(|(_, _, fd)| {
+                        fd.resolve_with(epoll.signal_reader.as_ref())
+                            .map(|fd| fd.poll_identities())
+                            .unwrap_or_default()
+                    })
+                    .collect()
+            }
+            _ => Vec::new(),
+        }
+    }
+    pub fn is_epoll(&self) -> bool {
+        matches!(self.resource, ByteResource::Epoll(_))
+    }
+    pub fn is_pipe(&self) -> bool {
+        matches!(self.resource, ByteResource::Pipe { .. })
+    }
+    pub fn is_unix(&self) -> bool {
+        matches!(
+            self.resource,
+            ByteResource::Unix { .. } | ByteResource::UnixDatagram(_)
+        )
+    }
+    pub fn is_addressed_datagram(&self) -> bool {
+        matches!(self.resource, ByteResource::UnixDatagram(_))
+    }
+    pub fn local_operation(&self) -> Option<LocalOperation> {
+        LocalOperation::from_shared(self.shared_file()?).ok()
+    }
+    fn local_data(&self) -> Option<(&Arc<ipc::channel::Resource>, usize)> {
+        match &self.resource {
+            ByteResource::Unix { data, side } => Some((data, *side)),
+            ByteResource::UnixDatagram(data) => Some((data, 0)),
+            _ => None,
+        }
+    }
+    pub fn local_kind(&self) -> u32 {
+        match &self.resource {
+            ByteResource::Unix { data, .. } | ByteResource::UnixDatagram(data) => data.kind(),
+            _ => 0,
+        }
+    }
+    pub fn local_outgoing_bytes(&self) -> Option<usize> {
+        let (data, side) = self.local_data()?;
+        Some(data.outgoing_bytes(side))
+    }
+    pub fn local_send_buffer(&self) -> usize {
+        self.local_data()
+            .map_or(0, |(data, side)| data.buffer_size(side, false))
+    }
+    pub fn recv_local_message(
+        &self,
+        count: usize,
+        flags: u32,
+    ) -> Option<Result<LocalReceived<SharedRights>>> {
+        let (data, side) = self.local_data()?;
+        data.recv_local(side, count, flags)
+    }
+    pub fn send_local_message(
+        &self,
+        bytes: &[u8],
+        flags: u32,
+        rights: &SharedRights,
+        credentials: [u32; 3],
+    ) -> Option<Result<usize>> {
+        self.send_local_message_mode(bytes, flags, rights, credentials, false)
+    }
+    pub fn send_local_message_explicit(
+        &self,
+        bytes: &[u8],
+        flags: u32,
+        rights: &SharedRights,
+        credentials: [u32; 3],
+    ) -> Option<Result<usize>> {
+        self.send_local_message_mode(bytes, flags, rights, credentials, true)
+    }
+    fn send_local_message_mode(
+        &self,
+        bytes: &[u8],
+        flags: u32,
+        rights: &SharedRights,
+        credentials: [u32; 3],
+        explicit: bool,
+    ) -> Option<Result<usize>> {
+        let ByteResource::Unix { data, side } = &self.resource else {
+            return None;
+        };
+        data.send_local(*side, bytes, flags, rights, credentials, explicit)
+    }
+    pub fn is_pty(&self) -> bool {
+        matches!(self.resource, ByteResource::Pty { .. })
+    }
+    /// Only an accepted full OFD grants control authority; byte snapshots do not.
+    pub fn pty_endpoint(&self) -> Option<&PtyEnd> {
+        self._file.as_ref()?.open.pty.as_deref()
+    }
+    pub fn retained_pty(&self) -> Option<(Arc<PtyEnd>, u32)> {
+        Some((self._file.as_ref()?.open.pty.clone()?, self.status.get()))
+    }
+    pub fn is_inotify(&self) -> bool {
+        matches!(self.resource, ByteResource::Inotify(_))
+    }
+    pub fn inotify_remove(&self, wd: i32) -> Result<u64> {
+        let ByteResource::Inotify(queue) = &self.resource else {
+            return Err(Errno(22));
+        };
+        if self.flags & O_PATH != 0 {
+            return Err(Errno(22));
+        }
+        queue.remove_watch(wd).map(|()| 0)
+    }
+    pub fn terminal_query(&self, request: u32) -> Option<Vec<u8>> {
+        if self.flags & O_PATH != 0 {
+            return None;
+        }
+        match &self.resource {
+            ByteResource::Pty { data, .. } => data.query(request),
+            _ => None,
+        }
+    }
+    pub fn terminal_read(
+        &self,
+        count: usize,
+        access: Option<pty::TerminalAccess>,
+    ) -> Option<Result<Vec<u8>>> {
+        if !fd_can_read(self.flags) {
+            return Some(Err(Errno(9)));
+        }
+        match &self.resource {
+            ByteResource::Pty { data, master } => data.read(*master, count, access),
+            _ => None,
+        }
+    }
+    pub fn terminal_write(
+        &self,
+        bytes: &[u8],
+        access: Option<pty::TerminalAccess>,
+    ) -> Option<Result<usize>> {
+        if !fd_can_write(self.flags) {
+            return Some(Err(Errno(9)));
+        }
+        match &self.resource {
+            ByteResource::Pty { data, master } => data.write(*master, bytes, access),
+            _ => None,
+        }
+    }
+    pub fn terminal_read_live(
+        &self,
+        count: usize,
+        task: &dyn pty::TerminalTask,
+    ) -> pty::TerminalIo<Vec<u8>> {
+        if !fd_can_read(self.flags) {
+            return pty::TerminalIo::Complete(Err(Errno(9)));
+        }
+        let ByteResource::Pty { data, master } = &self.resource else {
+            unreachable!("PTY read authority");
+        };
+        data.read_live(*master, count, task)
+    }
+    pub fn terminal_write_live(
+        &self,
+        bytes: &[u8],
+        task: &dyn pty::TerminalTask,
+    ) -> pty::TerminalIo<usize> {
+        if !fd_can_write(self.flags) {
+            return pty::TerminalIo::Complete(Err(Errno(9)));
+        }
+        let ByteResource::Pty { data, master } = &self.resource else {
+            unreachable!("PTY write authority");
+        };
+        data.write_live(*master, bytes, task)
+    }
+    pub fn timer(&self) -> Option<&TimerFd> {
+        if let ByteResource::Timer(timer) = &self.resource {
+            Some(timer)
+        } else {
+            None
+        }
+    }
+    pub fn poll_ready(&self, events: u16) -> Option<u16> {
+        Some(self.poll(events).0)
+    }
+    /// Preserve the original poll epoch for worker multishot edge detection.
+    pub fn poll_state(&self, events: u16) -> Option<(u16, [u64; 2])> {
+        Some(self.poll(events))
+    }
+    pub fn dynamic_poll_sources(&self) -> bool {
+        match &self.resource {
+            ByteResource::SocketPoll(socket) => {
+                socket.upgrade().is_some_and(|socket| !socket.is_netlink())
+            }
+            ByteResource::Epoll(epoll) => {
+                let Some(_traversal) = epoll::Traversal::enter(&epoll.live) else {
+                    return false;
+                };
+                epoll.snapshot().iter().any(|(_, _, target)| {
+                    target
+                        .resolve_with(epoll.signal_reader.as_ref())
+                        .is_some_and(|fd| fd.dynamic_poll_sources())
+                })
+            }
+            _ => false,
+        }
+    }
+    pub fn poll_deadline(&self, events: u16) -> Option<std::time::Instant> {
+        if events & 1 == 0 && matches!(self.resource, ByteResource::Timer(_)) {
+            return None;
+        }
+        self.next_deadline()
+    }
+    pub fn next_deadline(&self) -> Option<std::time::Instant> {
+        match &self.resource {
+            ByteResource::Tun(file) => file
+                .wait_delay()
+                .and_then(|d| std::time::Instant::now().checked_add(d)),
+            ByteResource::Timer(timer) => timer.deadline(),
+            ByteResource::SocketPoll(socket) => socket
+                .upgrade()
+                .and_then(|socket| socket.wait_delay())
+                .and_then(|delay| std::time::Instant::now().checked_add(delay)),
+            ByteResource::Bridge(bridge) => bridge.upgrade().and_then(|b| b.next_deadline()),
+            ByteResource::Epoll(epoll) => {
+                let _traversal = epoll::Traversal::enter(&epoll.live)?;
+                epoll
+                    .snapshot()
+                    .iter()
+                    .filter_map(|(_, state, fd)| {
+                        let fd = fd.resolve_with(epoll.signal_reader.as_ref())?;
+                        let armed = {
+                            let state = state.lock().unwrap();
+                            state.armed.then_some(state.events as u16)
+                        };
+                        armed.and_then(|events| fd.poll_deadline(events))
+                    })
+                    .min()
+            }
+            _ => None,
+        }
+    }
+    pub fn has_readable_bytes(&self) -> bool {
+        matches!(
+            self.resource,
+            ByteResource::Unix { .. }
+                | ByteResource::UnixDatagram(_)
+                | ByteResource::Pipe { .. }
+                | ByteResource::Pty { .. }
+                | ByteResource::Inotify(_)
+        )
+    }
+    pub fn readable_bytes(&self) -> usize {
+        match &self.resource {
+            ByteResource::Unix { data, side } => data.readable_bytes(*side),
+            ByteResource::UnixDatagram(data) => data.readable_bytes(0),
+            ByteResource::Pipe { data, .. } => data.lock().unwrap().bytes.len(),
+            ByteResource::Pty { data, master } => data.readable_bytes(*master),
+            ByteResource::Inotify(queue) => queue.available(),
+            _ => unreachable!("readable byte resource"),
+        }
+    }
+    pub fn shutdown(&self, how: u32) -> Result<()> {
+        match &self.resource {
+            ByteResource::Unix { data, side } => data.shutdown(*side, how),
+            ByteResource::UnixDatagram(data) => data.shutdown(0, how),
+            _ => Err(Errno(88)),
+        }
+    }
+    fn poll(&self, events: u16) -> (u16, [u64; 2]) {
+        if let ByteResource::Perf(event) = &self.resource {
+            return event.poll(events);
+        }
+        if let ByteResource::ProcWatch(watch) = &self.resource {
+            return watch.poll(events);
+        }
+        self.peek_poll(events)
+    }
+    pub(super) fn peek_poll(&self, events: u16) -> (u16, [u64; 2]) {
+        match &self.resource {
+            ByteResource::Console(console) => console.io.poll(console.stream, events),
+            ByteResource::TcpPoll(tcp) => tcp.poll(events).unwrap_or((32, [0; 2])),
+            ByteResource::SocketPoll(socket) => socket.upgrade().map_or((32, [0; 2]), |s| {
+                (
+                    s.poll(events).unwrap_or(32),
+                    s.poll_epoch().unwrap_or([0; 2]),
+                )
+            }),
+            ByteResource::MessageQueue(q) => q.poll(events),
+            ByteResource::Fuse(file) => file.poll(events),
+            ByteResource::Tun(file) => file.poll(events),
+            ByteResource::ProcWatch(watch) => watch.peek(events),
+            ByteResource::Bpf => (0, [0; 2]),
+            ByteResource::Regular | ByteResource::SimpleDevice(_) | ByteResource::Device(_) => (
+                events & (poll_mask::READ_NORMAL | poll_mask::WRITE_NORMAL),
+                [0; 2],
+            ),
+            ByteResource::Cgroup(file, _) => {
+                if self.flags & O_PATH != 0 {
+                    (32, [0; 2])
+                } else {
+                    file.poll(events)
+                }
+            }
+            ByteResource::UnixControl(local) => local.upgrade().map_or((16, [0; 2]), |local| {
+                (local.poll(events), local.poll_epoch())
+            }),
+            ByteResource::Kmsg(log) => log.poll(events),
+            ByteResource::Bridge(bridge) => {
+                bridge.upgrade().map_or((16, [0; 2]), |b| b.peek(events))
+            }
+            ByteResource::PollOnly(poll) => poll.poll(events),
+            ByteResource::Perf(event) => event.peek(events),
+            ByteResource::Event(counter) => (counter.poll(events), counter.epoch()),
+            ByteResource::Timer(timer) => timer.poll(events),
+            ByteResource::Signal(mask, reader) => {
+                let (ready, mut epoch) = reader.poll(mask.get());
+                epoch[0] = epoch[0].wrapping_add(mask.revision.load(Ordering::Relaxed));
+                (ready & events, epoch)
+            }
+            ByteResource::Inotify(queue) => queue.poll(events),
+            ByteResource::Unix { data, side } => data.poll(*side, events),
+            ByteResource::UnixDatagram(data) => data.poll(0, events),
+            ByteResource::Pty { data, master } => data.poll_state(*master, events),
+            ByteResource::Pipe {
+                data,
+                read,
+                write,
+                initial_write_epoch,
+            } => {
+                let data = data.lock().unwrap();
+                (
+                    data.poll(*read, *write, *initial_write_epoch, events),
+                    data.io_epoch,
+                )
+            }
+            ByteResource::Epoll(epoll) => {
+                let Some(_traversal) = epoll::Traversal::enter(&epoll.live) else {
+                    return (0, [epoll.live.revision(), 0]);
+                };
+                let mut ready = false;
+                let mut generation = epoll.live.revision();
+                for (_, state, resource) in epoll.snapshot().iter() {
+                    let observed =
+                        epoll::inspect::<false>(state, resource.is_nested(), |requested| {
+                            let Some(fd) = resource.resolve_with(epoll.signal_reader.as_ref())
+                            else {
+                                return Ok(None);
+                            };
+                            let result = fd.peek_poll(requested);
+                            generation = generation
+                                .wrapping_add(result.1[0])
+                                .wrapping_add(result.1[1]);
+                            Ok(Some(result))
+                        })
+                        .expect("poll observation has no guest effects");
+                    ready |= observed.is_some();
+                }
+                (if ready { events & 1 } else { 0 }, [generation, 0])
+            }
+        }
+    }
+    pub fn epoll_wait(&self, max: usize) -> Result<Vec<(u32, u64)>> {
+        let ByteResource::Epoll(epoll) = &self.resource else {
+            return Err(Errno(22));
+        };
+        let Some(_traversal) = epoll::Traversal::enter(&epoll.live) else {
+            return Ok(Vec::new());
+        };
+        epoll.live.wait_with(max, epoll.signal_reader.as_ref())
+    }
+    pub fn epoll_delivery(&self) -> Result<crate::EpollDelivery> {
+        let ByteResource::Epoll(epoll) = &self.resource else {
+            return Err(Errno(22));
+        };
+        Ok(crate::EpollDelivery::new(self.clone(), epoll.live.clone()))
+    }
+    pub fn observe_epolls(&self, observations: &mut crate::EpollObservations) {
+        if let ByteResource::Epoll(epoll) = &self.resource {
+            observations.collect(&epoll.live, self.shared_file());
+        }
+    }
+    pub(super) fn epoll_signal_reader(&self) -> Option<&Arc<dyn SignalReader>> {
+        if let ByteResource::Epoll(epoll) = &self.resource {
+            epoll.signal_reader.as_ref()
+        } else {
+            None
+        }
+    }
+    pub fn epoll_revision(&self) -> Option<u64> {
+        if let ByteResource::Epoll(epoll) = &self.resource {
+            Some(epoll.live.revision())
+        } else {
+            None
+        }
+    }
+    pub(super) fn acknowledge(&self, epoch: [u64; 2]) {
+        if let ByteResource::ProcWatch(watch) = &self.resource {
+            watch.acknowledge(epoch[0]);
+        }
+    }
+
+    pub fn is_eventfd(&self) -> bool {
+        matches!(self.resource, ByteResource::Event(_))
+    }
+    pub fn read_zero_device(&self, copy: impl FnOnce() -> Result<u64>) -> Option<Result<u64>> {
+        if !matches!(
+            self.resource,
+            ByteResource::SimpleDevice(simple_device::Kind::Zero | simple_device::Kind::Full)
+        ) {
+            return None;
+        }
+        self._file.as_ref()?.open.read_zero_device(copy)
+    }
+    pub fn is_simple_device(&self) -> bool {
+        matches!(self.resource, ByteResource::SimpleDevice(_))
+    }
+    pub fn is_entropy_device(&self) -> bool {
+        matches!(
+            self.resource,
+            ByteResource::SimpleDevice(simple_device::Kind::Random | simple_device::Kind::Urandom)
+        )
+    }
+    pub fn entropy_control(&self) -> Option<Result<u64>> {
+        self.is_entropy_device()
+            .then_some(Err(Errno(if self.flags & O_PATH != 0 { 9 } else { 25 })))
+    }
+    pub fn is_kmsg(&self) -> bool {
+        matches!(self.resource, ByteResource::Kmsg(_))
+    }
+    pub fn kmsg_seek(&self, offset: i64, whence: u32) -> Result<u64> {
+        self.byte_seek(offset, whence)
+    }
+    pub fn device_pread(&self, count: usize, offset: u64) -> Result<Vec<u8>> {
+        if offset > i64::MAX as u64 {
+            return Err(Errno(22));
+        }
+        if let ByteResource::Device(device) = self.resource {
+            self.check_read_access()?;
+            return device.read(count);
+        }
+        if let ByteResource::MessageQueue(q) = &self.resource {
+            self.check_read_access()?;
+            return Ok(q.status(offset, count));
+        }
+        if let ByteResource::Cgroup(file, Some(caller)) = &self.resource {
+            self.check_read_access()?;
+            return file.cgroup_read(caller, offset, count)?.ok_or(Errno(19));
+        }
+        let ByteResource::SimpleDevice(kind) = self.resource else {
+            return Err(Errno(29));
+        };
+        self._file
+            .as_ref()
+            .ok_or(Errno(9))?
+            .open
+            .simple_read(kind, count)
+    }
+    pub fn device_pwrite(&self, bytes: &[u8], offset: u64) -> Result<usize> {
+        // The original bridge pwrite ABI rejects seeking before offset/flags.
+        if matches!(self.resource, ByteResource::Bridge(_)) {
+            return Err(Errno(29));
+        }
+        if offset > i64::MAX as u64 {
+            return Err(Errno(22));
+        }
+        if let ByteResource::Device(device) = self.resource {
+            if !fd_can_write(self.flags) {
+                return Err(Errno(9));
+            }
+            return device.write(bytes);
+        }
+        if let ByteResource::MessageQueue(_) = &self.resource {
+            return Err(Errno(if !fd_can_write(self.flags) { 9 } else { 22 }));
+        }
+        if let ByteResource::Cgroup(file, Some(caller)) = &self.resource {
+            if !fd_can_write(self.flags) {
+                return Err(Errno(9));
+            }
+            return file.cgroup_write(caller, bytes)?.ok_or(Errno(19));
+        }
+        let ByteResource::SimpleDevice(kind) = self.resource else {
+            return Err(Errno(29));
+        };
+        self._file
+            .as_ref()
+            .ok_or(Errno(9))?
+            .open
+            .simple_write(kind, bytes)
+    }
+    pub fn positioned_terminal_error(&self, write: bool, offset: u64) -> Errno {
+        if offset > i64::MAX as u64 {
+            Errno(22)
+        } else if !(if write {
+            fd_can_write(self.flags)
+        } else {
+            fd_can_read(self.flags)
+        }) {
+            Errno(9)
+        } else {
+            Errno(29)
+        }
+    }
+    pub fn positioned_bytes(&self) -> bool {
+        matches!(
+            self.resource,
+            ByteResource::SimpleDevice(_)
+                | ByteResource::Device(_)
+                | ByteResource::Bridge(_)
+                | ByteResource::Cgroup(..)
+                | ByteResource::MessageQueue(_)
+        )
+    }
+    pub fn byte_seek(&self, offset: i64, whence: u32) -> Result<u64> {
+        if self.flags & O_PATH != 0 {
+            return Err(Errno(9));
+        }
+        match &self.resource {
+            ByteResource::Kmsg(log) => log.seek(offset, whence),
+            ByteResource::SimpleDevice(_) | ByteResource::Device(_) => Ok(0),
+            ByteResource::Cgroup(..) | ByteResource::MessageQueue(_) => {
+                let mut position = self
+                    ._file
+                    .as_ref()
+                    .ok_or(Errno(9))?
+                    .open
+                    .file_position
+                    .lock()
+                    .unwrap();
+                if position.pending != 0 {
+                    return Err(Errno(11));
+                }
+                let value = match whence {
+                    0 => offset as i128,
+                    2 => {
+                        offset as i128
+                            + if matches!(self.resource, ByteResource::MessageQueue(_)) {
+                                80
+                            } else {
+                                0
+                            }
+                    }
+                    1 => position.value as i128 + offset as i128,
+                    _ => return Err(Errno(22)),
+                };
+                if !(0..=i64::MAX as i128).contains(&value) {
+                    return Err(Errno(22));
+                }
+                position.value = value as u64;
+                Ok(position.value)
+            }
+            _ => Err(Errno(29)),
+        }
+    }
+    pub fn readv_records(&self) -> bool {
+        matches!(
+            self.resource,
+            ByteResource::Event(_) | ByteResource::Inotify(_) | ByteResource::Perf(_)
+        )
+    }
+    pub fn nonblocking(&self) -> bool {
+        self.status.get() & O_NONBLOCK != 0
+    }
+    pub fn read(&self, count: usize) -> Result<Vec<u8>> {
+        self.read_attempt(count).unwrap_or(Err(Errno(95)))
+    }
+    /// A pipe read retains the original prefix until guest copyout commits it.
+    /// Page waits and cancellation release the unconsumed bytes to that pipe.
+    pub fn read_reply(&self, count: usize) -> Option<Result<ReadReply>> {
+        let ByteResource::Pipe { data, read, .. } = &self.resource else {
+            return None;
+        };
+        if !read || !fd_can_read(self.flags) {
+            return Some(Err(Errno(9)));
+        }
+        if count == 0 {
+            return None;
+        }
+        Some(
+            stream_transfer::ReadLease::take(data.clone(), count)
+                .map(|(lease, bytes)| ReadReply::new(bytes, lease)),
+        )
+    }
+    /// None requests the original owner before consuming any bytes or rights.
+    pub fn read_attempt(&self, count: usize) -> Option<Result<Vec<u8>>> {
+        if self.is_unix() {
+            if !fd_can_read(self.flags) {
+                return Some(Err(Errno(9)));
+            }
+            let received = match &self.resource {
+                ByteResource::Unix { data, side } => data.recv_paired_portable(*side, count, 0),
+                ByteResource::UnixDatagram(data) => data.recv_portable(0, count, 0),
+                _ => unreachable!("Unix resource"),
+            };
+            return received.map(|r| r.map(|r| r.data));
+        }
+        if let ByteResource::SimpleDevice(kind) = self.resource {
+            return Some(
+                self._file
+                    .as_ref()
+                    .ok_or(Errno(9))
+                    .and_then(|f| f.open.simple_read(kind, count)),
+            );
+        }
+        if !fd_can_read(self.flags) {
+            return Some(Err(Errno(9)));
+        }
+        Some(match &self.resource {
+            ByteResource::Console(console) => console.read(count),
+            ByteResource::Cgroup(file, Some(caller)) => {
+                let mut position = self
+                    ._file
+                    .as_ref()
+                    .ok_or(Errno(9))
+                    .ok()?
+                    .open
+                    .file_position
+                    .lock()
+                    .unwrap();
+                if position.pending != 0 {
+                    return Some(Err(Errno(11)));
+                }
+                file.cgroup_read(caller, position.value, count)
+                    .and_then(|bytes| {
+                        let bytes = bytes.ok_or(Errno(19))?;
+                        position.value += bytes.len() as u64;
+                        Ok(bytes)
+                    })
+            }
+            ByteResource::Cgroup(_, None) => return None,
+            ByteResource::MessageQueue(q) => {
+                q.read(&self._file.as_ref()?.open.file_position, count)
+            }
+            ByteResource::Fuse(file) => file.connection().and_then(|c| c.read(count)),
+            ByteResource::Tun(file) => file.read(count).map_err(|e| Errno(e.0)),
+            ByteResource::Kmsg(log) => log.read(count),
+            ByteResource::Device(device) => {
+                // The original sequential VFS read completes empty buffers
+                // before invoking the device body (unlike positioned reads).
+                if count == 0 {
+                    Ok(Vec::new())
+                } else {
+                    device.read(count)
+                }
+            }
+            ByteResource::Bridge(bridge) => bridge
+                .upgrade()
+                .map_or(Err(Errno(9)), |b| b.read(count).map_err(Errno)),
+            ByteResource::SimpleDevice(_) => unreachable!("typed device read"),
+            ByteResource::Event(counter) => counter.read(count),
+            ByteResource::Perf(event) => event.read(count),
+            ByteResource::Timer(timer) => timer.read(count),
+            ByteResource::Inotify(queue) => queue.read(count),
+            ByteResource::Epoll(_)
+            | ByteResource::TcpPoll(_)
+            | ByteResource::SocketPoll(_)
+            | ByteResource::PollOnly(_)
+            | ByteResource::Bpf
+            | ByteResource::Regular
+            | ByteResource::UnixControl(_)
+            | ByteResource::ProcWatch(_) => Err(Errno(22)),
+            ByteResource::Pipe { data, read, .. } => {
+                if !read {
+                    return Some(Err(Errno(9)));
+                }
+                data.lock().unwrap().read(count)
+            }
+            ByteResource::Unix { .. } | ByteResource::UnixDatagram(_) => {
+                unreachable!("handled Unix receive")
+            }
+            ByteResource::Signal(..) => return None,
+            ByteResource::Pty { .. } => return self.terminal_read(count, None),
+        })
+    }
+    pub fn recv(&self, count: usize, flags: u32) -> Option<Result<Vec<u8>>> {
+        self.recv_counted(count, flags)
+            .map(|r| r.map(|(bytes, _)| bytes))
+    }
+    /// MSG_TRUNC reports the original packet length without extending the
+    /// copied data. Both paths use the original Unix byte/rights algorithm.
+    pub fn recv_counted(&self, count: usize, flags: u32) -> Option<Result<(Vec<u8>, usize)>> {
+        if !fd_can_read(self.flags) {
+            return Some(Err(Errno(9)));
+        }
+        let (data, side) = self.local_data()?;
+        let received = if self.is_addressed_datagram() {
+            data.recv_portable(side, count, flags)
+        } else {
+            data.recv_message_bytes(side, count, flags)
+        };
+        received.map(|r| {
+            r.map(|r| {
+                let length = if flags & 0x20 != 0 {
+                    r.length
+                } else {
+                    r.data.len()
+                };
+                (r.data, length)
+            })
+        })
+    }
+    pub fn send(&self, bytes: &[u8], flags: u32) -> Result<usize> {
+        self.send_credentials(bytes, flags, None)
+    }
+    pub fn try_send_whole_stream(
+        &self,
+        bytes: &[u8],
+        flags: u32,
+        identity: Option<[u32; 3]>,
+    ) -> Result<usize> {
+        if !fd_can_write(self.flags) {
+            return Err(Errno(9));
+        }
+        let (data, side) = self.local_data().ok_or(Errno(88))?;
+        data.try_send_whole(side, bytes, flags, identity)
+    }
+    pub fn send_credentials(
+        &self,
+        bytes: &[u8],
+        flags: u32,
+        credentials: Option<[u32; 3]>,
+    ) -> Result<usize> {
+        if !fd_can_write(self.flags) {
+            return Err(Errno(9));
+        }
+        match &self.resource {
+            ByteResource::Unix { data, side } => {
+                data.send_credentials(*side, bytes, flags, credentials)
+            }
+            ByteResource::UnixDatagram(_) => self
+                .local_operation()
+                .ok_or(Errno(95))?
+                .send_connected_datagram(bytes, flags, credentials),
+            _ => Err(Errno(88)),
+        }
+    }
+    pub fn write(&self, bytes: &[u8]) -> Result<usize> {
+        if let ByteResource::SimpleDevice(kind) = self.resource {
+            return self
+                ._file
+                .as_ref()
+                .ok_or(Errno(9))?
+                .open
+                .simple_write(kind, bytes);
+        }
+        if !fd_can_write(self.flags) {
+            return Err(Errno(9));
+        }
+        match &self.resource {
+            ByteResource::Console(console) => console.write(bytes),
+            ByteResource::Cgroup(file, Some(caller)) => {
+                let mut position = self
+                    ._file
+                    .as_ref()
+                    .ok_or(Errno(9))?
+                    .open
+                    .file_position
+                    .lock()
+                    .unwrap();
+                if position.pending != 0 {
+                    return Err(Errno(11));
+                }
+                let count = file.cgroup_write(caller, bytes)?.ok_or(Errno(19))?;
+                position.value = position.value.saturating_add(count as u64);
+                Ok(count)
+            }
+            ByteResource::Cgroup(_, None) => Err(Errno(95)),
+            ByteResource::MessageQueue(_) => Err(Errno(22)),
+            ByteResource::Fuse(file) => file.connection().and_then(|c| c.write(bytes)),
+            ByteResource::Tun(file) => file.write(bytes).map_err(|e| Errno(e.0)),
+            ByteResource::Kmsg(log) => log.write(bytes),
+            ByteResource::Device(device) => device.write(bytes),
+            ByteResource::Bridge(bridge) => bridge
+                .upgrade()
+                .map_or(Err(Errno(9)), |b| b.write(bytes).map_err(Errno)),
+            ByteResource::SimpleDevice(_) => unreachable!("typed device write"),
+            ByteResource::ProcWatch(_) => Err(Errno(22)),
+            ByteResource::Event(counter) => counter.write(bytes),
+            ByteResource::Epoll(_)
+            | ByteResource::TcpPoll(_)
+            | ByteResource::SocketPoll(_)
+            | ByteResource::PollOnly(_)
+            | ByteResource::Bpf
+            | ByteResource::Regular
+            | ByteResource::Timer(_)
+            | ByteResource::Perf(_)
+            | ByteResource::Signal(..)
+            | ByteResource::UnixControl(_)
+            | ByteResource::Inotify(_) => Err(Errno(22)),
+            ByteResource::Unix { .. } | ByteResource::UnixDatagram(_) => self.send(bytes, 0),
+            ByteResource::Pty { .. } => self.terminal_write(bytes, None).unwrap_or(Err(Errno(95))),
+            ByteResource::Pipe { data, write, .. } => {
+                if !write {
+                    return Err(Errno(9));
+                }
+                data.lock().unwrap().write(bytes)
+            }
+        }
+    }
+}
+
+#[derive(Clone, Default)]
+pub struct DirectFds(
+    pub(super) Arc<[Option<DirectFd>]>,
+    pub(super) Option<SharedFiles>,
+    pub(super) Option<Arc<dyn SignalReader>>,
+    pub(super) Option<cgroup::CgroupAccess>,
+);
+impl DirectFds {
+    pub fn with_files(&self, files: SharedFiles) -> Self {
+        Self(self.0.clone(), Some(files), self.2.clone(), self.3.clone())
+    }
+    pub fn descriptor_limit(&self) -> u32 {
+        self.1
+            .as_ref()
+            .map_or(DEFAULT_MAX_FDS, SharedFiles::descriptor_limit)
+    }
+    pub fn select_count(&self, requested: u32) -> u32 {
+        if requested <= 64 {
+            return requested;
+        }
+        let capacity = self.1.as_ref().map_or_else(
+            || self.0.len().max(64).next_power_of_two() as u32,
+            SharedFiles::select_capacity,
+        );
+        requested.min(capacity)
+    }
+    /// Bind an accepted original OFD, including fixed io_uring files. Never
+    /// look it up again by a descriptor number which may have been reused.
+    pub fn byte_file(&self, file: SharedFd) -> Option<DirectFd> {
+        if let Some(events::SharedControl::Signal(mask)) = &file.open.control {
+            let mask = mask.clone();
+            Some(DirectFd::signal(file, mask, self.2.as_ref()?.clone()))
+        } else {
+            file.direct_byte()
+                .map(|fd| fd.bind_context(self.2.as_ref(), self.3.as_ref()))
+        }
+    }
+    /// Retain original TCP byte and readiness authority for a compound syscall.
+    /// Ordinary scalar/vector TCP dispatch retains its existing direct route.
+    pub fn tcp_file(&self, file: SharedFd) -> Option<(DirectFd, DirectTcpFd)> {
+        let tcp = file.direct_tcp()?;
+        let fd = DirectFd::tcp_poll(&file.open, tcp.tcp.poll_only()).with_ofd(file);
+        Some((fd, tcp))
+    }
+    pub fn shared_files(&self) -> Option<SharedFiles> {
+        self.1.clone()
+    }
+    pub fn has_membership(&self) -> bool {
+        self.1.is_some()
+    }
+    /// Rebind only the caller's original signal/cgroup context. The accepted
+    /// OFD is retained; numeric descriptor reuse cannot select a replacement.
+    pub fn poll_retained(&self, file: &SharedFd) -> Option<DirectFd> {
+        DirectFd::source_poll(OpenHandle::Shared(file.open.clone()), self.2.as_ref())
+            .map(|fd| fd.bind_context(self.2.as_ref(), self.3.as_ref()))?
+            .refresh_epoll()
+    }
+    pub fn bind_poll(&self, fd: &DirectFd) -> Option<DirectFd> {
+        fd.clone()
+            .bind_context(self.2.as_ref(), self.3.as_ref())
+            .refresh_epoll()
+    }
+    pub(super) fn with_cgroup_access(mut self, access: cgroup::CgroupAccess) -> Self {
+        self.3 = Some(access);
+        self
+    }
+    pub fn with_signal_reader(mut self, reader: Option<Arc<dyn SignalReader>>) -> Self {
+        self.2 = reader;
+        self
+    }
+    pub fn get(&self, fd: u32) -> Option<DirectFd> {
+        self.get_raw(fd)
+            .map(|fd| fd.bind_context(self.2.as_ref(), self.3.as_ref()))
+    }
+    /// Poll/select admission distinguishes an invalid numeric descriptor from
+    /// an actual missing provider. Accept one original OFD and no Files copy.
+    pub fn polling(&self, fd: u32) -> Option<Result<DirectFd>> {
+        match self.capture_poll(fd)? {
+            Ok(PollBinding::Direct(fd)) => Some(Ok(fd)),
+            Ok(PollBinding::Original(_)) => None,
+            Err(error) => Some(Err(error)),
+        }
+    }
+    pub fn capture_poll(&self, fd: u32) -> Option<Result<PollBinding>> {
+        let Some(files) = &self.1 else {
+            return self.get(fd).map(|fd| Ok(PollBinding::Direct(fd)));
+        };
+        let original = match files.observation_descriptor(fd) {
+            Ok(file) => file.open,
+            Err(error) => return Some(Err(error)),
+        };
+        let fresh = DirectFd::source_poll(original.clone(), self.2.as_ref())
+            .or_else(|| {
+                let cached = self.0.get(fd as usize)?.as_ref()?;
+                cached
+                    .ofd_identity()
+                    .matches(&original.borrow().shared)
+                    .then(|| cached.clone())
+            })
+            .and_then(|fresh| {
+                fresh
+                    .bind_context(self.2.as_ref(), self.3.as_ref())
+                    .refresh_epoll()
+            });
+        Some(Ok(match fresh {
+            Some(fd) => PollBinding::Direct(fd),
+            None => PollBinding::Original(SharedFd::new(original.borrow().shared.clone())),
+        }))
+    }
+    /// Accept the original epoll core and its caller's real poll providers.
+    /// Interest updates never rebuild a copied owner watch table.
+    pub fn epoll(&self, fd: u32) -> Option<Result<DirectFd>> {
+        match self.epoll_original(fd)? {
+            Ok(fd) => fd.refresh_epoll().map(Ok),
+            Err(error) => Some(Err(error)),
+        }
+    }
+    pub fn epoll_original(&self, fd: u32) -> Option<Result<DirectFd>> {
+        let Some(files) = &self.1 else {
+            return self.get(fd).filter(DirectFd::is_epoll).map(Ok);
+        };
+        let open = match files.epoll_open(fd)? {
+            Ok(open) => open,
+            Err(error) => return Some(Err(error)),
+        };
+        let accepted = DirectFd::source_poll(OpenHandle::Shared(open), self.2.as_ref())?;
+        Some(Ok(accepted))
+    }
+    fn get_raw(&self, fd: u32) -> Option<DirectFd> {
+        if let Some(result) = self.1.as_ref().and_then(|files| files.poll_lookup(fd)) {
+            return match result.ok()? {
+                fd_table::PollOpen::Shared(file) => {
+                    if let Some(events::SharedControl::Epoll(_)) = &file.open.control {
+                        return DirectFd::source_poll(
+                            OpenHandle::Shared(file.open),
+                            self.2.as_ref(),
+                        )?
+                        .refresh_epoll();
+                    }
+                    if let Some(events::SharedControl::Signal(mask)) = &file.open.control {
+                        let mask = mask.clone();
+                        Some(DirectFd::signal(file, mask, self.2.as_ref()?.clone()))
+                    } else {
+                        file.direct_poll()
+                    }
+                }
+                fd_table::PollOpen::Tcp(open, tcp) => Some(DirectFd::tcp_poll(&open, tcp)),
+                fd_table::PollOpen::Epoll(open) => {
+                    DirectFd::source_poll(OpenHandle::Shared(open), self.2.as_ref())?
+                        .refresh_epoll()
+                }
+            };
+        }
+        if let Some(open) = self.1.as_ref().and_then(|files| files.control_open(fd)) {
+            if let Some(events::SharedControl::Epoll(_)) = &open.control {
+                return DirectFd::source_poll(OpenHandle::Shared(open), self.2.as_ref())?
+                    .refresh_epoll();
+            }
+            return None;
+        }
+        let cached = self.0.get(fd as usize)?.clone()?;
+        if let Some(files) = &self.1 {
+            let actual = files.observation_descriptor(fd).ok()?;
+            if !cached.ofd_identity().matches(&actual.open.borrow().shared) {
+                return None;
+            }
+        }
+        (!cached.is_epoll()).then_some(cached)
+    }
+    pub fn epoll_control(
+        &self,
+        fd: u32,
+        op: u32,
+        target: u32,
+        events: u32,
+        data: u64,
+    ) -> Option<Result<()>> {
+        self.prepare_epoll_control(fd, op, target, events, data)
+            .map(|result| result.and_then(|call| call.run_blocking()))
+    }
+    pub fn prepare_epoll_control(
+        &self,
+        fd: u32,
+        op: u32,
+        target: u32,
+        events: u32,
+        data: u64,
+    ) -> Option<Result<crate::EpollControl>> {
+        let files = self.1.as_ref()?;
+        Some((|| {
+            let epoll = files.observation_descriptor(fd)?.open;
+            let target_open = files.observation_descriptor(target)?.open;
+            epoll::prepare_control(epoll, target_open, target, op, events, data)
+        })())
+    }
+    fn candidates(&self) -> Vec<DirectFd> {
+        self.0
+            .iter()
+            .flatten()
+            .cloned()
+            .chain(
+                self.1
+                    .iter()
+                    .flat_map(SharedFiles::byte_descriptions)
+                    .filter_map(SharedFd::direct_byte),
+            )
+            .collect()
+    }
+    pub fn shares_with<'a>(&self, resources: impl Iterator<Item = &'a DirectFd>) -> bool {
+        let candidates = self.candidates();
+        resources.into_iter().any(|fd| {
+            candidates
+                .iter()
+                .any(|candidate| candidate.shares_resource(fd))
+        })
+    }
+    /// Related retained resources can justify admitting a blocked I/O peer
+    /// alongside one runnable task. Unrelated idle terminals/control pipes
+    /// alone must not force a CPU-only process off the serial MMU path.
+    pub fn shares_resources(&self, other: &Self) -> bool {
+        let ours = self.candidates();
+        let theirs = other.candidates();
+        ours.iter()
+            .any(|a| theirs.iter().any(|b| a.shares_resource(b)))
+    }
+}
+/// Live notification authority for the original Files domain. The fallback
+/// wake token belongs to the joined executor, even when a worker opens a device.
+#[derive(Clone)]
+pub struct NativeEvents {
+    files: SharedFiles,
+    owner: std::thread::Thread,
+}
+impl NativeEvents {
+    /// Retarget future event lookup while preserving the original host wake.
+    pub fn with_files(&self, files: SharedFiles) -> Self {
+        Self {
+            files,
+            owner: self.owner.clone(),
+        }
+    }
+    pub fn event(&self, fd: u32) -> Result<NativeEvent> {
+        let file = self.files.lookup(fd).unwrap_or(Err(Errno(22)))?;
+        match &file.open.control {
+            Some(events::SharedControl::Event(counter)) if file.open.flags.get() & O_PATH == 0 => {
+                counter.native_writers.fetch_add(1, Ordering::Relaxed);
+                let driver = Arc::downgrade(counter);
+                counter.readiness.set_driver(driver);
+                let event = NativeEvent(Arc::new(NativeWriter {
+                    counter: counter.clone(),
+                    owner: self.owner.clone(),
+                }));
+                counter.readiness.notify_atomic();
+                Ok(event)
+            }
+            _ => Err(Errno(22)),
+        }
+    }
+}
+impl Vfs {
+    pub fn native_events(&self) -> NativeEvents {
+        NativeEvents {
+            files: self.shared_files(),
+            owner: std::thread::current(),
+        }
+    }
+    pub fn native_event(&self, fd: u32) -> Result<NativeEvent> {
+        self.native_events().event(fd)
+    }
+    /// Live eventfds with retained native producers are external event sources,
+    /// just like open native sockets. A plain guest eventfd is not one.
+    pub fn native_wait_fds_for(&self, fd: u32) -> Vec<HostFd> {
+        self.descriptor(fd)
+            .map_or_else(|_| Vec::new(), |d| native_wait_open(&d.open.borrow()))
+    }
+    pub fn native_wait_fds(&self) -> Vec<HostFd> {
+        #[cfg(all(feature = "hostfs", unix))]
+        return self
+            .fds
+            .entries()
+            .values()
+            .filter_map(|descriptor| {
+                let open = descriptor.open.borrow();
+                match &open.control {
+                    Some(events::SharedControl::Inotify(instance)) => {
+                        instance.queue.native_fd().map(Into::into)
+                    }
+                    _ => None,
+                }
+            })
+            .collect();
+        #[cfg(not(all(feature = "hostfs", unix)))]
+        Vec::new()
+    }
+    pub fn has_native_event_sources(&self) -> bool {
+        self.fds.entries().values().any(|descriptor| {
+            let open = descriptor.open.borrow();
+            match &open.control {
+                Some(events::SharedControl::Event(counter)) => {
+                    counter.native_writers.load(Ordering::Relaxed) != 0
+                }
+                Some(events::SharedControl::Inotify(instance)) => instance.queue.has_native(),
+                _ => false,
+            }
+        })
+    }
+    /// Legacy record readers consume each nonempty iovec independently.
+    /// A single inotify event cannot be split across two short destinations.
+    pub fn readv_records(&self, fd: u32) -> Result<bool> {
+        Ok(matches!(
+            self.descriptor(fd)?.open.borrow().anonymous,
+            Some(
+                events::Anonymous::Event(_)
+                    | events::Anonymous::Inotify(_)
+                    | events::Anonymous::Perf(_)
+            )
+        ))
+    }
+    pub fn is_eventfd(&self, fd: u32) -> Result<bool> {
+        Ok(matches!(
+            self.descriptor(fd)?.open.borrow().anonymous,
+            Some(events::Anonymous::Event(_))
+        ))
+    }
+    pub fn direct_descriptors_with_polls(
+        &self,
+        polls: &BTreeMap<usize, Arc<dyn DirectPoll>>,
+    ) -> DirectFds {
+        let descriptors = self.fds.entries();
+        let mut entries = vec![
+            None;
+            descriptors
+                .last_key_value()
+                .map_or(0, |(&fd, _)| fd as usize + 1)
+        ];
+        for (&fd, descriptor) in descriptors.iter() {
+            if matches!(descriptor.open, open_handle::OpenView::Owner(_)) {
+                entries[fd as usize] = DirectFd::snapshot_poll(&descriptor.open.borrow(), polls);
+            }
+        }
+        DirectFds(
+            entries.into(),
+            Some(self.shared_files()),
+            self.signal_reader.borrow().clone(),
+            Some(self.cgroup_access()),
+        )
+    }
+    /// A cold poll admission retains the actual OFD before its caller-context
+    /// provider is attached. Rebinding never looks up its reused numeric FD.
+    pub fn poll_binding(&self, fd: u32) -> Result<SharedFd> {
+        Ok(SharedFd::new(
+            self.descriptor(fd)?.open.borrow().shared.clone(),
+        ))
+    }
+    pub fn direct_descriptors(&self) -> DirectFds {
+        self.descriptor_snapshots()
+            .1
+            .with_signal_reader(self.signal_reader.borrow().clone())
+            .with_cgroup_access(self.cgroup_access())
+    }
+}
+
+fn native_wait_open(open: &OpenDescription) -> Vec<HostFd> {
+    match &open.anonymous {
+        Some(events::Anonymous::Timer(timer)) => timer.native_fds(),
+        #[cfg(all(feature = "hostfs", unix))]
+        Some(events::Anonymous::Inotify(instance)) => instance
+            .queue
+            .native_fd()
+            .map(Into::into)
+            .into_iter()
+            .collect(),
+        Some(events::Anonymous::Epoll(live)) => {
+            let Some(_traversal) = epoll::Traversal::enter(live) else {
+                return Vec::new();
+            };
+            live.snapshot()
+                .iter()
+                .filter(|w| w.1.lock().unwrap().armed)
+                .filter_map(|w| w.2.original_open())
+                .flat_map(|open| native_wait_open(&open.borrow()))
+                .collect()
+        }
+        _ => Vec::new(),
+    }
+}
+impl RetainedFd {
+    pub fn native_wait_fds(&self) -> Vec<HostFd> {
+        native_wait_open(&self.0.open.borrow())
+    }
+}
+impl SharedFd {
+    pub fn subscribe_poll(&self, signal: &Arc<IoSignal>) -> Vec<IoSubscription> {
+        self.clone()
+            .direct_poll()
+            .map_or_else(Vec::new, |fd| fd.subscribe(signal))
+    }
+    pub fn waits_for_stdin(&self) -> bool {
+        fn original(open: &OpenDescription) -> bool {
+            if open.kind == FdKind::Stdin {
+                return true;
+            }
+            let Some(events::Anonymous::Epoll(live)) = &open.anonymous else {
+                return false;
+            };
+            let Some(_walk) = epoll::Traversal::enter(live) else {
+                return false;
+            };
+            live.snapshot().iter().any(|(_, state, resource)| {
+                state.lock().unwrap().armed
+                    && resource
+                        .original_open()
+                        .is_some_and(|open| original(&open.borrow()))
+            })
+        }
+        original(&OpenDescription::shared_projection(self.open.clone()))
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn a_native_producer_can_appear_after_subscription_and_keeps_the_joined_wake_owner() {
+        struct Wake(AtomicU64);
+        impl IoWake for Wake {
+            fn wake_io(&self, _: &Arc<IoSignal>) {
+                self.0.fetch_add(1, Ordering::Relaxed);
+            }
+        }
+        let mut vfs = Vfs::default();
+        let events = vfs.native_events();
+        let fd = vfs.eventfd(0, O_NONBLOCK).unwrap();
+        let original = vfs.direct_descriptors().get(fd).unwrap();
+        let target: Arc<dyn IoWake> = Arc::new(Wake(AtomicU64::new(0)));
+        let signal = IoSignal::new(1, Arc::downgrade(&target));
+        let subscriptions = original.subscribe(&signal);
+        assert!(subscriptions.iter().all(|s| !s.external()));
+        let event = std::thread::spawn(move || events.event(fd).unwrap())
+            .join()
+            .unwrap();
+        assert_eq!(event.0.owner.id(), std::thread::current().id());
+        assert!(signal.ready());
+        assert!(subscriptions
+            .iter()
+            .any(|s| s.notification_external() && s.external()));
+        vfs.close(fd).unwrap();
+        let replacement = vfs.eventfd(13, 0).unwrap();
+        assert_eq!(replacement, fd);
+        event.notify();
+        assert_eq!(original.read(8).unwrap(), 1u64.to_le_bytes());
+        assert_eq!(vfs.read(fd, 8).unwrap(), 13u64.to_le_bytes());
+        signal.reset();
+        drop(event);
+        assert!(signal.ready());
+        assert!(subscriptions.iter().all(|s| !s.external()));
+    }
+    use super::*;
+    use std::{thread, time::Duration};
+    #[test]
+    fn live_epoll_controls_reach_old_views_and_never_retarget_reused_numbers() {
+        let mut v = Vfs::default();
+        let direct = v.direct_descriptors(); // before either resource exists
+        let ep = v.epoll_create(0).unwrap();
+        let event = v.eventfd(1, 0).unwrap();
+        let alias = v.dup(event, 0, false).unwrap();
+        let wait = direct.get(ep).unwrap();
+        assert_eq!(
+            direct.epoll_control(ep, 1, event, 0xc0000001, 42),
+            Some(Ok(()))
+        );
+        assert_eq!(
+            direct.epoll_control(ep, 1, event, 1, 99),
+            Some(Err(Errno(17)))
+        );
+        assert_eq!(wait.epoll_wait(1).unwrap(), vec![(1, 42)]);
+        assert!(wait.epoll_wait(1).unwrap().is_empty());
+        assert_eq!(
+            direct.epoll_control(ep, 3, event, 0xc0000001, 43),
+            Some(Ok(()))
+        );
+        assert_eq!(wait.epoll_wait(1).unwrap(), vec![(1, 43)]);
+        assert_eq!(direct.epoll_control(ep, 3, event, 1, 44), Some(Ok(())));
+        v.close(event).unwrap();
+        let replacement = v.eventfd(0, 0).unwrap();
+        assert_eq!(replacement, event);
+        assert_eq!(
+            direct.epoll_control(ep, 2, replacement, 0, 0),
+            Some(Err(Errno(2)))
+        );
+        assert_eq!(wait.epoll_wait(1).unwrap(), vec![(1, 44)]); // real alias remains
+        v.close(alias).unwrap();
+        assert!(wait.epoll_wait(1).unwrap().is_empty());
+        assert_eq!(
+            direct.epoll_control(ep, 1, replacement, 1, 45),
+            Some(Ok(()))
+        );
+        assert!(wait.epoll_wait(1).unwrap().is_empty());
+        v.write(replacement, &1u64.to_le_bytes()).unwrap();
+        assert_eq!(wait.epoll_wait(1).unwrap(), vec![(1, 45)]);
+        assert_eq!(direct.epoll_control(ep, 2, replacement, 0, 0), Some(Ok(())));
+        assert!(wait.epoll_wait(1).unwrap().is_empty());
+    }
+    #[test]
+    fn live_shared_and_owner_interests_share_the_original_limit_and_cursor() {
+        let mut v = Vfs::default();
+        let ep = v.epoll_create(0).unwrap();
+        let signal = v.signalfd(-1, 1 << 10, 0).unwrap();
+        v.epoll_ctl(ep, 1, signal, 1, 100).unwrap();
+        let mut events = Vec::new();
+        for i in 0..1023 {
+            let fd = v.eventfd(u32::from(i == 0), 0).unwrap();
+            v.epoll_ctl(ep, 1, fd, 1, i).unwrap();
+            events.push(fd);
+        }
+        let extra = v.eventfd(0, 0).unwrap();
+        assert_eq!(v.epoll_ctl(ep, 1, extra, 1, 2000), Err(Errno(28)));
+        v.close(*events.last().unwrap()).unwrap();
+        assert_eq!(v.epoll_ctl(ep, 1, extra, 1, 2000), Ok(()));
+        let a = v
+            .epoll_wait_signals(ep, 1, 1 << 10, |_, _| Ok(None))
+            .unwrap();
+        let b = v
+            .epoll_wait_signals(ep, 1, 1 << 10, |_, _| Ok(None))
+            .unwrap();
+        assert_eq!(a, vec![(1, 100)]);
+        assert_eq!(b, vec![(1, 0)]);
+        // A signal-dependent interest still uses its original owner authority.
+        assert!(v.direct_descriptors().get(ep).is_none());
+    }
+    #[test]
+    fn concurrent_live_epoll_registration_has_one_winner_and_one_oneshot() {
+        let mut v = Vfs::default();
+        let ep = v.epoll_create(0).unwrap();
+        let event = v.eventfd(1, 0).unwrap();
+        let direct = v.direct_descriptors();
+        let barrier = std::sync::Barrier::new(8);
+        let results = std::thread::scope(|scope| {
+            let threads: Vec<_> = (0..8)
+                .map(|_| {
+                    scope.spawn(|| {
+                        barrier.wait();
+                        direct.epoll_control(ep, 1, event, 0x40000001, 1).unwrap()
+                    })
+                })
+                .collect();
+            threads
+                .into_iter()
+                .map(|t| t.join().unwrap())
+                .collect::<Vec<_>>()
+        });
+        assert_eq!(results.iter().filter(|r| r.is_ok()).count(), 1);
+        assert_eq!(results.iter().filter(|r| **r == Err(Errno(17))).count(), 7);
+        let deliveries: usize = std::thread::scope(|scope| {
+            let threads: Vec<_> = (0..8)
+                .map(|_| scope.spawn(|| direct.get(ep).unwrap().epoll_wait(1).unwrap().len()))
+                .collect();
+            threads.into_iter().map(|t| t.join().unwrap()).sum()
+        });
+        assert_eq!(deliveries, 1);
+    }
+    #[test]
+    fn live_byte_lookup_follows_reuse_and_new_aliases_while_accepted_calls_keep_original_ofds() {
+        let mut v = Vfs::default();
+        let [reader, writer] = v.pipe(O_NONBLOCK).unwrap();
+        let bytes = v.direct_descriptors();
+        let old_reader = bytes.get(reader).unwrap();
+        let old_writer = bytes.get(writer).unwrap();
+        let (old_ofd, old_data) = {
+            let d = v.descriptor(writer).unwrap();
+            let o = d.open.borrow();
+            (
+                Arc::downgrade(&o.shared),
+                Arc::downgrade(&o.pipe.as_ref().unwrap().data),
+            )
+        };
+        v.close(reader).unwrap();
+        v.close(writer).unwrap();
+        assert!(bytes.get(reader).is_none());
+        let [replacement, new_writer] = v.pipe(O_NONBLOCK).unwrap();
+        assert_eq!(replacement, reader);
+        let alias = v
+            .shared_files()
+            .duplicate(new_writer, 200, false)
+            .unwrap()
+            .unwrap();
+        assert_eq!(alias, 200);
+        assert_eq!(bytes.get(alias).unwrap().write(b"new"), Ok(3));
+        assert_eq!(old_writer.write(b"old"), Ok(3));
+        assert_eq!(old_reader.read(3).unwrap(), b"old");
+        assert_eq!(bytes.get(replacement).unwrap().read(3).unwrap(), b"new");
+        drop(old_writer);
+        assert!(old_ofd.upgrade().is_none());
+        assert!(old_reader.read(1).unwrap().is_empty());
+        drop(old_reader);
+        assert!(old_data.upgrade().is_none());
+        drop(v);
+        assert!(bytes.get(replacement).is_none());
+        assert!(bytes.get(alias).is_none());
+    }
+
+    #[test]
+    fn cached_epoll_watch_is_weak_and_never_retargets_a_reused_shared_fd() {
+        let mut v = Vfs::default();
+        let [reader, writer] = v.pipe(O_NONBLOCK).unwrap();
+        let epoll = v.epoll_create(0).unwrap();
+        v.epoll_ctl(epoll, 1, reader, 1, 42).unwrap();
+        let bytes = v.direct_descriptors();
+        let watch = bytes.get(epoll).unwrap();
+        let data = {
+            let d = v.descriptor(reader).unwrap();
+            let o = d.open.borrow();
+            Arc::downgrade(&o.pipe.as_ref().unwrap().data)
+        };
+        v.write(writer, b"queued").unwrap();
+        assert_eq!(watch.epoll_wait(1).unwrap(), vec![(1, 42)]);
+        let files = v.shared_files();
+        thread::scope(|scope| {
+            scope
+                .spawn(|| files.close(reader, 0).unwrap().unwrap())
+                .join()
+                .unwrap();
+        });
+        assert_eq!(v.write(writer, b"x"), Err(Errno(32)));
+        assert!(watch.epoll_wait(1).unwrap().is_empty());
+        v.close(writer).unwrap();
+        assert!(data.upgrade().is_none());
+        let [replacement, writer] = v.pipe(O_NONBLOCK).unwrap();
+        assert_eq!(replacement, reader);
+        v.write(writer, b"new").unwrap();
+        assert!(watch.epoll_wait(1).unwrap().is_empty());
+        assert_eq!(bytes.get(replacement).unwrap().read(3).unwrap(), b"new");
+    }
+
+    #[test]
+    fn cohort_resource_hint_follows_aliases_peer_ends_and_epoll_watches() {
+        let mut sender = Vfs::default();
+        let [read, write] = sender.pipe(0).unwrap();
+        let mut receiver = sender.clone();
+        sender.close(read).unwrap();
+        receiver.close(write).unwrap();
+        let epoll = receiver.epoll_create(0).unwrap();
+        receiver.epoll_ctl(epoll, 1, read, 1, 42).unwrap();
+        assert!(sender
+            .direct_descriptors()
+            .shares_resources(&receiver.direct_descriptors()));
+        let mut other = Vfs::default();
+        other.pipe(0).unwrap();
+        assert!(!sender
+            .direct_descriptors()
+            .shares_resources(&other.direct_descriptors()));
+        let [a, b] = sender.socketpair(1, 1, 0).unwrap();
+        let mut peer = sender.clone();
+        sender.close(b).unwrap();
+        peer.close(a).unwrap();
+        peer.close(write).unwrap();
+        assert!(sender
+            .direct_descriptors()
+            .shares_resources(&peer.direct_descriptors()));
+        assert!(
+            DirectFd::snapshot(&receiver.descriptor(epoll).unwrap().open.borrow())
+                .unwrap()
+                .shares_resource(&sender.direct_descriptors().get(write).unwrap())
+        );
+        // A snapshot comparison may retain bytes but cannot keep the endpoint
+        // open or authorize an I/O operation through an epoll watch.
+        sender.close(write).unwrap();
+        assert!(!sender
+            .direct_descriptors()
+            .shares_resources(&receiver.direct_descriptors()));
+    }
+
+    #[test]
+    fn last_close_in_a_different_fd_table_invalidates_epoll_resource_snapshot() {
+        let mut parent = Vfs::default();
+        let event = parent.eventfd(1, 0).unwrap();
+        let ep = parent.epoll_create(0).unwrap();
+        parent.epoll_ctl(ep, 1, event, 1, 42).unwrap();
+        let mut child = parent.clone();
+        child.close(event).unwrap();
+        let snapshot = child.direct_descriptors();
+        assert_eq!(
+            snapshot.get(ep).unwrap().epoll_wait(1).unwrap(),
+            vec![(1, 42)]
+        );
+        // Only the parent's FD table changes. The child's cached epoll cannot
+        // count its retained EventCounter as a still-open guest description.
+        parent.close(event).unwrap();
+        let refreshed = child.direct_descriptors();
+        assert!(refreshed.get(ep).unwrap().epoll_wait(1).unwrap().is_empty());
+        assert!(child.epoll_wait(ep, 1, |_, _| Ok(None)).unwrap().is_empty());
+    }
+    #[test]
+    fn epoll_delivery_is_shared_with_joined_waiters_and_refreshes_after_ctl() {
+        let mut vfs = Vfs::default();
+        let event = vfs.eventfd(1, 0).unwrap();
+        let ep = vfs.epoll_create(0).unwrap();
+        vfs.epoll_ctl(ep, 1, event, 0xc0000001, 123).unwrap();
+        let cached = vfs.direct_descriptors();
+        let fd = cached.get(ep).unwrap();
+        assert_eq!(fd.epoll_wait(1).unwrap(), vec![(1, 123)]);
+        assert!(vfs.epoll_wait(ep, 1, |_, _| Ok(None)).unwrap().is_empty());
+        vfs.epoll_ctl(ep, 3, event, 0x80000001, 456).unwrap();
+        let fresh = vfs.direct_descriptors();
+        assert_eq!(
+            fresh.get(ep).unwrap().epoll_wait(1).unwrap(),
+            vec![(1, 456)]
+        );
+        assert!(vfs.epoll_wait(ep, 1, |_, _| Ok(None)).unwrap().is_empty());
+        vfs.write(event, &1u64.to_le_bytes()).unwrap();
+        assert_eq!(
+            vfs.epoll_wait(ep, 1, |_, _| Ok(None)).unwrap(),
+            vec![(1, 456)]
+        );
+        assert!(fresh.get(ep).unwrap().epoll_wait(1).unwrap().is_empty());
+        vfs.epoll_ctl(ep, 3, event, 1, 789).unwrap();
+        let fresh = vfs.direct_descriptors();
+        assert_eq!(
+            fresh.get(ep).unwrap().epoll_wait(1).unwrap(),
+            vec![(1, 789)]
+        );
+        assert_eq!(
+            vfs.epoll_wait(ep, 1, |_, _| Ok(None)).unwrap(),
+            vec![(1, 789)]
+        );
+        let timer = vfs.timerfd(1, 0).unwrap();
+        vfs.epoll_ctl(ep, 1, timer, 1, 321).unwrap();
+        assert!(vfs.direct_descriptors().get(ep).is_some());
+        let signal = vfs.signalfd(-1, 1, 0).unwrap();
+        vfs.epoll_ctl(ep, 1, signal, 1, 322).unwrap();
+        assert!(vfs.direct_descriptors().get(ep).is_none());
+    }
+    #[test]
+    fn concurrent_epoll_oneshot_has_only_one_delivery_and_rotates_duplicate_watches() {
+        let mut vfs = Vfs::default();
+        let a = vfs.eventfd(1, 0).unwrap();
+        let b = vfs.eventfd(1, 0).unwrap();
+        let ep = vfs.epoll_create(0).unwrap();
+        vfs.epoll_ctl(ep, 1, a, 0x40000001, 123).unwrap();
+        let direct = vfs.direct_descriptors();
+        let deliveries = std::sync::atomic::AtomicUsize::new(0);
+        thread::scope(|scope| {
+            for _ in 0..8 {
+                let deliveries = &deliveries;
+                let fd = direct.get(ep).unwrap();
+                scope.spawn(move || {
+                    deliveries.fetch_add(fd.epoll_wait(1).unwrap().len(), Ordering::Relaxed);
+                });
+            }
+        });
+        assert_eq!(deliveries.load(Ordering::Relaxed), 1);
+        vfs.epoll_ctl(ep, 3, a, 1, 123).unwrap();
+        vfs.epoll_ctl(ep, 1, b, 1, 456).unwrap();
+        let direct = vfs.direct_descriptors();
+        assert_eq!(
+            direct.get(ep).unwrap().epoll_wait(1).unwrap(),
+            vec![(1, 456)]
+        );
+        assert_eq!(
+            vfs.epoll_wait(ep, 1, |_, _| Ok(None)).unwrap(),
+            vec![(1, 123)]
+        );
+    }
+    #[test]
+    fn native_producer_liveness_follows_the_retained_event_and_its_live_descriptors() {
+        let mut vfs = Vfs::default();
+        let fd = vfs.eventfd(0, O_NONBLOCK).unwrap();
+        assert!(!vfs.has_native_event_sources());
+        let event = vfs.native_event(fd).unwrap();
+        let alias = vfs.dup(fd, 0, false).unwrap();
+        assert!(vfs.has_native_event_sources());
+        let copy = event.clone();
+        drop(event);
+        assert!(vfs.has_native_event_sources());
+        vfs.close(fd).unwrap();
+        assert!(vfs.has_native_event_sources());
+        vfs.close(alias).unwrap();
+        let reused = vfs.eventfd(0, O_NONBLOCK).unwrap();
+        assert_eq!(fd, reused);
+        assert!(!vfs.has_native_event_sources());
+        drop(copy);
+        let event = vfs.native_event(reused).unwrap();
+        assert!(vfs.has_native_event_sources());
+        drop(event);
+        assert!(!vfs.has_native_event_sources());
+    }
+    #[test]
+    fn native_completion_preserves_a_joined_owner_wake_before_park() {
+        let mut vfs = Vfs::default();
+        let fd = vfs.eventfd(0, O_NONBLOCK).unwrap();
+        let event = vfs.native_event(fd).unwrap();
+        // Consume any pre-existing park token; completion then wins the race
+        // with the owner's idle park, with no subscription/CPU worker running.
+        std::thread::park_timeout(std::time::Duration::ZERO);
+        std::thread::spawn(move || event.notify()).join().unwrap();
+        let began = std::time::Instant::now();
+        std::thread::park_timeout(std::time::Duration::from_secs(2));
+        assert!(began.elapsed() < std::time::Duration::from_secs(1));
+        assert_eq!(vfs.read(fd, 8).unwrap(), 1u64.to_le_bytes());
+    }
+    #[test]
+    fn native_completion_retains_the_original_event_after_close_and_fd_reuse() {
+        let mut vfs = Vfs::default();
+        let fd = vfs.eventfd(0, O_NONBLOCK).unwrap();
+        let event = vfs.native_event(fd).unwrap();
+        let old = vfs.direct_descriptors().get(fd).unwrap();
+        vfs.close(fd).unwrap();
+        let reused = vfs.eventfd(0, O_NONBLOCK).unwrap();
+        assert_eq!(fd, reused);
+        std::thread::spawn(move || event.notify()).join().unwrap();
+        assert_eq!(old.read(8).unwrap(), 1u64.to_le_bytes());
+        assert_eq!(vfs.read(reused, 8), Err(Errno(11)));
+    }
+    #[test]
+    fn atomic_eventfd_and_semaphore_preserve_concurrent_counts() {
+        let mut vfs = Vfs::default();
+        let fd = vfs.eventfd(0, O_NONBLOCK).unwrap();
+        let direct = vfs.direct_descriptors();
+        thread::scope(|scope| {
+            for _ in 0..4 {
+                let counter = direct.get(fd).unwrap();
+                scope.spawn(move || {
+                    for _ in 0..1024 {
+                        assert_eq!(counter.write(&1u64.to_le_bytes()), Ok(8));
+                    }
+                });
+            }
+        });
+        assert_eq!(vfs.read(fd, 8).unwrap(), 4096u64.to_le_bytes());
+        assert_eq!(direct.get(fd).unwrap().read(8), Err(Errno(11)));
+        assert_eq!(
+            direct.get(fd).unwrap().write(&u64::MAX.to_le_bytes()),
+            Err(Errno(22))
+        );
+        assert_eq!(
+            direct.get(fd).unwrap().write(&(u64::MAX - 1).to_le_bytes()),
+            Ok(8)
+        );
+        assert_eq!(vfs.write(fd, &1u64.to_le_bytes()), Err(Errno(11)));
+        assert_eq!(vfs.read(fd, 8).unwrap(), (u64::MAX - 1).to_le_bytes());
+        let sem = vfs.eventfd(4096, 1 | O_NONBLOCK).unwrap();
+        let direct = vfs.direct_descriptors();
+        let total: usize = thread::scope(|scope| {
+            let mut threads = Vec::new();
+            for _ in 0..4 {
+                let sem = direct.get(sem).unwrap();
+                threads.push(scope.spawn(move || {
+                    let mut total = 0;
+                    loop {
+                        match sem.read(8) {
+                            Ok(bytes) => {
+                                assert_eq!(bytes, 1u64.to_le_bytes());
+                                total += 1;
+                            }
+                            Err(Errno(11)) => return total,
+                            result => panic!("unexpected semaphore result {result:?}"),
+                        }
+                    }
+                }));
+            }
+            threads
+                .into_iter()
+                .map(|thread| thread.join().unwrap())
+                .sum()
+        });
+        assert_eq!(total, 4096);
+        assert_eq!(vfs.poll(sem, 1), 0);
+    }
+
+    #[test]
+    fn direct_pipe_writers_share_vfs_bytes_and_keep_records_atomic() {
+        let mut vfs = Vfs::default();
+        let [read, write] = vfs.pipe(0).unwrap();
+        let direct = vfs.direct_descriptors();
+        thread::scope(|scope| {
+            for writer in 0..4u64 {
+                let end = direct.get(write).unwrap();
+                scope.spawn(move || {
+                    for index in 0..1024u64 {
+                        assert_eq!(end.write(&((writer << 32) | index).to_le_bytes()), Ok(8));
+                    }
+                });
+            }
+        });
+        let bytes = vfs.read(read, PIPE_CAPACITY).unwrap();
+        assert_eq!(bytes.len(), 4 * 1024 * 8);
+        let records: std::collections::BTreeSet<_> = bytes
+            .chunks_exact(8)
+            .map(|b| u64::from_le_bytes(b.try_into().unwrap()))
+            .collect();
+        assert_eq!(records.len(), 4096);
+        for writer in 0..4u64 {
+            for index in 0..1024u64 {
+                assert!(records.contains(&((writer << 32) | index)));
+            }
+        }
+        vfs.close(write).unwrap();
+        assert_eq!(direct.get(read).unwrap().read(8), Ok(Vec::new()));
+        assert_eq!(vfs.poll(read, 1), 16);
+    }
+
+    #[test]
+    fn resource_locks_are_independent_and_pipe_buf_rules_match() {
+        let mut vfs = Vfs::default();
+        let [_, first] = vfs.pipe(O_NONBLOCK).unwrap();
+        let [read, write] = vfs.pipe(O_NONBLOCK).unwrap();
+        let direct = vfs.direct_descriptors();
+        let ByteResource::Pipe { data, .. } = &direct.get(first).unwrap().resource else {
+            unreachable!()
+        };
+        let held = data.lock().unwrap();
+        thread::scope(|scope| {
+            let (tx, rx) = std::sync::mpsc::channel();
+            let end = direct.get(write).unwrap();
+            scope.spawn(move || tx.send(end.write(b"xy")).unwrap());
+            let result = rx.recv_timeout(Duration::from_secs(2));
+            drop(held);
+            assert_eq!(result.unwrap(), Ok(2));
+        });
+        assert_eq!(vfs.read(read, 8).unwrap(), b"xy");
+        assert_eq!(vfs.write(write, &vec![1; PIPE_CAPACITY]), Ok(PIPE_CAPACITY));
+        assert_eq!(direct.get(read).unwrap().read(1).unwrap(), [1]);
+        assert_eq!(direct.get(write).unwrap().write(b"ab"), Err(Errno(11)));
+        assert_eq!(
+            vfs.read(read, PIPE_CAPACITY).unwrap().len(),
+            PIPE_CAPACITY - 1
+        );
+    }
+
+    #[test]
+    fn fd_reuse_keeps_handles_distinct_and_fork_status_is_live() {
+        let mut vfs = Vfs::default();
+        let fd = vfs.eventfd(1, 0).unwrap();
+        let old = vfs.direct_descriptors();
+        let alias = vfs.dup(fd, 0, false).unwrap();
+        let mut child = vfs.clone();
+        child.set_status_flags(fd, O_NONBLOCK).unwrap();
+        assert!(vfs.direct_descriptors().get(alias).unwrap().nonblocking());
+        assert!(old.get(fd).unwrap().nonblocking());
+        let accepted = old.get(fd).unwrap();
+        vfs.close(fd).unwrap();
+        let new_fd = vfs.eventfd(7, 0).unwrap();
+        assert_eq!(fd, new_fd);
+        assert_eq!(old.get(fd).unwrap().read(8).unwrap(), 7u64.to_le_bytes());
+        assert_eq!(old.get(fd).unwrap().read(8), Err(Errno(11)));
+        assert_eq!(accepted.read(8).unwrap(), 1u64.to_le_bytes());
+    }
+}

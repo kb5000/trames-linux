@@ -53,7 +53,12 @@ impl GuestOutput for Output {
             display.poll()?;
         }
         if let Some(desktop) = &mut self.desktop {
-            desktop.poll()?;
+            if let Err(error) = desktop.poll() {
+                // The shared lifecycle boundary reports a host-poll category;
+                // retain the native diagnostic on the existing stderr channel.
+                eprintln!("trames desktop: {error}");
+                return Err(error);
+            }
         }
         Ok(trames_linux_abi::HostState::from_cancelled(
             self.cancellation_requested(),

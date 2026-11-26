@@ -1,0 +1,18 @@
+[
+  "/mnt/trames-output/linux-keyboard/desktop-release/runner",
+  "run",
+  "--rootfs",
+  "/mnt/trames-output/linux-keyboard/desktop-release/rootfs",
+  "--desktop",
+  "x11",
+  "--xwayland-launcher",
+  "/mnt/trames-output/linux-keyboard/desktop-release/launcher",
+  "--cpus",
+  "4",
+  "--timeout-ms",
+  "60000",
+  "--",
+  "/bin/sh",
+  "-ec",
+  "trames-xwayland :0 -ac >&2 & xpid=$!; trap \"kill $xpid\" EXIT; while [ ! -S /tmp/.X11-unix/X0 ]; do sleep .05; done; DISPLAY=:0 /test/x11-client"
+]

@@ -30,6 +30,8 @@ fn error(e: impl std::fmt::Display) -> io::Error {
     io::Error::other(e.to_string())
 }
 enum Command {
+    Map(Arc<[u8]>),
+    Repeat(i32, i32),
     Input(InputEvent),
     Text(TextEdit),
     Resize(u64, u32, u32),
@@ -79,7 +81,7 @@ struct State {
     focus: Option<u64>,
     pointer_window: Option<u64>,
     position: (f64, f64),
-    modifiers: u32,
+    modifiers: trames_wayland::KeyboardModifiers,
     serial: u32,
     bridge: Arc<Bridge>,
     data_manager: Option<wl_data_device_manager::WlDataDeviceManager>,
@@ -127,7 +129,7 @@ impl State {
             focus: None,
             pointer_window: None,
             position: (0., 0.),
-            modifiers: 0,
+            modifiers: Default::default(),
             serial: 0,
             bridge,
             data_manager: None,
@@ -346,6 +348,8 @@ impl State {
     fn flush(&mut self) -> io::Result<()> {
         while let Some(c) = self.commands.front() {
             let r = match c {
+                Command::Map(m) => self.server.keyboard_map(m.clone()),
+                Command::Repeat(r, d) => self.server.keyboard_repeat(*r, *d),
                 Command::Input(e) => self.server.input(e.clone()),
                 Command::Text(e) => self.server.edit_text(e.clone()),
                 Command::Resize(id, w, h) => self.server.resize(*id, *w, *h),
@@ -763,6 +767,29 @@ impl Dispatch<wl_keyboard::WlKeyboard, ()> for State {
         _: &QueueHandle<Self>,
     ) {
         match e {
+            wl_keyboard::Event::Keymap {
+                format: WEnum::Value(wl_keyboard::KeymapFormat::XkbV1),
+                fd,
+                size,
+            } => {
+                use std::io::Read;
+                if size == 0 || size > 1024 * 1024 {
+                    s.failure = Some(error("host XKB map size is invalid"));
+                    return;
+                }
+                let mut file = std::fs::File::from(fd);
+                let mut bytes = vec![0; size as usize];
+                match file.read_exact(&mut bytes) {
+                    Ok(()) => s.commands.push_back(Command::Map(bytes.into())),
+                    Err(e) => s.failure = Some(e),
+                }
+            }
+            wl_keyboard::Event::Keymap { .. } => {
+                s.failure = Some(error("host keyboard requires an XKB-v1 keymap"));
+            }
+            wl_keyboard::Event::RepeatInfo { rate, delay } => {
+                s.commands.push_back(Command::Repeat(rate, delay))
+            }
             wl_keyboard::Event::Enter {
                 serial, surface, ..
             } => {
@@ -772,6 +799,7 @@ impl Dispatch<wl_keyboard::WlKeyboard, ()> for State {
                     s.text_enter = s.focus;
                 }
                 s.input(InputEvent::Focus { window: s.focus });
+                s.input(InputEvent::Modifiers(s.modifiers));
                 s.text_signature = None;
                 s.sync_text();
             }
@@ -791,10 +819,9 @@ impl Dispatch<wl_keyboard::WlKeyboard, ()> for State {
                 state: WEnum::Value(state),
             } => {
                 s.serial = serial;
-                s.input(InputEvent::Key {
+                s.input(InputEvent::RawKey {
                     key,
                     pressed: state == wl_keyboard::KeyState::Pressed,
-                    modifiers: s.modifiers,
                     time,
                 });
             }
@@ -802,8 +829,19 @@ impl Dispatch<wl_keyboard::WlKeyboard, ()> for State {
                 mods_depressed,
                 mods_latched,
                 mods_locked,
+                group,
                 ..
-            } => s.modifiers = mods_depressed | mods_latched | mods_locked,
+            } => {
+                s.modifiers = trames_wayland::KeyboardModifiers {
+                    depressed: mods_depressed,
+                    latched: mods_latched,
+                    locked: mods_locked,
+                    group,
+                };
+                if s.focus.is_some() {
+                    s.input(InputEvent::Modifiers(s.modifiers));
+                }
+            }
             _ => (),
         }
     }

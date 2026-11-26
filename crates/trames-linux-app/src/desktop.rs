@@ -44,6 +44,8 @@ mod x11 {
         io::Error::other(e.to_string())
     }
     enum Command {
+        Map(std::sync::Arc<[u8]>),
+        Repeat(i32, i32),
         Input(InputEvent),
         Text(trames_wayland::TextEdit),
         Resize(u64, u32, u32),
@@ -67,6 +69,7 @@ mod x11 {
         mode: super::RendererMode,
         clipboard: crate::clipboard_x11::Clipboard,
         ime: crate::ime_x11::Ime,
+        keyboard: crate::keyboard_x11::Keyboard,
         screen: usize,
         server: Server,
         windows: BTreeMap<u64, Window>,
@@ -120,6 +123,10 @@ mod x11 {
                 .reply()
                 .map_err(error)?
                 .atom;
+            let keyboard = crate::keyboard_x11::Keyboard::new(&connection)?;
+            let map = keyboard.map(&connection)?;
+            let (rate, delay) = keyboard.repeat(&connection)?;
+            let initial = VecDeque::from([Command::Map(map), Command::Repeat(rate, delay)]);
             let ime = crate::ime_x11::Ime::new(connection.clone(), screen)?;
             let clipboard = crate::clipboard_x11::Clipboard::new(&connection, screen, &server)?;
             server.output_scale(0, 1)?;
@@ -129,13 +136,14 @@ mod x11 {
                 mode,
                 clipboard,
                 ime,
+                keyboard,
                 screen,
                 server,
                 windows: BTreeMap::new(),
                 protocols,
                 close,
                 revision: None,
-                commands: VecDeque::new(),
+                commands: initial,
                 keys: BTreeSet::new(),
                 focus: None,
                 destroyed: BTreeSet::new(),
@@ -169,11 +177,16 @@ mod x11 {
                 self.keys.clear();
                 self.focus = window;
                 self.input(InputEvent::Focus { window });
+                if window.is_some() {
+                    self.input(InputEvent::Modifiers(self.keyboard.modifiers));
+                }
             }
         }
         fn flush_commands(&mut self) -> io::Result<()> {
             while let Some(command) = self.commands.front() {
                 let result = match command {
+                    Command::Map(bytes) => self.server.keyboard_map(bytes.clone()),
+                    Command::Repeat(r, d) => self.server.keyboard_repeat(*r, *d),
                     Command::Input(event) => self.server.input(event.clone()),
                     Command::Text(edit) => self.server.edit_text(edit.clone()),
                     Command::Resize(id, w, h) => self.server.resize(*id, *w, *h),
@@ -211,6 +224,24 @@ mod x11 {
                     }
                 };
                 let Some(event) = event else { break };
+                if let Some(updates) = self.keyboard.event(&self.connection, &event)? {
+                    for update in updates {
+                        match update {
+                            crate::keyboard_x11::Update::Map(m) => {
+                                self.commands.push_back(Command::Map(m))
+                            }
+                            crate::keyboard_x11::Update::Repeat(r, d) => {
+                                self.commands.push_back(Command::Repeat(r, d))
+                            }
+                            crate::keyboard_x11::Update::Modifiers(m) => {
+                                if self.focus.is_some() {
+                                    self.input(InputEvent::Modifiers(m));
+                                }
+                            }
+                        }
+                    }
+                    continue;
+                }
                 if !ime_forwarded && self.ime.event(&event)? {
                     continue;
                 }
@@ -336,37 +367,18 @@ mod x11 {
                             continue;
                         }
                         let pressed = e.response_type & 0x7f == xproto::KEY_PRESS_EVENT;
-                        if pressed {
-                            self.keys.insert(e.detail);
+                        let changed = if pressed {
+                            self.keys.insert(e.detail)
                         } else {
-                            self.keys.remove(&e.detail);
+                            self.keys.remove(&e.detail)
+                        };
+                        if changed {
+                            self.input(InputEvent::RawKey {
+                                key: u32::from(e.detail) - 8,
+                                pressed,
+                                time: e.time,
+                            });
                         }
-                        // Xorg/Xwayland evdev keycodes are Linux keycode + 8.
-                        // The shared seat currently publishes its existing US map.
-                        let mut modifiers = u32::from(u16::from(e.state) & 0xff);
-                        for (mask, codes) in [
-                            (1, [50, 62]),
-                            (4, [37, 105]),
-                            (8, [64, 108]),
-                            (64, [133, 134]),
-                        ] {
-                            if codes.contains(&e.detail) {
-                                if codes.iter().any(|c| self.keys.contains(c)) {
-                                    modifiers |= mask;
-                                } else {
-                                    modifiers &= !mask;
-                                }
-                            }
-                        }
-                        if e.detail == 66 && pressed {
-                            modifiers ^= 2;
-                        }
-                        self.input(InputEvent::Key {
-                            key: u32::from(e.detail) - 8,
-                            pressed,
-                            modifiers,
-                            time: e.time,
-                        });
                     }
                     _ => (),
                 }

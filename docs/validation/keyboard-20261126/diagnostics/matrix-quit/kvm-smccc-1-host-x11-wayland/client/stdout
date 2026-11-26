@@ -1,0 +1,87 @@
+size 240 160
+keymap q=71 y=7a
+repeat 25 660
+frame 1
+focus-in keys=0
+state 0 0 0 0
+size 240 160
+state 0 0 0 0
+state 0 1 0 0
+repeat 25 660
+physical 16 1 sym=51 text=Q
+state 0 0 0 0
+physical 16 0 sym=71 text=q
+frame 2
+physical 16 1 sym=71 text=q
+physical 16 0 sym=71 text=q
+physical 21 1 sym=7a text=z
+physical 21 0 sym=7a text=z
+physical 100 1 sym=fe03 text=
+state 128 0 0 0
+physical 16 1 sym=40 text=@
+physical 16 0 sym=40 text=@
+physical 100 0 sym=fe03 text=
+state 0 0 0 0
+physical 58 1 sym=ffe5 text=
+state 2 0 2 0
+physical 58 0 sym=ffe5 text=
+state 0 0 2 0
+physical 16 1 sym=51 text=Q
+physical 16 0 sym=51 text=Q
+keymap q=61 y=79
+state 0 0 2 0
+repeat 25 660
+repeat 25 660
+repeat 25 660
+physical 16 1 sym=41 text=A
+physical 16 0 sym=41 text=A
+physical 58 1 sym=ffe5 text=
+state 2 0 2 0
+physical 58 0 sym=ffe5 text=
+state 0 0 0 0
+physical 16 1 sym=61 text=a
+physical 16 0 sym=61 text=a
+physical 69 1 sym=ff7f text=
+state 16 0 16 0
+physical 69 0 sym=ff7f text=
+state 0 0 16 0
+physical 79 1 sym=ffb1 text=1
+physical 79 0 sym=ffb1 text=1
+physical 69 1 sym=ff7f text=
+state 16 0 16 0
+physical 69 0 sym=ff7f text=
+state 0 0 0 0
+keymap q=71 y=79
+state 0 0 0 0
+repeat 25 660
+repeat 25 660
+repeat 25 660
+physical 56 1 sym=ffe9 text=
+state 8 0 0 0
+physical 42 1 sym=fe08 text=
+state 8 0 0 1
+physical 42 0 sym=fe08 text=
+physical 56 0 sym=ffe9 text=
+state 0 0 0 1
+physical 16 1 sym=6ca text=й
+physical 16 0 sym=6ca text=й
+keymap q=71 y=7a
+state 0 0 0 1
+repeat 25 660
+repeat 25 660
+repeat 25 660
+physical 42 1 sym=ffe1 text=
+state 1 0 0 0
+focus-out
+size 240 160
+focus-in keys=0
+state 0 0 0 0
+size 240 160
+state 0 0 0 0
+frame 3
+physical 16 1 sym=71 text=q
+physical 16 0 sym=71 text=q
+repeat 25 150
+frame 4
+physical 30 1 sym=61 text=a
+physical 30 0 sym=61 text=a

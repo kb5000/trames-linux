@@ -1,0 +1,4 @@
+
+thread 'interop_tests::host_xim_peer' (216378) panicked at crates/trames-linux-app/src/interop_tests.rs:100:36:
+called `Result::unwrap()` on an `Err` value: IoError(Custom { kind: UnexpectedEof, error: "The X11 server closed the connection" })
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace

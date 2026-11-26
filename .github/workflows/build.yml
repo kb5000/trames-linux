@@ -46,7 +46,7 @@ jobs:
         run: cargo test --manifest-path runtime/Cargo.toml -p trames-audio --lib --locked
       - name: Build source-checked guest CLI
         run: python3 runtime/scripts/build-guest-cli.py
-      - run: python3 -m py_compile scripts/validate-applications.py scripts/validate-desktop-interop.py scripts/validate-xwayland-ime.py
+      - run: python3 -m py_compile scripts/validate-applications.py scripts/validate-desktop-interop.py scripts/validate-xwayland-ime.py scripts/validate-keyboard.py
       - name: Native reference for original 4KiB memory ELF
         if: runner.os == 'Linux'
         run: python3 tests/acceptance/validate-memory.py --native-only --output target/validation/memory-4k-native

@@ -1,0 +1,12 @@
+[
+  "cc",
+  "-O2",
+  "-Wall",
+  "-Wextra",
+  "-Werror",
+  "-I/mnt/trames-output/linux-keyboard/xlib-headers/usr/include",
+  "/mnt/trames-output/linux-keyboard-source/tests/fixtures/keyboard-control.c",
+  "/lib/aarch64-linux-gnu/libX11.so.6",
+  "-o",
+  "/mnt/trames-output/linux-keyboard/keyboard-release/tools/control"
+]

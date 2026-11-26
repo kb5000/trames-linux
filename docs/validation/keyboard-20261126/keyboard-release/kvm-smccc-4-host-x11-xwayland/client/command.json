@@ -1,0 +1,20 @@
+[
+  "/mnt/trames-output/linux-keyboard/keyboard-release/tools/runner",
+  "run",
+  "--rootfs",
+  "/mnt/trames-output/linux-keyboard/keyboard-release/kvm-smccc-4-host-x11-xwayland/rootfs",
+  "--desktop",
+  "x11",
+  "--cpus",
+  "4",
+  "--timeout-ms",
+  "60000",
+  "--xwayland-launcher",
+  "/mnt/trames-output/linux-keyboard/keyboard-release/tools/launcher",
+  "--setenv",
+  "LC_ALL=C.UTF-8",
+  "--",
+  "/bin/sh",
+  "-ec",
+  "trames-xwayland :0 -ac >&2 & xpid=$!; trap \"kill $xpid\" EXIT; while [ ! -S /tmp/.X11-unix/X0 ]; do sleep .05; done; DISPLAY=:0 /test/keyboard"
+]

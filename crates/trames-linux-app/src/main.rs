@@ -18,6 +18,8 @@ mod gpu_desktop;
 mod ime_x11;
 #[cfg(all(test, target_os = "linux"))]
 mod interop_tests;
+#[cfg(target_os = "linux")]
+mod keyboard_x11;
 mod store;
 
 const RUNTIME: &str = include_str!("../../../runtime-version.json");

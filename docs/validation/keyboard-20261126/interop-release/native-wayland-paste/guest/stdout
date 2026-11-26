@@ -1,0 +1,24 @@
+
+running 1 test
+selection 0
+size 240 160
+size 320 240
+focus-in keys=0
+modifiers 0 0
+text-enter
+selection 1
+size 320 240
+modifiers 0 0
+modifiers 0 0
+selection 1
+size 320 240
+pointer 100 100
+pointer 100 100
+frame 1
+modifiers 0 0
+paste host 剪贴板 🧪
+interop-done
+test desktop::tests::native_wayland_desktop ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 8 filtered out; finished in 0.01s
+

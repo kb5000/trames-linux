@@ -1,0 +1,20 @@
+{
+  "binaries": {
+    "runner": "9b6f3dfb4a12fd0a48e3c236ca63ebf484cafe6f25b7a84de827a7134c7a7e7b",
+    "unit_binary": "7c239033e8652b20a5bfa04ceab7a699147a55a911da5d00ef06783398732a1d",
+    "launcher": "a48418afec7bd42dde8057125695f714fa6b0ebdcf19ca2ac014930177db1d9f"
+  },
+  "client_sha256": "3743f0e6aacc0454356e02559b08681dac9db077c7bed16c03362b67afa0bc13",
+  "sources": {
+    "scripts/validate-xwayland-ime.py": "e82b1d31f4d3e81fd6c77e343051568a4d5c5276f93555b2839539823b0f1ae2",
+    "scripts/validate-desktop-interop.py": "a76fccf811622c47a87d19a275f5e7e5eeaa17f390cf6d7ee534336d3e21eece",
+    "scripts/validate-desktop.py": "0477b2da7a64907492872dc6b69d64bee2d7f9fd064464293c84353aa6f5a744",
+    "tests/fixtures/interop-xim-client.c": "85757585ba73f9aa77d0fe52be10f9b235db40b90d834ba4887c7b1b46f4720c",
+    "tests/fixtures/desktop-probe.c": "bf5d9e486ec03de85bb52b8921b08335dc046668ad2231a134576f4dcc227c63"
+  },
+  "runtime_pin": {
+    "repository": "https://github.com/project-trames/trames-runtime",
+    "commit": "16e8ed40f2939cca1888a7d7c4a00224b5b8edb4"
+  },
+  "physical_gpu_qualified": false
+}

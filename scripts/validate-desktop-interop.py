@@ -35,15 +35,19 @@ def send(process, line):
 
 
 @contextlib.contextmanager
-def host(case, wayland, tools, shell='kiosk-shell.so'):
+def host(case, wayland, tools, shell='kiosk-shell.so', keyboard='', parent_keymap=()):
     with desktop.xvfb(case) as display, tempfile.TemporaryDirectory(prefix='trames-interop-') as runtime:
         env = os.environ | {'DISPLAY':display, 'XDG_RUNTIME_DIR':runtime,
                             'WAYLAND_DISPLAY':'interop', 'XMODIFIERS':'@im=trames-test'}
+        if parent_keymap:
+            argv=['setxkbmap',*parent_keymap]
+            (case/'parent-keymap.command.json').write_text(json.dumps(argv)+'\n')
+            subprocess.run(argv,env=env,check=True)
         if not wayland:
             yield env
             return
         config = case/'weston.ini'
-        config.write_text('[core]\nidle-time=0\n[input-method]\npath='+str(tools/'input-method')+'\n')
+        config.write_text('[core]\nidle-time=0\n[input-method]\npath='+str(tools/'input-method')+'\n'+keyboard)
         with (case/'weston.log').open('wb') as log:
             process = subprocess.Popen(['weston','--backend=x11','--renderer=pixman',
                 '--shell='+shell,'--width=320','--height=240','--socket=interop','--config='+str(config)],

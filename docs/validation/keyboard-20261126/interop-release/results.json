@@ -1,0 +1,267 @@
+{
+  "complete": true,
+  "rows": [
+    {
+      "id": "native-x11-vulkan-reference",
+      "status": "passed",
+      "original_vulkan_frames": 16,
+      "swapchain_generations": 2,
+      "pixels": true,
+      "teardown": true,
+      "gpu_readback": null
+    },
+    {
+      "id": "native-wayland-vulkan-reference",
+      "status": "passed",
+      "original_vulkan_frames": 16,
+      "swapchain_generations": 2,
+      "pixels": true,
+      "teardown": true,
+      "gpu_readback": null
+    },
+    {
+      "id": "native-x11-interop",
+      "status": "passed",
+      "clipboard_both_directions": true,
+      "utf8": true,
+      "preedit": true,
+      "commit": true
+    },
+    {
+      "id": "native-wayland-copy",
+      "status": "passed",
+      "operation": "copy",
+      "native_wayland": true,
+      "renderer": "auto"
+    },
+    {
+      "id": "native-wayland-paste",
+      "status": "passed",
+      "operation": "paste",
+      "native_wayland": true,
+      "renderer": "auto"
+    },
+    {
+      "id": "native-wayland-ime",
+      "status": "passed",
+      "operation": "ime",
+      "native_wayland": true,
+      "renderer": "auto"
+    },
+    {
+      "id": "native-x11-vulkan-shm",
+      "status": "passed",
+      "pixels": [
+        "pixels 240 160 20c040",
+        "pixels 240 160 c04020",
+        "pixels 240 160 2040c0",
+        "pixels 320 200 2040c0",
+        "pixels 320 200 2040c0"
+      ],
+      "idle_cpu_seconds": 0.01,
+      "input": true,
+      "focus_loss": true,
+      "resize": true,
+      "expose": true,
+      "close": true
+    },
+    {
+      "id": "native-wayland-vulkan-shm",
+      "status": "passed",
+      "operation": "vulkan-shm",
+      "native_wayland": true,
+      "renderer": "vulkan"
+    },
+    {
+      "id": "kvm-smccc-1-x11-interop",
+      "status": "passed",
+      "clipboard_both_directions": true,
+      "utf8": true,
+      "preedit": true,
+      "commit": true
+    },
+    {
+      "id": "kvm-smccc-1-wayland-copy",
+      "status": "passed",
+      "operation": "copy",
+      "native_wayland": true,
+      "renderer": "auto"
+    },
+    {
+      "id": "kvm-smccc-1-wayland-paste",
+      "status": "passed",
+      "operation": "paste",
+      "native_wayland": true,
+      "renderer": "auto"
+    },
+    {
+      "id": "kvm-smccc-1-wayland-ime",
+      "status": "passed",
+      "operation": "ime",
+      "native_wayland": true,
+      "renderer": "auto"
+    },
+    {
+      "id": "kvm-smccc-1-x11-vulkan",
+      "status": "passed",
+      "original_vulkan_frames": 16,
+      "swapchain_generations": 2,
+      "pixels": true,
+      "teardown": true,
+      "gpu_readback": false
+    },
+    {
+      "id": "kvm-smccc-1-wayland-vulkan",
+      "status": "passed",
+      "original_vulkan_frames": 16,
+      "swapchain_generations": 2,
+      "pixels": true,
+      "teardown": true,
+      "gpu_readback": false
+    },
+    {
+      "id": "kvm-smccc-4-x11-interop",
+      "status": "passed",
+      "clipboard_both_directions": true,
+      "utf8": true,
+      "preedit": true,
+      "commit": true
+    },
+    {
+      "id": "kvm-smccc-4-wayland-copy",
+      "status": "passed",
+      "operation": "copy",
+      "native_wayland": true,
+      "renderer": "auto"
+    },
+    {
+      "id": "kvm-smccc-4-wayland-paste",
+      "status": "passed",
+      "operation": "paste",
+      "native_wayland": true,
+      "renderer": "auto"
+    },
+    {
+      "id": "kvm-smccc-4-wayland-ime",
+      "status": "passed",
+      "operation": "ime",
+      "native_wayland": true,
+      "renderer": "auto"
+    },
+    {
+      "id": "kvm-smccc-4-x11-vulkan",
+      "status": "passed",
+      "original_vulkan_frames": 16,
+      "swapchain_generations": 2,
+      "pixels": true,
+      "teardown": true,
+      "gpu_readback": false
+    },
+    {
+      "id": "kvm-smccc-4-wayland-vulkan",
+      "status": "passed",
+      "original_vulkan_frames": 16,
+      "swapchain_generations": 2,
+      "pixels": true,
+      "teardown": true,
+      "gpu_readback": false
+    },
+    {
+      "id": "kvm-mmio-1-x11-interop",
+      "status": "passed",
+      "clipboard_both_directions": true,
+      "utf8": true,
+      "preedit": true,
+      "commit": true
+    },
+    {
+      "id": "kvm-mmio-1-wayland-copy",
+      "status": "passed",
+      "operation": "copy",
+      "native_wayland": true,
+      "renderer": "auto"
+    },
+    {
+      "id": "kvm-mmio-1-wayland-paste",
+      "status": "passed",
+      "operation": "paste",
+      "native_wayland": true,
+      "renderer": "auto"
+    },
+    {
+      "id": "kvm-mmio-1-wayland-ime",
+      "status": "passed",
+      "operation": "ime",
+      "native_wayland": true,
+      "renderer": "auto"
+    },
+    {
+      "id": "kvm-mmio-1-x11-vulkan",
+      "status": "passed",
+      "original_vulkan_frames": 16,
+      "swapchain_generations": 2,
+      "pixels": true,
+      "teardown": true,
+      "gpu_readback": false
+    },
+    {
+      "id": "kvm-mmio-1-wayland-vulkan",
+      "status": "passed",
+      "original_vulkan_frames": 16,
+      "swapchain_generations": 2,
+      "pixels": true,
+      "teardown": true,
+      "gpu_readback": false
+    },
+    {
+      "id": "kvm-mmio-4-x11-interop",
+      "status": "passed",
+      "clipboard_both_directions": true,
+      "utf8": true,
+      "preedit": true,
+      "commit": true
+    },
+    {
+      "id": "kvm-mmio-4-wayland-copy",
+      "status": "passed",
+      "operation": "copy",
+      "native_wayland": true,
+      "renderer": "auto"
+    },
+    {
+      "id": "kvm-mmio-4-wayland-paste",
+      "status": "passed",
+      "operation": "paste",
+      "native_wayland": true,
+      "renderer": "auto"
+    },
+    {
+      "id": "kvm-mmio-4-wayland-ime",
+      "status": "passed",
+      "operation": "ime",
+      "native_wayland": true,
+      "renderer": "auto"
+    },
+    {
+      "id": "kvm-mmio-4-x11-vulkan",
+      "status": "passed",
+      "original_vulkan_frames": 16,
+      "swapchain_generations": 2,
+      "pixels": true,
+      "teardown": true,
+      "gpu_readback": false
+    },
+    {
+      "id": "kvm-mmio-4-wayland-vulkan",
+      "status": "passed",
+      "original_vulkan_frames": 16,
+      "swapchain_generations": 2,
+      "pixels": true,
+      "teardown": true,
+      "gpu_readback": false
+    }
+  ],
+  "passed": true,
+  "physical_gpu_qualified": false,
+  "performance_qualified": false
+}

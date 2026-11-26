@@ -1,0 +1,20 @@
+[
+  "/mnt/trames-output/linux-keyboard/interop-release/tools/runner",
+  "run",
+  "--rootfs",
+  "/mnt/trames-output/linux-keyboard/interop-release/kvm-smccc-1-wayland-vulkan/rootfs",
+  "--desktop",
+  "wayland",
+  "--desktop-renderer",
+  "auto",
+  "--cpus",
+  "1",
+  "--timeout-ms",
+  "60000",
+  "--vulkan-icd",
+  "/mnt/trames-output/linux-keyboard/interop-release/tools/guest_icd",
+  "--setenv",
+  "VK_DRIVER_FILES=/usr/share/vulkan/icd.d/trames.json",
+  "--",
+  "/test/gpu"
+]

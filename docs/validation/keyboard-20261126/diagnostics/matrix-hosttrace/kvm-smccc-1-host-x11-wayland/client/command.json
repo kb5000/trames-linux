@@ -1,0 +1,21 @@
+[
+  "strace",
+  "-f",
+  "-tt",
+  "-e",
+  "trace=read,write,close,exit,exit_group",
+  "-o",
+  "/mnt/trames-output/linux-keyboard/matrix-hosttrace/kvm-smccc-1-host-x11-wayland/host-strace",
+  "/mnt/trames-output/linux-keyboard/matrix-hosttrace/tools/runner",
+  "run",
+  "--rootfs",
+  "/mnt/trames-output/linux-keyboard/matrix-hosttrace/kvm-smccc-1-host-x11-wayland/rootfs",
+  "--desktop",
+  "x11",
+  "--cpus",
+  "1",
+  "--timeout-ms",
+  "60000",
+  "--",
+  "/test/keyboard"
+]

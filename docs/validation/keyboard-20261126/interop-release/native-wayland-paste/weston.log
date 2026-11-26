@@ -1,0 +1,34 @@
+Date: 2026-11-26 HKT
+[20:05:48.282] weston 13.0.0
+               https://wayland.freedesktop.org
+               Bug reports to: https://gitlab.freedesktop.org/wayland/weston/issues/
+               Build: 13.0.0
+[20:05:48.283] Command line: weston --backend=x11 --renderer=pixman --shell=kiosk-shell.so --width=320 --height=240 --socket=interop --config=/mnt/trames-output/linux-keyboard/interop-release/native-wayland-paste/weston.ini
+[20:05:48.283] OS: Linux, 7.0.0-43-generic, #43~24.04.1-Ubuntu SMP PREEMPT_DYNAMIC Sat Oct 31 07:32:05 UTC 2, aarch64
+[20:05:48.283] Flight recorder: enabled
+[20:05:48.283] Using config file '/mnt/trames-output/linux-keyboard/interop-release/native-wayland-paste/weston.ini'
+[20:05:48.283] Output repaint window is 7 ms maximum.
+[20:05:48.283] Loading module '/usr/lib/aarch64-linux-gnu/libweston-13/x11-backend.so'
+[20:05:48.285] Using Pixman renderer
+[20:05:48.287] Registered plugin API 'weston_windowed_output_api_v2' of size 16
+[20:05:48.287] Color manager: no-op
+[20:05:48.287] Output 'screen0' attempts EOTF mode: SDR
+[20:05:48.287] Output 'screen0' using color profile: stock sRGB color profile
+[20:05:48.287] Found visual, bits per value: 8, red_mask: 00ff0000, green_mask: 0000ff00, blue_mask: 000000ff
+[20:05:48.287] Visual depth is 24
+[20:05:48.288] Found format for depth 24, bpp: 32
+[20:05:48.288] Will use x8r8g8b8 format for SHM surfaces
+[20:05:48.288] x11 output 320x240, window id 2097157
+[20:05:48.288] Output 'screen0' enabled with head(s) screen0
+[20:05:48.288] Compositor capabilities:
+               arbitrary surface rotation: yes
+               screen capture uses y-flip: no
+               cursor planes: no
+               arbitrary resolutions: no
+               view mask clipping: yes
+               explicit sync: no
+               color operations: no
+               presentation clock: CLOCK_MONOTONIC_RAW, id 4
+               presentation clock resolution: 0.000000001 s
+[20:05:48.289] Loading module '/usr/lib/aarch64-linux-gnu/weston/kiosk-shell.so'
+[20:05:48.319] caught signal 15

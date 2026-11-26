@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "keyboard_cells": 20,
+  "interop_cells": 32,
+  "xlib_ime_cells": 4,
+  "desktop_cells": 13,
+  "runner_sha256": "9b6f3dfb4a12fd0a48e3c236ca63ebf484cafe6f25b7a84de827a7134c7a7e7b",
+  "runtime_pin": "16e8ed40f2939cca1888a7d7c4a00224b5b8edb4",
+  "physical_gpu_qualified": false,
+  "cloud_checks_complete": false
+}

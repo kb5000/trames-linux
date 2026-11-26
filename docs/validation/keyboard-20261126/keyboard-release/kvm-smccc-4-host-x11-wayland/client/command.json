@@ -1,0 +1,14 @@
+[
+  "/mnt/trames-output/linux-keyboard/keyboard-release/tools/runner",
+  "run",
+  "--rootfs",
+  "/mnt/trames-output/linux-keyboard/keyboard-release/kvm-smccc-4-host-x11-wayland/rootfs",
+  "--desktop",
+  "x11",
+  "--cpus",
+  "4",
+  "--timeout-ms",
+  "60000",
+  "--",
+  "/test/keyboard"
+]
