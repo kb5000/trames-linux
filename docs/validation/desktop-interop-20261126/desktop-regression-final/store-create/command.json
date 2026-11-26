@@ -1,0 +1,20 @@
+[
+  "/mnt/trames-output/linux-interop/desktop-regression-final/runner",
+  "run",
+  "--store",
+  "/mnt/trames-output/linux-interop/desktop-regression-final/store",
+  "--rootfs",
+  "/mnt/trames-output/linux-interop/desktop-regression-final/rootfs",
+  "--desktop",
+  "x11",
+  "--xwayland-launcher",
+  "/mnt/trames-output/linux-interop/desktop-regression-final/launcher",
+  "--cpus",
+  "4",
+  "--timeout-ms",
+  "60000",
+  "--",
+  "/bin/sh",
+  "-ec",
+  "exec /test/client"
+]

@@ -1,9 +1,12 @@
-# Linux SHM desktop and input
+# Linux native desktop, clipboard, input methods and Vulkan
 
-`--desktop x11` enables the shared Runtime Wayland compositor and presents each
-visible guest toplevel in an original host X11 window. Native Wayland clients
+`--desktop x11` and `--desktop wayland` enable the shared Runtime Wayland
+compositor and present each visible guest toplevel in an original native host
+window. Select the host session explicitly; guest Wayland/Xwayland selection
+is independent of the host frontend. Native Wayland clients
 use `XDG_RUNTIME_DIR=/run/user/0` and `WAYLAND_DISPLAY=wayland-0`. Defaults also
-include `HOME=/root`, `LANG=C.UTF-8` and `GDK_BACKEND=wayland`; explicit `--setenv`
+include `HOME=/root`, `LANG=C.UTF-8`, `GDK_BACKEND=wayland` and
+`XMODIFIERS=@im=trames`; explicit `--setenv`
 values take precedence. This path does not require Vulkan or initialize a GPU.
 
 ```sh
@@ -73,16 +76,15 @@ closure of that guest toplevel; the CLI/session can continue after GUI exit.
 
 Keyboard input currently uses Xorg/Xwayland's evdev keycodes and the shared US
 keymap. Pointer coordinates, buttons, wheel and keyboard modifiers are translated
-into the existing `InputEvent` API. Focus loss clears held keys/buttons through
-the shared seat. Clipboard, host IME/layout negotiation, full EWMH window state,
-interactive client-side move/resize gestures and a native host Wayland frontend
-remain follow-up work.
+into the existing `InputEvent` API. Native Wayland uses the host seat keycodes
+and modifier events. Focus loss clears held keys/buttons through the shared seat.
+Full physical keyboard layout negotiation, EWMH window state and interactive
+client-side move/resize gestures remain follow-up work.
 
 The original `--display x11` fixed Vulkan display remains a separate mode. It
 cannot be combined with `--desktop`; `--display-size` applies only to that fixed
-display. GPU-backed desktop images report unsupported rather than silently
-claiming acceleration. DMA-BUF/fence import, Zink desktop, physical audio/video
-and same-host accelerated KVM acceptance remain separate gates.
+display. The host frontend is selected independently of whether the guest
+application uses Wayland or original Xwayland.
 
 ## Automated acceptance
 
@@ -99,3 +101,87 @@ Independent X11 probes read actual pixels and inject host keyboard/pointer
 input. Logs record focus loss, wheel, resize/expose, close, CLI continuation and
 idle CPU. All scratch files live under the explicit output directory; no new VM
 or disk image is required. These gates qualify the software desktop only.
+
+## Host clipboard and input methods
+
+Both frontends attach the existing shared `HostClipboard` interface. Text imports
+and exports use nonblocking pipes on the original foreground `HostWait`, with
+bounded active transfers and finite transfer deadlines. The frontend adds no
+clipboard service thread or polling timer. Host text follows the shared API's
+16 KiB UTF-8 limit; guest-to-guest MIME negotiation retains its existing behavior.
+X11 supports TARGETS/UTF8_STRING/TEXT, Latin-1 STRING fallback and incoming INCR.
+Wayland uses the host seat data device and data sources; a private MIME marker
+suppresses feedback when the frontend receives its own exported selection.
+
+X11 uses the host's XIM server selected by its `XMODIFIERS` and locale. Native
+Wayland uses text-input-v3, with text-input-v1 fallback for hosts such as Weston
+13. Surrounding text, UTF-8 cursor positions, caret rectangles, preedit, commit
+and surrounding deletion pass through the shared text interface. Context IDs,
+epochs and protocol serials reject edits for an obsolete focus/composition.
+The host input method owns candidates; guest Xwayland uses the shared Runtime
+XIM server. If no host input method is available, ordinary keyboard input remains
+available. A native Wayland compositor must expose a supported text-input
+protocol for its input method to be bridged.
+
+## Vulkan desktop composition
+
+`--desktop-renderer auto` is the default. SHM-only windows use the software path;
+GPU-backed windows use native Vulkan composition. `software` selects software
+SHM composition explicitly and rejects GPU-only planes. `vulkan` also uploads
+and composes SHM planes on Vulkan. Enabling a desktop alone does not initialize
+a GPU for ordinary SHM windows. Install the original guest Vulkan ICD using the
+existing `--vulkan-icd` option when running Vulkan applications:
+
+```sh
+trames run --rootfs /path/to/rootfs --desktop wayland \
+  --vulkan-icd /path/to/libtrames_vulkan_icd.so \
+  --setenv VK_DRIVER_FILES=/usr/share/vulkan/icd.d/trames.json -- /usr/bin/app
+```
+
+GPU planes retain their original native image/device/queue. The renderer samples
+those images directly, without CPU pixel readback; only SHM planes upload.
+Per-window pipelines/swapchains retain a device lease, separate from source image
+slot leases. Source frames remain retained through the presenter's submission
+fence. Queue entry points share the Runtime's actual per-queue synchronization;
+there is no device-wide idle per frame. Current GPU planes within one scene must
+share their native device and queue. Separate windows may use separate devices.
+Cross-device/mixed-queue composition and general external DMA-BUF synchronization
+are subsequent work.
+
+The X11 WSI connection is separate from the input connection. Native requests
+are ordered before an explicit XPresent MSC notification, including for Mesa
+software paths that do not issue XPresent themselves. Wayland uses host frame
+callbacks and retains a prepared read across the original HostWait, cancelling
+it before WSI operations so the driver's libwayland queue cannot hide UI events
+or deadlock a native roundtrip. Both paths pace frames through actual host events.
+Renderers are destroyed before their native windows/surfaces and connections.
+
+## Interoperability acceptance
+
+`python3 scripts/validate-desktop-interop.py --native-only --unit-binary UNIT --output OUT`
+runs eight native reference cells. Add `--runner RUNNER --guest-icd ICD` and omit
+`--native-only` for 24 further real ARM64 KVM cells: both transports, one/four
+vCPUs, X11 and native Wayland clipboard/IME, plus original guest Vulkan rendering.
+`--case ID` reuses unaffected evidence by selecting an affected cell. Each case
+uses an isolated scratch rootfs and retains command lines, logs and input hashes.
+The source-bound executables are frozen before the matrix starts.
+
+Original Weston provides the native Wayland host. Its desktop shell supplies the
+real text-input/input-method-v1 path; its kiosk shell is used for deterministic
+pixel capture. Original X11/XIM/libwayland/Vulkan protocol peers verify Unicode
+text in both directions and preedit/deletion/commit. GPU cases render sixteen
+frames over two swapchain generations, compare actual host pixels, then tear
+down successfully. Hosted ARM64/AMD64 CI uses Mesa software Vulkan; these checks
+make no physical GPU or performance claim. See the
+[2026-11-26 record](../validation/desktop-interop-20261126.md).
+
+The additional `scripts/validate-xwayland-ime.py` gate builds an original Xlib
+client and runs four real KVM cells against original distro Xwayland. Supply
+`--runner`, `--unit-binary`, a desktop rootfs from `validate-desktop.py`,
+`--launcher` and `--output`. It copies only the test rootfs and the original
+X11/C.UTF-8 locale data into per-case scratch trees. The client uses Xlib's
+standard input-method instantiate callback if Xwayland starts accepting clients
+before its XIM server is registered. This exercises confirmed Unicode input
+through both the host XIM and the shared guest XIM service. Xlib development
+headers are needed for this extra gate (`X11_CFLAGS` and `X11_LIBS` may select
+an extracted development package).

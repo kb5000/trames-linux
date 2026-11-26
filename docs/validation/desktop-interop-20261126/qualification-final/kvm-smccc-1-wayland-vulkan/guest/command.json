@@ -1,0 +1,20 @@
+[
+  "/mnt/trames-output/linux-interop/qualification-final/tools/runner",
+  "run",
+  "--rootfs",
+  "/mnt/trames-output/linux-interop/qualification-final/kvm-smccc-1-wayland-vulkan/rootfs",
+  "--desktop",
+  "wayland",
+  "--desktop-renderer",
+  "auto",
+  "--cpus",
+  "1",
+  "--timeout-ms",
+  "60000",
+  "--vulkan-icd",
+  "/mnt/trames-output/linux-interop/qualification-final/tools/guest_icd",
+  "--setenv",
+  "VK_DRIVER_FILES=/usr/share/vulkan/icd.d/trames.json",
+  "--",
+  "/test/gpu"
+]

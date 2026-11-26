@@ -22,7 +22,14 @@ trames-wayland.workspace = true
 trames-shared.workspace = true
 
 [target.'cfg(target_os = "linux")'.dependencies]
-x11rb = { version = "=0.13.2", default-features = false, features = ["dl-libxcb"] }
+x11rb = { version = "=0.13.2", default-features = false, features = ["dl-libxcb", "xfixes", "xkb", "present", "dri3"] }
+
+xim = {version="=0.5.0",default-features=false,features=["x11rb-client","x11rb-xcb"]}
+wayland-client = {version="=0.31.14",features=["system","dlopen"]}
+wayland-protocols = {version="=0.32.13",features=["client","unstable","staging"]}
+ash = "=0.38.0"
+trames-graphics.workspace = true
+libc.workspace = true
 
 [dev-dependencies]
 libc.workspace = true

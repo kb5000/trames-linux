@@ -1,0 +1,16 @@
+selection 0
+size 240 160
+size 320 240
+focus-in keys=0
+modifiers 0 0
+text-enter
+selection 1
+size 320 240
+selection 1
+size 320 240
+pointer 100 100
+pointer 100 100
+frame 1
+paste host 剪贴板 🧪
+frame 2
+interop-done

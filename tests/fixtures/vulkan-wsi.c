@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Same original Vulkan rendering workflow on native XCB and the guest display.
 #define VK_USE_PLATFORM_XCB_KHR
+#define VK_USE_PLATFORM_WAYLAND_KHR
 #include <vulkan/vulkan.h>
 #include <assert.h>
 #include <stdint.h>
@@ -10,6 +11,9 @@
 #include <unistd.h>
 #include <xcb/xcb.h>
 #define OK(call) do { VkResult r=(call); if(r!=VK_SUCCESS){fprintf(stderr,"%s: %d\n",#call,r);exit(1);} } while(0)
+#ifdef TRAMES_WSI_WAYLAND
+void* test_target_new(void);void* test_target_display(void*);void* test_target_surface(void*);void test_target_free(void*);
+#endif
 static int headless(void) {
     VkInstanceCreateInfo ii={.sType=VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO};VkInstance instance,retained_instance;OK(vkCreateInstance(&ii,NULL,&retained_instance));OK(vkCreateInstance(&ii,NULL,&instance));
     uint32_t count=1;VkPhysicalDevice physical;OK(vkEnumeratePhysicalDevices(instance,&count,&physical));
@@ -28,7 +32,9 @@ static int headless(void) {
 int main(int argc,char** argv) {
     setbuf(stdout,NULL);
     if(argc==2 && !strcmp(argv[1],"headless"))return headless();
-#ifdef TRAMES_WSI_GUEST
+#if defined(TRAMES_WSI_WAYLAND)
+    const char* extensions[]={VK_KHR_SURFACE_EXTENSION_NAME,VK_KHR_WAYLAND_SURFACE_EXTENSION_NAME};
+#elif defined(TRAMES_WSI_GUEST)
     const char* extensions[]={VK_KHR_SURFACE_EXTENSION_NAME,VK_KHR_DISPLAY_EXTENSION_NAME};
 #else
     const char* extensions[]={VK_KHR_SURFACE_EXTENSION_NAME,VK_KHR_XCB_SURFACE_EXTENSION_NAME};
@@ -38,7 +44,9 @@ int main(int argc,char** argv) {
     VkInstance instance;OK(vkCreateInstance(&ii,NULL,&instance));
     uint32_t count=1;VkPhysicalDevice physical;OK(vkEnumeratePhysicalDevices(instance,&count,&physical));assert(count==1);
     VkSurfaceKHR surface;
-#ifdef TRAMES_WSI_GUEST
+#if defined(TRAMES_WSI_WAYLAND)
+    void* target=test_target_new();VkWaylandSurfaceCreateInfoKHR si={.sType=VK_STRUCTURE_TYPE_WAYLAND_SURFACE_CREATE_INFO_KHR,.display=test_target_display(target),.surface=test_target_surface(target)};OK(vkCreateWaylandSurfaceKHR(instance,&si,NULL,&surface));
+#elif defined(TRAMES_WSI_GUEST)
     VkDisplayPropertiesKHR display;count=1;OK(vkGetPhysicalDeviceDisplayPropertiesKHR(physical,&count,&display));assert(count==1);
     VkDisplayModePropertiesKHR mode;count=1;OK(vkGetDisplayModePropertiesKHR(physical,display.display,&count,&mode));assert(count==1);
     VkDisplaySurfaceCreateInfoKHR si={.sType=VK_STRUCTURE_TYPE_DISPLAY_SURFACE_CREATE_INFO_KHR,.displayMode=mode.displayMode,.planeStackIndex=0,.transform=VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR,.globalAlpha=1,.alphaMode=VK_DISPLAY_PLANE_ALPHA_OPAQUE_BIT_KHR,.imageExtent=display.physicalResolution};
@@ -59,7 +67,7 @@ int main(int argc,char** argv) {
     float priority=1;VkDeviceQueueCreateInfo qi={.sType=VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO,.queueFamilyIndex=family,.queueCount=1,.pQueuePriorities=&priority};
     const char* swapchain_extension=VK_KHR_SWAPCHAIN_EXTENSION_NAME;VkDeviceCreateInfo di={.sType=VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO,.queueCreateInfoCount=1,.pQueueCreateInfos=&qi,.enabledExtensionCount=1,.ppEnabledExtensionNames=&swapchain_extension};
     VkDevice device;OK(vkCreateDevice(physical,&di,NULL,&device));VkQueue queue;vkGetDeviceQueue(device,family,0,&queue);
-    VkSurfaceCapabilitiesKHR caps;OK(vkGetPhysicalDeviceSurfaceCapabilitiesKHR(physical,surface,&caps));assert(caps.currentExtent.width>0 && caps.currentExtent.width!=UINT32_MAX);assert(caps.supportedUsageFlags&VK_IMAGE_USAGE_TRANSFER_DST_BIT);
+    VkSurfaceCapabilitiesKHR caps;OK(vkGetPhysicalDeviceSurfaceCapabilitiesKHR(physical,surface,&caps));if(caps.currentExtent.width==UINT32_MAX)caps.currentExtent=(VkExtent2D){320,240};assert(caps.currentExtent.width>0);assert(caps.supportedUsageFlags&VK_IMAGE_USAGE_TRANSFER_DST_BIT);
     VkCommandPoolCreateInfo pi={.sType=VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO,.flags=VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT,.queueFamilyIndex=family};VkCommandPool pool;OK(vkCreateCommandPool(device,&pi,NULL,&pool));
     VkCommandBufferAllocateInfo ai={.sType=VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO,.commandPool=pool,.level=VK_COMMAND_BUFFER_LEVEL_PRIMARY,.commandBufferCount=1};VkCommandBuffer command;OK(vkAllocateCommandBuffers(device,&ai,&command));
     VkFenceCreateInfo fi={.sType=VK_STRUCTURE_TYPE_FENCE_CREATE_INFO};VkFence acquire,finished;OK(vkCreateFence(device,&fi,NULL,&acquire));OK(vkCreateFence(device,&fi,NULL,&finished));
@@ -83,7 +91,9 @@ int main(int argc,char** argv) {
     }
     printf("wsi-ready frames=%u\n",frames);char ack;assert(read(STDIN_FILENO,&ack,1)==1 && ack=='q');
     vkDestroySwapchainKHR(device,old,NULL);vkDestroyFence(device,acquire,NULL);vkDestroyFence(device,finished,NULL);vkDestroyCommandPool(device,pool,NULL);vkDestroyDevice(device,NULL);vkDestroySurfaceKHR(instance,surface,NULL);vkDestroyInstance(instance,NULL);
-#ifndef TRAMES_WSI_GUEST
+#if defined(TRAMES_WSI_WAYLAND)
+    test_target_free(target);
+#elif !defined(TRAMES_WSI_GUEST)
     xcb_destroy_window(connection,window);xcb_disconnect(connection);
 #endif
     puts("wsi: ok");return 0;

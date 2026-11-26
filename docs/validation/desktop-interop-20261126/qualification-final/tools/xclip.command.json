@@ -1,0 +1,12 @@
+[
+  "cc",
+  "-O2",
+  "-Wall",
+  "-Wextra",
+  "-Werror",
+  "-I/mnt/trames-output/linux-interop/qualification-final/tools",
+  "/mnt/trames-output/linux-interop-source/tests/fixtures/interop-xclip.c",
+  "-lxcb",
+  "-o",
+  "/mnt/trames-output/linux-interop/qualification-final/tools/xclip"
+]

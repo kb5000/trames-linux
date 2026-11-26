@@ -47,6 +47,7 @@ that every entry is linked into each product. Project-owned packages are exclude
 | defmt-macros | 1.2.0 | MIT OR Apache-2.0 | MIT | Main |
 | defmt-parser | 1.1.0 | MIT OR Apache-2.0 | MIT | Main |
 | digest | 0.10.7 | MIT OR Apache-2.0 | MIT | Main |
+| dlib | 0.5.3 | MIT | MIT | Main |
 | downcast-rs | 1.2.1 | MIT/Apache-2.0 | MIT | Main |
 | encoding_rs | 0.8.42 | (Apache-2.0 OR MIT) AND BSD-3-Clause | MIT AND BSD-3-Clause | Main |
 | equivalent | 1.0.3 | Apache-2.0 OR MIT | MIT | Main |
@@ -91,6 +92,7 @@ that every entry is linked into each product. Project-owned packages are exclude
 | redox_syscall | 0.5.18 | MIT | MIT | Main |
 | rustix | 1.1.5 | Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT | MIT | Main |
 | rustversion | 1.0.23 | MIT OR Apache-2.0 | MIT | Main |
+| scoped-tls | 1.0.1 | MIT/Apache-2.0 | MIT | Main |
 | scopeguard | 1.2.0 | MIT OR Apache-2.0 | MIT | Main |
 | serde | 1.0.229 | MIT OR Apache-2.0 | MIT | Main |
 | serde_core | 1.0.229 | MIT OR Apache-2.0 | MIT | Main |
@@ -127,6 +129,7 @@ that every entry is linked into each product. Project-owned packages are exclude
 | wasm-bindgen-macro-support | 0.2.130 | MIT OR Apache-2.0 | MIT | Main |
 | wasm-bindgen-shared | 0.2.130 | MIT OR Apache-2.0 | MIT | Main |
 | wayland-backend | 0.3.17 | MIT | MIT | Main |
+| wayland-client | 0.31.14 | MIT | MIT | Main |
 | wayland-protocols | 0.32.13 | MIT | MIT | Main |
 | wayland-scanner | 0.31.11 | MIT | MIT | Main |
 | wayland-server | 0.31.14 | MIT | MIT | Main |

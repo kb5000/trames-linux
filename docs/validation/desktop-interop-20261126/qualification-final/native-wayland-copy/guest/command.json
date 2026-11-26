@@ -1,0 +1,7 @@
+[
+  "/mnt/trames-output/linux-interop/qualification-final/tools/unit_binary",
+  "desktop::tests::native_wayland_desktop",
+  "--ignored",
+  "--exact",
+  "--nocapture"
+]

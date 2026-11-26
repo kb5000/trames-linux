@@ -1,0 +1,16 @@
+[
+  "/mnt/trames-output/linux-interop/qualification-final/tools/runner",
+  "run",
+  "--rootfs",
+  "/mnt/trames-output/linux-interop/qualification-final/kvm-smccc-1-wayland-copy/rootfs",
+  "--desktop",
+  "wayland",
+  "--desktop-renderer",
+  "auto",
+  "--cpus",
+  "1",
+  "--timeout-ms",
+  "60000",
+  "--",
+  "/test/interop"
+]

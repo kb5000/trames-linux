@@ -18,13 +18,13 @@ static struct xdg_wm_base *shell;
 static struct wl_surface *surface;
 static struct xdg_surface *xdg;
 static struct wl_seat *seat;
-static int width=240,height=160,done,configured,frames;
+static int width=240,height=160,done,configured,frames,hidden;
 static uint32_t color=0xff20c040;
 static void draw(void);
 static void frame(void *d,struct wl_callback *cb,uint32_t t){(void)d;(void)t;wl_callback_destroy(cb);printf("frame %d\n",++frames);fflush(stdout);}
 static const struct wl_callback_listener frame_listener={frame};
 static void draw(void){
-    if(!configured)return;
+    if(!configured||hidden)return;
     int fd=memfd_create("desktop-acceptance",MFD_CLOEXEC|MFD_ALLOW_SEALING);assert(fd>=0);
     size_t size=(size_t)width*height*4;assert(!ftruncate(fd,(off_t)size));
     uint32_t *pixels=mmap(NULL,size,PROT_READ|PROT_WRITE,MAP_SHARED,fd,0);assert(pixels!=MAP_FAILED);

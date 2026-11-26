@@ -1,0 +1,13 @@
+[
+  "cc",
+  "-O2",
+  "-Wall",
+  "-Wextra",
+  "-Werror",
+  "-I/mnt/trames-output/linux-interop/qualification-final/tools",
+  "/mnt/trames-output/linux-interop-source/tests/fixtures/desktop-probe.c",
+  "-lxcb",
+  "-lxcb-xtest",
+  "-o",
+  "/mnt/trames-output/linux-interop/qualification-final/tools/probe"
+]

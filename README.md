@@ -156,7 +156,7 @@ target/release/trames read-file --store /path/to/store -- /root/data
 
 ### Wayland and Xwayland desktop
 
-Use `--desktop x11` to display guest SHM windows with keyboard, pointer, wheel and focus support. Applications use the shared Runtime Wayland compositor; X11 applications use original Xwayland and the authenticated launcher. See [desktop setup and boundaries](docs/architecture/desktop.md).
+Use `--desktop x11` or `--desktop wayland` for native host windows, keyboard/pointer input, bidirectional text clipboard and the host input method. SHM windows use software composition by default; Vulkan-backed windows use native GPU composition with the original image/device/queue. `--desktop-renderer auto|software|vulkan` selects the renderer. Applications use the shared Runtime Wayland compositor; X11 applications use original Xwayland and the authenticated launcher. See [desktop setup and boundaries](docs/architecture/desktop.md).
 
 ```sh
 target/release/trames run --rootfs /path/to/rootfs --desktop x11 -- /usr/bin/weston-terminal

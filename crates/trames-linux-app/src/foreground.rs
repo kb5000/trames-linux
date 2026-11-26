@@ -105,6 +105,8 @@ struct HostOptions {
     trace: bool,
     display: bool,
     desktop: bool,
+    desktop_wayland: bool,
+    desktop_renderer: crate::desktop::RendererMode,
     xwayland_launcher: Option<std::path::PathBuf>,
     display_size: Option<(u32, u32)>,
     vulkan_icd: Option<std::path::PathBuf>,
@@ -158,13 +160,23 @@ fn host_options(args: Vec<String>) -> Result<(Vec<String>, HostOptions), String>
                 );
                 host.runtime.vulkan_accelerator = true;
             }
+            "--desktop-renderer" => {
+                host.desktop_renderer = match args.next().as_deref() {
+                    Some("auto") => crate::desktop::RendererMode::Auto,
+                    Some("software") => crate::desktop::RendererMode::Software,
+                    Some("vulkan") => crate::desktop::RendererMode::Vulkan,
+                    _ => return Err("--desktop-renderer requires auto|software|vulkan".into()),
+                };
+            }
             "--desktop" => {
                 if host.desktop {
                     return Err("duplicate --desktop".into());
                 }
-                if args.next().as_deref() != Some("x11") {
-                    return Err("--desktop requires x11".into());
-                }
+                host.desktop_wayland = match args.next().as_deref() {
+                    Some("x11") => false,
+                    Some("wayland") => true,
+                    _ => return Err("--desktop requires x11|wayland".into()),
+                };
                 host.desktop = true;
             }
             "--xwayland-launcher" => {
@@ -215,13 +227,13 @@ fn host_options(args: Vec<String>) -> Result<(Vec<String>, HostOptions), String>
         }
     }
     if host.desktop && host.display {
-        return Err("choose --desktop x11 or --display x11".into());
+        return Err("choose --desktop or --display x11".into());
     }
     if host.desktop && host.display_size.is_some() {
         return Err("desktop windows use guest application sizes".into());
     }
     if host.xwayland_launcher.is_some() && !host.desktop {
-        return Err("--xwayland-launcher requires --desktop x11".into());
+        return Err("--xwayland-launcher requires --desktop x11|wayland".into());
     }
     if host.display_size.is_some() && !host.display {
         return Err("--display-size requires --display x11".into());
@@ -380,6 +392,7 @@ pub fn run(args: Vec<String>, shell: bool) -> Result<u8, Box<dyn std::error::Err
             "XDG_RUNTIME_DIR=/run/user/0".into(),
             "WAYLAND_DISPLAY=wayland-0".into(),
             "GDK_BACKEND=wayland".into(),
+            "XMODIFIERS=@im=trames".into(),
         ]);
         Some(server)
     } else {
@@ -429,7 +442,13 @@ pub fn run(args: Vec<String>, shell: bool) -> Result<u8, Box<dyn std::error::Err
         runtime.enable_terminal(terminal)?;
     }
     let desktop = desktop_server
-        .map(crate::desktop::Desktop::open)
+        .map(|s| {
+            if host.desktop_wayland {
+                crate::desktop::Desktop::open_wayland(s, host.desktop_renderer)
+            } else {
+                crate::desktop::Desktop::open_mode(s, host.desktop_renderer)
+            }
+        })
         .transpose()?;
     let mut output = Output {
         source: Arc::new(trames_vfs::NativeConsole::stdio()),

@@ -1,6 +1,24 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //! SHM desktop presentation on the existing foreground loop. Protocol state and
 //! guest resource ownership stay in the shared compositor.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
+pub enum RendererMode {
+    #[default]
+    Auto,
+    Software,
+    Vulkan,
+}
+#[cfg(target_os = "linux")]
+impl RendererMode {
+    pub fn gpu(self, scene: &trames_wayland::WindowSnapshot) -> bool {
+        self == Self::Vulkan
+            || (self == Self::Auto
+                && scene
+                    .scene
+                    .iter()
+                    .any(|p| matches!(p.buffer, trames_wayland::ImageBuffer::Gpu(_))))
+    }
+}
 #[cfg(target_os = "linux")]
 mod x11 {
     use std::{
@@ -27,6 +45,7 @@ mod x11 {
     }
     enum Command {
         Input(InputEvent),
+        Text(trames_wayland::TextEdit),
         Resize(u64, u32, u32),
         Close(u64),
         Presented(u64, u64),
@@ -39,9 +58,15 @@ mod x11 {
         bounds: [i32; 4],
         dirty: bool,
         presented: Option<u64>,
+        gpu: Option<crate::gpu_desktop::Renderer>,
+        in_flight: Option<u64>,
     }
     pub struct Desktop {
-        connection: XCBConnection,
+        connection: std::sync::Arc<XCBConnection>,
+        driver: XCBConnection,
+        mode: super::RendererMode,
+        clipboard: crate::clipboard_x11::Clipboard,
+        ime: crate::ime_x11::Ime,
         screen: usize,
         server: Server,
         windows: BTreeMap<u64, Window>,
@@ -58,9 +83,12 @@ mod x11 {
         msb: bool,
     }
     impl Desktop {
-        pub fn open(server: Server) -> io::Result<Self> {
+        pub fn open(server: Server, mode: super::RendererMode) -> io::Result<Self> {
             x11rb::xcb_ffi::load_libxcb().map_err(error)?;
             let (connection, screen) = XCBConnection::connect(None).map_err(error)?;
+            let connection = std::sync::Arc::new(connection);
+            // Native WSI may read its own XCB queue; it must not consume input readiness.
+            let (driver, _) = XCBConnection::connect(None).map_err(error)?;
             let setup = connection.setup();
             let root = &setup.roots[screen];
             let visual = root
@@ -92,9 +120,15 @@ mod x11 {
                 .reply()
                 .map_err(error)?
                 .atom;
+            let ime = crate::ime_x11::Ime::new(connection.clone(), screen)?;
+            let clipboard = crate::clipboard_x11::Clipboard::new(&connection, screen, &server)?;
             server.output_scale(0, 1)?;
             Ok(Self {
                 connection,
+                driver,
+                mode,
+                clipboard,
+                ime,
                 screen,
                 server,
                 windows: BTreeMap::new(),
@@ -113,6 +147,7 @@ mod x11 {
         }
         pub fn interest(&mut self, wait: &mut trames_linux_abi::HostWait) -> io::Result<()> {
             use std::os::fd::AsFd;
+            self.clipboard.interest(wait, &self.server)?;
             self.wake = Some(wait.wake());
             if self.pending_event.is_some() {
                 wait.wake().notify();
@@ -140,6 +175,7 @@ mod x11 {
             while let Some(command) = self.commands.front() {
                 let result = match command {
                     Command::Input(event) => self.server.input(event.clone()),
+                    Command::Text(edit) => self.server.edit_text(edit.clone()),
                     Command::Resize(id, w, h) => self.server.resize(*id, *w, *h),
                     Command::Close(id) => self.server.close(*id),
                     Command::Presented(id, revision) => self.server.presented(*id, *revision, 0),
@@ -164,12 +200,25 @@ mod x11 {
         }
         pub fn poll(&mut self) -> io::Result<()> {
             loop {
-                let event = match self.pending_event.take() {
-                    Some(event) => Some(event),
-                    None => self.connection.poll_for_event().map_err(error)?,
+                let forwarded = self.ime.key();
+                let ime_forwarded = forwarded.is_some();
+                let event = if forwarded.is_some() {
+                    forwarded
+                } else {
+                    match self.pending_event.take() {
+                        Some(event) => Some(event),
+                        None => self.connection.poll_for_event().map_err(error)?,
+                    }
                 };
                 let Some(event) = event else { break };
+                if !ime_forwarded && self.ime.event(&event)? {
+                    continue;
+                }
+                if self.clipboard.event(&self.connection, &event)? {
+                    continue;
+                }
                 let native = match &event {
+                    Event::PresentCompleteNotify(e) => e.window,
                     Event::Expose(e) => e.window,
                     Event::ConfigureNotify(e) => e.window,
                     Event::ClientMessage(e) => e.window,
@@ -190,6 +239,18 @@ mod x11 {
                     continue;
                 };
                 match event {
+                    Event::PresentCompleteNotify(e)
+                        if e.kind == x11rb::protocol::present::CompleteKind::NOTIFY_MSC
+                            && self.windows[&id]
+                                .in_flight
+                                .is_some_and(|r| r as u32 == e.serial) =>
+                    {
+                        let w = self.windows.get_mut(&id).unwrap();
+                        if let Some(r) = w.in_flight.take() {
+                            w.presented = Some(r);
+                            self.commands.push_back(Command::Presented(id, r));
+                        }
+                    }
                     Event::Expose(_) => self.windows.get_mut(&id).unwrap().dirty = true,
                     Event::ConfigureNotify(e) => {
                         let w = self.windows.get_mut(&id).unwrap();
@@ -220,7 +281,8 @@ mod x11 {
                         if self.focus == Some(id) {
                             self.focus(None);
                         }
-                        if let Some(w) = self.windows.remove(&id) {
+                        if let Some(mut w) = self.windows.remove(&id) {
+                            w.gpu.take();
                             self.connection.free_gc(w.gc).map_err(error)?;
                         }
                         self.destroyed.insert(id);
@@ -270,6 +332,9 @@ mod x11 {
                         }
                     }
                     Event::KeyPress(e) | Event::KeyRelease(e) if e.detail >= 8 => {
+                        if !ime_forwarded && self.ime.forward(&e)? {
+                            continue;
+                        }
                         let pressed = e.response_type & 0x7f == xproto::KEY_PRESS_EVENT;
                         if pressed {
                             self.keys.insert(e.detail);
@@ -306,8 +371,25 @@ mod x11 {
                     _ => (),
                 }
             }
+            self.clipboard.poll(&self.connection, &self.server)?;
             self.flush_commands()?;
             let snapshot = self.server.snapshot();
+            let mut text = snapshot.text.clone();
+            let native = text.as_mut().and_then(|c| {
+                self.windows.get(&c.window).map(|w| {
+                    c.caret = [
+                        ((c.caret[0] - w.bounds[0]) as i64 * w.size.0 as i64 / w.bounds[2] as i64)
+                            as i32,
+                        ((c.caret[1] - w.bounds[1]) as i64 * w.size.1 as i64 / w.bounds[3] as i64)
+                            as i32,
+                        c.caret[2],
+                        c.caret[3],
+                    ];
+                    w.id
+                })
+            });
+            self.ime.sync(text.as_ref(), native)?;
+            self.commands.extend(self.ime.edits().map(Command::Text));
             if self.revision != Some(snapshot.revision) {
                 let stale: Vec<_> = self
                     .windows
@@ -375,7 +457,56 @@ mod x11 {
                 self.revision = Some(snapshot.revision);
             }
             let mut acknowledgements = vec![];
-            for w in self.windows.values_mut().filter(|w| w.dirty) {
+            for w in self
+                .windows
+                .values_mut()
+                .filter(|w| w.dirty && w.in_flight.is_none())
+            {
+                if self.mode.gpu(&w.scene) {
+                    if w.gpu.as_ref().is_some_and(|g| !g.matches(&w.scene)) {
+                        w.gpu.take();
+                    }
+                    if w.gpu.is_none() {
+                        use x11rb::protocol::present::{ConnectionExt as _, EventMask};
+                        let event = self.connection.generate_id().map_err(error)?;
+                        self.connection
+                            .present_select_input(event, w.id, EventMask::COMPLETE_NOTIFY)
+                            .map_err(error)?
+                            .check()
+                            .map_err(error)?;
+                        self.connection.flush().map_err(error)?;
+                        // SAFETY: driver and native window outlive this renderer; teardown drops it first.
+                        w.gpu = Some(unsafe {
+                            crate::gpu_desktop::Renderer::new(
+                                crate::gpu_desktop::Target::Xcb {
+                                    connection: self.driver.get_raw_xcb_connection() as usize,
+                                    window: w.id,
+                                },
+                                &w.scene,
+                                w.size,
+                            )
+                        }?);
+                    }
+                    w.gpu
+                        .as_mut()
+                        .unwrap()
+                        .present(&w.scene, w.size, w.bounds)?;
+                    // A software/native ICD need not itself use XPresent. Order
+                    // the driver's native requests before our own vblank notification.
+                    self.driver
+                        .get_input_focus()
+                        .map_err(error)?
+                        .reply()
+                        .map_err(error)?;
+                    use x11rb::protocol::present::ConnectionExt as _;
+                    self.connection
+                        .present_notify_msc(w.id, w.scene.revision as u32, 0, 0, 0)
+                        .map_err(error)?;
+                    w.in_flight = Some(w.scene.revision);
+                    w.dirty = false;
+                    continue;
+                }
+                w.gpu.take();
                 let pixels = super::render(&w.scene, w.size, w.bounds, self.msb)?;
                 let stride = w.size.0 as usize * 4;
                 let rows = ((self.connection.maximum_request_bytes().saturating_sub(32)) / stride)
@@ -509,6 +640,8 @@ mod x11 {
                     bounds,
                     dirty: true,
                     presented: None,
+                    gpu: None,
+                    in_flight: None,
                 },
             );
             Ok(())
@@ -517,7 +650,8 @@ mod x11 {
     impl Drop for Desktop {
         fn drop(&mut self) {
             let _ = self.server.input(InputEvent::Focus { window: None });
-            for w in self.windows.values() {
+            for w in self.windows.values_mut() {
+                w.gpu.take();
                 let _ = self.connection.free_gc(w.gc);
                 let _ = self.connection.destroy_window(w.id);
             }
@@ -526,13 +660,40 @@ mod x11 {
     }
 }
 #[cfg(target_os = "linux")]
-pub use x11::Desktop;
+pub enum Desktop {
+    X11(Box<x11::Desktop>),
+    Wayland(Box<crate::desktop_wayland::Desktop>),
+}
+#[cfg(target_os = "linux")]
+impl Desktop {
+    pub fn open_mode(server: trames_wayland::Server, mode: RendererMode) -> std::io::Result<Self> {
+        x11::Desktop::open(server, mode).map(|d| Self::X11(Box::new(d)))
+    }
+    pub fn open_wayland(
+        server: trames_wayland::Server,
+        mode: RendererMode,
+    ) -> std::io::Result<Self> {
+        crate::desktop_wayland::Desktop::open(server, mode).map(|d| Self::Wayland(Box::new(d)))
+    }
+    pub fn interest(&mut self, w: &mut trames_linux_abi::HostWait) -> std::io::Result<()> {
+        match self {
+            Self::X11(d) => d.interest(w),
+            Self::Wayland(d) => d.interest(w),
+        }
+    }
+    pub fn poll(&mut self) -> std::io::Result<()> {
+        match self {
+            Self::X11(d) => d.poll(),
+            Self::Wayland(d) => d.poll(),
+        }
+    }
+}
 
 /// Software fallback over retained SHM capabilities. Raw byte reads never form
 /// Rust references to guest-writable storage. Protocol-invalid concurrent guest
 /// writes can change pixels, but cannot change the retained mapping or bounds.
 #[cfg(target_os = "linux")]
-fn render(
+pub(crate) fn render(
     scene: &trames_wayland::WindowSnapshot,
     size: (u32, u32),
     bounds: [i32; 4],
@@ -612,7 +773,10 @@ fn render(
 pub struct Desktop;
 #[cfg(not(target_os = "linux"))]
 impl Desktop {
-    pub fn open(_: trames_wayland::Server) -> std::io::Result<Self> {
+    pub fn open_wayland(_: trames_wayland::Server, _: RendererMode) -> std::io::Result<Self> {
+        Err(std::io::Error::other("--desktop wayland requires Linux"))
+    }
+    pub fn open_mode(_: trames_wayland::Server, _: RendererMode) -> std::io::Result<Self> {
         Err(std::io::Error::other("--desktop x11 requires Linux"))
     }
     pub fn interest(&self, _: &mut trames_linux_abi::HostWait) -> std::io::Result<()> {
@@ -653,7 +817,17 @@ mod tests {
             unsafe { libc::fcntl(fd, libc::F_SETFL, flags | libc::O_NONBLOCK) },
             0
         );
-        let mut desktop = super::Desktop::open(server).unwrap();
+        let mode = match std::env::var("TRAMES_DESKTOP_RENDERER").as_deref() {
+            Ok("vulkan") => super::RendererMode::Vulkan,
+            Ok("software") => super::RendererMode::Software,
+            _ => super::RendererMode::Auto,
+        };
+        let mut desktop = if std::env::var("TRAMES_DESKTOP_HOST").as_deref() == Ok("wayland") {
+            super::Desktop::open_wayland(server, mode)
+        } else {
+            super::Desktop::open_mode(server, mode)
+        }
+        .unwrap();
         let mut wait = trames_linux_abi::HostWait::new().unwrap();
         let deadline = Instant::now() + Duration::from_secs(45);
         let result = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| loop {

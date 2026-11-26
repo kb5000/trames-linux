@@ -52,6 +52,7 @@ class Process:
         deadline=time.monotonic()+seconds
         while marker not in self.data[after:]:
             self.drain(min(.1,max(0,deadline-time.monotonic())))
+            if marker in self.data[after:]:break
             if time.monotonic()>deadline or self.child.poll() is not None:
                 self.drain();raise RuntimeError('missing '+repr(marker)+'; '+repr(self.data[-300:]))
     def finish(self):

@@ -1,0 +1,7 @@
+[
+  "/mnt/trames-output/linux-interop/qualification-final/tools/unit_binary",
+  "interop_tests::host_xim_peer",
+  "--ignored",
+  "--exact",
+  "--nocapture"
+]

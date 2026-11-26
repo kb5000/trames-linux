@@ -5,7 +5,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-static xcb_window_t find(xcb_connection_t*c,xcb_window_t root,const char*title){xcb_query_tree_reply_t*t=xcb_query_tree_reply(c,xcb_query_tree(c,root),NULL);assert(t);xcb_window_t id=0,*children=xcb_query_tree_children(t);for(int i=0;i<xcb_query_tree_children_length(t);i++){xcb_get_property_reply_t*r=xcb_get_property_reply(c,xcb_get_property(c,0,children[i],XCB_ATOM_WM_NAME,XCB_ATOM_STRING,0,256),NULL);if(r&&(!strcmp(title,"*")||(xcb_get_property_value_length(r)==(int)strlen(title)&&!memcmp(xcb_get_property_value(r),title,strlen(title)))))id=children[i];free(r);}free(t);return id;}
+static xcb_window_t find(xcb_connection_t*c,xcb_window_t root,const char*title){
+ xcb_query_tree_reply_t*t=xcb_query_tree_reply(c,xcb_query_tree(c,root),NULL);assert(t);xcb_window_t id=0,*children=xcb_query_tree_children(t);
+ for(int i=0;i<xcb_query_tree_children_length(t);i++){
+  if(!strcmp(title,"*")){xcb_get_window_attributes_reply_t*a=xcb_get_window_attributes_reply(c,xcb_get_window_attributes(c,children[i]),NULL);if(a&&a->_class==XCB_WINDOW_CLASS_INPUT_OUTPUT&&a->map_state==XCB_MAP_STATE_VIEWABLE)id=children[i];free(a);continue;}
+  xcb_get_property_reply_t*r=xcb_get_property_reply(c,xcb_get_property(c,0,children[i],XCB_ATOM_WM_NAME,XCB_GET_PROPERTY_TYPE_ANY,0,256),NULL);
+  if(r&&xcb_get_property_value_length(r)==(int)strlen(title)&&!memcmp(xcb_get_property_value(r),title,strlen(title))){id=children[i];}
+  free(r);
+ }free(t);return id;
+}
 int main(int argc,char**argv){assert(argc>=3);int screen; xcb_connection_t*c=xcb_connect(NULL,&screen);assert(!xcb_connection_has_error(c));xcb_screen_iterator_t i=xcb_setup_roots_iterator(xcb_get_setup(c));while(screen--)xcb_screen_next(&i);xcb_window_t root=i.data->root,id=find(c,root,argv[1]);if(!id)return 2;const char*mode=argv[2];
 if(!strcmp(mode,"pixels")){xcb_get_geometry_reply_t*g=xcb_get_geometry_reply(c,xcb_get_geometry(c,id),NULL);assert(g);xcb_get_image_reply_t*r=xcb_get_image_reply(c,xcb_get_image(c,XCB_IMAGE_FORMAT_Z_PIXMAP,id,g->width/2,g->height/2,1,1,~0u),NULL);assert(r);unsigned pixel=0;memcpy(&pixel,xcb_get_image_data(r),4);printf("pixels %u %u %06x\n",g->width,g->height,pixel&0xffffff);free(r);free(g);}
 else if(!strcmp(mode,"focus")){xcb_set_input_focus(c,XCB_INPUT_FOCUS_PARENT,id,XCB_CURRENT_TIME);}

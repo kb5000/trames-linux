@@ -1,0 +1,13 @@
+[
+  "cc",
+  "-O2",
+  "-Wall",
+  "-Wextra",
+  "-Werror",
+  "-I/mnt/trames-output/linux-interop/qualification-final/tools",
+  "/mnt/trames-output/linux-interop-source/tests/fixtures/interop-input-method.c",
+  "/mnt/trames-output/linux-interop/qualification-final/tools/input-method-v1-protocol.c",
+  "-lwayland-client",
+  "-o",
+  "/mnt/trames-output/linux-interop/qualification-final/tools/input-method"
+]

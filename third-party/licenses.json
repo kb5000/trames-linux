@@ -553,6 +553,21 @@
       ]
     },
     {
+      "name": "dlib",
+      "version": "0.5.3",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "checksum": "ab8ecd87370524b461f8557c119c405552c396ed91fc0a8eec68679eab26f94a",
+      "declared_license": "MIT",
+      "selected_license": "MIT",
+      "upstream": "https://github.com/elinorbgr/dlib",
+      "license_texts": [
+        {
+          "origin": "https://static.crates.io/crates/dlib/dlib-0.5.3.crate!LICENSE.txt",
+          "sha256": "10e5daea68c3ab7da6468ea51860e9d4ac87ea6a9a2d34127beff17b7193b618"
+        }
+      ]
+    },
+    {
       "name": "downcast-rs",
       "version": "1.2.1",
       "source": "registry+https://github.com/rust-lang/crates.io-index",
@@ -1391,6 +1406,25 @@
       ]
     },
     {
+      "name": "scoped-tls",
+      "version": "1.0.1",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "checksum": "e1cf6437eb19a8f4a6cc0f7dca544973b0b78843adbfeb3683d1a94a0024a294",
+      "declared_license": "MIT/Apache-2.0",
+      "selected_license": "MIT",
+      "upstream": "https://github.com/alexcrichton/scoped-tls",
+      "license_texts": [
+        {
+          "origin": "https://static.crates.io/crates/scoped-tls/scoped-tls-1.0.1.crate!LICENSE-APACHE",
+          "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2"
+        },
+        {
+          "origin": "https://static.crates.io/crates/scoped-tls/scoped-tls-1.0.1.crate!LICENSE-MIT",
+          "sha256": "378f5840b258e2779c39418f3f2d7b2ba96f1c7917dd6be0713f88305dbda397"
+        }
+      ]
+    },
+    {
       "name": "scopeguard",
       "version": "1.2.0",
       "source": "registry+https://github.com/rust-lang/crates.io-index",
@@ -2069,6 +2103,21 @@
           "origin": "https://github.com/project-trames/trames-runtime/blob/7d4a9711abb4fcda08031240e2cd2c688c50964d/vendor/wayland-backend/LICENSE.txt",
           "sha256": "1cb6f4dee8c649f175736380495f0af0c753c87f22d50931692968bb24bf2161",
           "local_path": "runtime/vendor/wayland-backend/LICENSE.txt"
+        }
+      ]
+    },
+    {
+      "name": "wayland-client",
+      "version": "0.31.14",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "checksum": "645c7c96bb74690c3189b5c9cb4ca1627062bb23693a4fad9d8c3de958260144",
+      "declared_license": "MIT",
+      "selected_license": "MIT",
+      "upstream": "https://github.com/smithay/wayland-rs",
+      "license_texts": [
+        {
+          "origin": "https://static.crates.io/crates/wayland-client/wayland-client-0.31.14.crate!LICENSE.txt",
+          "sha256": "1cb6f4dee8c649f175736380495f0af0c753c87f22d50931692968bb24bf2161"
         }
       ]
     },
@@ -2909,6 +2958,9 @@
     },
     "58545fed1565e42d687aecec6897d35c6d37ccb71479a137c0deb2203e125c79": {
       "text": "The MIT License (MIT)\n\nCopyright (c) 2014 Mathijs van de Nes\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n"
+    },
+    "10e5daea68c3ab7da6468ea51860e9d4ac87ea6a9a2d34127beff17b7193b618": {
+      "text": "Copyright (c) 2015 Victor Berger\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in\nall copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN\nTHE SOFTWARE."
     }
   }
 }

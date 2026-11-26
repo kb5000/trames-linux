@@ -198,6 +198,12 @@ Selected: MIT
 Original notice: sha256:a9040321c3712d8fd0b09cf52b17445de04a23a10165049ae187cd39e5c86be5 (https://static.crates.io/crates/digest/digest-0.10.7.crate!LICENSE-APACHE)
 Original notice: sha256:9e0dfd2dd4173a530e238cb6adb37aa78c34c6bc7444e0e10c1ab5d8881f63ba (https://static.crates.io/crates/digest/digest-0.10.7.crate!LICENSE-MIT)
 
+dlib 0.5.3
+Source: https://github.com/elinorbgr/dlib
+Declared: MIT
+Selected: MIT
+Original notice: sha256:10e5daea68c3ab7da6468ea51860e9d4ac87ea6a9a2d34127beff17b7193b618 (https://static.crates.io/crates/dlib/dlib-0.5.3.crate!LICENSE.txt)
+
 downcast-rs 1.2.1
 Source: https://github.com/marcianx/downcast-rs
 Declared: MIT/Apache-2.0
@@ -506,6 +512,13 @@ Selected: MIT
 Original notice: sha256:62c7a1e35f56406896d7aa7ca52d0cc0d272ac022b5d2796e7d6905db8a3636a (https://static.crates.io/crates/rustversion/rustversion-1.0.23.crate!LICENSE-APACHE)
 Original notice: sha256:23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3 (https://static.crates.io/crates/rustversion/rustversion-1.0.23.crate!LICENSE-MIT)
 
+scoped-tls 1.0.1
+Source: https://github.com/alexcrichton/scoped-tls
+Declared: MIT/Apache-2.0
+Selected: MIT
+Original notice: sha256:a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2 (https://static.crates.io/crates/scoped-tls/scoped-tls-1.0.1.crate!LICENSE-APACHE)
+Original notice: sha256:378f5840b258e2779c39418f3f2d7b2ba96f1c7917dd6be0713f88305dbda397 (https://static.crates.io/crates/scoped-tls/scoped-tls-1.0.1.crate!LICENSE-MIT)
+
 scopeguard 1.2.0
 Source: https://github.com/bluss/scopeguard
 Declared: MIT OR Apache-2.0
@@ -756,6 +769,12 @@ Source: https://github.com/project-trames/trames-runtime
 Declared: MIT
 Selected: MIT
 Original notice: sha256:1cb6f4dee8c649f175736380495f0af0c753c87f22d50931692968bb24bf2161 (https://github.com/project-trames/trames-runtime/blob/7d4a9711abb4fcda08031240e2cd2c688c50964d/vendor/wayland-backend/LICENSE.txt)
+
+wayland-client 0.31.14
+Source: https://github.com/smithay/wayland-rs
+Declared: MIT
+Selected: MIT
+Original notice: sha256:1cb6f4dee8c649f175736380495f0af0c753c87f22d50931692968bb24bf2161 (https://static.crates.io/crates/wayland-client/wayland-client-0.31.14.crate!LICENSE.txt)
 
 wayland-protocols 0.32.13
 Source: https://github.com/smithay/wayland-rs
@@ -1562,6 +1581,29 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 
+===== sha256:10e5daea68c3ab7da6468ea51860e9d4ac87ea6a9a2d34127beff17b7193b618 =====
+Applies to: dlib 0.5.3
+
+Copyright (c) 2015 Victor Berger
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
 ===== sha256:11789f45bb180841cd362a5eee6789c68ddb573a11105e30768c308a6add0190 =====
 Applies to: encoding_rs 0.8.42
 
@@ -1669,7 +1711,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ===== sha256:1cb6f4dee8c649f175736380495f0af0c753c87f22d50931692968bb24bf2161 =====
-Applies to: wayland-backend 0.3.17, wayland-protocols 0.32.13, wayland-scanner 0.31.11, wayland-server 0.31.14, wayland-sys 0.31.11
+Applies to: wayland-backend 0.3.17, wayland-client 0.31.14, wayland-protocols 0.32.13, wayland-scanner 0.31.11, wayland-server 0.31.14, wayland-sys 0.31.11
 
 Copyright (c) 2015 Elinor Berger
 
@@ -2382,7 +2424,7 @@ at your option.
 
 
 ===== sha256:378f5840b258e2779c39418f3f2d7b2ba96f1c7917dd6be0713f88305dbda397 =====
-Applies to: cc 1.8.0, cfg-if 1.0.5, filetime 0.2.29, find-msvc-tools 0.1.14, js-sys 0.3.107, pkg-config 0.3.34, socket2 0.6.1, wasm-bindgen 0.2.130, wasm-bindgen-macro 0.2.130, wasm-bindgen-macro-support 0.2.130, wasm-bindgen-shared 0.2.130
+Applies to: cc 1.8.0, cfg-if 1.0.5, filetime 0.2.29, find-msvc-tools 0.1.14, js-sys 0.3.107, pkg-config 0.3.34, scoped-tls 1.0.1, socket2 0.6.1, wasm-bindgen 0.2.130, wasm-bindgen-macro 0.2.130, wasm-bindgen-macro-support 0.2.130, wasm-bindgen-shared 0.2.130
 
 Copyright (c) 2014 Alex Crichton
 
@@ -4840,7 +4882,7 @@ express Statement of Purpose.
 
 
 ===== sha256:a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2 =====
-Applies to: ahash 0.8.12, bitflags 1.3.2, bitflags 2.13.2, bumpalo 3.20.3, cc 1.8.0, cfg-if 1.0.5, const-random 0.1.18, const-random-macro 0.1.16, equivalent 1.0.3, errno 0.3.14, filetime 0.2.29, find-msvc-tools 0.1.14, flate2 1.1.10, gethostname 1.1.0, hash32 0.3.1, hashbrown 0.16.1, hashbrown 0.17.1, heapless 0.8.0, indexmap 2.14.2, js-sys 0.3.107, linux-raw-sys 0.12.1, lock_api 0.4.14, log 0.4.35, once_cell 1.21.4, parking_lot 0.12.5, parking_lot_core 0.9.12, pkg-config 0.3.34, rustix 1.1.5, scopeguard 1.2.0, smallvec 1.16.6, socket2 0.6.1, stable_deref_trait 1.2.1, tar 0.4.46, version_check 0.9.5, wasi 0.11.1+wasi-snapshot-preview1, wasip2 1.0.4+wasi-0.2.12, wasm-bindgen 0.2.130, wasm-bindgen-macro 0.2.130, wasm-bindgen-macro-support 0.2.130, wasm-bindgen-shared 0.2.130, wit-bindgen 0.57.1
+Applies to: ahash 0.8.12, bitflags 1.3.2, bitflags 2.13.2, bumpalo 3.20.3, cc 1.8.0, cfg-if 1.0.5, const-random 0.1.18, const-random-macro 0.1.16, equivalent 1.0.3, errno 0.3.14, filetime 0.2.29, find-msvc-tools 0.1.14, flate2 1.1.10, gethostname 1.1.0, hash32 0.3.1, hashbrown 0.16.1, hashbrown 0.17.1, heapless 0.8.0, indexmap 2.14.2, js-sys 0.3.107, linux-raw-sys 0.12.1, lock_api 0.4.14, log 0.4.35, once_cell 1.21.4, parking_lot 0.12.5, parking_lot_core 0.9.12, pkg-config 0.3.34, rustix 1.1.5, scoped-tls 1.0.1, scopeguard 1.2.0, smallvec 1.16.6, socket2 0.6.1, stable_deref_trait 1.2.1, tar 0.4.46, version_check 0.9.5, wasi 0.11.1+wasi-snapshot-preview1, wasip2 1.0.4+wasi-0.2.12, wasm-bindgen 0.2.130, wasm-bindgen-macro 0.2.130, wasm-bindgen-macro-support 0.2.130, wasm-bindgen-shared 0.2.130, wit-bindgen 0.57.1
 
                               Apache License
                         Version 2.0, January 2004

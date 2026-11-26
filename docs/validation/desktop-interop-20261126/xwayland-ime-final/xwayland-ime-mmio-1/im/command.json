@@ -1,0 +1,7 @@
+[
+  "/mnt/trames-output/linux-interop/xwayland-ime-final/unit_binary",
+  "interop_tests::host_xim_peer",
+  "--ignored",
+  "--exact",
+  "--nocapture"
+]

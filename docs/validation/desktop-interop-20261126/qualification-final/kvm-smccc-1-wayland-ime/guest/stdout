@@ -1,0 +1,18 @@
+selection 0
+size 240 160
+focus-in keys=0
+modifiers 0 0
+text-enter
+selection 1
+size 240 160
+selection 1
+text-ready
+preedit 拼音 6 6
+text-done 1
+delete 3 0
+commit 中文输入 ✅
+text-done 1
+pointer 77 46
+pointer 77 46
+frame 1
+interop-done

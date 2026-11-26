@@ -1,0 +1,6 @@
+could not load cursor 'dnd-move'
+could not load cursor 'dnd-copy'
+could not load cursor 'dnd-none'
+xkbcommon: ERROR: couldn't find a Compose file for locale "C.UTF-8" (mapped to "C.UTF-8")
+could not create XKB compose table for locale 'C.UTF-8'.  Disabiling compose
+Terminated
