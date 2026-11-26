@@ -18,6 +18,8 @@ jobs:
       - run: python3 runtime/scripts/build-guest-cli.py
       - name: Build source-bound runner
         run: python3 runtime/tests/acceptance/build.py --product . --runtime runtime --binary target/release/trames --receipt target/performance-build.json -- cargo build --workspace --release --locked
+      - name: Require stable wall clock and inode timestamps
+        run: python3 scripts/validate-clock.py --runner target/release/trames --receipt target/performance-build.json --output target/performance-clock
       - name: Validate correctness and measure original workloads
         run: python3 tests/acceptance/benchmark.py --runner target/release/trames --receipt target/performance-build.json --output target/performance
       - name: Independently audit sample evidence
@@ -28,6 +30,7 @@ jobs:
           name: paired-performance-evidence
           path: |
             target/performance-build.json
+            target/performance-clock/
             target/performance/inputs.json
             target/performance/samples.json
             target/performance/results.json

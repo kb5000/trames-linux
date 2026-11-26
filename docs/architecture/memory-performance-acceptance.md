@@ -54,11 +54,44 @@ revocations. Normal completed syscall entry still uses the existing path.
 
 ## Paired performance gate
 
+Run the clock gate before collecting timings; it is also required by the
+performance workflow:
+
 ```sh
+python3 scripts/validate-clock.py \
+  --runner /frozen/trames --receipt /frozen/build.json --output /new/clock
+python3 scripts/validate-clock.py --audit --output /new/clock
 python3 tests/acceptance/benchmark.py \
   --runner /frozen/trames --receipt /frozen/build.json --output /new/baseline
 python3 tests/acceptance/benchmark.py --audit --output /new/baseline
 ```
+
+The clock gate observes native Linux and both KVM transports at one/four CPUs
+concurrently for 45 seconds. It brackets realtime reads with monotonic reads to
+exclude call preemption, rejects forward/backward offset steps above 1 ms, and
+checks freshly written inode timestamps against a later raw realtime syscall.
+It retains the original static ELF, source/controller hashes, build receipt,
+commands, transcripts and independent audit. This is a scoped measurement gate,
+not a guarantee that CLOCK_REALTIME is monotonic or that NTP never steps.
+
+For Lima 2.2.x test VMs with active, synchronized systemd-timesyncd, run inside
+the VM once:
+
+```sh
+sudo sh scripts/configure-lima-clock.sh --apply
+sh scripts/configure-lima-clock.sh --check
+```
+
+The persistent systemd drop-in removes only CAP_SYS_TIME from lima-guestagent.
+NTP continues owning the VM clock; the agent's other services remain active.
+The installer checks that NTP is synchronized first and is idempotent. Lima may
+log denied SyncTime calls; these remain visible. Do not disable the entire agent
+or suppress make warnings. Run the clock gate again after suspend/resume or any
+clock-service change. Rollback removes only
+`/etc/systemd/system/lima-guestagent.service.d/90-trames-clock.conf`, followed by
+`systemctl daemon-reload` and `systemctl restart lima-guestagent.service`.
+[The measured fix and limits](../validation/clock-consistency-20261126.md) retain
+native controls and the original warning.
 
 The default schedule covers 13 workloads at one, two and four workers, with
 native Linux plus both KVM transports. Each configuration has a native

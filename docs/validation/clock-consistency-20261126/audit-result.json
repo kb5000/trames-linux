@@ -1,0 +1,15 @@
+{
+  "before_failed": 3,
+  "gcc_make_passed": 10,
+  "negative_audit_rejections": [
+    "changed-transcript",
+    "incomplete-matrix",
+    "future-timestamp"
+  ],
+  "original_warning_retained": true,
+  "passed": true,
+  "performance_qualified": false,
+  "qualified_clock_passed": 5,
+  "runtime_changes": false,
+  "same_elf_after_passed": 5
+}
