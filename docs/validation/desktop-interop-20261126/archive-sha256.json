@@ -1,5 +1,5 @@
 {
-  "audit.py": "570a3415340c8da078594ca5e91ba0fe3767a8eb5ee79726cc830259776133d8",
+  "audit.py": "edf9eb06b84fd81acb2bf1f303ef699b252ffc030cab370719a053494715cb4d",
   "desktop-regression-final.log": "f2dbc7ed3cc48e9c1ffd710f34c8710b11e5a8266d1f257af26b41781112d040",
   "desktop-regression-final/doctor.json": "1719e275fb16535cdba019fce41a8527633fbf75e588ad2fb50b6f1fbce45226",
   "desktop-regression-final/kvm-mmio-1-wayland/command.json": "0ac44bbbef4584f619fcefb4843831cfa60f1a42f37b3d2ca46154360f7b7b91",
@@ -43,6 +43,8 @@
   "desktop-regression-final/terminal-xterm/stderr": "390d95e59a0bb22db6327fa6bca0bb6c5c1458eea1dfa1e5d2ec2691263bd2bc",
   "desktop-regression-final/terminal-xterm/stdout": "92147bd9c3b558f0a4ebc72e26bf31be4c74f175b4230624d240bbe81b93caa2",
   "desktop-regression-final/xvfb.log": "f172a1b0f5cf2a0d462c51dfc335af1a1dfc8e873cb66f61d018c8b1b35fe416",
+  "diagnostics/implicit-xpresent/stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "diagnostics/implicit-xpresent/stdout": "36653e4404e22cb7194ef5fef24c24cc8f4df4c729e7a0559cd51e9f1e08ae76",
   "evidence-meta/environment.txt": "45c53e75b01064bee40b054d1c19235a1301f9a22b1d088e8e6a4380c0c9c48d",
   "final-build.json": "f360528eacea3de3a4fda4c5f6a6c92bdb3849a0573120305eb656754c7e4070",
   "guest-icd-build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -305,6 +307,7 @@
   "qualification-final/tools/probe.command.json": "d9f4311c4f29238642c895653f8663d6127e2bebbd97985fb8c07619a1966f79",
   "qualification-final/tools/xclip.build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
   "qualification-final/tools/xclip.command.json": "5d2734739005a41a65a22661b86c6fb70ade61b8a4b14c924308e4faac9eda41",
+  "scratch-cleanup.json": "ca877a1fadc33d127139a04139fbe5eaddd044cf39df32e6f781b6867359f7f4",
   "sources/Cargo.lock": "6e53ad2f0d04504bfa0809df86d819e379972f54845e54de2d35c995b01ec17f",
   "sources/Cargo.toml": "87b05c6754a870bd6d17ca985a7e90d03280aafaf4c5210ed9e9eefd8720784d",
   "sources/crates/trames-linux-app/Cargo.toml": "9de029d7d1447a7993f9637480252c8971b7d471d98db9d7be9238725f38b8bf",

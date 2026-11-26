@@ -7,5 +7,6 @@
   "product_unit_passes": 23,
   "runner_sha256": "747c462ef1d31888347949b4c874caa1b5182c8e8e7cf2a954fb26bb2b36904f",
   "physical_gpu_qualified": false,
-  "performance_qualified": false
+  "performance_qualified": false,
+  "cloud_checks_complete": true
 }

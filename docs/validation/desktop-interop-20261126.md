@@ -117,3 +117,18 @@ ARM64/AMD64 hosted presentation CI now runs all eight native interop references
 in addition to the existing WSI/desktop gates. These jobs are explicitly native
 software references, not KVM or physical GPU qualification. Cloud run identities
 and exact status are maintained in [cloud-checks.json](desktop-interop-20261126/cloud-checks.json).
+
+## Cloud closure
+
+All required cloud checks complete successfully for the published source cohort:
+
+- Shared Runtime [`45798235071`](https://github.com/project-trames/trames-runtime/actions/runs/45798235071): Linux and macOS all-feature checks/tests/release pass.
+- Product [`45800069908`](https://github.com/project-trames/trames-linux/actions/runs/45800069908): ARM64 Linux, AMD64 Linux and macOS build, unit checks and release all pass.
+- Native presentation [`45800069652`](https://github.com/project-trames/trames-linux/actions/runs/45800069652): ARM64 and AMD64 pass the existing WSI/desktop gates and all eight new native interop cells each. The new gate's actual job-log lines are retained in `cloud-checks.json`.
+- [Runtime notices](https://github.com/project-trames/trames-runtime/actions/runs/45798234913) and [product notices](https://github.com/project-trames/trames-linux/actions/runs/45800069849) pass.
+
+The product implementation identity remains `b80f046d56d822dd1d142450459684b0f963920b`;
+subsequent closure commits change only this evidence/documentation. The source
+fingerprint audit passes after publication. Approximately 112 MB of this
+iteration's intermediate scratch files were removed; frozen final executables,
+original VM, shared build cache and final qualification trees were retained.

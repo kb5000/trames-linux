@@ -88,11 +88,22 @@ if a.source_root:
     common=importlib.util.module_from_spec(spec);spec.loader.exec_module(common)
     for name,path in [('product',a.source_root),('runtime',a.source_root/'runtime')]:
         assert common.source_identity(path)['inputs_sha256']==build['sources'][name]['inputs_sha256'],name
+cloud=read('cloud-checks.json') if (ROOT/'cloud-checks.json').exists() else {}
+if cloud.get('complete'):
+    assert cloud['sources']['runtime']==build['sources']['runtime']['commit']
+    assert cloud['sources']['product']=='b80f046d56d822dd1d142450459684b0f963920b'
+    for group in [cloud['runtime']['runs'],cloud['product']['runs'],cloud['runtime']['jobs'],cloud['product']['build_jobs'],cloud['product']['native_jobs']]:
+        assert group and all(r['status']=='completed' and r['conclusion']=='success' for r in group)
+    assert len(cloud['product']['build_jobs'])==3 and len(cloud['product']['native_jobs'])==2
+    assert len(cloud['native_interop_log_evidence'])==2
+    for evidence in cloud['native_interop_log_evidence']:
+        assert sum(': passed' in line for line in evidence['lines'])==8
+        assert any('"cases": 8' in line for line in evidence['lines'])
 for filename,count in [('linux-interop-runtime-tests.log',97),('linux-interop-product-tests.log',23)]:
     import re
     text=(ROOT/filename).read_text()
     assert 'test result: FAILED' not in text
     assert sum(map(int,re.findall(r'test result: ok\. (\d+) passed;',text)))==count,filename
-result=dict(passed=True,new_interop_cells=32,guest_xwayland_ime_cells=4,desktop_regressions=13,runtime_unit_passes=97,product_unit_passes=23,runner_sha256=runner,physical_gpu_qualified=False,performance_qualified=False)
+result=dict(passed=True,new_interop_cells=32,guest_xwayland_ime_cells=4,desktop_regressions=13,runtime_unit_passes=97,product_unit_passes=23,runner_sha256=runner,physical_gpu_qualified=False,performance_qualified=False,cloud_checks_complete=cloud.get('complete',False))
 (ROOT/'audit-result.json').write_text(json.dumps(result,indent=2)+'\n')
 print(json.dumps(result))
