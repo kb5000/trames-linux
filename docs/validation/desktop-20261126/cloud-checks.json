@@ -1,0 +1,1076 @@
+[
+  {
+    "label": "runtime",
+    "repo": "project-trames/trames-runtime",
+    "id": 45780963664,
+    "sha": "fd1463fea2aa46b691fbdb62e686e00473debf0a",
+    "url": "https://github.com/project-trames/trames-runtime/actions/runs/45780963664",
+    "jobs": [
+      {
+        "id": 139776016066,
+        "name": "verify (ubuntu-24.04)",
+        "head_sha": "fd1463fea2aa46b691fbdb62e686e00473debf0a",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-26T08:10:42Z",
+        "completed_at": "2026-11-26T08:20:40Z",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:10:43Z",
+            "completed_at": "2026-11-26T08:10:43Z"
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:10:43Z",
+            "completed_at": "2026-11-26T08:10:45Z"
+          },
+          {
+            "name": "Install native PCM test headers (Linux only)",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:10:45Z",
+            "completed_at": "2026-11-26T08:10:55Z"
+          },
+          {
+            "name": "Compile ALSA ABI oracle",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:10:55Z",
+            "completed_at": "2026-11-26T08:10:56Z"
+          },
+          {
+            "name": "Run rustup show",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:10:56Z",
+            "completed_at": "2026-11-26T08:11:05Z"
+          },
+          {
+            "name": "Run python3 scripts/check-execution-boundaries.py",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:11:05Z",
+            "completed_at": "2026-11-26T08:11:08Z"
+          },
+          {
+            "name": "Run python3 scripts/build-guest-cli.py",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:11:08Z",
+            "completed_at": "2026-11-26T08:11:21Z"
+          },
+          {
+            "name": "Run cargo fmt --all --check",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:11:21Z",
+            "completed_at": "2026-11-26T08:11:26Z"
+          },
+          {
+            "name": "Run cargo clippy --workspace --all-targets --all-features --locked -- -D warnings",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:11:26Z",
+            "completed_at": "2026-11-26T08:14:22Z"
+          },
+          {
+            "name": "Run cargo test --workspace --all-features --locked",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:14:22Z",
+            "completed_at": "2026-11-26T08:17:38Z"
+          },
+          {
+            "name": "Verify musl DNS ABI with a GNU C frontend",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:17:38Z",
+            "completed_at": "2026-11-26T08:18:04Z"
+          },
+          {
+            "name": "Run cargo build --workspace --all-features --release --locked",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:18:04Z",
+            "completed_at": "2026-11-26T08:20:24Z"
+          },
+          {
+            "name": "Run cargo run --release -p trames-memory --example reclaim-footprint --locked",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:20:24Z",
+            "completed_at": "2026-11-26T08:20:38Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:20:38Z",
+            "completed_at": "2026-11-26T08:20:38Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:20:38Z",
+            "completed_at": "2026-11-26T08:20:38Z"
+          }
+        ]
+      },
+      {
+        "id": 139776016385,
+        "name": "verify (macos-15)",
+        "head_sha": "fd1463fea2aa46b691fbdb62e686e00473debf0a",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-26T08:10:42Z",
+        "completed_at": "2026-11-26T08:28:17Z",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:10:44Z",
+            "completed_at": "2026-11-26T08:10:45Z"
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:10:45Z",
+            "completed_at": "2026-11-26T08:10:48Z"
+          },
+          {
+            "name": "Install native PCM test headers (Linux only)",
+            "status": "completed",
+            "conclusion": "skipped",
+            "started_at": "2026-11-26T08:10:48Z",
+            "completed_at": "2026-11-26T08:10:48Z"
+          },
+          {
+            "name": "Compile ALSA ABI oracle",
+            "status": "completed",
+            "conclusion": "skipped",
+            "started_at": "2026-11-26T08:10:48Z",
+            "completed_at": "2026-11-26T08:10:48Z"
+          },
+          {
+            "name": "Run rustup show",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:10:48Z",
+            "completed_at": "2026-11-26T08:10:57Z"
+          },
+          {
+            "name": "Run python3 scripts/check-execution-boundaries.py",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:10:57Z",
+            "completed_at": "2026-11-26T08:11:02Z"
+          },
+          {
+            "name": "Run python3 scripts/build-guest-cli.py",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:11:02Z",
+            "completed_at": "2026-11-26T08:11:23Z"
+          },
+          {
+            "name": "Run cargo fmt --all --check",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:11:23Z",
+            "completed_at": "2026-11-26T08:11:29Z"
+          },
+          {
+            "name": "Run cargo clippy --workspace --all-targets --all-features --locked -- -D warnings",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:11:29Z",
+            "completed_at": "2026-11-26T08:17:41Z"
+          },
+          {
+            "name": "Run cargo test --workspace --all-features --locked",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:17:41Z",
+            "completed_at": "2026-11-26T08:23:34Z"
+          },
+          {
+            "name": "Verify musl DNS ABI with a GNU C frontend",
+            "status": "completed",
+            "conclusion": "skipped",
+            "started_at": "2026-11-26T08:23:34Z",
+            "completed_at": "2026-11-26T08:23:34Z"
+          },
+          {
+            "name": "Run cargo build --workspace --all-features --release --locked",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:23:34Z",
+            "completed_at": "2026-11-26T08:27:50Z"
+          },
+          {
+            "name": "Run cargo run --release -p trames-memory --example reclaim-footprint --locked",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:27:50Z",
+            "completed_at": "2026-11-26T08:28:10Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:28:10Z",
+            "completed_at": "2026-11-26T08:28:12Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:28:12Z",
+            "completed_at": "2026-11-26T08:28:14Z"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "label": "runtime-notices",
+    "repo": "project-trames/trames-runtime",
+    "id": 45780963910,
+    "sha": "fd1463fea2aa46b691fbdb62e686e00473debf0a",
+    "url": "https://github.com/project-trames/trames-runtime/actions/runs/45780963910",
+    "jobs": [
+      {
+        "id": 139776017016,
+        "name": "notices",
+        "head_sha": "fd1463fea2aa46b691fbdb62e686e00473debf0a",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-26T08:10:42Z",
+        "completed_at": "2026-11-26T08:10:48Z",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:10:43Z",
+            "completed_at": "2026-11-26T08:10:43Z"
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:10:43Z",
+            "completed_at": "2026-11-26T08:10:46Z"
+          },
+          {
+            "name": "Verify reviewed dependencies and generated notices",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:10:46Z",
+            "completed_at": "2026-11-26T08:10:46Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:10:46Z",
+            "completed_at": "2026-11-26T08:10:46Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:10:46Z",
+            "completed_at": "2026-11-26T08:10:46Z"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "label": "linux-build-initial",
+    "repo": "project-trames/trames-linux",
+    "id": 45782402077,
+    "sha": "e22f1985deff0c36290f514812fe3bfd940c9d7e",
+    "url": "https://github.com/project-trames/trames-linux/actions/runs/45782402077",
+    "jobs": [
+      {
+        "id": 139780781662,
+        "name": "Build/unit (ubuntu-24.04-arm) — no hardware claim",
+        "head_sha": "e22f1985deff0c36290f514812fe3bfd940c9d7e",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-26T08:21:03Z",
+        "completed_at": "2026-11-26T08:30:38Z",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:21:04Z",
+            "completed_at": "2026-11-26T08:21:04Z"
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:21:04Z",
+            "completed_at": "2026-11-26T08:21:08Z"
+          },
+          {
+            "name": "Run dtolnay/rust-toolchain@master",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:21:08Z",
+            "completed_at": "2026-11-26T08:21:14Z"
+          },
+          {
+            "name": "Install PCM test headers",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:21:14Z",
+            "completed_at": "2026-11-26T08:21:28Z"
+          },
+          {
+            "name": "Compile PCM ABI oracle",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:21:28Z",
+            "completed_at": "2026-11-26T08:21:29Z"
+          },
+          {
+            "name": "Software PCM integration tests",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:21:29Z",
+            "completed_at": "2026-11-26T08:22:35Z"
+          },
+          {
+            "name": "Build source-checked guest CLI",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:22:35Z",
+            "completed_at": "2026-11-26T08:22:45Z"
+          },
+          {
+            "name": "Run python3 -m py_compile scripts/validate-applications.py",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:22:45Z",
+            "completed_at": "2026-11-26T08:22:45Z"
+          },
+          {
+            "name": "Native reference for original 4KiB memory ELF",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:22:45Z",
+            "completed_at": "2026-11-26T08:22:46Z"
+          },
+          {
+            "name": "Run python3 scripts/check-boundaries.py",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:22:46Z",
+            "completed_at": "2026-11-26T08:22:46Z"
+          },
+          {
+            "name": "Run cargo fmt --all --check",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:22:46Z",
+            "completed_at": "2026-11-26T08:22:50Z"
+          },
+          {
+            "name": "Run cargo clippy --workspace --all-targets --locked -- -D warnings",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:22:50Z",
+            "completed_at": "2026-11-26T08:24:30Z"
+          },
+          {
+            "name": "Run cargo test --workspace --locked",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:24:30Z",
+            "completed_at": "2026-11-26T08:27:00Z"
+          },
+          {
+            "name": "Run cargo build --workspace --release --locked",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:27:00Z",
+            "completed_at": "2026-11-26T08:30:36Z"
+          },
+          {
+            "name": "Run target/release/trames doctor --json",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:30:36Z",
+            "completed_at": "2026-11-26T08:30:36Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:30:36Z",
+            "completed_at": "2026-11-26T08:30:36Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:30:36Z",
+            "completed_at": "2026-11-26T08:30:36Z"
+          }
+        ]
+      },
+      {
+        "id": 139780781952,
+        "name": "Build/unit (ubuntu-24.04) — no hardware claim",
+        "head_sha": "e22f1985deff0c36290f514812fe3bfd940c9d7e",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-26T08:21:01Z",
+        "completed_at": "2026-11-26T08:29:08Z",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:21:01Z",
+            "completed_at": "2026-11-26T08:21:03Z"
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:21:03Z",
+            "completed_at": "2026-11-26T08:21:11Z"
+          },
+          {
+            "name": "Run dtolnay/rust-toolchain@master",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:21:11Z",
+            "completed_at": "2026-11-26T08:21:20Z"
+          },
+          {
+            "name": "Install PCM test headers",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:21:20Z",
+            "completed_at": "2026-11-26T08:21:44Z"
+          },
+          {
+            "name": "Compile PCM ABI oracle",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:21:44Z",
+            "completed_at": "2026-11-26T08:21:45Z"
+          },
+          {
+            "name": "Software PCM integration tests",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:21:45Z",
+            "completed_at": "2026-11-26T08:22:41Z"
+          },
+          {
+            "name": "Build source-checked guest CLI",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:22:41Z",
+            "completed_at": "2026-11-26T08:22:51Z"
+          },
+          {
+            "name": "Run python3 -m py_compile scripts/validate-applications.py",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:22:51Z",
+            "completed_at": "2026-11-26T08:22:51Z"
+          },
+          {
+            "name": "Native reference for original 4KiB memory ELF",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:22:51Z",
+            "completed_at": "2026-11-26T08:22:52Z"
+          },
+          {
+            "name": "Run python3 scripts/check-boundaries.py",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:22:52Z",
+            "completed_at": "2026-11-26T08:22:52Z"
+          },
+          {
+            "name": "Run cargo fmt --all --check",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:22:52Z",
+            "completed_at": "2026-11-26T08:22:56Z"
+          },
+          {
+            "name": "Run cargo clippy --workspace --all-targets --locked -- -D warnings",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:22:56Z",
+            "completed_at": "2026-11-26T08:24:06Z"
+          },
+          {
+            "name": "Run cargo test --workspace --locked",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:24:06Z",
+            "completed_at": "2026-11-26T08:25:55Z"
+          },
+          {
+            "name": "Run cargo build --workspace --release --locked",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:25:55Z",
+            "completed_at": "2026-11-26T08:29:06Z"
+          },
+          {
+            "name": "Run target/release/trames doctor --json",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:29:06Z",
+            "completed_at": "2026-11-26T08:29:06Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:29:06Z",
+            "completed_at": "2026-11-26T08:29:06Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:29:06Z",
+            "completed_at": "2026-11-26T08:29:06Z"
+          }
+        ]
+      },
+      {
+        "id": 139780781970,
+        "name": "Build/unit (macos-15) — no hardware claim",
+        "head_sha": "e22f1985deff0c36290f514812fe3bfd940c9d7e",
+        "status": "completed",
+        "conclusion": "cancelled",
+        "started_at": "2026-11-26T08:21:02Z",
+        "completed_at": "2026-11-26T08:36:28Z",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:21:02Z",
+            "completed_at": "2026-11-26T08:21:03Z"
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:21:03Z",
+            "completed_at": "2026-11-26T08:21:10Z"
+          },
+          {
+            "name": "Run dtolnay/rust-toolchain@master",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:21:10Z",
+            "completed_at": "2026-11-26T08:21:20Z"
+          },
+          {
+            "name": "Install PCM test headers",
+            "status": "completed",
+            "conclusion": "skipped",
+            "started_at": "2026-11-26T08:21:20Z",
+            "completed_at": "2026-11-26T08:21:20Z"
+          },
+          {
+            "name": "Compile PCM ABI oracle",
+            "status": "completed",
+            "conclusion": "skipped",
+            "started_at": "2026-11-26T08:21:20Z",
+            "completed_at": "2026-11-26T08:21:20Z"
+          },
+          {
+            "name": "Software PCM integration tests",
+            "status": "completed",
+            "conclusion": "skipped",
+            "started_at": "2026-11-26T08:21:20Z",
+            "completed_at": "2026-11-26T08:21:20Z"
+          },
+          {
+            "name": "Build source-checked guest CLI",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:21:20Z",
+            "completed_at": "2026-11-26T08:21:40Z"
+          },
+          {
+            "name": "Run python3 -m py_compile scripts/validate-applications.py",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:21:40Z",
+            "completed_at": "2026-11-26T08:21:40Z"
+          },
+          {
+            "name": "Native reference for original 4KiB memory ELF",
+            "status": "completed",
+            "conclusion": "skipped",
+            "started_at": "2026-11-26T08:21:40Z",
+            "completed_at": "2026-11-26T08:21:40Z"
+          },
+          {
+            "name": "Run python3 scripts/check-boundaries.py",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:21:40Z",
+            "completed_at": "2026-11-26T08:21:41Z"
+          },
+          {
+            "name": "Run cargo fmt --all --check",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:21:41Z",
+            "completed_at": "2026-11-26T08:21:47Z"
+          },
+          {
+            "name": "Run cargo clippy --workspace --all-targets --locked -- -D warnings",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:21:47Z",
+            "completed_at": "2026-11-26T08:25:18Z"
+          },
+          {
+            "name": "Run cargo test --workspace --locked",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:25:18Z",
+            "completed_at": "2026-11-26T08:30:18Z"
+          },
+          {
+            "name": "Run cargo build --workspace --release --locked",
+            "status": "completed",
+            "conclusion": "cancelled",
+            "started_at": "2026-11-26T08:30:18Z",
+            "completed_at": "2026-11-26T08:36:15Z"
+          },
+          {
+            "name": "Run target/release/trames doctor --json",
+            "status": "completed",
+            "conclusion": "skipped",
+            "started_at": "2026-11-26T08:36:15Z",
+            "completed_at": "2026-11-26T08:36:15Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:36:15Z",
+            "completed_at": "2026-11-26T08:36:18Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:36:18Z",
+            "completed_at": "2026-11-26T08:36:26Z"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "label": "native-presentation",
+    "repo": "project-trames/trames-linux",
+    "id": 45782402229,
+    "sha": "e22f1985deff0c36290f514812fe3bfd940c9d7e",
+    "url": "https://github.com/project-trames/trames-linux/actions/runs/45782402229",
+    "jobs": [
+      {
+        "id": 139780781891,
+        "name": "Native software WSI (ubuntu-24.04) — no KVM or physical GPU claim",
+        "head_sha": "e22f1985deff0c36290f514812fe3bfd940c9d7e",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-26T08:21:01Z",
+        "completed_at": "2026-11-26T08:28:49Z",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:21:01Z",
+            "completed_at": "2026-11-26T08:21:03Z"
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:21:03Z",
+            "completed_at": "2026-11-26T08:21:08Z"
+          },
+          {
+            "name": "Run dtolnay/rust-toolchain@master",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:21:08Z",
+            "completed_at": "2026-11-26T08:21:18Z"
+          },
+          {
+            "name": "Install software display prerequisites",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:21:18Z",
+            "completed_at": "2026-11-26T08:24:43Z"
+          },
+          {
+            "name": "Run python3 runtime/scripts/build-guest-cli.py",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:24:43Z",
+            "completed_at": "2026-11-26T08:24:54Z"
+          },
+          {
+            "name": "Build original native target regression binary",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:24:54Z",
+            "completed_at": "2026-11-26T08:28:38Z"
+          },
+          {
+            "name": "Exercise actual X11 pixels and Wayland target lifetimes",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:28:38Z",
+            "completed_at": "2026-11-26T08:28:44Z"
+          },
+          {
+            "name": "Exercise native SHM desktop pixels and keyboard/pointer input",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:28:44Z",
+            "completed_at": "2026-11-26T08:28:46Z"
+          },
+          {
+            "name": "Run actions/upload-artifact@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:28:46Z",
+            "completed_at": "2026-11-26T08:28:47Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:28:47Z",
+            "completed_at": "2026-11-26T08:28:48Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:28:48Z",
+            "completed_at": "2026-11-26T08:28:48Z"
+          }
+        ]
+      },
+      {
+        "id": 139780782183,
+        "name": "Native software WSI (ubuntu-24.04-arm) — no KVM or physical GPU claim",
+        "head_sha": "e22f1985deff0c36290f514812fe3bfd940c9d7e",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-26T08:21:03Z",
+        "completed_at": "2026-11-26T08:26:00Z",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:21:04Z",
+            "completed_at": "2026-11-26T08:21:05Z"
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:21:05Z",
+            "completed_at": "2026-11-26T08:21:08Z"
+          },
+          {
+            "name": "Run dtolnay/rust-toolchain@master",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:21:08Z",
+            "completed_at": "2026-11-26T08:21:14Z"
+          },
+          {
+            "name": "Install software display prerequisites",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:21:14Z",
+            "completed_at": "2026-11-26T08:21:59Z"
+          },
+          {
+            "name": "Run python3 runtime/scripts/build-guest-cli.py",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:21:59Z",
+            "completed_at": "2026-11-26T08:22:10Z"
+          },
+          {
+            "name": "Build original native target regression binary",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:22:10Z",
+            "completed_at": "2026-11-26T08:25:51Z"
+          },
+          {
+            "name": "Exercise actual X11 pixels and Wayland target lifetimes",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:25:51Z",
+            "completed_at": "2026-11-26T08:25:56Z"
+          },
+          {
+            "name": "Exercise native SHM desktop pixels and keyboard/pointer input",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:25:56Z",
+            "completed_at": "2026-11-26T08:25:57Z"
+          },
+          {
+            "name": "Run actions/upload-artifact@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:25:57Z",
+            "completed_at": "2026-11-26T08:25:58Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:25:58Z",
+            "completed_at": "2026-11-26T08:25:59Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:25:59Z",
+            "completed_at": "2026-11-26T08:25:59Z"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "label": "notices-corrected",
+    "repo": "project-trames/trames-linux",
+    "id": 45783043878,
+    "sha": "b5ad428b7497bd8eca4901a1e1d43f85841aa75b",
+    "url": "https://github.com/project-trames/trames-linux/actions/runs/45783043878",
+    "jobs": [
+      {
+        "id": 139782913021,
+        "name": "notices",
+        "head_sha": "b5ad428b7497bd8eca4901a1e1d43f85841aa75b",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-26T08:25:36Z",
+        "completed_at": "2026-11-26T08:25:42Z",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:25:37Z",
+            "completed_at": "2026-11-26T08:25:38Z"
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:25:38Z",
+            "completed_at": "2026-11-26T08:25:41Z"
+          },
+          {
+            "name": "Verify reviewed dependencies and generated notices",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:25:41Z",
+            "completed_at": "2026-11-26T08:25:41Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:25:41Z",
+            "completed_at": "2026-11-26T08:25:41Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:25:41Z",
+            "completed_at": "2026-11-26T08:25:41Z"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "label": "macos-release-only",
+    "repo": "project-trames/trames-linux",
+    "id": 45784952158,
+    "sha": "9197edd88d050c5e65802956e856da9dab2fa5f2",
+    "url": "https://github.com/project-trames/trames-linux/actions/runs/45784952158",
+    "jobs": [
+      {
+        "id": 139789277116,
+        "name": "Build/unit (macos-15) — no hardware claim",
+        "head_sha": "9197edd88d050c5e65802956e856da9dab2fa5f2",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-26T08:39:43Z",
+        "completed_at": "2026-11-26T08:45:36Z",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:39:43Z",
+            "completed_at": "2026-11-26T08:39:44Z"
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:39:44Z",
+            "completed_at": "2026-11-26T08:39:51Z"
+          },
+          {
+            "name": "Run dtolnay/rust-toolchain@master",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:39:51Z",
+            "completed_at": "2026-11-26T08:39:58Z"
+          },
+          {
+            "name": "Install PCM test headers",
+            "status": "completed",
+            "conclusion": "skipped",
+            "started_at": "2026-11-26T08:39:58Z",
+            "completed_at": "2026-11-26T08:39:58Z"
+          },
+          {
+            "name": "Compile PCM ABI oracle",
+            "status": "completed",
+            "conclusion": "skipped",
+            "started_at": "2026-11-26T08:39:58Z",
+            "completed_at": "2026-11-26T08:39:58Z"
+          },
+          {
+            "name": "Software PCM integration tests",
+            "status": "completed",
+            "conclusion": "skipped",
+            "started_at": "2026-11-26T08:39:58Z",
+            "completed_at": "2026-11-26T08:39:58Z"
+          },
+          {
+            "name": "Build source-checked guest CLI",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:39:58Z",
+            "completed_at": "2026-11-26T08:40:14Z"
+          },
+          {
+            "name": "Run python3 -m py_compile scripts/validate-applications.py",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:40:14Z",
+            "completed_at": "2026-11-26T08:40:14Z"
+          },
+          {
+            "name": "Native reference for original 4KiB memory ELF",
+            "status": "completed",
+            "conclusion": "skipped",
+            "started_at": "2026-11-26T08:40:14Z",
+            "completed_at": "2026-11-26T08:40:14Z"
+          },
+          {
+            "name": "Run python3 scripts/check-boundaries.py",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:40:14Z",
+            "completed_at": "2026-11-26T08:40:14Z"
+          },
+          {
+            "name": "Run cargo fmt --all --check",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:40:14Z",
+            "completed_at": "2026-11-26T08:40:19Z"
+          },
+          {
+            "name": "Run cargo clippy --workspace --all-targets --locked -- -D warnings",
+            "status": "completed",
+            "conclusion": "skipped",
+            "started_at": "2026-11-26T08:40:19Z",
+            "completed_at": "2026-11-26T08:40:19Z"
+          },
+          {
+            "name": "Run cargo test --workspace --locked",
+            "status": "completed",
+            "conclusion": "skipped",
+            "started_at": "2026-11-26T08:40:19Z",
+            "completed_at": "2026-11-26T08:40:19Z"
+          },
+          {
+            "name": "Run cargo build --workspace --release --locked",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:40:19Z",
+            "completed_at": "2026-11-26T08:45:32Z"
+          },
+          {
+            "name": "Run target/release/trames doctor --json",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:45:32Z",
+            "completed_at": "2026-11-26T08:45:32Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:45:32Z",
+            "completed_at": "2026-11-26T08:45:33Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-26T08:45:33Z",
+            "completed_at": "2026-11-26T08:45:34Z"
+          }
+        ]
+      }
+    ]
+  }
+]

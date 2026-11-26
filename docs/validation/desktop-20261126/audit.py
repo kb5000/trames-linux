@@ -63,5 +63,21 @@ if a.source_root:
  for name,expected_hash in new.items():
   expected_hash=metadata.get(name,{}).get('new_sha256',expected_hash)
   assert digest(a.source_root/name)==expected_hash,name
-result=dict(passed=True,archived_files=len(archive),desktop=13,memory=77,applications=48,runtime=final_build['sources']['runtime']['commit'],final_runner_sha256=final['inputs']['runner_sha256'],headless_runner_sha256=headless_build['fingerprint']['binary_sha256'],physical_gpu_qualified=False)
+cloud={r['label']:r for r in read('cloud-checks.json')}
+for label in ['runtime','runtime-notices','native-presentation','notices-corrected','macos-release-only']:
+ assert cloud[label]['jobs'] and all(j['status']=='completed' and j['conclusion']=='success' for j in cloud[label]['jobs']),label
+initial=cloud['linux-build-initial']['jobs']
+assert len(initial)==3 and all(j['conclusion']=='success' for j in initial if 'ubuntu' in j['name'])
+mac=next(j for j in initial if 'macos' in j['name'])
+assert mac['conclusion']=='cancelled'
+steps={s['name']:s for s in mac['steps']}
+for name in ['Run cargo clippy --workspace --all-targets --locked -- -D warnings','Run cargo test --workspace --locked']:assert steps[name]['conclusion']=='success'
+assert steps['Run cargo build --workspace --release --locked']['conclusion']=='cancelled'
+retry=cloud['macos-release-only']['jobs'];assert len(retry)==1 and 'macos' in retry[0]['name']
+steps={s['name']:s for s in retry[0]['steps']}
+for name in ['Run cargo clippy --workspace --all-targets --locked -- -D warnings','Run cargo test --workspace --locked']:assert steps[name]['conclusion']=='skipped'
+for name in ['Run cargo build --workspace --release --locked','Run target/release/trames doctor --json']:assert steps[name]['conclusion']=='success'
+for j in cloud['native-presentation']['jobs']:
+ assert any(s['name']=='Exercise native SHM desktop pixels and keyboard/pointer input' and s['conclusion']=='success' for s in j['steps'])
+result=dict(passed=True,cloud_ci_closed=True,archived_files=len(archive),desktop=13,memory=77,applications=48,runtime=final_build['sources']['runtime']['commit'],final_runner_sha256=final['inputs']['runner_sha256'],headless_runner_sha256=headless_build['fingerprint']['binary_sha256'],physical_gpu_qualified=False)
 (ROOT/'audit-result.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result))
