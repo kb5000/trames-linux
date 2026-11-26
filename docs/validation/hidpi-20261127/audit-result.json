@@ -9,5 +9,5 @@
   },
   "runtime_pin": "4e59e92504331039250bdb90b698ff1bf79b98c9",
   "runner_sha256": "74882c34bc982f8d334141c2f2cf2741b1dd27cf646de525f87066a821216840",
-  "cloud_checks_complete": false
+  "cloud_checks_complete": true
 }

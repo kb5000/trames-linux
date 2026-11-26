@@ -1,0 +1,171 @@
+{
+  "removed": [
+    {
+      "path": "/Users/main/dev/trames-linux/target/debug",
+      "allocated_kib_before": 232224
+    },
+    {
+      "path": "/Users/main/dev/trames-linux/runtime/target/debug",
+      "allocated_kib_before": 447044
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-hidpi/main-runtime-source",
+      "allocated_kib_before": 23128
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-hidpi/native-2",
+      "allocated_kib_before": 13824
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-hidpi/native-3",
+      "allocated_kib_before": 13832
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-hidpi/native-4",
+      "allocated_kib_before": 13908
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-hidpi/native-5",
+      "allocated_kib_before": 18052
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-hidpi/native-6",
+      "allocated_kib_before": 13880
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-hidpi/reference-1",
+      "allocated_kib_before": 13236
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-hidpi/matrix-before-fullscreen",
+      "allocated_kib_before": 45704
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-hidpi/desktop/rootfs",
+      "allocated_kib_before": 53008
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-hidpi/desktop/store",
+      "allocated_kib_before": 53064
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-hidpi/interop/rootfs",
+      "allocated_kib_before": 3348
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-hidpi/matrix/tools/runner",
+      "bytes_before": 32167776
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-hidpi/matrix/tools/unit_binary",
+      "bytes_before": 13705480
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-hidpi/matrix/tools/pointer",
+      "bytes_before": 71936
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-hidpi/matrix/tools/client",
+      "bytes_before": 76824
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-hidpi/matrix/tools/probe",
+      "bytes_before": 72432
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-hidpi/windows/tools/launcher",
+      "bytes_before": 85104
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-hidpi/windows/tools/wayland-client",
+      "bytes_before": 74656
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-hidpi/windows/tools/x11-client",
+      "bytes_before": 72296
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-hidpi/windows/tools/runner",
+      "bytes_before": 32167776
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-hidpi/windows/tools/unit_binary",
+      "bytes_before": 13705480
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-hidpi/windows/tools/probe",
+      "bytes_before": 72440
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-hidpi/desktop/unit",
+      "bytes_before": 13705480
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-hidpi/desktop/launcher",
+      "bytes_before": 85104
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-hidpi/desktop/x11-client",
+      "bytes_before": 71456
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-hidpi/desktop/runner",
+      "bytes_before": 32167776
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-hidpi/desktop/client",
+      "bytes_before": 74720
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-hidpi/desktop/probe",
+      "bytes_before": 72248
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-hidpi/interop/tools/gpu-x11",
+      "bytes_before": 73264
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-hidpi/interop/tools/xclip",
+      "bytes_before": 71880
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-hidpi/interop/tools/input-method",
+      "bytes_before": 72560
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-hidpi/interop/tools/runner",
+      "bytes_before": 32167776
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-hidpi/interop/tools/unit_binary",
+      "bytes_before": 13705480
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-hidpi/interop/tools/gpu-wayland",
+      "bytes_before": 75280
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-hidpi/interop/tools/interop-client",
+      "bytes_before": 93984
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-hidpi/interop/tools/guest_icd",
+      "bytes_before": 227856
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-hidpi/interop/tools/desktop-client",
+      "bytes_before": 74720
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-hidpi/interop/tools/probe",
+      "bytes_before": 72248
+    }
+  ],
+  "retained_frozen_pair": {
+    "/Users/main/dev/trames/target/local-ci/io/linux-hidpi/frozen/runner": "74882c34bc982f8d334141c2f2cf2741b1dd27cf646de525f87066a821216840",
+    "/Users/main/dev/trames/target/local-ci/io/linux-hidpi/frozen/unit_binary": "8b115c6804c15ba8a51c4551518685804df7aab2e180bc11c816b0ccc58c0315"
+  },
+  "free_bytes_before": 17848791040,
+  "free_bytes_after": 18566725632,
+  "retained_existing_vm_and_build_cache": true
+}

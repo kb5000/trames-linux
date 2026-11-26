@@ -43,7 +43,7 @@ Trames Linux pairs Linux's native Kernel-based Virtual Machine (KVM) with the us
 * **Virtual Memory & Storage**: Sparse 4 KiB guest memory mapping with copy-on-write, direct directory passthrough, and persistent state stores.
 * **Configurable Networking**: Flexible socket policies supporting isolated loopback, outbound-only filtering, or full host bridge access.
 * **Hardware Compute & Display**: Headless Vulkan compute acceleration, X11 fixed-surface window presentation, and low-latency ALSA PCM audio playback/capture.
-* **Native Desktop Windows**: Guest Wayland/Xwayland windows on host X11 or Wayland, with maximize/fullscreen/minimize, restore, native move/resize, transient parents, HiDPI/fractional scaling and multiple host outputs. See [desktop architecture](docs/architecture/desktop.md) and the [window acceptance record](docs/validation/windows-20261127.md).
+* **Native Desktop Windows**: Guest Wayland/Xwayland windows on host X11 or Wayland, with maximize/fullscreen/minimize, restore, native move/resize, transient parents, HiDPI/fractional scaling and multiple host outputs. See [desktop architecture](docs/architecture/desktop.md) the [window acceptance record](docs/validation/windows-20261127.md), and [HiDPI acceptance](docs/validation/hidpi-20261127.md).
 * **Built-in Diagnostics**: Comprehensive host environment validation via `trames doctor` and transport stress testing via `trames probe`.
 
 ---

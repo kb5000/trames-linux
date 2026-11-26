@@ -91,9 +91,10 @@ application uses Wayland or original Xwayland.
 
 ## HiDPI and multiple outputs
 
-Both native frontends import actual host output identities, logical positions,
-pixel modes, physical dimensions, rotation and logical sizes. Two monitors at the
-same density remain distinct `wl_output` objects. Removal sends surface leave
+Native Wayland imports host output identities, logical positions, pixel modes,
+physical dimensions, rotation and logical sizes. X11 imports RandR monitor
+identities, rectangles and physical dimensions, and derives logical geometry.
+Two monitors at the same density remain distinct `wl_output` objects. Removal sends surface leave
 before global removal; reinsertion has a fresh protocol lifetime. Native output
 mode opts into the additive Runtime `desktop_outputs`/`window_outputs` API; the
 existing Apple `output_scale` API and `WindowSnapshot` layout remain available.
@@ -110,7 +111,10 @@ to the nearest integer, with ties upward. SHM and Vulkan composition share this
 size conversion. The supported density range is 1x–4x (1/120 units).
 
 X11 imports RandR 1.5 monitors and watches RandR notifications, root configuration
-and resource changes. Older servers fall back to the root screen. `Xft.dpi` in
+and resource changes. Its monitor rectangles are already oriented, so the guest
+announcement uses an oriented pixel mode with normal transform and nominal
+60 Hz. Native presentation still uses the host WSI cadence. Older servers fall
+back to the root screen. `Xft.dpi` in
 `RESOURCE_MANAGER` supplies the session density; otherwise physical DPI supplies
 a quarter-step estimate. X11 has no universal per-monitor UI-density setting.
 Override it by connector/monitor name when necessary:

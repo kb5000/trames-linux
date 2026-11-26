@@ -46,6 +46,10 @@ if a.source_root:
 cloud=read('cloud-checks.json') if (ROOT/'cloud-checks.json').exists() else {}
 if cloud.get('complete'):
  assert len(cloud['build_jobs'])==3 and len(cloud['native_jobs'])==2
- assert all(v['conclusion']=='success' for name in ['product_runs','build_jobs','native_jobs'] for v in cloud[name])
+ assert all(v['status']=='completed' and v['conclusion']=='success' for name in ['product_runs','build_jobs','native_jobs','runtime_runs','runtime_jobs'] for v in cloud[name])
+ assert len(cloud['runtime_jobs'])==2 and len(cloud['native_hidpi_evidence'])==2
+ for item in cloud['native_hidpi_evidence']:
+  expected_names=['reference-wayland','native-wayland-software','native-wayland-vulkan','native-x11-software','native-x11-vulkan']
+  assert len(item['lines'])==5 and all(line.endswith(name+': passed') for line,name in zip(item['lines'],expected_names))
 result=dict(passed=True,display_cells=sum(counts.values()),cohorts=counts,runtime_pin=PIN,runner_sha256=sha,cloud_checks_complete=cloud.get('complete',False))
 (ROOT/'audit-result.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result))

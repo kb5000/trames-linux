@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "complete": true,
+  "product_commit": "2cd6d2a504c093f2f3f031943d1d8204cef10296",
+  "runtime_pin": "4e59e92504331039250bdb90b698ff1bf79b98c9",
+  "runtime_main": "9955b8c51af1ad77accd2d9939248199d5895c8c",
+  "product_runs": [
+    {
+      "id": 45896100137,
+      "name": "Native Linux presentation references",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/project-trames/trames-linux/actions/runs/45896100137",
+      "head_sha": "2cd6d2a504c093f2f3f031943d1d8204cef10296"
+    },
+    {
+      "id": 45896100060,
+      "name": "Third-party license records",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/project-trames/trames-linux/actions/runs/45896100060",
+      "head_sha": "2cd6d2a504c093f2f3f031943d1d8204cef10296"
+    },
+    {
+      "id": 45896100084,
+      "name": "Build and unit checks",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/project-trames/trames-linux/actions/runs/45896100084",
+      "head_sha": "2cd6d2a504c093f2f3f031943d1d8204cef10296"
+    }
+  ],
+  "runtime_runs": [
+    {
+      "id": 45895440503,
+      "name": "Third-party license records",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/project-trames/trames-runtime/actions/runs/45895440503",
+      "head_sha": "9955b8c51af1ad77accd2d9939248199d5895c8c"
+    },
+    {
+      "id": 45895440495,
+      "name": "Runtime",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/project-trames/trames-runtime/actions/runs/45895440495",
+      "head_sha": "9955b8c51af1ad77accd2d9939248199d5895c8c"
+    }
+  ],
+  "build_jobs": [
+    {
+      "id": 140170261474,
+      "name": "Build/unit (ubuntu-24.04) — no hardware claim",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/project-trames/trames-linux/actions/runs/45896100084/job/140170261474"
+    },
+    {
+      "id": 140170261757,
+      "name": "Build/unit (macos-15) — no hardware claim",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/project-trames/trames-linux/actions/runs/45896100084/job/140170261757"
+    },
+    {
+      "id": 140170261851,
+      "name": "Build/unit (ubuntu-24.04-arm) — no hardware claim",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/project-trames/trames-linux/actions/runs/45896100084/job/140170261851"
+    }
+  ],
+  "native_jobs": [
+    {
+      "id": 140170261490,
+      "name": "Native software WSI (ubuntu-24.04) — no KVM or physical GPU claim",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/project-trames/trames-linux/actions/runs/45896100137/job/140170261490"
+    },
+    {
+      "id": 140170261715,
+      "name": "Native software WSI (ubuntu-24.04-arm) — no KVM or physical GPU claim",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/project-trames/trames-linux/actions/runs/45896100137/job/140170261715"
+    }
+  ],
+  "runtime_jobs": [
+    {
+      "id": 140168054478,
+      "name": "verify (macos-15)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/project-trames/trames-runtime/actions/runs/45895440495/job/140168054478"
+    },
+    {
+      "id": 140168054887,
+      "name": "verify (ubuntu-24.04)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/project-trames/trames-runtime/actions/runs/45895440495/job/140168054887"
+    }
+  ],
+  "native_hidpi_evidence": [
+    {
+      "arch": "amd64",
+      "job_id": 140170261490,
+      "lines": [
+        "2026-11-26T21:14:37.6704257Z reference-wayland: passed",
+        "2026-11-26T21:14:39.1084436Z native-wayland-software: passed",
+        "2026-11-26T21:14:40.7618000Z native-wayland-vulkan: passed",
+        "2026-11-26T21:14:40.8759846Z native-x11-software: passed",
+        "2026-11-26T21:14:41.0252199Z native-x11-vulkan: passed"
+      ]
+    },
+    {
+      "arch": "arm64",
+      "job_id": 140170261715,
+      "lines": [
+        "2026-11-26T21:14:49.7303183Z reference-wayland: passed",
+        "2026-11-26T21:14:51.7279265Z native-wayland-software: passed",
+        "2026-11-26T21:14:53.7864455Z native-wayland-vulkan: passed",
+        "2026-11-26T21:14:53.9295624Z native-x11-software: passed",
+        "2026-11-26T21:14:54.1185676Z native-x11-vulkan: passed"
+      ]
+    }
+  ]
+}
