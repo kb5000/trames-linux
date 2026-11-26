@@ -1,0 +1,1 @@
+peer: /mnt/trames-output/linux-keyboard-source/tests/fixtures/window-parent-error.c:6: main: Assertion `wl_display_roundtrip(display)<0' failed.

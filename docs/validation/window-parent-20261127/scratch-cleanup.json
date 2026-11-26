@@ -1,0 +1,16 @@
+{
+  "removed": [
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-window/parent-release/tools/baseline_unit",
+      "logical_bytes": 13208992
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-window/parent-red",
+      "logical_bytes": 26598370
+    }
+  ],
+  "logical_bytes": 39807362,
+  "retained_current_frozen_pair": "/Users/main/dev/trames/target/local-ci/io/linux-window/parent-release/tools",
+  "retained_normal_cohort_pair": "/Users/main/dev/trames/target/local-ci/io/linux-window/windows-release/tools",
+  "new_vm_images": 0
+}

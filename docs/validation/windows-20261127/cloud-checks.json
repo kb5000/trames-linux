@@ -1,5 +1,5 @@
 {
-  "complete": false,
+  "complete": true,
   "runtime_pin": "aadee76adb3edcdd1addb7b9f7eb38bf1959249f",
   "runtime_runs": [
     {
@@ -41,6 +41,112 @@
       "html_url": "https://github.com/project-trames/trames-runtime/actions/runs/45879223485/job/140113997813",
       "started_at": "2026-11-26T18:51:39Z",
       "completed_at": "2026-11-26T19:07:15Z"
+    }
+  ],
+  "build_jobs": [
+    {
+      "id": 140128254987,
+      "name": "Build/unit (ubuntu-24.04-arm) \u2014 no hardware claim",
+      "head_sha": "ed05b1b3196af9a8de6bf07fc99fada131e7c979",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/project-trames/trames-linux/actions/runs/45883467708/job/140128254987",
+      "started_at": "2026-11-26T19:24:57Z",
+      "completed_at": "2026-11-26T19:34:37Z"
+    },
+    {
+      "id": 140128255318,
+      "name": "Build/unit (macos-15) \u2014 no hardware claim",
+      "head_sha": "ed05b1b3196af9a8de6bf07fc99fada131e7c979",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/project-trames/trames-linux/actions/runs/45883467708/job/140128255318",
+      "started_at": "2026-11-26T19:29:59Z",
+      "completed_at": "2026-11-26T19:46:10Z"
+    },
+    {
+      "id": 140128255364,
+      "name": "Build/unit (ubuntu-24.04) \u2014 no hardware claim",
+      "head_sha": "ed05b1b3196af9a8de6bf07fc99fada131e7c979",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/project-trames/trames-linux/actions/runs/45883467708/job/140128255364",
+      "started_at": "2026-11-26T19:24:55Z",
+      "completed_at": "2026-11-26T19:35:26Z"
+    }
+  ],
+  "native_jobs": [
+    {
+      "id": 140128254910,
+      "name": "Native software WSI (ubuntu-24.04-arm) \u2014 no KVM or physical GPU claim",
+      "head_sha": "ed05b1b3196af9a8de6bf07fc99fada131e7c979",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/project-trames/trames-linux/actions/runs/45883467757/job/140128254910",
+      "started_at": "2026-11-26T19:24:57Z",
+      "completed_at": "2026-11-26T19:30:10Z"
+    },
+    {
+      "id": 140128255173,
+      "name": "Native software WSI (ubuntu-24.04) \u2014 no KVM or physical GPU claim",
+      "head_sha": "ed05b1b3196af9a8de6bf07fc99fada131e7c979",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/project-trames/trames-linux/actions/runs/45883467757/job/140128255173",
+      "started_at": "2026-11-26T19:24:56Z",
+      "completed_at": "2026-11-26T19:31:07Z"
+    }
+  ],
+  "windows_log_evidence": [
+    {
+      "job_id": 140128254910,
+      "lines": [
+        "2026-11-26T19:30:03.6576205Z reference-x11: passed",
+        "2026-11-26T19:30:03.9944713Z native-x11: passed",
+        "2026-11-26T19:30:05.2523434Z reference-wayland: passed",
+        "2026-11-26T19:30:06.7435463Z native-wayland: passed",
+        "2026-11-26T19:30:06.7439319Z {\"passed\": true, \"cases\": 4}"
+      ]
+    },
+    {
+      "job_id": 140128255173,
+      "lines": [
+        "2026-11-26T19:30:59.0368109Z reference-x11: passed",
+        "2026-11-26T19:30:59.4699394Z native-x11: passed",
+        "2026-11-26T19:31:00.7708692Z reference-wayland: passed",
+        "2026-11-26T19:31:02.2398422Z native-wayland: passed",
+        "2026-11-26T19:31:02.2402309Z {\"passed\": true, \"cases\": 4}"
+      ]
+    }
+  ],
+  "implementation_commit": "ed05b1b3196af9a8de6bf07fc99fada131e7c979",
+  "product_runs": [
+    {
+      "id": 45883467721,
+      "name": "Third-party license records",
+      "head_sha": "ed05b1b3196af9a8de6bf07fc99fada131e7c979",
+      "path": ".github/workflows/licenses.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/project-trames/trames-linux/actions/runs/45883467721"
+    },
+    {
+      "id": 45883467757,
+      "name": "Native Linux presentation references",
+      "head_sha": "ed05b1b3196af9a8de6bf07fc99fada131e7c979",
+      "path": ".github/workflows/presentation.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/project-trames/trames-linux/actions/runs/45883467757"
+    },
+    {
+      "id": 45883467708,
+      "name": "Build and unit checks",
+      "head_sha": "ed05b1b3196af9a8de6bf07fc99fada131e7c979",
+      "path": ".github/workflows/build.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/project-trames/trames-linux/actions/runs/45883467708"
     }
   ]
 }

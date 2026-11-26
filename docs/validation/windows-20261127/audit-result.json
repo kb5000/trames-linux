@@ -9,5 +9,5 @@
   "runner_sha256": "dfbed0960aeddaeda32afe915aba64c9421536b4afed3cb8c66afc1af6a9bc39",
   "runtime_pin": "aadee76adb3edcdd1addb7b9f7eb38bf1959249f",
   "physical_gpu_qualified": false,
-  "cloud_checks_complete": false
+  "cloud_checks_complete": true
 }

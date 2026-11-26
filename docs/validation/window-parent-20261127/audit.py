@@ -43,5 +43,7 @@ if cloud.get('complete'):
  for key in ['product_runs','build_jobs','native_jobs']:assert cloud[key] and all(x['status']=='completed' and x['conclusion']=='success' for x in cloud[key])
  assert len(cloud['build_jobs'])==3 and len(cloud['native_jobs'])==2 and len(cloud['parent_log_evidence'])==2
  for item in cloud['parent_log_evidence']:assert sum(': passed' in x for x in item['lines'])==2 and any('"cases": 2' in x for x in item['lines'])
+ notice=cloud['runtime_notice_resolution'];assert notice['only_notice_workflow'] and len(notice['runs'])==1 and all(x['conclusion']=='success' for x in notice['runs'])
+ assert any('Verified 171 reviewed Rust dependencies' in x for x in notice['lines'])
 report=dict(passed=True,parent_protocol_cells=6,old_error_reproduced=True,reused_normal_cells=89,runtime_pin=PIN,runner_sha256=build['fingerprint']['binary_sha256'],cloud_checks_complete=cloud.get('complete',False))
 (ROOT/'audit-result.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report))

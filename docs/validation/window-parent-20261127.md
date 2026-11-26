@@ -19,8 +19,8 @@ The [matrix](window-parent-20261127/matrix/results.json) also reproduces the
 incorrect error `3` on the preserved old unit binary, which fails as expected.
 No core dumps are produced.
 
-The installed Weston 13 reference accepted this invalid cycle instead of
-reporting the normative error. That observation is not counted as a pass.
+The installed Weston 13 reference did not return the expected error for this
+request sequence. That observation is not counted as a qualified negative case.
 The contract comes from the original header and the
 [xdg-shell protocol definition](https://raw.githubusercontent.com/wayland-mirror/wayland-protocols/main/stable/xdg-shell/xdg-shell.xml),
 rather than reproducing that reference behavior.
@@ -50,4 +50,30 @@ python3 docs/validation/window-parent-20261127/audit.py --source-root "$PWD"
 `--baseline-unit OLD_UNIT` optionally reproduces the original error first.
 The existing VM and build cache are reused; no VM image is created. These
 checks do not qualify physical GPU acceleration or an AMD64 KVM backend.
-Product cloud statuses are recorded after the paired pin is published.
+
+## Cloud closure
+
+Product implementation `fcababc` passes
+[ARM64 Linux, AMD64 Linux and macOS build/unit/release checks](https://github.com/project-trames/trames-linux/actions/runs/45886029729),
+[ARM64/AMD64 native presentation](https://github.com/project-trames/trames-linux/actions/runs/45886029629)
+and [notices](https://github.com/project-trames/trames-linux/actions/runs/45886029623).
+Both new parent-error frontend cells pass on each native architecture. Exact
+statuses and log lines are archived in
+[cloud-checks.json](window-parent-20261127/cloud-checks.json).
+
+The concurrent shared Runtime update left its generated Cargo.lock fingerprint
+stale. Main `087059d` refreshes only `third-party/inputs.json`; routing commit
+`e4632eb` excludes that noncompiled fingerprint file from Runtime CPU checks.
+Actual dependency manifests still trigger the full pipeline. The
+[notice-only verification](https://github.com/project-trames/trames-runtime/actions/runs/45888352646)
+passes with 171 reviewed packages and 109 original notice texts, and the API
+records confirm that this metadata push ran only the notice workflow. Linux's separate
+139-package product inventory and tested Runtime pin remain
+attached to their original source cohorts.
+
+The [follow-up scratch cleanup](window-parent-20261127/scratch-cleanup.json)
+removes redundant red-check binaries and retains both accepted frozen pairs.
+The combined compact reports contain source/command/log evidence, without VM
+images, rootfs trees or executable archives in Git. The current source audit
+and the preserved 89-cell archive audit both pass.
+

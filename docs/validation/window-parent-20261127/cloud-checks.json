@@ -1,0 +1,137 @@
+{
+  "complete": true,
+  "implementation_commit": "fcababc405467fd261f52cbca8c57c8c9cf6af7e",
+  "runtime_pin": "7b4eae68b12a480460b2ca71145826b59f7e4dfb",
+  "product_runs": [
+    {
+      "id": 45886029623,
+      "name": "Third-party license records",
+      "head_sha": "fcababc405467fd261f52cbca8c57c8c9cf6af7e",
+      "path": ".github/workflows/licenses.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/project-trames/trames-linux/actions/runs/45886029623"
+    },
+    {
+      "id": 45886029629,
+      "name": "Native Linux presentation references",
+      "head_sha": "fcababc405467fd261f52cbca8c57c8c9cf6af7e",
+      "path": ".github/workflows/presentation.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/project-trames/trames-linux/actions/runs/45886029629"
+    },
+    {
+      "id": 45886029729,
+      "name": "Build and unit checks",
+      "head_sha": "fcababc405467fd261f52cbca8c57c8c9cf6af7e",
+      "path": ".github/workflows/build.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/project-trames/trames-linux/actions/runs/45886029729"
+    }
+  ],
+  "build_jobs": [
+    {
+      "id": 140136823182,
+      "name": "Build/unit (macos-15) \u2014 no hardware claim",
+      "head_sha": "fcababc405467fd261f52cbca8c57c8c9cf6af7e",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/project-trames/trames-linux/actions/runs/45886029729/job/140136823182",
+      "started_at": "2026-11-26T19:45:45Z",
+      "completed_at": "2026-11-26T19:59:38Z"
+    },
+    {
+      "id": 140136823373,
+      "name": "Build/unit (ubuntu-24.04-arm) \u2014 no hardware claim",
+      "head_sha": "fcababc405467fd261f52cbca8c57c8c9cf6af7e",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/project-trames/trames-linux/actions/runs/45886029729/job/140136823373",
+      "started_at": "2026-11-26T19:45:47Z",
+      "completed_at": "2026-11-26T19:55:20Z"
+    },
+    {
+      "id": 140136823468,
+      "name": "Build/unit (ubuntu-24.04) \u2014 no hardware claim",
+      "head_sha": "fcababc405467fd261f52cbca8c57c8c9cf6af7e",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/project-trames/trames-linux/actions/runs/45886029729/job/140136823468",
+      "started_at": "2026-11-26T19:45:45Z",
+      "completed_at": "2026-11-26T19:56:14Z"
+    }
+  ],
+  "native_jobs": [
+    {
+      "id": 140136822569,
+      "name": "Native software WSI (ubuntu-24.04-arm) \u2014 no KVM or physical GPU claim",
+      "head_sha": "fcababc405467fd261f52cbca8c57c8c9cf6af7e",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/project-trames/trames-linux/actions/runs/45886029629/job/140136822569",
+      "started_at": "2026-11-26T19:45:47Z",
+      "completed_at": "2026-11-26T19:50:58Z"
+    },
+    {
+      "id": 140136822975,
+      "name": "Native software WSI (ubuntu-24.04) \u2014 no KVM or physical GPU claim",
+      "head_sha": "fcababc405467fd261f52cbca8c57c8c9cf6af7e",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/project-trames/trames-linux/actions/runs/45886029629/job/140136822975",
+      "started_at": "2026-11-26T19:45:45Z",
+      "completed_at": "2026-11-26T19:50:46Z"
+    }
+  ],
+  "parent_log_evidence": [
+    {
+      "job_id": 140136822569,
+      "lines": [
+        "2026-11-26T19:50:53.8018070Z native-x11: passed",
+        "2026-11-26T19:50:53.8763816Z native-wayland: passed",
+        "2026-11-26T19:50:53.8768483Z {\"passed\": true, \"cases\": 2, \"baseline_reproduced\": false}"
+      ]
+    },
+    {
+      "job_id": 140136822975,
+      "lines": [
+        "2026-11-26T19:50:42.0707463Z native-x11: passed",
+        "2026-11-26T19:50:42.1463763Z native-wayland: passed",
+        "2026-11-26T19:50:42.1467822Z {\"passed\": true, \"cases\": 2, \"baseline_reproduced\": false}"
+      ]
+    }
+  ],
+  "runtime_notice_resolution": {
+    "routing_commit": "e4632eb4d4e5c2a383f4cccdd44b7e6d5b988d93",
+    "commit": "087059d0941c4c20e0fc221d112f0aeb4a9a7df8",
+    "only_notice_workflow": true,
+    "runs": [
+      {
+        "id": 45888352646,
+        "name": "Third-party license records",
+        "head_sha": "087059d0941c4c20e0fc221d112f0aeb4a9a7df8",
+        "path": ".github/workflows/licenses.yml",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/project-trames/trames-runtime/actions/runs/45888352646"
+      }
+    ],
+    "jobs": [
+      {
+        "id": 140144579847,
+        "name": "notices",
+        "head_sha": "087059d0941c4c20e0fc221d112f0aeb4a9a7df8",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/project-trames/trames-runtime/actions/runs/45888352646/job/140144579847",
+        "started_at": "2026-11-26T20:04:44Z",
+        "completed_at": "2026-11-26T20:04:51Z"
+      }
+    ],
+    "lines": [
+      "2026-11-26T20:04:48.5141183Z Verified 171 reviewed Rust dependencies and 109 original notice texts"
+    ]
+  }
+}
