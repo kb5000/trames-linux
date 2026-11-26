@@ -142,17 +142,28 @@ impl Tables {
 struct Page {
     owner: Weak<dyn HardwareStorage>,
     info: HardwarePageInfo,
-    write: Option<HardwareWriteFrame>,
 }
 /// Current writable bindings, with the same joined-epoch publication contract
 /// as HVF. Membership changes only while this worker's page tables are stopped.
 /// Tokens/epochs retain metadata, never the physical guest allocation.
 #[derive(Default)]
 struct Writes {
+    bindings: BTreeMap<u64, HardwareWriteFrame>,
     words: BTreeMap<usize, u64>,
     epochs: BTreeMap<usize, (usize, Arc<std::sync::atomic::AtomicU64>)>,
 }
 impl Writes {
+    fn replace(&mut self, va: u64, write: Option<HardwareWriteFrame>) {
+        // Ordinary canonical RAM only needs the epoch's private-dirty bit.
+        // Keep its original compact Page layout; retain tokens solely for
+        // providers/code/allocation epochs that actually need publication.
+        let write = write.filter(HardwareWriteFrame::needs_publication);
+        let previous = self.bindings.remove(&va);
+        self.track(previous.as_ref(), write.as_ref());
+        if let Some(write) = write {
+            self.bindings.insert(va, write);
+        }
+    }
     fn track(&mut self, old: Option<&HardwareWriteFrame>, new: Option<&HardwareWriteFrame>) {
         if let Some(epoch) = old.and_then(|write| write.publication_epoch()) {
             let key = Arc::as_ptr(epoch) as usize;
@@ -624,21 +635,11 @@ impl Executor {
             // survives. Refresh membership at the original mapping boundary.
             // Prepare all fallible tokens before replacing membership. An
             // admission failure leaves retry/retirement bookkeeping coherent.
-            let bindings = self
-                .pages
-                .iter()
-                .map(|(&va, page)| {
-                    page.info
-                        .writable
-                        .then(|| memory.hardware_write_frame(va))
-                        .transpose()
-                        .map(|write| (va, write))
-                })
-                .collect::<std::result::Result<Vec<_>, MemoryError>>()?;
             let mut writes = Writes::default();
-            for (va, write) in bindings {
-                writes.track(None, write.as_ref());
-                self.pages.get_mut(&va).expect("retained page").write = write;
+            for (&va, page) in &self.pages {
+                if page.info.writable {
+                    writes.replace(va, Some(memory.hardware_write_frame(va)?));
+                }
             }
             self.writes = writes;
         }
@@ -711,10 +712,7 @@ impl Executor {
             .transpose()?;
         self.tables
             .pte(&self.vm, va, owner.physical_address() | Self::flags(info))?;
-        self.writes.track(
-            self.pages.get(&va).and_then(|page| page.write.as_ref()),
-            write.as_ref(),
-        );
+        self.writes.replace(va, write);
         // The cold export already publishes a newly writable binding before
         // any direct hardware store; later short SVCs need no page walk.
         self.pages.insert(
@@ -722,7 +720,6 @@ impl Executor {
             Page {
                 owner: Arc::downgrade(&owner),
                 info,
-                write,
             },
         );
         self.invalidate |= if info.permissions.execute { 3 } else { 1 };
