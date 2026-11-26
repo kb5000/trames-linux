@@ -1,0 +1,14 @@
+[
+  "cc",
+  "-O2",
+  "-Wall",
+  "-Wextra",
+  "-Werror",
+  "-I/mnt/trames-output/linux-window/interop-release/tools",
+  "/mnt/trames-output/linux-keyboard-source/tests/fixtures/interop-client.c",
+  "/mnt/trames-output/linux-window/interop-release/tools/xdg-shell-protocol.c",
+  "/mnt/trames-output/linux-window/interop-release/tools/text-input-v3-protocol.c",
+  "-lwayland-client",
+  "-o",
+  "/mnt/trames-output/linux-window/interop-release/tools/interop-client"
+]

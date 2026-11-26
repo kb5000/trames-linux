@@ -1,0 +1,7 @@
+[
+  "/mnt/trames-output/linux-window/keyboard-release/tools/unit_binary",
+  "desktop::tests::native_wayland_desktop",
+  "--ignored",
+  "--exact",
+  "--nocapture"
+]

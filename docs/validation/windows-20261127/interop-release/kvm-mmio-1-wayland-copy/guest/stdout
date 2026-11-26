@@ -1,0 +1,29 @@
+selection 0
+size 240 160
+size 320 240
+focus-in keys=0
+modifiers 0 0
+text-enter
+selection 1
+size 320 240
+modifiers 0 0
+modifiers 0 0
+selection 1
+pointer 75 67
+pointer 75 67
+frame 1
+size 320 240
+key 32 1
+key 32 0
+frame 2
+frame 3
+copy-ready
+selection 1
+clipboard-sent
+frame 4
+focus-out
+text-leave
+selection 0
+size 320 240
+size 320 240
+interop-done

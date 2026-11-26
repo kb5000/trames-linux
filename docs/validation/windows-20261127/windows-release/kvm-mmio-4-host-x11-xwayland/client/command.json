@@ -1,0 +1,18 @@
+[
+  "/mnt/trames-output/linux-window/windows-release/tools/runner",
+  "run",
+  "--rootfs",
+  "/mnt/trames-output/linux-window/windows-release/kvm-mmio-4-host-x11-xwayland/rootfs",
+  "--desktop",
+  "x11",
+  "--cpus",
+  "4",
+  "--timeout-ms",
+  "60000",
+  "--xwayland-launcher",
+  "/mnt/trames-output/linux-window/windows-release/tools/launcher",
+  "--",
+  "/bin/sh",
+  "-ec",
+  "trames-xwayland :0 -ac >&2 & xpid=$!; trap \"kill $xpid\" EXIT; while [ ! -S /tmp/.X11-unix/X0 ]; do sleep .05; done; DISPLAY=:0 /test/window"
+]

@@ -1,0 +1,12 @@
+[
+  "cc",
+  "-O2",
+  "-Wall",
+  "-Wextra",
+  "-Werror",
+  "-I/mnt/trames-output/linux-window/interop-release/tools",
+  "/mnt/trames-output/linux-keyboard-source/tests/fixtures/interop-xclip.c",
+  "-lxcb",
+  "-o",
+  "/mnt/trames-output/linux-window/interop-release/tools/xclip"
+]

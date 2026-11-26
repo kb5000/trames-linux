@@ -48,10 +48,11 @@ mod x11 {
         Repeat(i32, i32),
         Input(InputEvent),
         Text(trames_wayland::TextEdit),
-        Resize(u64, u32, u32),
+        Configure(u64, u32, u32, trames_wayland::WindowState, u64),
         Close(u64),
         Presented(u64, u64),
     }
+    type Metadata = (String, Option<u32>, (u32, u32), (u32, u32));
     struct Window {
         id: u32,
         gc: u32,
@@ -62,6 +63,12 @@ mod x11 {
         presented: Option<u64>,
         gpu: Option<crate::gpu_desktop::Renderer>,
         in_flight: Option<u64>,
+        state: Option<trames_wayland::WindowState>,
+        confirmed: Option<trames_wayland::WindowState>,
+        dispatched: trames_wayland::WindowRequest,
+        expected_size: Option<(u32, u32)>,
+        interaction: Option<(u32, u32)>,
+        metadata: Option<Metadata>,
     }
     pub struct Desktop {
         connection: std::sync::Arc<XCBConnection>,
@@ -70,6 +77,8 @@ mod x11 {
         clipboard: crate::clipboard_x11::Clipboard,
         ime: crate::ime_x11::Ime,
         keyboard: crate::keyboard_x11::Keyboard,
+        wm: crate::window_x11::Manager,
+        press: Option<(u64, i16, i16, u8, u32)>,
         screen: usize,
         server: Server,
         windows: BTreeMap<u64, Window>,
@@ -130,11 +139,15 @@ mod x11 {
             let ime = crate::ime_x11::Ime::new(connection.clone(), screen)?;
             let clipboard = crate::clipboard_x11::Clipboard::new(&connection, screen, &server)?;
             server.output_scale(0, 1)?;
+            server.manage_windows()?;
+            let wm = crate::window_x11::Manager::new(&connection)?;
             Ok(Self {
                 connection,
                 driver,
                 mode,
                 clipboard,
+                wm,
+                press: None,
                 ime,
                 keyboard,
                 screen,
@@ -189,7 +202,9 @@ mod x11 {
                     Command::Repeat(r, d) => self.server.keyboard_repeat(*r, *d),
                     Command::Input(event) => self.server.input(event.clone()),
                     Command::Text(edit) => self.server.edit_text(edit.clone()),
-                    Command::Resize(id, w, h) => self.server.resize(*id, *w, *h),
+                    Command::Configure(id, w, h, s, request) => {
+                        self.server.configure_window(*id, *w, *h, *s, *request)
+                    }
                     Command::Close(id) => self.server.close(*id),
                     Command::Presented(id, revision) => self.server.presented(*id, *revision, 0),
                 };
@@ -252,6 +267,8 @@ mod x11 {
                     Event::PresentCompleteNotify(e) => e.window,
                     Event::Expose(e) => e.window,
                     Event::ConfigureNotify(e) => e.window,
+                    Event::PropertyNotify(e) => e.window,
+                    Event::MapNotify(e) => e.window,
                     Event::ClientMessage(e) => e.window,
                     Event::DestroyNotify(e) => e.window,
                     Event::FocusIn(e) | Event::FocusOut(e) => e.event,
@@ -283,23 +300,13 @@ mod x11 {
                         }
                     }
                     Event::Expose(_) => self.windows.get_mut(&id).unwrap().dirty = true,
-                    Event::ConfigureNotify(e) => {
-                        let w = self.windows.get_mut(&id).unwrap();
-                        let size = (
-                            u32::from(e.width).clamp(1, 4096),
-                            u32::from(e.height).clamp(1, 4096),
-                        );
-                        if size != w.size {
-                            w.size = size;
-                            w.dirty = true;
-                            let width = (i64::from(size.0) - i64::from(w.bounds[2])
-                                + i64::from(w.scene.width))
-                            .clamp(1, 4096) as u32;
-                            let height = (i64::from(size.1) - i64::from(w.bounds[3])
-                                + i64::from(w.scene.height))
-                            .clamp(1, 4096) as u32;
-                            self.commands.push_back(Command::Resize(id, width, height));
-                        }
+                    Event::PropertyNotify(e)
+                        if e.atom == self.wm.state || e.atom == self.wm.wm_state =>
+                    {
+                        self.confirm_window(id, native)?;
+                    }
+                    Event::MapNotify(_) | Event::ConfigureNotify(_) => {
+                        self.confirm_window(id, native)?;
                     }
                     Event::ClientMessage(e)
                         if e.type_ == self.protocols
@@ -328,6 +335,12 @@ mod x11 {
                     Event::ButtonPress(e) | Event::ButtonRelease(e) => {
                         let pressed = e.response_type & 0x7f == xproto::BUTTON_PRESS_EVENT;
                         self.pointer(id, e.event_x, e.event_y, e.time);
+                        if pressed && matches!(e.detail, 1..=3) {
+                            self.press = Some((id, e.root_x, e.root_y, e.detail, e.time));
+                        }
+                        if !pressed && self.press.is_some_and(|p| p.3 == e.detail) {
+                            self.press = None;
+                        }
                         if pressed {
                             self.focus(Some(id));
                             self.connection
@@ -413,14 +426,15 @@ mod x11 {
                     if self.focus == Some(id) {
                         self.focus(None);
                     }
-                    if let Some(w) = self.windows.remove(&id) {
+                    if let Some(mut w) = self.windows.remove(&id) {
+                        w.gpu.take();
                         self.connection.free_gc(w.gc).map_err(error)?;
                         self.connection.destroy_window(w.id).map_err(error)?;
                     }
                 }
                 self.destroyed
                     .retain(|id| snapshot.windows.iter().any(|s| s.id == *id));
-                for scene in snapshot.windows {
+                for scene in snapshot.windows.iter().cloned() {
                     if self.destroyed.contains(&scene.id) {
                         continue;
                     }
@@ -435,7 +449,17 @@ mod x11 {
                                     bounds[2].clamp(1, 4096) as u32,
                                     bounds[3].clamp(1, 4096) as u32,
                                 );
-                                if size != w.size {
+                                if w.expected_size == Some(size) {
+                                    w.expected_size = None;
+                                }
+                                let requested = snapshot.window_states.get(&scene.id);
+                                let floating = w
+                                    .state
+                                    .is_some_and(|s| !s.maximized && !s.fullscreen && !s.minimized)
+                                    && requested.is_none_or(|s| {
+                                        !s.maximized && !s.fullscreen && !s.minimized
+                                    });
+                                if size != w.size && w.expected_size.is_none() && floating {
                                     self.connection
                                         .configure_window(
                                             w.id,
@@ -463,8 +487,77 @@ mod x11 {
                             w.scene = scene;
                         }
                     } else {
-                        self.create(scene)?;
+                        let next = snapshot
+                            .window_states
+                            .get(&scene.id)
+                            .copied()
+                            .unwrap_or_default();
+                        let request = snapshot
+                            .window_requests
+                            .get(&scene.id)
+                            .copied()
+                            .unwrap_or_default();
+                        self.create(scene, next, request)?;
                     }
+                }
+                let ids = self
+                    .windows
+                    .iter()
+                    .map(|(&id, w)| (id, w.id))
+                    .collect::<BTreeMap<_, _>>();
+                let root = self.connection.setup().roots[self.screen].root;
+                for scene in snapshot.windows {
+                    let Some(w) = self.windows.get_mut(&scene.id) else {
+                        continue;
+                    };
+                    let parent = scene.parent.and_then(|p| ids.get(&p).copied());
+                    if w.metadata.as_ref().is_none_or(|m| {
+                        m.0 != scene.title
+                            || m.1 != parent
+                            || m.2 != scene.min_size
+                            || m.3 != scene.max_size
+                    }) {
+                        self.wm.metadata(&self.connection, w.id, &scene, parent)?;
+                        w.metadata =
+                            Some((scene.title.clone(), parent, scene.min_size, scene.max_size));
+                    }
+                    let next = snapshot
+                        .window_states
+                        .get(&scene.id)
+                        .copied()
+                        .unwrap_or_default();
+                    let request = snapshot
+                        .window_requests
+                        .get(&scene.id)
+                        .copied()
+                        .unwrap_or_default();
+                    if request != w.dispatched {
+                        for field in request.changes(w.dispatched) {
+                            self.wm
+                                .state(&self.connection, root, w.id, w.state, next, field)?;
+                        }
+                        w.state = Some(next);
+                        w.dispatched = request;
+                    }
+                    if let Some(i) = scene.interaction {
+                        let gesture = (i.serial, i.edges);
+                        if w.interaction != Some(gesture) {
+                            if let Some((id, x, y, button, time)) =
+                                self.press.filter(|p| p.0 == scene.id)
+                            {
+                                let _ = id;
+                                self.wm.interact(
+                                    &self.connection,
+                                    root,
+                                    w.id,
+                                    i.edges,
+                                    (x, y, button, time),
+                                )?;
+                            }
+                            w.interaction = Some(gesture);
+                        }
+                    }
+                    w.scene = scene;
                 }
                 self.revision = Some(snapshot.revision);
             }
@@ -572,7 +665,51 @@ mod x11 {
             }
             Ok(())
         }
-        fn create(&mut self, scene: WindowSnapshot) -> io::Result<()> {
+        fn confirm_window(&mut self, id: u64, native: u32) -> io::Result<()> {
+            let next = self.wm.read(&self.connection, native)?;
+            // Event payloads can predate the property reply. Read the current
+            // geometry rather than pairing old ConfigureNotify sizes with it.
+            let g = self
+                .connection
+                .get_geometry(native)
+                .map_err(error)?
+                .reply()
+                .map_err(error)?;
+            let size = (
+                u32::from(g.width).clamp(1, 4096),
+                u32::from(g.height).clamp(1, 4096),
+            );
+            let w = self.windows.get_mut(&id).unwrap();
+            if w.confirmed == Some(next) && size == w.size {
+                return Ok(());
+            }
+            if size != w.size {
+                w.size = size;
+                w.expected_size =
+                    (w.bounds[2] != size.0 as i32 || w.bounds[3] != size.1 as i32).then_some(size);
+                w.dirty = true;
+            }
+            w.state = Some(next);
+            w.confirmed = Some(next);
+            let width = (i64::from(size.0) - i64::from(w.bounds[2]) + i64::from(w.scene.width))
+                .clamp(1, 4096) as u32;
+            let height = (i64::from(size.1) - i64::from(w.bounds[3]) + i64::from(w.scene.height))
+                .clamp(1, 4096) as u32;
+            self.commands.push_back(Command::Configure(
+                id,
+                width,
+                height,
+                next,
+                w.dispatched.serial,
+            ));
+            Ok(())
+        }
+        fn create(
+            &mut self,
+            scene: WindowSnapshot,
+            next: trames_wayland::WindowState,
+            request: trames_wayland::WindowRequest,
+        ) -> io::Result<()> {
             let bounds = scene.bounds();
             let size = (
                 bounds[2].clamp(1, 4096) as u32,
@@ -605,7 +742,8 @@ mod x11 {
                                 | EventMask::POINTER_MOTION
                                 | EventMask::ENTER_WINDOW
                                 | EventMask::LEAVE_WINDOW
-                                | EventMask::FOCUS_CHANGE,
+                                | EventMask::FOCUS_CHANGE
+                                | EventMask::PROPERTY_CHANGE,
                         ),
                 )
                 .map_err(error)?
@@ -641,6 +779,9 @@ mod x11 {
                     b"trames\0Trames\0",
                 )
                 .map_err(error)?;
+            self.wm.metadata(&self.connection, id, &scene, None)?;
+            self.wm
+                .state(&self.connection, root.root, id, None, next, 7)?;
             self.connection.map_window(id).map_err(error)?;
             self.windows.insert(
                 scene.id,
@@ -654,6 +795,12 @@ mod x11 {
                     presented: None,
                     gpu: None,
                     in_flight: None,
+                    state: Some(next),
+                    confirmed: None,
+                    dispatched: request,
+                    expected_size: None,
+                    interaction: None,
+                    metadata: None,
                 },
             );
             Ok(())

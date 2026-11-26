@@ -1,0 +1,21 @@
+reference-x11: passed
+native-x11: passed
+reference-wayland: passed
+native-wayland: passed
+kvm-smccc-1-host-x11-wayland: passed
+kvm-smccc-1-host-x11-xwayland: passed
+kvm-smccc-1-host-wayland-wayland: passed
+kvm-smccc-1-host-wayland-xwayland: passed
+kvm-smccc-4-host-x11-wayland: passed
+kvm-smccc-4-host-x11-xwayland: passed
+kvm-smccc-4-host-wayland-wayland: passed
+kvm-smccc-4-host-wayland-xwayland: passed
+kvm-mmio-1-host-x11-wayland: passed
+kvm-mmio-1-host-x11-xwayland: passed
+kvm-mmio-1-host-wayland-wayland: passed
+kvm-mmio-1-host-wayland-xwayland: passed
+kvm-mmio-4-host-x11-wayland: passed
+kvm-mmio-4-host-x11-xwayland: passed
+kvm-mmio-4-host-wayland-wayland: passed
+kvm-mmio-4-host-wayland-xwayland: passed
+{"passed": true, "cases": 20}

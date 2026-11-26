@@ -1,0 +1,16 @@
+[
+  "/mnt/trames-output/linux-window/interop-release/tools/runner",
+  "run",
+  "--rootfs",
+  "/mnt/trames-output/linux-window/interop-release/kvm-mmio-1-wayland-ime/rootfs",
+  "--desktop",
+  "wayland",
+  "--desktop-renderer",
+  "auto",
+  "--cpus",
+  "1",
+  "--timeout-ms",
+  "60000",
+  "--",
+  "/test/interop"
+]

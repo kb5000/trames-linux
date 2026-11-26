@@ -21,6 +21,8 @@ mod interop_tests;
 #[cfg(target_os = "linux")]
 mod keyboard_x11;
 mod store;
+#[cfg(target_os = "linux")]
+mod window_x11;
 
 const RUNTIME: &str = include_str!("../../../runtime-version.json");
 const HELP: &str = "Trames Linux 0.1.0\n\

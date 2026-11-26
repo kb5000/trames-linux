@@ -1,0 +1,14 @@
+[
+  "/mnt/trames-output/linux-window/windows-release/tools/runner",
+  "run",
+  "--rootfs",
+  "/mnt/trames-output/linux-window/windows-release/kvm-smccc-1-host-wayland-wayland/rootfs",
+  "--desktop",
+  "wayland",
+  "--cpus",
+  "1",
+  "--timeout-ms",
+  "60000",
+  "--",
+  "/test/window"
+]

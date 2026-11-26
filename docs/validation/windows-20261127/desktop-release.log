@@ -1,0 +1,1 @@
+{"passed": true, "cases": 13, "ids": ["native-wayland", "kvm-smccc-1-wayland", "kvm-smccc-1-xwayland", "kvm-smccc-4-wayland", "kvm-smccc-4-xwayland", "kvm-mmio-1-wayland", "kvm-mmio-1-xwayland", "kvm-mmio-4-wayland", "kvm-mmio-4-xwayland", "store-create", "store-reopen", "terminal-weston", "terminal-xterm"]}

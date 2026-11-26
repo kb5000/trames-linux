@@ -1,0 +1,86 @@
+configured parent 240 160 max=0 full=0 resizing=0 active=0
+configured parent 240 160 max=0 full=0 resizing=0 active=0
+configured parent 240 160 max=0 full=0 resizing=0 active=0
+configured parent 240 160 max=0 full=0 resizing=0 active=0
+configured parent 240 160 max=0 full=0 resizing=0 active=0
+focus parent
+command m
+configured parent 640 480 max=1 full=0 resizing=0 active=0
+configured parent 640 480 max=1 full=0 resizing=0 active=0
+configured parent 640 480 max=1 full=0 resizing=0 active=0
+configured parent 640 480 max=1 full=0 resizing=0 active=0
+command n
+configured parent 240 160 max=0 full=0 resizing=0 active=0
+configured parent 240 160 max=0 full=0 resizing=0 active=0
+configured parent 240 160 max=0 full=0 resizing=0 active=0
+configured parent 240 160 max=0 full=0 resizing=0 active=0
+configured parent 240 160 max=0 full=0 resizing=0 active=0
+command f
+configured parent 240 160 max=0 full=1 resizing=0 active=0
+configured parent 1024 768 max=0 full=1 resizing=0 active=0
+configured parent 1024 768 max=0 full=1 resizing=0 active=0
+configured parent 1024 768 max=0 full=1 resizing=0 active=0
+command u
+configured parent 640 480 max=0 full=1 resizing=0 active=0
+configured parent 640 480 max=0 full=0 resizing=0 active=0
+configured parent 240 160 max=0 full=0 resizing=0 active=0
+configured parent 240 160 max=0 full=0 resizing=0 active=0
+configured parent 240 160 max=0 full=0 resizing=0 active=0
+configured parent 240 160 max=0 full=0 resizing=0 active=0
+command m
+configured parent 640 480 max=1 full=0 resizing=0 active=0
+configured parent 640 480 max=1 full=0 resizing=0 active=0
+configured parent 640 480 max=1 full=0 resizing=0 active=0
+configured parent 640 480 max=1 full=0 resizing=0 active=0
+command f
+configured parent 1024 750 max=1 full=0 resizing=0 active=0
+configured parent 1024 750 max=1 full=1 resizing=0 active=0
+command u
+configured parent 1024 750 max=0 full=1 resizing=0 active=0
+configured parent 1024 768 max=0 full=1 resizing=0 active=0
+configured parent 1024 768 max=0 full=1 resizing=0 active=0
+configured parent 1024 768 max=0 full=1 resizing=0 active=0
+configured parent 640 480 max=0 full=1 resizing=0 active=0
+configured parent 640 480 max=0 full=0 resizing=0 active=0
+configured parent 640 480 max=0 full=0 resizing=0 active=0
+configured parent 640 480 max=0 full=0 resizing=0 active=0
+configured parent 640 480 max=1 full=0 resizing=0 active=0
+command n
+configured parent 640 480 max=0 full=0 resizing=0 active=0
+configured parent 240 160 max=0 full=0 resizing=0 active=0
+configured parent 240 160 max=0 full=0 resizing=0 active=0
+configured parent 240 160 max=0 full=0 resizing=0 active=0
+configured parent 240 160 max=0 full=0 resizing=0 active=0
+command v
+gesture v
+blur parent
+focus parent
+configured parent 240 160 max=0 full=0 resizing=0 active=0
+command r
+gesture r
+blur parent
+configured parent 250 170 max=0 full=0 resizing=0 active=0
+focus parent
+command i
+configured parent 250 170 max=0 full=0 resizing=0 active=0
+blur parent
+configured parent 250 170 max=0 full=0 resizing=0 active=0
+configured parent 250 170 max=0 full=0 resizing=0 active=0
+configured parent 250 170 max=0 full=0 resizing=0 active=0
+focus parent
+command c
+configured child 240 160 max=0 full=0 resizing=0 active=0
+configured child 240 160 max=0 full=0 resizing=0 active=0
+configured child 240 160 max=0 full=0 resizing=0 active=0
+configured child 240 160 max=0 full=0 resizing=0 active=0
+blur parent
+focus child
+configured parent 250 170 max=0 full=0 resizing=0 active=0
+command d
+command x
+blur parent
+focus parent
+command s
+configured parent 300 200 max=0 full=0 resizing=0 active=0
+command q
+window-done

@@ -2,7 +2,7 @@ name: Native Linux presentation references
 on:
   push:
     branches: [main]
-    paths: ['runtime', 'Cargo.lock', 'crates/trames-linux-app/**', 'scripts/validate-wsi.py', 'scripts/validate-desktop.py', 'scripts/validate-keyboard.py', 'tests/fixtures/keyboard-*.c', 'scripts/validate-desktop-interop.py', 'tests/fixtures/interop-*.c', 'tests/fixtures/desktop-*.c', 'tools/xwayland-launcher.c', 'tests/fixtures/*wsi*', 'tests/fixtures/x11-probe.c', 'tests/fixtures/wayland-target.c', '.github/workflows/presentation.yml']
+    paths: ['runtime', 'Cargo.lock', 'crates/trames-linux-app/**', 'scripts/validate-wsi.py', 'scripts/validate-desktop.py', 'scripts/validate-keyboard.py', 'tests/fixtures/keyboard-*.c', 'scripts/validate-windows.py', 'tests/fixtures/window-*.c', 'scripts/validate-xwayland-ime.py', 'tests/fixtures/xim-control.c', 'scripts/validate-desktop-interop.py', 'tests/fixtures/interop-*.c', 'tests/fixtures/desktop-*.c', 'tools/xwayland-launcher.c', 'tests/fixtures/*wsi*', 'tests/fixtures/x11-probe.c', 'tests/fixtures/wayland-target.c', '.github/workflows/presentation.yml']
   pull_request:
   workflow_dispatch:
 permissions:
@@ -24,7 +24,11 @@ jobs:
         with:
           toolchain: nightly-2026-10-16
       - name: Install software display prerequisites
-        run: sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends libxkbcommon-x11-0 libx11-dev x11-xkb-utils x11-xserver-utils libvulkan-dev mesa-vulkan-drivers libxcb1-dev libxcb-xtest0-dev libwayland-dev libwayland-bin wayland-protocols xvfb weston
+        run: sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends openbox libxkbcommon-x11-0 libx11-dev x11-xkb-utils x11-xserver-utils libvulkan-dev mesa-vulkan-drivers libxcb1-dev libxcb-xtest0-dev libwayland-dev libwayland-bin wayland-protocols xvfb weston
+      - name: Compile original XTEST sequence peer
+        run: |
+          mkdir -p target
+          cc -O2 -Wall -Wextra -Werror tests/fixtures/xim-control.c -lxcb -lxcb-xtest -o target/xim-control
       - run: python3 runtime/scripts/build-guest-cli.py
       - name: Build original native target regression binary
         run: |
@@ -54,6 +58,11 @@ jobs:
         run: |
           unit=$(python3 -c 'import json; a=[json.loads(x) for x in open("target/wsi-unit.jsonl")]; a=[x["executable"] for x in a if x.get("reason")=="compiler-artifact" and x.get("profile",{}).get("test") and x.get("target",{}).get("kind")==["bin"] and x.get("executable")]; assert len(a)==1,a; print(a[0])')
           python3 scripts/validate-keyboard.py --native-only --unit-binary "$unit" --output target/validation/keyboard-native
+      - name: Exercise native window states, parent focus and move/resize
+        shell: bash
+        run: |
+          unit=$(python3 -c 'import json; a=[json.loads(x) for x in open("target/wsi-unit.jsonl")]; a=[x["executable"] for x in a if x.get("reason")=="compiler-artifact" and x.get("profile",{}).get("test") and x.get("target",{}).get("kind")==["bin"] and x.get("executable")]; assert len(a)==1,a; print(a[0])')
+          python3 scripts/validate-windows.py --native-only --unit-binary "$unit" --output target/validation/windows-native
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -63,5 +72,6 @@ jobs:
             target/validation/desktop-native/
             target/validation/desktop-interop-native/
             target/validation/keyboard-native/
+            target/validation/windows-native/
           if-no-files-found: error
           retention-days: 14

@@ -1,0 +1,46 @@
+{
+  "complete": false,
+  "runtime_pin": "aadee76adb3edcdd1addb7b9f7eb38bf1959249f",
+  "runtime_runs": [
+    {
+      "id": 45879223493,
+      "name": "Third-party license records",
+      "head_sha": "aadee76adb3edcdd1addb7b9f7eb38bf1959249f",
+      "path": ".github/workflows/licenses.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/project-trames/trames-runtime/actions/runs/45879223493"
+    },
+    {
+      "id": 45879223485,
+      "name": "Runtime",
+      "head_sha": "aadee76adb3edcdd1addb7b9f7eb38bf1959249f",
+      "path": ".github/workflows/runtime.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/project-trames/trames-runtime/actions/runs/45879223485"
+    }
+  ],
+  "runtime_jobs": [
+    {
+      "id": 140113997380,
+      "name": "verify (ubuntu-24.04)",
+      "head_sha": "aadee76adb3edcdd1addb7b9f7eb38bf1959249f",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/project-trames/trames-runtime/actions/runs/45879223485/job/140113997380",
+      "started_at": "2026-11-26T18:51:36Z",
+      "completed_at": "2026-11-26T18:59:37Z"
+    },
+    {
+      "id": 140113997813,
+      "name": "verify (macos-15)",
+      "head_sha": "aadee76adb3edcdd1addb7b9f7eb38bf1959249f",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/project-trames/trames-runtime/actions/runs/45879223485/job/140113997813",
+      "started_at": "2026-11-26T18:51:39Z",
+      "completed_at": "2026-11-26T19:07:15Z"
+    }
+  ]
+}

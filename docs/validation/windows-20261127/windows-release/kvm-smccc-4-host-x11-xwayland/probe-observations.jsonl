@@ -1,0 +1,30 @@
+{"mode": "geometry", "args": [], "value": "392 312 240 160\n"}
+{"mode": "focus", "args": [], "value": ""}
+{"mode": "geometry", "args": [], "value": "392 312 240 160\n"}
+{"mode": "geometry", "args": [], "value": "392 312 240 160\n"}
+{"mode": "point", "args": [512, 392], "value": ""}
+{"mode": "button", "args": [1, 1], "value": ""}
+{"mode": "point", "args": [522, 402], "value": ""}
+{"mode": "geometry", "args": [], "value": "392 312 240 160\n"}
+{"mode": "point", "args": [532, 412], "value": ""}
+{"mode": "geometry", "args": [], "value": "412 332 240 160\n"}
+{"mode": "button", "args": [1, 0], "value": ""}
+{"mode": "geometry", "args": [], "value": "412 332 240 160\n"}
+{"mode": "point", "args": [532, 412], "value": ""}
+{"mode": "button", "args": [1, 1], "value": ""}
+{"mode": "point", "args": [542, 422], "value": ""}
+{"mode": "geometry", "args": [], "value": "412 332 240 160\n"}
+{"mode": "point", "args": [552, 432], "value": ""}
+{"mode": "geometry", "args": [], "value": "412 332 260 180\n"}
+{"mode": "button", "args": [1, 0], "value": ""}
+{"mode": "state", "args": [], "value": "0 0 1\n"}
+{"mode": "restore", "args": [], "value": ""}
+{"mode": "geometry", "args": [], "value": "430 411 260 180\n"}
+{"mode": "id", "args": [], "value": "4194306\n"}
+{"mode": "focus", "args": [], "value": ""}
+{"mode": "geometry", "args": [], "value": "412 332 260 180\n"}
+{"mode": "point", "args": [542, 422], "value": ""}
+{"mode": "button", "args": [1, 1], "value": ""}
+{"mode": "button", "args": [1, 0], "value": ""}
+{"mode": "geometry", "args": [], "value": "412 332 260 180\n"}
+{"mode": "geometry", "args": [], "value": "412 332 300 200\n"}

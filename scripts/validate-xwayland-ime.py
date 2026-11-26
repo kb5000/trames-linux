@@ -45,8 +45,11 @@ def main():
     with (out/'client.build.log').open('wb') as log:
         subprocess.run(argv,check=True,stdout=log,stderr=subprocess.STDOUT)
     subprocess.run([os.environ.get('CC','cc'),'-O2','-Wall','-Wextra','-Werror',ROOT/'tests/fixtures/desktop-probe.c','-lxcb','-lxcb-xtest','-o',out/'probe'],check=True)
-    sources={str(path.relative_to(ROOT)):digest(path) for path in [Path(__file__),ROOT/'scripts/validate-desktop-interop.py',ROOT/'scripts/validate-desktop.py',ROOT/'tests/fixtures/interop-xim-client.c',ROOT/'tests/fixtures/desktop-probe.c']}
-    inputs=dict(binaries={k:digest(v) for k,v in binaries.items()},client_sha256=digest(out/'client'),sources=sources,runtime_pin=json.loads((ROOT/'runtime-version.json').read_text()),physical_gpu_qualified=False)
+    control=[os.environ.get('CC','cc'),'-O2','-Wall','-Wextra','-Werror',str(ROOT/'tests/fixtures/xim-control.c'),'-lxcb','-lxcb-xtest','-o',str(out/'control')]
+    (out/'control.command.json').write_text(json.dumps(control,indent=2)+'\n')
+    with (out/'control.build.log').open('wb') as log:subprocess.run(control,check=True,stdout=log,stderr=subprocess.STDOUT)
+    sources={str(path.relative_to(ROOT)):digest(path) for path in [Path(__file__),ROOT/'scripts/validate-desktop-interop.py',ROOT/'scripts/validate-desktop.py',ROOT/'tests/fixtures/interop-xim-client.c',ROOT/'tests/fixtures/desktop-probe.c',ROOT/'tests/fixtures/xim-control.c']}
+    inputs=dict(binaries={k:digest(v) for k,v in binaries.items()},client_sha256=digest(out/'client'),control_sha256=digest(out/'control'),sources=sources,runtime_pin=json.loads((ROOT/'runtime-version.json').read_text()),physical_gpu_qualified=False)
     (out/'inputs.json').write_text(json.dumps(inputs,indent=2)+'\n')
     rows=[]
     for transport in ['smccc','mmio']:
@@ -71,9 +74,9 @@ def main():
                     guest.expect(b'guest-xim-ready')
                     interop.desktop.probe(out/'probe',env,'Trames XIM acceptance','focus')
                     im.expect(b'xim-focus')
-                    for code in [39,36]:
-                        for pressed in [1,0]:
-                            interop.desktop.probe(out/'probe',env,'Trames XIM acceptance','key',code,pressed)
+                    # Enter can commit text and close the application before a
+                    # separate key-up probe can find its window again.
+                    subprocess.run([out/'control'],env=env,check=True)
                     guest.expect('guest-xim-commit 中文输入 ✅\n'.encode())
                     guest.finish()
                     rows.append(dict(id=name,status='passed',original_xlib=True,utf8_commit=True))

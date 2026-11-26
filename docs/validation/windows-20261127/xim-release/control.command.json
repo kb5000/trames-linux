@@ -1,0 +1,12 @@
+[
+  "cc",
+  "-O2",
+  "-Wall",
+  "-Wextra",
+  "-Werror",
+  "/mnt/trames-output/linux-keyboard-source/tests/fixtures/xim-control.c",
+  "-lxcb",
+  "-lxcb-xtest",
+  "-o",
+  "/mnt/trames-output/linux-window/xim-release/control"
+]

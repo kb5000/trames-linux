@@ -8,7 +8,7 @@ use std::{
     os::fd::AsFd,
     sync::Arc,
 };
-use trames_wayland::{InputEvent, Server, TextContext, TextEdit, WindowSnapshot};
+use trames_wayland::{InputEvent, Server, TextContext, TextEdit, WindowSnapshot, WindowState};
 use wayland_client::{
     backend::ReadEventsGuard,
     delegate_noop,
@@ -34,11 +34,18 @@ enum Command {
     Repeat(i32, i32),
     Input(InputEvent),
     Text(TextEdit),
-    Resize(u64, u32, u32),
+    Configure(u64, u32, u32, WindowState, u64),
     Close(u64),
     Presented(u64, u64),
     Clipboard,
 }
+type Metadata = (
+    String,
+    String,
+    Option<xdg_toplevel::XdgToplevel>,
+    (u32, u32),
+    (u32, u32),
+);
 struct Window {
     gpu: Option<crate::gpu_desktop::Renderer>,
     surface: wl_surface::WlSurface,
@@ -52,6 +59,27 @@ struct Window {
     callback: Option<wl_callback::WlCallback>,
     buffers: Vec<wl_buffer::WlBuffer>,
     presented: Option<u64>,
+    state: Option<WindowState>,
+    dispatched: trames_wayland::WindowRequest,
+    pending: Option<(i32, i32, WindowState)>,
+    confirmation: Option<(u32, u32, WindowState, u64)>,
+    interaction: Option<(u32, u32)>,
+    metadata: Option<Metadata>,
+    geometry: Option<[i32; 4]>,
+}
+impl Window {
+    fn native_geometry(&self) -> [i32; 4] {
+        let extra = (
+            self.bounds[2] - self.scene.width as i32,
+            self.bounds[3] - self.scene.height as i32,
+        );
+        [
+            -self.bounds[0],
+            -self.bounds[1],
+            (self.size.0 as i32 - extra.0).max(1),
+            (self.size.1 as i32 - extra.1).max(1),
+        ]
+    }
 }
 impl Drop for Window {
     fn drop(&mut self) {
@@ -80,6 +108,7 @@ struct State {
     revision: Option<u64>,
     focus: Option<u64>,
     pointer_window: Option<u64>,
+    press: Option<(u64, u32, u32)>,
     position: (f64, f64),
     modifiers: trames_wayland::KeyboardModifiers,
     serial: u32,
@@ -128,6 +157,7 @@ impl State {
             revision: None,
             focus: None,
             pointer_window: None,
+            press: None,
             position: (0., 0.),
             modifiers: Default::default(),
             serial: 0,
@@ -352,7 +382,9 @@ impl State {
                 Command::Repeat(r, d) => self.server.keyboard_repeat(*r, *d),
                 Command::Input(e) => self.server.input(e.clone()),
                 Command::Text(e) => self.server.edit_text(e.clone()),
-                Command::Resize(id, w, h) => self.server.resize(*id, *w, *h),
+                Command::Configure(id, w, h, state, request) => {
+                    self.server.configure_window(*id, *w, *h, *state, *request)
+                }
                 Command::Close(id) => self.server.close(*id),
                 Command::Presented(id, r) => self.server.presented(*id, *r, 0),
                 Command::Clipboard => self.server.clipboard_changed(),
@@ -374,14 +406,24 @@ impl State {
         if self.revision != Some(snapshot.revision) {
             self.windows
                 .retain(|id, _| snapshot.windows.iter().any(|w| w.id == *id));
-            for scene in snapshot.windows {
+            for scene in snapshot.windows.iter().cloned() {
                 if scene.scene.is_empty() {
                     continue;
                 }
                 if let Some(w) = self.windows.get_mut(&scene.id) {
                     if w.scene.revision != scene.revision {
-                        w.bounds = scene.bounds();
-                        w.top.set_title(scene.title.clone());
+                        let bounds = scene.bounds();
+                        if bounds != w.bounds
+                            && w.state
+                                .is_some_and(|s| !s.maximized && !s.fullscreen && !s.resizing)
+                        {
+                            w.size = (
+                                bounds[2].clamp(1, 4096) as u32,
+                                bounds[3].clamp(1, 4096) as u32,
+                            );
+                        }
+                        w.bounds = bounds;
+
                         w.scene = scene;
                         w.dirty = true;
                     }
@@ -423,9 +465,99 @@ impl State {
                             callback: None,
                             buffers: vec![],
                             presented: None,
+                            state: None,
+                            dispatched: trames_wayland::WindowRequest::default(),
+                            pending: None,
+                            confirmation: None,
+                            interaction: None,
+                            metadata: None,
+                            geometry: None,
                         },
                     );
                 }
+            }
+            let parents = self
+                .windows
+                .iter()
+                .map(|(&id, w)| (id, w.top.clone()))
+                .collect::<BTreeMap<_, _>>();
+            for scene in snapshot.windows {
+                let Some(w) = self.windows.get_mut(&scene.id) else {
+                    continue;
+                };
+                let parent = scene.parent.and_then(|id| parents.get(&id));
+                let mut commit = false;
+                if w.metadata.as_ref().is_none_or(|m| {
+                    m.0 != scene.title
+                        || m.1 != scene.app_id
+                        || m.2.as_ref() != parent
+                        || m.3 != scene.min_size
+                        || m.4 != scene.max_size
+                }) {
+                    commit = true;
+                    w.top.set_title(scene.title.clone());
+                    w.top.set_app_id(if scene.app_id.is_empty() {
+                        "org.project-trames.Trames".into()
+                    } else {
+                        scene.app_id.clone()
+                    });
+                    w.top.set_parent(parent);
+                    w.top.set_min_size(
+                        scene.min_size.0.min(4096) as i32,
+                        scene.min_size.1.min(4096) as i32,
+                    );
+                    let maximum = |value: u32, min: u32| {
+                        if value == 0 {
+                            0
+                        } else {
+                            value.max(min).min(4096) as i32
+                        }
+                    };
+                    w.top.set_max_size(
+                        maximum(scene.max_size.0, scene.min_size.0),
+                        maximum(scene.max_size.1, scene.min_size.1),
+                    );
+                    w.metadata = Some((
+                        scene.title.clone(),
+                        scene.app_id.clone(),
+                        parent.cloned(),
+                        scene.min_size,
+                        scene.max_size,
+                    ));
+                }
+                if let Some(i) = scene.interaction {
+                    let gesture = (i.serial, i.edges);
+                    if w.interaction != Some(gesture) {
+                        if let (Some(seat), Some((_, serial, button))) =
+                            (&self.seat, self.press.filter(|p| p.0 == scene.id))
+                        {
+                            if i.edges == 0 {
+                                w.top._move(seat, serial);
+                            } else if let Ok(edges) = xdg_toplevel::ResizeEdge::try_from(i.edges) {
+                                w.top.resize(seat, serial, edges);
+                            }
+                            // The host compositor owns this grab and consumes its
+                            // physical release. End the guest's implicit grab too.
+                            self.commands.push_back(Command::Input(InputEvent::Button {
+                                button,
+                                pressed: false,
+                                time: 0,
+                            }));
+                        }
+                        w.interaction = Some(gesture);
+                    }
+                }
+                let geometry = w.native_geometry();
+                if w.geometry != Some(geometry) {
+                    w.xdg
+                        .set_window_geometry(geometry[0], geometry[1], geometry[2], geometry[3]);
+                    w.geometry = Some(geometry);
+                    commit = true;
+                }
+                if commit && w.confirmation.is_none() {
+                    w.surface.commit();
+                }
+                w.scene = scene;
             }
             self.revision = Some(snapshot.revision);
         }
@@ -462,6 +594,11 @@ impl State {
                     .present(&w.scene, w.size, w.bounds)?;
                 w.presented = Some(w.scene.revision);
                 w.dirty = false;
+                if let Some((width, height, state, request)) = w.confirmation.take() {
+                    self.commands.push_back(Command::Configure(
+                        w.scene.id, width, height, state, request,
+                    ));
+                }
                 continue;
             }
             w.gpu.take();
@@ -492,6 +629,54 @@ impl State {
             w.buffers.push(buffer);
             w.presented = Some(w.scene.revision);
             w.dirty = false;
+            if let Some((width, height, state, request)) = w.confirmation.take() {
+                self.commands.push_back(Command::Configure(
+                    w.scene.id, width, height, state, request,
+                ));
+            }
+        }
+        // Apply later guest requests only after committing the preceding native
+        // configure. Weston can otherwise discard an unset before the earlier
+        // maximized state has reached a surface commit. Revisit on native frame
+        // readiness even when the shared scene revision has not changed.
+        for (&id, w) in &mut self.windows {
+            if w.confirmation.is_some() {
+                continue;
+            }
+            let next = snapshot.window_states.get(&id).copied().unwrap_or_default();
+            let request = snapshot
+                .window_requests
+                .get(&id)
+                .copied()
+                .unwrap_or_default();
+            if request != w.dispatched {
+                for field in request.changes(w.dispatched) {
+                    match field {
+                        1 => {
+                            if next.maximized {
+                                w.top.set_maximized();
+                            } else {
+                                w.top.unset_maximized();
+                            }
+                        }
+                        2 => {
+                            if next.fullscreen {
+                                w.top.set_fullscreen(None);
+                            } else {
+                                w.top.unset_fullscreen();
+                            }
+                        }
+                        4 => {
+                            if next.minimized {
+                                w.top.set_minimized();
+                            }
+                        }
+                        _ => unreachable!(),
+                    }
+                }
+                w.state = Some(next);
+                w.dispatched = request;
+            }
         }
         Ok(())
     }
@@ -517,6 +702,7 @@ impl Desktop {
             return Err(error("Wayland host requires compositor, SHM and xdg-shell"));
         }
         state.server.output_scale(0, 1)?;
+        state.server.manage_windows()?;
         Ok(Self {
             wake: None,
             guard: None,
@@ -672,6 +858,38 @@ impl Dispatch<xdg_surface::XdgSurface, u64> for State {
             if let Some(w) = s.windows.get_mut(id) {
                 w.configured = true;
                 w.dirty = true;
+                if let Some((width, height, next)) = w.pending.take() {
+                    let extra = (
+                        w.bounds[2] - w.scene.width as i32,
+                        w.bounds[3] - w.scene.height as i32,
+                    );
+                    if width > 0 && height > 0 {
+                        w.size = (
+                            (width + extra.0).clamp(1, 4096) as u32,
+                            (height + extra.1).clamp(1, 4096) as u32,
+                        );
+                    }
+                    // The guest's next buffer may arrive later (notably via
+                    // Xwayland). Every host commit after this ACK must already
+                    // use the host-confirmed maximized/fullscreen geometry.
+                    let geometry = w.native_geometry();
+                    p.set_window_geometry(geometry[0], geometry[1], geometry[2], geometry[3]);
+                    w.geometry = Some(geometry);
+                    w.state = Some(next);
+                    w.confirmation = Some((
+                        width.max(0) as u32,
+                        height.max(0) as u32,
+                        next,
+                        w.dispatched.serial,
+                    ));
+                    if next.minimized {
+                        let (width, height, state, request) = w.confirmation.take().unwrap();
+                        s.commands
+                            .push_back(Command::Configure(*id, width, height, state, request));
+                    }
+                    // xdg "activated" describes decorations, not seat focus.
+                    // Only wl_keyboard enter/leave owns keyboard focus.
+                }
             }
         }
     }
@@ -687,14 +905,27 @@ impl Dispatch<xdg_toplevel::XdgToplevel, u64> for State {
     ) {
         match e {
             xdg_toplevel::Event::Close => s.commands.push_back(Command::Close(*id)),
-            xdg_toplevel::Event::Configure { width, height, .. } if width > 0 && height > 0 => {
+            xdg_toplevel::Event::Configure {
+                width,
+                height,
+                states,
+            } => {
                 if let Some(w) = s.windows.get_mut(id) {
-                    w.size = (width.min(4096) as u32, height.min(4096) as u32);
-                    w.dirty = true;
-                    let width = (width - w.bounds[2] + w.scene.width as i32).clamp(1, 4096) as u32;
-                    let height =
-                        (height - w.bounds[3] + w.scene.height as i32).clamp(1, 4096) as u32;
-                    s.commands.push_back(Command::Resize(*id, width, height));
+                    let has = |state: xdg_toplevel::State| {
+                        states
+                            .as_chunks::<4>()
+                            .0
+                            .iter()
+                            .any(|b| u32::from_ne_bytes(*b) == state as u32)
+                    };
+                    let active = has(xdg_toplevel::State::Activated);
+                    let next = WindowState {
+                        maximized: has(xdg_toplevel::State::Maximized),
+                        fullscreen: has(xdg_toplevel::State::Fullscreen),
+                        minimized: !active && w.state.is_some_and(|s| s.minimized),
+                        resizing: has(xdg_toplevel::State::Resizing),
+                    };
+                    w.pending = Some((width, height, next));
                 }
             }
             _ => (),
@@ -883,6 +1114,11 @@ impl Dispatch<wl_pointer::WlPointer, ()> for State {
                 state: WEnum::Value(state),
             } => {
                 s.serial = serial;
+                if state == wl_pointer::ButtonState::Pressed {
+                    s.press = s.pointer_window.map(|id| (id, serial, button));
+                } else if s.press.is_some_and(|p| p.2 == button) {
+                    s.press = None;
+                }
                 s.pointer(time);
                 s.input(InputEvent::Button {
                     button,

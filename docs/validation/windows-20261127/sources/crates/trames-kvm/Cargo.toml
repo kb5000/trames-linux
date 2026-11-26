@@ -1,0 +1,28 @@
+[package]
+name = "trames-kvm"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+trames-execution.workspace = true
+serde.workspace = true
+trames-engine.workspace = true
+trames-memory.workspace = true
+
+[target.'cfg(target_os = "linux")'.dependencies]
+libc.workspace = true
+kvm-bindings = { version = "=0.14.2", features = ["fam-wrappers"] }
+kvm-ioctls = "=0.25.1"
+
+[target.'cfg(all(target_os = "linux", target_arch = "aarch64"))'.dependencies]
+trames-accel.workspace = true
+
+[lints]
+workspace = true
+
+[target.'cfg(all(target_os = "linux", target_arch = "aarch64"))'.dev-dependencies]
+trames-graphics.workspace = true
+trames-vulkan.workspace = true

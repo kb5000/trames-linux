@@ -82,8 +82,7 @@ Physical evdev events do not generate compositor-side repeats: Wayland clients
 use repeat-info, and original Xwayland uses its own server repeat policy.
 Pointer coordinates, buttons and wheel retain the existing `InputEvent` API.
 Focus loss clears held keys/buttons while retaining native lock/group state.
-EWMH window state and interactive client-side move/resize gestures remain
-follow-up work.
+Native window management is described below.
 
 The original `--display x11` fixed Vulkan display remains a separate mode. It
 cannot be combined with `--desktop`; `--display-size` applies only to that fixed
@@ -226,3 +225,50 @@ Num Lock, layout groups, focus release and distinct physical/server repeat
 semantics. Xlib development headers, `setxkbmap` and `xset` are test prerequisites.
 No coordinator or input service thread is added. See the
 [keyboard validation record](../validation/keyboard-20261126.md).
+
+## Native window management
+
+Both native frontends opt into host-managed window confirmation. Guest
+maximized, fullscreen and minimized requests remain independent. The existing
+Apple three-mode embedding API and `WindowSnapshot` layout remain available;
+Linux uses additive state/request maps in the shared server snapshot. Per-field
+request generations retain the order of distinct operations and prevent an
+older native reply from erasing a newer, undispatched guest request. Repeating
+a request still reaches the host; unrelated state operations are not invented.
+
+X11 uses ICCCM `WM_STATE`/`WM_CHANGE_STATE` and EWMH `_NET_WM_STATE`, including
+original Xwayland clients. Native Wayland consumes the toplevel state and size
+together at the following `xdg_surface.configure` acknowledgement. The frontend
+commits the corresponding native frame before confirming it to the guest and
+forwarding later state requests. Native frame readiness drives this ordering.
+The host confirms actual geometry. Keyboard focus follows native
+`wl_keyboard.enter/leave`; xdg `activated` describes window decorations and
+must not restore keyboard focus after a native leave. Maximized and fullscreen configurations
+bypass ordinary floating size constraints. A zero-sized restore suggestion
+retains the last confirmed floating content size. CSD extents belong to the
+native surface/framebuffer; xdg window geometry and guest configure sizes
+refer to content. Every native commit after an acknowledgement already uses
+that confirmed geometry, even if Xwayland's new buffer has not arrived yet.
+Parent/transient metadata and min/max constraints update
+without requiring a new guest frame; parent cycles are rejected. X11 reads
+current native geometry for state replies and suppresses stale guest resize
+responses while waiting for the latest host size; genuine application-driven
+resizes remain supported.
+
+Interactive move/resize uses a real native button press, not the guest's
+protocol serial. X11 sends `_NET_WM_MOVERESIZE` with native root coordinates;
+Wayland uses the host seat and native press serial. When the host Wayland
+compositor takes the grab, the frontend releases the guest's implicit grab,
+because the host consumes the eventual physical release. Existing foreground
+waits and compositor commands carry these operations; no service thread or
+polling timer is added.
+
+`python3 scripts/validate-windows.py --native-only --unit-binary UNIT --output OUT`
+compares original Xlib/libwayland peers on Openbox and Weston with the production
+frontends. Add `--runner RUNNER --receipt RECEIPT --rootfs DESKTOP_ROOTFS
+--launcher LAUNCHER` for SMCCC/MMIO × one/four vCPUs × host X11/Wayland × guest
+Wayland/Xwayland. The gate measures actual host geometry/pixels and uses real
+host input for move, resize, minimize/task-switch restore and parent focus.
+Openbox, Weston, Xvfb and the original X11/Wayland development packages are test
+prerequisites. This gate does not qualify physical GPU acceleration, fractional
+scaling, multiple outputs or activation-token protocols.

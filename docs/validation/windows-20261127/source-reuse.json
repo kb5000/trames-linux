@@ -1,0 +1,14 @@
+{
+  "tests/fixtures/keyboard-x11.c": {
+    "old_sha256": "ca66598042d23083af1c45f425c9a993c2f33e1409996ebf079fe1afe1b77132",
+    "current_sha256": "09facb2056a18ac7f6a689e3265a4c11eccda462606ce3589762a45dab9456ba",
+    "reused_gate": "interop-release",
+    "reason": "The interop manifest conservatively lists all fixtures; neither this Xlib keyboard/window fixture nor its event loop is compiled or used by the interop commands. Production runner and all compiled interop inputs are unchanged."
+  },
+  "tests/fixtures/window-x11.c": {
+    "old_sha256": "61443a655752f53e508c1858b5f83457f92a6eea4caf3a4181fcdcdb6101891d",
+    "current_sha256": "8bbc02e340a7e7b7e56c364696b3ec523f131f13e64115be503ed41ff07a3e4a",
+    "reused_gate": "interop-release",
+    "reason": "The interop manifest conservatively lists all fixtures; neither this Xlib keyboard/window fixture nor its event loop is compiled or used by the interop commands. Production runner and all compiled interop inputs are unchanged."
+  }
+}

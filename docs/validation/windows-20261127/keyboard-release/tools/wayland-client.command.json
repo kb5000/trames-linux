@@ -1,0 +1,14 @@
+[
+  "cc",
+  "-O2",
+  "-Wall",
+  "-Wextra",
+  "-Werror",
+  "-I/mnt/trames-output/linux-window/keyboard-release/tools",
+  "/mnt/trames-output/linux-keyboard-source/tests/fixtures/keyboard-client.c",
+  "/mnt/trames-output/linux-window/keyboard-release/tools/xdg-shell-protocol.c",
+  "-lwayland-client",
+  "-l:libxkbcommon.so.0",
+  "-o",
+  "/mnt/trames-output/linux-window/keyboard-release/tools/wayland-client"
+]
