@@ -1,0 +1,122 @@
+{
+  "removed": [
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-keyboard/native-x11-v1",
+      "bytes": 5909,
+      "allocated_bytes": 16384
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-keyboard/native-x11-v2",
+      "bytes": 6144,
+      "allocated_bytes": 16384
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-keyboard/native-wayland-de-v1",
+      "bytes": 3798,
+      "allocated_bytes": 20480
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-keyboard/native-wayland-de-v2",
+      "bytes": 5342,
+      "allocated_bytes": 24576
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-keyboard/native-matrix-v1",
+      "bytes": 15924638,
+      "allocated_bytes": 16023552
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-keyboard/matrix-v1",
+      "bytes": 47698684,
+      "allocated_bytes": 47828992
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-keyboard/matrix-v2",
+      "bytes": 51464440,
+      "allocated_bytes": 52252672
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-keyboard/matrix-quit",
+      "bytes": 51428305,
+      "allocated_bytes": 52154368
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-keyboard/matrix-trace",
+      "bytes": 51477949,
+      "allocated_bytes": 52203520
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-keyboard/matrix-diagnostic",
+      "bytes": 51428311,
+      "allocated_bytes": 52154368
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-keyboard/matrix-hosttrace",
+      "bytes": 51472565,
+      "allocated_bytes": 52195328
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-keyboard/matrix-try2",
+      "bytes": 51428263,
+      "allocated_bytes": 52154368
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-keyboard/matrix-console",
+      "bytes": 52560649,
+      "allocated_bytes": 53624832
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-keyboard/keyboard-final",
+      "bytes": 52560818,
+      "allocated_bytes": 53624832
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-keyboard/interop-final",
+      "bytes": 49376212,
+      "allocated_bytes": 50147328
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-keyboard/xim-final",
+      "bytes": 45338639,
+      "allocated_bytes": 45465600
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-keyboard/desktop-final",
+      "bytes": 151749715,
+      "allocated_bytes": 154009600
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-keyboard/kvm-x11-xwayland-v1",
+      "bytes": 4060,
+      "allocated_bytes": 16384
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-keyboard/kvm-x11-xwayland-v2",
+      "bytes": 4162,
+      "allocated_bytes": 16384
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-keyboard/kvm-x11-xwayland-v3",
+      "bytes": 4334,
+      "allocated_bytes": 16384
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-keyboard/kvm-x11-xwayland-v4",
+      "bytes": 7497,
+      "allocated_bytes": 20480
+    },
+    {
+      "path": "/Users/main/dev/trames-linux/runtime/target/debug",
+      "bytes": 2429851414,
+      "allocated_bytes": 2460954624
+    }
+  ],
+  "logical_bytes": 3153801848,
+  "allocated_bytes": 3194941440,
+  "retained": [
+    "final release qualification trees and frozen binaries",
+    "original VM images",
+    "shared Linux build cache",
+    "extracted native test libraries/tools"
+  ]
+}
