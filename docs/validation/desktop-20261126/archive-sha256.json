@@ -1,5 +1,5 @@
 {
-  "audit.py": "91bf462c48ed528d935ecfee89b897337fef2a4322c5755c7022a9dd99926f26",
+  "audit.py": "6a6ad1f8882be1c4d136d4a5708493c92ea804fe5ee28d611797df8e896a8084",
   "checks/linux-desktop-clippy-complete.log": "7dedbf4719f5b99be0e73a4ce4fb7c1b50b36a4ebaf2261bec3a4c606ea898fc",
   "checks/linux-desktop-distro-linux.log": "affe29a336e0346052fe77f356e18448e27af1c8fed740797ee9058614aef7eb",
   "checks/linux-desktop-tests-complete.log": "60758ffe2f85cf632f32ffe04842901c5c33885d50f306a65397134c5dc2c124",
@@ -403,6 +403,8 @@
   "linux-desktop-memory/truncate-smccc-4/stdout": "e160e46827e43ced2aefdf876e85629f0fb5923de783f2ef947550fb481a3748",
   "linux-desktop-memory.log": "01c51db236662660f4b982faf4ea13c264b9d132ee74af6c0c5d97065de6b5c2",
   "linux-desktop-source-manifest.json": "2ae33aab2114ba2dcf6e33c72e10cf56f1bf56a40c70e47f79e5c2bc161b0bda",
+  "published-source.json": "46db52f8cff1b06584347d83562c40f3758000f4aff8ba15e65e01e6ec801711",
+  "scratch-cleanup.json": "6f9ebd1b120a4f2ede2dd6e3d28a345024124ba05b8c06284d8e5fe59eb9bfc5",
   "sources/Cargo.lock": "89b5776cd26d88f857227a99202c5bb56919cfc833acb1d6c6f18fe6f7981dab",
   "sources/Cargo.toml": "87b05c6754a870bd6d17ca985a7e90d03280aafaf4c5210ed9e9eefd8720784d",
   "sources/crates/trames-linux-app/Cargo.toml": "a2bd7771b8a28b6ea92888a4d525203e0c098333b965c67dd671c2c178668f4f",

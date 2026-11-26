@@ -54,7 +54,14 @@ assert len(apps)==48
 for name in ['checks/trames-desktop-distro-mac.log','checks/linux-desktop-distro-linux.log']:assert '42 passed; 0 failed' in (ROOT/name).read_text()
 for name in ['checks/trames-desktop-mac-test-complete.log','checks/linux-desktop-tests-complete.log']:
  text=(ROOT/name).read_text();assert 'test result: FAILED' not in text and '; 0 failed;' in text
+metadata=read('published-source.json')['metadata_file_changes']
+assert set(metadata)=={'third-party/inputs.json'}
+entry=metadata['third-party/inputs.json'];assert entry['old_sha256']==new['third-party/inputs.json']
+assert hashlib.sha256(entry['new_contents'].encode()).hexdigest()==entry['new_sha256']
+assert json.loads(entry['new_contents'])=={'Cargo.lock':new['Cargo.lock']}
 if a.source_root:
- for name,expected_hash in new.items():assert digest(a.source_root/name)==expected_hash,name
+ for name,expected_hash in new.items():
+  expected_hash=metadata.get(name,{}).get('new_sha256',expected_hash)
+  assert digest(a.source_root/name)==expected_hash,name
 result=dict(passed=True,archived_files=len(archive),desktop=13,memory=77,applications=48,runtime=final_build['sources']['runtime']['commit'],final_runner_sha256=final['inputs']['runner_sha256'],headless_runner_sha256=headless_build['fingerprint']['binary_sha256'],physical_gpu_qualified=False)
 (ROOT/'audit-result.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result))

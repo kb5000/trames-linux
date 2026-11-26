@@ -1,0 +1,14 @@
+{
+  "implementation_commit": "e22f1985deff0c36290f514812fe3bfd940c9d7e",
+  "source_input_snapshot": "9e70dcdd03dbad6e7633509d055be9425fe2c21702d36fffecf29ecd50245bbe",
+  "metadata_file_changes": {
+    "third-party/inputs.json": {
+      "old_sha256": "1c3bcac3afe983a081a4b069c1b69e3bce13b151445e70c7daba3d2d098b0225",
+      "new_sha256": "1e8dc7992459d14527e70d5c7c34fe2e0941dff5091e3932c2d7e700f777b8dd",
+      "new_contents": "{\n  \"Cargo.lock\": \"89b5776cd26d88f857227a99202c5bb56919cfc833acb1d6c6f18fe6f7981dab\"\n}\n"
+    }
+  },
+  "reviewed_packages": 136,
+  "original_notice_texts": 103,
+  "reason": "Generated lockfile fingerprint correction; no compiled source, dependency identity or license text changed."
+}

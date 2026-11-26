@@ -1,0 +1,110 @@
+{
+  "removed": [
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-desktop-kvm-v1/rootfs",
+      "logical_bytes": 36488434
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-desktop-kvm-v2/rootfs",
+      "logical_bytes": 36488434
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-desktop-kvm-v3/rootfs",
+      "logical_bytes": 36488434
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-desktop-kvm-final/rootfs",
+      "logical_bytes": 36574723
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-desktop-qualified/rootfs",
+      "logical_bytes": 36573702
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-desktop-qualified/runner",
+      "logical_bytes": 30178200,
+      "sha256": "d60bccfa44a248a5ac3e3548568396bb2637f56c80d9092243841144126adf76"
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-desktop-qualified/unit",
+      "logical_bytes": 11608296,
+      "sha256": "3451147f38fbf3318a015b7acf8b32f3a12ebaf7f731c6a8a31de3cd640fdf92"
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-desktop-qualified-v2/rootfs",
+      "logical_bytes": 36573538
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-desktop-qualified-v2/runner",
+      "logical_bytes": 30178104,
+      "sha256": "93edad3557fc141330b4e2806c58b22d3a8c3a6708bd933ee0b7bd0dc3c6117d"
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-desktop-qualified-v2/unit",
+      "logical_bytes": 11608192,
+      "sha256": "71b0cac4fbb2c7021cced11e237aee91582b630fe33d334ec3dd6fb1c34a2f54"
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-desktop-terminals/rootfs",
+      "logical_bytes": 36573538
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-desktop-terminals/runner",
+      "logical_bytes": 30178104,
+      "sha256": "93edad3557fc141330b4e2806c58b22d3a8c3a6708bd933ee0b7bd0dc3c6117d"
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-desktop-terminals/unit",
+      "logical_bytes": 11608192,
+      "sha256": "71b0cac4fbb2c7021cced11e237aee91582b630fe33d334ec3dd6fb1c34a2f54"
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-desktop-terminals-v2/rootfs",
+      "logical_bytes": 53214956
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-desktop-terminals-v2/runner",
+      "logical_bytes": 30178104,
+      "sha256": "93edad3557fc141330b4e2806c58b22d3a8c3a6708bd933ee0b7bd0dc3c6117d"
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-desktop-terminals-v2/unit",
+      "logical_bytes": 11608192,
+      "sha256": "71b0cac4fbb2c7021cced11e237aee91582b630fe33d334ec3dd6fb1c34a2f54"
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-desktop-terminals-v3/rootfs",
+      "logical_bytes": 53214956
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-desktop-terminals-v3/runner",
+      "logical_bytes": 30172920,
+      "sha256": "930fc229e757ba8231316a90df7f76b572c36de6d1b14c34211490ee07dc7532"
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-desktop-terminals-v3/unit",
+      "logical_bytes": 11608248,
+      "sha256": "3e357935ae2c7829319117c53b3f7ddd9a6928b024e5e901b72ecff2462e65e3"
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-desktop-xwayland-v1/rootfs",
+      "logical_bytes": 36576163
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-desktop-xwayland-v1/runner",
+      "logical_bytes": 30178200,
+      "sha256": "d60bccfa44a248a5ac3e3548568396bb2637f56c80d9092243841144126adf76"
+    },
+    {
+      "path": "/Users/main/dev/trames/target/local-ci/io/linux-desktop-xwayland-v1/unit",
+      "logical_bytes": 11608296,
+      "sha256": "3451147f38fbf3318a015b7acf8b32f3a12ebaf7f731c6a8a31de3cd640fdf92"
+    }
+  ],
+  "logical_bytes": 649479926,
+  "retained": [
+    "linux-desktop-final runner/unit/rootfs/store",
+    "linux-desktop-applications/runner (headless cohort)",
+    "all logs, manifests, source and current Cargo cache"
+  ]
+}
