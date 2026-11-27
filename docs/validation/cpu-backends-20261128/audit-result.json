@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "processes": 18,
+  "workloads": 6,
+  "timed_samples": 540,
+  "negative_cases_rejected": [
+    "missing process",
+    "mismatched original instruction",
+    "changed canonical result",
+    "false median",
+    "false KVM exact count"
+  ],
+  "scope": "offline raw/work/result/median/source-binding audit"
+}
