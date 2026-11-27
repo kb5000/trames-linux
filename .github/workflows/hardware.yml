@@ -27,6 +27,8 @@ jobs:
         run: python3 scripts/validate-environments.py --runner target/release/trames --receipt target/validation/cpu-build.json --output target/validation/environments
       - name: Named network isolation, host TCP/UDP publication and recovery
         run: python3 scripts/validate-networks.py --runner target/release/trames --receipt target/validation/cpu-build.json --output target/validation/networks
+      - name: Sealed executable self-reexec in named private stores
+        run: python3 scripts/validate-memfd-exec.py --runner target/release/trames --receipt target/validation/cpu-build.json --output target/validation/memfd-exec
       - name: Compare original CPU extensions, FP/signal state and ptrace
         run: python3 scripts/validate-cpu.py --runner target/release/trames --receipt target/validation/cpu-build.json --output target/validation/cpu-extensions
       - name: Require complete core 4KiB memory matrix on real KVM

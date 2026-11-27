@@ -55,7 +55,7 @@ def main(a):
                 s.bind(('127.0.0.1', 0))
                 port = s.getsockname()[1]
 
-            def http():
+            def host_http():
                 c = http.client.HTTPConnection('127.0.0.1', port, timeout=10)
                 try:
                     c.request('GET', '/')
@@ -68,7 +68,7 @@ def main(a):
                 run('config', '--global', 'set', 'defaults.components.vulkan', 'false', 'defaults.display.windows', 'false')
                 if a.topology == 'bridge':
                     run('network', 'create', 'services')
-                run('env', 'create', 'services', '--rootfs', a.rootfs, '--init', a.init, '--cpus', '4', '--memory', 'auto')
+                run('env', 'create', 'services', '--rootfs', a.rootfs, '--init', a.init, '--cpus', str(a.cpus), '--memory', 'auto')
                 if a.topology == 'bridge':
                     run('-e', 'services', 'config', 'set', 'network.mode', 'bridge', 'network.bridge', 'services')
                     run('env', 'publish', 'services', port, '18080')
@@ -85,10 +85,14 @@ for n in $(seq 1 100); do docker info >/dev/null 2>&1 && break; sleep .1; done
 test "$(docker info --format '{{.DefaultRuntime}} {{.Driver}}')" = 'runc overlay2'
 """
                 execute(bootstrap + """docker import /acceptance/container.tar trames-acceptance:local
-docker run -d --name web -p 18080:8080 trames-acceptance:local /bin/sh -ec 'printf "named-network-docker\\n" >/www/index.html; exec /bin/httpd -f -p 8080 -h /www'
+docker network create acceptance-net
+docker volume create acceptance-data
+docker run -d --name web --network acceptance-net -v acceptance-data:/data -p 18080:8080 trames-acceptance:local /bin/sh -ec 'test "$$" = 1; grep -Eq "^Seccomp:[[:space:]]+2$" /proc/self/status; printf persistent >/data/value; printf "named-network-docker\\n" >/www/index.html; exec /bin/httpd -f -p 8080 -h /www'
 for n in $(seq 1 100); do curl -fsS http://127.0.0.1:18080/ && exit 0; sleep .1; done
 exit 1""".replace("18080", str(port) if a.topology == "host" else "18080"))
-                http()
+                host_http()
+                assert execute('docker exec web /bin/cat /data/value').strip() == 'persistent'
+                assert execute('docker run --rm --network acceptance-net trames-acceptance:local /bin/wget -qO- http://web:8080/') == 'named-network-docker\n'
                 execute('docker stop -t 2 web')
                 c = http.client.HTTPConnection('127.0.0.1', port, timeout=5)
                 try:
@@ -99,9 +103,12 @@ exit 1""".replace("18080", str(port) if a.topology == "host" else "18080"))
                     pass
                 finally:
                     c.close()
+                restart = 'systemctl restart docker' if a.init == 'systemd' else "pkill -TERM -x dockerd; for n in $(seq 1 100); do pgrep -x dockerd >/dev/null || break; sleep .1; done; /usr/sbin/dockerd >/root/dockerd.log 2>&1 &"
+                execute(restart + "; for n in $(seq 1 100); do docker info >/dev/null 2>&1 && break; sleep .1; done; test \"$(docker inspect --format '{{.State.Running}}' web)\" = false")
                 execute('docker start web; for n in $(seq 1 100); do curl -fsS http://127.0.0.1:18080/ && exit 0; sleep .1; done; exit 1'.replace('18080', str(port) if a.topology == 'host' else '18080'))
-                http()
-                execute('docker stop -t 2 web; docker rm web; docker image rm trames-acceptance:local')
+                host_http()
+                assert execute('docker exec web /bin/cat /data/value').strip() == 'persistent'
+                execute('docker stop -t 2 web; docker rm web; docker volume rm acceptance-data; docker network rm acceptance-net; docker image rm trames-acceptance:local')
                 run('env', 'stop', 'services')
                 with socket.socket() as s:
                     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -111,7 +118,7 @@ exit 1""".replace("18080", str(port) if a.topology == "host" else "18080"))
                 print(transport + ': ' + a.init + ' -> Docker -> host HTTP passed', flush=True)
             except Exception:
                 try:
-                    execute('cat /root/dockerd.log 2>/dev/null; journalctl --no-pager -u docker -u containerd -n 100; mount; ls -ld /dev/shm; cat /proc/sys/kernel/threads-max; docker inspect web || true')
+                    execute('cat /root/dockerd.log 2>/dev/null || true; journalctl --no-pager -u docker -u containerd -n 100 || true; mount; ls -ld /dev/shm; cat /proc/sys/kernel/threads-max; docker inspect web || true')
                 except Exception:
                     pass
                 raise
@@ -119,7 +126,7 @@ exit 1""".replace("18080", str(port) if a.topology == "host" else "18080"))
                 subprocess.run([str(runner), 'env', 'stop', 'services'], env=env, capture_output=True, timeout=65)
                 if (home / 'logs').exists():
                     shutil.copytree(home / 'logs', case / 'logs')
-    (out / 'results.json').write_text(json.dumps(dict(passed=True, init=a.init, topology=a.topology, runner_sha256=digest(runner), operations=len(rows)), indent=2) + '\n')
+    (out / 'results.json').write_text(json.dumps(dict(passed=True, cpus=a.cpus, init=a.init, topology=a.topology, runner_sha256=digest(runner), operations=len(rows)), indent=2) + '\n')
 
 
 if __name__ == '__main__':
@@ -128,6 +135,7 @@ if __name__ == '__main__':
     p.add_argument('--receipt', type=Path, required=True)
     p.add_argument('--rootfs', type=Path, required=True)
     p.add_argument('--output', type=Path, required=True)
+    p.add_argument('--cpus', type=int, choices=[1, 4], default=4)
     p.add_argument('--topology', choices=['bridge', 'host'], default='bridge')
     p.add_argument('--init', choices=['shell', 'systemd'], default='systemd')
     p.add_argument('--transport', action='append', choices=['smccc', 'mmio'])
