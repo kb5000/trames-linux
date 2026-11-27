@@ -1,0 +1,390 @@
+{
+  "passed": true,
+  "complete": true,
+  "native_only": true,
+  "runner_sha256": "09715dac09c24e0a2c01a7ce2d8682ebf8cff6942241358a5b701dd05ec5b286",
+  "operations": 29,
+  "rows": [
+    {
+      "arguments": [
+        "config",
+        "--global",
+        "set",
+        "defaults.components.vulkan",
+        "false",
+        "defaults.display.windows",
+        "false",
+        "defaults.resources.cpus",
+        "1"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.804147292
+    },
+    {
+      "arguments": [
+        "network",
+        "create",
+        "lan",
+        "--internal"
+      ],
+      "code": 0,
+      "stdout": "Created Trames network lan\n",
+      "stderr": "",
+      "seconds": 0.023657625000000015
+    },
+    {
+      "arguments": [
+        "network",
+        "create",
+        "other",
+        "--internal"
+      ],
+      "code": 0,
+      "stdout": "Created Trames network other\n",
+      "stderr": "",
+      "seconds": 0.012770166999999999
+    },
+    {
+      "arguments": [
+        "network",
+        "create",
+        "lan"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: network exists\n",
+      "seconds": 0.005504416999999928
+    },
+    {
+      "arguments": [
+        "network",
+        "create",
+        "../escape"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: name must contain 1\u201340 letters, digits, '-' or '_'\n",
+      "seconds": 0.004953708000000057
+    },
+    {
+      "arguments": [
+        "env",
+        "create",
+        "a",
+        "--rootfs",
+        "/Users/main/dev/trames/target/local-ci/io/linux-networks/cold-apple/rootfs"
+      ],
+      "code": 0,
+      "stdout": "Created a (custom)\n",
+      "stderr": "",
+      "seconds": 0.1158548330000001
+    },
+    {
+      "arguments": [
+        "-e",
+        "a",
+        "config",
+        "set",
+        "network.mode",
+        "bridge",
+        "network.bridge",
+        "lan"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.022715916000000114
+    },
+    {
+      "arguments": [
+        "env",
+        "create",
+        "b",
+        "--rootfs",
+        "/Users/main/dev/trames/target/local-ci/io/linux-networks/cold-apple/rootfs"
+      ],
+      "code": 0,
+      "stdout": "Created b (custom)\n",
+      "stderr": "",
+      "seconds": 0.11492320899999986
+    },
+    {
+      "arguments": [
+        "-e",
+        "b",
+        "config",
+        "set",
+        "network.mode",
+        "bridge",
+        "network.bridge",
+        "lan"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.022599415999999817
+    },
+    {
+      "arguments": [
+        "env",
+        "create",
+        "c",
+        "--rootfs",
+        "/Users/main/dev/trames/target/local-ci/io/linux-networks/cold-apple/rootfs"
+      ],
+      "code": 0,
+      "stdout": "Created c (custom)\n",
+      "stderr": "",
+      "seconds": 0.10975524999999986
+    },
+    {
+      "arguments": [
+        "-e",
+        "c",
+        "config",
+        "set",
+        "network.mode",
+        "bridge",
+        "network.bridge",
+        "other"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.022479000000000138
+    },
+    {
+      "arguments": [
+        "env",
+        "publish",
+        "a",
+        "38080",
+        "41000"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.020553957999999817
+    },
+    {
+      "arguments": [
+        "-e",
+        "a",
+        "config",
+        "show",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"boot\": {\n    \"mode\": \"shell\"\n  },\n  \"components\": {\n    \"audio\": false,\n    \"audio_input\": false,\n    \"thunking\": \"auto\",\n    \"vaapi\": false,\n    \"vulkan\": false\n  },\n  \"display\": {\n    \"windows\": false\n  },\n  \"environment\": {\n    \"name\": \"a\",\n    \"type\": \"linux\",\n    \"uuid\": \"1de6ebe4-c50a-4a20-88cb-20b638b526e3\"\n  },\n  \"image\": {\n    \"distribution\": \"custom\",\n    \"sha256\": \"918bb735cd7e3e5bd25cc7c04f9fea926daa135e02caeddbd222ef42d43b89f5\",\n    \"source\": null\n  },\n  \"interop\": {\n    \"clipboard\": {\n      \"enabled\": true\n    },\n    \"files\": {\n      \"enabled\": true\n    },\n    \"host_cli\": {\n      \"enabled\": true\n    },\n    \"host_exec\": {\n      \"enabled\": true\n    },\n    \"host_ui\": {\n      \"enabled\": true\n    },\n    \"mounts\": {\n      \"enabled\": true\n    },\n    \"ports\": {\n      \"enabled\": true\n    }\n  },\n  \"kernel\": {\n    \"sysctl\": {}\n  },\n  \"mounts\": [],\n  \"network\": {\n    \"bridge\": \"lan\",\n    \"mode\": \"bridge\",\n    \"publish\": [\n      {\n        \"guest\": 41000,\n        \"host\": \"127.0.0.1:38080\",\n        \"protocol\": \"tcp\"\n      }\n    ]\n  },\n  \"resources\": {\n    \"cpus\": 1,\n    \"memory\": \"auto\",\n    \"memory_limit\": null\n  },\n  \"session\": {\n    \"cwd\": \"/\",\n    \"shell\": [\n      \"/bin/sh\",\n      \"-l\"\n    ]\n  },\n  \"version\": 1\n}\n",
+      "stderr": "",
+      "seconds": 0.006871874999999861
+    },
+    {
+      "arguments": [
+        "env",
+        "publish",
+        "a",
+        "38080",
+        "41001"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.01863999999999999
+    },
+    {
+      "arguments": [
+        "-e",
+        "a",
+        "config",
+        "show",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"boot\": {\n    \"mode\": \"shell\"\n  },\n  \"components\": {\n    \"audio\": false,\n    \"audio_input\": false,\n    \"thunking\": \"auto\",\n    \"vaapi\": false,\n    \"vulkan\": false\n  },\n  \"display\": {\n    \"windows\": false\n  },\n  \"environment\": {\n    \"name\": \"a\",\n    \"type\": \"linux\",\n    \"uuid\": \"1de6ebe4-c50a-4a20-88cb-20b638b526e3\"\n  },\n  \"image\": {\n    \"distribution\": \"custom\",\n    \"sha256\": \"918bb735cd7e3e5bd25cc7c04f9fea926daa135e02caeddbd222ef42d43b89f5\",\n    \"source\": null\n  },\n  \"interop\": {\n    \"clipboard\": {\n      \"enabled\": true\n    },\n    \"files\": {\n      \"enabled\": true\n    },\n    \"host_cli\": {\n      \"enabled\": true\n    },\n    \"host_exec\": {\n      \"enabled\": true\n    },\n    \"host_ui\": {\n      \"enabled\": true\n    },\n    \"mounts\": {\n      \"enabled\": true\n    },\n    \"ports\": {\n      \"enabled\": true\n    }\n  },\n  \"kernel\": {\n    \"sysctl\": {}\n  },\n  \"mounts\": [],\n  \"network\": {\n    \"bridge\": \"lan\",\n    \"mode\": \"bridge\",\n    \"publish\": [\n      {\n        \"guest\": 41001,\n        \"host\": \"127.0.0.1:38080\",\n        \"protocol\": \"tcp\"\n      }\n    ]\n  },\n  \"resources\": {\n    \"cpus\": 1,\n    \"memory\": \"auto\",\n    \"memory_limit\": null\n  },\n  \"session\": {\n    \"cwd\": \"/\",\n    \"shell\": [\n      \"/bin/sh\",\n      \"-l\"\n    ]\n  },\n  \"version\": 1\n}\n",
+      "stderr": "",
+      "seconds": 0.006262958000000207
+    },
+    {
+      "arguments": [
+        "env",
+        "unpublish",
+        "a",
+        "38080"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.021183167000000003
+    },
+    {
+      "arguments": [
+        "-e",
+        "a",
+        "config",
+        "show",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"boot\": {\n    \"mode\": \"shell\"\n  },\n  \"components\": {\n    \"audio\": false,\n    \"audio_input\": false,\n    \"thunking\": \"auto\",\n    \"vaapi\": false,\n    \"vulkan\": false\n  },\n  \"display\": {\n    \"windows\": false\n  },\n  \"environment\": {\n    \"name\": \"a\",\n    \"type\": \"linux\",\n    \"uuid\": \"1de6ebe4-c50a-4a20-88cb-20b638b526e3\"\n  },\n  \"image\": {\n    \"distribution\": \"custom\",\n    \"sha256\": \"918bb735cd7e3e5bd25cc7c04f9fea926daa135e02caeddbd222ef42d43b89f5\",\n    \"source\": null\n  },\n  \"interop\": {\n    \"clipboard\": {\n      \"enabled\": true\n    },\n    \"files\": {\n      \"enabled\": true\n    },\n    \"host_cli\": {\n      \"enabled\": true\n    },\n    \"host_exec\": {\n      \"enabled\": true\n    },\n    \"host_ui\": {\n      \"enabled\": true\n    },\n    \"mounts\": {\n      \"enabled\": true\n    },\n    \"ports\": {\n      \"enabled\": true\n    }\n  },\n  \"kernel\": {\n    \"sysctl\": {}\n  },\n  \"mounts\": [],\n  \"network\": {\n    \"bridge\": \"lan\",\n    \"mode\": \"bridge\",\n    \"publish\": []\n  },\n  \"resources\": {\n    \"cpus\": 1,\n    \"memory\": \"auto\",\n    \"memory_limit\": null\n  },\n  \"session\": {\n    \"cwd\": \"/\",\n    \"shell\": [\n      \"/bin/sh\",\n      \"-l\"\n    ]\n  },\n  \"version\": 1\n}\n",
+      "stderr": "",
+      "seconds": 0.006630833000000003
+    },
+    {
+      "arguments": [
+        "-e",
+        "a",
+        "config",
+        "show",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"boot\": {\n    \"mode\": \"shell\"\n  },\n  \"components\": {\n    \"audio\": false,\n    \"audio_input\": false,\n    \"thunking\": \"auto\",\n    \"vaapi\": false,\n    \"vulkan\": false\n  },\n  \"display\": {\n    \"windows\": false\n  },\n  \"environment\": {\n    \"name\": \"a\",\n    \"type\": \"linux\",\n    \"uuid\": \"1de6ebe4-c50a-4a20-88cb-20b638b526e3\"\n  },\n  \"image\": {\n    \"distribution\": \"custom\",\n    \"sha256\": \"918bb735cd7e3e5bd25cc7c04f9fea926daa135e02caeddbd222ef42d43b89f5\",\n    \"source\": null\n  },\n  \"interop\": {\n    \"clipboard\": {\n      \"enabled\": true\n    },\n    \"files\": {\n      \"enabled\": true\n    },\n    \"host_cli\": {\n      \"enabled\": true\n    },\n    \"host_exec\": {\n      \"enabled\": true\n    },\n    \"host_ui\": {\n      \"enabled\": true\n    },\n    \"mounts\": {\n      \"enabled\": true\n    },\n    \"ports\": {\n      \"enabled\": true\n    }\n  },\n  \"kernel\": {\n    \"sysctl\": {}\n  },\n  \"mounts\": [],\n  \"network\": {\n    \"bridge\": \"lan\",\n    \"mode\": \"bridge\",\n    \"publish\": []\n  },\n  \"resources\": {\n    \"cpus\": 1,\n    \"memory\": \"auto\",\n    \"memory_limit\": null\n  },\n  \"session\": {\n    \"cwd\": \"/\",\n    \"shell\": [\n      \"/bin/sh\",\n      \"-l\"\n    ]\n  },\n  \"version\": 1\n}\n",
+      "stderr": "",
+      "seconds": 0.00688570799999999
+    },
+    {
+      "arguments": [
+        "env",
+        "publish",
+        "a",
+        "0",
+        "41000"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: published host port must be nonzero\n",
+      "seconds": 0.005707874999999918
+    },
+    {
+      "arguments": [
+        "env",
+        "publish",
+        "a",
+        "38080",
+        "0"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: invalid published port\n",
+      "seconds": 0.0056315000000000115
+    },
+    {
+      "arguments": [
+        "-e",
+        "a",
+        "config",
+        "show",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"boot\": {\n    \"mode\": \"shell\"\n  },\n  \"components\": {\n    \"audio\": false,\n    \"audio_input\": false,\n    \"thunking\": \"auto\",\n    \"vaapi\": false,\n    \"vulkan\": false\n  },\n  \"display\": {\n    \"windows\": false\n  },\n  \"environment\": {\n    \"name\": \"a\",\n    \"type\": \"linux\",\n    \"uuid\": \"1de6ebe4-c50a-4a20-88cb-20b638b526e3\"\n  },\n  \"image\": {\n    \"distribution\": \"custom\",\n    \"sha256\": \"918bb735cd7e3e5bd25cc7c04f9fea926daa135e02caeddbd222ef42d43b89f5\",\n    \"source\": null\n  },\n  \"interop\": {\n    \"clipboard\": {\n      \"enabled\": true\n    },\n    \"files\": {\n      \"enabled\": true\n    },\n    \"host_cli\": {\n      \"enabled\": true\n    },\n    \"host_exec\": {\n      \"enabled\": true\n    },\n    \"host_ui\": {\n      \"enabled\": true\n    },\n    \"mounts\": {\n      \"enabled\": true\n    },\n    \"ports\": {\n      \"enabled\": true\n    }\n  },\n  \"kernel\": {\n    \"sysctl\": {}\n  },\n  \"mounts\": [],\n  \"network\": {\n    \"bridge\": \"lan\",\n    \"mode\": \"bridge\",\n    \"publish\": []\n  },\n  \"resources\": {\n    \"cpus\": 1,\n    \"memory\": \"auto\",\n    \"memory_limit\": null\n  },\n  \"session\": {\n    \"cwd\": \"/\",\n    \"shell\": [\n      \"/bin/sh\",\n      \"-l\"\n    ]\n  },\n  \"version\": 1\n}\n",
+      "stderr": "",
+      "seconds": 0.0060770420000000325
+    },
+    {
+      "arguments": [
+        "env",
+        "grant",
+        "a",
+        "ports",
+        "off"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.012700874999999945
+    },
+    {
+      "arguments": [
+        "env",
+        "publish",
+        "a",
+        "38080",
+        "41000"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: ports request or host grant is disabled\n",
+      "seconds": 0.006057584000000116
+    },
+    {
+      "arguments": [
+        "env",
+        "grant",
+        "a",
+        "ports",
+        "on"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.01234704200000003
+    },
+    {
+      "arguments": [
+        "-e",
+        "a",
+        "config",
+        "set",
+        "interop.ports.enabled",
+        "false"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.02267733400000016
+    },
+    {
+      "arguments": [
+        "env",
+        "publish",
+        "a",
+        "38080",
+        "41000"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: ports request or host grant is disabled\n",
+      "seconds": 0.006567541999999982
+    },
+    {
+      "arguments": [
+        "-e",
+        "a",
+        "config",
+        "set",
+        "interop.ports.enabled",
+        "true"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.021592374999999997
+    },
+    {
+      "arguments": [
+        "network",
+        "remove",
+        "other"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.01078049999999986
+    },
+    {
+      "arguments": [
+        "network",
+        "remove",
+        "lan"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.010486333000000014
+    }
+  ]
+}

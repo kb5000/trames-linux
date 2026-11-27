@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/mnt/trames-output/linux-keyboard-source/scripts/validate-network-services.py", line 134, in <module>
+    main(p.parse_args())
+  File "/mnt/trames-output/linux-keyboard-source/scripts/validate-network-services.py", line 87, in main
+    execute(bootstrap + """docker import /acceptance/container.tar trames-acceptance:local
+  File "/mnt/trames-output/linux-keyboard-source/scripts/validate-network-services.py", line 52, in execute
+    return run('-e', 'services', 'exec', '--', '/bin/sh', '-ec', script)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/trames-output/linux-keyboard-source/scripts/validate-network-services.py", line 48, in run
+    assert r.returncode == 0, rows[-1]
+           ^^^^^^^^^^^^^^^^^
+AssertionError: {'transport': 'smccc', 'argv': ['-e', 'services', 'exec', '--', '/bin/sh', '-ec', 'mount -t tmpfs -o mode=755 tmpfs /run\nmkdir -p /dev/shm\nmount -t tmpfs -o size=64m,mode=1777 tmpfs /dev/shm\n/usr/sbin/dockerd >/root/dockerd.log 2>&1 &\nfor n in $(seq 1 100); do docker info >/dev/null 2>&1 && break; sleep .1; done\ntest "$(docker info --format \'{{.DefaultRuntime}} {{.Driver}}\')" = \'runc overlay2\'\ndocker import /acceptance/container.tar trames-acceptance:local\ndocker run -d --name web -p 42975:8080 trames-acceptance:local /bin/sh -ec \'printf "named-network-docker\\n" >/www/index.html; exec /bin/httpd -f -p 8080 -h /www\'\nfor n in $(seq 1 100); do curl -fsS http://127.0.0.1:42975/ && exit 0; sleep .1; done\nexit 1'], 'code': 125, 'stdout': 'sha256:b30de13718df265b3d27ced6f405d35c61b74ab1d06fb0345b639048bdc2b692\nd91430b56ed669f396c7ebcae46e7a122e5403cdc1995a0574a321b18dde4e67\n', 'stderr': 'docker: Error response from daemon: failed to create task for container: failed to create shim task: OCI runtime create failed: runc create failed: unable to start container process: waiting for init preliminary setup: read init-p: connection reset by peer: unknown.\n', 'seconds': 22.70715823899809}

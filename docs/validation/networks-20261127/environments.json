@@ -1,0 +1,3625 @@
+{
+  "passed": true,
+  "complete": true,
+  "native_only": false,
+  "operations": 280,
+  "runner_sha256": "c65e891b5021cb36025568ead1b064b5ee2d2aafaf96e89b174ea80a889e57c7",
+  "rows": [
+    {
+      "arguments": [
+        "config",
+        "--global",
+        "set",
+        "defaults.components.vulkan",
+        "false",
+        "defaults.display.windows",
+        "false",
+        "defaults.resources.cpus",
+        "1"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.007548840003437363
+    },
+    {
+      "arguments": [
+        "config",
+        "--global",
+        "set",
+        "defaults.image.distribution",
+        "debian"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.007191333999799099
+    },
+    {
+      "arguments": [
+        "config",
+        "--global",
+        "set",
+        "defaults.image.distribution",
+        "alpine"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.006578572996659204
+    },
+    {
+      "arguments": [
+        "env",
+        "create",
+        "work",
+        "--rootfs",
+        "/mnt/trames-output/linux-networks/environments-regression/rootfs"
+      ],
+      "code": 0,
+      "stdout": "Created work (custom)\n",
+      "stderr": "",
+      "seconds": 0.09834380300162593
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "show",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"boot\": {\n    \"mode\": \"shell\"\n  },\n  \"components\": {\n    \"audio\": false,\n    \"audio_input\": false,\n    \"thunking\": \"auto\",\n    \"vaapi\": false,\n    \"vulkan\": false\n  },\n  \"display\": {\n    \"windows\": false\n  },\n  \"environment\": {\n    \"name\": \"work\",\n    \"type\": \"linux\",\n    \"uuid\": \"fbeaaf5b-cec3-489a-a388-b8bd27f8e321\"\n  },\n  \"image\": {\n    \"distribution\": \"custom\",\n    \"sha256\": \"d2a4df7e6fe234efc464f366f55c6bfbd203001183d3210007f1dfe47fba33ac\",\n    \"source\": null\n  },\n  \"interop\": {\n    \"clipboard\": {\n      \"enabled\": true\n    },\n    \"files\": {\n      \"enabled\": true\n    },\n    \"host_cli\": {\n      \"enabled\": true\n    },\n    \"host_exec\": {\n      \"enabled\": true\n    },\n    \"host_ui\": {\n      \"enabled\": true\n    },\n    \"mounts\": {\n      \"enabled\": true\n    },\n    \"ports\": {\n      \"enabled\": true\n    }\n  },\n  \"kernel\": {\n    \"sysctl\": {}\n  },\n  \"mounts\": [],\n  \"network\": {\n    \"bridge\": null,\n    \"mode\": \"host\",\n    \"publish\": []\n  },\n  \"resources\": {\n    \"cpus\": 1,\n    \"memory\": \"auto\",\n    \"memory_limit\": null\n  },\n  \"session\": {\n    \"cwd\": \"/\",\n    \"shell\": [\n      \"/bin/sh\",\n      \"-l\"\n    ]\n  },\n  \"version\": 1\n}\n",
+      "stderr": "",
+      "seconds": 0.008006639996892773
+    },
+    {
+      "arguments": [
+        "env",
+        "path",
+        "work"
+      ],
+      "code": 0,
+      "stdout": "/mnt/trames-output/linux-networks/environments-regression/smccc-1-t2hruc9u/environments/fbeaaf5b-cec3-489a-a388-b8bd27f8e321\n",
+      "stderr": "",
+      "seconds": 0.004694790004577953
+    },
+    {
+      "arguments": [
+        "env",
+        "create",
+        "work",
+        "--rootfs",
+        "/mnt/trames-output/linux-networks/environments-regression/rootfs"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: environment name already exists\n",
+      "seconds": 0.007180000000516884
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "resources.memory",
+        "64MiB",
+        "resources.cpus",
+        "0"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: resources.cpus must be all or a supported positive count\n",
+      "seconds": 0.007733509999525268
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "image",
+        "{}"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: registered identity and image provenance are immutable; use env rename/create/clone\n",
+      "seconds": 0.008437065000180155
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "resources.typo",
+        "5"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: unknown configuration field\n",
+      "seconds": 0.007515048004279379
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "resources.memory",
+        "--help"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: cannot parse integer from empty string\n",
+      "seconds": 0.0073377950029680505
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "resources.memory",
+        "--global"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: cannot parse integer from empty string\n",
+      "seconds": 0.007465713999408763
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "resources.memory",
+        "64MiB",
+        "resources.cpus",
+        "1"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.010106176996487193
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "validate"
+      ],
+      "code": 0,
+      "stdout": "Valid environment configuration\n",
+      "stderr": "",
+      "seconds": 0.007675300999835599
+    },
+    {
+      "arguments": [
+        "config",
+        "--global",
+        "set",
+        "default_environment",
+        "work"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.008080016996245831
+    },
+    {
+      "arguments": [
+        "config",
+        "get",
+        "resources.memory"
+      ],
+      "code": 0,
+      "stdout": "64MiB\n",
+      "stderr": "",
+      "seconds": 0.008754611000767909
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "edit"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: editor failed\n",
+      "seconds": 0.010013592000177596
+    },
+    {
+      "arguments": [
+        "env",
+        "remove",
+        "work",
+        "--yes"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: environment is running or busy: lock acquisition failed because the operation would block\n",
+      "seconds": 0.006914120000146795
+    },
+    {
+      "arguments": [
+        "env",
+        "backup",
+        "work",
+        "/mnt/trames-output/linux-networks/environments-regression/smccc-1-t2hruc9u/busy.tar.gz"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: environment is running or busy: lock acquisition failed because the operation would block\n",
+      "seconds": 0.005730682998546399
+    },
+    {
+      "arguments": [
+        "env",
+        "clone",
+        "work",
+        "busy-clone"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: environment is running or busy: lock acquisition failed because the operation would block\n",
+      "seconds": 0.005775601006462239
+    },
+    {
+      "arguments": [
+        "env",
+        "share",
+        "work",
+        "project",
+        "/mnt/trames-output/linux-networks/environments-regression/smccc-1-t2hruc9u/shared",
+        "/work",
+        "ro"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.011219780004466884
+    },
+    {
+      "arguments": [
+        "env",
+        "clone",
+        "work",
+        "copy"
+      ],
+      "code": 0,
+      "stdout": "Imported copy; shared directories must be selected again\n",
+      "stderr": "",
+      "seconds": 0.05810901599761564
+    },
+    {
+      "arguments": [
+        "-e",
+        "copy",
+        "config",
+        "show",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"boot\": {\n    \"mode\": \"shell\"\n  },\n  \"components\": {\n    \"audio\": false,\n    \"audio_input\": false,\n    \"thunking\": \"auto\",\n    \"vaapi\": false,\n    \"vulkan\": false\n  },\n  \"display\": {\n    \"windows\": false\n  },\n  \"environment\": {\n    \"name\": \"copy\",\n    \"type\": \"linux\",\n    \"uuid\": \"96c1488b-1dcb-4a7a-ac81-75d203e0e43a\"\n  },\n  \"image\": {\n    \"distribution\": \"custom\",\n    \"sha256\": \"d2a4df7e6fe234efc464f366f55c6bfbd203001183d3210007f1dfe47fba33ac\",\n    \"source\": null\n  },\n  \"interop\": {\n    \"clipboard\": {\n      \"enabled\": true\n    },\n    \"files\": {\n      \"enabled\": true\n    },\n    \"host_cli\": {\n      \"enabled\": true\n    },\n    \"host_exec\": {\n      \"enabled\": true\n    },\n    \"host_ui\": {\n      \"enabled\": true\n    },\n    \"mounts\": {\n      \"enabled\": true\n    },\n    \"ports\": {\n      \"enabled\": true\n    }\n  },\n  \"kernel\": {\n    \"sysctl\": {}\n  },\n  \"mounts\": [],\n  \"network\": {\n    \"bridge\": null,\n    \"mode\": \"host\",\n    \"publish\": []\n  },\n  \"resources\": {\n    \"cpus\": 1,\n    \"memory\": \"64MiB\",\n    \"memory_limit\": null\n  },\n  \"session\": {\n    \"cwd\": \"/\",\n    \"shell\": [\n      \"/bin/sh\",\n      \"-l\"\n    ]\n  },\n  \"version\": 1\n}\n",
+      "stderr": "",
+      "seconds": 0.009067532999324612
+    },
+    {
+      "arguments": [
+        "env",
+        "path",
+        "copy"
+      ],
+      "code": 0,
+      "stdout": "/mnt/trames-output/linux-networks/environments-regression/smccc-1-t2hruc9u/environments/96c1488b-1dcb-4a7a-ac81-75d203e0e43a\n",
+      "stderr": "",
+      "seconds": 0.005971063001197763
+    },
+    {
+      "arguments": [
+        "env",
+        "backup",
+        "work",
+        "/mnt/trames-output/linux-networks/environments-regression/smccc-1-t2hruc9u/backup.tar.gz"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.0693496289968607
+    },
+    {
+      "arguments": [
+        "env",
+        "backup",
+        "work",
+        "/mnt/trames-output/linux-networks/environments-regression/smccc-1-t2hruc9u/backup.tar.gz"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: backup destination already exists\n",
+      "seconds": 0.0156752319962834
+    },
+    {
+      "arguments": [
+        "env",
+        "restore",
+        "restored",
+        "/mnt/trames-output/linux-networks/environments-regression/smccc-1-t2hruc9u/backup.tar.gz"
+      ],
+      "code": 0,
+      "stdout": "Restored restored; shared directories must be selected again\n",
+      "stderr": "",
+      "seconds": 0.14487549100158503
+    },
+    {
+      "arguments": [
+        "-e",
+        "restored",
+        "config",
+        "show",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"boot\": {\n    \"mode\": \"shell\"\n  },\n  \"components\": {\n    \"audio\": false,\n    \"audio_input\": false,\n    \"thunking\": \"auto\",\n    \"vaapi\": false,\n    \"vulkan\": false\n  },\n  \"display\": {\n    \"windows\": false\n  },\n  \"environment\": {\n    \"name\": \"restored\",\n    \"type\": \"linux\",\n    \"uuid\": \"12632ff5-bcf8-4a54-8dbc-55dc5659c1cb\"\n  },\n  \"image\": {\n    \"distribution\": \"custom\",\n    \"sha256\": \"d2a4df7e6fe234efc464f366f55c6bfbd203001183d3210007f1dfe47fba33ac\",\n    \"source\": null\n  },\n  \"interop\": {\n    \"clipboard\": {\n      \"enabled\": true\n    },\n    \"files\": {\n      \"enabled\": true\n    },\n    \"host_cli\": {\n      \"enabled\": true\n    },\n    \"host_exec\": {\n      \"enabled\": true\n    },\n    \"host_ui\": {\n      \"enabled\": true\n    },\n    \"mounts\": {\n      \"enabled\": true\n    },\n    \"ports\": {\n      \"enabled\": true\n    }\n  },\n  \"kernel\": {\n    \"sysctl\": {}\n  },\n  \"mounts\": [],\n  \"network\": {\n    \"bridge\": null,\n    \"mode\": \"host\",\n    \"publish\": []\n  },\n  \"resources\": {\n    \"cpus\": 1,\n    \"memory\": \"64MiB\",\n    \"memory_limit\": null\n  },\n  \"session\": {\n    \"cwd\": \"/\",\n    \"shell\": [\n      \"/bin/sh\",\n      \"-l\"\n    ]\n  },\n  \"version\": 1\n}\n",
+      "stderr": "",
+      "seconds": 0.009534958997392096
+    },
+    {
+      "arguments": [
+        "env",
+        "restore",
+        "bad-crc",
+        "/mnt/trames-output/linux-networks/environments-regression/smccc-1-t2hruc9u/corrupt.tar.gz"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: corrupt gzip stream does not have a matching checksum\n",
+      "seconds": 0.12610249599674717
+    },
+    {
+      "arguments": [
+        "env",
+        "restore",
+        "bad-path",
+        "/mnt/trames-output/linux-networks/environments-regression/smccc-1-t2hruc9u/traversal.tar.gz"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: invalid backup path, type or duplicate entry\n",
+      "seconds": 0.01026768000156153
+    },
+    {
+      "arguments": [
+        "env",
+        "import-store",
+        "imported",
+        "/mnt/trames-output/linux-networks/environments-regression/smccc-1-t2hruc9u/environments/fbeaaf5b-cec3-489a-a388-b8bd27f8e321/store"
+      ],
+      "code": 0,
+      "stdout": "Imported imported; shared directories must be selected again\n",
+      "stderr": "",
+      "seconds": 0.05582709999725921
+    },
+    {
+      "arguments": [
+        "env",
+        "rename",
+        "fbeaaf5b-cec3-489a-a388-b8bd27f8e321",
+        "renamed"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.014083287001994904
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "config",
+        "show",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"boot\": {\n    \"mode\": \"shell\"\n  },\n  \"components\": {\n    \"audio\": false,\n    \"audio_input\": false,\n    \"thunking\": \"auto\",\n    \"vaapi\": false,\n    \"vulkan\": false\n  },\n  \"display\": {\n    \"windows\": false\n  },\n  \"environment\": {\n    \"name\": \"renamed\",\n    \"type\": \"linux\",\n    \"uuid\": \"fbeaaf5b-cec3-489a-a388-b8bd27f8e321\"\n  },\n  \"image\": {\n    \"distribution\": \"custom\",\n    \"sha256\": \"d2a4df7e6fe234efc464f366f55c6bfbd203001183d3210007f1dfe47fba33ac\",\n    \"source\": null\n  },\n  \"interop\": {\n    \"clipboard\": {\n      \"enabled\": true\n    },\n    \"files\": {\n      \"enabled\": true\n    },\n    \"host_cli\": {\n      \"enabled\": true\n    },\n    \"host_exec\": {\n      \"enabled\": true\n    },\n    \"host_ui\": {\n      \"enabled\": true\n    },\n    \"mounts\": {\n      \"enabled\": true\n    },\n    \"ports\": {\n      \"enabled\": true\n    }\n  },\n  \"kernel\": {\n    \"sysctl\": {}\n  },\n  \"mounts\": [\n    {\n      \"host\": null,\n      \"readonly\": true,\n      \"share\": \"project\",\n      \"target\": \"/work\"\n    }\n  ],\n  \"network\": {\n    \"bridge\": null,\n    \"mode\": \"host\",\n    \"publish\": []\n  },\n  \"resources\": {\n    \"cpus\": 1,\n    \"memory\": \"64MiB\",\n    \"memory_limit\": null\n  },\n  \"session\": {\n    \"cwd\": \"/\",\n    \"shell\": [\n      \"/bin/sh\",\n      \"-l\"\n    ]\n  },\n  \"version\": 1\n}\n",
+      "stderr": "",
+      "seconds": 0.00832214600086445
+    },
+    {
+      "arguments": [
+        "config",
+        "--global",
+        "get",
+        "default_environment"
+      ],
+      "code": 0,
+      "stdout": "renamed\n",
+      "stderr": "",
+      "seconds": 0.007102666000719182
+    },
+    {
+      "arguments": [
+        "env",
+        "remove",
+        "copy"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: usage: env remove NAME --yes\n",
+      "seconds": 0.004579287997330539
+    },
+    {
+      "arguments": [
+        "env",
+        "remove",
+        "copy",
+        "--yes"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.03438514200388454
+    },
+    {
+      "arguments": [
+        "env",
+        "path",
+        "restored"
+      ],
+      "code": 0,
+      "stdout": "/mnt/trames-output/linux-networks/environments-regression/smccc-1-t2hruc9u/environments/12632ff5-bcf8-4a54-8dbc-55dc5659c1cb\n",
+      "stderr": "",
+      "seconds": 0.005764725006883964
+    },
+    {
+      "arguments": [
+        "env",
+        "ls",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "[\n  {\n    \"config\": {\n      \"boot\": {\n        \"mode\": \"shell\"\n      },\n      \"components\": {\n        \"audio\": false,\n        \"audio_input\": false,\n        \"thunking\": \"auto\",\n        \"vaapi\": false,\n        \"vulkan\": false\n      },\n      \"display\": {\n        \"windows\": false\n      },\n      \"environment\": {\n        \"name\": \"imported\",\n        \"type\": \"linux\",\n        \"uuid\": \"cf0b962b-ad87-4510-a002-f2bde37c2270\"\n      },\n      \"image\": {\n        \"distribution\": \"custom\",\n        \"sha256\": \"d2a4df7e6fe234efc464f366f55c6bfbd203001183d3210007f1dfe47fba33ac\",\n        \"source\": null\n      },\n      \"interop\": {\n        \"clipboard\": {\n          \"enabled\": true\n        },\n        \"files\": {\n          \"enabled\": true\n        },\n        \"host_cli\": {\n          \"enabled\": true\n        },\n        \"host_exec\": {\n          \"enabled\": true\n        },\n        \"host_ui\": {\n          \"enabled\": true\n        },\n        \"mounts\": {\n          \"enabled\": true\n        },\n        \"ports\": {\n          \"enabled\": true\n        }\n      },\n      \"kernel\": {\n        \"sysctl\": {}\n      },\n      \"mounts\": [],\n      \"network\": {\n        \"bridge\": null,\n        \"mode\": \"host\",\n        \"publish\": []\n      },\n      \"resources\": {\n        \"cpus\": 1,\n        \"memory\": \"64MiB\",\n        \"memory_limit\": null\n      },\n      \"session\": {\n        \"cwd\": \"/\",\n        \"shell\": [\n          \"/bin/sh\",\n          \"-l\"\n        ]\n      },\n      \"version\": 1\n    },\n    \"directory\": \"/mnt/trames-output/linux-networks/environments-regression/smccc-1-t2hruc9u/environments/cf0b962b-ad87-4510-a002-f2bde37c2270\",\n    \"distribution\": \"custom\",\n    \"error\": null,\n    \"last_exit\": null,\n    \"name\": \"imported\",\n    \"running\": false,\n    \"state\": \"stopped\",\n    \"uuid\": \"cf0b962b-ad87-4510-a002-f2bde37c2270\"\n  },\n  {\n    \"config\": {\n      \"boot\": {\n        \"mode\": \"shell\"\n      },\n      \"components\": {\n        \"audio\": false,\n        \"audio_input\": false,\n        \"thunking\": \"auto\",\n        \"vaapi\": false,\n        \"vulkan\": false\n      },\n      \"display\": {\n        \"windows\": false\n      },\n      \"environment\": {\n        \"name\": \"renamed\",\n        \"type\": \"linux\",\n        \"uuid\": \"fbeaaf5b-cec3-489a-a388-b8bd27f8e321\"\n      },\n      \"image\": {\n        \"distribution\": \"custom\",\n        \"sha256\": \"d2a4df7e6fe234efc464f366f55c6bfbd203001183d3210007f1dfe47fba33ac\",\n        \"source\": null\n      },\n      \"interop\": {\n        \"clipboard\": {\n          \"enabled\": true\n        },\n        \"files\": {\n          \"enabled\": true\n        },\n        \"host_cli\": {\n          \"enabled\": true\n        },\n        \"host_exec\": {\n          \"enabled\": true\n        },\n        \"host_ui\": {\n          \"enabled\": true\n        },\n        \"mounts\": {\n          \"enabled\": true\n        },\n        \"ports\": {\n          \"enabled\": true\n        }\n      },\n      \"kernel\": {\n        \"sysctl\": {}\n      },\n      \"mounts\": [\n        {\n          \"host\": null,\n          \"readonly\": true,\n          \"share\": \"project\",\n          \"target\": \"/work\"\n        }\n      ],\n      \"network\": {\n        \"bridge\": null,\n        \"mode\": \"host\",\n        \"publish\": []\n      },\n      \"resources\": {\n        \"cpus\": 1,\n        \"memory\": \"64MiB\",\n        \"memory_limit\": null\n      },\n      \"session\": {\n        \"cwd\": \"/\",\n        \"shell\": [\n          \"/bin/sh\",\n          \"-l\"\n        ]\n      },\n      \"version\": 1\n    },\n    \"directory\": \"/mnt/trames-output/linux-networks/environments-regression/smccc-1-t2hruc9u/environments/fbeaaf5b-cec3-489a-a388-b8bd27f8e321\",\n    \"distribution\": \"custom\",\n    \"error\": null,\n    \"last_exit\": null,\n    \"name\": \"renamed\",\n    \"running\": false,\n    \"state\": \"stopped\",\n    \"uuid\": \"fbeaaf5b-cec3-489a-a388-b8bd27f8e321\"\n  },\n  {\n    \"config\": null,\n    \"directory\": \"/mnt/trames-output/linux-networks/environments-regression/smccc-1-t2hruc9u/environments/12632ff5-bcf8-4a54-8dbc-55dc5659c1cb\",\n    \"distribution\": \"custom\",\n    \"error\": \"unsupported environment TOML version\",\n    \"last_exit\": null,\n    \"name\": \"restored\",\n    \"running\": false,\n    \"state\": \"needs attention\",\n    \"uuid\": \"12632ff5-bcf8-4a54-8dbc-55dc5659c1cb\"\n  }\n]\n",
+      "stderr": "",
+      "seconds": 0.021203285999945365
+    },
+    {
+      "arguments": [
+        "-e",
+        "restored",
+        "config",
+        "validate"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: unsupported environment TOML version\n",
+      "seconds": 0.009014281997224316
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "config",
+        "set",
+        "resources.cpus",
+        "1",
+        "resources.memory",
+        "auto"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.0337085470018792
+    },
+    {
+      "arguments": [
+        "env",
+        "start",
+        "renamed"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.07304085799842142
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/cat"
+      ],
+      "code": 0,
+      "stdout": "a\u0000b\ufffd\n",
+      "stderr": "",
+      "seconds": 0.1069092819961952
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--setenv",
+        "KEY=literal $() ; value",
+        "--cwd",
+        "/tmp",
+        "--",
+        "/bin/sh",
+        "-c",
+        "printf \"%s|%s\" \"$KEY\" \"$PWD\"; printf err >&2; exit 7"
+      ],
+      "code": 7,
+      "stdout": "literal $() ; value|/tmp",
+      "stderr": "err",
+      "seconds": 0.08879963200161001
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "/bin/echo",
+        "--rootfs"
+      ],
+      "code": 0,
+      "stdout": "--rootfs\n",
+      "stderr": "",
+      "seconds": 0.07039389399869833
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/sh",
+        "-c",
+        "echo durable > /root/value; sync"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.13809357599529903
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/sh",
+        "-c",
+        "sleep .05; printf job0"
+      ],
+      "code": 0,
+      "stdout": "job0",
+      "stderr": "",
+      "seconds": 0.3514514229973429
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/sh",
+        "-c",
+        "sleep .05; printf job2"
+      ],
+      "code": 0,
+      "stdout": "job2",
+      "stderr": "",
+      "seconds": 0.3548171060028835
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/sh",
+        "-c",
+        "sleep .05; printf job1"
+      ],
+      "code": 0,
+      "stdout": "job1",
+      "stderr": "",
+      "seconds": 0.35758665399771417
+    },
+    {
+      "arguments": [
+        "env",
+        "start",
+        "imported"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.10129505499935476
+    },
+    {
+      "arguments": [
+        "-e",
+        "imported",
+        "exec",
+        "--",
+        "/bin/ls",
+        "/root"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.14756702700105961
+    },
+    {
+      "arguments": [
+        "env",
+        "remove",
+        "renamed",
+        "--yes"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: environment is running or busy: lock acquisition failed because the operation would block\n",
+      "seconds": 0.011763788003008813
+    },
+    {
+      "arguments": [
+        "env",
+        "backup",
+        "renamed",
+        "/mnt/trames-output/linux-networks/environments-regression/smccc-1-t2hruc9u/live.tar.gz"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: environment is running or busy: lock acquisition failed because the operation would block\n",
+      "seconds": 0.008262685994850472
+    },
+    {
+      "arguments": [
+        "env",
+        "stop",
+        "renamed"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.036551135999616235
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/cat",
+        "/root/value"
+      ],
+      "code": 0,
+      "stdout": "durable\n",
+      "stderr": "",
+      "seconds": 0.14934426699619507
+    },
+    {
+      "arguments": [
+        "env",
+        "path",
+        "renamed"
+      ],
+      "code": 0,
+      "stdout": "/mnt/trames-output/linux-networks/environments-regression/smccc-1-t2hruc9u/environments/fbeaaf5b-cec3-489a-a388-b8bd27f8e321\n",
+      "stderr": "",
+      "seconds": 0.012148460999014787
+    },
+    {
+      "arguments": [
+        "env",
+        "inspect",
+        "renamed",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"config\": {\n    \"boot\": {\n      \"mode\": \"shell\"\n    },\n    \"components\": {\n      \"audio\": false,\n      \"audio_input\": false,\n      \"thunking\": \"auto\",\n      \"vaapi\": false,\n      \"vulkan\": false\n    },\n    \"display\": {\n      \"windows\": false\n    },\n    \"environment\": {\n      \"name\": \"renamed\",\n      \"type\": \"linux\",\n      \"uuid\": \"fbeaaf5b-cec3-489a-a388-b8bd27f8e321\"\n    },\n    \"image\": {\n      \"distribution\": \"custom\",\n      \"sha256\": \"d2a4df7e6fe234efc464f366f55c6bfbd203001183d3210007f1dfe47fba33ac\",\n      \"source\": null\n    },\n    \"interop\": {\n      \"clipboard\": {\n        \"enabled\": true\n      },\n      \"files\": {\n        \"enabled\": true\n      },\n      \"host_cli\": {\n        \"enabled\": true\n      },\n      \"host_exec\": {\n        \"enabled\": true\n      },\n      \"host_ui\": {\n        \"enabled\": true\n      },\n      \"mounts\": {\n        \"enabled\": true\n      },\n      \"ports\": {\n        \"enabled\": true\n      }\n    },\n    \"kernel\": {\n      \"sysctl\": {}\n    },\n    \"mounts\": [\n      {\n        \"host\": null,\n        \"readonly\": true,\n        \"share\": \"project\",\n        \"target\": \"/work\"\n      }\n    ],\n    \"network\": {\n      \"bridge\": null,\n      \"mode\": \"host\",\n      \"publish\": []\n    },\n    \"resources\": {\n      \"cpus\": 1,\n      \"memory\": \"auto\",\n      \"memory_limit\": null\n    },\n    \"session\": {\n      \"cwd\": \"/\",\n      \"shell\": [\n        \"/bin/sh\",\n        \"-l\"\n      ]\n    },\n    \"version\": 1\n  },\n  \"directory\": \"/mnt/trames-output/linux-networks/environments-regression/smccc-1-t2hruc9u/environments/fbeaaf5b-cec3-489a-a388-b8bd27f8e321\",\n  \"distribution\": \"custom\",\n  \"error\": null,\n  \"last_exit\": null,\n  \"name\": \"renamed\",\n  \"running\": false,\n  \"state\": \"stopped\",\n  \"uuid\": \"fbeaaf5b-cec3-489a-a388-b8bd27f8e321\"\n}\n",
+      "stderr": "",
+      "seconds": 0.013917699994635768
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/cat",
+        "/root/value"
+      ],
+      "code": 0,
+      "stdout": "durable\n",
+      "stderr": "",
+      "seconds": 0.14188630400167312
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "session",
+        "ls",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "[\n  {\n    \"attached\": false,\n    \"id\": 1,\n    \"state\": \"running\"\n  }\n]\n",
+      "stderr": "",
+      "seconds": 0.015135888999793679
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "session",
+        "ls",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "[\n  {\n    \"attached\": false,\n    \"id\": 1,\n    \"state\": \"running\"\n  }\n]\n",
+      "stderr": "",
+      "seconds": 0.01373094799782848
+    },
+    {
+      "arguments": [
+        "env",
+        "restart",
+        "renamed"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.08033902299939655
+    },
+    {
+      "arguments": [
+        "env",
+        "stop",
+        "imported"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.03506323500187136
+    },
+    {
+      "arguments": [
+        "env",
+        "stop",
+        "renamed"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.041922103002434596
+    },
+    {
+      "arguments": [
+        "env",
+        "create",
+        "services",
+        "--rootfs",
+        "/home/main.guest/trames-services-bundle/rootfs",
+        "--init",
+        "systemd",
+        "--cpus",
+        "1",
+        "--memory",
+        "auto"
+      ],
+      "code": 0,
+      "stdout": "Created services (custom)\n",
+      "stderr": "",
+      "seconds": 12.888578008001787
+    },
+    {
+      "arguments": [
+        "env",
+        "start",
+        "services"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.17972337199898902
+    },
+    {
+      "arguments": [
+        "-e",
+        "services",
+        "exec",
+        "--",
+        "/bin/sh",
+        "-ec",
+        "for n in $(seq 1 100); do test -S /run/systemd/private && break; sleep .1; done\ncat > /run/systemd/system/trames-environment.service <<'UNIT'\n[Service]\nType=oneshot\nRemainAfterExit=yes\nExecStart=/bin/sh -c 'echo started > /root/service-started'\nExecStop=/bin/sh -c 'echo graceful > /root/service-stopped'\nUNIT\nsystemctl daemon-reload\nsystemctl start trames-environment.service\nsystemctl is-active trames-environment.service\n"
+      ],
+      "code": 0,
+      "stdout": "active\n",
+      "stderr": "",
+      "seconds": 20.166200990002835
+    },
+    {
+      "arguments": [
+        "env",
+        "stop",
+        "services"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 4.5477573909956845
+    },
+    {
+      "arguments": [
+        "env",
+        "inspect",
+        "services",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"config\": {\n    \"boot\": {\n      \"mode\": \"systemd\"\n    },\n    \"components\": {\n      \"audio\": false,\n      \"audio_input\": false,\n      \"thunking\": \"auto\",\n      \"vaapi\": false,\n      \"vulkan\": false\n    },\n    \"display\": {\n      \"windows\": false\n    },\n    \"environment\": {\n      \"name\": \"services\",\n      \"type\": \"linux\",\n      \"uuid\": \"41af6797-e89d-47f5-8995-3949093ffef7\"\n    },\n    \"image\": {\n      \"distribution\": \"custom\",\n      \"sha256\": \"0d11a54eca6729fed77d8c75546d574fa31681c96b818611d3302f5e9ed83fb2\",\n      \"source\": null\n    },\n    \"interop\": {\n      \"clipboard\": {\n        \"enabled\": true\n      },\n      \"files\": {\n        \"enabled\": true\n      },\n      \"host_cli\": {\n        \"enabled\": true\n      },\n      \"host_exec\": {\n        \"enabled\": true\n      },\n      \"host_ui\": {\n        \"enabled\": true\n      },\n      \"mounts\": {\n        \"enabled\": true\n      },\n      \"ports\": {\n        \"enabled\": true\n      }\n    },\n    \"kernel\": {\n      \"sysctl\": {}\n    },\n    \"mounts\": [],\n    \"network\": {\n      \"bridge\": null,\n      \"mode\": \"host\",\n      \"publish\": []\n    },\n    \"resources\": {\n      \"cpus\": 1,\n      \"memory\": \"auto\",\n      \"memory_limit\": null\n    },\n    \"session\": {\n      \"cwd\": \"/\",\n      \"shell\": [\n        \"/bin/sh\",\n        \"-l\"\n      ]\n    },\n    \"version\": 1\n  },\n  \"directory\": \"/mnt/trames-output/linux-networks/environments-regression/smccc-1-t2hruc9u/environments/41af6797-e89d-47f5-8995-3949093ffef7\",\n  \"distribution\": \"custom\",\n  \"error\": null,\n  \"last_exit\": {\n    \"code\": 0,\n    \"error\": null\n  },\n  \"name\": \"services\",\n  \"running\": false,\n  \"state\": \"stopped\",\n  \"uuid\": \"41af6797-e89d-47f5-8995-3949093ffef7\"\n}\n",
+      "stderr": "",
+      "seconds": 0.011271388997556642
+    },
+    {
+      "arguments": [
+        "-e",
+        "services",
+        "config",
+        "set",
+        "boot.mode",
+        "shell"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.008309925004141405
+    },
+    {
+      "arguments": [
+        "-e",
+        "services",
+        "exec",
+        "--",
+        "/bin/cat",
+        "/root/service-stopped"
+      ],
+      "code": 0,
+      "stdout": "graceful\n",
+      "stderr": "",
+      "seconds": 0.24199250600213418
+    },
+    {
+      "arguments": [
+        "env",
+        "stop",
+        "services"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.9530079719988862
+    },
+    {
+      "arguments": [
+        "config",
+        "--global",
+        "set",
+        "defaults.components.vulkan",
+        "false",
+        "defaults.display.windows",
+        "false",
+        "defaults.resources.cpus",
+        "1"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.008688846995937638
+    },
+    {
+      "arguments": [
+        "config",
+        "--global",
+        "set",
+        "defaults.image.distribution",
+        "debian"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.007121530994481873
+    },
+    {
+      "arguments": [
+        "config",
+        "--global",
+        "set",
+        "defaults.image.distribution",
+        "alpine"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.006592730002012104
+    },
+    {
+      "arguments": [
+        "env",
+        "create",
+        "work",
+        "--rootfs",
+        "/mnt/trames-output/linux-networks/environments-regression/rootfs"
+      ],
+      "code": 0,
+      "stdout": "Created work (custom)\n",
+      "stderr": "",
+      "seconds": 0.08060416000080295
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "show",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"boot\": {\n    \"mode\": \"shell\"\n  },\n  \"components\": {\n    \"audio\": false,\n    \"audio_input\": false,\n    \"thunking\": \"auto\",\n    \"vaapi\": false,\n    \"vulkan\": false\n  },\n  \"display\": {\n    \"windows\": false\n  },\n  \"environment\": {\n    \"name\": \"work\",\n    \"type\": \"linux\",\n    \"uuid\": \"b40ae0e8-0fcf-4ead-ad65-2bdb55d615e4\"\n  },\n  \"image\": {\n    \"distribution\": \"custom\",\n    \"sha256\": \"d2a4df7e6fe234efc464f366f55c6bfbd203001183d3210007f1dfe47fba33ac\",\n    \"source\": null\n  },\n  \"interop\": {\n    \"clipboard\": {\n      \"enabled\": true\n    },\n    \"files\": {\n      \"enabled\": true\n    },\n    \"host_cli\": {\n      \"enabled\": true\n    },\n    \"host_exec\": {\n      \"enabled\": true\n    },\n    \"host_ui\": {\n      \"enabled\": true\n    },\n    \"mounts\": {\n      \"enabled\": true\n    },\n    \"ports\": {\n      \"enabled\": true\n    }\n  },\n  \"kernel\": {\n    \"sysctl\": {}\n  },\n  \"mounts\": [],\n  \"network\": {\n    \"bridge\": null,\n    \"mode\": \"host\",\n    \"publish\": []\n  },\n  \"resources\": {\n    \"cpus\": 1,\n    \"memory\": \"auto\",\n    \"memory_limit\": null\n  },\n  \"session\": {\n    \"cwd\": \"/\",\n    \"shell\": [\n      \"/bin/sh\",\n      \"-l\"\n    ]\n  },\n  \"version\": 1\n}\n",
+      "stderr": "",
+      "seconds": 0.007308032996661495
+    },
+    {
+      "arguments": [
+        "env",
+        "path",
+        "work"
+      ],
+      "code": 0,
+      "stdout": "/mnt/trames-output/linux-networks/environments-regression/smccc-4-ya7u2vzg/environments/b40ae0e8-0fcf-4ead-ad65-2bdb55d615e4\n",
+      "stderr": "",
+      "seconds": 0.0046876160049578175
+    },
+    {
+      "arguments": [
+        "env",
+        "create",
+        "work",
+        "--rootfs",
+        "/mnt/trames-output/linux-networks/environments-regression/rootfs"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: environment name already exists\n",
+      "seconds": 0.005704758004867472
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "resources.memory",
+        "64MiB",
+        "resources.cpus",
+        "0"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: resources.cpus must be all or a supported positive count\n",
+      "seconds": 0.00669752399699064
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "image",
+        "{}"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: registered identity and image provenance are immutable; use env rename/create/clone\n",
+      "seconds": 0.006828983998275362
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "resources.typo",
+        "5"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: unknown configuration field\n",
+      "seconds": 0.006171640001412015
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "resources.memory",
+        "--help"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: cannot parse integer from empty string\n",
+      "seconds": 0.006194973997480702
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "resources.memory",
+        "--global"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: cannot parse integer from empty string\n",
+      "seconds": 0.006075845994928386
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "resources.memory",
+        "64MiB",
+        "resources.cpus",
+        "1"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.008723596998606808
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "validate"
+      ],
+      "code": 0,
+      "stdout": "Valid environment configuration\n",
+      "stderr": "",
+      "seconds": 0.006240890994376969
+    },
+    {
+      "arguments": [
+        "config",
+        "--global",
+        "set",
+        "default_environment",
+        "work"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.0066759809997165576
+    },
+    {
+      "arguments": [
+        "config",
+        "get",
+        "resources.memory"
+      ],
+      "code": 0,
+      "stdout": "64MiB\n",
+      "stderr": "",
+      "seconds": 0.00664289799897233
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "edit"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: editor failed\n",
+      "seconds": 0.008309007003845181
+    },
+    {
+      "arguments": [
+        "env",
+        "remove",
+        "work",
+        "--yes"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: environment is running or busy: lock acquisition failed because the operation would block\n",
+      "seconds": 0.006318435000139289
+    },
+    {
+      "arguments": [
+        "env",
+        "backup",
+        "work",
+        "/mnt/trames-output/linux-networks/environments-regression/smccc-4-ya7u2vzg/busy.tar.gz"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: environment is running or busy: lock acquisition failed because the operation would block\n",
+      "seconds": 0.0048957039980450645
+    },
+    {
+      "arguments": [
+        "env",
+        "clone",
+        "work",
+        "busy-clone"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: environment is running or busy: lock acquisition failed because the operation would block\n",
+      "seconds": 0.00469536600576248
+    },
+    {
+      "arguments": [
+        "env",
+        "share",
+        "work",
+        "project",
+        "/mnt/trames-output/linux-networks/environments-regression/smccc-4-ya7u2vzg/shared",
+        "/work",
+        "ro"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.009944908000761643
+    },
+    {
+      "arguments": [
+        "env",
+        "clone",
+        "work",
+        "copy"
+      ],
+      "code": 0,
+      "stdout": "Imported copy; shared directories must be selected again\n",
+      "stderr": "",
+      "seconds": 0.04722596099600196
+    },
+    {
+      "arguments": [
+        "-e",
+        "copy",
+        "config",
+        "show",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"boot\": {\n    \"mode\": \"shell\"\n  },\n  \"components\": {\n    \"audio\": false,\n    \"audio_input\": false,\n    \"thunking\": \"auto\",\n    \"vaapi\": false,\n    \"vulkan\": false\n  },\n  \"display\": {\n    \"windows\": false\n  },\n  \"environment\": {\n    \"name\": \"copy\",\n    \"type\": \"linux\",\n    \"uuid\": \"0e56ab04-6eaa-4d4f-adca-6d8f3bbe5667\"\n  },\n  \"image\": {\n    \"distribution\": \"custom\",\n    \"sha256\": \"d2a4df7e6fe234efc464f366f55c6bfbd203001183d3210007f1dfe47fba33ac\",\n    \"source\": null\n  },\n  \"interop\": {\n    \"clipboard\": {\n      \"enabled\": true\n    },\n    \"files\": {\n      \"enabled\": true\n    },\n    \"host_cli\": {\n      \"enabled\": true\n    },\n    \"host_exec\": {\n      \"enabled\": true\n    },\n    \"host_ui\": {\n      \"enabled\": true\n    },\n    \"mounts\": {\n      \"enabled\": true\n    },\n    \"ports\": {\n      \"enabled\": true\n    }\n  },\n  \"kernel\": {\n    \"sysctl\": {}\n  },\n  \"mounts\": [],\n  \"network\": {\n    \"bridge\": null,\n    \"mode\": \"host\",\n    \"publish\": []\n  },\n  \"resources\": {\n    \"cpus\": 1,\n    \"memory\": \"64MiB\",\n    \"memory_limit\": null\n  },\n  \"session\": {\n    \"cwd\": \"/\",\n    \"shell\": [\n      \"/bin/sh\",\n      \"-l\"\n    ]\n  },\n  \"version\": 1\n}\n",
+      "stderr": "",
+      "seconds": 0.007171947996539529
+    },
+    {
+      "arguments": [
+        "env",
+        "path",
+        "copy"
+      ],
+      "code": 0,
+      "stdout": "/mnt/trames-output/linux-networks/environments-regression/smccc-4-ya7u2vzg/environments/0e56ab04-6eaa-4d4f-adca-6d8f3bbe5667\n",
+      "stderr": "",
+      "seconds": 0.005192749005800579
+    },
+    {
+      "arguments": [
+        "env",
+        "backup",
+        "work",
+        "/mnt/trames-output/linux-networks/environments-regression/smccc-4-ya7u2vzg/backup.tar.gz"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.06106168199767126
+    },
+    {
+      "arguments": [
+        "env",
+        "backup",
+        "work",
+        "/mnt/trames-output/linux-networks/environments-regression/smccc-4-ya7u2vzg/backup.tar.gz"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: backup destination already exists\n",
+      "seconds": 0.013435588996799197
+    },
+    {
+      "arguments": [
+        "env",
+        "restore",
+        "restored",
+        "/mnt/trames-output/linux-networks/environments-regression/smccc-4-ya7u2vzg/backup.tar.gz"
+      ],
+      "code": 0,
+      "stdout": "Restored restored; shared directories must be selected again\n",
+      "stderr": "",
+      "seconds": 0.12156835600035265
+    },
+    {
+      "arguments": [
+        "-e",
+        "restored",
+        "config",
+        "show",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"boot\": {\n    \"mode\": \"shell\"\n  },\n  \"components\": {\n    \"audio\": false,\n    \"audio_input\": false,\n    \"thunking\": \"auto\",\n    \"vaapi\": false,\n    \"vulkan\": false\n  },\n  \"display\": {\n    \"windows\": false\n  },\n  \"environment\": {\n    \"name\": \"restored\",\n    \"type\": \"linux\",\n    \"uuid\": \"bdb32a93-a30f-4a31-bfe9-718d1ffc91e4\"\n  },\n  \"image\": {\n    \"distribution\": \"custom\",\n    \"sha256\": \"d2a4df7e6fe234efc464f366f55c6bfbd203001183d3210007f1dfe47fba33ac\",\n    \"source\": null\n  },\n  \"interop\": {\n    \"clipboard\": {\n      \"enabled\": true\n    },\n    \"files\": {\n      \"enabled\": true\n    },\n    \"host_cli\": {\n      \"enabled\": true\n    },\n    \"host_exec\": {\n      \"enabled\": true\n    },\n    \"host_ui\": {\n      \"enabled\": true\n    },\n    \"mounts\": {\n      \"enabled\": true\n    },\n    \"ports\": {\n      \"enabled\": true\n    }\n  },\n  \"kernel\": {\n    \"sysctl\": {}\n  },\n  \"mounts\": [],\n  \"network\": {\n    \"bridge\": null,\n    \"mode\": \"host\",\n    \"publish\": []\n  },\n  \"resources\": {\n    \"cpus\": 1,\n    \"memory\": \"64MiB\",\n    \"memory_limit\": null\n  },\n  \"session\": {\n    \"cwd\": \"/\",\n    \"shell\": [\n      \"/bin/sh\",\n      \"-l\"\n    ]\n  },\n  \"version\": 1\n}\n",
+      "stderr": "",
+      "seconds": 0.007988044002559036
+    },
+    {
+      "arguments": [
+        "env",
+        "restore",
+        "bad-crc",
+        "/mnt/trames-output/linux-networks/environments-regression/smccc-4-ya7u2vzg/corrupt.tar.gz"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: corrupt gzip stream does not have a matching checksum\n",
+      "seconds": 0.11227174900704995
+    },
+    {
+      "arguments": [
+        "env",
+        "restore",
+        "bad-path",
+        "/mnt/trames-output/linux-networks/environments-regression/smccc-4-ya7u2vzg/traversal.tar.gz"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: invalid backup path, type or duplicate entry\n",
+      "seconds": 0.007869291999668349
+    },
+    {
+      "arguments": [
+        "env",
+        "import-store",
+        "imported",
+        "/mnt/trames-output/linux-networks/environments-regression/smccc-4-ya7u2vzg/environments/b40ae0e8-0fcf-4ead-ad65-2bdb55d615e4/store"
+      ],
+      "code": 0,
+      "stdout": "Imported imported; shared directories must be selected again\n",
+      "stderr": "",
+      "seconds": 0.047090751002542675
+    },
+    {
+      "arguments": [
+        "env",
+        "rename",
+        "b40ae0e8-0fcf-4ead-ad65-2bdb55d615e4",
+        "renamed"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.013106333994073793
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "config",
+        "show",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"boot\": {\n    \"mode\": \"shell\"\n  },\n  \"components\": {\n    \"audio\": false,\n    \"audio_input\": false,\n    \"thunking\": \"auto\",\n    \"vaapi\": false,\n    \"vulkan\": false\n  },\n  \"display\": {\n    \"windows\": false\n  },\n  \"environment\": {\n    \"name\": \"renamed\",\n    \"type\": \"linux\",\n    \"uuid\": \"b40ae0e8-0fcf-4ead-ad65-2bdb55d615e4\"\n  },\n  \"image\": {\n    \"distribution\": \"custom\",\n    \"sha256\": \"d2a4df7e6fe234efc464f366f55c6bfbd203001183d3210007f1dfe47fba33ac\",\n    \"source\": null\n  },\n  \"interop\": {\n    \"clipboard\": {\n      \"enabled\": true\n    },\n    \"files\": {\n      \"enabled\": true\n    },\n    \"host_cli\": {\n      \"enabled\": true\n    },\n    \"host_exec\": {\n      \"enabled\": true\n    },\n    \"host_ui\": {\n      \"enabled\": true\n    },\n    \"mounts\": {\n      \"enabled\": true\n    },\n    \"ports\": {\n      \"enabled\": true\n    }\n  },\n  \"kernel\": {\n    \"sysctl\": {}\n  },\n  \"mounts\": [\n    {\n      \"host\": null,\n      \"readonly\": true,\n      \"share\": \"project\",\n      \"target\": \"/work\"\n    }\n  ],\n  \"network\": {\n    \"bridge\": null,\n    \"mode\": \"host\",\n    \"publish\": []\n  },\n  \"resources\": {\n    \"cpus\": 1,\n    \"memory\": \"64MiB\",\n    \"memory_limit\": null\n  },\n  \"session\": {\n    \"cwd\": \"/\",\n    \"shell\": [\n      \"/bin/sh\",\n      \"-l\"\n    ]\n  },\n  \"version\": 1\n}\n",
+      "stderr": "",
+      "seconds": 0.007346116995904595
+    },
+    {
+      "arguments": [
+        "config",
+        "--global",
+        "get",
+        "default_environment"
+      ],
+      "code": 0,
+      "stdout": "renamed\n",
+      "stderr": "",
+      "seconds": 0.00551446300232783
+    },
+    {
+      "arguments": [
+        "env",
+        "remove",
+        "copy"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: usage: env remove NAME --yes\n",
+      "seconds": 0.0038681450023432262
+    },
+    {
+      "arguments": [
+        "env",
+        "remove",
+        "copy",
+        "--yes"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.017332734001684003
+    },
+    {
+      "arguments": [
+        "env",
+        "path",
+        "restored"
+      ],
+      "code": 0,
+      "stdout": "/mnt/trames-output/linux-networks/environments-regression/smccc-4-ya7u2vzg/environments/bdb32a93-a30f-4a31-bfe9-718d1ffc91e4\n",
+      "stderr": "",
+      "seconds": 0.0055055880002328195
+    },
+    {
+      "arguments": [
+        "env",
+        "ls",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "[\n  {\n    \"config\": {\n      \"boot\": {\n        \"mode\": \"shell\"\n      },\n      \"components\": {\n        \"audio\": false,\n        \"audio_input\": false,\n        \"thunking\": \"auto\",\n        \"vaapi\": false,\n        \"vulkan\": false\n      },\n      \"display\": {\n        \"windows\": false\n      },\n      \"environment\": {\n        \"name\": \"imported\",\n        \"type\": \"linux\",\n        \"uuid\": \"42491818-d796-4105-9b5d-1f22aa3c61ad\"\n      },\n      \"image\": {\n        \"distribution\": \"custom\",\n        \"sha256\": \"d2a4df7e6fe234efc464f366f55c6bfbd203001183d3210007f1dfe47fba33ac\",\n        \"source\": null\n      },\n      \"interop\": {\n        \"clipboard\": {\n          \"enabled\": true\n        },\n        \"files\": {\n          \"enabled\": true\n        },\n        \"host_cli\": {\n          \"enabled\": true\n        },\n        \"host_exec\": {\n          \"enabled\": true\n        },\n        \"host_ui\": {\n          \"enabled\": true\n        },\n        \"mounts\": {\n          \"enabled\": true\n        },\n        \"ports\": {\n          \"enabled\": true\n        }\n      },\n      \"kernel\": {\n        \"sysctl\": {}\n      },\n      \"mounts\": [],\n      \"network\": {\n        \"bridge\": null,\n        \"mode\": \"host\",\n        \"publish\": []\n      },\n      \"resources\": {\n        \"cpus\": 1,\n        \"memory\": \"64MiB\",\n        \"memory_limit\": null\n      },\n      \"session\": {\n        \"cwd\": \"/\",\n        \"shell\": [\n          \"/bin/sh\",\n          \"-l\"\n        ]\n      },\n      \"version\": 1\n    },\n    \"directory\": \"/mnt/trames-output/linux-networks/environments-regression/smccc-4-ya7u2vzg/environments/42491818-d796-4105-9b5d-1f22aa3c61ad\",\n    \"distribution\": \"custom\",\n    \"error\": null,\n    \"last_exit\": null,\n    \"name\": \"imported\",\n    \"running\": false,\n    \"state\": \"stopped\",\n    \"uuid\": \"42491818-d796-4105-9b5d-1f22aa3c61ad\"\n  },\n  {\n    \"config\": {\n      \"boot\": {\n        \"mode\": \"shell\"\n      },\n      \"components\": {\n        \"audio\": false,\n        \"audio_input\": false,\n        \"thunking\": \"auto\",\n        \"vaapi\": false,\n        \"vulkan\": false\n      },\n      \"display\": {\n        \"windows\": false\n      },\n      \"environment\": {\n        \"name\": \"renamed\",\n        \"type\": \"linux\",\n        \"uuid\": \"b40ae0e8-0fcf-4ead-ad65-2bdb55d615e4\"\n      },\n      \"image\": {\n        \"distribution\": \"custom\",\n        \"sha256\": \"d2a4df7e6fe234efc464f366f55c6bfbd203001183d3210007f1dfe47fba33ac\",\n        \"source\": null\n      },\n      \"interop\": {\n        \"clipboard\": {\n          \"enabled\": true\n        },\n        \"files\": {\n          \"enabled\": true\n        },\n        \"host_cli\": {\n          \"enabled\": true\n        },\n        \"host_exec\": {\n          \"enabled\": true\n        },\n        \"host_ui\": {\n          \"enabled\": true\n        },\n        \"mounts\": {\n          \"enabled\": true\n        },\n        \"ports\": {\n          \"enabled\": true\n        }\n      },\n      \"kernel\": {\n        \"sysctl\": {}\n      },\n      \"mounts\": [\n        {\n          \"host\": null,\n          \"readonly\": true,\n          \"share\": \"project\",\n          \"target\": \"/work\"\n        }\n      ],\n      \"network\": {\n        \"bridge\": null,\n        \"mode\": \"host\",\n        \"publish\": []\n      },\n      \"resources\": {\n        \"cpus\": 1,\n        \"memory\": \"64MiB\",\n        \"memory_limit\": null\n      },\n      \"session\": {\n        \"cwd\": \"/\",\n        \"shell\": [\n          \"/bin/sh\",\n          \"-l\"\n        ]\n      },\n      \"version\": 1\n    },\n    \"directory\": \"/mnt/trames-output/linux-networks/environments-regression/smccc-4-ya7u2vzg/environments/b40ae0e8-0fcf-4ead-ad65-2bdb55d615e4\",\n    \"distribution\": \"custom\",\n    \"error\": null,\n    \"last_exit\": null,\n    \"name\": \"renamed\",\n    \"running\": false,\n    \"state\": \"stopped\",\n    \"uuid\": \"b40ae0e8-0fcf-4ead-ad65-2bdb55d615e4\"\n  },\n  {\n    \"config\": null,\n    \"directory\": \"/mnt/trames-output/linux-networks/environments-regression/smccc-4-ya7u2vzg/environments/bdb32a93-a30f-4a31-bfe9-718d1ffc91e4\",\n    \"distribution\": \"custom\",\n    \"error\": \"unsupported environment TOML version\",\n    \"last_exit\": null,\n    \"name\": \"restored\",\n    \"running\": false,\n    \"state\": \"needs attention\",\n    \"uuid\": \"bdb32a93-a30f-4a31-bfe9-718d1ffc91e4\"\n  }\n]\n",
+      "stderr": "",
+      "seconds": 0.014919446002750192
+    },
+    {
+      "arguments": [
+        "-e",
+        "restored",
+        "config",
+        "validate"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: unsupported environment TOML version\n",
+      "seconds": 0.006378059995768126
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "config",
+        "set",
+        "resources.cpus",
+        "4",
+        "resources.memory",
+        "auto"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.008037794999836478
+    },
+    {
+      "arguments": [
+        "env",
+        "start",
+        "renamed"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.031680171996413264
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/cat"
+      ],
+      "code": 0,
+      "stdout": "a\u0000b\ufffd\n",
+      "stderr": "",
+      "seconds": 0.05187878599826945
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--setenv",
+        "KEY=literal $() ; value",
+        "--cwd",
+        "/tmp",
+        "--",
+        "/bin/sh",
+        "-c",
+        "printf \"%s|%s\" \"$KEY\" \"$PWD\"; printf err >&2; exit 7"
+      ],
+      "code": 7,
+      "stdout": "literal $() ; value|/tmp",
+      "stderr": "err",
+      "seconds": 0.046885288997145835
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "/bin/echo",
+        "--rootfs"
+      ],
+      "code": 0,
+      "stdout": "--rootfs\n",
+      "stderr": "",
+      "seconds": 0.0409640700017917
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/sh",
+        "-c",
+        "echo durable > /root/value; sync"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.07764319400303066
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/sh",
+        "-c",
+        "sleep .05; printf job0"
+      ],
+      "code": 0,
+      "stdout": "job0",
+      "stderr": "",
+      "seconds": 0.18626075600332115
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/sh",
+        "-c",
+        "sleep .05; printf job1"
+      ],
+      "code": 0,
+      "stdout": "job1",
+      "stderr": "",
+      "seconds": 0.18670568000379717
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/sh",
+        "-c",
+        "sleep .05; printf job2"
+      ],
+      "code": 0,
+      "stdout": "job2",
+      "stderr": "",
+      "seconds": 0.19011960999341682
+    },
+    {
+      "arguments": [
+        "env",
+        "start",
+        "imported"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.033165986998938024
+    },
+    {
+      "arguments": [
+        "-e",
+        "imported",
+        "exec",
+        "--",
+        "/bin/ls",
+        "/root"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.08483301700471202
+    },
+    {
+      "arguments": [
+        "env",
+        "remove",
+        "renamed",
+        "--yes"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: environment is running or busy: lock acquisition failed because the operation would block\n",
+      "seconds": 0.0076829550016555
+    },
+    {
+      "arguments": [
+        "env",
+        "backup",
+        "renamed",
+        "/mnt/trames-output/linux-networks/environments-regression/smccc-4-ya7u2vzg/live.tar.gz"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: environment is running or busy: lock acquisition failed because the operation would block\n",
+      "seconds": 0.005678798996086698
+    },
+    {
+      "arguments": [
+        "env",
+        "stop",
+        "renamed"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.025582782000128645
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/cat",
+        "/root/value"
+      ],
+      "code": 0,
+      "stdout": "durable\n",
+      "stderr": "",
+      "seconds": 0.07339520900131902
+    },
+    {
+      "arguments": [
+        "env",
+        "path",
+        "renamed"
+      ],
+      "code": 0,
+      "stdout": "/mnt/trames-output/linux-networks/environments-regression/smccc-4-ya7u2vzg/environments/b40ae0e8-0fcf-4ead-ad65-2bdb55d615e4\n",
+      "stderr": "",
+      "seconds": 0.0060728469979949296
+    },
+    {
+      "arguments": [
+        "env",
+        "inspect",
+        "renamed",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"config\": {\n    \"boot\": {\n      \"mode\": \"shell\"\n    },\n    \"components\": {\n      \"audio\": false,\n      \"audio_input\": false,\n      \"thunking\": \"auto\",\n      \"vaapi\": false,\n      \"vulkan\": false\n    },\n    \"display\": {\n      \"windows\": false\n    },\n    \"environment\": {\n      \"name\": \"renamed\",\n      \"type\": \"linux\",\n      \"uuid\": \"b40ae0e8-0fcf-4ead-ad65-2bdb55d615e4\"\n    },\n    \"image\": {\n      \"distribution\": \"custom\",\n      \"sha256\": \"d2a4df7e6fe234efc464f366f55c6bfbd203001183d3210007f1dfe47fba33ac\",\n      \"source\": null\n    },\n    \"interop\": {\n      \"clipboard\": {\n        \"enabled\": true\n      },\n      \"files\": {\n        \"enabled\": true\n      },\n      \"host_cli\": {\n        \"enabled\": true\n      },\n      \"host_exec\": {\n        \"enabled\": true\n      },\n      \"host_ui\": {\n        \"enabled\": true\n      },\n      \"mounts\": {\n        \"enabled\": true\n      },\n      \"ports\": {\n        \"enabled\": true\n      }\n    },\n    \"kernel\": {\n      \"sysctl\": {}\n    },\n    \"mounts\": [\n      {\n        \"host\": null,\n        \"readonly\": true,\n        \"share\": \"project\",\n        \"target\": \"/work\"\n      }\n    ],\n    \"network\": {\n      \"bridge\": null,\n      \"mode\": \"host\",\n      \"publish\": []\n    },\n    \"resources\": {\n      \"cpus\": 4,\n      \"memory\": \"auto\",\n      \"memory_limit\": null\n    },\n    \"session\": {\n      \"cwd\": \"/\",\n      \"shell\": [\n        \"/bin/sh\",\n        \"-l\"\n      ]\n    },\n    \"version\": 1\n  },\n  \"directory\": \"/mnt/trames-output/linux-networks/environments-regression/smccc-4-ya7u2vzg/environments/b40ae0e8-0fcf-4ead-ad65-2bdb55d615e4\",\n  \"distribution\": \"custom\",\n  \"error\": null,\n  \"last_exit\": null,\n  \"name\": \"renamed\",\n  \"running\": false,\n  \"state\": \"stopped\",\n  \"uuid\": \"b40ae0e8-0fcf-4ead-ad65-2bdb55d615e4\"\n}\n",
+      "stderr": "",
+      "seconds": 0.008660305000375956
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/cat",
+        "/root/value"
+      ],
+      "code": 0,
+      "stdout": "durable\n",
+      "stderr": "",
+      "seconds": 0.07314145599957556
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "session",
+        "ls",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "[\n  {\n    \"attached\": false,\n    \"id\": 1,\n    \"state\": \"running\"\n  }\n]\n",
+      "stderr": "",
+      "seconds": 0.0097616549974191
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "session",
+        "ls",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "[\n  {\n    \"attached\": false,\n    \"id\": 1,\n    \"state\": \"running\"\n  }\n]\n",
+      "stderr": "",
+      "seconds": 0.00879488999635214
+    },
+    {
+      "arguments": [
+        "env",
+        "restart",
+        "renamed"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.07104879699909361
+    },
+    {
+      "arguments": [
+        "env",
+        "stop",
+        "imported"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.017832409001130145
+    },
+    {
+      "arguments": [
+        "env",
+        "stop",
+        "renamed"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.017299774997809436
+    },
+    {
+      "arguments": [
+        "env",
+        "create",
+        "services",
+        "--rootfs",
+        "/home/main.guest/trames-services-bundle/rootfs",
+        "--init",
+        "systemd",
+        "--cpus",
+        "4",
+        "--memory",
+        "auto"
+      ],
+      "code": 0,
+      "stdout": "Created services (custom)\n",
+      "stderr": "",
+      "seconds": 18.080442514001334
+    },
+    {
+      "arguments": [
+        "env",
+        "start",
+        "services"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.180054796001059
+    },
+    {
+      "arguments": [
+        "-e",
+        "services",
+        "exec",
+        "--",
+        "/bin/sh",
+        "-ec",
+        "for n in $(seq 1 100); do test -S /run/systemd/private && break; sleep .1; done\ncat > /run/systemd/system/trames-environment.service <<'UNIT'\n[Service]\nType=oneshot\nRemainAfterExit=yes\nExecStart=/bin/sh -c 'echo started > /root/service-started'\nExecStop=/bin/sh -c 'echo graceful > /root/service-stopped'\nUNIT\nsystemctl daemon-reload\nsystemctl start trames-environment.service\nsystemctl is-active trames-environment.service\n"
+      ],
+      "code": 0,
+      "stdout": "active\n",
+      "stderr": "",
+      "seconds": 18.002480846000253
+    },
+    {
+      "arguments": [
+        "env",
+        "stop",
+        "services"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 3.5042663580024964
+    },
+    {
+      "arguments": [
+        "env",
+        "inspect",
+        "services",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"config\": {\n    \"boot\": {\n      \"mode\": \"systemd\"\n    },\n    \"components\": {\n      \"audio\": false,\n      \"audio_input\": false,\n      \"thunking\": \"auto\",\n      \"vaapi\": false,\n      \"vulkan\": false\n    },\n    \"display\": {\n      \"windows\": false\n    },\n    \"environment\": {\n      \"name\": \"services\",\n      \"type\": \"linux\",\n      \"uuid\": \"752a92f8-c6eb-4bf7-bcd7-f3587d0c6286\"\n    },\n    \"image\": {\n      \"distribution\": \"custom\",\n      \"sha256\": \"0d11a54eca6729fed77d8c75546d574fa31681c96b818611d3302f5e9ed83fb2\",\n      \"source\": null\n    },\n    \"interop\": {\n      \"clipboard\": {\n        \"enabled\": true\n      },\n      \"files\": {\n        \"enabled\": true\n      },\n      \"host_cli\": {\n        \"enabled\": true\n      },\n      \"host_exec\": {\n        \"enabled\": true\n      },\n      \"host_ui\": {\n        \"enabled\": true\n      },\n      \"mounts\": {\n        \"enabled\": true\n      },\n      \"ports\": {\n        \"enabled\": true\n      }\n    },\n    \"kernel\": {\n      \"sysctl\": {}\n    },\n    \"mounts\": [],\n    \"network\": {\n      \"bridge\": null,\n      \"mode\": \"host\",\n      \"publish\": []\n    },\n    \"resources\": {\n      \"cpus\": 4,\n      \"memory\": \"auto\",\n      \"memory_limit\": null\n    },\n    \"session\": {\n      \"cwd\": \"/\",\n      \"shell\": [\n        \"/bin/sh\",\n        \"-l\"\n      ]\n    },\n    \"version\": 1\n  },\n  \"directory\": \"/mnt/trames-output/linux-networks/environments-regression/smccc-4-ya7u2vzg/environments/752a92f8-c6eb-4bf7-bcd7-f3587d0c6286\",\n  \"distribution\": \"custom\",\n  \"error\": null,\n  \"last_exit\": {\n    \"code\": 0,\n    \"error\": null\n  },\n  \"name\": \"services\",\n  \"running\": false,\n  \"state\": \"stopped\",\n  \"uuid\": \"752a92f8-c6eb-4bf7-bcd7-f3587d0c6286\"\n}\n",
+      "stderr": "",
+      "seconds": 0.008949630995630287
+    },
+    {
+      "arguments": [
+        "-e",
+        "services",
+        "config",
+        "set",
+        "boot.mode",
+        "shell"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.008619833999546245
+    },
+    {
+      "arguments": [
+        "-e",
+        "services",
+        "exec",
+        "--",
+        "/bin/cat",
+        "/root/service-stopped"
+      ],
+      "code": 0,
+      "stdout": "graceful\n",
+      "stderr": "",
+      "seconds": 0.2173739240024588
+    },
+    {
+      "arguments": [
+        "env",
+        "stop",
+        "services"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 1.0079566109998268
+    },
+    {
+      "arguments": [
+        "config",
+        "--global",
+        "set",
+        "defaults.components.vulkan",
+        "false",
+        "defaults.display.windows",
+        "false",
+        "defaults.resources.cpus",
+        "1"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.007264230000146199
+    },
+    {
+      "arguments": [
+        "config",
+        "--global",
+        "set",
+        "defaults.image.distribution",
+        "debian"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.0068687669991049916
+    },
+    {
+      "arguments": [
+        "config",
+        "--global",
+        "set",
+        "defaults.image.distribution",
+        "alpine"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.006147673004306853
+    },
+    {
+      "arguments": [
+        "env",
+        "create",
+        "work",
+        "--rootfs",
+        "/mnt/trames-output/linux-networks/environments-regression/rootfs"
+      ],
+      "code": 0,
+      "stdout": "Created work (custom)\n",
+      "stderr": "",
+      "seconds": 0.07423091200325871
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "show",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"boot\": {\n    \"mode\": \"shell\"\n  },\n  \"components\": {\n    \"audio\": false,\n    \"audio_input\": false,\n    \"thunking\": \"auto\",\n    \"vaapi\": false,\n    \"vulkan\": false\n  },\n  \"display\": {\n    \"windows\": false\n  },\n  \"environment\": {\n    \"name\": \"work\",\n    \"type\": \"linux\",\n    \"uuid\": \"37e4c8c2-3ed1-461f-a022-4b390e71c17a\"\n  },\n  \"image\": {\n    \"distribution\": \"custom\",\n    \"sha256\": \"d2a4df7e6fe234efc464f366f55c6bfbd203001183d3210007f1dfe47fba33ac\",\n    \"source\": null\n  },\n  \"interop\": {\n    \"clipboard\": {\n      \"enabled\": true\n    },\n    \"files\": {\n      \"enabled\": true\n    },\n    \"host_cli\": {\n      \"enabled\": true\n    },\n    \"host_exec\": {\n      \"enabled\": true\n    },\n    \"host_ui\": {\n      \"enabled\": true\n    },\n    \"mounts\": {\n      \"enabled\": true\n    },\n    \"ports\": {\n      \"enabled\": true\n    }\n  },\n  \"kernel\": {\n    \"sysctl\": {}\n  },\n  \"mounts\": [],\n  \"network\": {\n    \"bridge\": null,\n    \"mode\": \"host\",\n    \"publish\": []\n  },\n  \"resources\": {\n    \"cpus\": 1,\n    \"memory\": \"auto\",\n    \"memory_limit\": null\n  },\n  \"session\": {\n    \"cwd\": \"/\",\n    \"shell\": [\n      \"/bin/sh\",\n      \"-l\"\n    ]\n  },\n  \"version\": 1\n}\n",
+      "stderr": "",
+      "seconds": 0.007066520003718324
+    },
+    {
+      "arguments": [
+        "env",
+        "path",
+        "work"
+      ],
+      "code": 0,
+      "stdout": "/mnt/trames-output/linux-networks/environments-regression/mmio-1-rvh_49sl/environments/37e4c8c2-3ed1-461f-a022-4b390e71c17a\n",
+      "stderr": "",
+      "seconds": 0.00448102399968775
+    },
+    {
+      "arguments": [
+        "env",
+        "create",
+        "work",
+        "--rootfs",
+        "/mnt/trames-output/linux-networks/environments-regression/rootfs"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: environment name already exists\n",
+      "seconds": 0.005792250995000359
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "resources.memory",
+        "64MiB",
+        "resources.cpus",
+        "0"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: resources.cpus must be all or a supported positive count\n",
+      "seconds": 0.006077712998376228
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "image",
+        "{}"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: registered identity and image provenance are immutable; use env rename/create/clone\n",
+      "seconds": 0.0060060449977754615
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "resources.typo",
+        "5"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: unknown configuration field\n",
+      "seconds": 0.006139338998764288
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "resources.memory",
+        "--help"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: cannot parse integer from empty string\n",
+      "seconds": 0.005985878997307736
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "resources.memory",
+        "--global"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: cannot parse integer from empty string\n",
+      "seconds": 0.00581250200048089
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "resources.memory",
+        "64MiB",
+        "resources.cpus",
+        "1"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.008173702000931371
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "validate"
+      ],
+      "code": 0,
+      "stdout": "Valid environment configuration\n",
+      "stderr": "",
+      "seconds": 0.005762209002568852
+    },
+    {
+      "arguments": [
+        "config",
+        "--global",
+        "set",
+        "default_environment",
+        "work"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.006141756006400101
+    },
+    {
+      "arguments": [
+        "config",
+        "get",
+        "resources.memory"
+      ],
+      "code": 0,
+      "stdout": "64MiB\n",
+      "stderr": "",
+      "seconds": 0.006442634999984875
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "edit"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: editor failed\n",
+      "seconds": 0.007630735999555327
+    },
+    {
+      "arguments": [
+        "env",
+        "remove",
+        "work",
+        "--yes"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: environment is running or busy: lock acquisition failed because the operation would block\n",
+      "seconds": 0.0057545009985915385
+    },
+    {
+      "arguments": [
+        "env",
+        "backup",
+        "work",
+        "/mnt/trames-output/linux-networks/environments-regression/mmio-1-rvh_49sl/busy.tar.gz"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: environment is running or busy: lock acquisition failed because the operation would block\n",
+      "seconds": 0.004707318999862764
+    },
+    {
+      "arguments": [
+        "env",
+        "clone",
+        "work",
+        "busy-clone"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: environment is running or busy: lock acquisition failed because the operation would block\n",
+      "seconds": 0.004538025001238566
+    },
+    {
+      "arguments": [
+        "env",
+        "share",
+        "work",
+        "project",
+        "/mnt/trames-output/linux-networks/environments-regression/mmio-1-rvh_49sl/shared",
+        "/work",
+        "ro"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.008535415996448137
+    },
+    {
+      "arguments": [
+        "env",
+        "clone",
+        "work",
+        "copy"
+      ],
+      "code": 0,
+      "stdout": "Imported copy; shared directories must be selected again\n",
+      "stderr": "",
+      "seconds": 0.047123017997364514
+    },
+    {
+      "arguments": [
+        "-e",
+        "copy",
+        "config",
+        "show",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"boot\": {\n    \"mode\": \"shell\"\n  },\n  \"components\": {\n    \"audio\": false,\n    \"audio_input\": false,\n    \"thunking\": \"auto\",\n    \"vaapi\": false,\n    \"vulkan\": false\n  },\n  \"display\": {\n    \"windows\": false\n  },\n  \"environment\": {\n    \"name\": \"copy\",\n    \"type\": \"linux\",\n    \"uuid\": \"673de330-245e-4ca6-8543-086d887c8534\"\n  },\n  \"image\": {\n    \"distribution\": \"custom\",\n    \"sha256\": \"d2a4df7e6fe234efc464f366f55c6bfbd203001183d3210007f1dfe47fba33ac\",\n    \"source\": null\n  },\n  \"interop\": {\n    \"clipboard\": {\n      \"enabled\": true\n    },\n    \"files\": {\n      \"enabled\": true\n    },\n    \"host_cli\": {\n      \"enabled\": true\n    },\n    \"host_exec\": {\n      \"enabled\": true\n    },\n    \"host_ui\": {\n      \"enabled\": true\n    },\n    \"mounts\": {\n      \"enabled\": true\n    },\n    \"ports\": {\n      \"enabled\": true\n    }\n  },\n  \"kernel\": {\n    \"sysctl\": {}\n  },\n  \"mounts\": [],\n  \"network\": {\n    \"bridge\": null,\n    \"mode\": \"host\",\n    \"publish\": []\n  },\n  \"resources\": {\n    \"cpus\": 1,\n    \"memory\": \"64MiB\",\n    \"memory_limit\": null\n  },\n  \"session\": {\n    \"cwd\": \"/\",\n    \"shell\": [\n      \"/bin/sh\",\n      \"-l\"\n    ]\n  },\n  \"version\": 1\n}\n",
+      "stderr": "",
+      "seconds": 0.007982823997735977
+    },
+    {
+      "arguments": [
+        "env",
+        "path",
+        "copy"
+      ],
+      "code": 0,
+      "stdout": "/mnt/trames-output/linux-networks/environments-regression/mmio-1-rvh_49sl/environments/673de330-245e-4ca6-8543-086d887c8534\n",
+      "stderr": "",
+      "seconds": 0.005274784998618998
+    },
+    {
+      "arguments": [
+        "env",
+        "backup",
+        "work",
+        "/mnt/trames-output/linux-networks/environments-regression/mmio-1-rvh_49sl/backup.tar.gz"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.057324998000694904
+    },
+    {
+      "arguments": [
+        "env",
+        "backup",
+        "work",
+        "/mnt/trames-output/linux-networks/environments-regression/mmio-1-rvh_49sl/backup.tar.gz"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: backup destination already exists\n",
+      "seconds": 0.013033146999077871
+    },
+    {
+      "arguments": [
+        "env",
+        "restore",
+        "restored",
+        "/mnt/trames-output/linux-networks/environments-regression/mmio-1-rvh_49sl/backup.tar.gz"
+      ],
+      "code": 0,
+      "stdout": "Restored restored; shared directories must be selected again\n",
+      "stderr": "",
+      "seconds": 0.12123600899940357
+    },
+    {
+      "arguments": [
+        "-e",
+        "restored",
+        "config",
+        "show",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"boot\": {\n    \"mode\": \"shell\"\n  },\n  \"components\": {\n    \"audio\": false,\n    \"audio_input\": false,\n    \"thunking\": \"auto\",\n    \"vaapi\": false,\n    \"vulkan\": false\n  },\n  \"display\": {\n    \"windows\": false\n  },\n  \"environment\": {\n    \"name\": \"restored\",\n    \"type\": \"linux\",\n    \"uuid\": \"68fb5ea1-4fc4-4f5f-8e91-ac8adee99a08\"\n  },\n  \"image\": {\n    \"distribution\": \"custom\",\n    \"sha256\": \"d2a4df7e6fe234efc464f366f55c6bfbd203001183d3210007f1dfe47fba33ac\",\n    \"source\": null\n  },\n  \"interop\": {\n    \"clipboard\": {\n      \"enabled\": true\n    },\n    \"files\": {\n      \"enabled\": true\n    },\n    \"host_cli\": {\n      \"enabled\": true\n    },\n    \"host_exec\": {\n      \"enabled\": true\n    },\n    \"host_ui\": {\n      \"enabled\": true\n    },\n    \"mounts\": {\n      \"enabled\": true\n    },\n    \"ports\": {\n      \"enabled\": true\n    }\n  },\n  \"kernel\": {\n    \"sysctl\": {}\n  },\n  \"mounts\": [],\n  \"network\": {\n    \"bridge\": null,\n    \"mode\": \"host\",\n    \"publish\": []\n  },\n  \"resources\": {\n    \"cpus\": 1,\n    \"memory\": \"64MiB\",\n    \"memory_limit\": null\n  },\n  \"session\": {\n    \"cwd\": \"/\",\n    \"shell\": [\n      \"/bin/sh\",\n      \"-l\"\n    ]\n  },\n  \"version\": 1\n}\n",
+      "stderr": "",
+      "seconds": 0.007072936001350172
+    },
+    {
+      "arguments": [
+        "env",
+        "restore",
+        "bad-crc",
+        "/mnt/trames-output/linux-networks/environments-regression/mmio-1-rvh_49sl/corrupt.tar.gz"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: corrupt gzip stream does not have a matching checksum\n",
+      "seconds": 0.10534607100271387
+    },
+    {
+      "arguments": [
+        "env",
+        "restore",
+        "bad-path",
+        "/mnt/trames-output/linux-networks/environments-regression/mmio-1-rvh_49sl/traversal.tar.gz"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: invalid backup path, type or duplicate entry\n",
+      "seconds": 0.007849487999919802
+    },
+    {
+      "arguments": [
+        "env",
+        "import-store",
+        "imported",
+        "/mnt/trames-output/linux-networks/environments-regression/mmio-1-rvh_49sl/environments/37e4c8c2-3ed1-461f-a022-4b390e71c17a/store"
+      ],
+      "code": 0,
+      "stdout": "Imported imported; shared directories must be selected again\n",
+      "stderr": "",
+      "seconds": 0.0468685550004011
+    },
+    {
+      "arguments": [
+        "env",
+        "rename",
+        "37e4c8c2-3ed1-461f-a022-4b390e71c17a",
+        "renamed"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.011622085999988485
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "config",
+        "show",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"boot\": {\n    \"mode\": \"shell\"\n  },\n  \"components\": {\n    \"audio\": false,\n    \"audio_input\": false,\n    \"thunking\": \"auto\",\n    \"vaapi\": false,\n    \"vulkan\": false\n  },\n  \"display\": {\n    \"windows\": false\n  },\n  \"environment\": {\n    \"name\": \"renamed\",\n    \"type\": \"linux\",\n    \"uuid\": \"37e4c8c2-3ed1-461f-a022-4b390e71c17a\"\n  },\n  \"image\": {\n    \"distribution\": \"custom\",\n    \"sha256\": \"d2a4df7e6fe234efc464f366f55c6bfbd203001183d3210007f1dfe47fba33ac\",\n    \"source\": null\n  },\n  \"interop\": {\n    \"clipboard\": {\n      \"enabled\": true\n    },\n    \"files\": {\n      \"enabled\": true\n    },\n    \"host_cli\": {\n      \"enabled\": true\n    },\n    \"host_exec\": {\n      \"enabled\": true\n    },\n    \"host_ui\": {\n      \"enabled\": true\n    },\n    \"mounts\": {\n      \"enabled\": true\n    },\n    \"ports\": {\n      \"enabled\": true\n    }\n  },\n  \"kernel\": {\n    \"sysctl\": {}\n  },\n  \"mounts\": [\n    {\n      \"host\": null,\n      \"readonly\": true,\n      \"share\": \"project\",\n      \"target\": \"/work\"\n    }\n  ],\n  \"network\": {\n    \"bridge\": null,\n    \"mode\": \"host\",\n    \"publish\": []\n  },\n  \"resources\": {\n    \"cpus\": 1,\n    \"memory\": \"64MiB\",\n    \"memory_limit\": null\n  },\n  \"session\": {\n    \"cwd\": \"/\",\n    \"shell\": [\n      \"/bin/sh\",\n      \"-l\"\n    ]\n  },\n  \"version\": 1\n}\n",
+      "stderr": "",
+      "seconds": 0.006700931000523269
+    },
+    {
+      "arguments": [
+        "config",
+        "--global",
+        "get",
+        "default_environment"
+      ],
+      "code": 0,
+      "stdout": "renamed\n",
+      "stderr": "",
+      "seconds": 0.0052735349963768385
+    },
+    {
+      "arguments": [
+        "env",
+        "remove",
+        "copy"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: usage: env remove NAME --yes\n",
+      "seconds": 0.0038665980027872138
+    },
+    {
+      "arguments": [
+        "env",
+        "remove",
+        "copy",
+        "--yes"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.018192847004684154
+    },
+    {
+      "arguments": [
+        "env",
+        "path",
+        "restored"
+      ],
+      "code": 0,
+      "stdout": "/mnt/trames-output/linux-networks/environments-regression/mmio-1-rvh_49sl/environments/68fb5ea1-4fc4-4f5f-8e91-ac8adee99a08\n",
+      "stderr": "",
+      "seconds": 0.004952031005814206
+    },
+    {
+      "arguments": [
+        "env",
+        "ls",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "[\n  {\n    \"config\": {\n      \"boot\": {\n        \"mode\": \"shell\"\n      },\n      \"components\": {\n        \"audio\": false,\n        \"audio_input\": false,\n        \"thunking\": \"auto\",\n        \"vaapi\": false,\n        \"vulkan\": false\n      },\n      \"display\": {\n        \"windows\": false\n      },\n      \"environment\": {\n        \"name\": \"imported\",\n        \"type\": \"linux\",\n        \"uuid\": \"36021f46-b760-47d6-94fe-2f0bdd72eb5e\"\n      },\n      \"image\": {\n        \"distribution\": \"custom\",\n        \"sha256\": \"d2a4df7e6fe234efc464f366f55c6bfbd203001183d3210007f1dfe47fba33ac\",\n        \"source\": null\n      },\n      \"interop\": {\n        \"clipboard\": {\n          \"enabled\": true\n        },\n        \"files\": {\n          \"enabled\": true\n        },\n        \"host_cli\": {\n          \"enabled\": true\n        },\n        \"host_exec\": {\n          \"enabled\": true\n        },\n        \"host_ui\": {\n          \"enabled\": true\n        },\n        \"mounts\": {\n          \"enabled\": true\n        },\n        \"ports\": {\n          \"enabled\": true\n        }\n      },\n      \"kernel\": {\n        \"sysctl\": {}\n      },\n      \"mounts\": [],\n      \"network\": {\n        \"bridge\": null,\n        \"mode\": \"host\",\n        \"publish\": []\n      },\n      \"resources\": {\n        \"cpus\": 1,\n        \"memory\": \"64MiB\",\n        \"memory_limit\": null\n      },\n      \"session\": {\n        \"cwd\": \"/\",\n        \"shell\": [\n          \"/bin/sh\",\n          \"-l\"\n        ]\n      },\n      \"version\": 1\n    },\n    \"directory\": \"/mnt/trames-output/linux-networks/environments-regression/mmio-1-rvh_49sl/environments/36021f46-b760-47d6-94fe-2f0bdd72eb5e\",\n    \"distribution\": \"custom\",\n    \"error\": null,\n    \"last_exit\": null,\n    \"name\": \"imported\",\n    \"running\": false,\n    \"state\": \"stopped\",\n    \"uuid\": \"36021f46-b760-47d6-94fe-2f0bdd72eb5e\"\n  },\n  {\n    \"config\": {\n      \"boot\": {\n        \"mode\": \"shell\"\n      },\n      \"components\": {\n        \"audio\": false,\n        \"audio_input\": false,\n        \"thunking\": \"auto\",\n        \"vaapi\": false,\n        \"vulkan\": false\n      },\n      \"display\": {\n        \"windows\": false\n      },\n      \"environment\": {\n        \"name\": \"renamed\",\n        \"type\": \"linux\",\n        \"uuid\": \"37e4c8c2-3ed1-461f-a022-4b390e71c17a\"\n      },\n      \"image\": {\n        \"distribution\": \"custom\",\n        \"sha256\": \"d2a4df7e6fe234efc464f366f55c6bfbd203001183d3210007f1dfe47fba33ac\",\n        \"source\": null\n      },\n      \"interop\": {\n        \"clipboard\": {\n          \"enabled\": true\n        },\n        \"files\": {\n          \"enabled\": true\n        },\n        \"host_cli\": {\n          \"enabled\": true\n        },\n        \"host_exec\": {\n          \"enabled\": true\n        },\n        \"host_ui\": {\n          \"enabled\": true\n        },\n        \"mounts\": {\n          \"enabled\": true\n        },\n        \"ports\": {\n          \"enabled\": true\n        }\n      },\n      \"kernel\": {\n        \"sysctl\": {}\n      },\n      \"mounts\": [\n        {\n          \"host\": null,\n          \"readonly\": true,\n          \"share\": \"project\",\n          \"target\": \"/work\"\n        }\n      ],\n      \"network\": {\n        \"bridge\": null,\n        \"mode\": \"host\",\n        \"publish\": []\n      },\n      \"resources\": {\n        \"cpus\": 1,\n        \"memory\": \"64MiB\",\n        \"memory_limit\": null\n      },\n      \"session\": {\n        \"cwd\": \"/\",\n        \"shell\": [\n          \"/bin/sh\",\n          \"-l\"\n        ]\n      },\n      \"version\": 1\n    },\n    \"directory\": \"/mnt/trames-output/linux-networks/environments-regression/mmio-1-rvh_49sl/environments/37e4c8c2-3ed1-461f-a022-4b390e71c17a\",\n    \"distribution\": \"custom\",\n    \"error\": null,\n    \"last_exit\": null,\n    \"name\": \"renamed\",\n    \"running\": false,\n    \"state\": \"stopped\",\n    \"uuid\": \"37e4c8c2-3ed1-461f-a022-4b390e71c17a\"\n  },\n  {\n    \"config\": null,\n    \"directory\": \"/mnt/trames-output/linux-networks/environments-regression/mmio-1-rvh_49sl/environments/68fb5ea1-4fc4-4f5f-8e91-ac8adee99a08\",\n    \"distribution\": \"custom\",\n    \"error\": \"unsupported environment TOML version\",\n    \"last_exit\": null,\n    \"name\": \"restored\",\n    \"running\": false,\n    \"state\": \"needs attention\",\n    \"uuid\": \"68fb5ea1-4fc4-4f5f-8e91-ac8adee99a08\"\n  }\n]\n",
+      "stderr": "",
+      "seconds": 0.014857048001431394
+    },
+    {
+      "arguments": [
+        "-e",
+        "restored",
+        "config",
+        "validate"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: unsupported environment TOML version\n",
+      "seconds": 0.006038004998117685
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "config",
+        "set",
+        "resources.cpus",
+        "1",
+        "resources.memory",
+        "auto"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.007882906000304502
+    },
+    {
+      "arguments": [
+        "env",
+        "start",
+        "renamed"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.030555776997061912
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/cat"
+      ],
+      "code": 0,
+      "stdout": "a\u0000b\ufffd\n",
+      "stderr": "",
+      "seconds": 0.0721364220007672
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--setenv",
+        "KEY=literal $() ; value",
+        "--cwd",
+        "/tmp",
+        "--",
+        "/bin/sh",
+        "-c",
+        "printf \"%s|%s\" \"$KEY\" \"$PWD\"; printf err >&2; exit 7"
+      ],
+      "code": 7,
+      "stdout": "literal $() ; value|/tmp",
+      "stderr": "err",
+      "seconds": 0.04778148500190582
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "/bin/echo",
+        "--rootfs"
+      ],
+      "code": 0,
+      "stdout": "--rootfs\n",
+      "stderr": "",
+      "seconds": 0.043455963997985236
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/sh",
+        "-c",
+        "echo durable > /root/value; sync"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.08243373799632536
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/sh",
+        "-c",
+        "sleep .05; printf job0"
+      ],
+      "code": 0,
+      "stdout": "job0",
+      "stderr": "",
+      "seconds": 0.24115566600085003
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/sh",
+        "-c",
+        "sleep .05; printf job1"
+      ],
+      "code": 0,
+      "stdout": "job1",
+      "stderr": "",
+      "seconds": 0.24293577399657806
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/sh",
+        "-c",
+        "sleep .05; printf job2"
+      ],
+      "code": 0,
+      "stdout": "job2",
+      "stderr": "",
+      "seconds": 0.24346482399414526
+    },
+    {
+      "arguments": [
+        "env",
+        "start",
+        "imported"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.03371102899836842
+    },
+    {
+      "arguments": [
+        "-e",
+        "imported",
+        "exec",
+        "--",
+        "/bin/ls",
+        "/root"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.09241683800064493
+    },
+    {
+      "arguments": [
+        "env",
+        "remove",
+        "renamed",
+        "--yes"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: environment is running or busy: lock acquisition failed because the operation would block\n",
+      "seconds": 0.007277564000105485
+    },
+    {
+      "arguments": [
+        "env",
+        "backup",
+        "renamed",
+        "/mnt/trames-output/linux-networks/environments-regression/mmio-1-rvh_49sl/live.tar.gz"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: environment is running or busy: lock acquisition failed because the operation would block\n",
+      "seconds": 0.005047155995271169
+    },
+    {
+      "arguments": [
+        "env",
+        "stop",
+        "renamed"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.019597784004872665
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/cat",
+        "/root/value"
+      ],
+      "code": 0,
+      "stdout": "durable\n",
+      "stderr": "",
+      "seconds": 0.0924943810023251
+    },
+    {
+      "arguments": [
+        "env",
+        "path",
+        "renamed"
+      ],
+      "code": 0,
+      "stdout": "/mnt/trames-output/linux-networks/environments-regression/mmio-1-rvh_49sl/environments/37e4c8c2-3ed1-461f-a022-4b390e71c17a\n",
+      "stderr": "",
+      "seconds": 0.005940377996012103
+    },
+    {
+      "arguments": [
+        "env",
+        "inspect",
+        "renamed",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"config\": {\n    \"boot\": {\n      \"mode\": \"shell\"\n    },\n    \"components\": {\n      \"audio\": false,\n      \"audio_input\": false,\n      \"thunking\": \"auto\",\n      \"vaapi\": false,\n      \"vulkan\": false\n    },\n    \"display\": {\n      \"windows\": false\n    },\n    \"environment\": {\n      \"name\": \"renamed\",\n      \"type\": \"linux\",\n      \"uuid\": \"37e4c8c2-3ed1-461f-a022-4b390e71c17a\"\n    },\n    \"image\": {\n      \"distribution\": \"custom\",\n      \"sha256\": \"d2a4df7e6fe234efc464f366f55c6bfbd203001183d3210007f1dfe47fba33ac\",\n      \"source\": null\n    },\n    \"interop\": {\n      \"clipboard\": {\n        \"enabled\": true\n      },\n      \"files\": {\n        \"enabled\": true\n      },\n      \"host_cli\": {\n        \"enabled\": true\n      },\n      \"host_exec\": {\n        \"enabled\": true\n      },\n      \"host_ui\": {\n        \"enabled\": true\n      },\n      \"mounts\": {\n        \"enabled\": true\n      },\n      \"ports\": {\n        \"enabled\": true\n      }\n    },\n    \"kernel\": {\n      \"sysctl\": {}\n    },\n    \"mounts\": [\n      {\n        \"host\": null,\n        \"readonly\": true,\n        \"share\": \"project\",\n        \"target\": \"/work\"\n      }\n    ],\n    \"network\": {\n      \"bridge\": null,\n      \"mode\": \"host\",\n      \"publish\": []\n    },\n    \"resources\": {\n      \"cpus\": 1,\n      \"memory\": \"auto\",\n      \"memory_limit\": null\n    },\n    \"session\": {\n      \"cwd\": \"/\",\n      \"shell\": [\n        \"/bin/sh\",\n        \"-l\"\n      ]\n    },\n    \"version\": 1\n  },\n  \"directory\": \"/mnt/trames-output/linux-networks/environments-regression/mmio-1-rvh_49sl/environments/37e4c8c2-3ed1-461f-a022-4b390e71c17a\",\n  \"distribution\": \"custom\",\n  \"error\": null,\n  \"last_exit\": null,\n  \"name\": \"renamed\",\n  \"running\": false,\n  \"state\": \"stopped\",\n  \"uuid\": \"37e4c8c2-3ed1-461f-a022-4b390e71c17a\"\n}\n",
+      "stderr": "",
+      "seconds": 0.007502941996790469
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/cat",
+        "/root/value"
+      ],
+      "code": 0,
+      "stdout": "durable\n",
+      "stderr": "",
+      "seconds": 0.09149861599871656
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "session",
+        "ls",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "[\n  {\n    \"attached\": false,\n    \"id\": 1,\n    \"state\": \"running\"\n  }\n]\n",
+      "stderr": "",
+      "seconds": 0.008020032997592352
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "session",
+        "ls",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "[\n  {\n    \"attached\": false,\n    \"id\": 1,\n    \"state\": \"running\"\n  }\n]\n",
+      "stderr": "",
+      "seconds": 0.007095186003425624
+    },
+    {
+      "arguments": [
+        "env",
+        "restart",
+        "renamed"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.04455472799600102
+    },
+    {
+      "arguments": [
+        "env",
+        "stop",
+        "imported"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.019689118998940103
+    },
+    {
+      "arguments": [
+        "env",
+        "stop",
+        "renamed"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.017364126004395075
+    },
+    {
+      "arguments": [
+        "env",
+        "create",
+        "services",
+        "--rootfs",
+        "/home/main.guest/trames-services-bundle/rootfs",
+        "--init",
+        "systemd",
+        "--cpus",
+        "1",
+        "--memory",
+        "auto"
+      ],
+      "code": 0,
+      "stdout": "Created services (custom)\n",
+      "stderr": "",
+      "seconds": 11.515019015001599
+    },
+    {
+      "arguments": [
+        "env",
+        "start",
+        "services"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.17585273100121412
+    },
+    {
+      "arguments": [
+        "-e",
+        "services",
+        "exec",
+        "--",
+        "/bin/sh",
+        "-ec",
+        "for n in $(seq 1 100); do test -S /run/systemd/private && break; sleep .1; done\ncat > /run/systemd/system/trames-environment.service <<'UNIT'\n[Service]\nType=oneshot\nRemainAfterExit=yes\nExecStart=/bin/sh -c 'echo started > /root/service-started'\nExecStop=/bin/sh -c 'echo graceful > /root/service-stopped'\nUNIT\nsystemctl daemon-reload\nsystemctl start trames-environment.service\nsystemctl is-active trames-environment.service\n"
+      ],
+      "code": 0,
+      "stdout": "active\n",
+      "stderr": "",
+      "seconds": 21.012084097004845
+    },
+    {
+      "arguments": [
+        "env",
+        "stop",
+        "services"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 4.639727132998814
+    },
+    {
+      "arguments": [
+        "env",
+        "inspect",
+        "services",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"config\": {\n    \"boot\": {\n      \"mode\": \"systemd\"\n    },\n    \"components\": {\n      \"audio\": false,\n      \"audio_input\": false,\n      \"thunking\": \"auto\",\n      \"vaapi\": false,\n      \"vulkan\": false\n    },\n    \"display\": {\n      \"windows\": false\n    },\n    \"environment\": {\n      \"name\": \"services\",\n      \"type\": \"linux\",\n      \"uuid\": \"a68789e5-8ef8-48ed-b35d-4b6e3ac71961\"\n    },\n    \"image\": {\n      \"distribution\": \"custom\",\n      \"sha256\": \"0d11a54eca6729fed77d8c75546d574fa31681c96b818611d3302f5e9ed83fb2\",\n      \"source\": null\n    },\n    \"interop\": {\n      \"clipboard\": {\n        \"enabled\": true\n      },\n      \"files\": {\n        \"enabled\": true\n      },\n      \"host_cli\": {\n        \"enabled\": true\n      },\n      \"host_exec\": {\n        \"enabled\": true\n      },\n      \"host_ui\": {\n        \"enabled\": true\n      },\n      \"mounts\": {\n        \"enabled\": true\n      },\n      \"ports\": {\n        \"enabled\": true\n      }\n    },\n    \"kernel\": {\n      \"sysctl\": {}\n    },\n    \"mounts\": [],\n    \"network\": {\n      \"bridge\": null,\n      \"mode\": \"host\",\n      \"publish\": []\n    },\n    \"resources\": {\n      \"cpus\": 1,\n      \"memory\": \"auto\",\n      \"memory_limit\": null\n    },\n    \"session\": {\n      \"cwd\": \"/\",\n      \"shell\": [\n        \"/bin/sh\",\n        \"-l\"\n      ]\n    },\n    \"version\": 1\n  },\n  \"directory\": \"/mnt/trames-output/linux-networks/environments-regression/mmio-1-rvh_49sl/environments/a68789e5-8ef8-48ed-b35d-4b6e3ac71961\",\n  \"distribution\": \"custom\",\n  \"error\": null,\n  \"last_exit\": {\n    \"code\": 0,\n    \"error\": null\n  },\n  \"name\": \"services\",\n  \"running\": false,\n  \"state\": \"stopped\",\n  \"uuid\": \"a68789e5-8ef8-48ed-b35d-4b6e3ac71961\"\n}\n",
+      "stderr": "",
+      "seconds": 0.009114705993852112
+    },
+    {
+      "arguments": [
+        "-e",
+        "services",
+        "config",
+        "set",
+        "boot.mode",
+        "shell"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.006937550999282394
+    },
+    {
+      "arguments": [
+        "-e",
+        "services",
+        "exec",
+        "--",
+        "/bin/cat",
+        "/root/service-stopped"
+      ],
+      "code": 0,
+      "stdout": "graceful\n",
+      "stderr": "",
+      "seconds": 0.2479776820036932
+    },
+    {
+      "arguments": [
+        "env",
+        "stop",
+        "services"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 1.0113337290022173
+    },
+    {
+      "arguments": [
+        "config",
+        "--global",
+        "set",
+        "defaults.components.vulkan",
+        "false",
+        "defaults.display.windows",
+        "false",
+        "defaults.resources.cpus",
+        "1"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.008008065000467468
+    },
+    {
+      "arguments": [
+        "config",
+        "--global",
+        "set",
+        "defaults.image.distribution",
+        "debian"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.006123790000856388
+    },
+    {
+      "arguments": [
+        "config",
+        "--global",
+        "set",
+        "defaults.image.distribution",
+        "alpine"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.005671699997037649
+    },
+    {
+      "arguments": [
+        "env",
+        "create",
+        "work",
+        "--rootfs",
+        "/mnt/trames-output/linux-networks/environments-regression/rootfs"
+      ],
+      "code": 0,
+      "stdout": "Created work (custom)\n",
+      "stderr": "",
+      "seconds": 0.07464995000191266
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "show",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"boot\": {\n    \"mode\": \"shell\"\n  },\n  \"components\": {\n    \"audio\": false,\n    \"audio_input\": false,\n    \"thunking\": \"auto\",\n    \"vaapi\": false,\n    \"vulkan\": false\n  },\n  \"display\": {\n    \"windows\": false\n  },\n  \"environment\": {\n    \"name\": \"work\",\n    \"type\": \"linux\",\n    \"uuid\": \"27153752-a78b-468f-90d0-f76ee821bd1d\"\n  },\n  \"image\": {\n    \"distribution\": \"custom\",\n    \"sha256\": \"d2a4df7e6fe234efc464f366f55c6bfbd203001183d3210007f1dfe47fba33ac\",\n    \"source\": null\n  },\n  \"interop\": {\n    \"clipboard\": {\n      \"enabled\": true\n    },\n    \"files\": {\n      \"enabled\": true\n    },\n    \"host_cli\": {\n      \"enabled\": true\n    },\n    \"host_exec\": {\n      \"enabled\": true\n    },\n    \"host_ui\": {\n      \"enabled\": true\n    },\n    \"mounts\": {\n      \"enabled\": true\n    },\n    \"ports\": {\n      \"enabled\": true\n    }\n  },\n  \"kernel\": {\n    \"sysctl\": {}\n  },\n  \"mounts\": [],\n  \"network\": {\n    \"bridge\": null,\n    \"mode\": \"host\",\n    \"publish\": []\n  },\n  \"resources\": {\n    \"cpus\": 1,\n    \"memory\": \"auto\",\n    \"memory_limit\": null\n  },\n  \"session\": {\n    \"cwd\": \"/\",\n    \"shell\": [\n      \"/bin/sh\",\n      \"-l\"\n    ]\n  },\n  \"version\": 1\n}\n",
+      "stderr": "",
+      "seconds": 0.006133206006779801
+    },
+    {
+      "arguments": [
+        "env",
+        "path",
+        "work"
+      ],
+      "code": 0,
+      "stdout": "/mnt/trames-output/linux-networks/environments-regression/mmio-4-2eyn_2fw/environments/27153752-a78b-468f-90d0-f76ee821bd1d\n",
+      "stderr": "",
+      "seconds": 0.004839021996303927
+    },
+    {
+      "arguments": [
+        "env",
+        "create",
+        "work",
+        "--rootfs",
+        "/mnt/trames-output/linux-networks/environments-regression/rootfs"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: environment name already exists\n",
+      "seconds": 0.005445738999696914
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "resources.memory",
+        "64MiB",
+        "resources.cpus",
+        "0"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: resources.cpus must be all or a supported positive count\n",
+      "seconds": 0.005861327997990884
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "image",
+        "{}"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: registered identity and image provenance are immutable; use env rename/create/clone\n",
+      "seconds": 0.00607370599755086
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "resources.typo",
+        "5"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: unknown configuration field\n",
+      "seconds": 0.006026663999364246
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "resources.memory",
+        "--help"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: cannot parse integer from empty string\n",
+      "seconds": 0.005982829999993555
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "resources.memory",
+        "--global"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: cannot parse integer from empty string\n",
+      "seconds": 0.006012622005073354
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "resources.memory",
+        "64MiB",
+        "resources.cpus",
+        "1"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.008093607997579966
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "validate"
+      ],
+      "code": 0,
+      "stdout": "Valid environment configuration\n",
+      "stderr": "",
+      "seconds": 0.006004996001138352
+    },
+    {
+      "arguments": [
+        "config",
+        "--global",
+        "set",
+        "default_environment",
+        "work"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.006241874994884711
+    },
+    {
+      "arguments": [
+        "config",
+        "get",
+        "resources.memory"
+      ],
+      "code": 0,
+      "stdout": "64MiB\n",
+      "stderr": "",
+      "seconds": 0.006139122997410595
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "edit"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: editor failed\n",
+      "seconds": 0.007782727996527683
+    },
+    {
+      "arguments": [
+        "env",
+        "remove",
+        "work",
+        "--yes"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: environment is running or busy: lock acquisition failed because the operation would block\n",
+      "seconds": 0.005652366999129299
+    },
+    {
+      "arguments": [
+        "env",
+        "backup",
+        "work",
+        "/mnt/trames-output/linux-networks/environments-regression/mmio-4-2eyn_2fw/busy.tar.gz"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: environment is running or busy: lock acquisition failed because the operation would block\n",
+      "seconds": 0.004462350996618625
+    },
+    {
+      "arguments": [
+        "env",
+        "clone",
+        "work",
+        "busy-clone"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: environment is running or busy: lock acquisition failed because the operation would block\n",
+      "seconds": 0.004558935994282365
+    },
+    {
+      "arguments": [
+        "env",
+        "share",
+        "work",
+        "project",
+        "/mnt/trames-output/linux-networks/environments-regression/mmio-4-2eyn_2fw/shared",
+        "/work",
+        "ro"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.009860797996225301
+    },
+    {
+      "arguments": [
+        "env",
+        "clone",
+        "work",
+        "copy"
+      ],
+      "code": 0,
+      "stdout": "Imported copy; shared directories must be selected again\n",
+      "stderr": "",
+      "seconds": 0.04738012899906607
+    },
+    {
+      "arguments": [
+        "-e",
+        "copy",
+        "config",
+        "show",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"boot\": {\n    \"mode\": \"shell\"\n  },\n  \"components\": {\n    \"audio\": false,\n    \"audio_input\": false,\n    \"thunking\": \"auto\",\n    \"vaapi\": false,\n    \"vulkan\": false\n  },\n  \"display\": {\n    \"windows\": false\n  },\n  \"environment\": {\n    \"name\": \"copy\",\n    \"type\": \"linux\",\n    \"uuid\": \"5c60592d-f33d-4a72-9017-f627760084c3\"\n  },\n  \"image\": {\n    \"distribution\": \"custom\",\n    \"sha256\": \"d2a4df7e6fe234efc464f366f55c6bfbd203001183d3210007f1dfe47fba33ac\",\n    \"source\": null\n  },\n  \"interop\": {\n    \"clipboard\": {\n      \"enabled\": true\n    },\n    \"files\": {\n      \"enabled\": true\n    },\n    \"host_cli\": {\n      \"enabled\": true\n    },\n    \"host_exec\": {\n      \"enabled\": true\n    },\n    \"host_ui\": {\n      \"enabled\": true\n    },\n    \"mounts\": {\n      \"enabled\": true\n    },\n    \"ports\": {\n      \"enabled\": true\n    }\n  },\n  \"kernel\": {\n    \"sysctl\": {}\n  },\n  \"mounts\": [],\n  \"network\": {\n    \"bridge\": null,\n    \"mode\": \"host\",\n    \"publish\": []\n  },\n  \"resources\": {\n    \"cpus\": 1,\n    \"memory\": \"64MiB\",\n    \"memory_limit\": null\n  },\n  \"session\": {\n    \"cwd\": \"/\",\n    \"shell\": [\n      \"/bin/sh\",\n      \"-l\"\n    ]\n  },\n  \"version\": 1\n}\n",
+      "stderr": "",
+      "seconds": 0.006934133998584002
+    },
+    {
+      "arguments": [
+        "env",
+        "path",
+        "copy"
+      ],
+      "code": 0,
+      "stdout": "/mnt/trames-output/linux-networks/environments-regression/mmio-4-2eyn_2fw/environments/5c60592d-f33d-4a72-9017-f627760084c3\n",
+      "stderr": "",
+      "seconds": 0.004492809996008873
+    },
+    {
+      "arguments": [
+        "env",
+        "backup",
+        "work",
+        "/mnt/trames-output/linux-networks/environments-regression/mmio-4-2eyn_2fw/backup.tar.gz"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.05670025300059933
+    },
+    {
+      "arguments": [
+        "env",
+        "backup",
+        "work",
+        "/mnt/trames-output/linux-networks/environments-regression/mmio-4-2eyn_2fw/backup.tar.gz"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: backup destination already exists\n",
+      "seconds": 0.012926379997225013
+    },
+    {
+      "arguments": [
+        "env",
+        "restore",
+        "restored",
+        "/mnt/trames-output/linux-networks/environments-regression/mmio-4-2eyn_2fw/backup.tar.gz"
+      ],
+      "code": 0,
+      "stdout": "Restored restored; shared directories must be selected again\n",
+      "stderr": "",
+      "seconds": 0.12365085000055842
+    },
+    {
+      "arguments": [
+        "-e",
+        "restored",
+        "config",
+        "show",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"boot\": {\n    \"mode\": \"shell\"\n  },\n  \"components\": {\n    \"audio\": false,\n    \"audio_input\": false,\n    \"thunking\": \"auto\",\n    \"vaapi\": false,\n    \"vulkan\": false\n  },\n  \"display\": {\n    \"windows\": false\n  },\n  \"environment\": {\n    \"name\": \"restored\",\n    \"type\": \"linux\",\n    \"uuid\": \"3745dc04-5c0b-4298-bc40-26d38e02d33d\"\n  },\n  \"image\": {\n    \"distribution\": \"custom\",\n    \"sha256\": \"d2a4df7e6fe234efc464f366f55c6bfbd203001183d3210007f1dfe47fba33ac\",\n    \"source\": null\n  },\n  \"interop\": {\n    \"clipboard\": {\n      \"enabled\": true\n    },\n    \"files\": {\n      \"enabled\": true\n    },\n    \"host_cli\": {\n      \"enabled\": true\n    },\n    \"host_exec\": {\n      \"enabled\": true\n    },\n    \"host_ui\": {\n      \"enabled\": true\n    },\n    \"mounts\": {\n      \"enabled\": true\n    },\n    \"ports\": {\n      \"enabled\": true\n    }\n  },\n  \"kernel\": {\n    \"sysctl\": {}\n  },\n  \"mounts\": [],\n  \"network\": {\n    \"bridge\": null,\n    \"mode\": \"host\",\n    \"publish\": []\n  },\n  \"resources\": {\n    \"cpus\": 1,\n    \"memory\": \"64MiB\",\n    \"memory_limit\": null\n  },\n  \"session\": {\n    \"cwd\": \"/\",\n    \"shell\": [\n      \"/bin/sh\",\n      \"-l\"\n    ]\n  },\n  \"version\": 1\n}\n",
+      "stderr": "",
+      "seconds": 0.006755964997864794
+    },
+    {
+      "arguments": [
+        "env",
+        "restore",
+        "bad-crc",
+        "/mnt/trames-output/linux-networks/environments-regression/mmio-4-2eyn_2fw/corrupt.tar.gz"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: corrupt gzip stream does not have a matching checksum\n",
+      "seconds": 0.10690812700340757
+    },
+    {
+      "arguments": [
+        "env",
+        "restore",
+        "bad-path",
+        "/mnt/trames-output/linux-networks/environments-regression/mmio-4-2eyn_2fw/traversal.tar.gz"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: invalid backup path, type or duplicate entry\n",
+      "seconds": 0.008096525001747068
+    },
+    {
+      "arguments": [
+        "env",
+        "import-store",
+        "imported",
+        "/mnt/trames-output/linux-networks/environments-regression/mmio-4-2eyn_2fw/environments/27153752-a78b-468f-90d0-f76ee821bd1d/store"
+      ],
+      "code": 0,
+      "stdout": "Imported imported; shared directories must be selected again\n",
+      "stderr": "",
+      "seconds": 0.045449312005075626
+    },
+    {
+      "arguments": [
+        "env",
+        "rename",
+        "27153752-a78b-468f-90d0-f76ee821bd1d",
+        "renamed"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.013741848997597117
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "config",
+        "show",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"boot\": {\n    \"mode\": \"shell\"\n  },\n  \"components\": {\n    \"audio\": false,\n    \"audio_input\": false,\n    \"thunking\": \"auto\",\n    \"vaapi\": false,\n    \"vulkan\": false\n  },\n  \"display\": {\n    \"windows\": false\n  },\n  \"environment\": {\n    \"name\": \"renamed\",\n    \"type\": \"linux\",\n    \"uuid\": \"27153752-a78b-468f-90d0-f76ee821bd1d\"\n  },\n  \"image\": {\n    \"distribution\": \"custom\",\n    \"sha256\": \"d2a4df7e6fe234efc464f366f55c6bfbd203001183d3210007f1dfe47fba33ac\",\n    \"source\": null\n  },\n  \"interop\": {\n    \"clipboard\": {\n      \"enabled\": true\n    },\n    \"files\": {\n      \"enabled\": true\n    },\n    \"host_cli\": {\n      \"enabled\": true\n    },\n    \"host_exec\": {\n      \"enabled\": true\n    },\n    \"host_ui\": {\n      \"enabled\": true\n    },\n    \"mounts\": {\n      \"enabled\": true\n    },\n    \"ports\": {\n      \"enabled\": true\n    }\n  },\n  \"kernel\": {\n    \"sysctl\": {}\n  },\n  \"mounts\": [\n    {\n      \"host\": null,\n      \"readonly\": true,\n      \"share\": \"project\",\n      \"target\": \"/work\"\n    }\n  ],\n  \"network\": {\n    \"bridge\": null,\n    \"mode\": \"host\",\n    \"publish\": []\n  },\n  \"resources\": {\n    \"cpus\": 1,\n    \"memory\": \"64MiB\",\n    \"memory_limit\": null\n  },\n  \"session\": {\n    \"cwd\": \"/\",\n    \"shell\": [\n      \"/bin/sh\",\n      \"-l\"\n    ]\n  },\n  \"version\": 1\n}\n",
+      "stderr": "",
+      "seconds": 0.0075736419967142865
+    },
+    {
+      "arguments": [
+        "config",
+        "--global",
+        "get",
+        "default_environment"
+      ],
+      "code": 0,
+      "stdout": "renamed\n",
+      "stderr": "",
+      "seconds": 0.0054145300018717535
+    },
+    {
+      "arguments": [
+        "env",
+        "remove",
+        "copy"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: usage: env remove NAME --yes\n",
+      "seconds": 0.0035250880027888343
+    },
+    {
+      "arguments": [
+        "env",
+        "remove",
+        "copy",
+        "--yes"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.022029125997505616
+    },
+    {
+      "arguments": [
+        "env",
+        "path",
+        "restored"
+      ],
+      "code": 0,
+      "stdout": "/mnt/trames-output/linux-networks/environments-regression/mmio-4-2eyn_2fw/environments/3745dc04-5c0b-4298-bc40-26d38e02d33d\n",
+      "stderr": "",
+      "seconds": 0.00498356600292027
+    },
+    {
+      "arguments": [
+        "env",
+        "ls",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "[\n  {\n    \"config\": {\n      \"boot\": {\n        \"mode\": \"shell\"\n      },\n      \"components\": {\n        \"audio\": false,\n        \"audio_input\": false,\n        \"thunking\": \"auto\",\n        \"vaapi\": false,\n        \"vulkan\": false\n      },\n      \"display\": {\n        \"windows\": false\n      },\n      \"environment\": {\n        \"name\": \"imported\",\n        \"type\": \"linux\",\n        \"uuid\": \"9918dd7d-f136-4a41-b57e-f8e4375079d4\"\n      },\n      \"image\": {\n        \"distribution\": \"custom\",\n        \"sha256\": \"d2a4df7e6fe234efc464f366f55c6bfbd203001183d3210007f1dfe47fba33ac\",\n        \"source\": null\n      },\n      \"interop\": {\n        \"clipboard\": {\n          \"enabled\": true\n        },\n        \"files\": {\n          \"enabled\": true\n        },\n        \"host_cli\": {\n          \"enabled\": true\n        },\n        \"host_exec\": {\n          \"enabled\": true\n        },\n        \"host_ui\": {\n          \"enabled\": true\n        },\n        \"mounts\": {\n          \"enabled\": true\n        },\n        \"ports\": {\n          \"enabled\": true\n        }\n      },\n      \"kernel\": {\n        \"sysctl\": {}\n      },\n      \"mounts\": [],\n      \"network\": {\n        \"bridge\": null,\n        \"mode\": \"host\",\n        \"publish\": []\n      },\n      \"resources\": {\n        \"cpus\": 1,\n        \"memory\": \"64MiB\",\n        \"memory_limit\": null\n      },\n      \"session\": {\n        \"cwd\": \"/\",\n        \"shell\": [\n          \"/bin/sh\",\n          \"-l\"\n        ]\n      },\n      \"version\": 1\n    },\n    \"directory\": \"/mnt/trames-output/linux-networks/environments-regression/mmio-4-2eyn_2fw/environments/9918dd7d-f136-4a41-b57e-f8e4375079d4\",\n    \"distribution\": \"custom\",\n    \"error\": null,\n    \"last_exit\": null,\n    \"name\": \"imported\",\n    \"running\": false,\n    \"state\": \"stopped\",\n    \"uuid\": \"9918dd7d-f136-4a41-b57e-f8e4375079d4\"\n  },\n  {\n    \"config\": {\n      \"boot\": {\n        \"mode\": \"shell\"\n      },\n      \"components\": {\n        \"audio\": false,\n        \"audio_input\": false,\n        \"thunking\": \"auto\",\n        \"vaapi\": false,\n        \"vulkan\": false\n      },\n      \"display\": {\n        \"windows\": false\n      },\n      \"environment\": {\n        \"name\": \"renamed\",\n        \"type\": \"linux\",\n        \"uuid\": \"27153752-a78b-468f-90d0-f76ee821bd1d\"\n      },\n      \"image\": {\n        \"distribution\": \"custom\",\n        \"sha256\": \"d2a4df7e6fe234efc464f366f55c6bfbd203001183d3210007f1dfe47fba33ac\",\n        \"source\": null\n      },\n      \"interop\": {\n        \"clipboard\": {\n          \"enabled\": true\n        },\n        \"files\": {\n          \"enabled\": true\n        },\n        \"host_cli\": {\n          \"enabled\": true\n        },\n        \"host_exec\": {\n          \"enabled\": true\n        },\n        \"host_ui\": {\n          \"enabled\": true\n        },\n        \"mounts\": {\n          \"enabled\": true\n        },\n        \"ports\": {\n          \"enabled\": true\n        }\n      },\n      \"kernel\": {\n        \"sysctl\": {}\n      },\n      \"mounts\": [\n        {\n          \"host\": null,\n          \"readonly\": true,\n          \"share\": \"project\",\n          \"target\": \"/work\"\n        }\n      ],\n      \"network\": {\n        \"bridge\": null,\n        \"mode\": \"host\",\n        \"publish\": []\n      },\n      \"resources\": {\n        \"cpus\": 1,\n        \"memory\": \"64MiB\",\n        \"memory_limit\": null\n      },\n      \"session\": {\n        \"cwd\": \"/\",\n        \"shell\": [\n          \"/bin/sh\",\n          \"-l\"\n        ]\n      },\n      \"version\": 1\n    },\n    \"directory\": \"/mnt/trames-output/linux-networks/environments-regression/mmio-4-2eyn_2fw/environments/27153752-a78b-468f-90d0-f76ee821bd1d\",\n    \"distribution\": \"custom\",\n    \"error\": null,\n    \"last_exit\": null,\n    \"name\": \"renamed\",\n    \"running\": false,\n    \"state\": \"stopped\",\n    \"uuid\": \"27153752-a78b-468f-90d0-f76ee821bd1d\"\n  },\n  {\n    \"config\": null,\n    \"directory\": \"/mnt/trames-output/linux-networks/environments-regression/mmio-4-2eyn_2fw/environments/3745dc04-5c0b-4298-bc40-26d38e02d33d\",\n    \"distribution\": \"custom\",\n    \"error\": \"unsupported environment TOML version\",\n    \"last_exit\": null,\n    \"name\": \"restored\",\n    \"running\": false,\n    \"state\": \"needs attention\",\n    \"uuid\": \"3745dc04-5c0b-4298-bc40-26d38e02d33d\"\n  }\n]\n",
+      "stderr": "",
+      "seconds": 0.015146784004173242
+    },
+    {
+      "arguments": [
+        "-e",
+        "restored",
+        "config",
+        "validate"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: unsupported environment TOML version\n",
+      "seconds": 0.005899787000089418
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "config",
+        "set",
+        "resources.cpus",
+        "4",
+        "resources.memory",
+        "auto"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.008330943004693836
+    },
+    {
+      "arguments": [
+        "env",
+        "start",
+        "renamed"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.032397221999417525
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/cat"
+      ],
+      "code": 0,
+      "stdout": "a\u0000b\ufffd\n",
+      "stderr": "",
+      "seconds": 0.054998730003717355
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--setenv",
+        "KEY=literal $() ; value",
+        "--cwd",
+        "/tmp",
+        "--",
+        "/bin/sh",
+        "-c",
+        "printf \"%s|%s\" \"$KEY\" \"$PWD\"; printf err >&2; exit 7"
+      ],
+      "code": 7,
+      "stdout": "literal $() ; value|/tmp",
+      "stderr": "err",
+      "seconds": 0.04928240399749484
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "/bin/echo",
+        "--rootfs"
+      ],
+      "code": 0,
+      "stdout": "--rootfs\n",
+      "stderr": "",
+      "seconds": 0.04393158300081268
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/sh",
+        "-c",
+        "echo durable > /root/value; sync"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.08545163199596573
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/sh",
+        "-c",
+        "sleep .05; printf job1"
+      ],
+      "code": 0,
+      "stdout": "job1",
+      "stderr": "",
+      "seconds": 0.1822663310013013
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/sh",
+        "-c",
+        "sleep .05; printf job0"
+      ],
+      "code": 0,
+      "stdout": "job0",
+      "stderr": "",
+      "seconds": 0.1855498750010156
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/sh",
+        "-c",
+        "sleep .05; printf job2"
+      ],
+      "code": 0,
+      "stdout": "job2",
+      "stderr": "",
+      "seconds": 0.1882979529982549
+    },
+    {
+      "arguments": [
+        "env",
+        "start",
+        "imported"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.03375115599919809
+    },
+    {
+      "arguments": [
+        "-e",
+        "imported",
+        "exec",
+        "--",
+        "/bin/ls",
+        "/root"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.08957406199624529
+    },
+    {
+      "arguments": [
+        "env",
+        "remove",
+        "renamed",
+        "--yes"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: environment is running or busy: lock acquisition failed because the operation would block\n",
+      "seconds": 0.008665614004712552
+    },
+    {
+      "arguments": [
+        "env",
+        "backup",
+        "renamed",
+        "/mnt/trames-output/linux-networks/environments-regression/mmio-4-2eyn_2fw/live.tar.gz"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: environment is running or busy: lock acquisition failed because the operation would block\n",
+      "seconds": 0.005733951002184767
+    },
+    {
+      "arguments": [
+        "env",
+        "stop",
+        "renamed"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.029114344004483428
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/cat",
+        "/root/value"
+      ],
+      "code": 0,
+      "stdout": "durable\n",
+      "stderr": "",
+      "seconds": 0.08102136499655899
+    },
+    {
+      "arguments": [
+        "env",
+        "path",
+        "renamed"
+      ],
+      "code": 0,
+      "stdout": "/mnt/trames-output/linux-networks/environments-regression/mmio-4-2eyn_2fw/environments/27153752-a78b-468f-90d0-f76ee821bd1d\n",
+      "stderr": "",
+      "seconds": 0.006475293994299136
+    },
+    {
+      "arguments": [
+        "env",
+        "inspect",
+        "renamed",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"config\": {\n    \"boot\": {\n      \"mode\": \"shell\"\n    },\n    \"components\": {\n      \"audio\": false,\n      \"audio_input\": false,\n      \"thunking\": \"auto\",\n      \"vaapi\": false,\n      \"vulkan\": false\n    },\n    \"display\": {\n      \"windows\": false\n    },\n    \"environment\": {\n      \"name\": \"renamed\",\n      \"type\": \"linux\",\n      \"uuid\": \"27153752-a78b-468f-90d0-f76ee821bd1d\"\n    },\n    \"image\": {\n      \"distribution\": \"custom\",\n      \"sha256\": \"d2a4df7e6fe234efc464f366f55c6bfbd203001183d3210007f1dfe47fba33ac\",\n      \"source\": null\n    },\n    \"interop\": {\n      \"clipboard\": {\n        \"enabled\": true\n      },\n      \"files\": {\n        \"enabled\": true\n      },\n      \"host_cli\": {\n        \"enabled\": true\n      },\n      \"host_exec\": {\n        \"enabled\": true\n      },\n      \"host_ui\": {\n        \"enabled\": true\n      },\n      \"mounts\": {\n        \"enabled\": true\n      },\n      \"ports\": {\n        \"enabled\": true\n      }\n    },\n    \"kernel\": {\n      \"sysctl\": {}\n    },\n    \"mounts\": [\n      {\n        \"host\": null,\n        \"readonly\": true,\n        \"share\": \"project\",\n        \"target\": \"/work\"\n      }\n    ],\n    \"network\": {\n      \"bridge\": null,\n      \"mode\": \"host\",\n      \"publish\": []\n    },\n    \"resources\": {\n      \"cpus\": 4,\n      \"memory\": \"auto\",\n      \"memory_limit\": null\n    },\n    \"session\": {\n      \"cwd\": \"/\",\n      \"shell\": [\n        \"/bin/sh\",\n        \"-l\"\n      ]\n    },\n    \"version\": 1\n  },\n  \"directory\": \"/mnt/trames-output/linux-networks/environments-regression/mmio-4-2eyn_2fw/environments/27153752-a78b-468f-90d0-f76ee821bd1d\",\n  \"distribution\": \"custom\",\n  \"error\": null,\n  \"last_exit\": null,\n  \"name\": \"renamed\",\n  \"running\": false,\n  \"state\": \"stopped\",\n  \"uuid\": \"27153752-a78b-468f-90d0-f76ee821bd1d\"\n}\n",
+      "stderr": "",
+      "seconds": 0.00884211700031301
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/cat",
+        "/root/value"
+      ],
+      "code": 0,
+      "stdout": "durable\n",
+      "stderr": "",
+      "seconds": 0.08019631199567812
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "session",
+        "ls",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "[\n  {\n    \"attached\": false,\n    \"id\": 1,\n    \"state\": \"running\"\n  }\n]\n",
+      "stderr": "",
+      "seconds": 0.009778129002370406
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "session",
+        "ls",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "[\n  {\n    \"attached\": false,\n    \"id\": 1,\n    \"state\": \"running\"\n  }\n]\n",
+      "stderr": "",
+      "seconds": 0.008829284000967164
+    },
+    {
+      "arguments": [
+        "env",
+        "restart",
+        "renamed"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.06109472599928267
+    },
+    {
+      "arguments": [
+        "env",
+        "stop",
+        "imported"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.01803932299662847
+    },
+    {
+      "arguments": [
+        "env",
+        "stop",
+        "renamed"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.020736275000672322
+    },
+    {
+      "arguments": [
+        "env",
+        "create",
+        "services",
+        "--rootfs",
+        "/home/main.guest/trames-services-bundle/rootfs",
+        "--init",
+        "systemd",
+        "--cpus",
+        "4",
+        "--memory",
+        "auto"
+      ],
+      "code": 0,
+      "stdout": "Created services (custom)\n",
+      "stderr": "",
+      "seconds": 11.557289061995107
+    },
+    {
+      "arguments": [
+        "env",
+        "start",
+        "services"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.1820739329996286
+    },
+    {
+      "arguments": [
+        "-e",
+        "services",
+        "exec",
+        "--",
+        "/bin/sh",
+        "-ec",
+        "for n in $(seq 1 100); do test -S /run/systemd/private && break; sleep .1; done\ncat > /run/systemd/system/trames-environment.service <<'UNIT'\n[Service]\nType=oneshot\nRemainAfterExit=yes\nExecStart=/bin/sh -c 'echo started > /root/service-started'\nExecStop=/bin/sh -c 'echo graceful > /root/service-stopped'\nUNIT\nsystemctl daemon-reload\nsystemctl start trames-environment.service\nsystemctl is-active trames-environment.service\n"
+      ],
+      "code": 0,
+      "stdout": "active\n",
+      "stderr": "",
+      "seconds": 19.42973088099825
+    },
+    {
+      "arguments": [
+        "env",
+        "stop",
+        "services"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 3.448915063003369
+    },
+    {
+      "arguments": [
+        "env",
+        "inspect",
+        "services",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"config\": {\n    \"boot\": {\n      \"mode\": \"systemd\"\n    },\n    \"components\": {\n      \"audio\": false,\n      \"audio_input\": false,\n      \"thunking\": \"auto\",\n      \"vaapi\": false,\n      \"vulkan\": false\n    },\n    \"display\": {\n      \"windows\": false\n    },\n    \"environment\": {\n      \"name\": \"services\",\n      \"type\": \"linux\",\n      \"uuid\": \"2da5d534-0c0e-4c5b-b962-4db87e324dc5\"\n    },\n    \"image\": {\n      \"distribution\": \"custom\",\n      \"sha256\": \"0d11a54eca6729fed77d8c75546d574fa31681c96b818611d3302f5e9ed83fb2\",\n      \"source\": null\n    },\n    \"interop\": {\n      \"clipboard\": {\n        \"enabled\": true\n      },\n      \"files\": {\n        \"enabled\": true\n      },\n      \"host_cli\": {\n        \"enabled\": true\n      },\n      \"host_exec\": {\n        \"enabled\": true\n      },\n      \"host_ui\": {\n        \"enabled\": true\n      },\n      \"mounts\": {\n        \"enabled\": true\n      },\n      \"ports\": {\n        \"enabled\": true\n      }\n    },\n    \"kernel\": {\n      \"sysctl\": {}\n    },\n    \"mounts\": [],\n    \"network\": {\n      \"bridge\": null,\n      \"mode\": \"host\",\n      \"publish\": []\n    },\n    \"resources\": {\n      \"cpus\": 4,\n      \"memory\": \"auto\",\n      \"memory_limit\": null\n    },\n    \"session\": {\n      \"cwd\": \"/\",\n      \"shell\": [\n        \"/bin/sh\",\n        \"-l\"\n      ]\n    },\n    \"version\": 1\n  },\n  \"directory\": \"/mnt/trames-output/linux-networks/environments-regression/mmio-4-2eyn_2fw/environments/2da5d534-0c0e-4c5b-b962-4db87e324dc5\",\n  \"distribution\": \"custom\",\n  \"error\": null,\n  \"last_exit\": {\n    \"code\": 0,\n    \"error\": null\n  },\n  \"name\": \"services\",\n  \"running\": false,\n  \"state\": \"stopped\",\n  \"uuid\": \"2da5d534-0c0e-4c5b-b962-4db87e324dc5\"\n}\n",
+      "stderr": "",
+      "seconds": 0.011480474000563845
+    },
+    {
+      "arguments": [
+        "-e",
+        "services",
+        "config",
+        "set",
+        "boot.mode",
+        "shell"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.008201850003388245
+    },
+    {
+      "arguments": [
+        "-e",
+        "services",
+        "exec",
+        "--",
+        "/bin/cat",
+        "/root/service-stopped"
+      ],
+      "code": 0,
+      "stdout": "graceful\n",
+      "stderr": "",
+      "seconds": 0.2084934329977841
+    },
+    {
+      "arguments": [
+        "env",
+        "stop",
+        "services"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 1.0184055589998025
+    }
+  ]
+}

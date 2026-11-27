@@ -11,6 +11,7 @@ name = "trames"
 path = "src/main.rs"
 
 [dependencies]
+trames-net.workspace = true
 trames-host.workspace = true
 serde.workspace = true
 libc.workspace = true

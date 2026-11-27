@@ -1,0 +1,34 @@
+{
+  "passed": true,
+  "scope": "named-network core; Docker end-to-end remains failed separately",
+  "runner_sha256": "c65e891b5021cb36025568ead1b064b5ee2d2aafaf96e89b174ea80a889e57c7",
+  "runtime": "e9a5757c9bcc028cce93a32910e832e166ca952c",
+  "integrated_runtime": "88be4442dec1f9a8095796c422016b1b3f030e57",
+  "kvm_operations": 372,
+  "environment_regression_operations": 280,
+  "cold_apple_operations": 29,
+  "standalone_cli": {
+    "smccc": 10,
+    "mmio": 10
+  },
+  "shared_tests": {
+    "distro": 45,
+    "net": 212,
+    "net_integration": 14
+  },
+  "product_linux": {
+    "app": 12,
+    "cli": 3,
+    "ui_ignored": 4
+  },
+  "product_apple": {
+    "app": 10,
+    "cli": 3
+  },
+  "source_closure": "The final receipt rebuilds the same runner bytes after adding manual service diagnostics. Accepted source receipt and final source receipt are retained separately.",
+  "docker": {
+    "passed": false,
+    "previous_runner_sha256": "1c023b788bc3bbfb04cffaad162e000739744ebd376b1b1090f85d677a18c314",
+    "finding": "Original runc bootstrap pipe failure reproduced under managed systemd/bridge, shell/bridge, shell/host, and the previous accepted managed environment runner shell/host. Container-to-host HTTP is not accepted."
+  }
+}

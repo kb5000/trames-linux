@@ -95,8 +95,45 @@ clipboard request and grant. Headless environments do not start a presenter.
 `boot.mode=systemd` requires an image with original systemd installed. Alpine's
 built-in image does not supply it.
 
-This iteration does not add login autostart, a Linux GUI manager, named network
-bridges/port publishing, managed Android, VA-API, interpreter thunking, or guest
+Named networks use the shared Runtime IP fabric and existing descriptor waits.
+They do not configure host bridges, TAP devices, namespaces or firewall rules.
+`host` mode shares the actual host socket space; `none` disables networking.
+A bridge isolates guest loopback and port bindings while connecting its members:
+
+```sh
+trames network create development
+trames network create private --internal
+trames -e work config set network.mode bridge network.bridge development
+trames env publish work 127.0.0.1:8080 80
+trames env publish work 127.0.0.1:5353 53 udp
+trames env restart work
+trames network ls --json
+trames network inspect development
+# Desired configuration changes apply on the next start/restart.
+trames env unpublish work 127.0.0.1:8080
+trames env grant work ports off
+trames env stop work
+trames network remove development
+```
+
+Publications require both `interop.ports.enabled` and the host `ports` grant.
+A bare host port defaults to `127.0.0.1`. Explicit `0.0.0.0:PORT` publishes on
+all IPv4 host interfaces; IPv6 addresses use `[::1]:PORT` syntax. Ordinary host
+bind permissions and port conflicts apply. A failed startup releases all ports
+already opened by that startup. Stop releases them after teardown.
+
+Each network assigns registered environment UUIDs a stable ID from 2 through
+254, preserved across restart and rename. Its IPv4 address is `10.0.0.ID`, IPv6
+is `fd00::ID` (ID in hexadecimal), and the shared resolver serves `envID.trames`.
+Different networks have independent address spaces. Human environment names are
+not currently DNS names. Deleted UUID allocations are reclaimed on the next
+member start. Inspect the member map to find addresses. Networks must have all
+attached environments stopped before removal; update their profiles before the
+next start. Default networks allow host-backed outbound NAT; `--internal`
+blocks external IP traffic while retaining peer and gateway/resolver services.
+Host publication remains a separately authorized inbound capability.
+
+This iteration does not add login autostart, a Linux GUI manager, managed Android, VA-API, interpreter thunking, or guest
 host-exec/file-control services. Host/none networking and existing native
 compute/display/audio paths remain available. Manifests are portable data;
 actual host capabilities and execution backends are platform-specific.
@@ -106,3 +143,9 @@ and storage operations on all CI hosts. With a source-bound `--receipt` and real
 KVM it also checks both transports, one/four CPUs, exec/PTY, isolation,
 persistence and crash recovery. `--systemd-rootfs DIR` adds original PID1 service
 startup and graceful shutdown verification using an existing image.
+
+`scripts/validate-networks.py --native-only` checks cold network configuration.
+With a source-bound receipt it checks real KVM, both transports and one/four
+CPUs, original IPv4/IPv6 TCP/UDP, isolation/NAT, actual host ports, rollback and
+restart. `scripts/validate-network-services.py --rootfs DIR` additionally probes
+an existing offline systemd/Docker image through real host HTTP.

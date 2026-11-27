@@ -187,6 +187,11 @@ struct HostOptions {
     mounts: Vec<(String, String, bool)>,
     store: Option<std::path::PathBuf>,
     network: Option<trames_vfs::NetworkMode>,
+    network_native: bool,
+    network_link: Option<std::path::PathBuf>,
+    network_id: Option<u8>,
+    network_nat: Option<bool>,
+    publish: Vec<trames_distro::environment::Publish>,
     trace: bool,
     display: bool,
     desktop: bool,
@@ -261,7 +266,62 @@ fn host_options(args: Vec<String>) -> Result<(Vec<String>, HostOptions), String>
                     Some("loopback") => trames_vfs::NetworkMode::Loopback,
                     Some("outbound") => trames_vfs::NetworkMode::Outbound,
                     Some("full") => trames_vfs::NetworkMode::Full,
-                    _ => return Err("--network requires off|loopback|outbound|full".into()),
+                    Some("host") => {
+                        host.network_native = true;
+                        trames_vfs::NetworkMode::Full
+                    }
+                    _ => return Err("--network requires off|loopback|outbound|full|host".into()),
+                });
+            }
+            "--network-link" => {
+                if host.network_link.is_some() {
+                    return Err("duplicate --network-link".into());
+                }
+                host.network_link = Some(
+                    args.next()
+                        .filter(|s| s != "--")
+                        .ok_or("missing network link")?
+                        .into(),
+                );
+            }
+            "--network-id" => {
+                if host.network_id.is_some() {
+                    return Err("duplicate --network-id".into());
+                }
+                host.network_id = Some(
+                    args.next()
+                        .ok_or("missing network id")?
+                        .parse()
+                        .map_err(|_| "invalid network id")?,
+                );
+            }
+            "--network-nat" => {
+                if host.network_nat.is_some() {
+                    return Err("duplicate --network-nat".into());
+                }
+                host.network_nat = Some(
+                    args.next()
+                        .ok_or("missing network NAT choice")?
+                        .parse()
+                        .map_err(|_| "network NAT requires true or false")?,
+                );
+            }
+            "--publish" => {
+                let value = args.next().ok_or("missing tcp|udp,HOST:PORT,GUEST_PORT")?;
+                let fields = value.split(',').collect::<Vec<_>>();
+                if fields.len() != 3 || !["tcp", "udp"].contains(&fields[0]) {
+                    return Err("publish requires tcp|udp,HOST:PORT,GUEST_PORT".into());
+                }
+                let guest = fields[2].parse().map_err(|_| "invalid guest port")?;
+                if guest == 0 {
+                    return Err("guest port must be nonzero".into());
+                }
+                host.publish.push(trames_distro::environment::Publish {
+                    protocol: fields[0].into(),
+                    host: fields[1]
+                        .parse()
+                        .map_err(|_| "invalid published host address")?,
+                    guest,
                 });
             }
             "--trace-syscalls" => host.trace = true,
@@ -343,7 +403,14 @@ fn host_options(args: Vec<String>) -> Result<(Vec<String>, HostOptions), String>
                     out.push(value);
                 }
             }
-            _ => out.push(arg),
+            _ => {
+                let program = !arg.starts_with('-');
+                out.push(arg);
+                if program {
+                    out.extend(args);
+                    break;
+                }
+            }
         }
     }
     if host.desktop && host.display {
@@ -357,6 +424,17 @@ fn host_options(args: Vec<String>) -> Result<(Vec<String>, HostOptions), String>
     }
     if host.display_size.is_some() && !host.display {
         return Err("--display-size requires --display x11".into());
+    }
+    if host.network_link.is_some() && host.network_native {
+        return Err("host mode cannot use a private network link".into());
+    }
+    if host.network_link.is_none()
+        && (host.network_id.is_some() || host.network_nat.is_some() || !host.publish.is_empty())
+    {
+        return Err("network id, NAT and publication require --network-link".into());
+    }
+    if host.network_id.is_some_and(|id| !(2..=254).contains(&id)) {
+        return Err("network id must be 2..254".into());
     }
     Ok((out, host))
 }
@@ -426,9 +504,35 @@ fn run_inner(
     } else {
         trames_vfs::Vfs::default()
     };
-    if let Some(network) = host.network {
-        vfs.configure_local_fabric(network)?;
+    if let Some(directory) = &host.network_link {
+        let id = host.network_id.unwrap_or(2);
+        let fabric = trames_net::Fabric::new()?;
+        fabric.attach(directory, id, host.network_nat.unwrap_or(true))?;
+        for p in &host.publish {
+            let address = if p.host.is_ipv4() {
+                std::net::Ipv4Addr::new(10, 0, 0, id).into()
+            } else {
+                std::net::Ipv6Addr::new(0xfd00, 0, 0, 0, 0, 0, 0, u16::from(id)).into()
+            };
+            fabric.publish(
+                p.host,
+                std::net::SocketAddr::new(address, p.guest),
+                if p.protocol == "tcp" { 1 } else { 2 },
+            )?;
+        }
+        vfs.configure_virtual_network(
+            &fabric,
+            id,
+            host.network.unwrap_or(trames_vfs::NetworkMode::Outbound),
+        )?;
+    } else if let Some(network) = host.network {
+        if host.network_native {
+            vfs.configure_network(network)?;
+        } else {
+            vfs.configure_local_fabric(network)?;
+        }
     }
+
     host.kernel.apply(&vfs)?;
     // Seed pseudo inodes before attaching a rootfs, as in shared init boot.
     vfs.set_runtime_info(1, Default::default());
@@ -760,6 +864,46 @@ fn host_memory() -> trames_linux_abi::HostMemoryInfo {
 
 #[cfg(test)]
 mod tests {
+    #[test]
+    fn network_options_preserve_literal_argv_and_reject_incomplete_links() {
+        let parse = |a: &[&str]| super::host_options(a.iter().map(|s| s.to_string()).collect());
+        let (args, host) = parse(&[
+            "--network-link",
+            "/tmp/lan",
+            "--network-id",
+            "9",
+            "--network-nat",
+            "false",
+            "--publish",
+            "udp,[::1]:38000,53",
+            "/bin/echo",
+            "--publish",
+            "literal",
+        ])
+        .unwrap();
+        assert_eq!(args, ["/bin/echo", "--publish", "literal"]);
+        assert_eq!(host.network_id, Some(9));
+        assert_eq!(host.network_nat, Some(false));
+        assert_eq!(host.publish[0].guest, 53);
+        for a in [
+            vec!["--network-id", "2"],
+            vec!["--network-link", "/tmp/lan", "--network-id", "1"],
+            vec![
+                "--network-link",
+                "/tmp/lan",
+                "--publish",
+                "icmp,127.0.0.1:1,1",
+            ],
+            vec![
+                "--network-link",
+                "/tmp/lan",
+                "--publish",
+                "tcp,127.0.0.1:1,0",
+            ],
+        ] {
+            assert!(parse(&a).is_err());
+        }
+    }
     #[test]
     fn display_and_gpu_options_preserve_guest_arguments_and_validate_geometry() {
         let (args, host) = super::host_options(

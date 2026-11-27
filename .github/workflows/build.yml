@@ -46,7 +46,7 @@ jobs:
         run: cargo test --manifest-path runtime/Cargo.toml -p trames-audio --lib --locked
       - name: Build source-checked guest CLI
         run: python3 runtime/scripts/build-guest-cli.py
-      - run: python3 -m py_compile scripts/validate-applications.py scripts/validate-desktop-interop.py scripts/validate-xwayland-ime.py scripts/validate-keyboard.py scripts/validate-windows.py scripts/validate-window-parent.py scripts/validate-hidpi.py scripts/validate-environments.py
+      - run: python3 -m py_compile scripts/validate-applications.py scripts/validate-desktop-interop.py scripts/validate-xwayland-ime.py scripts/validate-keyboard.py scripts/validate-windows.py scripts/validate-window-parent.py scripts/validate-hidpi.py scripts/validate-environments.py scripts/validate-networks.py scripts/validate-network-services.py
       - name: Native reference for original 4KiB memory ELF
         if: runner.os == 'Linux'
         run: python3 tests/acceptance/validate-memory.py --native-only --output target/validation/memory-4k-native
@@ -59,4 +59,6 @@ jobs:
       - run: cargo build --workspace --release --locked
       - name: Cold environment registry acceptance (no KVM claim)
         run: python3 scripts/validate-environments.py --native-only --runner target/release/trames --output target/validation/environments-cold
+      - name: Cold named network and port configuration (no KVM claim)
+        run: python3 scripts/validate-networks.py --native-only --runner target/release/trames --output target/validation/networks-cold
       - run: target/release/trames doctor --json

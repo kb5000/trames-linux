@@ -1,0 +1,109 @@
+[
+  {
+    "transport": "smccc",
+    "argv": [
+      "config",
+      "--global",
+      "set",
+      "defaults.components.vulkan",
+      "false",
+      "defaults.display.windows",
+      "false"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.011001894999935757
+  },
+  {
+    "transport": "smccc",
+    "argv": [
+      "network",
+      "create",
+      "services"
+    ],
+    "code": 0,
+    "stdout": "Created Trames network services\n",
+    "stderr": "",
+    "seconds": 0.006577353997272439
+  },
+  {
+    "transport": "smccc",
+    "argv": [
+      "env",
+      "create",
+      "services",
+      "--rootfs",
+      "/home/main.guest/trames-services-bundle/rootfs",
+      "--init",
+      "systemd",
+      "--cpus",
+      "4",
+      "--memory",
+      "auto"
+    ],
+    "code": 0,
+    "stdout": "Created services (custom)\n",
+    "stderr": "",
+    "seconds": 12.211293403001036
+  },
+  {
+    "transport": "smccc",
+    "argv": [
+      "-e",
+      "services",
+      "config",
+      "set",
+      "network.mode",
+      "bridge",
+      "network.bridge",
+      "services"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.00924550200579688
+  },
+  {
+    "transport": "smccc",
+    "argv": [
+      "env",
+      "publish",
+      "services",
+      "42613",
+      "18080"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.0085270780036808
+  },
+  {
+    "transport": "smccc",
+    "argv": [
+      "env",
+      "start",
+      "services"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.17953402600687696
+  },
+  {
+    "transport": "smccc",
+    "argv": [
+      "-e",
+      "services",
+      "exec",
+      "--",
+      "/bin/sh",
+      "-ec",
+      "for n in $(seq 1 100); do test -S /run/systemd/private && break; sleep .1; done\nsystemctl start docker\nfor n in $(seq 1 100); do docker info >/dev/null 2>&1 && break; sleep .1; done\ntest \"$(docker info --format '{{.DefaultRuntime}} {{.Driver}}')\" = 'runc overlay2'\ndocker import /acceptance/container.tar trames-acceptance:local\ndocker run -d --name web -p 18080:8080 trames-acceptance:local /bin/sh -ec 'printf \"named-network-docker\\n\" >/www/index.html; exec /bin/httpd -f -p 8080 -h /www'\nfor n in $(seq 1 100); do curl -fsS http://127.0.0.1:18080/ && exit 0; sleep .1; done\nexit 1"
+    ],
+    "code": 125,
+    "stdout": "sha256:bab6e118c0b8619afacab2141debc33542e0c4d55600c500cea838463eed4645\nb83ab19606f6c9c0cebb5911582dd687336e4f3e5ff1f813e0c9bac9db9b47f8\n",
+    "stderr": "docker: Error response from daemon: failed to create task for container: failed to create shim task: OCI runtime create failed: runc create failed: unable to start container process: can't copy bootstrap data to pipe: write init-p: broken pipe: unknown.\n",
+    "seconds": 36.979066322994186
+  }
+]

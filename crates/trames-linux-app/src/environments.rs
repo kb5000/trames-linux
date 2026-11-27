@@ -15,7 +15,7 @@ use trames_distro::{
     environment::{self as model, Manifest, Result},
     registry::{self, Registry},
 };
-const HELP:&str="Usage: trames [-e NAME_OR_UUID] COMMAND\n  env create NAME [--distro alpine|debian] [--rootfs PATH|--archive FILE] [--config TOML]\n  env ls [--json|-q] | inspect NAME [--json] | path NAME\n  env start|stop|restart [NAME] | logs NAME | rename NAME NEW | remove NAME --yes\n  env clone NAME NEW | backup NAME FILE | restore NEW FILE | import-store NEW DIRECTORY\n  env share NAME ALIAS HOST GUEST [ro|rw]\n  config show [--json] | path | validate | get KEY | set KEY VALUE [KEY VALUE...] | edit\n  config --global ...\n  shell | exec [-t] [--setenv K=V] [--cwd DIR] -- COMMAND [ARG...]\n  session ls [--json|-q] | attach ID\nExisting environments start on demand; shell/exec never download or create images.\n";
+const HELP:&str="Usage: trames [-e NAME_OR_UUID] COMMAND\n  env create NAME [--distro alpine|debian] [--rootfs PATH|--archive FILE] [--config TOML]\n  env ls [--json|-q] | inspect NAME [--json] | path NAME\n  env start|stop|restart [NAME] | logs NAME | rename NAME NEW | remove NAME --yes\n  env clone NAME NEW | backup NAME FILE | restore NEW FILE | import-store NEW DIRECTORY\n  env share NAME ALIAS HOST GUEST [ro|rw]\n  env publish NAME HOST:PORT GUEST_PORT [tcp|udp] | unpublish NAME HOST:PORT [tcp|udp]\n  env grant NAME CAPABILITY on|off\n  network ls [--json] | create NAME [--internal] | inspect NAME | remove NAME\n  config show [--json] | path | validate | get KEY | set KEY VALUE [KEY VALUE...] | edit\n  config --global ...\n  shell | exec [-t] [--setenv K=V] [--cwd DIR] -- COMMAND [ARG...]\n  session ls [--json|-q] | attach ID\nExisting environments start on demand; shell/exec never download or create images.\n";
 pub fn root() -> Result<Registry> {
     let p = if let Some(p) = std::env::var_os("TRAMES_HOME") {
         PathBuf::from(p)
@@ -56,11 +56,6 @@ pub(crate) fn validate(c: &Manifest) -> Result<()> {
     if c.environment.kind != trames_distro::boot::Target::Linux {
         return Err("managed Android boot is not implemented by the Linux product".into());
     }
-    if c.network.mode == model::NetworkMode::Bridge {
-        return Err(
-            "named bridge management is not implemented; use network.mode host or none".into(),
-        );
-    }
     if c.image.distribution == "alpine" && c.boot.mode == model::Init::Systemd {
         return Err("Alpine does not include systemd".into());
     }
@@ -93,12 +88,12 @@ fn state(r: &Registry, n: &str) -> Result<serde_json::Value> {
 pub fn dispatch(selected: Option<&str>, op: &str, args: Vec<String>) -> Result<Option<u8>> {
     if op == "completion" {
         let shell = args.first().map(String::as_str).unwrap_or("bash");
-        match shell{"bash"=>println!("complete -W 'env config shell exec session status doctor probe run read-file' trames"),"zsh"=>println!("#compdef trames\n_arguments '1:command:(env config shell exec session status doctor probe run read-file)'"),"fish"=>println!("complete -c trames -f -a 'env config shell exec session status doctor probe run read-file'"),_=>return Err("completion requires bash, zsh or fish".into())}
+        match shell{"bash"=>println!("complete -W 'env network config shell exec session status doctor probe run read-file' trames"),"zsh"=>println!("#compdef trames\n_arguments '1:command:(env network config shell exec session status doctor probe run read-file)'"),"fish"=>println!("complete -c trames -f -a 'env network config shell exec session status doctor probe run read-file'"),_=>return Err("completion requires bash, zsh or fish".into())}
         return Ok(Some(0));
     }
     if matches!(
         op,
-        "env" | "config" | "status" | "shell" | "exec" | "session"
+        "env" | "network" | "config" | "status" | "shell" | "exec" | "session"
     ) && (args
         .first()
         .is_some_and(|s| matches!(s.as_str(), "--help" | "-h"))
@@ -109,6 +104,11 @@ pub fn dispatch(selected: Option<&str>, op: &str, args: Vec<String>) -> Result<O
     {
         print!("{HELP}");
         return Ok(Some(0));
+    }
+    if op == "network" {
+        return trames_distro::networks::Networks::at(&root()?.root)
+            .dispatch(&args)
+            .map(Some);
     }
     if op == "env" {
         return commands(selected, &args).map(Some);
@@ -295,6 +295,8 @@ fn commands(selected: Option<&str>, args: &[String]) -> Result<u8> {
             drop(vfs);
         }
         "share" => share(&r, &args[1..])?,
+        "publish" | "unpublish" => publication(&r, op, &args[1..])?,
+        "grant" => grant(&r, &args[1..])?,
         "clone" | "backup" | "export" | "restore" | "import-store" => {
             data_command(&r, op, &args[1..])?
         }
@@ -537,6 +539,74 @@ fn settings(selected: Option<&str>, args: &[String]) -> Result<u8> {
     }
     Ok(0)
 }
+fn host_address(value: &str) -> Result<std::net::SocketAddr> {
+    let address = if let Ok(port) = value.parse::<u16>() {
+        std::net::SocketAddr::from(([127, 0, 0, 1], port))
+    } else {
+        value.parse()?
+    };
+    if address.port() == 0 {
+        return Err("published host port must be nonzero".into());
+    }
+    Ok(address)
+}
+fn publication(r: &Registry, op: &str, args: &[String]) -> Result<()> {
+    let expected = if op == "publish" { 3..=4 } else { 2..=3 };
+    if !expected.contains(&args.len()) {
+        return Err("usage: env publish NAME HOST:PORT GUEST_PORT [tcp|udp] | unpublish NAME HOST:PORT [tcp|udp]".into());
+    }
+    let _metadata = r.metadata_lock()?;
+    let dir = r.require(&args[0])?;
+    let mut c = profile(r, &args[0])?;
+    let host = host_address(&args[1])?;
+    let protocol = args
+        .get(if op == "publish" { 3 } else { 2 })
+        .map(String::as_str)
+        .unwrap_or("tcp");
+    if !["tcp", "udp"].contains(&protocol) {
+        return Err("protocol must be tcp or udp".into());
+    }
+    c.network
+        .publish
+        .retain(|p| p.host != host || p.protocol != protocol);
+    if op == "publish" {
+        if !grants(&dir, &c)?.effective(&c.interop).ports.enabled {
+            return Err("ports request or host grant is disabled".into());
+        }
+        c.network.publish.push(model::Publish {
+            protocol: protocol.into(),
+            host,
+            guest: args[2].parse()?,
+        });
+    }
+    validate(&c)?;
+    r.save(&dir, &c)
+}
+fn grant(r: &Registry, args: &[String]) -> Result<()> {
+    if args.len() != 3 {
+        return Err("usage: env grant NAME CAPABILITY on|off".into());
+    }
+    let _metadata = r.metadata_lock()?;
+    let dir = r.require(&args[0])?;
+    let c = profile(r, &args[0])?;
+    let mut g = grants(&dir, &c)?;
+    g.set_permission(
+        &args[1],
+        match args[2].as_str() {
+            "on" => true,
+            "off" => false,
+            _ => return Err("grant requires on or off".into()),
+        },
+    )?;
+    registry::atomic_write(
+        &dir.join("grants.toml"),
+        model::encode(&model::Authorization {
+            environment_uuid: c.environment.uuid,
+            grant: g,
+        })?
+        .as_bytes(),
+    )
+}
 fn share(r: &Registry, args: &[String]) -> Result<()> {
     if !(4..=5).contains(&args.len()) {
         return Err("usage: env share NAME ALIAS HOST GUEST [ro|rw]".into());
@@ -710,10 +780,10 @@ fn serve(r: &Registry, n: &str, fd: i32) -> Result<u8> {
                 .unwrap_or(&c.resources.memory)
                 .clone(),
             "--network".into(),
-            if c.network.mode == model::NetworkMode::None {
-                "off"
-            } else {
-                "full"
+            match c.network.mode {
+                model::NetworkMode::None => "off",
+                model::NetworkMode::Host => "host",
+                model::NetworkMode::Bridge => "outbound",
             }
             .into(),
         ];
@@ -730,6 +800,9 @@ fn serve(r: &Registry, n: &str, fd: i32) -> Result<u8> {
             args.extend(["--sysctl".into(), format!("{k}={v}")]);
         }
         let g = grants(&dir, &c)?;
+        if c.network.mode == model::NetworkMode::Bridge {
+            args.extend(trames_distro::networks::Networks::at(&r.root).arguments(&c, &g)?);
+        }
         for m in g.mounts(&c)? {
             let canonical = fs::canonicalize(m.host.as_ref().ok_or("share has no host source")?)?;
             if !g
@@ -830,6 +903,10 @@ fn explicit_storage(args: &[String]) -> bool {
                 | "--mount"
                 | "--mount-ro"
                 | "--sysctl"
+                | "--network-link"
+                | "--network-id"
+                | "--network-nat"
+                | "--publish"
         ) {
             i += 1;
         }

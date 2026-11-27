@@ -11,6 +11,7 @@ license = "GPL-3.0-or-later"
 repository = "https://github.com/project-trames/trames-linux"
 
 [workspace.dependencies]
+trames-net = { path = "runtime/crates/trames-net" }
 trames-host = { path = "runtime/crates/trames-host" }
 trames-cli-common = { path = "cli/crates/trames-cli-common" }
 trames-shared = { path = "runtime/crates/trames-shared" }
