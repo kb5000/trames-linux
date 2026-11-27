@@ -82,3 +82,23 @@ network results are reused where their code is unchanged. Login autostart, Linux
 GUI management, named bridge publishing, managed Android and additional native
 interop services remain future work; unsupported required backends are rejected.
 Test binaries and rootfs payloads are not committed.
+
+## Cloud closure
+
+[Recorded job identities](environments-20261127/ci.json) bind each result to
+its actual tested commit. All following scoped checks passed:
+
+- [Linux product](https://github.com/project-trames/trames-linux/actions/runs/45929252387): AMD64 Linux, ARM64 Linux and Apple formatting, locked Clippy, units, release build, cold registry and doctor.
+- [Shared Runtime](https://github.com/project-trames/trames-runtime/actions/runs/45928372889): full Linux and Apple workspace verification, including the moved host server and final provenance tests.
+- [Mac](https://github.com/project-trames/trames-mac/actions/runs/45928741548): full checks, development/stable applications and package validation.
+- [AMD64 native presentation](https://github.com/project-trames/trames-linux/actions/runs/45929252416/job/140277781079): full native matrix, reused after passing.
+- [ARM64 native WSI](https://github.com/project-trames/trames-linux/actions/runs/45930460831): passed after the cold Xvfb readiness correction. Other already-validated CPU/network/display scopes were not repeated for a test-wait adjustment.
+
+The first ARM64 WSI attempt timed out before product cases, while the X server
+was loading its keymap. The harness now retains its readiness pipe for up to
+30 seconds and reports server status/logs on timeout or EOF. This is test
+orchestration only. A temporary CI reference ran just the failed ARM64 WSI
+scope; its tested commits are retained on main and the temporary ref is removed.
+The Rust product, manifests and paired Runtime pin remain identical to the
+accepted implementation commit. Documentation and CI closure do not trigger
+another complete hardware acceptance run.

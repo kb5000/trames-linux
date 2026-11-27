@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "implementation_commit": "0e25e0dbafb418a1bb17700c3cca7e62520c371c",
+  "test_wait_and_scoped_ci_commit": "d8fd71272049433707436f3d4b85f281156ae134",
+  "checks": [
+    {
+      "repo": "trames-linux",
+      "sha": "0e25e0dbafb418a1bb17700c3cca7e62520c371c",
+      "run": 45929252387,
+      "scope": "Build/unit/release and cold registry on Linux AMD64, Linux ARM64 and Apple",
+      "url": "https://github.com/project-trames/trames-linux/actions/runs/45929252387",
+      "jobs": [
+        {
+          "id": 140277780891,
+          "name": "Build/unit (ubuntu-24.04) — no hardware claim",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 140277781077,
+          "name": "Build/unit (macos-15) — no hardware claim",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 140277781125,
+          "name": "Build/unit (ubuntu-24.04-arm) — no hardware claim",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "repo": "trames-runtime",
+      "sha": "3f5d4f53bb3dae0449b03cd0a8a0fe1ea8562cc8",
+      "run": 45928372889,
+      "scope": "Full shared Runtime checks on Linux and Apple",
+      "url": "https://github.com/project-trames/trames-runtime/actions/runs/45928372889",
+      "jobs": [
+        {
+          "id": 140275012607,
+          "name": "verify (ubuntu-24.04)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 140275012831,
+          "name": "verify (macos-15)",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "repo": "trames-mac",
+      "sha": "df7533c21301078f47717dc64a1d961b0865a9f1",
+      "run": 45928741548,
+      "scope": "Mac checks, development/stable application builds and packages",
+      "url": "https://github.com/project-trames/trames-mac/actions/runs/45928741548",
+      "jobs": [
+        {
+          "id": 140276181342,
+          "name": "build",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "repo": "trames-linux",
+      "sha": "d8fd71272049433707436f3d4b85f281156ae134",
+      "run": 45930460831,
+      "scope": "ARM64 native WSI only after Xvfb readiness correction",
+      "url": "https://github.com/project-trames/trames-linux/actions/runs/45930460831",
+      "jobs": [
+        {
+          "id": 140281631906,
+          "name": "Native software WSI (ubuntu-24.04-arm) — no KVM or physical GPU claim",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "repo": "trames-linux",
+      "sha": "0e25e0dbafb418a1bb17700c3cca7e62520c371c",
+      "run": 45929252416,
+      "scope": "Full AMD64 native presentation; passed job reused",
+      "url": "https://github.com/project-trames/trames-linux/actions/runs/45929252416",
+      "jobs": [
+        {
+          "id": 140277781079,
+          "name": "Native software WSI (ubuntu-24.04)",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ],
+      "resolved_failure": {
+        "job": 140277780928,
+        "reason": "Xvfb did not signal readiness within 10 seconds; no product case had run",
+        "replacement_run": 45930460831
+      }
+    }
+  ]
+}
