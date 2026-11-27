@@ -1,0 +1,12 @@
+Attached terminal 1. Ctrl+] detaches; reconnect with session attach 1.
+/bin/sh: 1: set: can't access tty; job control turned off
+printf '\nTERMINAL_RESULT\n'
+# 
+TERMINAL_RESULT
+# Attached terminal 1. Ctrl+] detaches; reconnect with session attach 1.
+printf '\nTERMINAL_RESULT\n'
+# 
+TERMINAL_RESULT
+# printf '\nREATTACHED_RESULT\n'
+
+REATTACHED_RESULT

@@ -1,0 +1,27 @@
+{
+  "passed": true,
+  "runtime_pin": "46b6bc40b3561a918154653a23bc13c8883503ee",
+  "runtime_integrated_main": "3f5d4f53bb3dae0449b03cd0a8a0fe1ea8562cc8",
+  "cli_pin": "8dd30e46dffdaf4fd9c412591edb557748e8d737",
+  "linux_baseline": "10140c1444dded75c0869eee5f68abca55150a3f",
+  "runner_sha256": "1c023b788bc3bbfb04cffaad162e000739744ebd376b1b1090f85d677a18c314",
+  "build_fingerprint_sha256": "77f9711291e12133a5af093dd391413d5ac9d0225f116eaefe1818e40a4de183",
+  "kvm_operations": 282,
+  "transports": [
+    "smccc",
+    "mmio"
+  ],
+  "cpus": [
+    1,
+    4
+  ],
+  "systemd_graceful_shutdown_cohorts": 4,
+  "named_desktop_cases": 8,
+  "apple_cold_operations": 39,
+  "standalone_cli_cases_per_transport": 10,
+  "builtin_images": [
+    "Alpine 3.22.6",
+    "Debian 13 (trixie), 20261027"
+  ],
+  "native_gpu_performance_qualified": false
+}

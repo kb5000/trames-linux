@@ -169,6 +169,7 @@ struct State {
     modifiers: trames_wayland::KeyboardModifiers,
     serial: u32,
     bridge: Arc<Bridge>,
+    clipboard_enabled: bool,
     data_manager: Option<wl_data_device_manager::WlDataDeviceManager>,
     data: Option<wl_data_device::WlDataDevice>,
     offer: Option<wl_data_offer::WlDataOffer>,
@@ -195,9 +196,16 @@ struct State {
     write_blocked: bool,
 }
 impl State {
-    fn new(server: Server, mode: crate::desktop::RendererMode, display: usize) -> io::Result<Self> {
+    fn new(
+        server: Server,
+        mode: crate::desktop::RendererMode,
+        display: usize,
+        clipboard_enabled: bool,
+    ) -> io::Result<Self> {
         let bridge = Arc::new(Bridge::default());
-        server.attach_clipboard(bridge.clone())?;
+        if clipboard_enabled {
+            server.attach_clipboard(bridge.clone())?;
+        }
         Ok(Self {
             server,
             mode,
@@ -223,6 +231,7 @@ impl State {
             modifiers: Default::default(),
             serial: 0,
             bridge,
+            clipboard_enabled,
             data_manager: None,
             data: None,
             offer: None,
@@ -466,6 +475,9 @@ impl State {
         self.text_signature = signature;
     }
     fn clipboard(&mut self, q: &QueueHandle<Self>) -> io::Result<()> {
+        if !self.clipboard_enabled {
+            return Ok(());
+        }
         for request in self.bridge.take() {
             if self.readers.len() + self.incoming.len() + self.writers.len() >= 16 {
                 continue;
@@ -882,10 +894,22 @@ pub struct Desktop {
 }
 impl Desktop {
     pub fn open(server: Server, mode: crate::desktop::RendererMode) -> io::Result<Self> {
+        Self::open_with_policy(server, mode, true)
+    }
+    pub fn open_with_policy(
+        server: Server,
+        mode: crate::desktop::RendererMode,
+        clipboard_enabled: bool,
+    ) -> io::Result<Self> {
         let connection = Connection::connect_to_env().map_err(error)?;
         let mut queue = connection.new_event_queue();
         let q = queue.handle();
-        let mut state = State::new(server, mode, connection.backend().display_ptr() as usize)?;
+        let mut state = State::new(
+            server,
+            mode,
+            connection.backend().display_ptr() as usize,
+            clipboard_enabled,
+        )?;
         connection.display().get_registry(&q, ());
         queue.roundtrip(&mut state).map_err(error)?;
         state.services(&q);
@@ -1059,7 +1083,7 @@ impl Dispatch<wl_registry::WlRegistry, ()> for State {
                 "wl_shm" => s.shm = Some(r.bind(name, 1, q, ())),
                 "xdg_wm_base" => s.shell = Some(r.bind(name, version.min(3), q, ())),
                 "wl_seat" => s.seat = Some(r.bind(name, version.min(7), q, ())),
-                "wl_data_device_manager" => {
+                "wl_data_device_manager" if s.clipboard_enabled => {
                     s.data_manager = Some(r.bind(name, version.min(3), q, ()))
                 }
                 "zwp_text_input_manager_v3" => s.manager3 = Some(r.bind(name, 1, q, ())),

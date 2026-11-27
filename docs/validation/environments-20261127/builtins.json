@@ -1,0 +1,158 @@
+{
+  "passed": true,
+  "operations": 12,
+  "rows": [
+    {
+      "argv": [
+        "config",
+        "--global",
+        "set",
+        "defaults.components.vulkan",
+        "false",
+        "defaults.display.windows",
+        "false",
+        "defaults.resources.cpus",
+        "2"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "env",
+        "create",
+        "alpine",
+        "--distro",
+        "alpine",
+        "--archive",
+        "/mnt/trames-output/vaapi-build/alpine-minirootfs-3.22.6-aarch64.tar.gz"
+      ],
+      "code": 0,
+      "stdout": "Created alpine (alpine)\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "-e",
+        "alpine",
+        "exec",
+        "--",
+        "/bin/sh",
+        "-ec",
+        "echo named-image-ok; uname -m; cat /etc/os-release; echo durable > /root/value; sync"
+      ],
+      "code": 0,
+      "stdout": "named-image-ok\naarch64\nNAME=\"Alpine Linux\"\nID=alpine\nVERSION_ID=3.22.6\nPRETTY_NAME=\"Alpine Linux v3.22\"\nHOME_URL=\"https://alpinelinux.org/\"\nBUG_REPORT_URL=\"https://gitlab.alpinelinux.org/alpine/aports/-/issues\"\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "env",
+        "stop",
+        "alpine"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "-e",
+        "alpine",
+        "exec",
+        "--",
+        "/bin/cat",
+        "/root/value"
+      ],
+      "code": 0,
+      "stdout": "durable\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "env",
+        "stop",
+        "alpine"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "env",
+        "create",
+        "debian",
+        "--distro",
+        "debian",
+        "--archive",
+        "/mnt/trames-output/trames-mount-debian-rootfs.tar.gz"
+      ],
+      "code": 0,
+      "stdout": "Created debian (debian)\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "-e",
+        "debian",
+        "exec",
+        "--",
+        "/bin/sh",
+        "-ec",
+        "echo named-image-ok; uname -m; cat /etc/os-release; echo durable > /root/value; sync"
+      ],
+      "code": 0,
+      "stdout": "named-image-ok\naarch64\nPRETTY_NAME=\"Debian GNU/Linux 13 (trixie)\"\nNAME=\"Debian GNU/Linux\"\nVERSION_ID=\"13\"\nVERSION=\"13 (trixie)\"\nVERSION_CODENAME=trixie\nDEBIAN_VERSION_FULL=13.7\nID=debian\nHOME_URL=\"https://www.debian.org/\"\nSUPPORT_URL=\"https://www.debian.org/support\"\nBUG_REPORT_URL=\"https://bugs.debian.org/\"\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "env",
+        "stop",
+        "debian"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "-e",
+        "debian",
+        "exec",
+        "--",
+        "/bin/cat",
+        "/root/value"
+      ],
+      "code": 0,
+      "stdout": "durable\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "env",
+        "stop",
+        "debian"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "env",
+        "create",
+        "bad-checksum",
+        "--archive",
+        "/mnt/trames-output/vaapi-build/alpine-minirootfs-3.22.6-aarch64.tar.gz",
+        "--sha256",
+        "0000000000000000000000000000000000000000000000000000000000000000"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: expected checksum differs from the pinned distribution archive\n"
+    }
+  ]
+}

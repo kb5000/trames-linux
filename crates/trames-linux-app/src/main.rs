@@ -15,6 +15,8 @@ mod display;
 mod display_scale;
 #[cfg(target_os = "linux")]
 mod displays_x11;
+mod environment_data;
+mod environments;
 mod foreground;
 #[cfg(target_os = "linux")]
 mod gpu_desktop;
@@ -24,10 +26,27 @@ mod ime_x11;
 mod interop_tests;
 #[cfg(target_os = "linux")]
 mod keyboard_x11;
+mod managed_io;
 mod store;
 #[cfg(target_os = "linux")]
 mod window_x11;
 
+// Protocol identity is checked by the compiler, never by a running CPU worker.
+const _: () = {
+    assert!(trames_cli_common::exec::LIMIT == trames_host::exec::LIMIT);
+    assert!(
+        u64::from_be_bytes(*trames_cli_common::exec::MAGIC)
+            == u64::from_be_bytes(*trames_host::exec::MAGIC)
+    );
+    assert!(
+        u64::from_be_bytes(*trames_cli_common::console::MAGIC)
+            == u64::from_be_bytes(*trames_host::console::MAGIC)
+    );
+    assert!(
+        u64::from_be_bytes(*trames_cli_common::console::LIST)
+            == u64::from_be_bytes(*trames_host::console::LIST)
+    );
+};
 const RUNTIME: &str = include_str!("../../../runtime-version.json");
 const HELP: &str = "Trames Linux 0.1.0\n\
 Usage:\n  trames doctor [--json] [--require-kvm]\n  \
@@ -38,7 +57,7 @@ The probe checks KVM execution and host requirements.\n\
   trames exec [--rootfs DIR] [--setenv K=V] [--cwd DIR] [-t] -- ELF [ARG...]\n\
   trames exec --socket PATH [-t] [--setenv K=V] -- COMMAND [ARG...]\n\
   trames session ls|attach --socket PATH [ID|--json|-q]\n\
-Use read-file --store DIR -- /GUEST/PATH to export a stopped store file.\nUse --store DIR --rootfs DIR_OR_ARCHIVE to create a private VFS; use --store DIR to reopen it.\nRun an ELF program or open a shell in an explicit root filesystem. Enable PCM output with --audio and capture with --audio-input. Use --vulkan for headless GPU APIs, --vulkan-icd FILE to install the guest ICD, or --display x11 [--display-size WIDTHxHEIGHT] for a native fixed Vulkan display. Use --desktop x11|wayland for shared guest windows, clipboard and host IME. --desktop-renderer auto|software|vulkan selects composition; auto uses Vulkan for GPU planes. Video remains under development.\n";
+Use env help for named environments and configuration.\nUse read-file --store DIR -- /GUEST/PATH to export a stopped store file.\nUse --store DIR --rootfs DIR_OR_ARCHIVE to create a private VFS; use --store DIR to reopen it.\nRun an ELF program or open a shell in an explicit root filesystem. Enable PCM output with --audio and capture with --audio-input. Use --vulkan for headless GPU APIs, --vulkan-icd FILE to install the guest ICD, or --display x11 [--display-size WIDTHxHEIGHT] for a native fixed Vulkan display. Use --desktop x11|wayland for shared guest windows, clipboard and host IME. --desktop-renderer auto|software|vulkan selects composition; auto uses Vulkan for GPU planes. Video remains under development.\n";
 
 fn run() -> Result<u8, Box<dyn std::error::Error>> {
     let (selected, args) =
@@ -53,10 +72,13 @@ fn run() -> Result<u8, Box<dyn std::error::Error>> {
         println!("trames-linux {}", env!("CARGO_PKG_VERSION"));
         return Ok(0);
     }
+    let rest: Vec<_> = args.collect();
+    if let Some(code) = environments::dispatch(selected.as_deref(), &command, rest.clone())? {
+        return Ok(code);
+    }
+    let mut args = rest.into_iter();
     if selected.is_some() {
-        return Err(
-            "named environments are not configured; use --rootfs DIR or --socket PATH".into(),
-        );
+        return Err("-e selects shell, exec, session, config or status".into());
     }
     if command == "read-file" {
         let args: Vec<_> = args.collect();

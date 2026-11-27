@@ -78,7 +78,7 @@ mod x11 {
         connection: std::sync::Arc<XCBConnection>,
         driver: XCBConnection,
         mode: super::RendererMode,
-        clipboard: crate::clipboard_x11::Clipboard,
+        clipboard: Option<crate::clipboard_x11::Clipboard>,
         ime: crate::ime_x11::Ime,
         keyboard: crate::keyboard_x11::Keyboard,
         wm: crate::window_x11::Manager,
@@ -101,7 +101,11 @@ mod x11 {
         msb: bool,
     }
     impl Desktop {
-        pub fn open(server: Server, mode: super::RendererMode) -> io::Result<Self> {
+        pub fn open(
+            server: Server,
+            mode: super::RendererMode,
+            clipboard_enabled: bool,
+        ) -> io::Result<Self> {
             x11rb::xcb_ffi::load_libxcb().map_err(error)?;
             let (connection, screen) = XCBConnection::connect(None).map_err(error)?;
             let connection = std::sync::Arc::new(connection);
@@ -143,7 +147,9 @@ mod x11 {
             let (rate, delay) = keyboard.repeat(&connection)?;
             let initial = VecDeque::from([Command::Map(map), Command::Repeat(rate, delay)]);
             let ime = crate::ime_x11::Ime::new(connection.clone(), screen)?;
-            let clipboard = crate::clipboard_x11::Clipboard::new(&connection, screen, &server)?;
+            let clipboard = clipboard_enabled
+                .then(|| crate::clipboard_x11::Clipboard::new(&connection, screen, &server))
+                .transpose()?;
             let displays = crate::displays_x11::Displays::new(&connection, screen)?;
             server.desktop_outputs(displays.descriptors())?;
             server.manage_windows()?;
@@ -177,7 +183,9 @@ mod x11 {
         }
         pub fn interest(&mut self, wait: &mut trames_linux_abi::HostWait) -> io::Result<()> {
             use std::os::fd::AsFd;
-            self.clipboard.interest(wait, &self.server)?;
+            if let Some(clipboard) = &self.clipboard {
+                clipboard.interest(wait, &self.server)?;
+            }
             self.wake = Some(wait.wake());
             if self.pending_event.is_some() {
                 wait.wake().notify();
@@ -273,8 +281,10 @@ mod x11 {
                 if !ime_forwarded && self.ime.event(&event)? {
                     continue;
                 }
-                if self.clipboard.event(&self.connection, &event)? {
-                    continue;
+                if let Some(clipboard) = &mut self.clipboard {
+                    if clipboard.event(&self.connection, &event)? {
+                        continue;
+                    }
                 }
                 if matches!(
                     &event,
@@ -432,7 +442,9 @@ mod x11 {
                     self.confirm_window(id, native)?;
                 }
             }
-            self.clipboard.poll(&self.connection, &self.server)?;
+            if let Some(clipboard) = &mut self.clipboard {
+                clipboard.poll(&self.connection, &self.server)?;
+            }
             self.flush_commands()?;
             let snapshot = self.server.snapshot();
             let mut text = snapshot.text.clone();
@@ -940,8 +952,21 @@ pub enum Desktop {
 }
 #[cfg(target_os = "linux")]
 impl Desktop {
+    pub fn open_with_policy(
+        server: trames_wayland::Server,
+        mode: RendererMode,
+        wayland: bool,
+        clipboard: bool,
+    ) -> std::io::Result<Self> {
+        if wayland {
+            crate::desktop_wayland::Desktop::open_with_policy(server, mode, clipboard)
+                .map(|d| Self::Wayland(Box::new(d)))
+        } else {
+            x11::Desktop::open(server, mode, clipboard).map(|d| Self::X11(Box::new(d)))
+        }
+    }
     pub fn open_mode(server: trames_wayland::Server, mode: RendererMode) -> std::io::Result<Self> {
-        x11::Desktop::open(server, mode).map(|d| Self::X11(Box::new(d)))
+        x11::Desktop::open(server, mode, true).map(|d| Self::X11(Box::new(d)))
     }
     pub fn open_wayland(
         server: trames_wayland::Server,
@@ -1047,6 +1072,14 @@ pub(crate) fn render(
 pub struct Desktop;
 #[cfg(not(target_os = "linux"))]
 impl Desktop {
+    pub fn open_with_policy(
+        _: trames_wayland::Server,
+        _: RendererMode,
+        _: bool,
+        _: bool,
+    ) -> std::io::Result<Self> {
+        Err(std::io::Error::other("native desktop requires Linux"))
+    }
     pub fn open_wayland(_: trames_wayland::Server, _: RendererMode) -> std::io::Result<Self> {
         Err(std::io::Error::other("--desktop wayland requires Linux"))
     }

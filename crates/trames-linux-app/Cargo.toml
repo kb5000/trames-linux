@@ -11,6 +11,9 @@ name = "trames"
 path = "src/main.rs"
 
 [dependencies]
+trames-host.workspace = true
+serde.workspace = true
+libc.workspace = true
 trames-cli-common.workspace = true
 trames-kvm = { path = "../trames-kvm" }
 serde_json.workspace = true
@@ -30,7 +33,6 @@ wayland-protocols = {version="=0.32.13",features=["client","unstable","staging"]
 libloading = "=0.8.9"
 ash = "=0.38.0"
 trames-graphics.workspace = true
-libc.workspace = true
 
 [dev-dependencies]
 libc.workspace = true

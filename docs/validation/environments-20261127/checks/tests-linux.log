@@ -1,0 +1,325 @@
+   Compiling libc v0.2.190
+   Compiling smallvec v1.16.6
+   Compiling memchr v2.8.3
+   Compiling lock_api v0.4.14
+   Compiling libloading v0.8.9
+   Compiling typenum v1.20.1
+   Compiling once_cell v1.21.4
+   Compiling serde_core v1.0.229
+   Compiling zmij v1.0.23
+   Compiling itoa v1.0.19
+   Compiling log v0.4.35
+   Compiling generic-array v0.14.7
+   Compiling parking_lot_core v0.9.12
+   Compiling dlib v0.5.3
+   Compiling quick-xml v0.41.0
+   Compiling wayland-sys v0.31.11
+   Compiling bitflags v1.3.2
+   Compiling parking_lot v0.12.5
+   Compiling scoped-tls v1.0.1
+   Compiling crypto-common v0.1.7
+   Compiling block-buffer v0.10.4
+   Compiling wayland-backend v0.3.17 (/mnt/trames-output/linux-keyboard-source/runtime/vendor/wayland-backend)
+   Compiling const-random-macro v0.1.16
+   Compiling digest v0.10.7
+   Compiling trames-shared v1.3.0 (/mnt/trames-output/linux-keyboard-source/runtime/crates/trames-shared)
+   Compiling zerocopy v0.8.64
+   Compiling wayland-scanner v0.31.11
+   Compiling trames-memory v1.3.0 (/mnt/trames-output/linux-keyboard-source/runtime/crates/trames-memory)
+   Compiling const-random v0.1.18
+   Compiling serde v1.0.229
+   Compiling serde_json v1.0.151
+   Compiling cpufeatures v0.2.17
+   Compiling x11rb-protocol v0.13.2
+   Compiling as-raw-xcb-connection v1.0.1
+   Compiling byteorder v1.5.0
+   Compiling hash32 v0.3.1
+   Compiling sha2 v0.10.9
+   Compiling trames-graphics v1.3.0 (/mnt/trames-output/linux-keyboard-source/runtime/crates/trames-graphics)
+   Compiling ahash v0.8.12
+   Compiling stable_deref_trait v1.2.1
+   Compiling heapless v0.8.0
+   Compiling trames-bridge v1.3.0 (/mnt/trames-output/linux-keyboard-source/runtime/crates/trames-bridge)
+   Compiling managed v0.8.0
+   Compiling wayland-client v0.31.14
+   Compiling wayland-server v0.31.14
+   Compiling smoltcp v0.12.0 (/mnt/trames-output/linux-keyboard-source/runtime/vendor/smoltcp)
+warning: unused variable: `source_hardware_addr`
+  --> runtime/vendor/smoltcp/src/iface/interface/ipv4.rs:89:9
+   |
+89 |         source_hardware_addr: HardwareAddress,
+   |         ^^^^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_source_hardware_addr`
+   |
+   = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: variable does not need to be mutable
+   --> runtime/vendor/smoltcp/src/iface/interface/ipv4.rs:480:35
+    |
+480 |         tx_token.consume(tx_len, |mut tx_buffer| {
+    |                                   ----^^^^^^^^^
+    |                                   |
+    |                                   help: remove this `mut`
+    |
+    = note: `#[warn(unused_mut)]` (part of `#[warn(unused)]`) on by default
+
+warning: variable does not need to be mutable
+   --> runtime/vendor/smoltcp/src/iface/interface/ipv4.rs:457:13
+    |
+457 |         let mut tx_len = ip_len;
+    |             ----^^^^^^
+    |             |
+    |             help: remove this `mut`
+
+warning: unused variable: `source_hardware_addr`
+   --> runtime/vendor/smoltcp/src/iface/interface/ipv6.rs:191:9
+    |
+191 |         source_hardware_addr: HardwareAddress,
+    |         ^^^^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_source_hardware_addr`
+
+warning: variable does not need to be mutable
+    --> runtime/vendor/smoltcp/src/iface/interface/mod.rs:1448:51
+     |
+1448 |                         tx_token.consume(tx_len, |mut tx_buffer| {
+     |                                                   ----^^^^^^^^^
+     |                                                   |
+     |                                                   help: remove this `mut`
+
+warning: variable does not need to be mutable
+    --> runtime/vendor/smoltcp/src/iface/interface/mod.rs:1473:50
+     |
+1473 |                     tx_token.consume(total_len, |mut tx_buffer| {
+     |                                                  ----^^^^^^^^^
+     |                                                  |
+     |                                                  help: remove this `mut`
+
+warning: variable does not need to be mutable
+    --> runtime/vendor/smoltcp/src/iface/interface/mod.rs:1487:61
+     |
+1487 |             IpRepr::Ipv6(_) => tx_token.consume(total_len, |mut tx_buffer| {
+     |                                                             ----^^^^^^^^^
+     |                                                             |
+     |                                                             help: remove this `mut`
+
+warning: variable does not need to be mutable
+    --> runtime/vendor/smoltcp/src/iface/interface/mod.rs:1320:13
+     |
+1320 |         let mut total_len = ip_repr.buffer_len();
+     |             ----^^^^^^^^^
+     |             |
+     |             help: remove this `mut`
+
+   Compiling wayland-protocols v0.32.13
+   Compiling nix v0.31.3
+warning: field `hardware_addr` is never read
+   --> runtime/vendor/smoltcp/src/iface/interface/mod.rs:224:5
+    |
+210 | pub struct InterfaceInner {
+    |            -------------- field in this struct
+...
+224 |     hardware_addr: HardwareAddress,
+    |     ^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: variants `NoRoute` and `NeighborPending` are never constructed
+    --> runtime/vendor/smoltcp/src/iface/interface/mod.rs:1519:5
+     |
+1514 | enum DispatchError {
+     |      ------------- variants in this enum
+...
+1519 |     NoRoute,
+     |     ^^^^^^^
+...
+1523 |     NeighborPending,
+     |     ^^^^^^^^^^^^^^^
+     |
+     = note: `DispatchError` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+
+warning: methods `link_local_ipv6_address` and `mldv2_report_packet` are never used
+   --> runtime/vendor/smoltcp/src/iface/interface/ipv6.rs:171:8
+    |
+ 21 | impl InterfaceInner {
+    | ------------------- methods in this implementation
+...
+171 |     fn link_local_ipv6_address(&self) -> Option<Ipv6Address> {
+    |        ^^^^^^^^^^^^^^^^^^^^^^^
+...
+563 |     pub(super) fn mldv2_report_packet<'any>(
+    |                   ^^^^^^^^^^^^^^^^^^^
+
+warning: variant `HopByHopIcmpv6` is never constructed
+   --> runtime/vendor/smoltcp/src/iface/packet.rs:263:5
+    |
+255 | pub(crate) enum IpPayload<'p> {
+    |                 --------- variant in this enum
+...
+263 |     HopByHopIcmpv6(Ipv6HopByHopRepr<'p>, Icmpv6Repr<'p>),
+    |     ^^^^^^^^^^^^^^
+    |
+    = note: `IpPayload` has a derived impl for the trait `Debug`, but this is intentionally ignored during dead code analysis
+
+warning: type alias `Rest` is never used
+  --> runtime/vendor/smoltcp/src/wire/mod.rs:75:14
+   |
+75 |     pub type Rest = ::core::ops::RangeFrom<usize>;
+   |              ^^^^
+
+warning: constant `CUR_HOP_LIMIT` is never used
+   --> runtime/vendor/smoltcp/src/wire/icmpv6.rs:220:15
+    |
+220 |     pub const CUR_HOP_LIMIT: usize = 4;
+    |               ^^^^^^^^^^^^^
+
+warning: constant `ROUTER_FLAGS` is never used
+   --> runtime/vendor/smoltcp/src/wire/icmpv6.rs:221:15
+    |
+221 |     pub const ROUTER_FLAGS: usize = 5;
+    |               ^^^^^^^^^^^^
+
+warning: constant `ROUTER_LT` is never used
+   --> runtime/vendor/smoltcp/src/wire/icmpv6.rs:222:15
+    |
+222 |     pub const ROUTER_LT: Field = 6..8;
+    |               ^^^^^^^^^
+
+warning: constant `REACHABLE_TM` is never used
+   --> runtime/vendor/smoltcp/src/wire/icmpv6.rs:223:15
+    |
+223 |     pub const REACHABLE_TM: Field = 8..12;
+    |               ^^^^^^^^^^^^
+
+warning: constant `NEIGH_FLAGS` is never used
+   --> runtime/vendor/smoltcp/src/wire/icmpv6.rs:230:15
+    |
+230 |     pub const NEIGH_FLAGS: usize = 4;
+    |               ^^^^^^^^^^^
+
+warning: methods `solicited_node` and `is_solicited_node_multicast` are never used
+   --> runtime/vendor/smoltcp/src/wire/ipv6.rs:121:8
+    |
+ 79 | pub(crate) trait AddressExt {
+    |                  ---------- methods in this trait
+...
+121 |     fn solicited_node(&self) -> Address;
+    |        ^^^^^^^^^^^^^^
+...
+131 |     fn is_solicited_node_multicast(&self) -> bool;
+    |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: method `emit_header` is never used
+   --> runtime/vendor/smoltcp/src/wire/udp.rs:264:19
+    |
+221 | impl Repr {
+    | --------- method in this implementation
+...
+264 |     pub(crate) fn emit_header<T>(&self, packet: &mut Packet<&mut T>, payload_len: usize)
+    |                   ^^^^^^^^^^^
+
+warning: hiding a lifetime that's elided elsewhere is confusing
+   --> runtime/vendor/smoltcp/src/storage/assembler.rs:330:22
+    |
+330 |     pub fn iter_data(&self, first_offset: usize) -> AssemblerIter {
+    |                      ^^^^^                          ^^^^^^^^^^^^^ the same lifetime is hidden here
+    |                      |
+    |                      the lifetime is elided here
+    |
+    = help: the same lifetime is referred to in inconsistent ways, making the signature confusing
+    = note: `#[warn(mismatched_lifetime_syntaxes)]` on by default
+help: use `'_` for type paths
+    |
+330 |     pub fn iter_data(&self, first_offset: usize) -> AssemblerIter<'_> {
+    |                                                                  ++++
+
+   Compiling x11rb v0.13.2
+   Compiling getrandom v0.3.4
+   Compiling socket2 v0.6.1
+   Compiling trames-net v1.3.0 (/mnt/trames-output/linux-keyboard-source/runtime/crates/trames-net)
+   Compiling xim v0.5.0
+   Compiling trames-execution v1.3.0 (/mnt/trames-output/linux-keyboard-source/runtime/crates/trames-execution)
+   Compiling simd-adler32 v0.3.10
+   Compiling adler2 v2.0.1
+   Compiling miniz_oxide v0.9.1
+warning: `smoltcp` (lib) generated 21 warnings (run `cargo fix --lib -p smoltcp` to apply 9 suggestions)
+   Compiling crc32fast v1.5.2
+   Compiling trames-elf v1.3.0 (/mnt/trames-output/linux-keyboard-source/runtime/crates/trames-elf)
+   Compiling equivalent v1.0.3
+   Compiling hashbrown v0.17.1
+   Compiling crc-catalog v2.5.0
+   Compiling winnow v1.0.5
+   Compiling toml_parser v1.1.5+spec-1.1.0
+   Compiling indexmap v2.14.2
+   Compiling crc v3.4.0
+   Compiling trames-distro v1.3.0 (/mnt/trames-output/linux-keyboard-source/runtime/crates/trames-distro)
+   Compiling flate2 v1.1.10
+   Compiling constant_time_eq v0.6.1
+   Compiling zeroize v1.9.1
+   Compiling getrandom v0.4.3
+   Compiling trames-native v1.3.0 (/mnt/trames-output/linux-keyboard-source/runtime/crates/trames-native)
+   Compiling serde_spanned v1.1.3
+   Compiling toml_datetime v1.1.3+spec-1.1.0
+   Compiling vmm-sys-util v0.15.0
+   Compiling trames-wayland v1.3.0 (/mnt/trames-output/linux-keyboard-source/runtime/crates/trames-wayland)
+   Compiling filetime v0.2.29
+   Compiling toml_writer v1.2.0+spec-1.1.0
+   Compiling typed-path v0.13.0
+   Compiling toml v1.2.1+spec-1.1.0
+   Compiling zip v9.5.1
+   Compiling tar v0.4.46
+   Compiling kvm-bindings v0.14.2
+   Compiling trames-accel v1.3.0 (/mnt/trames-output/linux-keyboard-source/runtime/crates/trames-accel)
+   Compiling ext4-view v1.0.0 (/mnt/trames-output/linux-keyboard-source/runtime/vendor/ext4-view)
+   Compiling trames-vfs v1.3.0 (/mnt/trames-output/linux-keyboard-source/runtime/crates/trames-vfs)
+   Compiling ash v0.38.0+1.3.281
+   Compiling trames-engine v1.3.0 (/mnt/trames-output/linux-keyboard-source/runtime/crates/trames-engine)
+   Compiling kvm-ioctls v0.25.1
+   Compiling trames-video v1.3.0 (/mnt/trames-output/linux-keyboard-source/runtime/crates/trames-video)
+   Compiling trames-audio v1.3.0 (/mnt/trames-output/linux-keyboard-source/runtime/crates/trames-audio)
+   Compiling trames-kvm v0.1.0 (/mnt/trames-output/linux-keyboard-source/crates/trames-kvm)
+   Compiling trames-cli-common v0.1.0 (/mnt/trames-output/linux-keyboard-source/cli/crates/trames-cli-common)
+   Compiling trames-vulkan v1.3.0 (/mnt/trames-output/linux-keyboard-source/runtime/crates/trames-vulkan)
+   Compiling trames-linux v1.3.0 (/mnt/trames-output/linux-keyboard-source/runtime/crates/trames-linux)
+   Compiling trames-kernel v1.3.0 (/mnt/trames-output/linux-keyboard-source/runtime/crates/trames-kernel)
+   Compiling trames-host v1.3.0 (/mnt/trames-output/linux-keyboard-source/runtime/crates/trames-host)
+   Compiling trames-session v1.3.0 (/mnt/trames-output/linux-keyboard-source/runtime/crates/trames-session)
+   Compiling trames-linux-app v0.1.0 (/mnt/trames-output/linux-keyboard-source/crates/trames-linux-app)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2m 34s
+     Running unittests src/main.rs (/mnt/trames-output/linux-desktop-target/debug/build/trames-linux-app/6cf95622b4946c69/out/trames-6cf95622b4946c69)
+
+running 15 tests
+test desktop::tests::native_wayland_desktop ... ignored, requires X11 and the original libwayland desktop fixture
+test display::wayland_tests::original_wayland_target_uses_native_surface_and_retains_its_connection ... ignored, requires Weston/libwayland fixture; validate-wsi.py supplies both
+test display::x11::tests::x11_events_resize_and_surface_teardown_keep_original_native_owners ... ignored, requires a real X11 server and Vulkan XCB ICD; validate-wsi.py provides Xvfb
+test displays_x11::tests::native_font_dpi_and_missing_physical_size ... ok
+test environments::tests::explicit_store_selection_stops_at_literal_command_and_skips_values ... ok
+test display_scale::tests::fractional_dimensions_round_once_and_input_stays_logical ... ok
+test foreground::tests::audio_flags_preserve_literal_argv_and_option_values ... ok
+test displays_x11::tests::mixed_density_layout_has_no_artificial_gap ... ok
+test foreground::tests::display_and_gpu_options_preserve_guest_arguments_and_validate_geometry ... ok
+test foreground::tests::desktop_options_keep_software_mode_and_guest_arguments ... ok
+test foreground::tests::store_arguments_require_a_single_value_and_preserve_literal_argv ... ok
+test interop_tests::host_xim_peer ... ignored, host XIM protocol peer for validate-desktop-interop.py
+test managed_io::tests::cleanup_preserves_a_replacement_path_and_reports_startup_failure ... FAILED
+test managed_io::tests::late_control_peer_wakes_existing_wait_and_receives_ack_after_retirement ... FAILED
+test store::tests::import_is_create_only_and_owned_files_survive_reopen ... ok
+
+failures:
+
+---- managed_io::tests::cleanup_preserves_a_replacement_path_and_reports_startup_failure stdout ----
+
+thread 'managed_io::tests::cleanup_preserves_a_replacement_path_and_reports_startup_failure' (131572) panicked at crates/trames-linux-app/src/managed_io.rs:186:62:
+called `Result::unwrap()` on an `Err` value: Os { code: 22, kind: InvalidInput, message: "Invalid argument" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- managed_io::tests::late_control_peer_wakes_existing_wait_and_receives_ack_after_retirement stdout ----
+
+thread 'managed_io::tests::late_control_peer_wakes_existing_wait_and_receives_ack_after_retirement' (131573) panicked at crates/trames-linux-app/src/managed_io.rs:149:62:
+called `Result::unwrap()` on an `Err` value: Os { code: 22, kind: InvalidInput, message: "Invalid argument" }
+
+
+failures:
+    managed_io::tests::cleanup_preserves_a_replacement_path_and_reports_startup_failure
+    managed_io::tests::late_control_peer_wakes_existing_wait_and_receives_ack_after_retirement
+
+test result: FAILED. 9 passed; 2 failed; 4 ignored; 0 measured; 0 filtered out; finished in 0.08s
+
+error: test failed, to rerun pass `-p trames-linux-app --bin trames`

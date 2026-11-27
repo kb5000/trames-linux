@@ -1,0 +1,504 @@
+{
+  "passed": true,
+  "complete": true,
+  "native_only": true,
+  "operations": 39,
+  "runner_sha256": "7c0b41c2f93326a320e0fa44fcd97449ca9def169c28369e9e510f7054d9de27",
+  "rows": [
+    {
+      "arguments": [
+        "config",
+        "--global",
+        "set",
+        "defaults.components.vulkan",
+        "false",
+        "defaults.display.windows",
+        "false",
+        "defaults.resources.cpus",
+        "1"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.882983792
+    },
+    {
+      "arguments": [
+        "config",
+        "--global",
+        "set",
+        "defaults.image.distribution",
+        "debian"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.03385216699999993
+    },
+    {
+      "arguments": [
+        "config",
+        "--global",
+        "set",
+        "defaults.image.distribution",
+        "alpine"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.020229542000000045
+    },
+    {
+      "arguments": [
+        "env",
+        "create",
+        "work",
+        "--rootfs",
+        "/Users/main/dev/trames/target/local-ci/io/linux-environments/cold-apple-v3/cold-root"
+      ],
+      "code": 0,
+      "stdout": "Created work (custom)\n",
+      "stderr": "",
+      "seconds": 0.14237662500000003
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "show",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"boot\": {\n    \"mode\": \"shell\"\n  },\n  \"components\": {\n    \"audio\": false,\n    \"audio_input\": false,\n    \"thunking\": \"auto\",\n    \"vaapi\": false,\n    \"vulkan\": false\n  },\n  \"display\": {\n    \"windows\": false\n  },\n  \"environment\": {\n    \"name\": \"work\",\n    \"type\": \"linux\",\n    \"uuid\": \"d9bfe4e9-52d8-4d0a-8f08-817f7dc8b464\"\n  },\n  \"image\": {\n    \"distribution\": \"custom\",\n    \"sha256\": \"f60baa96f16e138077e7cd8f285151aeb26b74c9cbd8f96c26fef896749e15c1\",\n    \"source\": null\n  },\n  \"interop\": {\n    \"clipboard\": {\n      \"enabled\": true\n    },\n    \"files\": {\n      \"enabled\": true\n    },\n    \"host_cli\": {\n      \"enabled\": true\n    },\n    \"host_exec\": {\n      \"enabled\": true\n    },\n    \"host_ui\": {\n      \"enabled\": true\n    },\n    \"mounts\": {\n      \"enabled\": true\n    },\n    \"ports\": {\n      \"enabled\": true\n    }\n  },\n  \"kernel\": {\n    \"sysctl\": {}\n  },\n  \"mounts\": [],\n  \"network\": {\n    \"bridge\": null,\n    \"mode\": \"host\",\n    \"publish\": []\n  },\n  \"resources\": {\n    \"cpus\": 1,\n    \"memory\": \"auto\",\n    \"memory_limit\": null\n  },\n  \"session\": {\n    \"cwd\": \"/\",\n    \"shell\": [\n      \"/bin/sh\",\n      \"-l\"\n    ]\n  },\n  \"version\": 1\n}\n",
+      "stderr": "",
+      "seconds": 0.009315457999999888
+    },
+    {
+      "arguments": [
+        "env",
+        "path",
+        "work"
+      ],
+      "code": 0,
+      "stdout": "/Users/main/dev/trames/target/local-ci/io/linux-environments/cold-apple-v3/registry-0awjjwo2/environments/d9bfe4e9-52d8-4d0a-8f08-817f7dc8b464\n",
+      "stderr": "",
+      "seconds": 0.00658754100000003
+    },
+    {
+      "arguments": [
+        "env",
+        "create",
+        "work",
+        "--rootfs",
+        "/Users/main/dev/trames/target/local-ci/io/linux-environments/cold-apple-v3/cold-root"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: environment name already exists\n",
+      "seconds": 0.006402042000000163
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "resources.memory",
+        "64MiB",
+        "resources.cpus",
+        "0"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: resources.cpus must be all or a supported positive count\n",
+      "seconds": 0.006569541000000179
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "image",
+        "{}"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: registered identity and image provenance are immutable; use env rename/create/clone\n",
+      "seconds": 0.005289958999999955
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "resources.typo",
+        "5"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: unknown configuration field\n",
+      "seconds": 0.005036999999999958
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "resources.memory",
+        "--help"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: cannot parse integer from empty string\n",
+      "seconds": 0.004904750000000124
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "resources.memory",
+        "--global"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: cannot parse integer from empty string\n",
+      "seconds": 0.004677791999999847
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "resources.memory",
+        "64MiB",
+        "resources.cpus",
+        "1"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.01962033399999985
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "validate"
+      ],
+      "code": 0,
+      "stdout": "Valid environment configuration\n",
+      "stderr": "",
+      "seconds": 0.005097834000000079
+    },
+    {
+      "arguments": [
+        "config",
+        "--global",
+        "set",
+        "default_environment",
+        "work"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.011424625000000077
+    },
+    {
+      "arguments": [
+        "config",
+        "get",
+        "resources.memory"
+      ],
+      "code": 0,
+      "stdout": "64MiB\n",
+      "stderr": "",
+      "seconds": 0.0047204160000000606
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "edit"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: No such file or directory (os error 2)\n",
+      "seconds": 0.011073625000000087
+    },
+    {
+      "arguments": [
+        "env",
+        "remove",
+        "work",
+        "--yes"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: environment is running or busy: lock acquisition failed because the operation would block\n",
+      "seconds": 0.004356083000000011
+    },
+    {
+      "arguments": [
+        "env",
+        "backup",
+        "work",
+        "/Users/main/dev/trames/target/local-ci/io/linux-environments/cold-apple-v3/registry-0awjjwo2/busy.tar.gz"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: environment is running or busy: lock acquisition failed because the operation would block\n",
+      "seconds": 0.004229000000000038
+    },
+    {
+      "arguments": [
+        "env",
+        "clone",
+        "work",
+        "busy-clone"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: environment is running or busy: lock acquisition failed because the operation would block\n",
+      "seconds": 0.004009791000000096
+    },
+    {
+      "arguments": [
+        "env",
+        "share",
+        "work",
+        "project",
+        "/Users/main/dev/trames/target/local-ci/io/linux-environments/cold-apple-v3/registry-0awjjwo2/shared",
+        "/work",
+        "ro"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.02727487500000003
+    },
+    {
+      "arguments": [
+        "env",
+        "clone",
+        "work",
+        "copy"
+      ],
+      "code": 0,
+      "stdout": "Imported copy; shared directories must be selected again\n",
+      "stderr": "",
+      "seconds": 0.08586870800000002
+    },
+    {
+      "arguments": [
+        "-e",
+        "copy",
+        "config",
+        "show",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"boot\": {\n    \"mode\": \"shell\"\n  },\n  \"components\": {\n    \"audio\": false,\n    \"audio_input\": false,\n    \"thunking\": \"auto\",\n    \"vaapi\": false,\n    \"vulkan\": false\n  },\n  \"display\": {\n    \"windows\": false\n  },\n  \"environment\": {\n    \"name\": \"copy\",\n    \"type\": \"linux\",\n    \"uuid\": \"93873bd0-0b93-4b2e-8cfe-983e776e0dd9\"\n  },\n  \"image\": {\n    \"distribution\": \"custom\",\n    \"sha256\": \"f60baa96f16e138077e7cd8f285151aeb26b74c9cbd8f96c26fef896749e15c1\",\n    \"source\": null\n  },\n  \"interop\": {\n    \"clipboard\": {\n      \"enabled\": true\n    },\n    \"files\": {\n      \"enabled\": true\n    },\n    \"host_cli\": {\n      \"enabled\": true\n    },\n    \"host_exec\": {\n      \"enabled\": true\n    },\n    \"host_ui\": {\n      \"enabled\": true\n    },\n    \"mounts\": {\n      \"enabled\": true\n    },\n    \"ports\": {\n      \"enabled\": true\n    }\n  },\n  \"kernel\": {\n    \"sysctl\": {}\n  },\n  \"mounts\": [],\n  \"network\": {\n    \"bridge\": null,\n    \"mode\": \"host\",\n    \"publish\": []\n  },\n  \"resources\": {\n    \"cpus\": 1,\n    \"memory\": \"64MiB\",\n    \"memory_limit\": null\n  },\n  \"session\": {\n    \"cwd\": \"/\",\n    \"shell\": [\n      \"/bin/sh\",\n      \"-l\"\n    ]\n  },\n  \"version\": 1\n}\n",
+      "stderr": "",
+      "seconds": 0.0066790000000001015
+    },
+    {
+      "arguments": [
+        "env",
+        "path",
+        "copy"
+      ],
+      "code": 0,
+      "stdout": "/Users/main/dev/trames/target/local-ci/io/linux-environments/cold-apple-v3/registry-0awjjwo2/environments/93873bd0-0b93-4b2e-8cfe-983e776e0dd9\n",
+      "stderr": "",
+      "seconds": 0.005204833000000075
+    },
+    {
+      "arguments": [
+        "env",
+        "backup",
+        "work",
+        "/Users/main/dev/trames/target/local-ci/io/linux-environments/cold-apple-v3/registry-0awjjwo2/backup.tar.gz"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.09061724999999998
+    },
+    {
+      "arguments": [
+        "env",
+        "backup",
+        "work",
+        "/Users/main/dev/trames/target/local-ci/io/linux-environments/cold-apple-v3/registry-0awjjwo2/backup.tar.gz"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: backup destination already exists\n",
+      "seconds": 0.011665625000000013
+    },
+    {
+      "arguments": [
+        "env",
+        "restore",
+        "restored",
+        "/Users/main/dev/trames/target/local-ci/io/linux-environments/cold-apple-v3/registry-0awjjwo2/backup.tar.gz"
+      ],
+      "code": 0,
+      "stdout": "Restored restored; shared directories must be selected again\n",
+      "stderr": "",
+      "seconds": 0.13083029199999996
+    },
+    {
+      "arguments": [
+        "-e",
+        "restored",
+        "config",
+        "show",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"boot\": {\n    \"mode\": \"shell\"\n  },\n  \"components\": {\n    \"audio\": false,\n    \"audio_input\": false,\n    \"thunking\": \"auto\",\n    \"vaapi\": false,\n    \"vulkan\": false\n  },\n  \"display\": {\n    \"windows\": false\n  },\n  \"environment\": {\n    \"name\": \"restored\",\n    \"type\": \"linux\",\n    \"uuid\": \"2f6c57d2-ee74-487d-a13c-ee87f1b264d9\"\n  },\n  \"image\": {\n    \"distribution\": \"custom\",\n    \"sha256\": \"f60baa96f16e138077e7cd8f285151aeb26b74c9cbd8f96c26fef896749e15c1\",\n    \"source\": null\n  },\n  \"interop\": {\n    \"clipboard\": {\n      \"enabled\": true\n    },\n    \"files\": {\n      \"enabled\": true\n    },\n    \"host_cli\": {\n      \"enabled\": true\n    },\n    \"host_exec\": {\n      \"enabled\": true\n    },\n    \"host_ui\": {\n      \"enabled\": true\n    },\n    \"mounts\": {\n      \"enabled\": true\n    },\n    \"ports\": {\n      \"enabled\": true\n    }\n  },\n  \"kernel\": {\n    \"sysctl\": {}\n  },\n  \"mounts\": [],\n  \"network\": {\n    \"bridge\": null,\n    \"mode\": \"host\",\n    \"publish\": []\n  },\n  \"resources\": {\n    \"cpus\": 1,\n    \"memory\": \"64MiB\",\n    \"memory_limit\": null\n  },\n  \"session\": {\n    \"cwd\": \"/\",\n    \"shell\": [\n      \"/bin/sh\",\n      \"-l\"\n    ]\n  },\n  \"version\": 1\n}\n",
+      "stderr": "",
+      "seconds": 0.006603125000000043
+    },
+    {
+      "arguments": [
+        "env",
+        "restore",
+        "bad-crc",
+        "/Users/main/dev/trames/target/local-ci/io/linux-environments/cold-apple-v3/registry-0awjjwo2/corrupt.tar.gz"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: corrupt gzip stream does not have a matching checksum\n",
+      "seconds": 0.06709037500000004
+    },
+    {
+      "arguments": [
+        "env",
+        "restore",
+        "bad-path",
+        "/Users/main/dev/trames/target/local-ci/io/linux-environments/cold-apple-v3/registry-0awjjwo2/traversal.tar.gz"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: invalid backup path, type or duplicate entry\n",
+      "seconds": 0.005331790999999919
+    },
+    {
+      "arguments": [
+        "env",
+        "import-store",
+        "imported",
+        "/Users/main/dev/trames/target/local-ci/io/linux-environments/cold-apple-v3/registry-0awjjwo2/environments/d9bfe4e9-52d8-4d0a-8f08-817f7dc8b464/store"
+      ],
+      "code": 0,
+      "stdout": "Imported imported; shared directories must be selected again\n",
+      "stderr": "",
+      "seconds": 0.08677104199999985
+    },
+    {
+      "arguments": [
+        "env",
+        "rename",
+        "d9bfe4e9-52d8-4d0a-8f08-817f7dc8b464",
+        "renamed"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.026518708000000002
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "config",
+        "show",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"boot\": {\n    \"mode\": \"shell\"\n  },\n  \"components\": {\n    \"audio\": false,\n    \"audio_input\": false,\n    \"thunking\": \"auto\",\n    \"vaapi\": false,\n    \"vulkan\": false\n  },\n  \"display\": {\n    \"windows\": false\n  },\n  \"environment\": {\n    \"name\": \"renamed\",\n    \"type\": \"linux\",\n    \"uuid\": \"d9bfe4e9-52d8-4d0a-8f08-817f7dc8b464\"\n  },\n  \"image\": {\n    \"distribution\": \"custom\",\n    \"sha256\": \"f60baa96f16e138077e7cd8f285151aeb26b74c9cbd8f96c26fef896749e15c1\",\n    \"source\": null\n  },\n  \"interop\": {\n    \"clipboard\": {\n      \"enabled\": true\n    },\n    \"files\": {\n      \"enabled\": true\n    },\n    \"host_cli\": {\n      \"enabled\": true\n    },\n    \"host_exec\": {\n      \"enabled\": true\n    },\n    \"host_ui\": {\n      \"enabled\": true\n    },\n    \"mounts\": {\n      \"enabled\": true\n    },\n    \"ports\": {\n      \"enabled\": true\n    }\n  },\n  \"kernel\": {\n    \"sysctl\": {}\n  },\n  \"mounts\": [\n    {\n      \"host\": null,\n      \"readonly\": true,\n      \"share\": \"project\",\n      \"target\": \"/work\"\n    }\n  ],\n  \"network\": {\n    \"bridge\": null,\n    \"mode\": \"host\",\n    \"publish\": []\n  },\n  \"resources\": {\n    \"cpus\": 1,\n    \"memory\": \"64MiB\",\n    \"memory_limit\": null\n  },\n  \"session\": {\n    \"cwd\": \"/\",\n    \"shell\": [\n      \"/bin/sh\",\n      \"-l\"\n    ]\n  },\n  \"version\": 1\n}\n",
+      "stderr": "",
+      "seconds": 0.0064245419999999775
+    },
+    {
+      "arguments": [
+        "config",
+        "--global",
+        "get",
+        "default_environment"
+      ],
+      "code": 0,
+      "stdout": "renamed\n",
+      "stderr": "",
+      "seconds": 0.005151041999999828
+    },
+    {
+      "arguments": [
+        "env",
+        "remove",
+        "copy"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: usage: env remove NAME --yes\n",
+      "seconds": 0.005018165999999935
+    },
+    {
+      "arguments": [
+        "env",
+        "remove",
+        "copy",
+        "--yes"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.014189459000000015
+    },
+    {
+      "arguments": [
+        "env",
+        "path",
+        "restored"
+      ],
+      "code": 0,
+      "stdout": "/Users/main/dev/trames/target/local-ci/io/linux-environments/cold-apple-v3/registry-0awjjwo2/environments/2f6c57d2-ee74-487d-a13c-ee87f1b264d9\n",
+      "stderr": "",
+      "seconds": 0.004995000000000083
+    },
+    {
+      "arguments": [
+        "env",
+        "ls",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "[\n  {\n    \"config\": {\n      \"boot\": {\n        \"mode\": \"shell\"\n      },\n      \"components\": {\n        \"audio\": false,\n        \"audio_input\": false,\n        \"thunking\": \"auto\",\n        \"vaapi\": false,\n        \"vulkan\": false\n      },\n      \"display\": {\n        \"windows\": false\n      },\n      \"environment\": {\n        \"name\": \"imported\",\n        \"type\": \"linux\",\n        \"uuid\": \"9d559297-f5a3-4e54-8c4f-94264345bff3\"\n      },\n      \"image\": {\n        \"distribution\": \"custom\",\n        \"sha256\": \"f60baa96f16e138077e7cd8f285151aeb26b74c9cbd8f96c26fef896749e15c1\",\n        \"source\": null\n      },\n      \"interop\": {\n        \"clipboard\": {\n          \"enabled\": true\n        },\n        \"files\": {\n          \"enabled\": true\n        },\n        \"host_cli\": {\n          \"enabled\": true\n        },\n        \"host_exec\": {\n          \"enabled\": true\n        },\n        \"host_ui\": {\n          \"enabled\": true\n        },\n        \"mounts\": {\n          \"enabled\": true\n        },\n        \"ports\": {\n          \"enabled\": true\n        }\n      },\n      \"kernel\": {\n        \"sysctl\": {}\n      },\n      \"mounts\": [],\n      \"network\": {\n        \"bridge\": null,\n        \"mode\": \"host\",\n        \"publish\": []\n      },\n      \"resources\": {\n        \"cpus\": 1,\n        \"memory\": \"64MiB\",\n        \"memory_limit\": null\n      },\n      \"session\": {\n        \"cwd\": \"/\",\n        \"shell\": [\n          \"/bin/sh\",\n          \"-l\"\n        ]\n      },\n      \"version\": 1\n    },\n    \"directory\": \"/Users/main/dev/trames/target/local-ci/io/linux-environments/cold-apple-v3/registry-0awjjwo2/environments/9d559297-f5a3-4e54-8c4f-94264345bff3\",\n    \"distribution\": \"custom\",\n    \"error\": null,\n    \"last_exit\": null,\n    \"name\": \"imported\",\n    \"running\": false,\n    \"state\": \"stopped\",\n    \"uuid\": \"9d559297-f5a3-4e54-8c4f-94264345bff3\"\n  },\n  {\n    \"config\": {\n      \"boot\": {\n        \"mode\": \"shell\"\n      },\n      \"components\": {\n        \"audio\": false,\n        \"audio_input\": false,\n        \"thunking\": \"auto\",\n        \"vaapi\": false,\n        \"vulkan\": false\n      },\n      \"display\": {\n        \"windows\": false\n      },\n      \"environment\": {\n        \"name\": \"renamed\",\n        \"type\": \"linux\",\n        \"uuid\": \"d9bfe4e9-52d8-4d0a-8f08-817f7dc8b464\"\n      },\n      \"image\": {\n        \"distribution\": \"custom\",\n        \"sha256\": \"f60baa96f16e138077e7cd8f285151aeb26b74c9cbd8f96c26fef896749e15c1\",\n        \"source\": null\n      },\n      \"interop\": {\n        \"clipboard\": {\n          \"enabled\": true\n        },\n        \"files\": {\n          \"enabled\": true\n        },\n        \"host_cli\": {\n          \"enabled\": true\n        },\n        \"host_exec\": {\n          \"enabled\": true\n        },\n        \"host_ui\": {\n          \"enabled\": true\n        },\n        \"mounts\": {\n          \"enabled\": true\n        },\n        \"ports\": {\n          \"enabled\": true\n        }\n      },\n      \"kernel\": {\n        \"sysctl\": {}\n      },\n      \"mounts\": [\n        {\n          \"host\": null,\n          \"readonly\": true,\n          \"share\": \"project\",\n          \"target\": \"/work\"\n        }\n      ],\n      \"network\": {\n        \"bridge\": null,\n        \"mode\": \"host\",\n        \"publish\": []\n      },\n      \"resources\": {\n        \"cpus\": 1,\n        \"memory\": \"64MiB\",\n        \"memory_limit\": null\n      },\n      \"session\": {\n        \"cwd\": \"/\",\n        \"shell\": [\n          \"/bin/sh\",\n          \"-l\"\n        ]\n      },\n      \"version\": 1\n    },\n    \"directory\": \"/Users/main/dev/trames/target/local-ci/io/linux-environments/cold-apple-v3/registry-0awjjwo2/environments/d9bfe4e9-52d8-4d0a-8f08-817f7dc8b464\",\n    \"distribution\": \"custom\",\n    \"error\": null,\n    \"last_exit\": null,\n    \"name\": \"renamed\",\n    \"running\": false,\n    \"state\": \"stopped\",\n    \"uuid\": \"d9bfe4e9-52d8-4d0a-8f08-817f7dc8b464\"\n  },\n  {\n    \"config\": null,\n    \"directory\": \"/Users/main/dev/trames/target/local-ci/io/linux-environments/cold-apple-v3/registry-0awjjwo2/environments/2f6c57d2-ee74-487d-a13c-ee87f1b264d9\",\n    \"distribution\": \"custom\",\n    \"error\": \"unsupported environment TOML version\",\n    \"last_exit\": null,\n    \"name\": \"restored\",\n    \"running\": false,\n    \"state\": \"needs attention\",\n    \"uuid\": \"2f6c57d2-ee74-487d-a13c-ee87f1b264d9\"\n  }\n]\n",
+      "stderr": "",
+      "seconds": 0.005950624999999876
+    },
+    {
+      "arguments": [
+        "-e",
+        "restored",
+        "config",
+        "validate"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: unsupported environment TOML version\n",
+      "seconds": 0.004995250000000118
+    }
+  ]
+}

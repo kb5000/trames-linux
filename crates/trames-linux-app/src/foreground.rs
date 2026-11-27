@@ -10,7 +10,14 @@ use trames_cli_common::{
     terminal::{window_size, RawTerminal},
 };
 use trames_linux_abi::{GuestOutput, OutputFd, TerminalEvent};
-struct Output {
+struct Output<'a> {
+    managed: Option<&'a mut crate::managed_io::Service>,
+    exec: Option<trames_host::exec::Server>,
+    console: Option<trames_host::console::Console>,
+    terminals: Option<trames_distro::terminals::NativeTerminals>,
+    init: Option<trames_distro::systemd::Monitor>,
+    root_signal: Option<u32>,
+    shutdown_deadline: Option<Instant>,
     source: Arc<dyn trames_vfs::ConsoleIo>,
     deadline: Option<Instant>,
     signals: Signals,
@@ -19,12 +26,37 @@ struct Output {
     display: Option<crate::display::HostDisplay>,
     desktop: Option<crate::desktop::Desktop>,
 }
-impl GuestOutput for Output {
+impl GuestOutput for Output<'_> {
+    fn bind_host_wake(&mut self, wake: Arc<trames_linux_abi::HostWake>) {
+        if let Some(exec) = &mut self.exec {
+            exec.bind_wake(wake.clone());
+        }
+        if let Some(console) = &mut self.console {
+            console.bind_wake(wake.clone());
+        }
+        if let Some(service) = &mut self.managed {
+            service.bind_wake(wake);
+            service.ready();
+        }
+    }
+    fn host_memory_source(
+        &self,
+    ) -> Option<Arc<dyn Fn() -> trames_linux_abi::HostMemoryInfo + Send + Sync>> {
+        self.managed.as_ref().map(|_| Arc::new(host_memory) as _)
+    }
+    fn host_spawn(&mut self) -> Option<trames_linux_abi::HostSpawn> {
+        self.exec.as_mut()?.spawn()
+    }
+    fn root_signal(&mut self) -> Option<u32> {
+        self.root_signal.take()
+    }
     fn source_console(&mut self) -> Arc<dyn trames_vfs::ConsoleIo> {
         self.source.clone()
     }
     fn cancellation_requested(&self) -> bool {
-        self.signals.stopping()
+        (self.init.is_none()
+            && (self.signals.stopping() || self.managed.as_ref().is_some_and(|s| s.stopping)))
+            || self.shutdown_deadline.is_some_and(|d| Instant::now() >= d)
             || self.deadline.is_some_and(|d| Instant::now() >= d)
             || self
                 .display
@@ -36,6 +68,24 @@ impl GuestOutput for Output {
     }
     fn host_interest(&mut self, wait: &mut trames_linux_abi::HostWait) -> io::Result<()> {
         wait.watch(&self.signals, false)?;
+        if let Some(service) = &self.managed {
+            service.interest(wait)?;
+        }
+        if let Some(console) = &self.console {
+            console.interest(wait)?;
+        }
+        if let Some(exec) = &self.exec {
+            exec.interest(wait)?;
+        }
+        if let Some(terminals) = &self.terminals {
+            wait.retain(terminals.subscribe(wait.signal()));
+        }
+        if let Some(init) = &self.init {
+            wait.retain([init.subscribe(wait.signal())]);
+        }
+        if let Some(at) = self.shutdown_deadline {
+            wait.until(at);
+        }
         if let Some(display) = &self.display {
             display.interest(wait)?;
         }
@@ -47,8 +97,30 @@ impl GuestOutput for Output {
         }
         Ok(())
     }
-    fn poll_host(&mut self, _: &trames_vfs::Vfs) -> io::Result<trames_linux_abi::HostState> {
+    fn poll_host(&mut self, vfs: &trames_vfs::Vfs) -> io::Result<trames_linux_abi::HostState> {
         self.signals.drain();
+        if let Some(service) = &mut self.managed {
+            service.poll()?;
+        }
+        let stopping = self.signals.stopping() || self.managed.as_ref().is_some_and(|s| s.stopping);
+        if let Some(init) = &mut self.init {
+            self.root_signal = init
+                .control(stopping)
+                .map_err(|e| io::Error::other(e.to_string()))?
+                .or(self.root_signal);
+            if stopping && self.shutdown_deadline.is_none() {
+                self.shutdown_deadline = Some(Instant::now() + std::time::Duration::from_secs(30));
+            }
+        }
+        if let Some(exec) = &mut self.exec {
+            exec.poll()?;
+            exec.control(vfs);
+        }
+        if let (Some(console), Some(terminals)) = (&mut self.console, &mut self.terminals) {
+            console.poll()?;
+            terminals.pump(&mut console.channels);
+            console.flush();
+        }
         if let Some(display) = &mut self.display {
             display.poll()?;
         }
@@ -65,6 +137,9 @@ impl GuestOutput for Output {
         ))
     }
     fn stdin_ready(&mut self) -> io::Result<bool> {
+        if self.console.is_some() {
+            return Ok(false);
+        }
         Ok(self.source.poll(trames_vfs::ConsoleStream::Input, 1).0 != 0)
     }
     fn poll_stdin(&mut self, bytes: &mut [u8]) -> io::Result<usize> {
@@ -81,7 +156,7 @@ impl GuestOutput for Output {
         Ok(input.len())
     }
     fn terminal_event(&mut self) -> Option<TerminalEvent> {
-        if !self.pty {
+        if !self.pty || self.console.is_some() {
             return None;
         }
         let size = window_size()?;
@@ -95,6 +170,9 @@ impl GuestOutput for Output {
         })
     }
     fn write(&mut self, fd: OutputFd, bytes: &[u8]) -> io::Result<usize> {
+        if let Some(console) = &mut self.console {
+            return console.write(bytes);
+        }
         match fd {
             OutputFd::Stdout => io::stdout().write(bytes),
             OutputFd::Stderr => io::stderr().write(bytes),
@@ -105,6 +183,8 @@ impl GuestOutput for Output {
 #[derive(Default)]
 struct HostOptions {
     runtime: trames_session::RuntimeOptions,
+    kernel: trames_distro::environment::Kernel,
+    mounts: Vec<(String, String, bool)>,
     store: Option<std::path::PathBuf>,
     network: Option<trames_vfs::NetworkMode>,
     trace: bool,
@@ -136,6 +216,41 @@ fn host_options(args: Vec<String>) -> Result<(Vec<String>, HostOptions), String>
                     .filter(|p| p != "--")
                     .ok_or("missing --store directory")?;
                 host.store = Some(path.into());
+            }
+            "--memory-mib" => {
+                let value = args.next().ok_or("missing --memory-mib value")?;
+                host.runtime.memory_limits = match trames_distro::environment::memory_mib(&value)
+                    .map_err(|e| e.to_string())?
+                {
+                    None => trames_session::MemoryLimits::host_managed(),
+                    Some(mib) => {
+                        let bytes = usize::try_from(mib)
+                            .ok()
+                            .and_then(|v| v.checked_mul(1 << 20))
+                            .ok_or("memory size overflow")?;
+                        trames_session::MemoryLimits {
+                            per_process: bytes,
+                            total: bytes,
+                        }
+                    }
+                };
+                host.runtime
+                    .memory_limits
+                    .validate()
+                    .map_err(|e| e.to_string())?;
+            }
+            "--sysctl" => host
+                .kernel
+                .argument(&args.next().ok_or("missing --sysctl value")?)
+                .map_err(|e| e.to_string())?,
+            "--mount" | "--mount-ro" => {
+                let value = args.next().ok_or("missing GUEST=HOST mount")?;
+                let (guest, path) = value
+                    .split_once('=')
+                    .filter(|(g, h)| g.starts_with('/') && !h.is_empty())
+                    .ok_or("mount requires absolute GUEST=HOST")?;
+                host.mounts
+                    .push((guest.into(), path.into(), arg == "--mount-ro"));
             }
             "--network" => {
                 if host.network.is_some() {
@@ -246,6 +361,37 @@ fn host_options(args: Vec<String>) -> Result<(Vec<String>, HostOptions), String>
     Ok((out, host))
 }
 pub fn run(args: Vec<String>, shell: bool) -> Result<u8, Box<dyn std::error::Error>> {
+    run_inner(args, shell, None)
+}
+struct Named<'a> {
+    directory: &'a std::path::Path,
+    config: &'a trames_distro::environment::Manifest,
+    service: &'a mut crate::managed_io::Service,
+    clipboard: bool,
+}
+pub fn run_managed(
+    args: Vec<String>,
+    directory: &std::path::Path,
+    config: &trames_distro::environment::Manifest,
+    service: &mut crate::managed_io::Service,
+    clipboard: bool,
+) -> Result<u8, Box<dyn std::error::Error>> {
+    run_inner(
+        args,
+        false,
+        Some(Named {
+            directory,
+            config,
+            service,
+            clipboard,
+        }),
+    )
+}
+fn run_inner(
+    args: Vec<String>,
+    shell: bool,
+    mut named: Option<Named<'_>>,
+) -> Result<u8, Box<dyn std::error::Error>> {
     use std::io::IsTerminal;
     let (args, host) = host_options(args)?;
     let store = host.store;
@@ -273,7 +419,9 @@ pub fn run(args: Vec<String>, shell: bool) -> Result<u8, Box<dyn std::error::Err
     }
     // Probe before reading an ELF or mounting a host directory on unsupported hosts.
     trames_kvm::Doctor::inspect().require_probe()?;
-    let mut vfs = if let Some(path) = &store {
+    let mut vfs = if let Some(named) = &named {
+        trames_vfs::Vfs::open_disk(named.directory.join("store"), Default::default())?
+    } else if let Some(path) = &store {
         crate::store::open(path, command.rootfs.as_deref().map(std::path::Path::new))?
     } else {
         trames_vfs::Vfs::default()
@@ -281,11 +429,39 @@ pub fn run(args: Vec<String>, shell: bool) -> Result<u8, Box<dyn std::error::Err
     if let Some(network) = host.network {
         vfs.configure_local_fabric(network)?;
     }
+    host.kernel.apply(&vfs)?;
     // Seed pseudo inodes before attaching a rootfs, as in shared init boot.
     vfs.set_runtime_info(1, Default::default());
-    let store_sync = store.as_ref().map(|_| vfs.host_control_view());
-    let (bytes, guest_name) = if store.is_some() || command.rootfs.is_some() {
-        if store.is_none() {
+    let store_sync = (store.is_some() || named.is_some()).then(|| vfs.host_control_view());
+    if named.is_some() {
+        trames_distro::boot::prepare_runtime_mounts(&mut vfs)?;
+        trames_distro::systemd::ensure_machine_identity(&mut vfs)?;
+    }
+    for (guest, path, readonly) in &host.mounts {
+        let mut part = String::new();
+        for component in guest.split('/').filter(|v| !v.is_empty()) {
+            if component == ".." || component == "." {
+                return Err("mount target must not contain dot segments".into());
+            }
+            part.push('/');
+            part.push_str(component);
+            match vfs.mkdir_at(trames_vfs::AT_FDCWD, part.as_bytes(), 0o755) {
+                Ok(()) | Err(trames_vfs::Errno(17)) => (),
+                Err(e) => return Err(e.into()),
+            }
+        }
+        vfs.mount_host(guest.as_bytes(), path, *readonly)?;
+    }
+    let init = if named
+        .as_ref()
+        .is_some_and(|n| n.config.boot.mode == trames_distro::environment::Init::Systemd)
+    {
+        Some(trames_distro::systemd::prepare(&mut vfs)?)
+    } else {
+        None
+    };
+    let (bytes, guest_name) = if store.is_some() || command.rootfs.is_some() || named.is_some() {
+        if store.is_none() && named.is_none() {
             // Retain the runtime pseudo mounts before entering the host grant.
             // Replacing / directly hides their original attachment points.
             vfs.mkdir_at(trames_vfs::AT_FDCWD, b"/guest", 0o755)?;
@@ -357,6 +533,19 @@ pub fn run(args: Vec<String>, shell: bool) -> Result<u8, Box<dyn std::error::Err
             "LANG=C".into()
         },
     ];
+    if named.is_some() {
+        envp.extend([
+            "HOME=/root".into(),
+            "LANG=C.UTF-8".into(),
+            "TERM=xterm-256color".into(),
+        ]);
+    }
+    if init.is_some() {
+        envp.extend([
+            "container=trames".into(),
+            "NOTIFY_SOCKET=/run/host/notify".into(),
+        ]);
+    }
     let desktop_server = if host.desktop {
         // Native IPC belongs to this session. A direct host-root grant cannot
         // create guest socket inodes, and must not export them to the host.
@@ -419,6 +608,37 @@ pub fn run(args: Vec<String>, shell: bool) -> Result<u8, Box<dyn std::error::Err
         trames_distro::install_vulkan_icd(&mut std::fs::File::open(path)?, &mut vfs)
             .map_err(|error| format!("install guest Vulkan ICD: {error}"))?;
     }
+    if init.is_some() && desktop_server.is_some() {
+        trames_distro::systemd::file(&mut vfs,b"/run/systemd/system/console-getty.service.d/60-wayland.conf",b"[Service]\nEnvironment=XDG_RUNTIME_DIR=/run/user/0 WAYLAND_DISPLAY=wayland-0 GDK_BACKEND=wayland\n")?;
+    }
+    let terminals = if let Some(n) = &named {
+        let launcher = trames_distro::terminals::launcher_at(
+            &n.config.session.shell,
+            Some(&n.config.session.cwd),
+        );
+        Some(
+            if init.is_some() {
+                trames_distro::terminals::NativeTerminals::for_systemd_launcher(&mut vfs, &launcher)
+            } else {
+                trames_distro::terminals::NativeTerminals::new(&mut vfs)
+            }
+            .map_err(io::Error::other)?,
+        )
+    } else {
+        None
+    };
+    let console_path = named
+        .as_ref()
+        .map(|n| crate::environments::console_path(n.directory))
+        .transpose()?;
+    let console = console_path
+        .as_ref()
+        .map(|p| trames_host::console::Console::bind(p))
+        .transpose()?;
+    let exec = console_path
+        .as_ref()
+        .map(|p| trames_host::exec::Server::bind(p, envp.clone()))
+        .transpose()?;
     let mut runtime = trames_session::Runtime::<trames_kvm::kernel::Cpu>::load_with_options(
         &bytes,
         &argv,
@@ -448,15 +668,33 @@ pub fn run(args: Vec<String>, shell: bool) -> Result<u8, Box<dyn std::error::Err
     }
     let desktop = desktop_server
         .map(|s| {
-            if host.desktop_wayland {
+            if named.as_ref().is_some_and(|n| !n.clipboard) {
+                crate::desktop::Desktop::open_with_policy(
+                    s,
+                    host.desktop_renderer,
+                    host.desktop_wayland,
+                    false,
+                )
+            } else if host.desktop_wayland {
                 crate::desktop::Desktop::open_wayland(s, host.desktop_renderer)
             } else {
                 crate::desktop::Desktop::open_mode(s, host.desktop_renderer)
             }
         })
         .transpose()?;
+    let source = console
+        .as_ref()
+        .map(|c| c.source())
+        .unwrap_or_else(|| Arc::new(trames_vfs::NativeConsole::stdio()));
     let mut output = Output {
-        source: Arc::new(trames_vfs::NativeConsole::stdio()),
+        managed: named.as_mut().map(|n| &mut *n.service),
+        exec,
+        console,
+        terminals,
+        init,
+        root_signal: None,
+        shutdown_deadline: None,
+        source,
         deadline: command.timeout.map(|t| Instant::now() + t),
         signals: Signals::install()?,
         pty: command.request.tty,
@@ -479,11 +717,45 @@ pub fn run(args: Vec<String>, shell: bool) -> Result<u8, Box<dyn std::error::Err
     if let Some(signal) = output.signals.take_signal() {
         return Ok((128 + signal) as u8);
     }
+    if output
+        .shutdown_deadline
+        .is_some_and(|d| Instant::now() >= d)
+    {
+        return Err(
+            "systemd did not stop within 30 seconds; runtime was cancelled and synced".into(),
+        );
+    }
+    if output.managed.as_ref().is_some_and(|s| s.stopping)
+        && matches!(&result, Err(trames_session::RuntimeError::Cancelled))
+    {
+        return Ok(0);
+    }
     let exit = result?;
     Ok(output
         .signals
         .take_signal()
         .map_or(exit.code, |signal| (128 + signal) as u8))
+}
+
+fn host_memory() -> trames_linux_abi::HostMemoryInfo {
+    let text = std::fs::read_to_string("/proc/meminfo").unwrap_or_default();
+    let bytes = |name: &str| {
+        text.lines()
+            .find_map(|line| {
+                line.strip_prefix(name)?
+                    .split_whitespace()
+                    .next()?
+                    .parse::<usize>()
+                    .ok()
+            })
+            .unwrap_or(0)
+            .saturating_mul(1024)
+    };
+    trames_linux_abi::HostMemoryInfo {
+        total: bytes("MemTotal:"),
+        free: bytes("MemFree:"),
+        available: bytes("MemAvailable:"),
+    }
 }
 
 #[cfg(test)]

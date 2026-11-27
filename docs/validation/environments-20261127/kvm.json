@@ -1,0 +1,3649 @@
+{
+  "passed": true,
+  "complete": true,
+  "native_only": false,
+  "operations": 282,
+  "runner_sha256": "1c023b788bc3bbfb04cffaad162e000739744ebd376b1b1090f85d677a18c314",
+  "rows": [
+    {
+      "arguments": [
+        "config",
+        "--global",
+        "set",
+        "defaults.components.vulkan",
+        "false",
+        "defaults.display.windows",
+        "false",
+        "defaults.resources.cpus",
+        "1"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.009461321998969652
+    },
+    {
+      "arguments": [
+        "config",
+        "--global",
+        "set",
+        "defaults.image.distribution",
+        "debian"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.008991527000034694
+    },
+    {
+      "arguments": [
+        "config",
+        "--global",
+        "set",
+        "defaults.image.distribution",
+        "alpine"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.007939060997159686
+    },
+    {
+      "arguments": [
+        "env",
+        "create",
+        "work",
+        "--rootfs",
+        "/mnt/trames-output/linux-environments/kvm-final-v3/rootfs"
+      ],
+      "code": 0,
+      "stdout": "Created work (custom)\n",
+      "stderr": "",
+      "seconds": 0.10196731999894837
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "show",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"boot\": {\n    \"mode\": \"shell\"\n  },\n  \"components\": {\n    \"audio\": false,\n    \"audio_input\": false,\n    \"thunking\": \"auto\",\n    \"vaapi\": false,\n    \"vulkan\": false\n  },\n  \"display\": {\n    \"windows\": false\n  },\n  \"environment\": {\n    \"name\": \"work\",\n    \"type\": \"linux\",\n    \"uuid\": \"b2aebbd4-1f75-4cf3-846c-d1cab723bc10\"\n  },\n  \"image\": {\n    \"distribution\": \"custom\",\n    \"sha256\": \"16bba38d0c6333b4d0359c8d40868d55658fb90acfdae4d18237e339fd3cee00\",\n    \"source\": null\n  },\n  \"interop\": {\n    \"clipboard\": {\n      \"enabled\": true\n    },\n    \"files\": {\n      \"enabled\": true\n    },\n    \"host_cli\": {\n      \"enabled\": true\n    },\n    \"host_exec\": {\n      \"enabled\": true\n    },\n    \"host_ui\": {\n      \"enabled\": true\n    },\n    \"mounts\": {\n      \"enabled\": true\n    },\n    \"ports\": {\n      \"enabled\": true\n    }\n  },\n  \"kernel\": {\n    \"sysctl\": {}\n  },\n  \"mounts\": [],\n  \"network\": {\n    \"bridge\": null,\n    \"mode\": \"host\",\n    \"publish\": []\n  },\n  \"resources\": {\n    \"cpus\": 1,\n    \"memory\": \"auto\",\n    \"memory_limit\": null\n  },\n  \"session\": {\n    \"cwd\": \"/\",\n    \"shell\": [\n      \"/bin/sh\",\n      \"-l\"\n    ]\n  },\n  \"version\": 1\n}\n",
+      "stderr": "",
+      "seconds": 0.008400646998779848
+    },
+    {
+      "arguments": [
+        "env",
+        "path",
+        "work"
+      ],
+      "code": 0,
+      "stdout": "/mnt/trames-output/linux-environments/kvm-final-v3/smccc-1-hs7zey6f/environments/b2aebbd4-1f75-4cf3-846c-d1cab723bc10\n",
+      "stderr": "",
+      "seconds": 0.006350798001221847
+    },
+    {
+      "arguments": [
+        "env",
+        "create",
+        "work",
+        "--rootfs",
+        "/mnt/trames-output/linux-environments/kvm-final-v3/rootfs"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: environment name already exists\n",
+      "seconds": 0.00671059299929766
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "resources.memory",
+        "64MiB",
+        "resources.cpus",
+        "0"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: resources.cpus must be all or a supported positive count\n",
+      "seconds": 0.0078035170008661225
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "image",
+        "{}"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: registered identity and image provenance are immutable; use env rename/create/clone\n",
+      "seconds": 0.007636350001121173
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "resources.typo",
+        "5"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: unknown configuration field\n",
+      "seconds": 0.00820460500108311
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "resources.memory",
+        "--help"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: cannot parse integer from empty string\n",
+      "seconds": 0.006831885999417864
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "resources.memory",
+        "--global"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: cannot parse integer from empty string\n",
+      "seconds": 0.008905692997359438
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "resources.memory",
+        "64MiB",
+        "resources.cpus",
+        "1"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.0168889209999179
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "validate"
+      ],
+      "code": 0,
+      "stdout": "Valid environment configuration\n",
+      "stderr": "",
+      "seconds": 0.014281233998190146
+    },
+    {
+      "arguments": [
+        "config",
+        "--global",
+        "set",
+        "default_environment",
+        "work"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.013967565002531046
+    },
+    {
+      "arguments": [
+        "config",
+        "get",
+        "resources.memory"
+      ],
+      "code": 0,
+      "stdout": "64MiB\n",
+      "stderr": "",
+      "seconds": 0.008056645001488505
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "edit"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: editor failed\n",
+      "seconds": 0.009796241000003647
+    },
+    {
+      "arguments": [
+        "env",
+        "remove",
+        "work",
+        "--yes"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: environment is running or busy: lock acquisition failed because the operation would block\n",
+      "seconds": 0.007067719998303801
+    },
+    {
+      "arguments": [
+        "env",
+        "backup",
+        "work",
+        "/mnt/trames-output/linux-environments/kvm-final-v3/smccc-1-hs7zey6f/busy.tar.gz"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: environment is running or busy: lock acquisition failed because the operation would block\n",
+      "seconds": 0.005871712000953266
+    },
+    {
+      "arguments": [
+        "env",
+        "clone",
+        "work",
+        "busy-clone"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: environment is running or busy: lock acquisition failed because the operation would block\n",
+      "seconds": 0.005762418997619534
+    },
+    {
+      "arguments": [
+        "env",
+        "share",
+        "work",
+        "project",
+        "/mnt/trames-output/linux-environments/kvm-final-v3/smccc-1-hs7zey6f/shared",
+        "/work",
+        "ro"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.012581013001181418
+    },
+    {
+      "arguments": [
+        "env",
+        "clone",
+        "work",
+        "copy"
+      ],
+      "code": 0,
+      "stdout": "Imported copy; shared directories must be selected again\n",
+      "stderr": "",
+      "seconds": 0.07148483700075303
+    },
+    {
+      "arguments": [
+        "-e",
+        "copy",
+        "config",
+        "show",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"boot\": {\n    \"mode\": \"shell\"\n  },\n  \"components\": {\n    \"audio\": false,\n    \"audio_input\": false,\n    \"thunking\": \"auto\",\n    \"vaapi\": false,\n    \"vulkan\": false\n  },\n  \"display\": {\n    \"windows\": false\n  },\n  \"environment\": {\n    \"name\": \"copy\",\n    \"type\": \"linux\",\n    \"uuid\": \"6ee5d208-73ae-4d45-98a7-e31b4c0a7526\"\n  },\n  \"image\": {\n    \"distribution\": \"custom\",\n    \"sha256\": \"16bba38d0c6333b4d0359c8d40868d55658fb90acfdae4d18237e339fd3cee00\",\n    \"source\": null\n  },\n  \"interop\": {\n    \"clipboard\": {\n      \"enabled\": true\n    },\n    \"files\": {\n      \"enabled\": true\n    },\n    \"host_cli\": {\n      \"enabled\": true\n    },\n    \"host_exec\": {\n      \"enabled\": true\n    },\n    \"host_ui\": {\n      \"enabled\": true\n    },\n    \"mounts\": {\n      \"enabled\": true\n    },\n    \"ports\": {\n      \"enabled\": true\n    }\n  },\n  \"kernel\": {\n    \"sysctl\": {}\n  },\n  \"mounts\": [],\n  \"network\": {\n    \"bridge\": null,\n    \"mode\": \"host\",\n    \"publish\": []\n  },\n  \"resources\": {\n    \"cpus\": 1,\n    \"memory\": \"64MiB\",\n    \"memory_limit\": null\n  },\n  \"session\": {\n    \"cwd\": \"/\",\n    \"shell\": [\n      \"/bin/sh\",\n      \"-l\"\n    ]\n  },\n  \"version\": 1\n}\n",
+      "stderr": "",
+      "seconds": 0.010360954998759553
+    },
+    {
+      "arguments": [
+        "env",
+        "path",
+        "copy"
+      ],
+      "code": 0,
+      "stdout": "/mnt/trames-output/linux-environments/kvm-final-v3/smccc-1-hs7zey6f/environments/6ee5d208-73ae-4d45-98a7-e31b4c0a7526\n",
+      "stderr": "",
+      "seconds": 0.007010469998931512
+    },
+    {
+      "arguments": [
+        "env",
+        "backup",
+        "work",
+        "/mnt/trames-output/linux-environments/kvm-final-v3/smccc-1-hs7zey6f/backup.tar.gz"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.07534399200085318
+    },
+    {
+      "arguments": [
+        "env",
+        "backup",
+        "work",
+        "/mnt/trames-output/linux-environments/kvm-final-v3/smccc-1-hs7zey6f/backup.tar.gz"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: backup destination already exists\n",
+      "seconds": 0.018152805001591332
+    },
+    {
+      "arguments": [
+        "env",
+        "restore",
+        "restored",
+        "/mnt/trames-output/linux-environments/kvm-final-v3/smccc-1-hs7zey6f/backup.tar.gz"
+      ],
+      "code": 0,
+      "stdout": "Restored restored; shared directories must be selected again\n",
+      "stderr": "",
+      "seconds": 0.16661027200098033
+    },
+    {
+      "arguments": [
+        "-e",
+        "restored",
+        "config",
+        "show",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"boot\": {\n    \"mode\": \"shell\"\n  },\n  \"components\": {\n    \"audio\": false,\n    \"audio_input\": false,\n    \"thunking\": \"auto\",\n    \"vaapi\": false,\n    \"vulkan\": false\n  },\n  \"display\": {\n    \"windows\": false\n  },\n  \"environment\": {\n    \"name\": \"restored\",\n    \"type\": \"linux\",\n    \"uuid\": \"392e10ac-e908-4601-9ea0-514be75d64d7\"\n  },\n  \"image\": {\n    \"distribution\": \"custom\",\n    \"sha256\": \"16bba38d0c6333b4d0359c8d40868d55658fb90acfdae4d18237e339fd3cee00\",\n    \"source\": null\n  },\n  \"interop\": {\n    \"clipboard\": {\n      \"enabled\": true\n    },\n    \"files\": {\n      \"enabled\": true\n    },\n    \"host_cli\": {\n      \"enabled\": true\n    },\n    \"host_exec\": {\n      \"enabled\": true\n    },\n    \"host_ui\": {\n      \"enabled\": true\n    },\n    \"mounts\": {\n      \"enabled\": true\n    },\n    \"ports\": {\n      \"enabled\": true\n    }\n  },\n  \"kernel\": {\n    \"sysctl\": {}\n  },\n  \"mounts\": [],\n  \"network\": {\n    \"bridge\": null,\n    \"mode\": \"host\",\n    \"publish\": []\n  },\n  \"resources\": {\n    \"cpus\": 1,\n    \"memory\": \"64MiB\",\n    \"memory_limit\": null\n  },\n  \"session\": {\n    \"cwd\": \"/\",\n    \"shell\": [\n      \"/bin/sh\",\n      \"-l\"\n    ]\n  },\n  \"version\": 1\n}\n",
+      "stderr": "",
+      "seconds": 0.008817317000648472
+    },
+    {
+      "arguments": [
+        "env",
+        "restore",
+        "bad-crc",
+        "/mnt/trames-output/linux-environments/kvm-final-v3/smccc-1-hs7zey6f/corrupt.tar.gz"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: corrupt gzip stream does not have a matching checksum\n",
+      "seconds": 0.1848592859969358
+    },
+    {
+      "arguments": [
+        "env",
+        "restore",
+        "bad-path",
+        "/mnt/trames-output/linux-environments/kvm-final-v3/smccc-1-hs7zey6f/traversal.tar.gz"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: invalid backup path, type or duplicate entry\n",
+      "seconds": 0.009767241001100047
+    },
+    {
+      "arguments": [
+        "env",
+        "import-store",
+        "imported",
+        "/mnt/trames-output/linux-environments/kvm-final-v3/smccc-1-hs7zey6f/environments/b2aebbd4-1f75-4cf3-846c-d1cab723bc10/store"
+      ],
+      "code": 0,
+      "stdout": "Imported imported; shared directories must be selected again\n",
+      "stderr": "",
+      "seconds": 0.05759977299749153
+    },
+    {
+      "arguments": [
+        "env",
+        "rename",
+        "b2aebbd4-1f75-4cf3-846c-d1cab723bc10",
+        "renamed"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.013164642001356697
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "config",
+        "show",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"boot\": {\n    \"mode\": \"shell\"\n  },\n  \"components\": {\n    \"audio\": false,\n    \"audio_input\": false,\n    \"thunking\": \"auto\",\n    \"vaapi\": false,\n    \"vulkan\": false\n  },\n  \"display\": {\n    \"windows\": false\n  },\n  \"environment\": {\n    \"name\": \"renamed\",\n    \"type\": \"linux\",\n    \"uuid\": \"b2aebbd4-1f75-4cf3-846c-d1cab723bc10\"\n  },\n  \"image\": {\n    \"distribution\": \"custom\",\n    \"sha256\": \"16bba38d0c6333b4d0359c8d40868d55658fb90acfdae4d18237e339fd3cee00\",\n    \"source\": null\n  },\n  \"interop\": {\n    \"clipboard\": {\n      \"enabled\": true\n    },\n    \"files\": {\n      \"enabled\": true\n    },\n    \"host_cli\": {\n      \"enabled\": true\n    },\n    \"host_exec\": {\n      \"enabled\": true\n    },\n    \"host_ui\": {\n      \"enabled\": true\n    },\n    \"mounts\": {\n      \"enabled\": true\n    },\n    \"ports\": {\n      \"enabled\": true\n    }\n  },\n  \"kernel\": {\n    \"sysctl\": {}\n  },\n  \"mounts\": [\n    {\n      \"host\": null,\n      \"readonly\": true,\n      \"share\": \"project\",\n      \"target\": \"/work\"\n    }\n  ],\n  \"network\": {\n    \"bridge\": null,\n    \"mode\": \"host\",\n    \"publish\": []\n  },\n  \"resources\": {\n    \"cpus\": 1,\n    \"memory\": \"64MiB\",\n    \"memory_limit\": null\n  },\n  \"session\": {\n    \"cwd\": \"/\",\n    \"shell\": [\n      \"/bin/sh\",\n      \"-l\"\n    ]\n  },\n  \"version\": 1\n}\n",
+      "stderr": "",
+      "seconds": 0.007911142998636933
+    },
+    {
+      "arguments": [
+        "config",
+        "--global",
+        "get",
+        "default_environment"
+      ],
+      "code": 0,
+      "stdout": "renamed\n",
+      "stderr": "",
+      "seconds": 0.0065989249997073784
+    },
+    {
+      "arguments": [
+        "env",
+        "remove",
+        "copy"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: usage: env remove NAME --yes\n",
+      "seconds": 0.004737203002150636
+    },
+    {
+      "arguments": [
+        "env",
+        "remove",
+        "copy",
+        "--yes"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.018407473002298502
+    },
+    {
+      "arguments": [
+        "env",
+        "path",
+        "restored"
+      ],
+      "code": 0,
+      "stdout": "/mnt/trames-output/linux-environments/kvm-final-v3/smccc-1-hs7zey6f/environments/392e10ac-e908-4601-9ea0-514be75d64d7\n",
+      "stderr": "",
+      "seconds": 0.005310582000674913
+    },
+    {
+      "arguments": [
+        "env",
+        "ls",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "[\n  {\n    \"config\": {\n      \"boot\": {\n        \"mode\": \"shell\"\n      },\n      \"components\": {\n        \"audio\": false,\n        \"audio_input\": false,\n        \"thunking\": \"auto\",\n        \"vaapi\": false,\n        \"vulkan\": false\n      },\n      \"display\": {\n        \"windows\": false\n      },\n      \"environment\": {\n        \"name\": \"imported\",\n        \"type\": \"linux\",\n        \"uuid\": \"f67104c3-d53e-476d-affd-70a449aa32f3\"\n      },\n      \"image\": {\n        \"distribution\": \"custom\",\n        \"sha256\": \"16bba38d0c6333b4d0359c8d40868d55658fb90acfdae4d18237e339fd3cee00\",\n        \"source\": null\n      },\n      \"interop\": {\n        \"clipboard\": {\n          \"enabled\": true\n        },\n        \"files\": {\n          \"enabled\": true\n        },\n        \"host_cli\": {\n          \"enabled\": true\n        },\n        \"host_exec\": {\n          \"enabled\": true\n        },\n        \"host_ui\": {\n          \"enabled\": true\n        },\n        \"mounts\": {\n          \"enabled\": true\n        },\n        \"ports\": {\n          \"enabled\": true\n        }\n      },\n      \"kernel\": {\n        \"sysctl\": {}\n      },\n      \"mounts\": [],\n      \"network\": {\n        \"bridge\": null,\n        \"mode\": \"host\",\n        \"publish\": []\n      },\n      \"resources\": {\n        \"cpus\": 1,\n        \"memory\": \"64MiB\",\n        \"memory_limit\": null\n      },\n      \"session\": {\n        \"cwd\": \"/\",\n        \"shell\": [\n          \"/bin/sh\",\n          \"-l\"\n        ]\n      },\n      \"version\": 1\n    },\n    \"directory\": \"/mnt/trames-output/linux-environments/kvm-final-v3/smccc-1-hs7zey6f/environments/f67104c3-d53e-476d-affd-70a449aa32f3\",\n    \"distribution\": \"custom\",\n    \"error\": null,\n    \"last_exit\": null,\n    \"name\": \"imported\",\n    \"running\": false,\n    \"state\": \"stopped\",\n    \"uuid\": \"f67104c3-d53e-476d-affd-70a449aa32f3\"\n  },\n  {\n    \"config\": {\n      \"boot\": {\n        \"mode\": \"shell\"\n      },\n      \"components\": {\n        \"audio\": false,\n        \"audio_input\": false,\n        \"thunking\": \"auto\",\n        \"vaapi\": false,\n        \"vulkan\": false\n      },\n      \"display\": {\n        \"windows\": false\n      },\n      \"environment\": {\n        \"name\": \"renamed\",\n        \"type\": \"linux\",\n        \"uuid\": \"b2aebbd4-1f75-4cf3-846c-d1cab723bc10\"\n      },\n      \"image\": {\n        \"distribution\": \"custom\",\n        \"sha256\": \"16bba38d0c6333b4d0359c8d40868d55658fb90acfdae4d18237e339fd3cee00\",\n        \"source\": null\n      },\n      \"interop\": {\n        \"clipboard\": {\n          \"enabled\": true\n        },\n        \"files\": {\n          \"enabled\": true\n        },\n        \"host_cli\": {\n          \"enabled\": true\n        },\n        \"host_exec\": {\n          \"enabled\": true\n        },\n        \"host_ui\": {\n          \"enabled\": true\n        },\n        \"mounts\": {\n          \"enabled\": true\n        },\n        \"ports\": {\n          \"enabled\": true\n        }\n      },\n      \"kernel\": {\n        \"sysctl\": {}\n      },\n      \"mounts\": [\n        {\n          \"host\": null,\n          \"readonly\": true,\n          \"share\": \"project\",\n          \"target\": \"/work\"\n        }\n      ],\n      \"network\": {\n        \"bridge\": null,\n        \"mode\": \"host\",\n        \"publish\": []\n      },\n      \"resources\": {\n        \"cpus\": 1,\n        \"memory\": \"64MiB\",\n        \"memory_limit\": null\n      },\n      \"session\": {\n        \"cwd\": \"/\",\n        \"shell\": [\n          \"/bin/sh\",\n          \"-l\"\n        ]\n      },\n      \"version\": 1\n    },\n    \"directory\": \"/mnt/trames-output/linux-environments/kvm-final-v3/smccc-1-hs7zey6f/environments/b2aebbd4-1f75-4cf3-846c-d1cab723bc10\",\n    \"distribution\": \"custom\",\n    \"error\": null,\n    \"last_exit\": null,\n    \"name\": \"renamed\",\n    \"running\": false,\n    \"state\": \"stopped\",\n    \"uuid\": \"b2aebbd4-1f75-4cf3-846c-d1cab723bc10\"\n  },\n  {\n    \"config\": null,\n    \"directory\": \"/mnt/trames-output/linux-environments/kvm-final-v3/smccc-1-hs7zey6f/environments/392e10ac-e908-4601-9ea0-514be75d64d7\",\n    \"distribution\": \"custom\",\n    \"error\": \"unsupported environment TOML version\",\n    \"last_exit\": null,\n    \"name\": \"restored\",\n    \"running\": false,\n    \"state\": \"needs attention\",\n    \"uuid\": \"392e10ac-e908-4601-9ea0-514be75d64d7\"\n  }\n]\n",
+      "stderr": "",
+      "seconds": 0.016360082998289727
+    },
+    {
+      "arguments": [
+        "-e",
+        "restored",
+        "config",
+        "validate"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: unsupported environment TOML version\n",
+      "seconds": 0.006847469001513673
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "config",
+        "set",
+        "resources.cpus",
+        "1",
+        "resources.memory",
+        "auto"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.008196063001378207
+    },
+    {
+      "arguments": [
+        "env",
+        "start",
+        "renamed"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.03670857199904276
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/cat"
+      ],
+      "code": 0,
+      "stdout": "a\u0000b\ufffd\n",
+      "stderr": "",
+      "seconds": 0.12605242100107716
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--setenv",
+        "KEY=literal $() ; value",
+        "--cwd",
+        "/tmp",
+        "--",
+        "/bin/sh",
+        "-c",
+        "printf \"%s|%s\" \"$KEY\" \"$PWD\"; printf err >&2; exit 7"
+      ],
+      "code": 7,
+      "stdout": "literal $() ; value|/tmp",
+      "stderr": "err",
+      "seconds": 0.08704099800161202
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "/bin/echo",
+        "--rootfs"
+      ],
+      "code": 0,
+      "stdout": "--rootfs\n",
+      "stderr": "",
+      "seconds": 0.09054881599877262
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/sh",
+        "-c",
+        "echo durable > /root/value; sync"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.14091411700064782
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/sh",
+        "-c",
+        "sleep .05; printf job0"
+      ],
+      "code": 0,
+      "stdout": "job0",
+      "stderr": "",
+      "seconds": 0.394479095000861
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/sh",
+        "-c",
+        "sleep .05; printf job2"
+      ],
+      "code": 0,
+      "stdout": "job2",
+      "stderr": "",
+      "seconds": 0.40103385299880756
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/sh",
+        "-c",
+        "sleep .05; printf job1"
+      ],
+      "code": 0,
+      "stdout": "job1",
+      "stderr": "",
+      "seconds": 0.40394074999858276
+    },
+    {
+      "arguments": [
+        "env",
+        "start",
+        "imported"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.034910682999907294
+    },
+    {
+      "arguments": [
+        "-e",
+        "imported",
+        "exec",
+        "--",
+        "/bin/ls",
+        "/root"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.10023176500180853
+    },
+    {
+      "arguments": [
+        "env",
+        "remove",
+        "renamed",
+        "--yes"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: environment is running or busy: lock acquisition failed because the operation would block\n",
+      "seconds": 0.007228346999909263
+    },
+    {
+      "arguments": [
+        "env",
+        "backup",
+        "renamed",
+        "/mnt/trames-output/linux-environments/kvm-final-v3/smccc-1-hs7zey6f/live.tar.gz"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: environment is running or busy: lock acquisition failed because the operation would block\n",
+      "seconds": 0.0051125390018569306
+    },
+    {
+      "arguments": [
+        "env",
+        "stop",
+        "renamed"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.018860061001760187
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/cat",
+        "/root/value"
+      ],
+      "code": 0,
+      "stdout": "durable\n",
+      "stderr": "",
+      "seconds": 0.09817600000314997
+    },
+    {
+      "arguments": [
+        "env",
+        "path",
+        "renamed"
+      ],
+      "code": 0,
+      "stdout": "/mnt/trames-output/linux-environments/kvm-final-v3/smccc-1-hs7zey6f/environments/b2aebbd4-1f75-4cf3-846c-d1cab723bc10\n",
+      "stderr": "",
+      "seconds": 0.005478082999616163
+    },
+    {
+      "arguments": [
+        "env",
+        "inspect",
+        "renamed",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"config\": {\n    \"boot\": {\n      \"mode\": \"shell\"\n    },\n    \"components\": {\n      \"audio\": false,\n      \"audio_input\": false,\n      \"thunking\": \"auto\",\n      \"vaapi\": false,\n      \"vulkan\": false\n    },\n    \"display\": {\n      \"windows\": false\n    },\n    \"environment\": {\n      \"name\": \"renamed\",\n      \"type\": \"linux\",\n      \"uuid\": \"b2aebbd4-1f75-4cf3-846c-d1cab723bc10\"\n    },\n    \"image\": {\n      \"distribution\": \"custom\",\n      \"sha256\": \"16bba38d0c6333b4d0359c8d40868d55658fb90acfdae4d18237e339fd3cee00\",\n      \"source\": null\n    },\n    \"interop\": {\n      \"clipboard\": {\n        \"enabled\": true\n      },\n      \"files\": {\n        \"enabled\": true\n      },\n      \"host_cli\": {\n        \"enabled\": true\n      },\n      \"host_exec\": {\n        \"enabled\": true\n      },\n      \"host_ui\": {\n        \"enabled\": true\n      },\n      \"mounts\": {\n        \"enabled\": true\n      },\n      \"ports\": {\n        \"enabled\": true\n      }\n    },\n    \"kernel\": {\n      \"sysctl\": {}\n    },\n    \"mounts\": [\n      {\n        \"host\": null,\n        \"readonly\": true,\n        \"share\": \"project\",\n        \"target\": \"/work\"\n      }\n    ],\n    \"network\": {\n      \"bridge\": null,\n      \"mode\": \"host\",\n      \"publish\": []\n    },\n    \"resources\": {\n      \"cpus\": 1,\n      \"memory\": \"auto\",\n      \"memory_limit\": null\n    },\n    \"session\": {\n      \"cwd\": \"/\",\n      \"shell\": [\n        \"/bin/sh\",\n        \"-l\"\n      ]\n    },\n    \"version\": 1\n  },\n  \"directory\": \"/mnt/trames-output/linux-environments/kvm-final-v3/smccc-1-hs7zey6f/environments/b2aebbd4-1f75-4cf3-846c-d1cab723bc10\",\n  \"distribution\": \"custom\",\n  \"error\": null,\n  \"last_exit\": null,\n  \"name\": \"renamed\",\n  \"running\": false,\n  \"state\": \"stopped\",\n  \"uuid\": \"b2aebbd4-1f75-4cf3-846c-d1cab723bc10\"\n}\n",
+      "stderr": "",
+      "seconds": 0.007655474997591227
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/cat",
+        "/root/value"
+      ],
+      "code": 0,
+      "stdout": "durable\n",
+      "stderr": "",
+      "seconds": 0.09756424499937566
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "session",
+        "ls",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "[\n  {\n    \"attached\": false,\n    \"id\": 1,\n    \"state\": \"running\"\n  }\n]\n",
+      "stderr": "",
+      "seconds": 0.0079801440006122
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "session",
+        "ls",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "[\n  {\n    \"attached\": false,\n    \"id\": 1,\n    \"state\": \"running\"\n  }\n]\n",
+      "stderr": "",
+      "seconds": 0.007332430999667849
+    },
+    {
+      "arguments": [
+        "env",
+        "restart",
+        "renamed"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.045119719001377234
+    },
+    {
+      "arguments": [
+        "env",
+        "stop",
+        "imported"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.02266896400033147
+    },
+    {
+      "arguments": [
+        "env",
+        "stop",
+        "renamed"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.021438079998915782
+    },
+    {
+      "arguments": [
+        "env",
+        "create",
+        "services",
+        "--rootfs",
+        "/home/main.guest/trames-services-bundle/rootfs",
+        "--init",
+        "systemd",
+        "--cpus",
+        "1",
+        "--memory",
+        "auto"
+      ],
+      "code": 0,
+      "stdout": "Created services (custom)\n",
+      "stderr": "",
+      "seconds": 13.833453658000508
+    },
+    {
+      "arguments": [
+        "env",
+        "start",
+        "services"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.2075429169999552
+    },
+    {
+      "arguments": [
+        "-e",
+        "services",
+        "exec",
+        "--",
+        "/bin/sh",
+        "-ec",
+        "for n in $(seq 1 100); do test -S /run/systemd/private && break; sleep .1; done\ncat > /run/systemd/system/trames-environment.service <<'UNIT'\n[Service]\nType=oneshot\nRemainAfterExit=yes\nExecStart=/bin/sh -c 'echo started > /root/service-started'\nExecStop=/bin/sh -c 'echo graceful > /root/service-stopped'\nUNIT\nsystemctl daemon-reload\nsystemctl start trames-environment.service\nsystemctl is-active trames-environment.service\n"
+      ],
+      "code": 0,
+      "stdout": "active\n",
+      "stderr": "",
+      "seconds": 18.304488780999236
+    },
+    {
+      "arguments": [
+        "env",
+        "stop",
+        "services"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 4.495606568001676
+    },
+    {
+      "arguments": [
+        "env",
+        "inspect",
+        "services",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"config\": {\n    \"boot\": {\n      \"mode\": \"systemd\"\n    },\n    \"components\": {\n      \"audio\": false,\n      \"audio_input\": false,\n      \"thunking\": \"auto\",\n      \"vaapi\": false,\n      \"vulkan\": false\n    },\n    \"display\": {\n      \"windows\": false\n    },\n    \"environment\": {\n      \"name\": \"services\",\n      \"type\": \"linux\",\n      \"uuid\": \"62a9b3e2-45e1-4445-9834-1509f0d936fa\"\n    },\n    \"image\": {\n      \"distribution\": \"custom\",\n      \"sha256\": \"0d11a54eca6729fed77d8c75546d574fa31681c96b818611d3302f5e9ed83fb2\",\n      \"source\": null\n    },\n    \"interop\": {\n      \"clipboard\": {\n        \"enabled\": true\n      },\n      \"files\": {\n        \"enabled\": true\n      },\n      \"host_cli\": {\n        \"enabled\": true\n      },\n      \"host_exec\": {\n        \"enabled\": true\n      },\n      \"host_ui\": {\n        \"enabled\": true\n      },\n      \"mounts\": {\n        \"enabled\": true\n      },\n      \"ports\": {\n        \"enabled\": true\n      }\n    },\n    \"kernel\": {\n      \"sysctl\": {}\n    },\n    \"mounts\": [],\n    \"network\": {\n      \"bridge\": null,\n      \"mode\": \"host\",\n      \"publish\": []\n    },\n    \"resources\": {\n      \"cpus\": 1,\n      \"memory\": \"auto\",\n      \"memory_limit\": null\n    },\n    \"session\": {\n      \"cwd\": \"/\",\n      \"shell\": [\n        \"/bin/sh\",\n        \"-l\"\n      ]\n    },\n    \"version\": 1\n  },\n  \"directory\": \"/mnt/trames-output/linux-environments/kvm-final-v3/smccc-1-hs7zey6f/environments/62a9b3e2-45e1-4445-9834-1509f0d936fa\",\n  \"distribution\": \"custom\",\n  \"error\": null,\n  \"last_exit\": {\n    \"code\": 0,\n    \"error\": null\n  },\n  \"name\": \"services\",\n  \"running\": false,\n  \"state\": \"stopped\",\n  \"uuid\": \"62a9b3e2-45e1-4445-9834-1509f0d936fa\"\n}\n",
+      "stderr": "",
+      "seconds": 0.0109403749993362
+    },
+    {
+      "arguments": [
+        "-e",
+        "services",
+        "config",
+        "set",
+        "boot.mode",
+        "shell"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.009242903997801477
+    },
+    {
+      "arguments": [
+        "-e",
+        "services",
+        "exec",
+        "--",
+        "/bin/cat",
+        "/root/service-stopped"
+      ],
+      "code": 0,
+      "stdout": "graceful\n",
+      "stderr": "",
+      "seconds": 0.24533553700166522
+    },
+    {
+      "arguments": [
+        "env",
+        "stop",
+        "services"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 1.0571078499997384
+    },
+    {
+      "arguments": [
+        "config",
+        "--global",
+        "set",
+        "defaults.components.vulkan",
+        "false",
+        "defaults.display.windows",
+        "false",
+        "defaults.resources.cpus",
+        "1"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.008346689002792118
+    },
+    {
+      "arguments": [
+        "config",
+        "--global",
+        "set",
+        "defaults.image.distribution",
+        "debian"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.006802469000831479
+    },
+    {
+      "arguments": [
+        "config",
+        "--global",
+        "set",
+        "defaults.image.distribution",
+        "alpine"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.0058712530008051544
+    },
+    {
+      "arguments": [
+        "env",
+        "create",
+        "work",
+        "--rootfs",
+        "/mnt/trames-output/linux-environments/kvm-final-v3/rootfs"
+      ],
+      "code": 0,
+      "stdout": "Created work (custom)\n",
+      "stderr": "",
+      "seconds": 0.07222163400001591
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "show",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"boot\": {\n    \"mode\": \"shell\"\n  },\n  \"components\": {\n    \"audio\": false,\n    \"audio_input\": false,\n    \"thunking\": \"auto\",\n    \"vaapi\": false,\n    \"vulkan\": false\n  },\n  \"display\": {\n    \"windows\": false\n  },\n  \"environment\": {\n    \"name\": \"work\",\n    \"type\": \"linux\",\n    \"uuid\": \"40bdd92b-5583-4aa5-9f84-1a19f6027915\"\n  },\n  \"image\": {\n    \"distribution\": \"custom\",\n    \"sha256\": \"16bba38d0c6333b4d0359c8d40868d55658fb90acfdae4d18237e339fd3cee00\",\n    \"source\": null\n  },\n  \"interop\": {\n    \"clipboard\": {\n      \"enabled\": true\n    },\n    \"files\": {\n      \"enabled\": true\n    },\n    \"host_cli\": {\n      \"enabled\": true\n    },\n    \"host_exec\": {\n      \"enabled\": true\n    },\n    \"host_ui\": {\n      \"enabled\": true\n    },\n    \"mounts\": {\n      \"enabled\": true\n    },\n    \"ports\": {\n      \"enabled\": true\n    }\n  },\n  \"kernel\": {\n    \"sysctl\": {}\n  },\n  \"mounts\": [],\n  \"network\": {\n    \"bridge\": null,\n    \"mode\": \"host\",\n    \"publish\": []\n  },\n  \"resources\": {\n    \"cpus\": 1,\n    \"memory\": \"auto\",\n    \"memory_limit\": null\n  },\n  \"session\": {\n    \"cwd\": \"/\",\n    \"shell\": [\n      \"/bin/sh\",\n      \"-l\"\n    ]\n  },\n  \"version\": 1\n}\n",
+      "stderr": "",
+      "seconds": 0.007033554000372533
+    },
+    {
+      "arguments": [
+        "env",
+        "path",
+        "work"
+      ],
+      "code": 0,
+      "stdout": "/mnt/trames-output/linux-environments/kvm-final-v3/smccc-4-mgirqwho/environments/40bdd92b-5583-4aa5-9f84-1a19f6027915\n",
+      "stderr": "",
+      "seconds": 0.004770453000674024
+    },
+    {
+      "arguments": [
+        "env",
+        "create",
+        "work",
+        "--rootfs",
+        "/mnt/trames-output/linux-environments/kvm-final-v3/rootfs"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: environment name already exists\n",
+      "seconds": 0.005284540999127785
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "resources.memory",
+        "64MiB",
+        "resources.cpus",
+        "0"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: resources.cpus must be all or a supported positive count\n",
+      "seconds": 0.006088379999710014
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "image",
+        "{}"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: registered identity and image provenance are immutable; use env rename/create/clone\n",
+      "seconds": 0.006026712999300798
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "resources.typo",
+        "5"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: unknown configuration field\n",
+      "seconds": 0.005814502001157962
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "resources.memory",
+        "--help"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: cannot parse integer from empty string\n",
+      "seconds": 0.005886086997634266
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "resources.memory",
+        "--global"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: cannot parse integer from empty string\n",
+      "seconds": 0.0056232930000987835
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "resources.memory",
+        "64MiB",
+        "resources.cpus",
+        "1"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.007958768997923471
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "validate"
+      ],
+      "code": 0,
+      "stdout": "Valid environment configuration\n",
+      "stderr": "",
+      "seconds": 0.0058973359991796315
+    },
+    {
+      "arguments": [
+        "config",
+        "--global",
+        "set",
+        "default_environment",
+        "work"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.005303540001477813
+    },
+    {
+      "arguments": [
+        "config",
+        "get",
+        "resources.memory"
+      ],
+      "code": 0,
+      "stdout": "64MiB\n",
+      "stderr": "",
+      "seconds": 0.006383591000485467
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "edit"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: editor failed\n",
+      "seconds": 0.007726683998043882
+    },
+    {
+      "arguments": [
+        "env",
+        "remove",
+        "work",
+        "--yes"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: environment is running or busy: lock acquisition failed because the operation would block\n",
+      "seconds": 0.005709501998353517
+    },
+    {
+      "arguments": [
+        "env",
+        "backup",
+        "work",
+        "/mnt/trames-output/linux-environments/kvm-final-v3/smccc-4-mgirqwho/busy.tar.gz"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: environment is running or busy: lock acquisition failed because the operation would block\n",
+      "seconds": 0.004303824000089662
+    },
+    {
+      "arguments": [
+        "env",
+        "clone",
+        "work",
+        "busy-clone"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: environment is running or busy: lock acquisition failed because the operation would block\n",
+      "seconds": 0.004586494000250241
+    },
+    {
+      "arguments": [
+        "env",
+        "share",
+        "work",
+        "project",
+        "/mnt/trames-output/linux-environments/kvm-final-v3/smccc-4-mgirqwho/shared",
+        "/work",
+        "ro"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.009793492001335835
+    },
+    {
+      "arguments": [
+        "env",
+        "clone",
+        "work",
+        "copy"
+      ],
+      "code": 0,
+      "stdout": "Imported copy; shared directories must be selected again\n",
+      "stderr": "",
+      "seconds": 0.04355837299954146
+    },
+    {
+      "arguments": [
+        "-e",
+        "copy",
+        "config",
+        "show",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"boot\": {\n    \"mode\": \"shell\"\n  },\n  \"components\": {\n    \"audio\": false,\n    \"audio_input\": false,\n    \"thunking\": \"auto\",\n    \"vaapi\": false,\n    \"vulkan\": false\n  },\n  \"display\": {\n    \"windows\": false\n  },\n  \"environment\": {\n    \"name\": \"copy\",\n    \"type\": \"linux\",\n    \"uuid\": \"cbc1f27c-5139-4776-9769-64b37c88bfbd\"\n  },\n  \"image\": {\n    \"distribution\": \"custom\",\n    \"sha256\": \"16bba38d0c6333b4d0359c8d40868d55658fb90acfdae4d18237e339fd3cee00\",\n    \"source\": null\n  },\n  \"interop\": {\n    \"clipboard\": {\n      \"enabled\": true\n    },\n    \"files\": {\n      \"enabled\": true\n    },\n    \"host_cli\": {\n      \"enabled\": true\n    },\n    \"host_exec\": {\n      \"enabled\": true\n    },\n    \"host_ui\": {\n      \"enabled\": true\n    },\n    \"mounts\": {\n      \"enabled\": true\n    },\n    \"ports\": {\n      \"enabled\": true\n    }\n  },\n  \"kernel\": {\n    \"sysctl\": {}\n  },\n  \"mounts\": [],\n  \"network\": {\n    \"bridge\": null,\n    \"mode\": \"host\",\n    \"publish\": []\n  },\n  \"resources\": {\n    \"cpus\": 1,\n    \"memory\": \"64MiB\",\n    \"memory_limit\": null\n  },\n  \"session\": {\n    \"cwd\": \"/\",\n    \"shell\": [\n      \"/bin/sh\",\n      \"-l\"\n    ]\n  },\n  \"version\": 1\n}\n",
+      "stderr": "",
+      "seconds": 0.00703747000079602
+    },
+    {
+      "arguments": [
+        "env",
+        "path",
+        "copy"
+      ],
+      "code": 0,
+      "stdout": "/mnt/trames-output/linux-environments/kvm-final-v3/smccc-4-mgirqwho/environments/cbc1f27c-5139-4776-9769-64b37c88bfbd\n",
+      "stderr": "",
+      "seconds": 0.004744077999930596
+    },
+    {
+      "arguments": [
+        "env",
+        "backup",
+        "work",
+        "/mnt/trames-output/linux-environments/kvm-final-v3/smccc-4-mgirqwho/backup.tar.gz"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.05786769100086531
+    },
+    {
+      "arguments": [
+        "env",
+        "backup",
+        "work",
+        "/mnt/trames-output/linux-environments/kvm-final-v3/smccc-4-mgirqwho/backup.tar.gz"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: backup destination already exists\n",
+      "seconds": 0.012942515000759158
+    },
+    {
+      "arguments": [
+        "env",
+        "restore",
+        "restored",
+        "/mnt/trames-output/linux-environments/kvm-final-v3/smccc-4-mgirqwho/backup.tar.gz"
+      ],
+      "code": 0,
+      "stdout": "Restored restored; shared directories must be selected again\n",
+      "stderr": "",
+      "seconds": 0.11895707300209324
+    },
+    {
+      "arguments": [
+        "-e",
+        "restored",
+        "config",
+        "show",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"boot\": {\n    \"mode\": \"shell\"\n  },\n  \"components\": {\n    \"audio\": false,\n    \"audio_input\": false,\n    \"thunking\": \"auto\",\n    \"vaapi\": false,\n    \"vulkan\": false\n  },\n  \"display\": {\n    \"windows\": false\n  },\n  \"environment\": {\n    \"name\": \"restored\",\n    \"type\": \"linux\",\n    \"uuid\": \"29bf0f1b-4e9c-4375-9642-82918d7f045b\"\n  },\n  \"image\": {\n    \"distribution\": \"custom\",\n    \"sha256\": \"16bba38d0c6333b4d0359c8d40868d55658fb90acfdae4d18237e339fd3cee00\",\n    \"source\": null\n  },\n  \"interop\": {\n    \"clipboard\": {\n      \"enabled\": true\n    },\n    \"files\": {\n      \"enabled\": true\n    },\n    \"host_cli\": {\n      \"enabled\": true\n    },\n    \"host_exec\": {\n      \"enabled\": true\n    },\n    \"host_ui\": {\n      \"enabled\": true\n    },\n    \"mounts\": {\n      \"enabled\": true\n    },\n    \"ports\": {\n      \"enabled\": true\n    }\n  },\n  \"kernel\": {\n    \"sysctl\": {}\n  },\n  \"mounts\": [],\n  \"network\": {\n    \"bridge\": null,\n    \"mode\": \"host\",\n    \"publish\": []\n  },\n  \"resources\": {\n    \"cpus\": 1,\n    \"memory\": \"64MiB\",\n    \"memory_limit\": null\n  },\n  \"session\": {\n    \"cwd\": \"/\",\n    \"shell\": [\n      \"/bin/sh\",\n      \"-l\"\n    ]\n  },\n  \"version\": 1\n}\n",
+      "stderr": "",
+      "seconds": 0.006864094000775367
+    },
+    {
+      "arguments": [
+        "env",
+        "restore",
+        "bad-crc",
+        "/mnt/trames-output/linux-environments/kvm-final-v3/smccc-4-mgirqwho/corrupt.tar.gz"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: corrupt gzip stream does not have a matching checksum\n",
+      "seconds": 0.10275044899753993
+    },
+    {
+      "arguments": [
+        "env",
+        "restore",
+        "bad-path",
+        "/mnt/trames-output/linux-environments/kvm-final-v3/smccc-4-mgirqwho/traversal.tar.gz"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: invalid backup path, type or duplicate entry\n",
+      "seconds": 0.007823267998901429
+    },
+    {
+      "arguments": [
+        "env",
+        "import-store",
+        "imported",
+        "/mnt/trames-output/linux-environments/kvm-final-v3/smccc-4-mgirqwho/environments/40bdd92b-5583-4aa5-9f84-1a19f6027915/store"
+      ],
+      "code": 0,
+      "stdout": "Imported imported; shared directories must be selected again\n",
+      "stderr": "",
+      "seconds": 0.045853682997403666
+    },
+    {
+      "arguments": [
+        "env",
+        "rename",
+        "40bdd92b-5583-4aa5-9f84-1a19f6027915",
+        "renamed"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.012713347001408692
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "config",
+        "show",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"boot\": {\n    \"mode\": \"shell\"\n  },\n  \"components\": {\n    \"audio\": false,\n    \"audio_input\": false,\n    \"thunking\": \"auto\",\n    \"vaapi\": false,\n    \"vulkan\": false\n  },\n  \"display\": {\n    \"windows\": false\n  },\n  \"environment\": {\n    \"name\": \"renamed\",\n    \"type\": \"linux\",\n    \"uuid\": \"40bdd92b-5583-4aa5-9f84-1a19f6027915\"\n  },\n  \"image\": {\n    \"distribution\": \"custom\",\n    \"sha256\": \"16bba38d0c6333b4d0359c8d40868d55658fb90acfdae4d18237e339fd3cee00\",\n    \"source\": null\n  },\n  \"interop\": {\n    \"clipboard\": {\n      \"enabled\": true\n    },\n    \"files\": {\n      \"enabled\": true\n    },\n    \"host_cli\": {\n      \"enabled\": true\n    },\n    \"host_exec\": {\n      \"enabled\": true\n    },\n    \"host_ui\": {\n      \"enabled\": true\n    },\n    \"mounts\": {\n      \"enabled\": true\n    },\n    \"ports\": {\n      \"enabled\": true\n    }\n  },\n  \"kernel\": {\n    \"sysctl\": {}\n  },\n  \"mounts\": [\n    {\n      \"host\": null,\n      \"readonly\": true,\n      \"share\": \"project\",\n      \"target\": \"/work\"\n    }\n  ],\n  \"network\": {\n    \"bridge\": null,\n    \"mode\": \"host\",\n    \"publish\": []\n  },\n  \"resources\": {\n    \"cpus\": 1,\n    \"memory\": \"64MiB\",\n    \"memory_limit\": null\n  },\n  \"session\": {\n    \"cwd\": \"/\",\n    \"shell\": [\n      \"/bin/sh\",\n      \"-l\"\n    ]\n  },\n  \"version\": 1\n}\n",
+      "stderr": "",
+      "seconds": 0.006784217999665998
+    },
+    {
+      "arguments": [
+        "config",
+        "--global",
+        "get",
+        "default_environment"
+      ],
+      "code": 0,
+      "stdout": "renamed\n",
+      "stderr": "",
+      "seconds": 0.005481625001266366
+    },
+    {
+      "arguments": [
+        "env",
+        "remove",
+        "copy"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: usage: env remove NAME --yes\n",
+      "seconds": 0.003537568001775071
+    },
+    {
+      "arguments": [
+        "env",
+        "remove",
+        "copy",
+        "--yes"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.019009812000149395
+    },
+    {
+      "arguments": [
+        "env",
+        "path",
+        "restored"
+      ],
+      "code": 0,
+      "stdout": "/mnt/trames-output/linux-environments/kvm-final-v3/smccc-4-mgirqwho/environments/29bf0f1b-4e9c-4375-9642-82918d7f045b\n",
+      "stderr": "",
+      "seconds": 0.005224623000685824
+    },
+    {
+      "arguments": [
+        "env",
+        "ls",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "[\n  {\n    \"config\": {\n      \"boot\": {\n        \"mode\": \"shell\"\n      },\n      \"components\": {\n        \"audio\": false,\n        \"audio_input\": false,\n        \"thunking\": \"auto\",\n        \"vaapi\": false,\n        \"vulkan\": false\n      },\n      \"display\": {\n        \"windows\": false\n      },\n      \"environment\": {\n        \"name\": \"imported\",\n        \"type\": \"linux\",\n        \"uuid\": \"f216b8aa-1bbe-481f-b06e-3a3802ea1274\"\n      },\n      \"image\": {\n        \"distribution\": \"custom\",\n        \"sha256\": \"16bba38d0c6333b4d0359c8d40868d55658fb90acfdae4d18237e339fd3cee00\",\n        \"source\": null\n      },\n      \"interop\": {\n        \"clipboard\": {\n          \"enabled\": true\n        },\n        \"files\": {\n          \"enabled\": true\n        },\n        \"host_cli\": {\n          \"enabled\": true\n        },\n        \"host_exec\": {\n          \"enabled\": true\n        },\n        \"host_ui\": {\n          \"enabled\": true\n        },\n        \"mounts\": {\n          \"enabled\": true\n        },\n        \"ports\": {\n          \"enabled\": true\n        }\n      },\n      \"kernel\": {\n        \"sysctl\": {}\n      },\n      \"mounts\": [],\n      \"network\": {\n        \"bridge\": null,\n        \"mode\": \"host\",\n        \"publish\": []\n      },\n      \"resources\": {\n        \"cpus\": 1,\n        \"memory\": \"64MiB\",\n        \"memory_limit\": null\n      },\n      \"session\": {\n        \"cwd\": \"/\",\n        \"shell\": [\n          \"/bin/sh\",\n          \"-l\"\n        ]\n      },\n      \"version\": 1\n    },\n    \"directory\": \"/mnt/trames-output/linux-environments/kvm-final-v3/smccc-4-mgirqwho/environments/f216b8aa-1bbe-481f-b06e-3a3802ea1274\",\n    \"distribution\": \"custom\",\n    \"error\": null,\n    \"last_exit\": null,\n    \"name\": \"imported\",\n    \"running\": false,\n    \"state\": \"stopped\",\n    \"uuid\": \"f216b8aa-1bbe-481f-b06e-3a3802ea1274\"\n  },\n  {\n    \"config\": {\n      \"boot\": {\n        \"mode\": \"shell\"\n      },\n      \"components\": {\n        \"audio\": false,\n        \"audio_input\": false,\n        \"thunking\": \"auto\",\n        \"vaapi\": false,\n        \"vulkan\": false\n      },\n      \"display\": {\n        \"windows\": false\n      },\n      \"environment\": {\n        \"name\": \"renamed\",\n        \"type\": \"linux\",\n        \"uuid\": \"40bdd92b-5583-4aa5-9f84-1a19f6027915\"\n      },\n      \"image\": {\n        \"distribution\": \"custom\",\n        \"sha256\": \"16bba38d0c6333b4d0359c8d40868d55658fb90acfdae4d18237e339fd3cee00\",\n        \"source\": null\n      },\n      \"interop\": {\n        \"clipboard\": {\n          \"enabled\": true\n        },\n        \"files\": {\n          \"enabled\": true\n        },\n        \"host_cli\": {\n          \"enabled\": true\n        },\n        \"host_exec\": {\n          \"enabled\": true\n        },\n        \"host_ui\": {\n          \"enabled\": true\n        },\n        \"mounts\": {\n          \"enabled\": true\n        },\n        \"ports\": {\n          \"enabled\": true\n        }\n      },\n      \"kernel\": {\n        \"sysctl\": {}\n      },\n      \"mounts\": [\n        {\n          \"host\": null,\n          \"readonly\": true,\n          \"share\": \"project\",\n          \"target\": \"/work\"\n        }\n      ],\n      \"network\": {\n        \"bridge\": null,\n        \"mode\": \"host\",\n        \"publish\": []\n      },\n      \"resources\": {\n        \"cpus\": 1,\n        \"memory\": \"64MiB\",\n        \"memory_limit\": null\n      },\n      \"session\": {\n        \"cwd\": \"/\",\n        \"shell\": [\n          \"/bin/sh\",\n          \"-l\"\n        ]\n      },\n      \"version\": 1\n    },\n    \"directory\": \"/mnt/trames-output/linux-environments/kvm-final-v3/smccc-4-mgirqwho/environments/40bdd92b-5583-4aa5-9f84-1a19f6027915\",\n    \"distribution\": \"custom\",\n    \"error\": null,\n    \"last_exit\": null,\n    \"name\": \"renamed\",\n    \"running\": false,\n    \"state\": \"stopped\",\n    \"uuid\": \"40bdd92b-5583-4aa5-9f84-1a19f6027915\"\n  },\n  {\n    \"config\": null,\n    \"directory\": \"/mnt/trames-output/linux-environments/kvm-final-v3/smccc-4-mgirqwho/environments/29bf0f1b-4e9c-4375-9642-82918d7f045b\",\n    \"distribution\": \"custom\",\n    \"error\": \"unsupported environment TOML version\",\n    \"last_exit\": null,\n    \"name\": \"restored\",\n    \"running\": false,\n    \"state\": \"needs attention\",\n    \"uuid\": \"29bf0f1b-4e9c-4375-9642-82918d7f045b\"\n  }\n]\n",
+      "stderr": "",
+      "seconds": 0.014792945999943186
+    },
+    {
+      "arguments": [
+        "-e",
+        "restored",
+        "config",
+        "validate"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: unsupported environment TOML version\n",
+      "seconds": 0.005980296002235264
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "config",
+        "set",
+        "resources.cpus",
+        "4",
+        "resources.memory",
+        "auto"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.00768239200260723
+    },
+    {
+      "arguments": [
+        "env",
+        "start",
+        "renamed"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.031331572001363384
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/cat"
+      ],
+      "code": 0,
+      "stdout": "a\u0000b\ufffd\n",
+      "stderr": "",
+      "seconds": 0.05168593499911367
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--setenv",
+        "KEY=literal $() ; value",
+        "--cwd",
+        "/tmp",
+        "--",
+        "/bin/sh",
+        "-c",
+        "printf \"%s|%s\" \"$KEY\" \"$PWD\"; printf err >&2; exit 7"
+      ],
+      "code": 7,
+      "stdout": "literal $() ; value|/tmp",
+      "stderr": "err",
+      "seconds": 0.04745331999947666
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "/bin/echo",
+        "--rootfs"
+      ],
+      "code": 0,
+      "stdout": "--rootfs\n",
+      "stderr": "",
+      "seconds": 0.04211677900093491
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/sh",
+        "-c",
+        "echo durable > /root/value; sync"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.08118495199960307
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/sh",
+        "-c",
+        "sleep .05; printf job0"
+      ],
+      "code": 0,
+      "stdout": "job0",
+      "stderr": "",
+      "seconds": 0.18443669699991005
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/sh",
+        "-c",
+        "sleep .05; printf job2"
+      ],
+      "code": 0,
+      "stdout": "job2",
+      "stderr": "",
+      "seconds": 0.18675271499887458
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/sh",
+        "-c",
+        "sleep .05; printf job1"
+      ],
+      "code": 0,
+      "stdout": "job1",
+      "stderr": "",
+      "seconds": 0.18899906599835958
+    },
+    {
+      "arguments": [
+        "env",
+        "start",
+        "imported"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.03500076699856436
+    },
+    {
+      "arguments": [
+        "-e",
+        "imported",
+        "exec",
+        "--",
+        "/bin/ls",
+        "/root"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.08473085399964475
+    },
+    {
+      "arguments": [
+        "env",
+        "remove",
+        "renamed",
+        "--yes"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: environment is running or busy: lock acquisition failed because the operation would block\n",
+      "seconds": 0.006194423000124516
+    },
+    {
+      "arguments": [
+        "env",
+        "backup",
+        "renamed",
+        "/mnt/trames-output/linux-environments/kvm-final-v3/smccc-4-mgirqwho/live.tar.gz"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: environment is running or busy: lock acquisition failed because the operation would block\n",
+      "seconds": 0.005553458999202121
+    },
+    {
+      "arguments": [
+        "env",
+        "stop",
+        "renamed"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.029128221998689696
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/cat",
+        "/root/value"
+      ],
+      "code": 0,
+      "stdout": "durable\n",
+      "stderr": "",
+      "seconds": 0.07484727900009602
+    },
+    {
+      "arguments": [
+        "env",
+        "path",
+        "renamed"
+      ],
+      "code": 0,
+      "stdout": "/mnt/trames-output/linux-environments/kvm-final-v3/smccc-4-mgirqwho/environments/40bdd92b-5583-4aa5-9f84-1a19f6027915\n",
+      "stderr": "",
+      "seconds": 0.006133422000857536
+    },
+    {
+      "arguments": [
+        "env",
+        "inspect",
+        "renamed",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"config\": {\n    \"boot\": {\n      \"mode\": \"shell\"\n    },\n    \"components\": {\n      \"audio\": false,\n      \"audio_input\": false,\n      \"thunking\": \"auto\",\n      \"vaapi\": false,\n      \"vulkan\": false\n    },\n    \"display\": {\n      \"windows\": false\n    },\n    \"environment\": {\n      \"name\": \"renamed\",\n      \"type\": \"linux\",\n      \"uuid\": \"40bdd92b-5583-4aa5-9f84-1a19f6027915\"\n    },\n    \"image\": {\n      \"distribution\": \"custom\",\n      \"sha256\": \"16bba38d0c6333b4d0359c8d40868d55658fb90acfdae4d18237e339fd3cee00\",\n      \"source\": null\n    },\n    \"interop\": {\n      \"clipboard\": {\n        \"enabled\": true\n      },\n      \"files\": {\n        \"enabled\": true\n      },\n      \"host_cli\": {\n        \"enabled\": true\n      },\n      \"host_exec\": {\n        \"enabled\": true\n      },\n      \"host_ui\": {\n        \"enabled\": true\n      },\n      \"mounts\": {\n        \"enabled\": true\n      },\n      \"ports\": {\n        \"enabled\": true\n      }\n    },\n    \"kernel\": {\n      \"sysctl\": {}\n    },\n    \"mounts\": [\n      {\n        \"host\": null,\n        \"readonly\": true,\n        \"share\": \"project\",\n        \"target\": \"/work\"\n      }\n    ],\n    \"network\": {\n      \"bridge\": null,\n      \"mode\": \"host\",\n      \"publish\": []\n    },\n    \"resources\": {\n      \"cpus\": 4,\n      \"memory\": \"auto\",\n      \"memory_limit\": null\n    },\n    \"session\": {\n      \"cwd\": \"/\",\n      \"shell\": [\n        \"/bin/sh\",\n        \"-l\"\n      ]\n    },\n    \"version\": 1\n  },\n  \"directory\": \"/mnt/trames-output/linux-environments/kvm-final-v3/smccc-4-mgirqwho/environments/40bdd92b-5583-4aa5-9f84-1a19f6027915\",\n  \"distribution\": \"custom\",\n  \"error\": null,\n  \"last_exit\": null,\n  \"name\": \"renamed\",\n  \"running\": true,\n  \"state\": \"running\",\n  \"uuid\": \"40bdd92b-5583-4aa5-9f84-1a19f6027915\"\n}\n",
+      "stderr": "",
+      "seconds": 0.008915360001992667
+    },
+    {
+      "arguments": [
+        "env",
+        "inspect",
+        "renamed",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"config\": {\n    \"boot\": {\n      \"mode\": \"shell\"\n    },\n    \"components\": {\n      \"audio\": false,\n      \"audio_input\": false,\n      \"thunking\": \"auto\",\n      \"vaapi\": false,\n      \"vulkan\": false\n    },\n    \"display\": {\n      \"windows\": false\n    },\n    \"environment\": {\n      \"name\": \"renamed\",\n      \"type\": \"linux\",\n      \"uuid\": \"40bdd92b-5583-4aa5-9f84-1a19f6027915\"\n    },\n    \"image\": {\n      \"distribution\": \"custom\",\n      \"sha256\": \"16bba38d0c6333b4d0359c8d40868d55658fb90acfdae4d18237e339fd3cee00\",\n      \"source\": null\n    },\n    \"interop\": {\n      \"clipboard\": {\n        \"enabled\": true\n      },\n      \"files\": {\n        \"enabled\": true\n      },\n      \"host_cli\": {\n        \"enabled\": true\n      },\n      \"host_exec\": {\n        \"enabled\": true\n      },\n      \"host_ui\": {\n        \"enabled\": true\n      },\n      \"mounts\": {\n        \"enabled\": true\n      },\n      \"ports\": {\n        \"enabled\": true\n      }\n    },\n    \"kernel\": {\n      \"sysctl\": {}\n    },\n    \"mounts\": [\n      {\n        \"host\": null,\n        \"readonly\": true,\n        \"share\": \"project\",\n        \"target\": \"/work\"\n      }\n    ],\n    \"network\": {\n      \"bridge\": null,\n      \"mode\": \"host\",\n      \"publish\": []\n    },\n    \"resources\": {\n      \"cpus\": 4,\n      \"memory\": \"auto\",\n      \"memory_limit\": null\n    },\n    \"session\": {\n      \"cwd\": \"/\",\n      \"shell\": [\n        \"/bin/sh\",\n        \"-l\"\n      ]\n    },\n    \"version\": 1\n  },\n  \"directory\": \"/mnt/trames-output/linux-environments/kvm-final-v3/smccc-4-mgirqwho/environments/40bdd92b-5583-4aa5-9f84-1a19f6027915\",\n  \"distribution\": \"custom\",\n  \"error\": null,\n  \"last_exit\": null,\n  \"name\": \"renamed\",\n  \"running\": false,\n  \"state\": \"stopped\",\n  \"uuid\": \"40bdd92b-5583-4aa5-9f84-1a19f6027915\"\n}\n",
+      "stderr": "",
+      "seconds": 0.007640766001713928
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/cat",
+        "/root/value"
+      ],
+      "code": 0,
+      "stdout": "durable\n",
+      "stderr": "",
+      "seconds": 0.0745011520011758
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "session",
+        "ls",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "[\n  {\n    \"attached\": false,\n    \"id\": 1,\n    \"state\": \"running\"\n  }\n]\n",
+      "stderr": "",
+      "seconds": 0.007478473999071866
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "session",
+        "ls",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "[\n  {\n    \"attached\": false,\n    \"id\": 1,\n    \"state\": \"running\"\n  }\n]\n",
+      "stderr": "",
+      "seconds": 0.008156395000696648
+    },
+    {
+      "arguments": [
+        "env",
+        "restart",
+        "renamed"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.058553946000756696
+    },
+    {
+      "arguments": [
+        "env",
+        "stop",
+        "imported"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.019824692000838695
+    },
+    {
+      "arguments": [
+        "env",
+        "stop",
+        "renamed"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.018475765999028226
+    },
+    {
+      "arguments": [
+        "env",
+        "create",
+        "services",
+        "--rootfs",
+        "/home/main.guest/trames-services-bundle/rootfs",
+        "--init",
+        "systemd",
+        "--cpus",
+        "4",
+        "--memory",
+        "auto"
+      ],
+      "code": 0,
+      "stdout": "Created services (custom)\n",
+      "stderr": "",
+      "seconds": 11.40833998600283
+    },
+    {
+      "arguments": [
+        "env",
+        "start",
+        "services"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.18420948700077133
+    },
+    {
+      "arguments": [
+        "-e",
+        "services",
+        "exec",
+        "--",
+        "/bin/sh",
+        "-ec",
+        "for n in $(seq 1 100); do test -S /run/systemd/private && break; sleep .1; done\ncat > /run/systemd/system/trames-environment.service <<'UNIT'\n[Service]\nType=oneshot\nRemainAfterExit=yes\nExecStart=/bin/sh -c 'echo started > /root/service-started'\nExecStop=/bin/sh -c 'echo graceful > /root/service-stopped'\nUNIT\nsystemctl daemon-reload\nsystemctl start trames-environment.service\nsystemctl is-active trames-environment.service\n"
+      ],
+      "code": 0,
+      "stdout": "active\n",
+      "stderr": "",
+      "seconds": 17.43876762799846
+    },
+    {
+      "arguments": [
+        "env",
+        "stop",
+        "services"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 3.2546366579990718
+    },
+    {
+      "arguments": [
+        "env",
+        "inspect",
+        "services",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"config\": {\n    \"boot\": {\n      \"mode\": \"systemd\"\n    },\n    \"components\": {\n      \"audio\": false,\n      \"audio_input\": false,\n      \"thunking\": \"auto\",\n      \"vaapi\": false,\n      \"vulkan\": false\n    },\n    \"display\": {\n      \"windows\": false\n    },\n    \"environment\": {\n      \"name\": \"services\",\n      \"type\": \"linux\",\n      \"uuid\": \"c5e7a5f2-6c03-4e1a-af4c-f37b10bbad38\"\n    },\n    \"image\": {\n      \"distribution\": \"custom\",\n      \"sha256\": \"0d11a54eca6729fed77d8c75546d574fa31681c96b818611d3302f5e9ed83fb2\",\n      \"source\": null\n    },\n    \"interop\": {\n      \"clipboard\": {\n        \"enabled\": true\n      },\n      \"files\": {\n        \"enabled\": true\n      },\n      \"host_cli\": {\n        \"enabled\": true\n      },\n      \"host_exec\": {\n        \"enabled\": true\n      },\n      \"host_ui\": {\n        \"enabled\": true\n      },\n      \"mounts\": {\n        \"enabled\": true\n      },\n      \"ports\": {\n        \"enabled\": true\n      }\n    },\n    \"kernel\": {\n      \"sysctl\": {}\n    },\n    \"mounts\": [],\n    \"network\": {\n      \"bridge\": null,\n      \"mode\": \"host\",\n      \"publish\": []\n    },\n    \"resources\": {\n      \"cpus\": 4,\n      \"memory\": \"auto\",\n      \"memory_limit\": null\n    },\n    \"session\": {\n      \"cwd\": \"/\",\n      \"shell\": [\n        \"/bin/sh\",\n        \"-l\"\n      ]\n    },\n    \"version\": 1\n  },\n  \"directory\": \"/mnt/trames-output/linux-environments/kvm-final-v3/smccc-4-mgirqwho/environments/c5e7a5f2-6c03-4e1a-af4c-f37b10bbad38\",\n  \"distribution\": \"custom\",\n  \"error\": null,\n  \"last_exit\": {\n    \"code\": 0,\n    \"error\": null\n  },\n  \"name\": \"services\",\n  \"running\": false,\n  \"state\": \"stopped\",\n  \"uuid\": \"c5e7a5f2-6c03-4e1a-af4c-f37b10bbad38\"\n}\n",
+      "stderr": "",
+      "seconds": 0.008616399001766695
+    },
+    {
+      "arguments": [
+        "-e",
+        "services",
+        "config",
+        "set",
+        "boot.mode",
+        "shell"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.007443889997375663
+    },
+    {
+      "arguments": [
+        "-e",
+        "services",
+        "exec",
+        "--",
+        "/bin/cat",
+        "/root/service-stopped"
+      ],
+      "code": 0,
+      "stdout": "graceful\n",
+      "stderr": "",
+      "seconds": 0.16159764699841617
+    },
+    {
+      "arguments": [
+        "env",
+        "stop",
+        "services"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 1.0002263650021632
+    },
+    {
+      "arguments": [
+        "config",
+        "--global",
+        "set",
+        "defaults.components.vulkan",
+        "false",
+        "defaults.display.windows",
+        "false",
+        "defaults.resources.cpus",
+        "1"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.008561689999623923
+    },
+    {
+      "arguments": [
+        "config",
+        "--global",
+        "set",
+        "defaults.image.distribution",
+        "debian"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.0070938879980531055
+    },
+    {
+      "arguments": [
+        "config",
+        "--global",
+        "set",
+        "defaults.image.distribution",
+        "alpine"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.006467049999628216
+    },
+    {
+      "arguments": [
+        "env",
+        "create",
+        "work",
+        "--rootfs",
+        "/mnt/trames-output/linux-environments/kvm-final-v3/rootfs"
+      ],
+      "code": 0,
+      "stdout": "Created work (custom)\n",
+      "stderr": "",
+      "seconds": 0.07555886699992698
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "show",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"boot\": {\n    \"mode\": \"shell\"\n  },\n  \"components\": {\n    \"audio\": false,\n    \"audio_input\": false,\n    \"thunking\": \"auto\",\n    \"vaapi\": false,\n    \"vulkan\": false\n  },\n  \"display\": {\n    \"windows\": false\n  },\n  \"environment\": {\n    \"name\": \"work\",\n    \"type\": \"linux\",\n    \"uuid\": \"644396cf-0482-44a1-b0d2-84e096d4ad64\"\n  },\n  \"image\": {\n    \"distribution\": \"custom\",\n    \"sha256\": \"16bba38d0c6333b4d0359c8d40868d55658fb90acfdae4d18237e339fd3cee00\",\n    \"source\": null\n  },\n  \"interop\": {\n    \"clipboard\": {\n      \"enabled\": true\n    },\n    \"files\": {\n      \"enabled\": true\n    },\n    \"host_cli\": {\n      \"enabled\": true\n    },\n    \"host_exec\": {\n      \"enabled\": true\n    },\n    \"host_ui\": {\n      \"enabled\": true\n    },\n    \"mounts\": {\n      \"enabled\": true\n    },\n    \"ports\": {\n      \"enabled\": true\n    }\n  },\n  \"kernel\": {\n    \"sysctl\": {}\n  },\n  \"mounts\": [],\n  \"network\": {\n    \"bridge\": null,\n    \"mode\": \"host\",\n    \"publish\": []\n  },\n  \"resources\": {\n    \"cpus\": 1,\n    \"memory\": \"auto\",\n    \"memory_limit\": null\n  },\n  \"session\": {\n    \"cwd\": \"/\",\n    \"shell\": [\n      \"/bin/sh\",\n      \"-l\"\n    ]\n  },\n  \"version\": 1\n}\n",
+      "stderr": "",
+      "seconds": 0.0072061799983202945
+    },
+    {
+      "arguments": [
+        "env",
+        "path",
+        "work"
+      ],
+      "code": 0,
+      "stdout": "/mnt/trames-output/linux-environments/kvm-final-v3/mmio-1-jnwjdx7g/environments/644396cf-0482-44a1-b0d2-84e096d4ad64\n",
+      "stderr": "",
+      "seconds": 0.004308908002712997
+    },
+    {
+      "arguments": [
+        "env",
+        "create",
+        "work",
+        "--rootfs",
+        "/mnt/trames-output/linux-environments/kvm-final-v3/rootfs"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: environment name already exists\n",
+      "seconds": 0.0051570809991972055
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "resources.memory",
+        "64MiB",
+        "resources.cpus",
+        "0"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: resources.cpus must be all or a supported positive count\n",
+      "seconds": 0.006309381999017205
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "image",
+        "{}"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: registered identity and image provenance are immutable; use env rename/create/clone\n",
+      "seconds": 0.005970295998849906
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "resources.typo",
+        "5"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: unknown configuration field\n",
+      "seconds": 0.005911545002163621
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "resources.memory",
+        "--help"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: cannot parse integer from empty string\n",
+      "seconds": 0.005440125001769047
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "resources.memory",
+        "--global"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: cannot parse integer from empty string\n",
+      "seconds": 0.006186713999341009
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "resources.memory",
+        "64MiB",
+        "resources.cpus",
+        "1"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.007107138000719715
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "validate"
+      ],
+      "code": 0,
+      "stdout": "Valid environment configuration\n",
+      "stderr": "",
+      "seconds": 0.006284672999754548
+    },
+    {
+      "arguments": [
+        "config",
+        "--global",
+        "set",
+        "default_environment",
+        "work"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.00709955400088802
+    },
+    {
+      "arguments": [
+        "config",
+        "get",
+        "resources.memory"
+      ],
+      "code": 0,
+      "stdout": "64MiB\n",
+      "stderr": "",
+      "seconds": 0.006149963002826553
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "edit"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: editor failed\n",
+      "seconds": 0.008072978002019227
+    },
+    {
+      "arguments": [
+        "env",
+        "remove",
+        "work",
+        "--yes"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: environment is running or busy: lock acquisition failed because the operation would block\n",
+      "seconds": 0.006000045999826398
+    },
+    {
+      "arguments": [
+        "env",
+        "backup",
+        "work",
+        "/mnt/trames-output/linux-environments/kvm-final-v3/mmio-1-jnwjdx7g/busy.tar.gz"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: environment is running or busy: lock acquisition failed because the operation would block\n",
+      "seconds": 0.004598118001013063
+    },
+    {
+      "arguments": [
+        "env",
+        "clone",
+        "work",
+        "busy-clone"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: environment is running or busy: lock acquisition failed because the operation would block\n",
+      "seconds": 0.0049109130013675895
+    },
+    {
+      "arguments": [
+        "env",
+        "share",
+        "work",
+        "project",
+        "/mnt/trames-output/linux-environments/kvm-final-v3/mmio-1-jnwjdx7g/shared",
+        "/work",
+        "ro"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.009836367000389146
+    },
+    {
+      "arguments": [
+        "env",
+        "clone",
+        "work",
+        "copy"
+      ],
+      "code": 0,
+      "stdout": "Imported copy; shared directories must be selected again\n",
+      "stderr": "",
+      "seconds": 0.04685581500234548
+    },
+    {
+      "arguments": [
+        "-e",
+        "copy",
+        "config",
+        "show",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"boot\": {\n    \"mode\": \"shell\"\n  },\n  \"components\": {\n    \"audio\": false,\n    \"audio_input\": false,\n    \"thunking\": \"auto\",\n    \"vaapi\": false,\n    \"vulkan\": false\n  },\n  \"display\": {\n    \"windows\": false\n  },\n  \"environment\": {\n    \"name\": \"copy\",\n    \"type\": \"linux\",\n    \"uuid\": \"dc2d85aa-cba4-4c66-8247-db5474cd0d64\"\n  },\n  \"image\": {\n    \"distribution\": \"custom\",\n    \"sha256\": \"16bba38d0c6333b4d0359c8d40868d55658fb90acfdae4d18237e339fd3cee00\",\n    \"source\": null\n  },\n  \"interop\": {\n    \"clipboard\": {\n      \"enabled\": true\n    },\n    \"files\": {\n      \"enabled\": true\n    },\n    \"host_cli\": {\n      \"enabled\": true\n    },\n    \"host_exec\": {\n      \"enabled\": true\n    },\n    \"host_ui\": {\n      \"enabled\": true\n    },\n    \"mounts\": {\n      \"enabled\": true\n    },\n    \"ports\": {\n      \"enabled\": true\n    }\n  },\n  \"kernel\": {\n    \"sysctl\": {}\n  },\n  \"mounts\": [],\n  \"network\": {\n    \"bridge\": null,\n    \"mode\": \"host\",\n    \"publish\": []\n  },\n  \"resources\": {\n    \"cpus\": 1,\n    \"memory\": \"64MiB\",\n    \"memory_limit\": null\n  },\n  \"session\": {\n    \"cwd\": \"/\",\n    \"shell\": [\n      \"/bin/sh\",\n      \"-l\"\n    ]\n  },\n  \"version\": 1\n}\n",
+      "stderr": "",
+      "seconds": 0.007089429000188829
+    },
+    {
+      "arguments": [
+        "env",
+        "path",
+        "copy"
+      ],
+      "code": 0,
+      "stdout": "/mnt/trames-output/linux-environments/kvm-final-v3/mmio-1-jnwjdx7g/environments/dc2d85aa-cba4-4c66-8247-db5474cd0d64\n",
+      "stderr": "",
+      "seconds": 0.0045259930011525284
+    },
+    {
+      "arguments": [
+        "env",
+        "backup",
+        "work",
+        "/mnt/trames-output/linux-environments/kvm-final-v3/mmio-1-jnwjdx7g/backup.tar.gz"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.05880423900089227
+    },
+    {
+      "arguments": [
+        "env",
+        "backup",
+        "work",
+        "/mnt/trames-output/linux-environments/kvm-final-v3/mmio-1-jnwjdx7g/backup.tar.gz"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: backup destination already exists\n",
+      "seconds": 0.013561395000579068
+    },
+    {
+      "arguments": [
+        "env",
+        "restore",
+        "restored",
+        "/mnt/trames-output/linux-environments/kvm-final-v3/mmio-1-jnwjdx7g/backup.tar.gz"
+      ],
+      "code": 0,
+      "stdout": "Restored restored; shared directories must be selected again\n",
+      "stderr": "",
+      "seconds": 0.121200048000901
+    },
+    {
+      "arguments": [
+        "-e",
+        "restored",
+        "config",
+        "show",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"boot\": {\n    \"mode\": \"shell\"\n  },\n  \"components\": {\n    \"audio\": false,\n    \"audio_input\": false,\n    \"thunking\": \"auto\",\n    \"vaapi\": false,\n    \"vulkan\": false\n  },\n  \"display\": {\n    \"windows\": false\n  },\n  \"environment\": {\n    \"name\": \"restored\",\n    \"type\": \"linux\",\n    \"uuid\": \"5d98efce-f4f0-42cc-9205-fb0a11be4bb9\"\n  },\n  \"image\": {\n    \"distribution\": \"custom\",\n    \"sha256\": \"16bba38d0c6333b4d0359c8d40868d55658fb90acfdae4d18237e339fd3cee00\",\n    \"source\": null\n  },\n  \"interop\": {\n    \"clipboard\": {\n      \"enabled\": true\n    },\n    \"files\": {\n      \"enabled\": true\n    },\n    \"host_cli\": {\n      \"enabled\": true\n    },\n    \"host_exec\": {\n      \"enabled\": true\n    },\n    \"host_ui\": {\n      \"enabled\": true\n    },\n    \"mounts\": {\n      \"enabled\": true\n    },\n    \"ports\": {\n      \"enabled\": true\n    }\n  },\n  \"kernel\": {\n    \"sysctl\": {}\n  },\n  \"mounts\": [],\n  \"network\": {\n    \"bridge\": null,\n    \"mode\": \"host\",\n    \"publish\": []\n  },\n  \"resources\": {\n    \"cpus\": 1,\n    \"memory\": \"64MiB\",\n    \"memory_limit\": null\n  },\n  \"session\": {\n    \"cwd\": \"/\",\n    \"shell\": [\n      \"/bin/sh\",\n      \"-l\"\n    ]\n  },\n  \"version\": 1\n}\n",
+      "stderr": "",
+      "seconds": 0.0069232189998729154
+    },
+    {
+      "arguments": [
+        "env",
+        "restore",
+        "bad-crc",
+        "/mnt/trames-output/linux-environments/kvm-final-v3/mmio-1-jnwjdx7g/corrupt.tar.gz"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: corrupt gzip stream does not have a matching checksum\n",
+      "seconds": 0.10622372600118979
+    },
+    {
+      "arguments": [
+        "env",
+        "restore",
+        "bad-path",
+        "/mnt/trames-output/linux-environments/kvm-final-v3/mmio-1-jnwjdx7g/traversal.tar.gz"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: invalid backup path, type or duplicate entry\n",
+      "seconds": 0.008055603000684641
+    },
+    {
+      "arguments": [
+        "env",
+        "import-store",
+        "imported",
+        "/mnt/trames-output/linux-environments/kvm-final-v3/mmio-1-jnwjdx7g/environments/644396cf-0482-44a1-b0d2-84e096d4ad64/store"
+      ],
+      "code": 0,
+      "stdout": "Imported imported; shared directories must be selected again\n",
+      "stderr": "",
+      "seconds": 0.04788369800007786
+    },
+    {
+      "arguments": [
+        "env",
+        "rename",
+        "644396cf-0482-44a1-b0d2-84e096d4ad64",
+        "renamed"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.013006556997424923
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "config",
+        "show",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"boot\": {\n    \"mode\": \"shell\"\n  },\n  \"components\": {\n    \"audio\": false,\n    \"audio_input\": false,\n    \"thunking\": \"auto\",\n    \"vaapi\": false,\n    \"vulkan\": false\n  },\n  \"display\": {\n    \"windows\": false\n  },\n  \"environment\": {\n    \"name\": \"renamed\",\n    \"type\": \"linux\",\n    \"uuid\": \"644396cf-0482-44a1-b0d2-84e096d4ad64\"\n  },\n  \"image\": {\n    \"distribution\": \"custom\",\n    \"sha256\": \"16bba38d0c6333b4d0359c8d40868d55658fb90acfdae4d18237e339fd3cee00\",\n    \"source\": null\n  },\n  \"interop\": {\n    \"clipboard\": {\n      \"enabled\": true\n    },\n    \"files\": {\n      \"enabled\": true\n    },\n    \"host_cli\": {\n      \"enabled\": true\n    },\n    \"host_exec\": {\n      \"enabled\": true\n    },\n    \"host_ui\": {\n      \"enabled\": true\n    },\n    \"mounts\": {\n      \"enabled\": true\n    },\n    \"ports\": {\n      \"enabled\": true\n    }\n  },\n  \"kernel\": {\n    \"sysctl\": {}\n  },\n  \"mounts\": [\n    {\n      \"host\": null,\n      \"readonly\": true,\n      \"share\": \"project\",\n      \"target\": \"/work\"\n    }\n  ],\n  \"network\": {\n    \"bridge\": null,\n    \"mode\": \"host\",\n    \"publish\": []\n  },\n  \"resources\": {\n    \"cpus\": 1,\n    \"memory\": \"64MiB\",\n    \"memory_limit\": null\n  },\n  \"session\": {\n    \"cwd\": \"/\",\n    \"shell\": [\n      \"/bin/sh\",\n      \"-l\"\n    ]\n  },\n  \"version\": 1\n}\n",
+      "stderr": "",
+      "seconds": 0.007068554001307348
+    },
+    {
+      "arguments": [
+        "config",
+        "--global",
+        "get",
+        "default_environment"
+      ],
+      "code": 0,
+      "stdout": "renamed\n",
+      "stderr": "",
+      "seconds": 0.005296914998325519
+    },
+    {
+      "arguments": [
+        "env",
+        "remove",
+        "copy"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: usage: env remove NAME --yes\n",
+      "seconds": 0.003515485001116758
+    },
+    {
+      "arguments": [
+        "env",
+        "remove",
+        "copy",
+        "--yes"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.02079899199816282
+    },
+    {
+      "arguments": [
+        "env",
+        "path",
+        "restored"
+      ],
+      "code": 0,
+      "stdout": "/mnt/trames-output/linux-environments/kvm-final-v3/mmio-1-jnwjdx7g/environments/5d98efce-f4f0-42cc-9205-fb0a11be4bb9\n",
+      "stderr": "",
+      "seconds": 0.004997330001060618
+    },
+    {
+      "arguments": [
+        "env",
+        "ls",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "[\n  {\n    \"config\": {\n      \"boot\": {\n        \"mode\": \"shell\"\n      },\n      \"components\": {\n        \"audio\": false,\n        \"audio_input\": false,\n        \"thunking\": \"auto\",\n        \"vaapi\": false,\n        \"vulkan\": false\n      },\n      \"display\": {\n        \"windows\": false\n      },\n      \"environment\": {\n        \"name\": \"imported\",\n        \"type\": \"linux\",\n        \"uuid\": \"1724679d-3310-4019-be38-ea4de40836d0\"\n      },\n      \"image\": {\n        \"distribution\": \"custom\",\n        \"sha256\": \"16bba38d0c6333b4d0359c8d40868d55658fb90acfdae4d18237e339fd3cee00\",\n        \"source\": null\n      },\n      \"interop\": {\n        \"clipboard\": {\n          \"enabled\": true\n        },\n        \"files\": {\n          \"enabled\": true\n        },\n        \"host_cli\": {\n          \"enabled\": true\n        },\n        \"host_exec\": {\n          \"enabled\": true\n        },\n        \"host_ui\": {\n          \"enabled\": true\n        },\n        \"mounts\": {\n          \"enabled\": true\n        },\n        \"ports\": {\n          \"enabled\": true\n        }\n      },\n      \"kernel\": {\n        \"sysctl\": {}\n      },\n      \"mounts\": [],\n      \"network\": {\n        \"bridge\": null,\n        \"mode\": \"host\",\n        \"publish\": []\n      },\n      \"resources\": {\n        \"cpus\": 1,\n        \"memory\": \"64MiB\",\n        \"memory_limit\": null\n      },\n      \"session\": {\n        \"cwd\": \"/\",\n        \"shell\": [\n          \"/bin/sh\",\n          \"-l\"\n        ]\n      },\n      \"version\": 1\n    },\n    \"directory\": \"/mnt/trames-output/linux-environments/kvm-final-v3/mmio-1-jnwjdx7g/environments/1724679d-3310-4019-be38-ea4de40836d0\",\n    \"distribution\": \"custom\",\n    \"error\": null,\n    \"last_exit\": null,\n    \"name\": \"imported\",\n    \"running\": false,\n    \"state\": \"stopped\",\n    \"uuid\": \"1724679d-3310-4019-be38-ea4de40836d0\"\n  },\n  {\n    \"config\": {\n      \"boot\": {\n        \"mode\": \"shell\"\n      },\n      \"components\": {\n        \"audio\": false,\n        \"audio_input\": false,\n        \"thunking\": \"auto\",\n        \"vaapi\": false,\n        \"vulkan\": false\n      },\n      \"display\": {\n        \"windows\": false\n      },\n      \"environment\": {\n        \"name\": \"renamed\",\n        \"type\": \"linux\",\n        \"uuid\": \"644396cf-0482-44a1-b0d2-84e096d4ad64\"\n      },\n      \"image\": {\n        \"distribution\": \"custom\",\n        \"sha256\": \"16bba38d0c6333b4d0359c8d40868d55658fb90acfdae4d18237e339fd3cee00\",\n        \"source\": null\n      },\n      \"interop\": {\n        \"clipboard\": {\n          \"enabled\": true\n        },\n        \"files\": {\n          \"enabled\": true\n        },\n        \"host_cli\": {\n          \"enabled\": true\n        },\n        \"host_exec\": {\n          \"enabled\": true\n        },\n        \"host_ui\": {\n          \"enabled\": true\n        },\n        \"mounts\": {\n          \"enabled\": true\n        },\n        \"ports\": {\n          \"enabled\": true\n        }\n      },\n      \"kernel\": {\n        \"sysctl\": {}\n      },\n      \"mounts\": [\n        {\n          \"host\": null,\n          \"readonly\": true,\n          \"share\": \"project\",\n          \"target\": \"/work\"\n        }\n      ],\n      \"network\": {\n        \"bridge\": null,\n        \"mode\": \"host\",\n        \"publish\": []\n      },\n      \"resources\": {\n        \"cpus\": 1,\n        \"memory\": \"64MiB\",\n        \"memory_limit\": null\n      },\n      \"session\": {\n        \"cwd\": \"/\",\n        \"shell\": [\n          \"/bin/sh\",\n          \"-l\"\n        ]\n      },\n      \"version\": 1\n    },\n    \"directory\": \"/mnt/trames-output/linux-environments/kvm-final-v3/mmio-1-jnwjdx7g/environments/644396cf-0482-44a1-b0d2-84e096d4ad64\",\n    \"distribution\": \"custom\",\n    \"error\": null,\n    \"last_exit\": null,\n    \"name\": \"renamed\",\n    \"running\": false,\n    \"state\": \"stopped\",\n    \"uuid\": \"644396cf-0482-44a1-b0d2-84e096d4ad64\"\n  },\n  {\n    \"config\": null,\n    \"directory\": \"/mnt/trames-output/linux-environments/kvm-final-v3/mmio-1-jnwjdx7g/environments/5d98efce-f4f0-42cc-9205-fb0a11be4bb9\",\n    \"distribution\": \"custom\",\n    \"error\": \"unsupported environment TOML version\",\n    \"last_exit\": null,\n    \"name\": \"restored\",\n    \"running\": false,\n    \"state\": \"needs attention\",\n    \"uuid\": \"5d98efce-f4f0-42cc-9205-fb0a11be4bb9\"\n  }\n]\n",
+      "stderr": "",
+      "seconds": 0.016019996997783892
+    },
+    {
+      "arguments": [
+        "-e",
+        "restored",
+        "config",
+        "validate"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: unsupported environment TOML version\n",
+      "seconds": 0.006189047002408188
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "config",
+        "set",
+        "resources.cpus",
+        "1",
+        "resources.memory",
+        "auto"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.008637440001621144
+    },
+    {
+      "arguments": [
+        "env",
+        "start",
+        "renamed"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.034464262000255985
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/cat"
+      ],
+      "code": 0,
+      "stdout": "a\u0000b\ufffd\n",
+      "stderr": "",
+      "seconds": 0.07369976900008623
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--setenv",
+        "KEY=literal $() ; value",
+        "--cwd",
+        "/tmp",
+        "--",
+        "/bin/sh",
+        "-c",
+        "printf \"%s|%s\" \"$KEY\" \"$PWD\"; printf err >&2; exit 7"
+      ],
+      "code": 7,
+      "stdout": "literal $() ; value|/tmp",
+      "stderr": "err",
+      "seconds": 0.05078255300031742
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "/bin/echo",
+        "--rootfs"
+      ],
+      "code": 0,
+      "stdout": "--rootfs\n",
+      "stderr": "",
+      "seconds": 0.046381311000004644
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/sh",
+        "-c",
+        "echo durable > /root/value; sync"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.08277604700197116
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/sh",
+        "-c",
+        "sleep .05; printf job1"
+      ],
+      "code": 0,
+      "stdout": "job1",
+      "stderr": "",
+      "seconds": 0.25876476200210163
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/sh",
+        "-c",
+        "sleep .05; printf job0"
+      ],
+      "code": 0,
+      "stdout": "job0",
+      "stderr": "",
+      "seconds": 0.2594803920001141
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/sh",
+        "-c",
+        "sleep .05; printf job2"
+      ],
+      "code": 0,
+      "stdout": "job2",
+      "stderr": "",
+      "seconds": 0.2605504839993955
+    },
+    {
+      "arguments": [
+        "env",
+        "start",
+        "imported"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.031679990999691654
+    },
+    {
+      "arguments": [
+        "-e",
+        "imported",
+        "exec",
+        "--",
+        "/bin/ls",
+        "/root"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.0919510750027257
+    },
+    {
+      "arguments": [
+        "env",
+        "remove",
+        "renamed",
+        "--yes"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: environment is running or busy: lock acquisition failed because the operation would block\n",
+      "seconds": 0.008432147002167767
+    },
+    {
+      "arguments": [
+        "env",
+        "backup",
+        "renamed",
+        "/mnt/trames-output/linux-environments/kvm-final-v3/mmio-1-jnwjdx7g/live.tar.gz"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: environment is running or busy: lock acquisition failed because the operation would block\n",
+      "seconds": 0.0055882929991639685
+    },
+    {
+      "arguments": [
+        "env",
+        "stop",
+        "renamed"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.02158474799944088
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/cat",
+        "/root/value"
+      ],
+      "code": 0,
+      "stdout": "durable\n",
+      "stderr": "",
+      "seconds": 0.09542685199994594
+    },
+    {
+      "arguments": [
+        "env",
+        "path",
+        "renamed"
+      ],
+      "code": 0,
+      "stdout": "/mnt/trames-output/linux-environments/kvm-final-v3/mmio-1-jnwjdx7g/environments/644396cf-0482-44a1-b0d2-84e096d4ad64\n",
+      "stderr": "",
+      "seconds": 0.006248714002140332
+    },
+    {
+      "arguments": [
+        "env",
+        "inspect",
+        "renamed",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"config\": {\n    \"boot\": {\n      \"mode\": \"shell\"\n    },\n    \"components\": {\n      \"audio\": false,\n      \"audio_input\": false,\n      \"thunking\": \"auto\",\n      \"vaapi\": false,\n      \"vulkan\": false\n    },\n    \"display\": {\n      \"windows\": false\n    },\n    \"environment\": {\n      \"name\": \"renamed\",\n      \"type\": \"linux\",\n      \"uuid\": \"644396cf-0482-44a1-b0d2-84e096d4ad64\"\n    },\n    \"image\": {\n      \"distribution\": \"custom\",\n      \"sha256\": \"16bba38d0c6333b4d0359c8d40868d55658fb90acfdae4d18237e339fd3cee00\",\n      \"source\": null\n    },\n    \"interop\": {\n      \"clipboard\": {\n        \"enabled\": true\n      },\n      \"files\": {\n        \"enabled\": true\n      },\n      \"host_cli\": {\n        \"enabled\": true\n      },\n      \"host_exec\": {\n        \"enabled\": true\n      },\n      \"host_ui\": {\n        \"enabled\": true\n      },\n      \"mounts\": {\n        \"enabled\": true\n      },\n      \"ports\": {\n        \"enabled\": true\n      }\n    },\n    \"kernel\": {\n      \"sysctl\": {}\n    },\n    \"mounts\": [\n      {\n        \"host\": null,\n        \"readonly\": true,\n        \"share\": \"project\",\n        \"target\": \"/work\"\n      }\n    ],\n    \"network\": {\n      \"bridge\": null,\n      \"mode\": \"host\",\n      \"publish\": []\n    },\n    \"resources\": {\n      \"cpus\": 1,\n      \"memory\": \"auto\",\n      \"memory_limit\": null\n    },\n    \"session\": {\n      \"cwd\": \"/\",\n      \"shell\": [\n        \"/bin/sh\",\n        \"-l\"\n      ]\n    },\n    \"version\": 1\n  },\n  \"directory\": \"/mnt/trames-output/linux-environments/kvm-final-v3/mmio-1-jnwjdx7g/environments/644396cf-0482-44a1-b0d2-84e096d4ad64\",\n  \"distribution\": \"custom\",\n  \"error\": null,\n  \"last_exit\": null,\n  \"name\": \"renamed\",\n  \"running\": false,\n  \"state\": \"stopped\",\n  \"uuid\": \"644396cf-0482-44a1-b0d2-84e096d4ad64\"\n}\n",
+      "stderr": "",
+      "seconds": 0.009161402998870471
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/cat",
+        "/root/value"
+      ],
+      "code": 0,
+      "stdout": "durable\n",
+      "stderr": "",
+      "seconds": 0.09461555400048383
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "session",
+        "ls",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "[\n  {\n    \"attached\": false,\n    \"id\": 1,\n    \"state\": \"running\"\n  }\n]\n",
+      "stderr": "",
+      "seconds": 0.009211237000272376
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "session",
+        "ls",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "[\n  {\n    \"attached\": false,\n    \"id\": 1,\n    \"state\": \"running\"\n  }\n]\n",
+      "stderr": "",
+      "seconds": 0.008666232999530621
+    },
+    {
+      "arguments": [
+        "env",
+        "restart",
+        "renamed"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.049027705998014426
+    },
+    {
+      "arguments": [
+        "env",
+        "stop",
+        "imported"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.019221853999624727
+    },
+    {
+      "arguments": [
+        "env",
+        "stop",
+        "renamed"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.01784484499876271
+    },
+    {
+      "arguments": [
+        "env",
+        "create",
+        "services",
+        "--rootfs",
+        "/home/main.guest/trames-services-bundle/rootfs",
+        "--init",
+        "systemd",
+        "--cpus",
+        "1",
+        "--memory",
+        "auto"
+      ],
+      "code": 0,
+      "stdout": "Created services (custom)\n",
+      "stderr": "",
+      "seconds": 11.368645746002585
+    },
+    {
+      "arguments": [
+        "env",
+        "start",
+        "services"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.21554180800012546
+    },
+    {
+      "arguments": [
+        "-e",
+        "services",
+        "exec",
+        "--",
+        "/bin/sh",
+        "-ec",
+        "for n in $(seq 1 100); do test -S /run/systemd/private && break; sleep .1; done\ncat > /run/systemd/system/trames-environment.service <<'UNIT'\n[Service]\nType=oneshot\nRemainAfterExit=yes\nExecStart=/bin/sh -c 'echo started > /root/service-started'\nExecStop=/bin/sh -c 'echo graceful > /root/service-stopped'\nUNIT\nsystemctl daemon-reload\nsystemctl start trames-environment.service\nsystemctl is-active trames-environment.service\n"
+      ],
+      "code": 0,
+      "stdout": "active\n",
+      "stderr": "",
+      "seconds": 21.329050728996663
+    },
+    {
+      "arguments": [
+        "env",
+        "stop",
+        "services"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 4.602369625998108
+    },
+    {
+      "arguments": [
+        "env",
+        "inspect",
+        "services",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"config\": {\n    \"boot\": {\n      \"mode\": \"systemd\"\n    },\n    \"components\": {\n      \"audio\": false,\n      \"audio_input\": false,\n      \"thunking\": \"auto\",\n      \"vaapi\": false,\n      \"vulkan\": false\n    },\n    \"display\": {\n      \"windows\": false\n    },\n    \"environment\": {\n      \"name\": \"services\",\n      \"type\": \"linux\",\n      \"uuid\": \"ead356d9-a670-4643-9d8f-2e7c5c79aabc\"\n    },\n    \"image\": {\n      \"distribution\": \"custom\",\n      \"sha256\": \"0d11a54eca6729fed77d8c75546d574fa31681c96b818611d3302f5e9ed83fb2\",\n      \"source\": null\n    },\n    \"interop\": {\n      \"clipboard\": {\n        \"enabled\": true\n      },\n      \"files\": {\n        \"enabled\": true\n      },\n      \"host_cli\": {\n        \"enabled\": true\n      },\n      \"host_exec\": {\n        \"enabled\": true\n      },\n      \"host_ui\": {\n        \"enabled\": true\n      },\n      \"mounts\": {\n        \"enabled\": true\n      },\n      \"ports\": {\n        \"enabled\": true\n      }\n    },\n    \"kernel\": {\n      \"sysctl\": {}\n    },\n    \"mounts\": [],\n    \"network\": {\n      \"bridge\": null,\n      \"mode\": \"host\",\n      \"publish\": []\n    },\n    \"resources\": {\n      \"cpus\": 1,\n      \"memory\": \"auto\",\n      \"memory_limit\": null\n    },\n    \"session\": {\n      \"cwd\": \"/\",\n      \"shell\": [\n        \"/bin/sh\",\n        \"-l\"\n      ]\n    },\n    \"version\": 1\n  },\n  \"directory\": \"/mnt/trames-output/linux-environments/kvm-final-v3/mmio-1-jnwjdx7g/environments/ead356d9-a670-4643-9d8f-2e7c5c79aabc\",\n  \"distribution\": \"custom\",\n  \"error\": null,\n  \"last_exit\": {\n    \"code\": 0,\n    \"error\": null\n  },\n  \"name\": \"services\",\n  \"running\": false,\n  \"state\": \"stopped\",\n  \"uuid\": \"ead356d9-a670-4643-9d8f-2e7c5c79aabc\"\n}\n",
+      "stderr": "",
+      "seconds": 0.0111195419995056
+    },
+    {
+      "arguments": [
+        "-e",
+        "services",
+        "config",
+        "set",
+        "boot.mode",
+        "shell"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.008585273997596232
+    },
+    {
+      "arguments": [
+        "-e",
+        "services",
+        "exec",
+        "--",
+        "/bin/cat",
+        "/root/service-stopped"
+      ],
+      "code": 0,
+      "stdout": "graceful\n",
+      "stderr": "",
+      "seconds": 0.25480852100008633
+    },
+    {
+      "arguments": [
+        "env",
+        "stop",
+        "services"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 1.017052650997357
+    },
+    {
+      "arguments": [
+        "config",
+        "--global",
+        "set",
+        "defaults.components.vulkan",
+        "false",
+        "defaults.display.windows",
+        "false",
+        "defaults.resources.cpus",
+        "1"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.00963882300129626
+    },
+    {
+      "arguments": [
+        "config",
+        "--global",
+        "set",
+        "defaults.image.distribution",
+        "debian"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.007824142998288153
+    },
+    {
+      "arguments": [
+        "config",
+        "--global",
+        "set",
+        "defaults.image.distribution",
+        "alpine"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.006885427002998767
+    },
+    {
+      "arguments": [
+        "env",
+        "create",
+        "work",
+        "--rootfs",
+        "/mnt/trames-output/linux-environments/kvm-final-v3/rootfs"
+      ],
+      "code": 0,
+      "stdout": "Created work (custom)\n",
+      "stderr": "",
+      "seconds": 0.07747842300159391
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "show",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"boot\": {\n    \"mode\": \"shell\"\n  },\n  \"components\": {\n    \"audio\": false,\n    \"audio_input\": false,\n    \"thunking\": \"auto\",\n    \"vaapi\": false,\n    \"vulkan\": false\n  },\n  \"display\": {\n    \"windows\": false\n  },\n  \"environment\": {\n    \"name\": \"work\",\n    \"type\": \"linux\",\n    \"uuid\": \"5b0537cb-4032-46ee-ab34-1ea394a7500f\"\n  },\n  \"image\": {\n    \"distribution\": \"custom\",\n    \"sha256\": \"16bba38d0c6333b4d0359c8d40868d55658fb90acfdae4d18237e339fd3cee00\",\n    \"source\": null\n  },\n  \"interop\": {\n    \"clipboard\": {\n      \"enabled\": true\n    },\n    \"files\": {\n      \"enabled\": true\n    },\n    \"host_cli\": {\n      \"enabled\": true\n    },\n    \"host_exec\": {\n      \"enabled\": true\n    },\n    \"host_ui\": {\n      \"enabled\": true\n    },\n    \"mounts\": {\n      \"enabled\": true\n    },\n    \"ports\": {\n      \"enabled\": true\n    }\n  },\n  \"kernel\": {\n    \"sysctl\": {}\n  },\n  \"mounts\": [],\n  \"network\": {\n    \"bridge\": null,\n    \"mode\": \"host\",\n    \"publish\": []\n  },\n  \"resources\": {\n    \"cpus\": 1,\n    \"memory\": \"auto\",\n    \"memory_limit\": null\n  },\n  \"session\": {\n    \"cwd\": \"/\",\n    \"shell\": [\n      \"/bin/sh\",\n      \"-l\"\n    ]\n  },\n  \"version\": 1\n}\n",
+      "stderr": "",
+      "seconds": 0.006964218999200966
+    },
+    {
+      "arguments": [
+        "env",
+        "path",
+        "work"
+      ],
+      "code": 0,
+      "stdout": "/mnt/trames-output/linux-environments/kvm-final-v3/mmio-4-y1wur1g5/environments/5b0537cb-4032-46ee-ab34-1ea394a7500f\n",
+      "stderr": "",
+      "seconds": 0.004672327002481325
+    },
+    {
+      "arguments": [
+        "env",
+        "create",
+        "work",
+        "--rootfs",
+        "/mnt/trames-output/linux-environments/kvm-final-v3/rootfs"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: environment name already exists\n",
+      "seconds": 0.00529299799745786
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "resources.memory",
+        "64MiB",
+        "resources.cpus",
+        "0"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: resources.cpus must be all or a supported positive count\n",
+      "seconds": 0.0068018009988009
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "image",
+        "{}"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: registered identity and image provenance are immutable; use env rename/create/clone\n",
+      "seconds": 0.006233339001482818
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "resources.typo",
+        "5"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: unknown configuration field\n",
+      "seconds": 0.006512132997158915
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "resources.memory",
+        "--help"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: cannot parse integer from empty string\n",
+      "seconds": 0.00598067100145272
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "resources.memory",
+        "--global"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: cannot parse integer from empty string\n",
+      "seconds": 0.005921129002672387
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "set",
+        "resources.memory",
+        "64MiB",
+        "resources.cpus",
+        "1"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.006901261000166414
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "validate"
+      ],
+      "code": 0,
+      "stdout": "Valid environment configuration\n",
+      "stderr": "",
+      "seconds": 0.005768834998889361
+    },
+    {
+      "arguments": [
+        "config",
+        "--global",
+        "set",
+        "default_environment",
+        "work"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.006657676000031643
+    },
+    {
+      "arguments": [
+        "config",
+        "get",
+        "resources.memory"
+      ],
+      "code": 0,
+      "stdout": "64MiB\n",
+      "stderr": "",
+      "seconds": 0.005265665000479203
+    },
+    {
+      "arguments": [
+        "-e",
+        "work",
+        "config",
+        "edit"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: editor failed\n",
+      "seconds": 0.008280770998680964
+    },
+    {
+      "arguments": [
+        "env",
+        "remove",
+        "work",
+        "--yes"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: environment is running or busy: lock acquisition failed because the operation would block\n",
+      "seconds": 0.006471132997830864
+    },
+    {
+      "arguments": [
+        "env",
+        "backup",
+        "work",
+        "/mnt/trames-output/linux-environments/kvm-final-v3/mmio-4-y1wur1g5/busy.tar.gz"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: environment is running or busy: lock acquisition failed because the operation would block\n",
+      "seconds": 0.004962912997143576
+    },
+    {
+      "arguments": [
+        "env",
+        "clone",
+        "work",
+        "busy-clone"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: environment is running or busy: lock acquisition failed because the operation would block\n",
+      "seconds": 0.004619159997673705
+    },
+    {
+      "arguments": [
+        "env",
+        "share",
+        "work",
+        "project",
+        "/mnt/trames-output/linux-environments/kvm-final-v3/mmio-4-y1wur1g5/shared",
+        "/work",
+        "ro"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.008947359998273896
+    },
+    {
+      "arguments": [
+        "env",
+        "clone",
+        "work",
+        "copy"
+      ],
+      "code": 0,
+      "stdout": "Imported copy; shared directories must be selected again\n",
+      "stderr": "",
+      "seconds": 0.0457400979976228
+    },
+    {
+      "arguments": [
+        "-e",
+        "copy",
+        "config",
+        "show",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"boot\": {\n    \"mode\": \"shell\"\n  },\n  \"components\": {\n    \"audio\": false,\n    \"audio_input\": false,\n    \"thunking\": \"auto\",\n    \"vaapi\": false,\n    \"vulkan\": false\n  },\n  \"display\": {\n    \"windows\": false\n  },\n  \"environment\": {\n    \"name\": \"copy\",\n    \"type\": \"linux\",\n    \"uuid\": \"229ad92b-2e8e-46a3-ba61-7b78b6a679a0\"\n  },\n  \"image\": {\n    \"distribution\": \"custom\",\n    \"sha256\": \"16bba38d0c6333b4d0359c8d40868d55658fb90acfdae4d18237e339fd3cee00\",\n    \"source\": null\n  },\n  \"interop\": {\n    \"clipboard\": {\n      \"enabled\": true\n    },\n    \"files\": {\n      \"enabled\": true\n    },\n    \"host_cli\": {\n      \"enabled\": true\n    },\n    \"host_exec\": {\n      \"enabled\": true\n    },\n    \"host_ui\": {\n      \"enabled\": true\n    },\n    \"mounts\": {\n      \"enabled\": true\n    },\n    \"ports\": {\n      \"enabled\": true\n    }\n  },\n  \"kernel\": {\n    \"sysctl\": {}\n  },\n  \"mounts\": [],\n  \"network\": {\n    \"bridge\": null,\n    \"mode\": \"host\",\n    \"publish\": []\n  },\n  \"resources\": {\n    \"cpus\": 1,\n    \"memory\": \"64MiB\",\n    \"memory_limit\": null\n  },\n  \"session\": {\n    \"cwd\": \"/\",\n    \"shell\": [\n      \"/bin/sh\",\n      \"-l\"\n    ]\n  },\n  \"version\": 1\n}\n",
+      "stderr": "",
+      "seconds": 0.006864426999527495
+    },
+    {
+      "arguments": [
+        "env",
+        "path",
+        "copy"
+      ],
+      "code": 0,
+      "stdout": "/mnt/trames-output/linux-environments/kvm-final-v3/mmio-4-y1wur1g5/environments/229ad92b-2e8e-46a3-ba61-7b78b6a679a0\n",
+      "stderr": "",
+      "seconds": 0.004811328999494435
+    },
+    {
+      "arguments": [
+        "env",
+        "backup",
+        "work",
+        "/mnt/trames-output/linux-environments/kvm-final-v3/mmio-4-y1wur1g5/backup.tar.gz"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.059774828998342855
+    },
+    {
+      "arguments": [
+        "env",
+        "backup",
+        "work",
+        "/mnt/trames-output/linux-environments/kvm-final-v3/mmio-4-y1wur1g5/backup.tar.gz"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: backup destination already exists\n",
+      "seconds": 0.013085182999930112
+    },
+    {
+      "arguments": [
+        "env",
+        "restore",
+        "restored",
+        "/mnt/trames-output/linux-environments/kvm-final-v3/mmio-4-y1wur1g5/backup.tar.gz"
+      ],
+      "code": 0,
+      "stdout": "Restored restored; shared directories must be selected again\n",
+      "stderr": "",
+      "seconds": 0.13023403199986205
+    },
+    {
+      "arguments": [
+        "-e",
+        "restored",
+        "config",
+        "show",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"boot\": {\n    \"mode\": \"shell\"\n  },\n  \"components\": {\n    \"audio\": false,\n    \"audio_input\": false,\n    \"thunking\": \"auto\",\n    \"vaapi\": false,\n    \"vulkan\": false\n  },\n  \"display\": {\n    \"windows\": false\n  },\n  \"environment\": {\n    \"name\": \"restored\",\n    \"type\": \"linux\",\n    \"uuid\": \"3e3d517b-d345-4422-9db6-c5f52201b1b5\"\n  },\n  \"image\": {\n    \"distribution\": \"custom\",\n    \"sha256\": \"16bba38d0c6333b4d0359c8d40868d55658fb90acfdae4d18237e339fd3cee00\",\n    \"source\": null\n  },\n  \"interop\": {\n    \"clipboard\": {\n      \"enabled\": true\n    },\n    \"files\": {\n      \"enabled\": true\n    },\n    \"host_cli\": {\n      \"enabled\": true\n    },\n    \"host_exec\": {\n      \"enabled\": true\n    },\n    \"host_ui\": {\n      \"enabled\": true\n    },\n    \"mounts\": {\n      \"enabled\": true\n    },\n    \"ports\": {\n      \"enabled\": true\n    }\n  },\n  \"kernel\": {\n    \"sysctl\": {}\n  },\n  \"mounts\": [],\n  \"network\": {\n    \"bridge\": null,\n    \"mode\": \"host\",\n    \"publish\": []\n  },\n  \"resources\": {\n    \"cpus\": 1,\n    \"memory\": \"64MiB\",\n    \"memory_limit\": null\n  },\n  \"session\": {\n    \"cwd\": \"/\",\n    \"shell\": [\n      \"/bin/sh\",\n      \"-l\"\n    ]\n  },\n  \"version\": 1\n}\n",
+      "stderr": "",
+      "seconds": 0.006961718998354627
+    },
+    {
+      "arguments": [
+        "env",
+        "restore",
+        "bad-crc",
+        "/mnt/trames-output/linux-environments/kvm-final-v3/mmio-4-y1wur1g5/corrupt.tar.gz"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: corrupt gzip stream does not have a matching checksum\n",
+      "seconds": 0.10443462699913653
+    },
+    {
+      "arguments": [
+        "env",
+        "restore",
+        "bad-path",
+        "/mnt/trames-output/linux-environments/kvm-final-v3/mmio-4-y1wur1g5/traversal.tar.gz"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: invalid backup path, type or duplicate entry\n",
+      "seconds": 0.008228062000853242
+    },
+    {
+      "arguments": [
+        "env",
+        "import-store",
+        "imported",
+        "/mnt/trames-output/linux-environments/kvm-final-v3/mmio-4-y1wur1g5/environments/5b0537cb-4032-46ee-ab34-1ea394a7500f/store"
+      ],
+      "code": 0,
+      "stdout": "Imported imported; shared directories must be selected again\n",
+      "stderr": "",
+      "seconds": 0.046980315000837436
+    },
+    {
+      "arguments": [
+        "env",
+        "rename",
+        "5b0537cb-4032-46ee-ab34-1ea394a7500f",
+        "renamed"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.013076641000225209
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "config",
+        "show",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"boot\": {\n    \"mode\": \"shell\"\n  },\n  \"components\": {\n    \"audio\": false,\n    \"audio_input\": false,\n    \"thunking\": \"auto\",\n    \"vaapi\": false,\n    \"vulkan\": false\n  },\n  \"display\": {\n    \"windows\": false\n  },\n  \"environment\": {\n    \"name\": \"renamed\",\n    \"type\": \"linux\",\n    \"uuid\": \"5b0537cb-4032-46ee-ab34-1ea394a7500f\"\n  },\n  \"image\": {\n    \"distribution\": \"custom\",\n    \"sha256\": \"16bba38d0c6333b4d0359c8d40868d55658fb90acfdae4d18237e339fd3cee00\",\n    \"source\": null\n  },\n  \"interop\": {\n    \"clipboard\": {\n      \"enabled\": true\n    },\n    \"files\": {\n      \"enabled\": true\n    },\n    \"host_cli\": {\n      \"enabled\": true\n    },\n    \"host_exec\": {\n      \"enabled\": true\n    },\n    \"host_ui\": {\n      \"enabled\": true\n    },\n    \"mounts\": {\n      \"enabled\": true\n    },\n    \"ports\": {\n      \"enabled\": true\n    }\n  },\n  \"kernel\": {\n    \"sysctl\": {}\n  },\n  \"mounts\": [\n    {\n      \"host\": null,\n      \"readonly\": true,\n      \"share\": \"project\",\n      \"target\": \"/work\"\n    }\n  ],\n  \"network\": {\n    \"bridge\": null,\n    \"mode\": \"host\",\n    \"publish\": []\n  },\n  \"resources\": {\n    \"cpus\": 1,\n    \"memory\": \"64MiB\",\n    \"memory_limit\": null\n  },\n  \"session\": {\n    \"cwd\": \"/\",\n    \"shell\": [\n      \"/bin/sh\",\n      \"-l\"\n    ]\n  },\n  \"version\": 1\n}\n",
+      "stderr": "",
+      "seconds": 0.007107970999641111
+    },
+    {
+      "arguments": [
+        "config",
+        "--global",
+        "get",
+        "default_environment"
+      ],
+      "code": 0,
+      "stdout": "renamed\n",
+      "stderr": "",
+      "seconds": 0.00525416500022402
+    },
+    {
+      "arguments": [
+        "env",
+        "remove",
+        "copy"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: usage: env remove NAME --yes\n",
+      "seconds": 0.0034840679982153233
+    },
+    {
+      "arguments": [
+        "env",
+        "remove",
+        "copy",
+        "--yes"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.01781438600301044
+    },
+    {
+      "arguments": [
+        "env",
+        "path",
+        "restored"
+      ],
+      "code": 0,
+      "stdout": "/mnt/trames-output/linux-environments/kvm-final-v3/mmio-4-y1wur1g5/environments/3e3d517b-d345-4422-9db6-c5f52201b1b5\n",
+      "stderr": "",
+      "seconds": 0.00506437199874199
+    },
+    {
+      "arguments": [
+        "env",
+        "ls",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "[\n  {\n    \"config\": {\n      \"boot\": {\n        \"mode\": \"shell\"\n      },\n      \"components\": {\n        \"audio\": false,\n        \"audio_input\": false,\n        \"thunking\": \"auto\",\n        \"vaapi\": false,\n        \"vulkan\": false\n      },\n      \"display\": {\n        \"windows\": false\n      },\n      \"environment\": {\n        \"name\": \"imported\",\n        \"type\": \"linux\",\n        \"uuid\": \"43a414a3-7987-4d22-a3b7-029cb02f5a17\"\n      },\n      \"image\": {\n        \"distribution\": \"custom\",\n        \"sha256\": \"16bba38d0c6333b4d0359c8d40868d55658fb90acfdae4d18237e339fd3cee00\",\n        \"source\": null\n      },\n      \"interop\": {\n        \"clipboard\": {\n          \"enabled\": true\n        },\n        \"files\": {\n          \"enabled\": true\n        },\n        \"host_cli\": {\n          \"enabled\": true\n        },\n        \"host_exec\": {\n          \"enabled\": true\n        },\n        \"host_ui\": {\n          \"enabled\": true\n        },\n        \"mounts\": {\n          \"enabled\": true\n        },\n        \"ports\": {\n          \"enabled\": true\n        }\n      },\n      \"kernel\": {\n        \"sysctl\": {}\n      },\n      \"mounts\": [],\n      \"network\": {\n        \"bridge\": null,\n        \"mode\": \"host\",\n        \"publish\": []\n      },\n      \"resources\": {\n        \"cpus\": 1,\n        \"memory\": \"64MiB\",\n        \"memory_limit\": null\n      },\n      \"session\": {\n        \"cwd\": \"/\",\n        \"shell\": [\n          \"/bin/sh\",\n          \"-l\"\n        ]\n      },\n      \"version\": 1\n    },\n    \"directory\": \"/mnt/trames-output/linux-environments/kvm-final-v3/mmio-4-y1wur1g5/environments/43a414a3-7987-4d22-a3b7-029cb02f5a17\",\n    \"distribution\": \"custom\",\n    \"error\": null,\n    \"last_exit\": null,\n    \"name\": \"imported\",\n    \"running\": false,\n    \"state\": \"stopped\",\n    \"uuid\": \"43a414a3-7987-4d22-a3b7-029cb02f5a17\"\n  },\n  {\n    \"config\": {\n      \"boot\": {\n        \"mode\": \"shell\"\n      },\n      \"components\": {\n        \"audio\": false,\n        \"audio_input\": false,\n        \"thunking\": \"auto\",\n        \"vaapi\": false,\n        \"vulkan\": false\n      },\n      \"display\": {\n        \"windows\": false\n      },\n      \"environment\": {\n        \"name\": \"renamed\",\n        \"type\": \"linux\",\n        \"uuid\": \"5b0537cb-4032-46ee-ab34-1ea394a7500f\"\n      },\n      \"image\": {\n        \"distribution\": \"custom\",\n        \"sha256\": \"16bba38d0c6333b4d0359c8d40868d55658fb90acfdae4d18237e339fd3cee00\",\n        \"source\": null\n      },\n      \"interop\": {\n        \"clipboard\": {\n          \"enabled\": true\n        },\n        \"files\": {\n          \"enabled\": true\n        },\n        \"host_cli\": {\n          \"enabled\": true\n        },\n        \"host_exec\": {\n          \"enabled\": true\n        },\n        \"host_ui\": {\n          \"enabled\": true\n        },\n        \"mounts\": {\n          \"enabled\": true\n        },\n        \"ports\": {\n          \"enabled\": true\n        }\n      },\n      \"kernel\": {\n        \"sysctl\": {}\n      },\n      \"mounts\": [\n        {\n          \"host\": null,\n          \"readonly\": true,\n          \"share\": \"project\",\n          \"target\": \"/work\"\n        }\n      ],\n      \"network\": {\n        \"bridge\": null,\n        \"mode\": \"host\",\n        \"publish\": []\n      },\n      \"resources\": {\n        \"cpus\": 1,\n        \"memory\": \"64MiB\",\n        \"memory_limit\": null\n      },\n      \"session\": {\n        \"cwd\": \"/\",\n        \"shell\": [\n          \"/bin/sh\",\n          \"-l\"\n        ]\n      },\n      \"version\": 1\n    },\n    \"directory\": \"/mnt/trames-output/linux-environments/kvm-final-v3/mmio-4-y1wur1g5/environments/5b0537cb-4032-46ee-ab34-1ea394a7500f\",\n    \"distribution\": \"custom\",\n    \"error\": null,\n    \"last_exit\": null,\n    \"name\": \"renamed\",\n    \"running\": false,\n    \"state\": \"stopped\",\n    \"uuid\": \"5b0537cb-4032-46ee-ab34-1ea394a7500f\"\n  },\n  {\n    \"config\": null,\n    \"directory\": \"/mnt/trames-output/linux-environments/kvm-final-v3/mmio-4-y1wur1g5/environments/3e3d517b-d345-4422-9db6-c5f52201b1b5\",\n    \"distribution\": \"custom\",\n    \"error\": \"unsupported environment TOML version\",\n    \"last_exit\": null,\n    \"name\": \"restored\",\n    \"running\": false,\n    \"state\": \"needs attention\",\n    \"uuid\": \"3e3d517b-d345-4422-9db6-c5f52201b1b5\"\n  }\n]\n",
+      "stderr": "",
+      "seconds": 0.015118698000151198
+    },
+    {
+      "arguments": [
+        "-e",
+        "restored",
+        "config",
+        "validate"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: unsupported environment TOML version\n",
+      "seconds": 0.005869668999366695
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "config",
+        "set",
+        "resources.cpus",
+        "4",
+        "resources.memory",
+        "auto"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.008544815002096584
+    },
+    {
+      "arguments": [
+        "env",
+        "start",
+        "renamed"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.03248528900076053
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/cat"
+      ],
+      "code": 0,
+      "stdout": "a\u0000b\ufffd\n",
+      "stderr": "",
+      "seconds": 0.05703168400214054
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--setenv",
+        "KEY=literal $() ; value",
+        "--cwd",
+        "/tmp",
+        "--",
+        "/bin/sh",
+        "-c",
+        "printf \"%s|%s\" \"$KEY\" \"$PWD\"; printf err >&2; exit 7"
+      ],
+      "code": 7,
+      "stdout": "literal $() ; value|/tmp",
+      "stderr": "err",
+      "seconds": 0.050605759999598376
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "/bin/echo",
+        "--rootfs"
+      ],
+      "code": 0,
+      "stdout": "--rootfs\n",
+      "stderr": "",
+      "seconds": 0.044444546998420265
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/sh",
+        "-c",
+        "echo durable > /root/value; sync"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.08642873999997391
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/sh",
+        "-c",
+        "sleep .05; printf job1"
+      ],
+      "code": 0,
+      "stdout": "job1",
+      "stderr": "",
+      "seconds": 0.19547906900334056
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/sh",
+        "-c",
+        "sleep .05; printf job2"
+      ],
+      "code": 0,
+      "stdout": "job2",
+      "stderr": "",
+      "seconds": 0.19770137800151133
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/sh",
+        "-c",
+        "sleep .05; printf job0"
+      ],
+      "code": 0,
+      "stdout": "job0",
+      "stderr": "",
+      "seconds": 0.19870201099911355
+    },
+    {
+      "arguments": [
+        "env",
+        "start",
+        "imported"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.03041143899827148
+    },
+    {
+      "arguments": [
+        "-e",
+        "imported",
+        "exec",
+        "--",
+        "/bin/ls",
+        "/root"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.08901063499797601
+    },
+    {
+      "arguments": [
+        "env",
+        "remove",
+        "renamed",
+        "--yes"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: environment is running or busy: lock acquisition failed because the operation would block\n",
+      "seconds": 0.007022136000159662
+    },
+    {
+      "arguments": [
+        "env",
+        "backup",
+        "renamed",
+        "/mnt/trames-output/linux-environments/kvm-final-v3/mmio-4-y1wur1g5/live.tar.gz"
+      ],
+      "code": 2,
+      "stdout": "",
+      "stderr": "trames: environment is running or busy: lock acquisition failed because the operation would block\n",
+      "seconds": 0.005357748999813339
+    },
+    {
+      "arguments": [
+        "env",
+        "stop",
+        "renamed"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.03197340999759035
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/cat",
+        "/root/value"
+      ],
+      "code": 0,
+      "stdout": "durable\n",
+      "stderr": "",
+      "seconds": 0.08055269499891438
+    },
+    {
+      "arguments": [
+        "env",
+        "path",
+        "renamed"
+      ],
+      "code": 0,
+      "stdout": "/mnt/trames-output/linux-environments/kvm-final-v3/mmio-4-y1wur1g5/environments/5b0537cb-4032-46ee-ab34-1ea394a7500f\n",
+      "stderr": "",
+      "seconds": 0.006438465999963228
+    },
+    {
+      "arguments": [
+        "env",
+        "inspect",
+        "renamed",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"config\": {\n    \"boot\": {\n      \"mode\": \"shell\"\n    },\n    \"components\": {\n      \"audio\": false,\n      \"audio_input\": false,\n      \"thunking\": \"auto\",\n      \"vaapi\": false,\n      \"vulkan\": false\n    },\n    \"display\": {\n      \"windows\": false\n    },\n    \"environment\": {\n      \"name\": \"renamed\",\n      \"type\": \"linux\",\n      \"uuid\": \"5b0537cb-4032-46ee-ab34-1ea394a7500f\"\n    },\n    \"image\": {\n      \"distribution\": \"custom\",\n      \"sha256\": \"16bba38d0c6333b4d0359c8d40868d55658fb90acfdae4d18237e339fd3cee00\",\n      \"source\": null\n    },\n    \"interop\": {\n      \"clipboard\": {\n        \"enabled\": true\n      },\n      \"files\": {\n        \"enabled\": true\n      },\n      \"host_cli\": {\n        \"enabled\": true\n      },\n      \"host_exec\": {\n        \"enabled\": true\n      },\n      \"host_ui\": {\n        \"enabled\": true\n      },\n      \"mounts\": {\n        \"enabled\": true\n      },\n      \"ports\": {\n        \"enabled\": true\n      }\n    },\n    \"kernel\": {\n      \"sysctl\": {}\n    },\n    \"mounts\": [\n      {\n        \"host\": null,\n        \"readonly\": true,\n        \"share\": \"project\",\n        \"target\": \"/work\"\n      }\n    ],\n    \"network\": {\n      \"bridge\": null,\n      \"mode\": \"host\",\n      \"publish\": []\n    },\n    \"resources\": {\n      \"cpus\": 4,\n      \"memory\": \"auto\",\n      \"memory_limit\": null\n    },\n    \"session\": {\n      \"cwd\": \"/\",\n      \"shell\": [\n        \"/bin/sh\",\n        \"-l\"\n      ]\n    },\n    \"version\": 1\n  },\n  \"directory\": \"/mnt/trames-output/linux-environments/kvm-final-v3/mmio-4-y1wur1g5/environments/5b0537cb-4032-46ee-ab34-1ea394a7500f\",\n  \"distribution\": \"custom\",\n  \"error\": null,\n  \"last_exit\": null,\n  \"name\": \"renamed\",\n  \"running\": true,\n  \"state\": \"running\",\n  \"uuid\": \"5b0537cb-4032-46ee-ab34-1ea394a7500f\"\n}\n",
+      "stderr": "",
+      "seconds": 0.010090284999023424
+    },
+    {
+      "arguments": [
+        "env",
+        "inspect",
+        "renamed",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"config\": {\n    \"boot\": {\n      \"mode\": \"shell\"\n    },\n    \"components\": {\n      \"audio\": false,\n      \"audio_input\": false,\n      \"thunking\": \"auto\",\n      \"vaapi\": false,\n      \"vulkan\": false\n    },\n    \"display\": {\n      \"windows\": false\n    },\n    \"environment\": {\n      \"name\": \"renamed\",\n      \"type\": \"linux\",\n      \"uuid\": \"5b0537cb-4032-46ee-ab34-1ea394a7500f\"\n    },\n    \"image\": {\n      \"distribution\": \"custom\",\n      \"sha256\": \"16bba38d0c6333b4d0359c8d40868d55658fb90acfdae4d18237e339fd3cee00\",\n      \"source\": null\n    },\n    \"interop\": {\n      \"clipboard\": {\n        \"enabled\": true\n      },\n      \"files\": {\n        \"enabled\": true\n      },\n      \"host_cli\": {\n        \"enabled\": true\n      },\n      \"host_exec\": {\n        \"enabled\": true\n      },\n      \"host_ui\": {\n        \"enabled\": true\n      },\n      \"mounts\": {\n        \"enabled\": true\n      },\n      \"ports\": {\n        \"enabled\": true\n      }\n    },\n    \"kernel\": {\n      \"sysctl\": {}\n    },\n    \"mounts\": [\n      {\n        \"host\": null,\n        \"readonly\": true,\n        \"share\": \"project\",\n        \"target\": \"/work\"\n      }\n    ],\n    \"network\": {\n      \"bridge\": null,\n      \"mode\": \"host\",\n      \"publish\": []\n    },\n    \"resources\": {\n      \"cpus\": 4,\n      \"memory\": \"auto\",\n      \"memory_limit\": null\n    },\n    \"session\": {\n      \"cwd\": \"/\",\n      \"shell\": [\n        \"/bin/sh\",\n        \"-l\"\n      ]\n    },\n    \"version\": 1\n  },\n  \"directory\": \"/mnt/trames-output/linux-environments/kvm-final-v3/mmio-4-y1wur1g5/environments/5b0537cb-4032-46ee-ab34-1ea394a7500f\",\n  \"distribution\": \"custom\",\n  \"error\": null,\n  \"last_exit\": null,\n  \"name\": \"renamed\",\n  \"running\": false,\n  \"state\": \"stopped\",\n  \"uuid\": \"5b0537cb-4032-46ee-ab34-1ea394a7500f\"\n}\n",
+      "stderr": "",
+      "seconds": 0.00847143999999389
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "exec",
+        "--",
+        "/bin/cat",
+        "/root/value"
+      ],
+      "code": 0,
+      "stdout": "durable\n",
+      "stderr": "",
+      "seconds": 0.07955489699816098
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "session",
+        "ls",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "[\n  {\n    \"attached\": false,\n    \"id\": 1,\n    \"state\": \"running\"\n  }\n]\n",
+      "stderr": "",
+      "seconds": 0.009422571998584317
+    },
+    {
+      "arguments": [
+        "-e",
+        "renamed",
+        "session",
+        "ls",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "[\n  {\n    \"attached\": false,\n    \"id\": 1,\n    \"state\": \"running\"\n  }\n]\n",
+      "stderr": "",
+      "seconds": 0.00899235999895609
+    },
+    {
+      "arguments": [
+        "env",
+        "restart",
+        "renamed"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.05450199800179689
+    },
+    {
+      "arguments": [
+        "env",
+        "stop",
+        "imported"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.018656976000784198
+    },
+    {
+      "arguments": [
+        "env",
+        "stop",
+        "renamed"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.01621529000112787
+    },
+    {
+      "arguments": [
+        "env",
+        "create",
+        "services",
+        "--rootfs",
+        "/home/main.guest/trames-services-bundle/rootfs",
+        "--init",
+        "systemd",
+        "--cpus",
+        "4",
+        "--memory",
+        "auto"
+      ],
+      "code": 0,
+      "stdout": "Created services (custom)\n",
+      "stderr": "",
+      "seconds": 11.385992724997777
+    },
+    {
+      "arguments": [
+        "env",
+        "start",
+        "services"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.19197158399765613
+    },
+    {
+      "arguments": [
+        "-e",
+        "services",
+        "exec",
+        "--",
+        "/bin/sh",
+        "-ec",
+        "for n in $(seq 1 100); do test -S /run/systemd/private && break; sleep .1; done\ncat > /run/systemd/system/trames-environment.service <<'UNIT'\n[Service]\nType=oneshot\nRemainAfterExit=yes\nExecStart=/bin/sh -c 'echo started > /root/service-started'\nExecStop=/bin/sh -c 'echo graceful > /root/service-stopped'\nUNIT\nsystemctl daemon-reload\nsystemctl start trames-environment.service\nsystemctl is-active trames-environment.service\n"
+      ],
+      "code": 0,
+      "stdout": "active\n",
+      "stderr": "",
+      "seconds": 18.87826099400263
+    },
+    {
+      "arguments": [
+        "env",
+        "stop",
+        "services"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 3.576177833001566
+    },
+    {
+      "arguments": [
+        "env",
+        "inspect",
+        "services",
+        "--json"
+      ],
+      "code": 0,
+      "stdout": "{\n  \"config\": {\n    \"boot\": {\n      \"mode\": \"systemd\"\n    },\n    \"components\": {\n      \"audio\": false,\n      \"audio_input\": false,\n      \"thunking\": \"auto\",\n      \"vaapi\": false,\n      \"vulkan\": false\n    },\n    \"display\": {\n      \"windows\": false\n    },\n    \"environment\": {\n      \"name\": \"services\",\n      \"type\": \"linux\",\n      \"uuid\": \"49d1787e-ec46-4703-8ebe-308725ff6696\"\n    },\n    \"image\": {\n      \"distribution\": \"custom\",\n      \"sha256\": \"0d11a54eca6729fed77d8c75546d574fa31681c96b818611d3302f5e9ed83fb2\",\n      \"source\": null\n    },\n    \"interop\": {\n      \"clipboard\": {\n        \"enabled\": true\n      },\n      \"files\": {\n        \"enabled\": true\n      },\n      \"host_cli\": {\n        \"enabled\": true\n      },\n      \"host_exec\": {\n        \"enabled\": true\n      },\n      \"host_ui\": {\n        \"enabled\": true\n      },\n      \"mounts\": {\n        \"enabled\": true\n      },\n      \"ports\": {\n        \"enabled\": true\n      }\n    },\n    \"kernel\": {\n      \"sysctl\": {}\n    },\n    \"mounts\": [],\n    \"network\": {\n      \"bridge\": null,\n      \"mode\": \"host\",\n      \"publish\": []\n    },\n    \"resources\": {\n      \"cpus\": 4,\n      \"memory\": \"auto\",\n      \"memory_limit\": null\n    },\n    \"session\": {\n      \"cwd\": \"/\",\n      \"shell\": [\n        \"/bin/sh\",\n        \"-l\"\n      ]\n    },\n    \"version\": 1\n  },\n  \"directory\": \"/mnt/trames-output/linux-environments/kvm-final-v3/mmio-4-y1wur1g5/environments/49d1787e-ec46-4703-8ebe-308725ff6696\",\n  \"distribution\": \"custom\",\n  \"error\": null,\n  \"last_exit\": {\n    \"code\": 0,\n    \"error\": null\n  },\n  \"name\": \"services\",\n  \"running\": false,\n  \"state\": \"stopped\",\n  \"uuid\": \"49d1787e-ec46-4703-8ebe-308725ff6696\"\n}\n",
+      "stderr": "",
+      "seconds": 0.007700808000663528
+    },
+    {
+      "arguments": [
+        "-e",
+        "services",
+        "config",
+        "set",
+        "boot.mode",
+        "shell"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.006826259999797912
+    },
+    {
+      "arguments": [
+        "-e",
+        "services",
+        "exec",
+        "--",
+        "/bin/cat",
+        "/root/service-stopped"
+      ],
+      "code": 0,
+      "stdout": "graceful\n",
+      "stderr": "",
+      "seconds": 0.22847669400289305
+    },
+    {
+      "arguments": [
+        "env",
+        "stop",
+        "services"
+      ],
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 1.041140199999063
+    }
+  ]
+}

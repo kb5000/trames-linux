@@ -15,6 +15,7 @@
     "trames-engine",
     "trames-execution",
     "trames-graphics",
+    "trames-host",
     "trames-kernel",
     "trames-kvm",
     "trames-linux",
