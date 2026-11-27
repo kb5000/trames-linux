@@ -102,3 +102,5 @@ These references used identical product/Runtime sources. No graphics code,
 assertion or timeout was changed; passed cohorts and platforms were reused.
 A successful retry does not establish the intermittent reference failures'
 root cause or claim them fixed. Temporary refs are deleted after integration.
+
+The paired [final Mac CI](https://github.com/project-trames/trames-mac/actions/runs/45957042856) also passed all-feature checks/tests, native integrations, and Dev/Stable builds. Its compiler-only HVF recursion setting matches the shared memory crates. Both owning platform paths are now closed.
