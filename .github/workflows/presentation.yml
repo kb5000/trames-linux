@@ -1,8 +1,8 @@
 name: Native Linux presentation references
-# Scoped ARM64 WSI retry for the 2026-11-27 cold Xvfb startup.
+# Scoped ARM64 retries reuse passed platforms and presentation cohorts.
 on:
   push:
-    branches: [main, ci/presentation-arm-wsi]
+    branches: [main, ci/presentation-arm-wsi, ci/presentation-arm-windows]
     paths: ['runtime', 'Cargo.lock', 'crates/trames-linux-app/**', 'scripts/validate-wsi.py', 'scripts/validate-desktop.py', 'scripts/validate-keyboard.py', 'tests/fixtures/keyboard-*.c', 'scripts/validate-hidpi.py', 'tests/fixtures/hidpi-*.c', 'tests/fixtures/wlr-virtual-pointer-unstable-v1.xml', 'scripts/validate-windows.py', 'scripts/validate-window-parent.py', 'tests/fixtures/window-*.c', 'scripts/validate-xwayland-ime.py', 'tests/fixtures/xim-control.c', 'scripts/validate-desktop-interop.py', 'tests/fixtures/interop-*.c', 'tests/fixtures/desktop-*.c', 'tools/xwayland-launcher.c', 'tests/fixtures/*wsi*', 'tests/fixtures/x11-probe.c', 'tests/fixtures/wayland-target.c', '.github/workflows/presentation.yml']
   pull_request:
   workflow_dispatch:
@@ -14,9 +14,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # A short-lived ref retries only failed ARM64 WSI setup, reusing the
-        # unchanged product/Runtime and already-passed platform results.
-        os: ${{ fromJSON(github.ref == 'refs/heads/ci/presentation-arm-wsi' && '["ubuntu-24.04-arm"]' || '["ubuntu-24.04","ubuntu-24.04-arm"]') }}
+        # Short-lived refs select the failed ARM64 cohort plus unfinished
+        # subsequent checks, retaining the exact product and Runtime sources.
+        os: ${{ fromJSON(startsWith(github.ref, 'refs/heads/ci/presentation-arm-') && '["ubuntu-24.04-arm"]' || '["ubuntu-24.04","ubuntu-24.04-arm"]') }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 25
     steps:
@@ -38,6 +38,7 @@ jobs:
           mkdir -p target
           cargo test -p trames-linux-app --release --locked --no-run --message-format=json > target/wsi-unit.jsonl
       - name: Exercise actual X11 pixels and Wayland target lifetimes
+        if: github.ref != 'refs/heads/ci/presentation-arm-windows'
         shell: bash
         run: |
           unit=$(python3 -c 'import json; a=[json.loads(x) for x in open("target/wsi-unit.jsonl")]; a=[x["executable"] for x in a if x.get("reason")=="compiler-artifact" and x.get("profile",{}).get("test") and x.get("target",{}).get("kind")==["bin"] and x.get("executable")]; assert len(a)==1,a; print(a[0])')
@@ -45,13 +46,13 @@ jobs:
           test -n "$VK_DRIVER_FILES"
           python3 scripts/validate-wsi.py --native-only --unit-binary "$unit" --output target/validation/presentation-native
       - name: Exercise native SHM desktop pixels and keyboard/pointer input
-        if: github.ref != 'refs/heads/ci/presentation-arm-wsi'
+        if: github.ref != 'refs/heads/ci/presentation-arm-wsi' && github.ref != 'refs/heads/ci/presentation-arm-windows'
         shell: bash
         run: |
           unit=$(python3 -c 'import json; a=[json.loads(x) for x in open("target/wsi-unit.jsonl")]; a=[x["executable"] for x in a if x.get("reason")=="compiler-artifact" and x.get("profile",{}).get("test") and x.get("target",{}).get("kind")==["bin"] and x.get("executable")]; assert len(a)==1,a; print(a[0])')
           python3 scripts/validate-desktop.py --native-only --unit-binary "$unit" --output target/validation/desktop-native
       - name: Exercise native clipboard, IME, Wayland and Vulkan desktop
-        if: github.ref != 'refs/heads/ci/presentation-arm-wsi'
+        if: github.ref != 'refs/heads/ci/presentation-arm-wsi' && github.ref != 'refs/heads/ci/presentation-arm-windows'
         shell: bash
         run: |
           unit=$(python3 -c 'import json; a=[json.loads(x) for x in open("target/wsi-unit.jsonl")]; a=[x["executable"] for x in a if x.get("reason")=="compiler-artifact" and x.get("profile",{}).get("test") and x.get("target",{}).get("kind")==["bin"] and x.get("executable")]; assert len(a)==1,a; print(a[0])')
@@ -59,7 +60,7 @@ jobs:
           test -n "$VK_DRIVER_FILES"
           python3 scripts/validate-desktop-interop.py --native-only --unit-binary "$unit" --output target/validation/desktop-interop-native
       - name: Exercise actual host XKB layouts, groups, locks and repeat
-        if: github.ref != 'refs/heads/ci/presentation-arm-wsi'
+        if: github.ref != 'refs/heads/ci/presentation-arm-wsi' && github.ref != 'refs/heads/ci/presentation-arm-windows'
         shell: bash
         run: |
           unit=$(python3 -c 'import json; a=[json.loads(x) for x in open("target/wsi-unit.jsonl")]; a=[x["executable"] for x in a if x.get("reason")=="compiler-artifact" and x.get("profile",{}).get("test") and x.get("target",{}).get("kind")==["bin"] and x.get("executable")]; assert len(a)==1,a; print(a[0])')
@@ -69,7 +70,9 @@ jobs:
         shell: bash
         run: |
           unit=$(python3 -c 'import json; a=[json.loads(x) for x in open("target/wsi-unit.jsonl")]; a=[x["executable"] for x in a if x.get("reason")=="compiler-artifact" and x.get("profile",{}).get("test") and x.get("target",{}).get("kind")==["bin"] and x.get("executable")]; assert len(a)==1,a; print(a[0])')
-          python3 scripts/validate-windows.py --native-only --unit-binary "$unit" --output target/validation/windows-native
+          cases=()
+          if [[ "$GITHUB_REF" == refs/heads/ci/presentation-arm-windows ]]; then cases=(--case native-wayland); fi
+          python3 scripts/validate-windows.py --native-only --unit-binary "$unit" --output target/validation/windows-native "${cases[@]}"
       - name: Exercise standard cyclic-parent protocol errors
         if: github.ref != 'refs/heads/ci/presentation-arm-wsi'
         shell: bash
