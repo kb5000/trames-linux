@@ -28,6 +28,7 @@ mod interop_tests;
 mod keyboard_x11;
 mod managed_io;
 mod store;
+mod user_service;
 #[cfg(target_os = "linux")]
 mod window_x11;
 

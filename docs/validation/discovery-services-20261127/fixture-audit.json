@@ -1,0 +1,21 @@
+{
+  "source": "scripts/prepare-services.py: public pinned Debian image and distribution packages",
+  "home_entries": [],
+  "root_ssh_files": [],
+  "private_host_keys": [],
+  "unlockable_accounts": [],
+  "secret_named_files": [],
+  "excluded": [
+    "root/*",
+    "home/*",
+    "etc/shadow*",
+    "etc/gshadow*",
+    "etc/ssh",
+    "etc/machine-id",
+    "var/lib/dbus/machine-id",
+    "var/log/*",
+    "var/cache/*",
+    "acceptance"
+  ],
+  "original_image_modified": false
+}

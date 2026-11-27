@@ -1,0 +1,7 @@
+{
+  "passed": true,
+  "complete": true,
+  "runner_sha256": "c732aec5969523d96d11ad8b2926c148f9779650213e24339f4977516be0158c",
+  "operations": 628,
+  "original_systemd": true
+}

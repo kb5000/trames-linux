@@ -16,6 +16,8 @@ pub struct Service {
     identity: (u64, u64),
     ready: Option<UnixStream>,
     ready_sent: bool,
+    notifier: Option<crate::user_service::Notifier>,
+    pub ready_error: Option<io::Error>,
     peers: Vec<UnixStream>,
     pub stopping: bool,
 }
@@ -29,7 +31,11 @@ pub fn startup_error(ready: &mut Option<UnixStream>, error: &str) {
     }
 }
 impl Service {
-    pub fn open(path: &Path, ready: Option<UnixStream>) -> io::Result<Self> {
+    pub fn open(
+        path: &Path,
+        ready: Option<UnixStream>,
+        notifier: Option<crate::user_service::Notifier>,
+    ) -> io::Result<Self> {
         match fs::symlink_metadata(path) {
             Ok(m) if m.file_type().is_socket() => fs::remove_file(path)?,
             Ok(_) => return Err(io::Error::other("control path is not a socket")),
@@ -47,6 +53,8 @@ impl Service {
             identity: (m.dev(), m.ino()),
             ready,
             ready_sent: false,
+            notifier,
+            ready_error: None,
             peers: vec![],
             stopping: false,
         })
@@ -59,6 +67,12 @@ impl Service {
             return;
         }
         self.ready_sent = true;
+        if let Some(notifier) = self.notifier.take() {
+            if let Err(error) = notifier.ready() {
+                self.ready_error = Some(error);
+                self.stopping = true;
+            }
+        }
         if let Some(mut ready) = self.ready.take() {
             if ready.write_all(b"R").is_err() {
                 self.stopping = true;
@@ -146,7 +160,7 @@ mod tests {
         reader
             .set_read_timeout(Some(Duration::from_secs(2)))
             .unwrap();
-        let mut service = Service::open(&path, Some(writer)).unwrap();
+        let mut service = Service::open(&path, Some(writer), None).unwrap();
         let mut wait = trames_linux_abi::HostWait::new().unwrap();
         service.bind_wake(wait.wake());
         service.ready();
@@ -183,7 +197,7 @@ mod tests {
         reader
             .set_read_timeout(Some(Duration::from_secs(2)))
             .unwrap();
-        let mut service = Service::open(&path, Some(writer)).unwrap();
+        let mut service = Service::open(&path, Some(writer), None).unwrap();
         fs::remove_file(&path).unwrap();
         fs::write(&path, b"replacement").unwrap();
         service.retire();

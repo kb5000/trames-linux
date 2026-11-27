@@ -1,0 +1,36 @@
+{
+  "fingerprint": {
+    "binary_sha256": "c732aec5969523d96d11ad8b2926c148f9779650213e24339f4977516be0158c",
+    "command": [
+      "ssh",
+      "-F",
+      "/Users/main/dev/trames/target/local-ci/lima/linux/ssh.config",
+      "-o",
+      "ControlMaster=no",
+      "-o",
+      "ControlPath=none",
+      "lima-linux",
+      "cd /mnt/trames-output/linux-keyboard-source && export PATH=/home/main.guest/.cargo/bin:$PATH CARGO_TARGET_DIR=/mnt/trames-output/linux-desktop-target TMPDIR=/mnt/trames-output/linux-desktop-tmp && cargo build --workspace --release --locked > /mnt/trames-output/linux-discovery-services/build-final.log 2>&1"
+    ],
+    "flags": {},
+    "sources": {
+      "product": "d99468bbe930717164f3aab2b9da4a979f293d8d1e35a0e60981e320904f7a87",
+      "runtime": "8addfd0777da33e1b6ffef2d3c2442c3e5ab3aa14d5d41965af4e232e1cdead4"
+    },
+    "toolchain": "rustc 1.101.0-nightly (4ebd25825 2026-10-15)\nbinary: rustc\ncommit-hash: 4ebd258257737d5b7635c116fa7d281627a7e937\ncommit-date: 2026-10-15\nhost: aarch64-unknown-linux-gnu\nrelease: 1.101.0-nightly\nLLVM version: 23.1.4\n"
+  },
+  "fingerprint_sha256": "b35a52d90c3ef1aa6298b06e0ebe58a15b363fa369348396a7057c7ba74d2994",
+  "schema_version": 1,
+  "sources": {
+    "product": {
+      "commit": "86297c655c75c3988f64f00c4656ffccff8d10e3",
+      "dirty": true,
+      "inputs_sha256": "d99468bbe930717164f3aab2b9da4a979f293d8d1e35a0e60981e320904f7a87"
+    },
+    "runtime": {
+      "commit": "8bd058556ffb35be8e127afbaf7c1c26dae998d9",
+      "dirty": false,
+      "inputs_sha256": "8addfd0777da33e1b6ffef2d3c2442c3e5ab3aa14d5d41965af4e232e1cdead4"
+    }
+  }
+}

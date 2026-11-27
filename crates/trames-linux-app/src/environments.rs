@@ -15,7 +15,7 @@ use trames_distro::{
     environment::{self as model, Manifest, Result},
     registry::{self, Registry},
 };
-const HELP:&str="Usage: trames [-e NAME_OR_UUID] COMMAND\n  env create NAME [--distro alpine|debian] [--rootfs PATH|--archive FILE] [--config TOML]\n  env ls [--json|-q] | inspect NAME [--json] | path NAME\n  env start|stop|restart [NAME] | logs NAME | rename NAME NEW | remove NAME --yes\n  env clone NAME NEW | backup NAME FILE | restore NEW FILE | import-store NEW DIRECTORY\n  env share NAME ALIAS HOST GUEST [ro|rw]\n  env publish NAME HOST:PORT GUEST_PORT [tcp|udp] | unpublish NAME HOST:PORT [tcp|udp]\n  env grant NAME CAPABILITY on|off\n  network ls [--json] | create NAME [--internal] | inspect NAME | remove NAME\n  config show [--json] | path | validate | get KEY | set KEY VALUE [KEY VALUE...] | edit\n  config --global ...\n  shell | exec [-t] [--setenv K=V] [--cwd DIR] -- COMMAND [ARG...]\n  session ls [--json|-q] | attach ID\nExisting environments start on demand; shell/exec never download or create images.\n";
+const HELP:&str="Usage: trames [-e NAME_OR_UUID] COMMAND\n  env create NAME [--distro alpine|debian] [--rootfs PATH|--archive FILE] [--config TOML]\n  env ls [--json|-q] | inspect NAME [--json] | path NAME\n  env enable|disable NAME [--now]   Login autostart through a systemd user service\n  env start|stop|restart [NAME] | logs NAME | rename NAME NEW | remove NAME --yes\n  env clone NAME NEW | backup NAME FILE | restore NEW FILE | import-store NEW DIRECTORY\n  env share NAME ALIAS HOST GUEST [ro|rw]\n  env publish NAME HOST:PORT GUEST_PORT [tcp|udp] | unpublish NAME HOST:PORT [tcp|udp]\n  env grant NAME CAPABILITY on|off\n  network ls [--json] | create NAME [--internal] | inspect NAME | remove NAME\n  config show [--json] | path | validate | get KEY | set KEY VALUE [KEY VALUE...] | edit\n  config --global ...\n  shell | exec [-t] [--setenv K=V] [--cwd DIR] -- COMMAND [ARG...]\n  session ls [--json|-q] | attach ID\nExisting environments start on demand; shell/exec never download or create images.\n";
 pub fn root() -> Result<Registry> {
     let p = if let Some(p) = std::env::var_os("TRAMES_HOME") {
         PathBuf::from(p)
@@ -82,7 +82,7 @@ fn state(r: &Registry, n: &str) -> Result<serde_json::Value> {
     let running =
         busy && UnixStream::connect(trames_cli_common::exec::path(&console_path(&dir)?)).is_ok();
     Ok(
-        serde_json::json!({"name":i.name,"uuid":i.uuid,"distribution":i.distribution,"state":if config.is_err(){"needs attention"}else if running{"running"}else if busy{"busy"}else{"stopped"},"directory":dir,"running":running,"error":config.as_ref().err().map(ToString::to_string),"config":config.ok(),"last_exit":fs::read(dir.join("exit.json")).ok().and_then(|b|serde_json::from_slice::<serde_json::Value>(&b).ok())}),
+        serde_json::json!({"name":i.name,"uuid":i.uuid,"distribution":i.distribution,"state":if config.is_err(){"needs attention"}else if running{"running"}else if busy{"busy"}else{"stopped"},"directory":dir,"running":running,"error":config.as_ref().err().map(ToString::to_string),"config":config.ok(),"service":crate::user_service::inspect(r,n).ok(),"last_exit":fs::read(dir.join("exit.json")).ok().and_then(|b|serde_json::from_slice::<serde_json::Value>(&b).ok())}),
     )
 }
 pub fn dispatch(selected: Option<&str>, op: &str, args: Vec<String>) -> Result<Option<u8>> {
@@ -216,6 +216,9 @@ fn commands(selected: Option<&str>, args: &[String]) -> Result<u8> {
             }
         }
         "create" => create(&r, &args[1..])?,
+        "enable" | "disable" => crate::user_service::dispatch(&r, op, &args[1..])?,
+        "_stop" if args.len() == 2 => stop_direct(&r, &args[1])?,
+        "_service" if args.len() == 2 => return serve(&r, &args[1], None, true),
         "start" | "stop" | "restart" => {
             let n = chosen(&r, args.get(1).map(String::as_str).or(selected))?;
             if args.len() > 2 {
@@ -232,7 +235,7 @@ fn commands(selected: Option<&str>, args: &[String]) -> Result<u8> {
             if args.len() != 3 {
                 return Err("invalid internal environment worker arguments".into());
             }
-            return serve(&r, &args[1], args[2].parse()?);
+            return serve_fd(&r, &args[1], args[2].parse()?);
         }
         "inspect" | "status" => {
             let n = args.get(1).ok_or("environment name required")?;
@@ -244,6 +247,10 @@ fn commands(selected: Option<&str>, args: &[String]) -> Result<u8> {
                 .display()
         ),
         "logs" => {
+            let name = args.get(1).ok_or("environment name required")?;
+            if crate::user_service::installed(&r, name)? {
+                return crate::user_service::logs(&r, name).map(|()| 0);
+            }
             use std::io::{Seek, SeekFrom};
             let i =
                 registry::instance(&r.require(args.get(1).ok_or("environment name required")?)?)?;
@@ -285,6 +292,9 @@ fn commands(selected: Option<&str>, args: &[String]) -> Result<u8> {
                 return Err("usage: env remove NAME --yes".into());
             }
             let _lifecycle = r.lifecycle_lock(&args[1])?;
+            if crate::user_service::installed(&r, &args[1])? {
+                return Err("disable the environment user service before removing it".into());
+            }
             let _metadata = r.metadata_lock()?;
             let _owner = r.owner_lock(&args[1])?;
             let dir = r.require(&args[1])?;
@@ -651,6 +661,19 @@ fn share(r: &Registry, args: &[String]) -> Result<()> {
     r.save(&dir, &c)
 }
 fn start(r: &Registry, n: &str) -> Result<()> {
+    // Reuse a ready owner, including an ordinary worker enabled for the next login.
+    // Steady-state exec does not spawn systemctl or reset an automatic restart budget.
+    if r.running(n)?
+        && UnixStream::connect(trames_cli_common::exec::path(&console_path(
+            &r.require(n)?,
+        )?))
+        .is_ok()
+    {
+        return Ok(());
+    }
+    if crate::user_service::installed(r, n)? {
+        return crate::user_service::control(r, n, "start");
+    }
     let _lifecycle = r.lifecycle_lock(n)?;
     let dir = r.require(n)?;
     let c = profile(r, n)?;
@@ -680,6 +703,7 @@ fn start(r: &Registry, n: &str) -> Result<()> {
     command
         .args(["env", "_serve", &c.environment.uuid, &fd.to_string()])
         .env("TRAMES_HOME", &r.root)
+        .env_remove("NOTIFY_SOCKET")
         .stdin(Stdio::null())
         .stdout(log.try_clone()?)
         .stderr(log);
@@ -724,6 +748,12 @@ fn start(r: &Registry, n: &str) -> Result<()> {
     }
 }
 fn stop(r: &Registry, n: &str) -> Result<()> {
+    if crate::user_service::installed(r, n)? {
+        crate::user_service::control(r, n, "stop")?;
+    }
+    stop_direct(r, n)
+}
+pub(crate) fn stop_direct(r: &Registry, n: &str) -> Result<()> {
     let _lifecycle = r.lifecycle_lock(n)?;
     if !r.running(n)? {
         return Ok(());
@@ -738,7 +768,7 @@ fn stop(r: &Registry, n: &str) -> Result<()> {
         _ => Err("environment stop failed; inspect env logs".into()),
     }
 }
-fn serve(r: &Registry, n: &str, fd: i32) -> Result<u8> {
+fn serve_fd(r: &Registry, n: &str, fd: i32) -> Result<u8> {
     if fd < 3 {
         return Err("invalid readiness descriptor".into());
     }
@@ -759,9 +789,16 @@ fn serve(r: &Registry, n: &str, fd: i32) -> Result<u8> {
         return Err("readiness descriptor must be an open Unix stream".into());
     }
     // SAFETY: this internal worker exclusively owns the validated descriptor passed by start.
-    let mut ready = Some(unsafe { UnixStream::from_raw_fd(fd) });
+    serve(r, n, Some(unsafe { UnixStream::from_raw_fd(fd) }), false)
+}
+fn serve(r: &Registry, n: &str, mut ready: Option<UnixStream>, systemd: bool) -> Result<u8> {
     let mut service = None;
     let result = (|| {
+        let mut notifier = if systemd {
+            Some(crate::user_service::Notifier::open()?)
+        } else {
+            None
+        };
         let _owner = r.owner_lock(n)?;
         let dir = r.require(n)?;
         trames_kvm::Doctor::inspect().require_probe()?;
@@ -841,6 +878,7 @@ fn serve(r: &Registry, n: &str, fd: i32) -> Result<u8> {
         service = Some(crate::managed_io::Service::open(
             &r.socket(n)?,
             ready.take(),
+            notifier.take(),
         )?);
         let result = crate::foreground::run_managed(
             args,
@@ -849,6 +887,11 @@ fn serve(r: &Registry, n: &str, fd: i32) -> Result<u8> {
             service.as_mut().unwrap(),
             c.interop.clipboard.enabled && g.clipboard,
         );
+        let result = if let Some(error) = service.as_mut().unwrap().ready_error.take() {
+            Err(error.into())
+        } else {
+            result
+        };
         let exit = serde_json::json!({"code":result.as_ref().copied().unwrap_or(2),"error":result.as_ref().err().map(ToString::to_string)});
         registry::atomic_write(
             &dir.join("exit.json"),
@@ -904,6 +947,7 @@ fn explicit_storage(args: &[String]) -> bool {
                 | "--mount-ro"
                 | "--sysctl"
                 | "--network-link"
+                | "--network-name"
                 | "--network-id"
                 | "--network-nat"
                 | "--publish"

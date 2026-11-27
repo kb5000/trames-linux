@@ -1,0 +1,1945 @@
+[
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "config",
+      "--global",
+      "set",
+      "defaults.components.vulkan",
+      "false",
+      "defaults.display.windows",
+      "false",
+      "defaults.resources.cpus",
+      "1"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.0060116209933767095
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "network",
+      "create",
+      "lan",
+      "--internal"
+    ],
+    "code": 0,
+    "stdout": "Created Trames network lan\n",
+    "stderr": "",
+    "seconds": 0.0057404729959671386
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "network",
+      "create",
+      "other",
+      "--internal"
+    ],
+    "code": 0,
+    "stdout": "Created Trames network other\n",
+    "stderr": "",
+    "seconds": 0.004697388001659419
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "create",
+      "web",
+      "--rootfs",
+      "/mnt/trames-output/linux-discovery-services/final/rootfs"
+    ],
+    "code": 0,
+    "stdout": "Created web (custom)\n",
+    "stderr": "",
+    "seconds": 0.21802528700209223
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "-e",
+      "web",
+      "config",
+      "set",
+      "network.mode",
+      "bridge",
+      "network.bridge",
+      "lan"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.0075833339942619205
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "create",
+      "db",
+      "--rootfs",
+      "/mnt/trames-output/linux-discovery-services/final/rootfs"
+    ],
+    "code": 0,
+    "stdout": "Created db (custom)\n",
+    "stderr": "",
+    "seconds": 0.22538437999901362
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "-e",
+      "db",
+      "config",
+      "set",
+      "network.mode",
+      "bridge",
+      "network.bridge",
+      "lan"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.009258887999749277
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "create",
+      "isolated",
+      "--rootfs",
+      "/mnt/trames-output/linux-discovery-services/final/rootfs"
+    ],
+    "code": 0,
+    "stdout": "Created isolated (custom)\n",
+    "stderr": "",
+    "seconds": 0.22068410900101298
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "-e",
+      "isolated",
+      "config",
+      "set",
+      "network.mode",
+      "bridge",
+      "network.bridge",
+      "other"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.00913829499768326
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "publish",
+      "db",
+      "51937",
+      "41000"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.010502408003958408
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "inspect",
+      "db",
+      "--json"
+    ],
+    "code": 0,
+    "stdout": "{\n  \"config\": {\n    \"boot\": {\n      \"mode\": \"shell\"\n    },\n    \"components\": {\n      \"audio\": false,\n      \"audio_input\": false,\n      \"thunking\": \"auto\",\n      \"vaapi\": false,\n      \"vulkan\": false\n    },\n    \"display\": {\n      \"windows\": false\n    },\n    \"environment\": {\n      \"name\": \"db\",\n      \"type\": \"linux\",\n      \"uuid\": \"86e042e1-5994-498a-936d-d447ca24d034\"\n    },\n    \"image\": {\n      \"distribution\": \"custom\",\n      \"sha256\": \"e65d152ecf1db2a308f45bc1d9593cdc85b98952ac13d39c4b81878b70462747\",\n      \"source\": null\n    },\n    \"interop\": {\n      \"clipboard\": {\n        \"enabled\": true\n      },\n      \"files\": {\n        \"enabled\": true\n      },\n      \"host_cli\": {\n        \"enabled\": true\n      },\n      \"host_exec\": {\n        \"enabled\": true\n      },\n      \"host_ui\": {\n        \"enabled\": true\n      },\n      \"mounts\": {\n        \"enabled\": true\n      },\n      \"ports\": {\n        \"enabled\": true\n      }\n    },\n    \"kernel\": {\n      \"sysctl\": {}\n    },\n    \"mounts\": [],\n    \"network\": {\n      \"bridge\": \"lan\",\n      \"mode\": \"bridge\",\n      \"publish\": [\n        {\n          \"guest\": 41000,\n          \"host\": \"127.0.0.1:51937\",\n          \"protocol\": \"tcp\"\n        }\n      ]\n    },\n    \"resources\": {\n      \"cpus\": 1,\n      \"memory\": \"auto\",\n      \"memory_limit\": null\n    },\n    \"session\": {\n      \"cwd\": \"/\",\n      \"shell\": [\n        \"/bin/sh\",\n        \"-l\"\n      ]\n    },\n    \"version\": 1\n  },\n  \"directory\": \"/mnt/trames-output/linux-discovery-services/final/smccc-1/registry space $data%-emu_yidg/environments/86e042e1-5994-498a-936d-d447ca24d034\",\n  \"distribution\": \"custom\",\n  \"error\": null,\n  \"last_exit\": null,\n  \"name\": \"db\",\n  \"running\": false,\n  \"service\": {\n    \"enabled\": false,\n    \"installed\": false,\n    \"path\": \"/home/main.guest/.config/systemd/user/trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service\",\n    \"unit\": \"trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service\"\n  },\n  \"state\": \"stopped\",\n  \"uuid\": \"86e042e1-5994-498a-936d-d447ca24d034\"\n}\n",
+    "stderr": "",
+    "seconds": 0.009362188997329213
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "enable",
+      "db",
+      "--now"
+    ],
+    "code": 0,
+    "stdout": "Enabled trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service\n",
+    "stderr": "Created symlink /home/main.guest/.config/systemd/user/default.target.wants/trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service \u2192 /home/main.guest/.config/systemd/user/trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service.\n",
+    "seconds": 0.1533943949980312
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "inspect",
+      "db",
+      "--json"
+    ],
+    "code": 0,
+    "stdout": "{\n  \"config\": {\n    \"boot\": {\n      \"mode\": \"shell\"\n    },\n    \"components\": {\n      \"audio\": false,\n      \"audio_input\": false,\n      \"thunking\": \"auto\",\n      \"vaapi\": false,\n      \"vulkan\": false\n    },\n    \"display\": {\n      \"windows\": false\n    },\n    \"environment\": {\n      \"name\": \"db\",\n      \"type\": \"linux\",\n      \"uuid\": \"86e042e1-5994-498a-936d-d447ca24d034\"\n    },\n    \"image\": {\n      \"distribution\": \"custom\",\n      \"sha256\": \"e65d152ecf1db2a308f45bc1d9593cdc85b98952ac13d39c4b81878b70462747\",\n      \"source\": null\n    },\n    \"interop\": {\n      \"clipboard\": {\n        \"enabled\": true\n      },\n      \"files\": {\n        \"enabled\": true\n      },\n      \"host_cli\": {\n        \"enabled\": true\n      },\n      \"host_exec\": {\n        \"enabled\": true\n      },\n      \"host_ui\": {\n        \"enabled\": true\n      },\n      \"mounts\": {\n        \"enabled\": true\n      },\n      \"ports\": {\n        \"enabled\": true\n      }\n    },\n    \"kernel\": {\n      \"sysctl\": {}\n    },\n    \"mounts\": [],\n    \"network\": {\n      \"bridge\": \"lan\",\n      \"mode\": \"bridge\",\n      \"publish\": [\n        {\n          \"guest\": 41000,\n          \"host\": \"127.0.0.1:51937\",\n          \"protocol\": \"tcp\"\n        }\n      ]\n    },\n    \"resources\": {\n      \"cpus\": 1,\n      \"memory\": \"auto\",\n      \"memory_limit\": null\n    },\n    \"session\": {\n      \"cwd\": \"/\",\n      \"shell\": [\n        \"/bin/sh\",\n        \"-l\"\n      ]\n    },\n    \"version\": 1\n  },\n  \"directory\": \"/mnt/trames-output/linux-discovery-services/final/smccc-1/registry space $data%-emu_yidg/environments/86e042e1-5994-498a-936d-d447ca24d034\",\n  \"distribution\": \"custom\",\n  \"error\": null,\n  \"last_exit\": null,\n  \"name\": \"db\",\n  \"running\": true,\n  \"service\": {\n    \"enabled\": true,\n    \"installed\": true,\n    \"path\": \"/home/main.guest/.config/systemd/user/trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service\",\n    \"unit\": \"trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service\"\n  },\n  \"state\": \"running\",\n  \"uuid\": \"86e042e1-5994-498a-936d-d447ca24d034\"\n}\n",
+    "stderr": "",
+    "seconds": 0.011794598001870327
+  },
+  {
+    "argv": [
+      "systemctl",
+      "--user",
+      "show",
+      "trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service",
+      "-p",
+      "MainPID",
+      "--value"
+    ],
+    "code": 0,
+    "stdout": "227832\n",
+    "stderr": "",
+    "seconds": 0.0037919800015515648
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "path",
+      "db"
+    ],
+    "code": 0,
+    "stdout": "/mnt/trames-output/linux-discovery-services/final/smccc-1/registry space $data%-emu_yidg/environments/86e042e1-5994-498a-936d-d447ca24d034\n",
+    "stderr": "",
+    "seconds": 0.005509538001206238
+  },
+  {
+    "argv": [
+      "systemctl",
+      "--user",
+      "show",
+      "trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service",
+      "-p",
+      "MainPID",
+      "--value"
+    ],
+    "code": 0,
+    "stdout": "227832\n",
+    "stderr": "",
+    "seconds": 0.003903696000634227
+  },
+  {
+    "argv": [
+      "systemd-analyze",
+      "--user",
+      "verify",
+      "/home/main.guest/.config/systemd/user/trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.005078294001577888
+  },
+  {
+    "argv": [
+      "systemctl",
+      "--user",
+      "list-dependencies",
+      "default.target",
+      "--plain"
+    ],
+    "code": 0,
+    "stdout": "default.target\n  trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service\n  basic.target\n  paths.target\n  sockets.target\n  dbus.socket\n  snapd.session-agent.socket\n  timers.target\n  launchpadlib-cache-clean.timer\n",
+    "stderr": "",
+    "seconds": 0.004829772995435633
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "start",
+      "web"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.05995698399783578
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "start",
+      "isolated"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.05693136000627419
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "network",
+      "ls",
+      "--json"
+    ],
+    "code": 0,
+    "stdout": "[\n  {\n    \"version\": 1,\n    \"name\": \"lan\",\n    \"uuid\": \"6a091aaa-0208-488f-a084-76890917237a\",\n    \"nat\": false,\n    \"members\": {\n      \"86e042e1-5994-498a-936d-d447ca24d034\": 2,\n      \"bf71d0f2-c2ca-404b-8957-dadfd5400d3b\": 3\n    }\n  },\n  {\n    \"version\": 1,\n    \"name\": \"other\",\n    \"uuid\": \"bd98ce3a-3c3c-4010-be7b-7e521f4c9591\",\n    \"nat\": false,\n    \"members\": {\n      \"cbf3d3e5-f894-4c5d-a997-111deb5a2c5f\": 2\n    }\n  }\n]\n",
+    "stderr": "",
+    "seconds": 0.0065272049978375435
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "-e",
+      "web",
+      "exec",
+      "--",
+      "/bin/netprobe",
+      "resolve",
+      "db.trames"
+    ],
+    "code": 0,
+    "stdout": "10.0.0.2\n",
+    "stderr": "",
+    "seconds": 0.08875131600507302
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "-e",
+      "web",
+      "exec",
+      "--",
+      "/bin/netprobe",
+      "resolve6",
+      "db.trames"
+    ],
+    "code": 0,
+    "stdout": "fd00::2\n",
+    "stderr": "",
+    "seconds": 0.04339628599700518
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "-e",
+      "web",
+      "exec",
+      "--",
+      "/bin/netprobe",
+      "resolve",
+      "DB.trames"
+    ],
+    "code": 0,
+    "stdout": "10.0.0.2\n",
+    "stderr": "",
+    "seconds": 0.04233894900244195
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "-e",
+      "web",
+      "exec",
+      "--",
+      "/bin/netprobe",
+      "resolve6",
+      "DB.trames"
+    ],
+    "code": 0,
+    "stdout": "fd00::2\n",
+    "stderr": "",
+    "seconds": 0.04443524700036505
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "-e",
+      "web",
+      "exec",
+      "--",
+      "/bin/netprobe",
+      "resolve",
+      "db.env.trames"
+    ],
+    "code": 0,
+    "stdout": "10.0.0.2\n",
+    "stderr": "",
+    "seconds": 0.04223443899536505
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "-e",
+      "web",
+      "exec",
+      "--",
+      "/bin/netprobe",
+      "resolve6",
+      "db.env.trames"
+    ],
+    "code": 0,
+    "stdout": "fd00::2\n",
+    "stderr": "",
+    "seconds": 0.042244479001965374
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "-e",
+      "web",
+      "exec",
+      "--",
+      "/bin/netprobe",
+      "resolve",
+      "env2.trames"
+    ],
+    "code": 0,
+    "stdout": "10.0.0.2\n",
+    "stderr": "",
+    "seconds": 0.04191565899964189
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "-e",
+      "web",
+      "exec",
+      "--",
+      "/bin/netprobe",
+      "resolve6",
+      "env2.trames"
+    ],
+    "code": 0,
+    "stdout": "fd00::2\n",
+    "stderr": "",
+    "seconds": 0.04239949100156082
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "-e",
+      "isolated",
+      "exec",
+      "--",
+      "/bin/netprobe",
+      "resolve",
+      "db.trames"
+    ],
+    "code": 1,
+    "stdout": "",
+    "stderr": "resolve: Name or service not known\n",
+    "seconds": 0.0878588569976273
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "-e",
+      "web",
+      "exec",
+      "--",
+      "/usr/bin/curl",
+      "--noproxy",
+      "*",
+      "-fsS",
+      "--max-time",
+      "10",
+      "http://db.trames:41000/"
+    ],
+    "code": 0,
+    "stdout": "TRAMES_HTTP_OK\n",
+    "stderr": "",
+    "seconds": 0.37599553700420074
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "logs",
+      "db"
+    ],
+    "code": 0,
+    "stdout": "Nov 27 16:34:37 lima-linux systemd[544]: Starting trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service - Trames environment 86e042e1-5994-498a-936d-d447ca24d034...\nNov 27 16:34:37 lima-linux systemd[544]: Started trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service - Trames environment 86e042e1-5994-498a-936d-d447ca24d034.\n",
+    "stderr": "",
+    "seconds": 0.019113741000182927
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "-e",
+      "db",
+      "exec",
+      "--",
+      "/bin/sh",
+      "-ec",
+      "echo durable > /root/value"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.04102596000302583
+  },
+  {
+    "argv": [
+      "systemctl",
+      "--user",
+      "show",
+      "trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service",
+      "-p",
+      "MainPID",
+      "--value"
+    ],
+    "code": 0,
+    "stdout": "227832\n",
+    "stderr": "",
+    "seconds": 0.0021835549996467307
+  },
+  {
+    "argv": [
+      "systemctl",
+      "--user",
+      "kill",
+      "--kill-whom=main",
+      "--signal=KILL",
+      "trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.0014014900007168762
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "inspect",
+      "db",
+      "--json"
+    ],
+    "code": 0,
+    "stdout": "{\n  \"config\": {\n    \"boot\": {\n      \"mode\": \"shell\"\n    },\n    \"components\": {\n      \"audio\": false,\n      \"audio_input\": false,\n      \"thunking\": \"auto\",\n      \"vaapi\": false,\n      \"vulkan\": false\n    },\n    \"display\": {\n      \"windows\": false\n    },\n    \"environment\": {\n      \"name\": \"db\",\n      \"type\": \"linux\",\n      \"uuid\": \"86e042e1-5994-498a-936d-d447ca24d034\"\n    },\n    \"image\": {\n      \"distribution\": \"custom\",\n      \"sha256\": \"e65d152ecf1db2a308f45bc1d9593cdc85b98952ac13d39c4b81878b70462747\",\n      \"source\": null\n    },\n    \"interop\": {\n      \"clipboard\": {\n        \"enabled\": true\n      },\n      \"files\": {\n        \"enabled\": true\n      },\n      \"host_cli\": {\n        \"enabled\": true\n      },\n      \"host_exec\": {\n        \"enabled\": true\n      },\n      \"host_ui\": {\n        \"enabled\": true\n      },\n      \"mounts\": {\n        \"enabled\": true\n      },\n      \"ports\": {\n        \"enabled\": true\n      }\n    },\n    \"kernel\": {\n      \"sysctl\": {}\n    },\n    \"mounts\": [],\n    \"network\": {\n      \"bridge\": \"lan\",\n      \"mode\": \"bridge\",\n      \"publish\": [\n        {\n          \"guest\": 41000,\n          \"host\": \"127.0.0.1:51937\",\n          \"protocol\": \"tcp\"\n        }\n      ]\n    },\n    \"resources\": {\n      \"cpus\": 1,\n      \"memory\": \"auto\",\n      \"memory_limit\": null\n    },\n    \"session\": {\n      \"cwd\": \"/\",\n      \"shell\": [\n        \"/bin/sh\",\n        \"-l\"\n      ]\n    },\n    \"version\": 1\n  },\n  \"directory\": \"/mnt/trames-output/linux-discovery-services/final/smccc-1/registry space $data%-emu_yidg/environments/86e042e1-5994-498a-936d-d447ca24d034\",\n  \"distribution\": \"custom\",\n  \"error\": null,\n  \"last_exit\": null,\n  \"name\": \"db\",\n  \"running\": false,\n  \"service\": {\n    \"enabled\": true,\n    \"installed\": true,\n    \"path\": \"/home/main.guest/.config/systemd/user/trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service\",\n    \"unit\": \"trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service\"\n  },\n  \"state\": \"stopped\",\n  \"uuid\": \"86e042e1-5994-498a-936d-d447ca24d034\"\n}\n",
+    "stderr": "",
+    "seconds": 0.008770888998697046
+  },
+  {
+    "argv": [
+      "systemctl",
+      "--user",
+      "show",
+      "trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service",
+      "-p",
+      "MainPID",
+      "--value"
+    ],
+    "code": 0,
+    "stdout": "0\n",
+    "stderr": "",
+    "seconds": 0.001927699995576404
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "inspect",
+      "db",
+      "--json"
+    ],
+    "code": 0,
+    "stdout": "{\n  \"config\": {\n    \"boot\": {\n      \"mode\": \"shell\"\n    },\n    \"components\": {\n      \"audio\": false,\n      \"audio_input\": false,\n      \"thunking\": \"auto\",\n      \"vaapi\": false,\n      \"vulkan\": false\n    },\n    \"display\": {\n      \"windows\": false\n    },\n    \"environment\": {\n      \"name\": \"db\",\n      \"type\": \"linux\",\n      \"uuid\": \"86e042e1-5994-498a-936d-d447ca24d034\"\n    },\n    \"image\": {\n      \"distribution\": \"custom\",\n      \"sha256\": \"e65d152ecf1db2a308f45bc1d9593cdc85b98952ac13d39c4b81878b70462747\",\n      \"source\": null\n    },\n    \"interop\": {\n      \"clipboard\": {\n        \"enabled\": true\n      },\n      \"files\": {\n        \"enabled\": true\n      },\n      \"host_cli\": {\n        \"enabled\": true\n      },\n      \"host_exec\": {\n        \"enabled\": true\n      },\n      \"host_ui\": {\n        \"enabled\": true\n      },\n      \"mounts\": {\n        \"enabled\": true\n      },\n      \"ports\": {\n        \"enabled\": true\n      }\n    },\n    \"kernel\": {\n      \"sysctl\": {}\n    },\n    \"mounts\": [],\n    \"network\": {\n      \"bridge\": \"lan\",\n      \"mode\": \"bridge\",\n      \"publish\": [\n        {\n          \"guest\": 41000,\n          \"host\": \"127.0.0.1:51937\",\n          \"protocol\": \"tcp\"\n        }\n      ]\n    },\n    \"resources\": {\n      \"cpus\": 1,\n      \"memory\": \"auto\",\n      \"memory_limit\": null\n    },\n    \"session\": {\n      \"cwd\": \"/\",\n      \"shell\": [\n        \"/bin/sh\",\n        \"-l\"\n      ]\n    },\n    \"version\": 1\n  },\n  \"directory\": \"/mnt/trames-output/linux-discovery-services/final/smccc-1/registry space $data%-emu_yidg/environments/86e042e1-5994-498a-936d-d447ca24d034\",\n  \"distribution\": \"custom\",\n  \"error\": null,\n  \"last_exit\": null,\n  \"name\": \"db\",\n  \"running\": false,\n  \"service\": {\n    \"enabled\": true,\n    \"installed\": true,\n    \"path\": \"/home/main.guest/.config/systemd/user/trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service\",\n    \"unit\": \"trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service\"\n  },\n  \"state\": \"stopped\",\n  \"uuid\": \"86e042e1-5994-498a-936d-d447ca24d034\"\n}\n",
+    "stderr": "",
+    "seconds": 0.011767552001401782
+  },
+  {
+    "argv": [
+      "systemctl",
+      "--user",
+      "show",
+      "trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service",
+      "-p",
+      "MainPID",
+      "--value"
+    ],
+    "code": 0,
+    "stdout": "0\n",
+    "stderr": "",
+    "seconds": 0.0025397509962203912
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "inspect",
+      "db",
+      "--json"
+    ],
+    "code": 0,
+    "stdout": "{\n  \"config\": {\n    \"boot\": {\n      \"mode\": \"shell\"\n    },\n    \"components\": {\n      \"audio\": false,\n      \"audio_input\": false,\n      \"thunking\": \"auto\",\n      \"vaapi\": false,\n      \"vulkan\": false\n    },\n    \"display\": {\n      \"windows\": false\n    },\n    \"environment\": {\n      \"name\": \"db\",\n      \"type\": \"linux\",\n      \"uuid\": \"86e042e1-5994-498a-936d-d447ca24d034\"\n    },\n    \"image\": {\n      \"distribution\": \"custom\",\n      \"sha256\": \"e65d152ecf1db2a308f45bc1d9593cdc85b98952ac13d39c4b81878b70462747\",\n      \"source\": null\n    },\n    \"interop\": {\n      \"clipboard\": {\n        \"enabled\": true\n      },\n      \"files\": {\n        \"enabled\": true\n      },\n      \"host_cli\": {\n        \"enabled\": true\n      },\n      \"host_exec\": {\n        \"enabled\": true\n      },\n      \"host_ui\": {\n        \"enabled\": true\n      },\n      \"mounts\": {\n        \"enabled\": true\n      },\n      \"ports\": {\n        \"enabled\": true\n      }\n    },\n    \"kernel\": {\n      \"sysctl\": {}\n    },\n    \"mounts\": [],\n    \"network\": {\n      \"bridge\": \"lan\",\n      \"mode\": \"bridge\",\n      \"publish\": [\n        {\n          \"guest\": 41000,\n          \"host\": \"127.0.0.1:51937\",\n          \"protocol\": \"tcp\"\n        }\n      ]\n    },\n    \"resources\": {\n      \"cpus\": 1,\n      \"memory\": \"auto\",\n      \"memory_limit\": null\n    },\n    \"session\": {\n      \"cwd\": \"/\",\n      \"shell\": [\n        \"/bin/sh\",\n        \"-l\"\n      ]\n    },\n    \"version\": 1\n  },\n  \"directory\": \"/mnt/trames-output/linux-discovery-services/final/smccc-1/registry space $data%-emu_yidg/environments/86e042e1-5994-498a-936d-d447ca24d034\",\n  \"distribution\": \"custom\",\n  \"error\": null,\n  \"last_exit\": null,\n  \"name\": \"db\",\n  \"running\": false,\n  \"service\": {\n    \"enabled\": true,\n    \"installed\": true,\n    \"path\": \"/home/main.guest/.config/systemd/user/trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service\",\n    \"unit\": \"trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service\"\n  },\n  \"state\": \"stopped\",\n  \"uuid\": \"86e042e1-5994-498a-936d-d447ca24d034\"\n}\n",
+    "stderr": "",
+    "seconds": 0.018407932002446614
+  },
+  {
+    "argv": [
+      "systemctl",
+      "--user",
+      "show",
+      "trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service",
+      "-p",
+      "MainPID",
+      "--value"
+    ],
+    "code": 0,
+    "stdout": "0\n",
+    "stderr": "",
+    "seconds": 0.003911738996976055
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "inspect",
+      "db",
+      "--json"
+    ],
+    "code": 0,
+    "stdout": "{\n  \"config\": {\n    \"boot\": {\n      \"mode\": \"shell\"\n    },\n    \"components\": {\n      \"audio\": false,\n      \"audio_input\": false,\n      \"thunking\": \"auto\",\n      \"vaapi\": false,\n      \"vulkan\": false\n    },\n    \"display\": {\n      \"windows\": false\n    },\n    \"environment\": {\n      \"name\": \"db\",\n      \"type\": \"linux\",\n      \"uuid\": \"86e042e1-5994-498a-936d-d447ca24d034\"\n    },\n    \"image\": {\n      \"distribution\": \"custom\",\n      \"sha256\": \"e65d152ecf1db2a308f45bc1d9593cdc85b98952ac13d39c4b81878b70462747\",\n      \"source\": null\n    },\n    \"interop\": {\n      \"clipboard\": {\n        \"enabled\": true\n      },\n      \"files\": {\n        \"enabled\": true\n      },\n      \"host_cli\": {\n        \"enabled\": true\n      },\n      \"host_exec\": {\n        \"enabled\": true\n      },\n      \"host_ui\": {\n        \"enabled\": true\n      },\n      \"mounts\": {\n        \"enabled\": true\n      },\n      \"ports\": {\n        \"enabled\": true\n      }\n    },\n    \"kernel\": {\n      \"sysctl\": {}\n    },\n    \"mounts\": [],\n    \"network\": {\n      \"bridge\": \"lan\",\n      \"mode\": \"bridge\",\n      \"publish\": [\n        {\n          \"guest\": 41000,\n          \"host\": \"127.0.0.1:51937\",\n          \"protocol\": \"tcp\"\n        }\n      ]\n    },\n    \"resources\": {\n      \"cpus\": 1,\n      \"memory\": \"auto\",\n      \"memory_limit\": null\n    },\n    \"session\": {\n      \"cwd\": \"/\",\n      \"shell\": [\n        \"/bin/sh\",\n        \"-l\"\n      ]\n    },\n    \"version\": 1\n  },\n  \"directory\": \"/mnt/trames-output/linux-discovery-services/final/smccc-1/registry space $data%-emu_yidg/environments/86e042e1-5994-498a-936d-d447ca24d034\",\n  \"distribution\": \"custom\",\n  \"error\": null,\n  \"last_exit\": null,\n  \"name\": \"db\",\n  \"running\": false,\n  \"service\": {\n    \"enabled\": true,\n    \"installed\": true,\n    \"path\": \"/home/main.guest/.config/systemd/user/trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service\",\n    \"unit\": \"trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service\"\n  },\n  \"state\": \"stopped\",\n  \"uuid\": \"86e042e1-5994-498a-936d-d447ca24d034\"\n}\n",
+    "stderr": "",
+    "seconds": 0.023116942000342533
+  },
+  {
+    "argv": [
+      "systemctl",
+      "--user",
+      "show",
+      "trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service",
+      "-p",
+      "MainPID",
+      "--value"
+    ],
+    "code": 0,
+    "stdout": "0\n",
+    "stderr": "",
+    "seconds": 0.0056632150008226745
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "inspect",
+      "db",
+      "--json"
+    ],
+    "code": 0,
+    "stdout": "{\n  \"config\": {\n    \"boot\": {\n      \"mode\": \"shell\"\n    },\n    \"components\": {\n      \"audio\": false,\n      \"audio_input\": false,\n      \"thunking\": \"auto\",\n      \"vaapi\": false,\n      \"vulkan\": false\n    },\n    \"display\": {\n      \"windows\": false\n    },\n    \"environment\": {\n      \"name\": \"db\",\n      \"type\": \"linux\",\n      \"uuid\": \"86e042e1-5994-498a-936d-d447ca24d034\"\n    },\n    \"image\": {\n      \"distribution\": \"custom\",\n      \"sha256\": \"e65d152ecf1db2a308f45bc1d9593cdc85b98952ac13d39c4b81878b70462747\",\n      \"source\": null\n    },\n    \"interop\": {\n      \"clipboard\": {\n        \"enabled\": true\n      },\n      \"files\": {\n        \"enabled\": true\n      },\n      \"host_cli\": {\n        \"enabled\": true\n      },\n      \"host_exec\": {\n        \"enabled\": true\n      },\n      \"host_ui\": {\n        \"enabled\": true\n      },\n      \"mounts\": {\n        \"enabled\": true\n      },\n      \"ports\": {\n        \"enabled\": true\n      }\n    },\n    \"kernel\": {\n      \"sysctl\": {}\n    },\n    \"mounts\": [],\n    \"network\": {\n      \"bridge\": \"lan\",\n      \"mode\": \"bridge\",\n      \"publish\": [\n        {\n          \"guest\": 41000,\n          \"host\": \"127.0.0.1:51937\",\n          \"protocol\": \"tcp\"\n        }\n      ]\n    },\n    \"resources\": {\n      \"cpus\": 1,\n      \"memory\": \"auto\",\n      \"memory_limit\": null\n    },\n    \"session\": {\n      \"cwd\": \"/\",\n      \"shell\": [\n        \"/bin/sh\",\n        \"-l\"\n      ]\n    },\n    \"version\": 1\n  },\n  \"directory\": \"/mnt/trames-output/linux-discovery-services/final/smccc-1/registry space $data%-emu_yidg/environments/86e042e1-5994-498a-936d-d447ca24d034\",\n  \"distribution\": \"custom\",\n  \"error\": null,\n  \"last_exit\": null,\n  \"name\": \"db\",\n  \"running\": false,\n  \"service\": {\n    \"enabled\": true,\n    \"installed\": true,\n    \"path\": \"/home/main.guest/.config/systemd/user/trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service\",\n    \"unit\": \"trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service\"\n  },\n  \"state\": \"stopped\",\n  \"uuid\": \"86e042e1-5994-498a-936d-d447ca24d034\"\n}\n",
+    "stderr": "",
+    "seconds": 0.01778812900010962
+  },
+  {
+    "argv": [
+      "systemctl",
+      "--user",
+      "show",
+      "trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service",
+      "-p",
+      "MainPID",
+      "--value"
+    ],
+    "code": 0,
+    "stdout": "0\n",
+    "stderr": "",
+    "seconds": 0.00391869799932465
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "inspect",
+      "db",
+      "--json"
+    ],
+    "code": 0,
+    "stdout": "{\n  \"config\": {\n    \"boot\": {\n      \"mode\": \"shell\"\n    },\n    \"components\": {\n      \"audio\": false,\n      \"audio_input\": false,\n      \"thunking\": \"auto\",\n      \"vaapi\": false,\n      \"vulkan\": false\n    },\n    \"display\": {\n      \"windows\": false\n    },\n    \"environment\": {\n      \"name\": \"db\",\n      \"type\": \"linux\",\n      \"uuid\": \"86e042e1-5994-498a-936d-d447ca24d034\"\n    },\n    \"image\": {\n      \"distribution\": \"custom\",\n      \"sha256\": \"e65d152ecf1db2a308f45bc1d9593cdc85b98952ac13d39c4b81878b70462747\",\n      \"source\": null\n    },\n    \"interop\": {\n      \"clipboard\": {\n        \"enabled\": true\n      },\n      \"files\": {\n        \"enabled\": true\n      },\n      \"host_cli\": {\n        \"enabled\": true\n      },\n      \"host_exec\": {\n        \"enabled\": true\n      },\n      \"host_ui\": {\n        \"enabled\": true\n      },\n      \"mounts\": {\n        \"enabled\": true\n      },\n      \"ports\": {\n        \"enabled\": true\n      }\n    },\n    \"kernel\": {\n      \"sysctl\": {}\n    },\n    \"mounts\": [],\n    \"network\": {\n      \"bridge\": \"lan\",\n      \"mode\": \"bridge\",\n      \"publish\": [\n        {\n          \"guest\": 41000,\n          \"host\": \"127.0.0.1:51937\",\n          \"protocol\": \"tcp\"\n        }\n      ]\n    },\n    \"resources\": {\n      \"cpus\": 1,\n      \"memory\": \"auto\",\n      \"memory_limit\": null\n    },\n    \"session\": {\n      \"cwd\": \"/\",\n      \"shell\": [\n        \"/bin/sh\",\n        \"-l\"\n      ]\n    },\n    \"version\": 1\n  },\n  \"directory\": \"/mnt/trames-output/linux-discovery-services/final/smccc-1/registry space $data%-emu_yidg/environments/86e042e1-5994-498a-936d-d447ca24d034\",\n  \"distribution\": \"custom\",\n  \"error\": null,\n  \"last_exit\": null,\n  \"name\": \"db\",\n  \"running\": false,\n  \"service\": {\n    \"enabled\": true,\n    \"installed\": true,\n    \"path\": \"/home/main.guest/.config/systemd/user/trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service\",\n    \"unit\": \"trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service\"\n  },\n  \"state\": \"stopped\",\n  \"uuid\": \"86e042e1-5994-498a-936d-d447ca24d034\"\n}\n",
+    "stderr": "",
+    "seconds": 0.022743827998056076
+  },
+  {
+    "argv": [
+      "systemctl",
+      "--user",
+      "show",
+      "trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service",
+      "-p",
+      "MainPID",
+      "--value"
+    ],
+    "code": 0,
+    "stdout": "0\n",
+    "stderr": "",
+    "seconds": 0.0053831510012969375
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "inspect",
+      "db",
+      "--json"
+    ],
+    "code": 0,
+    "stdout": "{\n  \"config\": {\n    \"boot\": {\n      \"mode\": \"shell\"\n    },\n    \"components\": {\n      \"audio\": false,\n      \"audio_input\": false,\n      \"thunking\": \"auto\",\n      \"vaapi\": false,\n      \"vulkan\": false\n    },\n    \"display\": {\n      \"windows\": false\n    },\n    \"environment\": {\n      \"name\": \"db\",\n      \"type\": \"linux\",\n      \"uuid\": \"86e042e1-5994-498a-936d-d447ca24d034\"\n    },\n    \"image\": {\n      \"distribution\": \"custom\",\n      \"sha256\": \"e65d152ecf1db2a308f45bc1d9593cdc85b98952ac13d39c4b81878b70462747\",\n      \"source\": null\n    },\n    \"interop\": {\n      \"clipboard\": {\n        \"enabled\": true\n      },\n      \"files\": {\n        \"enabled\": true\n      },\n      \"host_cli\": {\n        \"enabled\": true\n      },\n      \"host_exec\": {\n        \"enabled\": true\n      },\n      \"host_ui\": {\n        \"enabled\": true\n      },\n      \"mounts\": {\n        \"enabled\": true\n      },\n      \"ports\": {\n        \"enabled\": true\n      }\n    },\n    \"kernel\": {\n      \"sysctl\": {}\n    },\n    \"mounts\": [],\n    \"network\": {\n      \"bridge\": \"lan\",\n      \"mode\": \"bridge\",\n      \"publish\": [\n        {\n          \"guest\": 41000,\n          \"host\": \"127.0.0.1:51937\",\n          \"protocol\": \"tcp\"\n        }\n      ]\n    },\n    \"resources\": {\n      \"cpus\": 1,\n      \"memory\": \"auto\",\n      \"memory_limit\": null\n    },\n    \"session\": {\n      \"cwd\": \"/\",\n      \"shell\": [\n        \"/bin/sh\",\n        \"-l\"\n      ]\n    },\n    \"version\": 1\n  },\n  \"directory\": \"/mnt/trames-output/linux-discovery-services/final/smccc-1/registry space $data%-emu_yidg/environments/86e042e1-5994-498a-936d-d447ca24d034\",\n  \"distribution\": \"custom\",\n  \"error\": null,\n  \"last_exit\": null,\n  \"name\": \"db\",\n  \"running\": false,\n  \"service\": {\n    \"enabled\": true,\n    \"installed\": true,\n    \"path\": \"/home/main.guest/.config/systemd/user/trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service\",\n    \"unit\": \"trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service\"\n  },\n  \"state\": \"stopped\",\n  \"uuid\": \"86e042e1-5994-498a-936d-d447ca24d034\"\n}\n",
+    "stderr": "",
+    "seconds": 0.02316315399366431
+  },
+  {
+    "argv": [
+      "systemctl",
+      "--user",
+      "show",
+      "trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service",
+      "-p",
+      "MainPID",
+      "--value"
+    ],
+    "code": 0,
+    "stdout": "0\n",
+    "stderr": "",
+    "seconds": 0.0052746839937753975
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "inspect",
+      "db",
+      "--json"
+    ],
+    "code": 0,
+    "stdout": "{\n  \"config\": {\n    \"boot\": {\n      \"mode\": \"shell\"\n    },\n    \"components\": {\n      \"audio\": false,\n      \"audio_input\": false,\n      \"thunking\": \"auto\",\n      \"vaapi\": false,\n      \"vulkan\": false\n    },\n    \"display\": {\n      \"windows\": false\n    },\n    \"environment\": {\n      \"name\": \"db\",\n      \"type\": \"linux\",\n      \"uuid\": \"86e042e1-5994-498a-936d-d447ca24d034\"\n    },\n    \"image\": {\n      \"distribution\": \"custom\",\n      \"sha256\": \"e65d152ecf1db2a308f45bc1d9593cdc85b98952ac13d39c4b81878b70462747\",\n      \"source\": null\n    },\n    \"interop\": {\n      \"clipboard\": {\n        \"enabled\": true\n      },\n      \"files\": {\n        \"enabled\": true\n      },\n      \"host_cli\": {\n        \"enabled\": true\n      },\n      \"host_exec\": {\n        \"enabled\": true\n      },\n      \"host_ui\": {\n        \"enabled\": true\n      },\n      \"mounts\": {\n        \"enabled\": true\n      },\n      \"ports\": {\n        \"enabled\": true\n      }\n    },\n    \"kernel\": {\n      \"sysctl\": {}\n    },\n    \"mounts\": [],\n    \"network\": {\n      \"bridge\": \"lan\",\n      \"mode\": \"bridge\",\n      \"publish\": [\n        {\n          \"guest\": 41000,\n          \"host\": \"127.0.0.1:51937\",\n          \"protocol\": \"tcp\"\n        }\n      ]\n    },\n    \"resources\": {\n      \"cpus\": 1,\n      \"memory\": \"auto\",\n      \"memory_limit\": null\n    },\n    \"session\": {\n      \"cwd\": \"/\",\n      \"shell\": [\n        \"/bin/sh\",\n        \"-l\"\n      ]\n    },\n    \"version\": 1\n  },\n  \"directory\": \"/mnt/trames-output/linux-discovery-services/final/smccc-1/registry space $data%-emu_yidg/environments/86e042e1-5994-498a-936d-d447ca24d034\",\n  \"distribution\": \"custom\",\n  \"error\": null,\n  \"last_exit\": null,\n  \"name\": \"db\",\n  \"running\": false,\n  \"service\": {\n    \"enabled\": true,\n    \"installed\": true,\n    \"path\": \"/home/main.guest/.config/systemd/user/trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service\",\n    \"unit\": \"trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service\"\n  },\n  \"state\": \"stopped\",\n  \"uuid\": \"86e042e1-5994-498a-936d-d447ca24d034\"\n}\n",
+    "stderr": "",
+    "seconds": 0.021244370997010265
+  },
+  {
+    "argv": [
+      "systemctl",
+      "--user",
+      "show",
+      "trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service",
+      "-p",
+      "MainPID",
+      "--value"
+    ],
+    "code": 0,
+    "stdout": "0\n",
+    "stderr": "",
+    "seconds": 0.006133836999651976
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "inspect",
+      "db",
+      "--json"
+    ],
+    "code": 0,
+    "stdout": "{\n  \"config\": {\n    \"boot\": {\n      \"mode\": \"shell\"\n    },\n    \"components\": {\n      \"audio\": false,\n      \"audio_input\": false,\n      \"thunking\": \"auto\",\n      \"vaapi\": false,\n      \"vulkan\": false\n    },\n    \"display\": {\n      \"windows\": false\n    },\n    \"environment\": {\n      \"name\": \"db\",\n      \"type\": \"linux\",\n      \"uuid\": \"86e042e1-5994-498a-936d-d447ca24d034\"\n    },\n    \"image\": {\n      \"distribution\": \"custom\",\n      \"sha256\": \"e65d152ecf1db2a308f45bc1d9593cdc85b98952ac13d39c4b81878b70462747\",\n      \"source\": null\n    },\n    \"interop\": {\n      \"clipboard\": {\n        \"enabled\": true\n      },\n      \"files\": {\n        \"enabled\": true\n      },\n      \"host_cli\": {\n        \"enabled\": true\n      },\n      \"host_exec\": {\n        \"enabled\": true\n      },\n      \"host_ui\": {\n        \"enabled\": true\n      },\n      \"mounts\": {\n        \"enabled\": true\n      },\n      \"ports\": {\n        \"enabled\": true\n      }\n    },\n    \"kernel\": {\n      \"sysctl\": {}\n    },\n    \"mounts\": [],\n    \"network\": {\n      \"bridge\": \"lan\",\n      \"mode\": \"bridge\",\n      \"publish\": [\n        {\n          \"guest\": 41000,\n          \"host\": \"127.0.0.1:51937\",\n          \"protocol\": \"tcp\"\n        }\n      ]\n    },\n    \"resources\": {\n      \"cpus\": 1,\n      \"memory\": \"auto\",\n      \"memory_limit\": null\n    },\n    \"session\": {\n      \"cwd\": \"/\",\n      \"shell\": [\n        \"/bin/sh\",\n        \"-l\"\n      ]\n    },\n    \"version\": 1\n  },\n  \"directory\": \"/mnt/trames-output/linux-discovery-services/final/smccc-1/registry space $data%-emu_yidg/environments/86e042e1-5994-498a-936d-d447ca24d034\",\n  \"distribution\": \"custom\",\n  \"error\": null,\n  \"last_exit\": null,\n  \"name\": \"db\",\n  \"running\": false,\n  \"service\": {\n    \"enabled\": true,\n    \"installed\": true,\n    \"path\": \"/home/main.guest/.config/systemd/user/trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service\",\n    \"unit\": \"trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service\"\n  },\n  \"state\": \"stopped\",\n  \"uuid\": \"86e042e1-5994-498a-936d-d447ca24d034\"\n}\n",
+    "stderr": "",
+    "seconds": 0.021212785999523476
+  },
+  {
+    "argv": [
+      "systemctl",
+      "--user",
+      "show",
+      "trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service",
+      "-p",
+      "MainPID",
+      "--value"
+    ],
+    "code": 0,
+    "stdout": "0\n",
+    "stderr": "",
+    "seconds": 0.005177008999453392
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "inspect",
+      "db",
+      "--json"
+    ],
+    "code": 0,
+    "stdout": "{\n  \"config\": {\n    \"boot\": {\n      \"mode\": \"shell\"\n    },\n    \"components\": {\n      \"audio\": false,\n      \"audio_input\": false,\n      \"thunking\": \"auto\",\n      \"vaapi\": false,\n      \"vulkan\": false\n    },\n    \"display\": {\n      \"windows\": false\n    },\n    \"environment\": {\n      \"name\": \"db\",\n      \"type\": \"linux\",\n      \"uuid\": \"86e042e1-5994-498a-936d-d447ca24d034\"\n    },\n    \"image\": {\n      \"distribution\": \"custom\",\n      \"sha256\": \"e65d152ecf1db2a308f45bc1d9593cdc85b98952ac13d39c4b81878b70462747\",\n      \"source\": null\n    },\n    \"interop\": {\n      \"clipboard\": {\n        \"enabled\": true\n      },\n      \"files\": {\n        \"enabled\": true\n      },\n      \"host_cli\": {\n        \"enabled\": true\n      },\n      \"host_exec\": {\n        \"enabled\": true\n      },\n      \"host_ui\": {\n        \"enabled\": true\n      },\n      \"mounts\": {\n        \"enabled\": true\n      },\n      \"ports\": {\n        \"enabled\": true\n      }\n    },\n    \"kernel\": {\n      \"sysctl\": {}\n    },\n    \"mounts\": [],\n    \"network\": {\n      \"bridge\": \"lan\",\n      \"mode\": \"bridge\",\n      \"publish\": [\n        {\n          \"guest\": 41000,\n          \"host\": \"127.0.0.1:51937\",\n          \"protocol\": \"tcp\"\n        }\n      ]\n    },\n    \"resources\": {\n      \"cpus\": 1,\n      \"memory\": \"auto\",\n      \"memory_limit\": null\n    },\n    \"session\": {\n      \"cwd\": \"/\",\n      \"shell\": [\n        \"/bin/sh\",\n        \"-l\"\n      ]\n    },\n    \"version\": 1\n  },\n  \"directory\": \"/mnt/trames-output/linux-discovery-services/final/smccc-1/registry space $data%-emu_yidg/environments/86e042e1-5994-498a-936d-d447ca24d034\",\n  \"distribution\": \"custom\",\n  \"error\": null,\n  \"last_exit\": null,\n  \"name\": \"db\",\n  \"running\": false,\n  \"service\": {\n    \"enabled\": true,\n    \"installed\": true,\n    \"path\": \"/home/main.guest/.config/systemd/user/trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service\",\n    \"unit\": \"trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service\"\n  },\n  \"state\": \"stopped\",\n  \"uuid\": \"86e042e1-5994-498a-936d-d447ca24d034\"\n}\n",
+    "stderr": "",
+    "seconds": 0.020944472002156544
+  },
+  {
+    "argv": [
+      "systemctl",
+      "--user",
+      "show",
+      "trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service",
+      "-p",
+      "MainPID",
+      "--value"
+    ],
+    "code": 0,
+    "stdout": "0\n",
+    "stderr": "",
+    "seconds": 0.004894235004030634
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "inspect",
+      "db",
+      "--json"
+    ],
+    "code": 0,
+    "stdout": "{\n  \"config\": {\n    \"boot\": {\n      \"mode\": \"shell\"\n    },\n    \"components\": {\n      \"audio\": false,\n      \"audio_input\": false,\n      \"thunking\": \"auto\",\n      \"vaapi\": false,\n      \"vulkan\": false\n    },\n    \"display\": {\n      \"windows\": false\n    },\n    \"environment\": {\n      \"name\": \"db\",\n      \"type\": \"linux\",\n      \"uuid\": \"86e042e1-5994-498a-936d-d447ca24d034\"\n    },\n    \"image\": {\n      \"distribution\": \"custom\",\n      \"sha256\": \"e65d152ecf1db2a308f45bc1d9593cdc85b98952ac13d39c4b81878b70462747\",\n      \"source\": null\n    },\n    \"interop\": {\n      \"clipboard\": {\n        \"enabled\": true\n      },\n      \"files\": {\n        \"enabled\": true\n      },\n      \"host_cli\": {\n        \"enabled\": true\n      },\n      \"host_exec\": {\n        \"enabled\": true\n      },\n      \"host_ui\": {\n        \"enabled\": true\n      },\n      \"mounts\": {\n        \"enabled\": true\n      },\n      \"ports\": {\n        \"enabled\": true\n      }\n    },\n    \"kernel\": {\n      \"sysctl\": {}\n    },\n    \"mounts\": [],\n    \"network\": {\n      \"bridge\": \"lan\",\n      \"mode\": \"bridge\",\n      \"publish\": [\n        {\n          \"guest\": 41000,\n          \"host\": \"127.0.0.1:51937\",\n          \"protocol\": \"tcp\"\n        }\n      ]\n    },\n    \"resources\": {\n      \"cpus\": 1,\n      \"memory\": \"auto\",\n      \"memory_limit\": null\n    },\n    \"session\": {\n      \"cwd\": \"/\",\n      \"shell\": [\n        \"/bin/sh\",\n        \"-l\"\n      ]\n    },\n    \"version\": 1\n  },\n  \"directory\": \"/mnt/trames-output/linux-discovery-services/final/smccc-1/registry space $data%-emu_yidg/environments/86e042e1-5994-498a-936d-d447ca24d034\",\n  \"distribution\": \"custom\",\n  \"error\": null,\n  \"last_exit\": null,\n  \"name\": \"db\",\n  \"running\": false,\n  \"service\": {\n    \"enabled\": true,\n    \"installed\": true,\n    \"path\": \"/home/main.guest/.config/systemd/user/trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service\",\n    \"unit\": \"trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service\"\n  },\n  \"state\": \"stopped\",\n  \"uuid\": \"86e042e1-5994-498a-936d-d447ca24d034\"\n}\n",
+    "stderr": "",
+    "seconds": 0.020422302004590165
+  },
+  {
+    "argv": [
+      "systemctl",
+      "--user",
+      "show",
+      "trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service",
+      "-p",
+      "MainPID",
+      "--value"
+    ],
+    "code": 0,
+    "stdout": "0\n",
+    "stderr": "",
+    "seconds": 0.005139255998074077
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "inspect",
+      "db",
+      "--json"
+    ],
+    "code": 0,
+    "stdout": "{\n  \"config\": {\n    \"boot\": {\n      \"mode\": \"shell\"\n    },\n    \"components\": {\n      \"audio\": false,\n      \"audio_input\": false,\n      \"thunking\": \"auto\",\n      \"vaapi\": false,\n      \"vulkan\": false\n    },\n    \"display\": {\n      \"windows\": false\n    },\n    \"environment\": {\n      \"name\": \"db\",\n      \"type\": \"linux\",\n      \"uuid\": \"86e042e1-5994-498a-936d-d447ca24d034\"\n    },\n    \"image\": {\n      \"distribution\": \"custom\",\n      \"sha256\": \"e65d152ecf1db2a308f45bc1d9593cdc85b98952ac13d39c4b81878b70462747\",\n      \"source\": null\n    },\n    \"interop\": {\n      \"clipboard\": {\n        \"enabled\": true\n      },\n      \"files\": {\n        \"enabled\": true\n      },\n      \"host_cli\": {\n        \"enabled\": true\n      },\n      \"host_exec\": {\n        \"enabled\": true\n      },\n      \"host_ui\": {\n        \"enabled\": true\n      },\n      \"mounts\": {\n        \"enabled\": true\n      },\n      \"ports\": {\n        \"enabled\": true\n      }\n    },\n    \"kernel\": {\n      \"sysctl\": {}\n    },\n    \"mounts\": [],\n    \"network\": {\n      \"bridge\": \"lan\",\n      \"mode\": \"bridge\",\n      \"publish\": [\n        {\n          \"guest\": 41000,\n          \"host\": \"127.0.0.1:51937\",\n          \"protocol\": \"tcp\"\n        }\n      ]\n    },\n    \"resources\": {\n      \"cpus\": 1,\n      \"memory\": \"auto\",\n      \"memory_limit\": null\n    },\n    \"session\": {\n      \"cwd\": \"/\",\n      \"shell\": [\n        \"/bin/sh\",\n        \"-l\"\n      ]\n    },\n    \"version\": 1\n  },\n  \"directory\": \"/mnt/trames-output/linux-discovery-services/final/smccc-1/registry space $data%-emu_yidg/environments/86e042e1-5994-498a-936d-d447ca24d034\",\n  \"distribution\": \"custom\",\n  \"error\": null,\n  \"last_exit\": null,\n  \"name\": \"db\",\n  \"running\": false,\n  \"service\": {\n    \"enabled\": true,\n    \"installed\": true,\n    \"path\": \"/home/main.guest/.config/systemd/user/trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service\",\n    \"unit\": \"trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service\"\n  },\n  \"state\": \"stopped\",\n  \"uuid\": \"86e042e1-5994-498a-936d-d447ca24d034\"\n}\n",
+    "stderr": "",
+    "seconds": 0.02065036199928727
+  },
+  {
+    "argv": [
+      "systemctl",
+      "--user",
+      "show",
+      "trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service",
+      "-p",
+      "MainPID",
+      "--value"
+    ],
+    "code": 0,
+    "stdout": "0\n",
+    "stderr": "",
+    "seconds": 0.005777224003395531
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "inspect",
+      "db",
+      "--json"
+    ],
+    "code": 0,
+    "stdout": "{\n  \"config\": {\n    \"boot\": {\n      \"mode\": \"shell\"\n    },\n    \"components\": {\n      \"audio\": false,\n      \"audio_input\": false,\n      \"thunking\": \"auto\",\n      \"vaapi\": false,\n      \"vulkan\": false\n    },\n    \"display\": {\n      \"windows\": false\n    },\n    \"environment\": {\n      \"name\": \"db\",\n      \"type\": \"linux\",\n      \"uuid\": \"86e042e1-5994-498a-936d-d447ca24d034\"\n    },\n    \"image\": {\n      \"distribution\": \"custom\",\n      \"sha256\": \"e65d152ecf1db2a308f45bc1d9593cdc85b98952ac13d39c4b81878b70462747\",\n      \"source\": null\n    },\n    \"interop\": {\n      \"clipboard\": {\n        \"enabled\": true\n      },\n      \"files\": {\n        \"enabled\": true\n      },\n      \"host_cli\": {\n        \"enabled\": true\n      },\n      \"host_exec\": {\n        \"enabled\": true\n      },\n      \"host_ui\": {\n        \"enabled\": true\n      },\n      \"mounts\": {\n        \"enabled\": true\n      },\n      \"ports\": {\n        \"enabled\": true\n      }\n    },\n    \"kernel\": {\n      \"sysctl\": {}\n    },\n    \"mounts\": [],\n    \"network\": {\n      \"bridge\": \"lan\",\n      \"mode\": \"bridge\",\n      \"publish\": [\n        {\n          \"guest\": 41000,\n          \"host\": \"127.0.0.1:51937\",\n          \"protocol\": \"tcp\"\n        }\n      ]\n    },\n    \"resources\": {\n      \"cpus\": 1,\n      \"memory\": \"auto\",\n      \"memory_limit\": null\n    },\n    \"session\": {\n      \"cwd\": \"/\",\n      \"shell\": [\n        \"/bin/sh\",\n        \"-l\"\n      ]\n    },\n    \"version\": 1\n  },\n  \"directory\": \"/mnt/trames-output/linux-discovery-services/final/smccc-1/registry space $data%-emu_yidg/environments/86e042e1-5994-498a-936d-d447ca24d034\",\n  \"distribution\": \"custom\",\n  \"error\": null,\n  \"last_exit\": null,\n  \"name\": \"db\",\n  \"running\": false,\n  \"service\": {\n    \"enabled\": true,\n    \"installed\": true,\n    \"path\": \"/home/main.guest/.config/systemd/user/trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service\",\n    \"unit\": \"trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service\"\n  },\n  \"state\": \"stopped\",\n  \"uuid\": \"86e042e1-5994-498a-936d-d447ca24d034\"\n}\n",
+    "stderr": "",
+    "seconds": 0.021847084994078614
+  },
+  {
+    "argv": [
+      "systemctl",
+      "--user",
+      "show",
+      "trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service",
+      "-p",
+      "MainPID",
+      "--value"
+    ],
+    "code": 0,
+    "stdout": "0\n",
+    "stderr": "",
+    "seconds": 0.005403359995398205
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "inspect",
+      "db",
+      "--json"
+    ],
+    "code": 0,
+    "stdout": "{\n  \"config\": {\n    \"boot\": {\n      \"mode\": \"shell\"\n    },\n    \"components\": {\n      \"audio\": false,\n      \"audio_input\": false,\n      \"thunking\": \"auto\",\n      \"vaapi\": false,\n      \"vulkan\": false\n    },\n    \"display\": {\n      \"windows\": false\n    },\n    \"environment\": {\n      \"name\": \"db\",\n      \"type\": \"linux\",\n      \"uuid\": \"86e042e1-5994-498a-936d-d447ca24d034\"\n    },\n    \"image\": {\n      \"distribution\": \"custom\",\n      \"sha256\": \"e65d152ecf1db2a308f45bc1d9593cdc85b98952ac13d39c4b81878b70462747\",\n      \"source\": null\n    },\n    \"interop\": {\n      \"clipboard\": {\n        \"enabled\": true\n      },\n      \"files\": {\n        \"enabled\": true\n      },\n      \"host_cli\": {\n        \"enabled\": true\n      },\n      \"host_exec\": {\n        \"enabled\": true\n      },\n      \"host_ui\": {\n        \"enabled\": true\n      },\n      \"mounts\": {\n        \"enabled\": true\n      },\n      \"ports\": {\n        \"enabled\": true\n      }\n    },\n    \"kernel\": {\n      \"sysctl\": {}\n    },\n    \"mounts\": [],\n    \"network\": {\n      \"bridge\": \"lan\",\n      \"mode\": \"bridge\",\n      \"publish\": [\n        {\n          \"guest\": 41000,\n          \"host\": \"127.0.0.1:51937\",\n          \"protocol\": \"tcp\"\n        }\n      ]\n    },\n    \"resources\": {\n      \"cpus\": 1,\n      \"memory\": \"auto\",\n      \"memory_limit\": null\n    },\n    \"session\": {\n      \"cwd\": \"/\",\n      \"shell\": [\n        \"/bin/sh\",\n        \"-l\"\n      ]\n    },\n    \"version\": 1\n  },\n  \"directory\": \"/mnt/trames-output/linux-discovery-services/final/smccc-1/registry space $data%-emu_yidg/environments/86e042e1-5994-498a-936d-d447ca24d034\",\n  \"distribution\": \"custom\",\n  \"error\": null,\n  \"last_exit\": null,\n  \"name\": \"db\",\n  \"running\": false,\n  \"service\": {\n    \"enabled\": true,\n    \"installed\": true,\n    \"path\": \"/home/main.guest/.config/systemd/user/trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service\",\n    \"unit\": \"trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service\"\n  },\n  \"state\": \"stopped\",\n  \"uuid\": \"86e042e1-5994-498a-936d-d447ca24d034\"\n}\n",
+    "stderr": "",
+    "seconds": 0.019909925998945255
+  },
+  {
+    "argv": [
+      "systemctl",
+      "--user",
+      "show",
+      "trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service",
+      "-p",
+      "MainPID",
+      "--value"
+    ],
+    "code": 0,
+    "stdout": "0\n",
+    "stderr": "",
+    "seconds": 0.0055088689987314865
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "inspect",
+      "db",
+      "--json"
+    ],
+    "code": 0,
+    "stdout": "{\n  \"config\": {\n    \"boot\": {\n      \"mode\": \"shell\"\n    },\n    \"components\": {\n      \"audio\": false,\n      \"audio_input\": false,\n      \"thunking\": \"auto\",\n      \"vaapi\": false,\n      \"vulkan\": false\n    },\n    \"display\": {\n      \"windows\": false\n    },\n    \"environment\": {\n      \"name\": \"db\",\n      \"type\": \"linux\",\n      \"uuid\": \"86e042e1-5994-498a-936d-d447ca24d034\"\n    },\n    \"image\": {\n      \"distribution\": \"custom\",\n      \"sha256\": \"e65d152ecf1db2a308f45bc1d9593cdc85b98952ac13d39c4b81878b70462747\",\n      \"source\": null\n    },\n    \"interop\": {\n      \"clipboard\": {\n        \"enabled\": true\n      },\n      \"files\": {\n        \"enabled\": true\n      },\n      \"host_cli\": {\n        \"enabled\": true\n      },\n      \"host_exec\": {\n        \"enabled\": true\n      },\n      \"host_ui\": {\n        \"enabled\": true\n      },\n      \"mounts\": {\n        \"enabled\": true\n      },\n      \"ports\": {\n        \"enabled\": true\n      }\n    },\n    \"kernel\": {\n      \"sysctl\": {}\n    },\n    \"mounts\": [],\n    \"network\": {\n      \"bridge\": \"lan\",\n      \"mode\": \"bridge\",\n      \"publish\": [\n        {\n          \"guest\": 41000,\n          \"host\": \"127.0.0.1:51937\",\n          \"protocol\": \"tcp\"\n        }\n      ]\n    },\n    \"resources\": {\n      \"cpus\": 1,\n      \"memory\": \"auto\",\n      \"memory_limit\": null\n    },\n    \"session\": {\n      \"cwd\": \"/\",\n      \"shell\": [\n        \"/bin/sh\",\n        \"-l\"\n      ]\n    },\n    \"version\": 1\n  },\n  \"directory\": \"/mnt/trames-output/linux-discovery-services/final/smccc-1/registry space $data%-emu_yidg/environments/86e042e1-5994-498a-936d-d447ca24d034\",\n  \"distribution\": \"custom\",\n  \"error\": null,\n  \"last_exit\": null,\n  \"name\": \"db\",\n  \"running\": false,\n  \"service\": {\n    \"enabled\": true,\n    \"installed\": true,\n    \"path\": \"/home/main.guest/.config/systemd/user/trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service\",\n    \"unit\": \"trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service\"\n  },\n  \"state\": \"stopped\",\n  \"uuid\": \"86e042e1-5994-498a-936d-d447ca24d034\"\n}\n",
+    "stderr": "",
+    "seconds": 0.023157192998041864
+  },
+  {
+    "argv": [
+      "systemctl",
+      "--user",
+      "show",
+      "trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service",
+      "-p",
+      "MainPID",
+      "--value"
+    ],
+    "code": 0,
+    "stdout": "0\n",
+    "stderr": "",
+    "seconds": 0.0063013920007506385
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "inspect",
+      "db",
+      "--json"
+    ],
+    "code": 0,
+    "stdout": "{\n  \"config\": {\n    \"boot\": {\n      \"mode\": \"shell\"\n    },\n    \"components\": {\n      \"audio\": false,\n      \"audio_input\": false,\n      \"thunking\": \"auto\",\n      \"vaapi\": false,\n      \"vulkan\": false\n    },\n    \"display\": {\n      \"windows\": false\n    },\n    \"environment\": {\n      \"name\": \"db\",\n      \"type\": \"linux\",\n      \"uuid\": \"86e042e1-5994-498a-936d-d447ca24d034\"\n    },\n    \"image\": {\n      \"distribution\": \"custom\",\n      \"sha256\": \"e65d152ecf1db2a308f45bc1d9593cdc85b98952ac13d39c4b81878b70462747\",\n      \"source\": null\n    },\n    \"interop\": {\n      \"clipboard\": {\n        \"enabled\": true\n      },\n      \"files\": {\n        \"enabled\": true\n      },\n      \"host_cli\": {\n        \"enabled\": true\n      },\n      \"host_exec\": {\n        \"enabled\": true\n      },\n      \"host_ui\": {\n        \"enabled\": true\n      },\n      \"mounts\": {\n        \"enabled\": true\n      },\n      \"ports\": {\n        \"enabled\": true\n      }\n    },\n    \"kernel\": {\n      \"sysctl\": {}\n    },\n    \"mounts\": [],\n    \"network\": {\n      \"bridge\": \"lan\",\n      \"mode\": \"bridge\",\n      \"publish\": [\n        {\n          \"guest\": 41000,\n          \"host\": \"127.0.0.1:51937\",\n          \"protocol\": \"tcp\"\n        }\n      ]\n    },\n    \"resources\": {\n      \"cpus\": 1,\n      \"memory\": \"auto\",\n      \"memory_limit\": null\n    },\n    \"session\": {\n      \"cwd\": \"/\",\n      \"shell\": [\n        \"/bin/sh\",\n        \"-l\"\n      ]\n    },\n    \"version\": 1\n  },\n  \"directory\": \"/mnt/trames-output/linux-discovery-services/final/smccc-1/registry space $data%-emu_yidg/environments/86e042e1-5994-498a-936d-d447ca24d034\",\n  \"distribution\": \"custom\",\n  \"error\": null,\n  \"last_exit\": null,\n  \"name\": \"db\",\n  \"running\": false,\n  \"service\": {\n    \"enabled\": true,\n    \"installed\": true,\n    \"path\": \"/home/main.guest/.config/systemd/user/trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service\",\n    \"unit\": \"trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service\"\n  },\n  \"state\": \"stopped\",\n  \"uuid\": \"86e042e1-5994-498a-936d-d447ca24d034\"\n}\n",
+    "stderr": "",
+    "seconds": 0.01885884100192925
+  },
+  {
+    "argv": [
+      "systemctl",
+      "--user",
+      "show",
+      "trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service",
+      "-p",
+      "MainPID",
+      "--value"
+    ],
+    "code": 0,
+    "stdout": "0\n",
+    "stderr": "",
+    "seconds": 0.00528130900056567
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "inspect",
+      "db",
+      "--json"
+    ],
+    "code": 0,
+    "stdout": "{\n  \"config\": {\n    \"boot\": {\n      \"mode\": \"shell\"\n    },\n    \"components\": {\n      \"audio\": false,\n      \"audio_input\": false,\n      \"thunking\": \"auto\",\n      \"vaapi\": false,\n      \"vulkan\": false\n    },\n    \"display\": {\n      \"windows\": false\n    },\n    \"environment\": {\n      \"name\": \"db\",\n      \"type\": \"linux\",\n      \"uuid\": \"86e042e1-5994-498a-936d-d447ca24d034\"\n    },\n    \"image\": {\n      \"distribution\": \"custom\",\n      \"sha256\": \"e65d152ecf1db2a308f45bc1d9593cdc85b98952ac13d39c4b81878b70462747\",\n      \"source\": null\n    },\n    \"interop\": {\n      \"clipboard\": {\n        \"enabled\": true\n      },\n      \"files\": {\n        \"enabled\": true\n      },\n      \"host_cli\": {\n        \"enabled\": true\n      },\n      \"host_exec\": {\n        \"enabled\": true\n      },\n      \"host_ui\": {\n        \"enabled\": true\n      },\n      \"mounts\": {\n        \"enabled\": true\n      },\n      \"ports\": {\n        \"enabled\": true\n      }\n    },\n    \"kernel\": {\n      \"sysctl\": {}\n    },\n    \"mounts\": [],\n    \"network\": {\n      \"bridge\": \"lan\",\n      \"mode\": \"bridge\",\n      \"publish\": [\n        {\n          \"guest\": 41000,\n          \"host\": \"127.0.0.1:51937\",\n          \"protocol\": \"tcp\"\n        }\n      ]\n    },\n    \"resources\": {\n      \"cpus\": 1,\n      \"memory\": \"auto\",\n      \"memory_limit\": null\n    },\n    \"session\": {\n      \"cwd\": \"/\",\n      \"shell\": [\n        \"/bin/sh\",\n        \"-l\"\n      ]\n    },\n    \"version\": 1\n  },\n  \"directory\": \"/mnt/trames-output/linux-discovery-services/final/smccc-1/registry space $data%-emu_yidg/environments/86e042e1-5994-498a-936d-d447ca24d034\",\n  \"distribution\": \"custom\",\n  \"error\": null,\n  \"last_exit\": null,\n  \"name\": \"db\",\n  \"running\": true,\n  \"service\": {\n    \"enabled\": true,\n    \"installed\": true,\n    \"path\": \"/home/main.guest/.config/systemd/user/trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service\",\n    \"unit\": \"trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service\"\n  },\n  \"state\": \"running\",\n  \"uuid\": \"86e042e1-5994-498a-936d-d447ca24d034\"\n}\n",
+    "stderr": "",
+    "seconds": 0.01000377899617888
+  },
+  {
+    "argv": [
+      "systemctl",
+      "--user",
+      "show",
+      "trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service",
+      "-p",
+      "MainPID",
+      "--value"
+    ],
+    "code": 0,
+    "stdout": "227907\n",
+    "stderr": "",
+    "seconds": 0.0021734699985245243
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "path",
+      "db"
+    ],
+    "code": 0,
+    "stdout": "/mnt/trames-output/linux-discovery-services/final/smccc-1/registry space $data%-emu_yidg/environments/86e042e1-5994-498a-936d-d447ca24d034\n",
+    "stderr": "",
+    "seconds": 0.0042942280051647685
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "-e",
+      "db",
+      "exec",
+      "--",
+      "/bin/cat",
+      "/root/value"
+    ],
+    "code": 0,
+    "stdout": "durable\n",
+    "stderr": "",
+    "seconds": 0.043749841999670025
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "-e",
+      "web",
+      "exec",
+      "--",
+      "/bin/netprobe",
+      "resolve",
+      "db.trames"
+    ],
+    "code": 0,
+    "stdout": "10.0.0.2\n",
+    "stderr": "",
+    "seconds": 0.04347594400314847
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "-e",
+      "web",
+      "exec",
+      "--",
+      "/bin/netprobe",
+      "resolve6",
+      "db.trames"
+    ],
+    "code": 0,
+    "stdout": "fd00::2\n",
+    "stderr": "",
+    "seconds": 0.04027068099821918
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "-e",
+      "web",
+      "exec",
+      "--",
+      "/usr/bin/curl",
+      "--noproxy",
+      "*",
+      "-fsS",
+      "--max-time",
+      "10",
+      "http://db.trames:41000/"
+    ],
+    "code": 0,
+    "stdout": "TRAMES_HTTP_OK\n",
+    "stderr": "",
+    "seconds": 0.5378784819986322
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "restart",
+      "db"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.11036779999994906
+  },
+  {
+    "argv": [
+      "systemctl",
+      "--user",
+      "show",
+      "trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service",
+      "-p",
+      "MainPID",
+      "--value"
+    ],
+    "code": 0,
+    "stdout": "227927\n",
+    "stderr": "",
+    "seconds": 0.002202263996878173
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "-e",
+      "web",
+      "exec",
+      "--",
+      "/bin/netprobe",
+      "resolve",
+      "db.trames"
+    ],
+    "code": 0,
+    "stdout": "10.0.0.2\n",
+    "stderr": "",
+    "seconds": 0.04219166799884988
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "-e",
+      "web",
+      "exec",
+      "--",
+      "/bin/netprobe",
+      "resolve6",
+      "db.trames"
+    ],
+    "code": 0,
+    "stdout": "fd00::2\n",
+    "stderr": "",
+    "seconds": 0.03687656499823788
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "remove",
+      "db",
+      "--yes"
+    ],
+    "code": 2,
+    "stdout": "",
+    "stderr": "trames: disable the environment user service before removing it\n",
+    "seconds": 0.0072968070016941056
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "stop",
+      "db"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.03877980499964906
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "-e",
+      "web",
+      "exec",
+      "--",
+      "/bin/netprobe",
+      "resolve",
+      "db.trames"
+    ],
+    "code": 1,
+    "stdout": "",
+    "stderr": "resolve: Name or service not known\n",
+    "seconds": 0.03746028000023216
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "-e",
+      "web",
+      "exec",
+      "--",
+      "/bin/netprobe",
+      "resolve6",
+      "db.trames"
+    ],
+    "code": 1,
+    "stdout": "",
+    "stderr": "resolve: Name or service not known\n",
+    "seconds": 0.03513750699494267
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "rename",
+      "db",
+      "database"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.008966651999799069
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "inspect",
+      "database",
+      "--json"
+    ],
+    "code": 0,
+    "stdout": "{\n  \"config\": {\n    \"boot\": {\n      \"mode\": \"shell\"\n    },\n    \"components\": {\n      \"audio\": false,\n      \"audio_input\": false,\n      \"thunking\": \"auto\",\n      \"vaapi\": false,\n      \"vulkan\": false\n    },\n    \"display\": {\n      \"windows\": false\n    },\n    \"environment\": {\n      \"name\": \"database\",\n      \"type\": \"linux\",\n      \"uuid\": \"86e042e1-5994-498a-936d-d447ca24d034\"\n    },\n    \"image\": {\n      \"distribution\": \"custom\",\n      \"sha256\": \"e65d152ecf1db2a308f45bc1d9593cdc85b98952ac13d39c4b81878b70462747\",\n      \"source\": null\n    },\n    \"interop\": {\n      \"clipboard\": {\n        \"enabled\": true\n      },\n      \"files\": {\n        \"enabled\": true\n      },\n      \"host_cli\": {\n        \"enabled\": true\n      },\n      \"host_exec\": {\n        \"enabled\": true\n      },\n      \"host_ui\": {\n        \"enabled\": true\n      },\n      \"mounts\": {\n        \"enabled\": true\n      },\n      \"ports\": {\n        \"enabled\": true\n      }\n    },\n    \"kernel\": {\n      \"sysctl\": {}\n    },\n    \"mounts\": [],\n    \"network\": {\n      \"bridge\": \"lan\",\n      \"mode\": \"bridge\",\n      \"publish\": [\n        {\n          \"guest\": 41000,\n          \"host\": \"127.0.0.1:51937\",\n          \"protocol\": \"tcp\"\n        }\n      ]\n    },\n    \"resources\": {\n      \"cpus\": 1,\n      \"memory\": \"auto\",\n      \"memory_limit\": null\n    },\n    \"session\": {\n      \"cwd\": \"/\",\n      \"shell\": [\n        \"/bin/sh\",\n        \"-l\"\n      ]\n    },\n    \"version\": 1\n  },\n  \"directory\": \"/mnt/trames-output/linux-discovery-services/final/smccc-1/registry space $data%-emu_yidg/environments/86e042e1-5994-498a-936d-d447ca24d034\",\n  \"distribution\": \"custom\",\n  \"error\": null,\n  \"last_exit\": {\n    \"code\": 0,\n    \"error\": null\n  },\n  \"name\": \"database\",\n  \"running\": false,\n  \"service\": {\n    \"enabled\": true,\n    \"installed\": true,\n    \"path\": \"/home/main.guest/.config/systemd/user/trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service\",\n    \"unit\": \"trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service\"\n  },\n  \"state\": \"stopped\",\n  \"uuid\": \"86e042e1-5994-498a-936d-d447ca24d034\"\n}\n",
+    "stderr": "",
+    "seconds": 0.008631165997940116
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "start",
+      "database"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.056643766998604406
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "-e",
+      "web",
+      "exec",
+      "--",
+      "/bin/netprobe",
+      "resolve",
+      "db.trames"
+    ],
+    "code": 1,
+    "stdout": "",
+    "stderr": "resolve: Name or service not known\n",
+    "seconds": 0.03788806100055808
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "-e",
+      "web",
+      "exec",
+      "--",
+      "/bin/netprobe",
+      "resolve6",
+      "db.trames"
+    ],
+    "code": 1,
+    "stdout": "",
+    "stderr": "resolve: Name or service not known\n",
+    "seconds": 0.03225568299967563
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "-e",
+      "web",
+      "exec",
+      "--",
+      "/bin/netprobe",
+      "resolve",
+      "database.trames"
+    ],
+    "code": 0,
+    "stdout": "10.0.0.2\n",
+    "stderr": "",
+    "seconds": 0.035784054998657666
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "-e",
+      "web",
+      "exec",
+      "--",
+      "/bin/netprobe",
+      "resolve6",
+      "database.trames"
+    ],
+    "code": 0,
+    "stdout": "fd00::2\n",
+    "stderr": "",
+    "seconds": 0.036658293996879365
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "-e",
+      "web",
+      "exec",
+      "--",
+      "/usr/bin/curl",
+      "--noproxy",
+      "*",
+      "-fsS",
+      "--max-time",
+      "10",
+      "http://database.trames:41000/"
+    ],
+    "code": 0,
+    "stdout": "TRAMES_HTTP_OK\n",
+    "stderr": "",
+    "seconds": 0.4981743389944313
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "create",
+      "Database",
+      "--rootfs",
+      "/mnt/trames-output/linux-discovery-services/final/rootfs"
+    ],
+    "code": 0,
+    "stdout": "Created Database (custom)\n",
+    "stderr": "",
+    "seconds": 0.21383155299554346
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "-e",
+      "Database",
+      "config",
+      "set",
+      "network.mode",
+      "bridge",
+      "network.bridge",
+      "lan"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.008789803003310226
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "start",
+      "Database"
+    ],
+    "code": 2,
+    "stdout": "",
+    "stderr": "trames: guest network errno 5\n",
+    "seconds": 0.031396444006531965
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "inspect",
+      "Database",
+      "--json"
+    ],
+    "code": 0,
+    "stdout": "{\n  \"config\": {\n    \"boot\": {\n      \"mode\": \"shell\"\n    },\n    \"components\": {\n      \"audio\": false,\n      \"audio_input\": false,\n      \"thunking\": \"auto\",\n      \"vaapi\": false,\n      \"vulkan\": false\n    },\n    \"display\": {\n      \"windows\": false\n    },\n    \"environment\": {\n      \"name\": \"Database\",\n      \"type\": \"linux\",\n      \"uuid\": \"8d2f6e0d-d095-4ae3-9728-965325cdaae0\"\n    },\n    \"image\": {\n      \"distribution\": \"custom\",\n      \"sha256\": \"e65d152ecf1db2a308f45bc1d9593cdc85b98952ac13d39c4b81878b70462747\",\n      \"source\": null\n    },\n    \"interop\": {\n      \"clipboard\": {\n        \"enabled\": true\n      },\n      \"files\": {\n        \"enabled\": true\n      },\n      \"host_cli\": {\n        \"enabled\": true\n      },\n      \"host_exec\": {\n        \"enabled\": true\n      },\n      \"host_ui\": {\n        \"enabled\": true\n      },\n      \"mounts\": {\n        \"enabled\": true\n      },\n      \"ports\": {\n        \"enabled\": true\n      }\n    },\n    \"kernel\": {\n      \"sysctl\": {}\n    },\n    \"mounts\": [],\n    \"network\": {\n      \"bridge\": \"lan\",\n      \"mode\": \"bridge\",\n      \"publish\": []\n    },\n    \"resources\": {\n      \"cpus\": 1,\n      \"memory\": \"auto\",\n      \"memory_limit\": null\n    },\n    \"session\": {\n      \"cwd\": \"/\",\n      \"shell\": [\n        \"/bin/sh\",\n        \"-l\"\n      ]\n    },\n    \"version\": 1\n  },\n  \"directory\": \"/mnt/trames-output/linux-discovery-services/final/smccc-1/registry space $data%-emu_yidg/environments/8d2f6e0d-d095-4ae3-9728-965325cdaae0\",\n  \"distribution\": \"custom\",\n  \"error\": null,\n  \"last_exit\": {\n    \"code\": 2,\n    \"error\": \"guest network errno 5\"\n  },\n  \"name\": \"Database\",\n  \"running\": false,\n  \"service\": {\n    \"enabled\": false,\n    \"installed\": false,\n    \"path\": \"/home/main.guest/.config/systemd/user/trames-8d2f6e0d-d095-4ae3-9728-965325cdaae0-939adb021bbf.service\",\n    \"unit\": \"trames-8d2f6e0d-d095-4ae3-9728-965325cdaae0-939adb021bbf.service\"\n  },\n  \"state\": \"stopped\",\n  \"uuid\": \"8d2f6e0d-d095-4ae3-9728-965325cdaae0\"\n}\n",
+    "stderr": "",
+    "seconds": 0.009182917994621675
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "create",
+      "victim",
+      "--rootfs",
+      "/mnt/trames-output/linux-discovery-services/final/rootfs"
+    ],
+    "code": 0,
+    "stdout": "Created victim (custom)\n",
+    "stderr": "",
+    "seconds": 0.21182515799591783
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "-e",
+      "victim",
+      "config",
+      "set",
+      "network.mode",
+      "bridge",
+      "network.bridge",
+      "lan"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.006959028003620915
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "start",
+      "victim"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.05111101399961626
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "-e",
+      "web",
+      "exec",
+      "--",
+      "/bin/netprobe",
+      "resolve",
+      "victim.trames"
+    ],
+    "code": 0,
+    "stdout": "10.0.0.5\n",
+    "stderr": "",
+    "seconds": 0.04406639600347262
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "path",
+      "victim"
+    ],
+    "code": 0,
+    "stdout": "/mnt/trames-output/linux-discovery-services/final/smccc-1/registry space $data%-emu_yidg/environments/2c38401f-8d3f-450c-80d4-df487e46de9b\n",
+    "stderr": "",
+    "seconds": 0.005303307996655349
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "inspect",
+      "victim",
+      "--json"
+    ],
+    "code": 0,
+    "stdout": "{\n  \"config\": {\n    \"boot\": {\n      \"mode\": \"shell\"\n    },\n    \"components\": {\n      \"audio\": false,\n      \"audio_input\": false,\n      \"thunking\": \"auto\",\n      \"vaapi\": false,\n      \"vulkan\": false\n    },\n    \"display\": {\n      \"windows\": false\n    },\n    \"environment\": {\n      \"name\": \"victim\",\n      \"type\": \"linux\",\n      \"uuid\": \"2c38401f-8d3f-450c-80d4-df487e46de9b\"\n    },\n    \"image\": {\n      \"distribution\": \"custom\",\n      \"sha256\": \"e65d152ecf1db2a308f45bc1d9593cdc85b98952ac13d39c4b81878b70462747\",\n      \"source\": null\n    },\n    \"interop\": {\n      \"clipboard\": {\n        \"enabled\": true\n      },\n      \"files\": {\n        \"enabled\": true\n      },\n      \"host_cli\": {\n        \"enabled\": true\n      },\n      \"host_exec\": {\n        \"enabled\": true\n      },\n      \"host_ui\": {\n        \"enabled\": true\n      },\n      \"mounts\": {\n        \"enabled\": true\n      },\n      \"ports\": {\n        \"enabled\": true\n      }\n    },\n    \"kernel\": {\n      \"sysctl\": {}\n    },\n    \"mounts\": [],\n    \"network\": {\n      \"bridge\": \"lan\",\n      \"mode\": \"bridge\",\n      \"publish\": []\n    },\n    \"resources\": {\n      \"cpus\": 1,\n      \"memory\": \"auto\",\n      \"memory_limit\": null\n    },\n    \"session\": {\n      \"cwd\": \"/\",\n      \"shell\": [\n        \"/bin/sh\",\n        \"-l\"\n      ]\n    },\n    \"version\": 1\n  },\n  \"directory\": \"/mnt/trames-output/linux-discovery-services/final/smccc-1/registry space $data%-emu_yidg/environments/2c38401f-8d3f-450c-80d4-df487e46de9b\",\n  \"distribution\": \"custom\",\n  \"error\": null,\n  \"last_exit\": null,\n  \"name\": \"victim\",\n  \"running\": false,\n  \"service\": {\n    \"enabled\": false,\n    \"installed\": false,\n    \"path\": \"/home/main.guest/.config/systemd/user/trames-2c38401f-8d3f-450c-80d4-df487e46de9b-de8cbed4ed04.service\",\n    \"unit\": \"trames-2c38401f-8d3f-450c-80d4-df487e46de9b-de8cbed4ed04.service\"\n  },\n  \"state\": \"stopped\",\n  \"uuid\": \"2c38401f-8d3f-450c-80d4-df487e46de9b\"\n}\n",
+    "stderr": "",
+    "seconds": 0.008759299998928327
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "-e",
+      "web",
+      "exec",
+      "--",
+      "/bin/netprobe",
+      "resolve",
+      "victim.trames"
+    ],
+    "code": 1,
+    "stdout": "",
+    "stderr": "resolve: Name or service not known\n",
+    "seconds": 0.03833651100285351
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "stop",
+      "database"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.04442392499913694
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "clone",
+      "database",
+      "copy"
+    ],
+    "code": 0,
+    "stdout": "Imported copy; shared directories must be selected again\n",
+    "stderr": "",
+    "seconds": 0.08131406699976651
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "backup",
+      "database",
+      "/mnt/trames-output/linux-discovery-services/final/smccc-1/registry space $data%-emu_yidg/backup.tar.gz"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.2152837739995448
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "restore",
+      "recovered",
+      "/mnt/trames-output/linux-discovery-services/final/smccc-1/registry space $data%-emu_yidg/backup.tar.gz"
+    ],
+    "code": 0,
+    "stdout": "Restored recovered; shared directories must be selected again\n",
+    "stderr": "",
+    "seconds": 0.49630373300169595
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "inspect",
+      "copy",
+      "--json"
+    ],
+    "code": 0,
+    "stdout": "{\n  \"config\": {\n    \"boot\": {\n      \"mode\": \"shell\"\n    },\n    \"components\": {\n      \"audio\": false,\n      \"audio_input\": false,\n      \"thunking\": \"auto\",\n      \"vaapi\": false,\n      \"vulkan\": false\n    },\n    \"display\": {\n      \"windows\": false\n    },\n    \"environment\": {\n      \"name\": \"copy\",\n      \"type\": \"linux\",\n      \"uuid\": \"fabffd5e-f30a-4165-88c5-c2e7f74f9234\"\n    },\n    \"image\": {\n      \"distribution\": \"custom\",\n      \"sha256\": \"e65d152ecf1db2a308f45bc1d9593cdc85b98952ac13d39c4b81878b70462747\",\n      \"source\": null\n    },\n    \"interop\": {\n      \"clipboard\": {\n        \"enabled\": true\n      },\n      \"files\": {\n        \"enabled\": true\n      },\n      \"host_cli\": {\n        \"enabled\": true\n      },\n      \"host_exec\": {\n        \"enabled\": true\n      },\n      \"host_ui\": {\n        \"enabled\": true\n      },\n      \"mounts\": {\n        \"enabled\": true\n      },\n      \"ports\": {\n        \"enabled\": true\n      }\n    },\n    \"kernel\": {\n      \"sysctl\": {}\n    },\n    \"mounts\": [],\n    \"network\": {\n      \"bridge\": \"lan\",\n      \"mode\": \"bridge\",\n      \"publish\": [\n        {\n          \"guest\": 41000,\n          \"host\": \"127.0.0.1:51937\",\n          \"protocol\": \"tcp\"\n        }\n      ]\n    },\n    \"resources\": {\n      \"cpus\": 1,\n      \"memory\": \"auto\",\n      \"memory_limit\": null\n    },\n    \"session\": {\n      \"cwd\": \"/\",\n      \"shell\": [\n        \"/bin/sh\",\n        \"-l\"\n      ]\n    },\n    \"version\": 1\n  },\n  \"directory\": \"/mnt/trames-output/linux-discovery-services/final/smccc-1/registry space $data%-emu_yidg/environments/fabffd5e-f30a-4165-88c5-c2e7f74f9234\",\n  \"distribution\": \"custom\",\n  \"error\": null,\n  \"last_exit\": null,\n  \"name\": \"copy\",\n  \"running\": false,\n  \"service\": {\n    \"enabled\": false,\n    \"installed\": false,\n    \"path\": \"/home/main.guest/.config/systemd/user/trames-fabffd5e-f30a-4165-88c5-c2e7f74f9234-b5e2da8dd9d7.service\",\n    \"unit\": \"trames-fabffd5e-f30a-4165-88c5-c2e7f74f9234-b5e2da8dd9d7.service\"\n  },\n  \"state\": \"stopped\",\n  \"uuid\": \"fabffd5e-f30a-4165-88c5-c2e7f74f9234\"\n}\n",
+    "stderr": "",
+    "seconds": 0.014256914997531567
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "inspect",
+      "copy",
+      "--json"
+    ],
+    "code": 0,
+    "stdout": "{\n  \"config\": {\n    \"boot\": {\n      \"mode\": \"shell\"\n    },\n    \"components\": {\n      \"audio\": false,\n      \"audio_input\": false,\n      \"thunking\": \"auto\",\n      \"vaapi\": false,\n      \"vulkan\": false\n    },\n    \"display\": {\n      \"windows\": false\n    },\n    \"environment\": {\n      \"name\": \"copy\",\n      \"type\": \"linux\",\n      \"uuid\": \"fabffd5e-f30a-4165-88c5-c2e7f74f9234\"\n    },\n    \"image\": {\n      \"distribution\": \"custom\",\n      \"sha256\": \"e65d152ecf1db2a308f45bc1d9593cdc85b98952ac13d39c4b81878b70462747\",\n      \"source\": null\n    },\n    \"interop\": {\n      \"clipboard\": {\n        \"enabled\": true\n      },\n      \"files\": {\n        \"enabled\": true\n      },\n      \"host_cli\": {\n        \"enabled\": true\n      },\n      \"host_exec\": {\n        \"enabled\": true\n      },\n      \"host_ui\": {\n        \"enabled\": true\n      },\n      \"mounts\": {\n        \"enabled\": true\n      },\n      \"ports\": {\n        \"enabled\": true\n      }\n    },\n    \"kernel\": {\n      \"sysctl\": {}\n    },\n    \"mounts\": [],\n    \"network\": {\n      \"bridge\": \"lan\",\n      \"mode\": \"bridge\",\n      \"publish\": [\n        {\n          \"guest\": 41000,\n          \"host\": \"127.0.0.1:51937\",\n          \"protocol\": \"tcp\"\n        }\n      ]\n    },\n    \"resources\": {\n      \"cpus\": 1,\n      \"memory\": \"auto\",\n      \"memory_limit\": null\n    },\n    \"session\": {\n      \"cwd\": \"/\",\n      \"shell\": [\n        \"/bin/sh\",\n        \"-l\"\n      ]\n    },\n    \"version\": 1\n  },\n  \"directory\": \"/mnt/trames-output/linux-discovery-services/final/smccc-1/registry space $data%-emu_yidg/environments/fabffd5e-f30a-4165-88c5-c2e7f74f9234\",\n  \"distribution\": \"custom\",\n  \"error\": null,\n  \"last_exit\": null,\n  \"name\": \"copy\",\n  \"running\": false,\n  \"service\": {\n    \"enabled\": false,\n    \"installed\": false,\n    \"path\": \"/home/main.guest/.config/systemd/user/trames-fabffd5e-f30a-4165-88c5-c2e7f74f9234-b5e2da8dd9d7.service\",\n    \"unit\": \"trames-fabffd5e-f30a-4165-88c5-c2e7f74f9234-b5e2da8dd9d7.service\"\n  },\n  \"state\": \"stopped\",\n  \"uuid\": \"fabffd5e-f30a-4165-88c5-c2e7f74f9234\"\n}\n",
+    "stderr": "",
+    "seconds": 0.013990934996400028
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "unpublish",
+      "copy",
+      "51937"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.0101812479988439
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "start",
+      "copy"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.06235159300558735
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "-e",
+      "copy",
+      "exec",
+      "--",
+      "/bin/cat",
+      "/root/value"
+    ],
+    "code": 0,
+    "stdout": "durable\n",
+    "stderr": "",
+    "seconds": 0.0721080980001716
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "-e",
+      "web",
+      "exec",
+      "--",
+      "/bin/netprobe",
+      "resolve",
+      "copy.trames"
+    ],
+    "code": 0,
+    "stdout": "10.0.0.6\n",
+    "stderr": "",
+    "seconds": 0.0429850529981195
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "stop",
+      "copy"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.03135576900240267
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "remove",
+      "copy",
+      "--yes"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.024964997995994054
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "-e",
+      "web",
+      "exec",
+      "--",
+      "/bin/netprobe",
+      "resolve",
+      "copy.trames"
+    ],
+    "code": 1,
+    "stdout": "",
+    "stderr": "resolve: Name or service not known\n",
+    "seconds": 0.038887260001502
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "inspect",
+      "recovered",
+      "--json"
+    ],
+    "code": 0,
+    "stdout": "{\n  \"config\": {\n    \"boot\": {\n      \"mode\": \"shell\"\n    },\n    \"components\": {\n      \"audio\": false,\n      \"audio_input\": false,\n      \"thunking\": \"auto\",\n      \"vaapi\": false,\n      \"vulkan\": false\n    },\n    \"display\": {\n      \"windows\": false\n    },\n    \"environment\": {\n      \"name\": \"recovered\",\n      \"type\": \"linux\",\n      \"uuid\": \"9ae27746-3264-49a7-a46d-95a97a37cf17\"\n    },\n    \"image\": {\n      \"distribution\": \"custom\",\n      \"sha256\": \"e65d152ecf1db2a308f45bc1d9593cdc85b98952ac13d39c4b81878b70462747\",\n      \"source\": null\n    },\n    \"interop\": {\n      \"clipboard\": {\n        \"enabled\": true\n      },\n      \"files\": {\n        \"enabled\": true\n      },\n      \"host_cli\": {\n        \"enabled\": true\n      },\n      \"host_exec\": {\n        \"enabled\": true\n      },\n      \"host_ui\": {\n        \"enabled\": true\n      },\n      \"mounts\": {\n        \"enabled\": true\n      },\n      \"ports\": {\n        \"enabled\": true\n      }\n    },\n    \"kernel\": {\n      \"sysctl\": {}\n    },\n    \"mounts\": [],\n    \"network\": {\n      \"bridge\": \"lan\",\n      \"mode\": \"bridge\",\n      \"publish\": [\n        {\n          \"guest\": 41000,\n          \"host\": \"127.0.0.1:51937\",\n          \"protocol\": \"tcp\"\n        }\n      ]\n    },\n    \"resources\": {\n      \"cpus\": 1,\n      \"memory\": \"auto\",\n      \"memory_limit\": null\n    },\n    \"session\": {\n      \"cwd\": \"/\",\n      \"shell\": [\n        \"/bin/sh\",\n        \"-l\"\n      ]\n    },\n    \"version\": 1\n  },\n  \"directory\": \"/mnt/trames-output/linux-discovery-services/final/smccc-1/registry space $data%-emu_yidg/environments/9ae27746-3264-49a7-a46d-95a97a37cf17\",\n  \"distribution\": \"custom\",\n  \"error\": null,\n  \"last_exit\": null,\n  \"name\": \"recovered\",\n  \"running\": false,\n  \"service\": {\n    \"enabled\": false,\n    \"installed\": false,\n    \"path\": \"/home/main.guest/.config/systemd/user/trames-9ae27746-3264-49a7-a46d-95a97a37cf17-ce6f2f51e0fe.service\",\n    \"unit\": \"trames-9ae27746-3264-49a7-a46d-95a97a37cf17-ce6f2f51e0fe.service\"\n  },\n  \"state\": \"stopped\",\n  \"uuid\": \"9ae27746-3264-49a7-a46d-95a97a37cf17\"\n}\n",
+    "stderr": "",
+    "seconds": 0.012622198002645746
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "inspect",
+      "recovered",
+      "--json"
+    ],
+    "code": 0,
+    "stdout": "{\n  \"config\": {\n    \"boot\": {\n      \"mode\": \"shell\"\n    },\n    \"components\": {\n      \"audio\": false,\n      \"audio_input\": false,\n      \"thunking\": \"auto\",\n      \"vaapi\": false,\n      \"vulkan\": false\n    },\n    \"display\": {\n      \"windows\": false\n    },\n    \"environment\": {\n      \"name\": \"recovered\",\n      \"type\": \"linux\",\n      \"uuid\": \"9ae27746-3264-49a7-a46d-95a97a37cf17\"\n    },\n    \"image\": {\n      \"distribution\": \"custom\",\n      \"sha256\": \"e65d152ecf1db2a308f45bc1d9593cdc85b98952ac13d39c4b81878b70462747\",\n      \"source\": null\n    },\n    \"interop\": {\n      \"clipboard\": {\n        \"enabled\": true\n      },\n      \"files\": {\n        \"enabled\": true\n      },\n      \"host_cli\": {\n        \"enabled\": true\n      },\n      \"host_exec\": {\n        \"enabled\": true\n      },\n      \"host_ui\": {\n        \"enabled\": true\n      },\n      \"mounts\": {\n        \"enabled\": true\n      },\n      \"ports\": {\n        \"enabled\": true\n      }\n    },\n    \"kernel\": {\n      \"sysctl\": {}\n    },\n    \"mounts\": [],\n    \"network\": {\n      \"bridge\": \"lan\",\n      \"mode\": \"bridge\",\n      \"publish\": [\n        {\n          \"guest\": 41000,\n          \"host\": \"127.0.0.1:51937\",\n          \"protocol\": \"tcp\"\n        }\n      ]\n    },\n    \"resources\": {\n      \"cpus\": 1,\n      \"memory\": \"auto\",\n      \"memory_limit\": null\n    },\n    \"session\": {\n      \"cwd\": \"/\",\n      \"shell\": [\n        \"/bin/sh\",\n        \"-l\"\n      ]\n    },\n    \"version\": 1\n  },\n  \"directory\": \"/mnt/trames-output/linux-discovery-services/final/smccc-1/registry space $data%-emu_yidg/environments/9ae27746-3264-49a7-a46d-95a97a37cf17\",\n  \"distribution\": \"custom\",\n  \"error\": null,\n  \"last_exit\": null,\n  \"name\": \"recovered\",\n  \"running\": false,\n  \"service\": {\n    \"enabled\": false,\n    \"installed\": false,\n    \"path\": \"/home/main.guest/.config/systemd/user/trames-9ae27746-3264-49a7-a46d-95a97a37cf17-ce6f2f51e0fe.service\",\n    \"unit\": \"trames-9ae27746-3264-49a7-a46d-95a97a37cf17-ce6f2f51e0fe.service\"\n  },\n  \"state\": \"stopped\",\n  \"uuid\": \"9ae27746-3264-49a7-a46d-95a97a37cf17\"\n}\n",
+    "stderr": "",
+    "seconds": 0.011461893998784944
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "unpublish",
+      "recovered",
+      "51937"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.008886891999281943
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "start",
+      "recovered"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.056845142993552145
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "-e",
+      "recovered",
+      "exec",
+      "--",
+      "/bin/cat",
+      "/root/value"
+    ],
+    "code": 0,
+    "stdout": "durable\n",
+    "stderr": "",
+    "seconds": 0.08800506300030975
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "-e",
+      "web",
+      "exec",
+      "--",
+      "/bin/netprobe",
+      "resolve",
+      "recovered.trames"
+    ],
+    "code": 0,
+    "stdout": "10.0.0.6\n",
+    "stderr": "",
+    "seconds": 0.048891577003814746
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "stop",
+      "recovered"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.029612584999995306
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "remove",
+      "recovered",
+      "--yes"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.022954375002882443
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "-e",
+      "web",
+      "exec",
+      "--",
+      "/bin/netprobe",
+      "resolve",
+      "recovered.trames"
+    ],
+    "code": 1,
+    "stdout": "",
+    "stderr": "resolve: Name or service not known\n",
+    "seconds": 0.03861632099869894
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "disable",
+      "database",
+      "--now"
+    ],
+    "code": 0,
+    "stdout": "Disabled trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service\n",
+    "stderr": "Removed \"/home/main.guest/.config/systemd/user/default.target.wants/trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service\".\n",
+    "seconds": 0.09064661199954571
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "inspect",
+      "database",
+      "--json"
+    ],
+    "code": 0,
+    "stdout": "{\n  \"config\": {\n    \"boot\": {\n      \"mode\": \"shell\"\n    },\n    \"components\": {\n      \"audio\": false,\n      \"audio_input\": false,\n      \"thunking\": \"auto\",\n      \"vaapi\": false,\n      \"vulkan\": false\n    },\n    \"display\": {\n      \"windows\": false\n    },\n    \"environment\": {\n      \"name\": \"database\",\n      \"type\": \"linux\",\n      \"uuid\": \"86e042e1-5994-498a-936d-d447ca24d034\"\n    },\n    \"image\": {\n      \"distribution\": \"custom\",\n      \"sha256\": \"e65d152ecf1db2a308f45bc1d9593cdc85b98952ac13d39c4b81878b70462747\",\n      \"source\": null\n    },\n    \"interop\": {\n      \"clipboard\": {\n        \"enabled\": true\n      },\n      \"files\": {\n        \"enabled\": true\n      },\n      \"host_cli\": {\n        \"enabled\": true\n      },\n      \"host_exec\": {\n        \"enabled\": true\n      },\n      \"host_ui\": {\n        \"enabled\": true\n      },\n      \"mounts\": {\n        \"enabled\": true\n      },\n      \"ports\": {\n        \"enabled\": true\n      }\n    },\n    \"kernel\": {\n      \"sysctl\": {}\n    },\n    \"mounts\": [],\n    \"network\": {\n      \"bridge\": \"lan\",\n      \"mode\": \"bridge\",\n      \"publish\": [\n        {\n          \"guest\": 41000,\n          \"host\": \"127.0.0.1:51937\",\n          \"protocol\": \"tcp\"\n        }\n      ]\n    },\n    \"resources\": {\n      \"cpus\": 1,\n      \"memory\": \"auto\",\n      \"memory_limit\": null\n    },\n    \"session\": {\n      \"cwd\": \"/\",\n      \"shell\": [\n        \"/bin/sh\",\n        \"-l\"\n      ]\n    },\n    \"version\": 1\n  },\n  \"directory\": \"/mnt/trames-output/linux-discovery-services/final/smccc-1/registry space $data%-emu_yidg/environments/86e042e1-5994-498a-936d-d447ca24d034\",\n  \"distribution\": \"custom\",\n  \"error\": null,\n  \"last_exit\": {\n    \"code\": 0,\n    \"error\": null\n  },\n  \"name\": \"database\",\n  \"running\": false,\n  \"service\": {\n    \"enabled\": false,\n    \"installed\": false,\n    \"path\": \"/home/main.guest/.config/systemd/user/trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service\",\n    \"unit\": \"trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service\"\n  },\n  \"state\": \"stopped\",\n  \"uuid\": \"86e042e1-5994-498a-936d-d447ca24d034\"\n}\n",
+    "stderr": "",
+    "seconds": 0.010749543995189015
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "start",
+      "database"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.05655886600288795
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "-e",
+      "web",
+      "exec",
+      "--",
+      "/bin/netprobe",
+      "resolve",
+      "database.trames"
+    ],
+    "code": 0,
+    "stdout": "10.0.0.2\n",
+    "stderr": "",
+    "seconds": 0.04215335500339279
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "-e",
+      "web",
+      "exec",
+      "--",
+      "/bin/netprobe",
+      "resolve6",
+      "database.trames"
+    ],
+    "code": 0,
+    "stdout": "fd00::2\n",
+    "stderr": "",
+    "seconds": 0.04364330999669619
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "stop",
+      "database"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.03042639900377253
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "create",
+      "init",
+      "--rootfs",
+      "/mnt/trames-output/linux-discovery-services/systemd-minimal.tar.gz",
+      "--init",
+      "systemd",
+      "--cpus",
+      "1",
+      "--memory",
+      "auto"
+    ],
+    "code": 0,
+    "stdout": "Created init (custom)\n",
+    "stderr": "",
+    "seconds": 10.260529219995078
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "inspect",
+      "init",
+      "--json"
+    ],
+    "code": 0,
+    "stdout": "{\n  \"config\": {\n    \"boot\": {\n      \"mode\": \"systemd\"\n    },\n    \"components\": {\n      \"audio\": false,\n      \"audio_input\": false,\n      \"thunking\": \"auto\",\n      \"vaapi\": false,\n      \"vulkan\": false\n    },\n    \"display\": {\n      \"windows\": false\n    },\n    \"environment\": {\n      \"name\": \"init\",\n      \"type\": \"linux\",\n      \"uuid\": \"8cd1cde7-c9d3-4810-a7b4-ca65ed3ff98e\"\n    },\n    \"image\": {\n      \"distribution\": \"custom\",\n      \"sha256\": \"27b5ba9b1f5ba89ce4525981d6da8cdb5cfbfa9004288b71b66b944be8a33543\",\n      \"source\": null\n    },\n    \"interop\": {\n      \"clipboard\": {\n        \"enabled\": true\n      },\n      \"files\": {\n        \"enabled\": true\n      },\n      \"host_cli\": {\n        \"enabled\": true\n      },\n      \"host_exec\": {\n        \"enabled\": true\n      },\n      \"host_ui\": {\n        \"enabled\": true\n      },\n      \"mounts\": {\n        \"enabled\": true\n      },\n      \"ports\": {\n        \"enabled\": true\n      }\n    },\n    \"kernel\": {\n      \"sysctl\": {}\n    },\n    \"mounts\": [],\n    \"network\": {\n      \"bridge\": null,\n      \"mode\": \"host\",\n      \"publish\": []\n    },\n    \"resources\": {\n      \"cpus\": 1,\n      \"memory\": \"auto\",\n      \"memory_limit\": null\n    },\n    \"session\": {\n      \"cwd\": \"/\",\n      \"shell\": [\n        \"/bin/sh\",\n        \"-l\"\n      ]\n    },\n    \"version\": 1\n  },\n  \"directory\": \"/mnt/trames-output/linux-discovery-services/final/smccc-1/registry space $data%-emu_yidg/environments/8cd1cde7-c9d3-4810-a7b4-ca65ed3ff98e\",\n  \"distribution\": \"custom\",\n  \"error\": null,\n  \"last_exit\": null,\n  \"name\": \"init\",\n  \"running\": false,\n  \"service\": {\n    \"enabled\": false,\n    \"installed\": false,\n    \"path\": \"/home/main.guest/.config/systemd/user/trames-8cd1cde7-c9d3-4810-a7b4-ca65ed3ff98e-1c05883d5e7c.service\",\n    \"unit\": \"trames-8cd1cde7-c9d3-4810-a7b4-ca65ed3ff98e-1c05883d5e7c.service\"\n  },\n  \"state\": \"stopped\",\n  \"uuid\": \"8cd1cde7-c9d3-4810-a7b4-ca65ed3ff98e\"\n}\n",
+    "stderr": "",
+    "seconds": 0.010120689999894239
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "enable",
+      "init",
+      "--now"
+    ],
+    "code": 0,
+    "stdout": "Enabled trames-8cd1cde7-c9d3-4810-a7b4-ca65ed3ff98e-1c05883d5e7c.service\n",
+    "stderr": "Created symlink /home/main.guest/.config/systemd/user/default.target.wants/trames-8cd1cde7-c9d3-4810-a7b4-ca65ed3ff98e-1c05883d5e7c.service \u2192 /home/main.guest/.config/systemd/user/trames-8cd1cde7-c9d3-4810-a7b4-ca65ed3ff98e-1c05883d5e7c.service.\n",
+    "seconds": 0.4900972940013162
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "-e",
+      "init",
+      "exec",
+      "--",
+      "/bin/sh",
+      "-ec",
+      "for n in $(seq 1 100); do test -S /run/systemd/private && break; sleep .1; done\ncat > /run/systemd/system/trames-user-stop.service <<'UNIT'\n[Service]\nType=oneshot\nRemainAfterExit=yes\nExecStart=/bin/sh -c 'echo started > /root/user-service-started'\nExecStop=/bin/sh -c 'echo graceful > /root/user-service-stopped'\nUNIT\nsystemctl daemon-reload\nsystemctl start trames-user-stop.service\nsystemctl is-active trames-user-stop.service\n"
+    ],
+    "code": 0,
+    "stdout": "active\n",
+    "stderr": "",
+    "seconds": 19.586926133997622
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "stop",
+      "init"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 4.19812638899748
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "env",
+      "inspect",
+      "init",
+      "--json"
+    ],
+    "code": 0,
+    "stdout": "{\n  \"config\": {\n    \"boot\": {\n      \"mode\": \"systemd\"\n    },\n    \"components\": {\n      \"audio\": false,\n      \"audio_input\": false,\n      \"thunking\": \"auto\",\n      \"vaapi\": false,\n      \"vulkan\": false\n    },\n    \"display\": {\n      \"windows\": false\n    },\n    \"environment\": {\n      \"name\": \"init\",\n      \"type\": \"linux\",\n      \"uuid\": \"8cd1cde7-c9d3-4810-a7b4-ca65ed3ff98e\"\n    },\n    \"image\": {\n      \"distribution\": \"custom\",\n      \"sha256\": \"27b5ba9b1f5ba89ce4525981d6da8cdb5cfbfa9004288b71b66b944be8a33543\",\n      \"source\": null\n    },\n    \"interop\": {\n      \"clipboard\": {\n        \"enabled\": true\n      },\n      \"files\": {\n        \"enabled\": true\n      },\n      \"host_cli\": {\n        \"enabled\": true\n      },\n      \"host_exec\": {\n        \"enabled\": true\n      },\n      \"host_ui\": {\n        \"enabled\": true\n      },\n      \"mounts\": {\n        \"enabled\": true\n      },\n      \"ports\": {\n        \"enabled\": true\n      }\n    },\n    \"kernel\": {\n      \"sysctl\": {}\n    },\n    \"mounts\": [],\n    \"network\": {\n      \"bridge\": null,\n      \"mode\": \"host\",\n      \"publish\": []\n    },\n    \"resources\": {\n      \"cpus\": 1,\n      \"memory\": \"auto\",\n      \"memory_limit\": null\n    },\n    \"session\": {\n      \"cwd\": \"/\",\n      \"shell\": [\n        \"/bin/sh\",\n        \"-l\"\n      ]\n    },\n    \"version\": 1\n  },\n  \"directory\": \"/mnt/trames-output/linux-discovery-services/final/smccc-1/registry space $data%-emu_yidg/environments/8cd1cde7-c9d3-4810-a7b4-ca65ed3ff98e\",\n  \"distribution\": \"custom\",\n  \"error\": null,\n  \"last_exit\": {\n    \"code\": 0,\n    \"error\": null\n  },\n  \"name\": \"init\",\n  \"running\": false,\n  \"service\": {\n    \"enabled\": true,\n    \"installed\": true,\n    \"path\": \"/home/main.guest/.config/systemd/user/trames-8cd1cde7-c9d3-4810-a7b4-ca65ed3ff98e-1c05883d5e7c.service\",\n    \"unit\": \"trames-8cd1cde7-c9d3-4810-a7b4-ca65ed3ff98e-1c05883d5e7c.service\"\n  },\n  \"state\": \"stopped\",\n  \"uuid\": \"8cd1cde7-c9d3-4810-a7b4-ca65ed3ff98e\"\n}\n",
+    "stderr": "",
+    "seconds": 0.010474233997229021
+  },
+  {
+    "argv": [
+      "/mnt/trames-output/linux-discovery-services/final/tools/runner",
+      "read-file",
+      "--store",
+      "/mnt/trames-output/linux-discovery-services/final/smccc-1/registry space $data%-emu_yidg/environments/8cd1cde7-c9d3-4810-a7b4-ca65ed3ff98e/store",
+      "--",
+      "/root/user-service-stopped"
+    ],
+    "code": 2,
+    "stdout": "",
+    "stderr": "trames: store is absent or its import is incomplete; create a new store with --store DIR --rootfs DIR_OR_ARCHIVE\n",
+    "seconds": 0.004272876001778059
+  }
+]

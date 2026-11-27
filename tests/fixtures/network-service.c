@@ -24,12 +24,12 @@ static int endpoint(const char *ip,const char *port,int tcp,int server){
 }
 int main(int argc,char**argv){
  setbuf(stdout,NULL);
- if(argc==3&&!strcmp(argv[1],"resolve")){struct addrinfo hint={.ai_family=AF_INET,.ai_socktype=SOCK_STREAM},*result=NULL;int code=getaddrinfo(argv[2],NULL,&hint,&result);if(code){fprintf(stderr,"resolve: %s\n",gai_strerror(code));return 1;}char ip[INET_ADDRSTRLEN];puts(inet_ntop(AF_INET,&((struct sockaddr_in*)result->ai_addr)->sin_addr,ip,sizeof(ip)));freeaddrinfo(result);return 0;}
+ if(argc==3&&(!strcmp(argv[1],"resolve")||!strcmp(argv[1],"resolve6"))){int family=!strcmp(argv[1],"resolve6")?AF_INET6:AF_INET;struct addrinfo hint={.ai_family=family,.ai_socktype=SOCK_STREAM},*result=NULL;int code=getaddrinfo(argv[2],NULL,&hint,&result);if(code){fprintf(stderr,"resolve: %s\n",gai_strerror(code));return 1;}char ip[INET6_ADDRSTRLEN];const void*address=family==AF_INET6?(void*)&((struct sockaddr_in6*)result->ai_addr)->sin6_addr:(void*)&((struct sockaddr_in*)result->ai_addr)->sin_addr;puts(inet_ntop(family,address,ip,sizeof(ip)));freeaddrinfo(result);return 0;}
  if(argc<5)return 2;
- int tcp=!strcmp(argv[2],"tcp"),server=!strcmp(argv[1],"server");if(!tcp&&strcmp(argv[2],"udp"))return 2;
+ int http=!strcmp(argv[1],"http"),tcp=!strcmp(argv[2],"tcp"),server=!strcmp(argv[1],"server")||http;if(!tcp&&strcmp(argv[2],"udp"))return 2;
  int f=endpoint(argv[3],argv[4],tcp,server);unsigned char buffer[65536];
  if(server){int count=argc>5?atoi(argv[5]):1;puts("READY");for(int i=0;i<count;i++){
-  if(tcp){int c=accept(f,NULL,NULL);if(c<0)fail("accept");for(;;){ssize_t n=read(c,buffer,sizeof(buffer));if(n<0&&errno==EINTR)continue;if(n<0)fail("read");if(!n)break;send_all(c,buffer,(size_t)n);}close(c);}
+  if(tcp){int c=accept(f,NULL,NULL);if(c<0)fail("accept");if(http){ssize_t n=read(c,buffer,sizeof(buffer));if(n<=0)fail("http request");const char response[]="HTTP/1.1 200 OK\r\nContent-Length: 15\r\nConnection: close\r\n\r\nTRAMES_HTTP_OK\n";send_all(c,response,sizeof(response)-1);close(c);continue;}for(;;){ssize_t n=read(c,buffer,sizeof(buffer));if(n<0&&errno==EINTR)continue;if(n<0)fail("read");if(!n)break;send_all(c,buffer,(size_t)n);}close(c);}
   else{struct sockaddr_storage peer;socklen_t size=sizeof(peer);ssize_t n=recvfrom(f,buffer,sizeof(buffer),0,(void*)&peer,&size);if(n<0)fail("recvfrom");if(sendto(f,buffer,(size_t)n,0,(void*)&peer,size)!=n)fail("sendto");}
  }close(f);return 0;}
  size_t used=0,capacity=4*1024*1024;unsigned char*body=malloc(capacity);if(!body)fail("malloc");for(;;){ssize_t n=read(0,body+used,capacity-used);if(n<0&&errno==EINTR)continue;if(n<0)fail("stdin");if(!n)break;used+=(size_t)n;if(used==capacity)return 2;}

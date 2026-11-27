@@ -1,0 +1,15 @@
+/usr/bin/ld: /tmp/cccKz8Nn.o: in function `main':
+network-service.c:(.text.startup+0x268): warning: Using 'getaddrinfo' in statically linked applications requires at runtime the shared libraries from the glibc version used for linking
+Traceback (most recent call last):
+  File "/mnt/trames-output/linux-keyboard-source/scripts/validate-discovery-services.py", line 293, in <module>
+    main(p.parse_args())
+  File "/mnt/trames-output/linux-keyboard-source/scripts/validate-discovery-services.py", line 253, in main
+    assert op(home, 'read-file', '--store', Path(state['directory'])/'store', '--', '/root/user-service-stopped') == b'graceful\n'
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/trames-output/linux-keyboard-source/scripts/validate-discovery-services.py", line 73, in op
+    return command([runner, *args], home=home, **kw)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/trames-output/linux-keyboard-source/scripts/validate-discovery-services.py", line 69, in command
+    assert (r.returncode == 0) == ok, row
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'argv': ['/mnt/trames-output/linux-discovery-services/final/tools/runner', 'read-file', '--store', '/mnt/trames-output/linux-discovery-services/final/smccc-1/registry space $data%-emu_yidg/environments/8cd1cde7-c9d3-4810-a7b4-ca65ed3ff98e/store', '--', '/root/user-service-stopped'], 'code': 2, 'stdout': '', 'stderr': 'trames: store is absent or its import is incomplete; create a new store with --store DIR --rootfs DIR_OR_ARCHIVE\n', 'seconds': 0.004272876001778059}

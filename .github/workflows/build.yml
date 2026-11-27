@@ -46,7 +46,7 @@ jobs:
         run: cargo test --manifest-path runtime/Cargo.toml -p trames-audio --lib --locked
       - name: Build source-checked guest CLI
         run: python3 runtime/scripts/build-guest-cli.py
-      - run: python3 -m py_compile scripts/validate-applications.py scripts/validate-desktop-interop.py scripts/validate-xwayland-ime.py scripts/validate-keyboard.py scripts/validate-windows.py scripts/validate-window-parent.py scripts/validate-hidpi.py scripts/validate-environments.py scripts/validate-networks.py scripts/validate-network-services.py scripts/validate-memfd-exec.py
+      - run: python3 -m py_compile scripts/validate-applications.py scripts/validate-desktop-interop.py scripts/validate-xwayland-ime.py scripts/validate-keyboard.py scripts/validate-windows.py scripts/validate-window-parent.py scripts/validate-hidpi.py scripts/validate-environments.py scripts/validate-networks.py scripts/validate-network-services.py scripts/validate-memfd-exec.py scripts/validate-discovery-services.py
       - name: Native reference for sealed executable self-reexec
         if: runner.os == 'Linux'
         run: python3 scripts/validate-memfd-exec.py --native-only --output target/validation/memfd-exec-native

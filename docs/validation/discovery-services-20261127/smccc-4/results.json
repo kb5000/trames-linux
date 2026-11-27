@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "unit": "trames-58237d30-d3e1-49c2-be70-cdcc984e4530-971a1785cf97.service",
+  "initial_pid": 229665,
+  "recovered_pid": 229797,
+  "original_systemd": true,
+  "login_target_dependency": true,
+  "fresh_login_tested": false
+}

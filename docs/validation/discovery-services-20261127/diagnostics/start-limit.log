@@ -1,0 +1,14 @@
+/usr/bin/ld: /tmp/ccQtJr6y.o: in function `main':
+network-service.c:(.text.startup+0x268): warning: Using 'getaddrinfo' in statically linked applications requires at runtime the shared libraries from the glibc version used for linking
+Traceback (most recent call last):
+  File "/mnt/trames-output/linux-keyboard-source/scripts/validate-discovery-services.py", line 290, in <module>
+    main(p.parse_args())
+  File "/mnt/trames-output/linux-keyboard-source/scripts/validate-discovery-services.py", line 193, in main
+    op(home, 'env', 'start', 'database')
+  File "/mnt/trames-output/linux-keyboard-source/scripts/validate-discovery-services.py", line 73, in op
+    return command([runner, *args], home=home, **kw)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/trames-output/linux-keyboard-source/scripts/validate-discovery-services.py", line 69, in command
+    assert (r.returncode == 0) == ok, row
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'argv': ['/mnt/trames-output/linux-discovery-services/first/tools/runner', 'env', 'start', 'database'], 'code': 2, 'stdout': '', 'stderr': 'Job for trames-00cc2444-19c8-47dc-a4cc-540c49a1e43a-fd0689f13071.service failed.\nSee "systemctl --user status trames-00cc2444-19c8-47dc-a4cc-540c49a1e43a-fd0689f13071.service" and "journalctl --user -xeu trames-00cc2444-19c8-47dc-a4cc-540c49a1e43a-fd0689f13071.service" for details.\ntrames: systemctl --user start trames-00cc2444-19c8-47dc-a4cc-540c49a1e43a-fd0689f13071.service failed (exit status: 1); inspect the user journal\n', 'seconds': 0.009941598000295926}

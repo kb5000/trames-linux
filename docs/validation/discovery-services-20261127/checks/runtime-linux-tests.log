@@ -1,0 +1,511 @@
+warning: unused field `repository` in `workspace.package`
+  --> Cargo.toml:33:1
+   |
+33 | repository = "https://github.com/project-trames/trames-runtime"
+   | ^^^^^^^^^^
+   |
+   = note: `cargo::unused_workspace_package_fields` is set to `warn` by default
+help: consider removing the field `workspace.package.repository`
+warning: workspace (manifest) generated 1 warning
+   Compiling trames-shared v1.3.0 (/mnt/trames-output/linux-keyboard-source/runtime/crates/trames-shared)
+   Compiling smoltcp v0.12.0 (/mnt/trames-output/linux-keyboard-source/runtime/vendor/smoltcp)
+   Compiling wayland-backend v0.3.17 (/mnt/trames-output/linux-keyboard-source/runtime/vendor/wayland-backend)
+   Compiling trames-distro v1.3.0 (/mnt/trames-output/linux-keyboard-source/runtime/crates/trames-distro)
+   Compiling trames-memory v1.3.0 (/mnt/trames-output/linux-keyboard-source/runtime/crates/trames-memory)
+   Compiling trames-bridge v1.3.0 (/mnt/trames-output/linux-keyboard-source/runtime/crates/trames-bridge)
+   Compiling wayland-server v0.31.14
+warning: unused variable: `source_hardware_addr`
+  --> vendor/smoltcp/src/iface/interface/ipv4.rs:89:9
+   |
+89 |         source_hardware_addr: HardwareAddress,
+   |         ^^^^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_source_hardware_addr`
+   |
+   = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: variable does not need to be mutable
+   --> vendor/smoltcp/src/iface/interface/ipv4.rs:480:35
+    |
+480 |         tx_token.consume(tx_len, |mut tx_buffer| {
+    |                                   ----^^^^^^^^^
+    |                                   |
+    |                                   help: remove this `mut`
+    |
+    = note: `#[warn(unused_mut)]` (part of `#[warn(unused)]`) on by default
+
+warning: variable does not need to be mutable
+   --> vendor/smoltcp/src/iface/interface/ipv4.rs:457:13
+    |
+457 |         let mut tx_len = ip_len;
+    |             ----^^^^^^
+    |             |
+    |             help: remove this `mut`
+
+warning: unused variable: `source_hardware_addr`
+   --> vendor/smoltcp/src/iface/interface/ipv6.rs:191:9
+    |
+191 |         source_hardware_addr: HardwareAddress,
+    |         ^^^^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_source_hardware_addr`
+
+warning: variable does not need to be mutable
+    --> vendor/smoltcp/src/iface/interface/mod.rs:1448:51
+     |
+1448 |                         tx_token.consume(tx_len, |mut tx_buffer| {
+     |                                                   ----^^^^^^^^^
+     |                                                   |
+     |                                                   help: remove this `mut`
+
+warning: variable does not need to be mutable
+    --> vendor/smoltcp/src/iface/interface/mod.rs:1473:50
+     |
+1473 |                     tx_token.consume(total_len, |mut tx_buffer| {
+     |                                                  ----^^^^^^^^^
+     |                                                  |
+     |                                                  help: remove this `mut`
+
+warning: variable does not need to be mutable
+    --> vendor/smoltcp/src/iface/interface/mod.rs:1487:61
+     |
+1487 |             IpRepr::Ipv6(_) => tx_token.consume(total_len, |mut tx_buffer| {
+     |                                                             ----^^^^^^^^^
+     |                                                             |
+     |                                                             help: remove this `mut`
+
+warning: variable does not need to be mutable
+    --> vendor/smoltcp/src/iface/interface/mod.rs:1320:13
+     |
+1320 |         let mut total_len = ip_repr.buffer_len();
+     |             ----^^^^^^^^^
+     |             |
+     |             help: remove this `mut`
+
+warning: field `hardware_addr` is never read
+   --> vendor/smoltcp/src/iface/interface/mod.rs:224:5
+    |
+210 | pub struct InterfaceInner {
+    |            -------------- field in this struct
+...
+224 |     hardware_addr: HardwareAddress,
+    |     ^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: variants `NoRoute` and `NeighborPending` are never constructed
+    --> vendor/smoltcp/src/iface/interface/mod.rs:1519:5
+     |
+1514 | enum DispatchError {
+     |      ------------- variants in this enum
+...
+1519 |     NoRoute,
+     |     ^^^^^^^
+...
+1523 |     NeighborPending,
+     |     ^^^^^^^^^^^^^^^
+     |
+     = note: `DispatchError` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+
+warning: methods `link_local_ipv6_address` and `mldv2_report_packet` are never used
+   --> vendor/smoltcp/src/iface/interface/ipv6.rs:171:8
+    |
+ 21 | impl InterfaceInner {
+    | ------------------- methods in this implementation
+...
+171 |     fn link_local_ipv6_address(&self) -> Option<Ipv6Address> {
+    |        ^^^^^^^^^^^^^^^^^^^^^^^
+...
+563 |     pub(super) fn mldv2_report_packet<'any>(
+    |                   ^^^^^^^^^^^^^^^^^^^
+
+warning: variant `HopByHopIcmpv6` is never constructed
+   --> vendor/smoltcp/src/iface/packet.rs:263:5
+    |
+255 | pub(crate) enum IpPayload<'p> {
+    |                 --------- variant in this enum
+...
+263 |     HopByHopIcmpv6(Ipv6HopByHopRepr<'p>, Icmpv6Repr<'p>),
+    |     ^^^^^^^^^^^^^^
+    |
+    = note: `IpPayload` has a derived impl for the trait `Debug`, but this is intentionally ignored during dead code analysis
+
+warning: type alias `Rest` is never used
+  --> vendor/smoltcp/src/wire/mod.rs:75:14
+   |
+75 |     pub type Rest = ::core::ops::RangeFrom<usize>;
+   |              ^^^^
+
+warning: constant `CUR_HOP_LIMIT` is never used
+   --> vendor/smoltcp/src/wire/icmpv6.rs:220:15
+    |
+220 |     pub const CUR_HOP_LIMIT: usize = 4;
+    |               ^^^^^^^^^^^^^
+
+warning: constant `ROUTER_FLAGS` is never used
+   --> vendor/smoltcp/src/wire/icmpv6.rs:221:15
+    |
+221 |     pub const ROUTER_FLAGS: usize = 5;
+    |               ^^^^^^^^^^^^
+
+warning: constant `ROUTER_LT` is never used
+   --> vendor/smoltcp/src/wire/icmpv6.rs:222:15
+    |
+222 |     pub const ROUTER_LT: Field = 6..8;
+    |               ^^^^^^^^^
+
+warning: constant `REACHABLE_TM` is never used
+   --> vendor/smoltcp/src/wire/icmpv6.rs:223:15
+    |
+223 |     pub const REACHABLE_TM: Field = 8..12;
+    |               ^^^^^^^^^^^^
+
+warning: constant `NEIGH_FLAGS` is never used
+   --> vendor/smoltcp/src/wire/icmpv6.rs:230:15
+    |
+230 |     pub const NEIGH_FLAGS: usize = 4;
+    |               ^^^^^^^^^^^
+
+warning: methods `solicited_node` and `is_solicited_node_multicast` are never used
+   --> vendor/smoltcp/src/wire/ipv6.rs:121:8
+    |
+ 79 | pub(crate) trait AddressExt {
+    |                  ---------- methods in this trait
+...
+121 |     fn solicited_node(&self) -> Address;
+    |        ^^^^^^^^^^^^^^
+...
+131 |     fn is_solicited_node_multicast(&self) -> bool;
+    |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: method `emit_header` is never used
+   --> vendor/smoltcp/src/wire/udp.rs:264:19
+    |
+221 | impl Repr {
+    | --------- method in this implementation
+...
+264 |     pub(crate) fn emit_header<T>(&self, packet: &mut Packet<&mut T>, payload_len: usize)
+    |                   ^^^^^^^^^^^
+
+warning: hiding a lifetime that's elided elsewhere is confusing
+   --> vendor/smoltcp/src/storage/assembler.rs:330:22
+    |
+330 |     pub fn iter_data(&self, first_offset: usize) -> AssemblerIter {
+    |                      ^^^^^                          ^^^^^^^^^^^^^ the same lifetime is hidden here
+    |                      |
+    |                      the lifetime is elided here
+    |
+    = help: the same lifetime is referred to in inconsistent ways, making the signature confusing
+    = note: `#[warn(mismatched_lifetime_syntaxes)]` on by default
+help: use `'_` for type paths
+    |
+330 |     pub fn iter_data(&self, first_offset: usize) -> AssemblerIter<'_> {
+    |                                                                  ++++
+
+   Compiling wayland-protocols v0.32.13
+warning: `smoltcp` (lib) generated 21 warnings (run `cargo fix --lib -p smoltcp` to apply 9 suggestions)
+   Compiling trames-net v1.3.0 (/mnt/trames-output/linux-keyboard-source/runtime/crates/trames-net)
+   Compiling trames-graphics v1.3.0 (/mnt/trames-output/linux-keyboard-source/runtime/crates/trames-graphics)
+   Compiling trames-elf v1.3.0 (/mnt/trames-output/linux-keyboard-source/runtime/crates/trames-elf)
+   Compiling trames-wayland v1.3.0 (/mnt/trames-output/linux-keyboard-source/runtime/crates/trames-wayland)
+   Compiling trames-vfs v1.3.0 (/mnt/trames-output/linux-keyboard-source/runtime/crates/trames-vfs)
+    Finished `test` profile [unoptimized] target(s) in 28.34s
+     Running unittests src/lib.rs (/mnt/trames-output/linux-desktop-target/debug/build/trames-distro/837522f25610c056/out/trames_distro-837522f25610c056)
+
+running 45 tests
+test android::tests::arm64_audio_launcher_preserves_original_service_policy_and_other_sections ... ok
+test android::tests::package_rejects_foreign_init_missing_hal_and_incompatible_contract ... ok
+test android::tests::cold_media_adapter_uses_original_init_and_no_camera_mode ... ok
+test android_package::tests::hwc_adapter_is_digest_checked_and_requires_matching_hal_selection ... ok
+test android::tests::full_init_profile_keeps_storage_writable_and_derives_primary_zygote ... ok
+test android::tests::boot_resets_property_socket_state_but_keeps_data_and_user_overlay ... ok
+test bionic::tests::exact_static_patch_is_reversible_and_rejects_mismatch ... ok
+test android_package::tests::invalid_or_tampered_adapters_fail_before_opening_upstream_images ... ok
+test android_package::tests::plan_only_accepts_pinned_images_and_legacy_does_not_scan_whole_archive ... ok
+test bionic::tests::rejects_wrong_image_and_abi ... ok
+test environment::tests::defaults_roundtrip_and_errors ... ok
+test environment::tests::embedded_profile_overrides_defaults_without_authority ... ok
+test environment::tests::grants_bind_identity_and_mount_authority ... ok
+test environment::tests::guest_requests_never_grant_host_access ... ok
+test environment::tests::memory_and_identity ... ok
+test android_package::tests::ext4_preserves_hardlinks_symlinks_permissions_ids_and_excludes_mutable_payloads ... ok
+test environment::tests::owner_defaults_allow_but_imported_config_cannot_authorize_itself ... ok
+test environment::tests::task_capacity_manifest_and_cli_share_the_live_resource_and_reject_unknown_configuration ... ok
+test progress::tests::reports_real_bytes_and_callback_can_stop_the_import ... ok
+test registry::tests::dotted_batch_rejects_unknown_and_preserves_original_config ... ok
+test static_libc::tests::cold_selection_is_idempotent_reversible_and_preserves_unrelated_data ... ok
+test static_libc::tests::owned_corruption_and_bad_resources_fail_before_replacement ... ok
+test rootfs::directory_tests::directory_snapshot_imports_sparse_files_as_contiguous_payloads ... ok
+test static_libc::tests::provenance_restores_old_derivative_for_recipe_upgrade ... ok
+test static_libc::tests::unsupported_images_are_not_downgraded_and_changed_loader_restores_owned_code ... ok
+test systemd::tests::imported_machine_identity_is_renewed_consistently ... ok
+test systemd::tests::machine_identity_follows_a_linked_etc_directory ... ok
+test systemd::tests::missing_machine_identity_is_seeded_once_and_existing_identity_is_preserved ... ok
+test systemd::tests::original_notify_endpoint_authenticates_init_and_latches_one_shutdown ... ok
+test tests::invalid_musl_does_not_modify_existing_loader_or_user_data ... ok
+test tests::mismatch_leaves_namespace_unchanged ... ok
+test tests::rejects_host_paths_and_traversal ... ok
+test tests::resolver_uses_guest_directory_links_and_preserves_configuration ... ok
+test timezone::tests::invalid_timezone_input_leaves_the_namespace_untouched ... ok
+test timezone::tests::timezone_update_replaces_a_dangling_link_preserves_identity_and_is_idempotent ... ok
+test registry::tests::publication_identity_locks_and_profiles_are_independent ... ok
+test vulkan::tests::egl_adapter_install_is_atomic_and_keeps_apk_owned_mesa ... ok
+test vulkan::tests::refreshes_old_instance_manifest_without_replacing_identical_library ... ok
+test vulkan::tests::repeated_install_keeps_inodes_updates_bundles_and_preserves_user_files ... ok
+test networks::tests::stable_membership_authority_and_first_start_remove_race ... ok
+test xwayland::tests::xwayland_installers_keep_private_storage_behavior ... ok
+test xwayland::tests::xwayland_installers_follow_host_namespace_and_keep_identical_inodes ... ok
+test vulkan::tests::sdk_installers_follow_host_mount_chroot_and_directory_aliases ... ok
+test vulkan::tests::paired_gallium_can_exceed_the_small_icd_limit_and_keeps_package_files ... ok
+test environment::tests::cli_installation_replaces_an_older_script_and_remains_executable ... ok
+
+test result: ok. 45 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.06s
+
+     Running unittests src/lib.rs (/mnt/trames-output/linux-desktop-target/debug/build/trames-net/b019f8dfad3d6935/out/trames_net-b019f8dfad3d6935)
+
+running 213 tests
+test conntrack::tests::related_icmp_restores_truncated_udp_quote_and_checksums ... ok
+test conntrack::tests::destination_port_range_preserves_ports_and_rolls_back_exhaustion ... ok
+test conntrack::tests::snat_collision_reallocates_and_failed_flow_rolls_back ... ok
+test conntrack::tests::both_families_preserve_reversible_bindings_and_zone_isolation ... ok
+test direct_dns::tests::completion_notifies_the_original_endpoint_without_a_guest_tick ... ok
+test direct_dns::tests::concurrent_stream_writers_and_reader_preserve_every_dns_frame_once ... ok
+test direct_dns::tests::malformed_queries_and_backpressure_are_bounded_and_loopback_cannot_resolve_external ... ok
+test direct_dns::tests::concurrent_datagram_admission_keeps_the_original_bound_and_returns_slots ... ok
+test direct_dns::tests::dns_tcp_reassembles_split_frames_and_half_close_preserves_reply ... ok
+test direct_dns::tests::dns_only_udp_preserves_ids_datagrams_peek_and_truncation ... ok
+test direct_dns::tests::shutdown_framing_errors_and_released_reply_slots_notify_native_waiters ... ok
+test dns::tests::error_echo_strips_additional_records_and_rejects_truncated_questions ... ok
+test dns::tests::native_udp_and_tcp_return_local_nodata_with_matchable_replies ... ok
+test direct_dns::tests::resolver_backpressure_rolls_back_admission_and_preserves_buffered_frames ... ok
+test dns::tests::record_queries_reach_the_host_and_large_wire_replies_require_tcp ... ok
+test dns::tests::unsupported_records_echo_the_question_without_claiming_an_answer ... ok
+test ethernet_tests::access_trunk_vlan_membership_tags_and_unknown_vlan_isolation ... ok
+test ethernet_tests::arbitrary_frames_fdb_learning_flooding_and_tap_hairpin_are_real ... ok
+test ethernet_tests::arp_and_ndp_packets_resolve_real_neighbors_and_opaque_frames_preserve_bytes ... ok
+test ethernet_tests::ipv4_pmtu_policy_controls_wire_flags_fragmentation_and_size_errors ... ok
+test ethernet_tests::bridged_large_datagrams_survive_ip_firewall_defragmentation ... ok
+test ethernet_tests::linux_bridge_netlink_controls_are_atomic_authorized_and_reported ... ok
+test ethernet_tests::named_ethernet_ports_echo_both_ip_families ... ok
+test direct_dns::tests::shared_resolver_dispatches_concurrent_endpoints_and_reclaims_dead_requests ... ok
+test ethernet_tests::resized_packet_rings_keep_wrapped_data_and_pending_transmit_metadata ... ok
+test ethernet_tests::static_fdb_redirects_normal_udp_instead_of_bypassing_switch_by_ip ... ok
+test ethernet_tests::tracking_without_nat_preserves_original_zero_udp_checksum ... ok
+test ethernet_tests::veth_captures_otherhost_frames_and_filters_real_opaque_ethernet_bytes ... ok
+test hybrid::tests::direct_tcp_option_updates_are_replayed_to_the_real_guest_branch ... ok
+test ethernet_tests::udp_buffer_budget_controls_burst_capacity_and_preserves_queued_data_on_resize ... ok
+test hybrid::tests::missing_native_descriptor_cannot_bypass_guest_low_port_authorization ... ok
+test hybrid::tests::retained_wait_identity_does_not_keep_replaced_native_endpoint_or_binding_alive ... ok
+test managed_network_tests::destination_rules_control_guest_delivery_and_deletion_restores_the_route ... ok
+test managed_network_tests::device_binding_filters_local_delivery_and_checks_rebinding_authority ... ok
+test managed_network_tests::ipv4_hdrincl_multicast_preserves_the_supplied_ttl_and_header ... ok
+test managed_network_tests::ipv4_hdrincl_preserves_wire_header_and_uses_the_send_route ... ok
+test managed_network_tests::ipv6_hdrincl_delivers_guest_transport_and_rejects_short_headers ... ok
+test managed_network_tests::ipv6_disable_retires_addresses_and_tables_and_secret_is_namespace_owned ... ok
+test managed_network_tests::link_down_obeys_namespace_and_interface_ipv6_retention ... ok
+test managed_network_tests::loopback_aliases_share_a_prefix_route_and_leave_room_to_restore_ipv6 ... ok
+test managed_network_tests::managed_dns_uses_real_existing_gateway_resolver_and_return_route ... ok
+test managed_network_tests::managed_policy_controls_real_udp_and_route_probe_without_host_changes ... ok
+test managed_network_tests::native_linux_netd_request_reference_and_route_results_match ... ok
+test managed_network_tests::original_netd_zero_address_request_is_a_noop_and_dumps_accept_legacy_padding ... ok
+test managed_network_tests::managed_marked_tcp_delivers_original_stream_and_live_prohibit_blocks_writes ... ok
+test managed_network_tests::raw_transport_fanout_is_scoped_to_family_and_protocol ... ok
+test ethernet_tests::fdb_ages_moves_and_link_deletion_removes_entries_and_neighbors ... ok
+test managed_network_tests::raw_udp_shares_unicast_and_multicast_packets_with_datagram_receivers ... ok
+test managed_network_tests::udp_destination_and_packet_info_switch_independently ... ok
+test native::control::tests::captured_so_error_uses_policy_published_after_control_admission ... ok
+test native::control::tests::control_is_shared_weak_and_uses_the_original_endpoint ... ok
+test native::control::tests::native_completion_options_and_shutdown_share_original_state ... ok
+test native::control::tests::original_connection_error_is_consumed_once_across_workers_and_owner ... ok
+test native::direct::tests::connected_tcp_bytes_peek_and_counters_share_the_original_socket ... ok
+test native::direct::tests::event_queue_lease_preserves_edges_without_retaining_socket_or_quota ... ok
+test native::direct::tests::accepted_transport_keeps_quota_until_final_worker_close ... ok
+test native::direct::tests::failed_accept_returns_its_reserved_slot ... ok
+test native::direct::tests::idle_connecting_dns_udp_and_saturated_stats_keep_their_boundaries ... ok
+test native::direct::tests::native_priority_is_level_triggered_until_the_urgent_byte_is_read ... ok
+test ethernet_tests::original_protocol_resources_progress_arp_while_sender_has_no_network_wait ... ok
+test native::direct::tests::parallel_tcp_writers_need_no_namespace_or_socket_data_lock ... ok
+test native::direct::tests::retained_capabilities_do_not_keep_the_host_connection_open ... ok
+test native::direct::tests::owner_and_workers_share_one_persistent_edge_observer ... ok
+test native::dns_error_options::native_udp_does_not_silently_claim_linux_icmp_error_queue_support ... ok
+test native::dns_error_options::resolver_error_option_and_empty_error_queue_preserve_normal_reply ... ok
+test native::tests::native_tcp_info_and_requested_half_close_keep_host_transport_semantics ... ok
+test native::tests::policy_checks_mapped_loopback_and_client_udp_binding ... ok
+test native::tests::prepared_socket_attaches_original_namespace_and_can_outlive_its_creator ... ok
+test native::tests::short_and_unknown_sockaddrs_are_bounded_errors ... ok
+test native::tests::sockaddr_roundtrip_network_port_and_flow_host_scope ... ok
+test native::tests::shared_native_namespace_reserves_real_transports_and_cancels_on_workers ... ok
+test netdev::shared_tests::topology_readers_and_other_namespace_packets_progress_independently ... ok
+test netdev::shared_tests::unchanged_native_refresh_does_not_wait_for_topology_readers ... ok
+test netlink::tests::capped_ack_preserves_every_packed_batch_record ... ok
+test netdev::shared_tests::packet_accounting_needs_no_topology_writer_and_survives_link_move ... ok
+test netlink::tests::capped_error_ack_preserves_original_header_and_marks_truncated_payload ... ok
+test netlink::tests::container_uevent_listener_is_quiet_and_separate_from_rtnetlink ... ok
+test netlink::tests::loopback_up_requires_authority_and_never_accepts_real_interface_changes ... ok
+test netlink::tests::namespace_resolution_precedes_topology_writer_and_preserves_error_ack ... ok
+test netlink::tests::namespace_target_remains_pinned_in_deferred_notifications ... ok
+test netlink::tests::packet_family_getlink_by_index_uses_rtnetlink_without_a_dump ... ok
+test netlink::tests::reply_and_request_limits_fail_without_appending_partial_results ... ok
+test netlink::tests::route_dump_ignores_trailing_bytes_and_preserves_sequence_and_peek ... ok
+test netlink::tests::socket_port_ids_and_filtered_delivery_follow_the_calling_process ... ok
+test netlink::tests::unnamed_newlink_probe_reports_missing_device_without_mutation ... ok
+test nftables::ctnetlink::tests::original_docker_dump_replay_delete_is_scoped_atomic_and_authorized ... ok
+test nftables::legacy::tests::only_packet_rules_can_be_resolved_at_wire_offsets ... ok
+test nftables::legacy::tests::chain_metadata_is_rejected_as_hook_policy_jump_and_fallthrough_destination ... ok
+test nftables::legacy::tests::replacement_is_atomic_for_invalid_entry_offsets_and_counter_write_faults ... ok
+test nftables::legacy::tests::user_chain_target_crash_rejects_the_original_ipv4_and_ipv6_payloads ... ok
+test nftables::payload::tests::checksum_preserves_disabled_udp_and_encodes_computed_zero ... ok
+test nftables::payload::tests::payload_register_bounds_and_uninitialized_sources ... ok
+test nftables::ctnetlink::tests::delete_transactions_do_not_restore_deleted_flows_or_erase_parallel_packets ... ok
+test nftables::tests::batch_ids_order_rules_and_release_the_owned_chain ... ok
+test nftables::tests::batch_rollback_generation_authority_capacity_and_namespace_are_real ... ok
+test nftables::tests::captured_tcp_uses_live_policy_and_retains_original_socket_after_close ... ok
+test nftables::tests::chain_rename_keeps_jump_target_and_dump_consistent_after_rollback ... ok
+test nftables::tests::concurrent_rule_batches_preserve_every_commit_and_generation ... ok
+test nftables::tests::counters_keep_parallel_packets_across_live_rule_publication ... ok
+test nftables::tests::cycles_invalid_registers_and_native_hooks_are_rejected_atomically ... ok
+test nftables::tests::dormant_and_socket_owned_tables_follow_hook_and_socket_lifetimes ... ok
+test nftables::tests::fib_and_addrtype_use_packet_address_and_selected_guest_interface ... ok
+test nftables::tests::first_and_established_packets_reach_filters_with_the_same_nat_binding ... ok
+test nftables::tests::input_metadata_distinguishes_udp_unicast_broadcast_and_multicast ... ok
+test nftables::tests::jumps_priorities_live_counters_and_payload_match ... ok
+test nftables::tests::metadata_register_width_link_types_and_missing_devices ... ok
+test nftables::tests::named_set_binding_uses_the_published_elements_and_transaction_scoped_id ... ok
+test nftables::tests::native_root_input_and_output_policy_enforces_real_socket_io ... ok
+test nftables::tests::payload_address_checksum_and_following_expression_observe_same_packet ... ok
+test nftables::tests::protocol_ports_multicast_and_transport_provenance_are_separate ... ok
+test nftables::tests::resource_id_and_unspecified_flush_use_one_original_rules_transaction ... ok
+test nftables::tests::payload_write_reaches_udp_peer_with_valid_checksum ... ok
+test nftables::tests::rule_batch_ids_do_not_select_other_chains_or_survive_deletion ... ok
+test nftables::tests::routed_filter_blocks_active_tcp_without_touching_native_path ... ok
+test nftables::tests::shifts_propagate_carries_across_overlapping_registers ... ok
+test nftables::tests::set_dump_chunks_large_element_lists_without_splitting_keys ... ok
+test nftables::tests::short_map_value_clears_the_rest_of_an_overlapping_register ... ok
+test nftables::tests::tun_and_packet_injection_obey_ip_port_firewall_and_tap_precedes_input_drop ... ok
+test nftables::tests::xt_conntrack_checks_real_direction_expiry_status_and_revision_port_order ... ok
+test nftables::tests::socket_marks_survive_local_hooks_and_fragments_and_clear_on_namespace_crossing ... ok
+test nftables::tests::xt_redirect_validates_hooks_and_translates_udp_in_both_directions ... ok
+test nftables::tests::xt_transport_matches_ports_flags_options_and_icmp_codes ... ok
+test packet_ring::blocks::tests::variable_records_timeout_private_area_and_block_reuse ... ok
+test nftables::tests::udp_group_traffic_uses_guest_links_memberships_and_namespace_hooks ... ok
+test packet_tests::classic_filter_validates_control_flow_scratch_arithmetic_and_snaplen ... ok
+test packet_tests::loopback_injection_and_capture_respect_protocol_direction_and_ingress_policy ... ok
+test packet_tests::neighbors_netlink_override_real_delivery_and_dump ... ok
+test packet_tests::packet_capture_filter_injection_and_namespace_isolation ... ok
+test packet_tests::packet_ring_truncation_copy_and_mapping_lifetime ... ok
+test packet_tests::persistent_tun_reopens_without_stale_packets_and_uses_live_mtu ... ok
+test packet_tests::tun_ipv6_and_notification_reentry_hold_no_fabric_or_topology_lock ... ok
+test root_routing_tests::full_namespace_does_not_consume_an_accepted_native_connection ... ok
+test packet_tests::tun_real_udp_both_directions_pi_and_final_close ... ok
+test conntrack::tests::flows_grow_on_demand_preserving_nat_expiry_close_and_teardown ... ok
+test root_routing_tests::ipv6_defaults_are_dual_stack_for_native_and_guest_tcp_udp ... ok
+test root_routing_tests::large_native_tcp_send_is_a_short_byte_write_while_udp_stays_atomic ... ok
+test root_routing_tests::root_bind_conflict_rolls_back_native_half_and_preserves_socket_quota ... ok
+test root_routing_tests::root_reaches_private_tcp_udp_without_routing_regular_sockets_through_the_stack ... ok
+test root_routing_tests::rtm_setlink_updates_guest_devices_and_cannot_change_native_eth0 ... ok
+test root_routing_tests::root_wildcard_accepts_native_and_guest_and_guest_can_use_bridge_service ... ok
+test root_routing_tests::l3_forwarding_is_per_family_and_hop_limit_and_routes_really_apply ... ok
+test root_routing_tests::socket_admission_lease_rolls_back_errors_and_releases_without_namespace_rc ... ok
+test root_routing_tests::unconnected_root_udp_keeps_its_port_when_switching_between_native_and_guest_routes ... ok
+test routing_tests::compact_rtgen_dumps_match_full_link_address_and_route_queries ... ok
+test routing_tests::an_old_netlink_fd_keeps_the_protocol_stack_alive_until_last_close ... ok
+test routing_tests::bridge_controls_real_tcp_udp_and_live_link_isolation ... ok
+test routing_tests::docker_link_strings_and_queue_metadata_are_validated_and_atomic ... ok
+test routing_tests::established_tcp_child_keeps_its_filter_when_listener_changes ... ok
+test routing_tests::explicit_static_routes_work_and_teardown_notifies_without_enabling_host_egress ... ok
+test routing_tests::ipv6_duplicate_ports_and_address_removal_are_namespace_scoped ... ok
+test routing_tests::ipv6_multicast_delivers_fragments_on_the_selected_guest_link ... ok
+test routing_tests::moved_tap_can_reopen_after_detach_and_wakes_on_namespace_teardown ... ok
+test routing_tests::moved_tun_queue_preserves_packets_and_delivers_udp_in_destination ... ok
+test routing_tests::netlink_pair_move_and_rejection_are_atomic_and_notify_subscribers ... ok
+test routing_tests::route_get_uses_namespace_routes_and_selected_source_without_mutating_them ... ok
+test routing_tests::routes_require_configuration_and_namespace_teardown_removes_veth_peer ... ok
+test routing_tests::scoped_veth_addresses_follow_carrier_and_carry_udp ... ok
+test routing_tests::subscriber_dump_multicast_preserves_user_and_kernel_sources_and_namespace ... ok
+test routing_tests::udp_receive_filter_runs_on_the_wire_header_before_queueing ... ok
+test shared_network_tests::competing_virtual_binds_publish_one_port_and_close_on_the_worker ... ok
+test shared_network_tests::dns_reply_wakes_the_retained_native_wait_without_polling_or_a_guest_tick ... ok
+test socket_quota::tests::concurrent_reservations_obey_the_bound_and_release_on_the_worker ... ok
+test shared_network_tests::separate_fabrics_exchange_packets_and_isolate_named_links ... ok
+test shared_network_tests::complete_network_graph_is_shared_and_concurrent_creation_has_one_quota ... ok
+test virtualnet::discovery::tests::leases_stop_stale_names_case_collisions_and_address_reuse ... ok
+test virtualnet::icmp_tests::raw_and_ping_arrival_timestamps_survive_peeks_and_option_changes ... ok
+test virtualnet::icmp_tests::raw_error_options_reject_the_other_ip_family ... ok
+test virtualnet::icmp_tests::raw_error_queue_matches_the_original_echo_independently_of_its_data_filter ... ok
+test virtualnet::icmp_tests::raw_icmp_filter_updates_partial_bytes_and_filters_only_new_arrivals ... ok
+test shared_network_tests::published_tcp_and_udp_reuse_existing_gateway_and_waiters ... ok
+test virtualnet::packet::tests::incomplete_fragments_expire_and_queues_are_bounded ... ok
+test virtualnet::packet::tests::reordered_fragments_complete_and_overlap_poisons_datagram ... ok
+test virtualnet::gateway::tests::live_tcp_backpressure_survives_idle_sweep_and_orphan_is_reaped ... ok
+test virtualnet::shared_lifetime_tests::abortive_close_reaches_the_virtual_peer ... ok
+test virtualnet::shared_lifetime_tests::accepted_transport_inherits_congestion_and_expires_only_after_last_close ... ok
+test virtualnet::shared_lifetime_tests::active_opens_share_only_distinct_tuples_and_recycle_quiet_loopback ... ok
+test virtualnet::shared_lifetime_tests::automatic_port_cursor_wraps_skips_live_bindings_and_survives_fd_close ... ok
+test virtualnet::shared_lifetime_tests::closing_tcp_ports_remain_bound_until_protocol_retirement ... ok
+test shared_network_tests::independent_virtual_udp_operations_progress_on_the_same_fabric ... ok
+test virtualnet::shared_lifetime_tests::datagram_size_queries_preserve_empty_records_and_pending_delivery ... ok
+test virtualnet::shared_lifetime_tests::ephemeral_range_and_privileged_floor_are_namespace_local ... ok
+test virtualnet::shared_lifetime_tests::failed_neighbor_probe_matches_only_the_original_syn ... ok
+test virtualnet::shared_lifetime_tests::draining_full_tcp_receive_window_releases_already_queued_sender_data ... ok
+test ethernet_tests::full_udp_writer_advances_its_own_fragment_resource ... ok
+test virtualnet::packet::tests::fragment_pressure_evicts_incomplete_datagrams_and_recovers ... ok
+test virtualnet::shared_lifetime_tests::growing_listener_retains_reset_child_until_accepted ... ok
+test virtualnet::shared_lifetime_tests::host_publication_owns_requested_wildcard_bind_until_teardown ... ok
+test virtualnet::shared_lifetime_tests::forced_udp_buffers_admit_more_than_the_regular_maximum_and_shrink_losslessly ... ok
+test virtualnet::shared_lifetime_tests::inherited_delivery_deadline_wakes_and_reports_the_error_once ... ok
+test virtualnet::shared_lifetime_tests::namespace_nodes_survive_tree_splits_and_removals ... ok
+test virtualnet::shared_lifetime_tests::observed_tcp_reader_wakes_for_data_and_peer_shutdown ... ok
+test virtualnet::shared_lifetime_tests::packet_observers_never_own_socket_or_namespace_close_callbacks ... ok
+test virtualnet::shared_lifetime_tests::sack_negotiation_survives_later_namespace_changes ... ok
+test virtualnet::shared_lifetime_tests::raising_the_send_budget_wakes_a_blocked_stream_writer ... ok
+test virtualnet::shared_lifetime_tests::tcp_inq_includes_peer_fin_and_preserves_zero_length_and_peek_reads ... ok
+test virtualnet::shared_lifetime_tests::shared_udp_binding_delivers_once_and_prefers_the_connected_peer ... ok
+test virtualnet::shared_lifetime_tests::tcp_mixed_bind_bucket_tracks_owner_listener_and_last_close ... ok
+test virtualnet::shared_lifetime_tests::tcp_urgent_byte_survives_wire_and_preserves_read_boundaries ... ok
+test virtualnet::shared_lifetime_tests::udp_counters_follow_the_receiving_namespace_and_ignore_peeks ... ok
+test virtualnet::shared_lifetime_tests::udp_header_overrides_stay_with_one_datagram_across_peeks ... ok
+test virtualnet::shared_lifetime_tests::udp_timestamp_stays_with_the_packet_across_peeks_and_option_changes ... ok
+test virtualnet::shared_lifetime_tests::unspecified_connect_tcp_info_and_half_close_share_original_transport ... ok
+test virtualnet::shared_lifetime_tests::udp_disconnect_retains_queued_records_and_releases_only_automatic_ports ... ok
+test virtualnet::udp_errors::tests::queue_budget_includes_empty_records_and_disabling_one_family_preserves_the_other ... ok
+test virtualnet::shared_lifetime_tests::reuseport_enforces_guest_owner_and_keeps_each_flow_on_one_receiver ... ok
+test virtualnet::udp_errors::tests::reused_port_returns_the_error_to_the_same_flow_as_a_reply ... ok
+test virtualnet::udp_errors::tests::truncated_wire_quotes_keep_data_and_error_queues_independent ... ok
+test virtualnet::wire::tests::blocked_stream_preserves_order_frames_and_actual_writable_wakeup ... ok
+test virtualnet::wire::tests::malformed_peer_frame_is_rejected_without_allocating_its_claimed_length ... ok
+test virtualnet::shared_lifetime_tests::forced_tcp_budgets_follow_the_listener_and_grow_with_live_data ... ok
+test virtualnet::work_tests::empty_reads_and_buffered_udp_do_not_poll_unrelated_protocol_resources ... ok
+test virtualnet::shared_lifetime_tests::concurrent_short_connections_progress_with_closing_peers ... ok
+test virtualnet::shared_lifetime_tests::closed_tcp_protocol_states_do_not_exhaust_later_accepts ... ok
+
+test result: ok. 213 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.41s
+
+     Running tests/virtual.rs (/mnt/trames-output/linux-desktop-target/debug/build/trames-net/dee8edc2d2600df8/out/virtual-dee8edc2d2600df8)
+
+running 15 tests
+test dns_internal_a_aaaa_and_refused_connect_error_consumption ... ok
+test dual_stack_wildcard_and_udp_connected_peer_filter ... ok
+test managed_resolver_address_is_available_over_udp_and_tcp_in_virtual_networks ... ok
+test icmp_echo_both_families_and_dns_over_tcp ... ok
+test namespace_finish_resets_peer_and_preserves_other_namespace ... ok
+test named_dns_tracks_remote_endpoint_leases_over_udp_tcp_and_both_address_families ... ok
+test policy_quota_teardown_and_reused_environment_id ... ok
+test tcp_gateway_preserves_urgent_data_in_both_directions ... ok
+test system_resolver_worker_returns_bounded_dns_wire_answer ... ok
+test tcp_ipv4_ipv6_namespaces_eof_and_private_loopback ... ok
+test udp_large_fragmentation_zero_truncation_and_connected_filter ... ok
+test queued_large_udp_preserves_an_in_progress_ipv4_fragmenter ... ok
+test native_gateway_tcp_and_udp_both_families ... ok
+test dual_stack_listener_backlogs_do_not_share_a_fixed_protocol_handle_ceiling ... ok
+test tcp_survives_checksum_corruption_and_loss ... ok
+
+test result: ok. 15 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.32s
+
+   Doc-tests trames_distro
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests trames_net
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

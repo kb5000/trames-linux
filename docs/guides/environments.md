@@ -125,16 +125,26 @@ already opened by that startup. Stop releases them after teardown.
 Each network assigns registered environment UUIDs a stable ID from 2 through
 254, preserved across restart and rename. Its IPv4 address is `10.0.0.ID`, IPv6
 is `fd00::ID` (ID in hexadecimal), and the shared resolver serves `envID.trames`.
-Different networks have independent address spaces. Human environment names are
-not currently DNS names. Deleted UUID allocations are reclaimed on the next
-member start. Inspect the member map to find addresses. Networks must have all
+Different networks have independent address spaces. Within one network, a running
+`db` environment resolves as `db.trames` and `db.env.trames` (A and AAAA). The
+qualified `NAME.env.trames` form also covers names reserved by `gateway.trames`
+and the existing `envID.trames` aliases. Names are case insensitive; starting a
+second environment with the same folded name in that network fails instead of
+routing to an ambiguous peer. The registry's existing name syntax is retained.
+
+Names follow live endpoint leases. Stop or process death invalidates them even
+if socket files remain. Local answers use TTL zero. Rename requires stopping the
+environment; its next start retains its UUID/address and publishes its new name.
+Clones/restores receive new UUIDs and names. Deleted UUID allocations are reclaimed
+on the next member start. These names are served inside Trames networks; host
+clients use published host ports. Inspect the member map to find addresses. Networks must have all
 attached environments stopped before removal; update their profiles before the
 next start. Default networks allow host-backed outbound NAT; `--internal`
 blocks external IP traffic while retaining peer and gateway/resolver services.
 Host publication remains a separately authorized inbound capability.
 
-This iteration does not add login autostart, a Linux GUI manager, managed Android, VA-API, interpreter thunking, or guest
-host-exec/file-control services. Host/none networking and existing native
+This iteration does not add a Linux GUI manager, managed Android, VA-API,
+interpreter thunking, or guest host-exec/file-control services. Host/none networking and existing native
 compute/display/audio paths remain available. Manifests are portable data;
 actual host capabilities and execution backends are platform-specific.
 
@@ -153,3 +163,48 @@ exec, seccomp, persistent volumes and daemon restart. Use `--cpus 1` or `4`;
 `--init shell` also checks shell-managed daemons.
 `scripts/validate-memfd-exec.py` checks original sealed executable self-reexec
 on native Linux and both KVM transports.
+
+## Login autostart and native user services
+
+On a Linux host with a systemd user manager:
+
+```sh
+trames env stop db
+trames env enable db --now
+trames env inspect db --json
+trames env logs db
+trames env restart db
+trames env disable db --now
+```
+
+`enable` installs a per-user unit and enables it under `default.target`; `--now`
+also starts it. Without `--now`, a running ordinary environment continues under
+its existing owner until stopped. `disable` removes login enablement and the
+managed unit; `--now` also stops the environment. No root/system unit or linger
+setting is changed. Login and logout lifetime follows the host's user-manager
+policy; this is not an unattended machine-boot promise.
+
+The unit runs the existing environment worker in the foreground with
+[`Type=notify`](https://www.freedesktop.org/software/systemd/man/latest/systemd.service.html).
+Readiness means command sockets and execution workers are available; services
+inside the guest retain their own readiness checks. Native stop uses the existing
+guest shutdown protocol, allowing guest systemd to execute service `ExecStop`
+actions before storage teardown. Failure restarts are bounded; explicit CLI
+start/restart resets a failed unit's start-limit counter. Already-running exec
+requests reuse their owner without invoking systemctl.
+
+Units bind the environment UUID and registry, so stopped-environment rename
+preserves ownership. Clones and restores do not inherit a host unit. Disable a
+managed unit before removing its environment. `env inspect --json` includes its
+unit/path/install/enablement information; `env logs` reads that unit's user journal.
+The unit records the current executable's absolute path, so install Trames at a
+stable path before enabling environments; re-enable after moving it. Paths are
+quoted for systemd directly, without a shell.
+
+`scripts/validate-discovery-services.py --runner BINARY --receipt BUILD.json
+--output DIR [--systemd-rootfs EXISTING_ROOTFS_OR_ARCHIVE]` requires real KVM and
+an existing user manager. It covers both transports and one/four CPUs, original
+curl HTTP by environment name, IPv6 lookup, isolation, crash recovery, rename,
+clone/restore, native publication and real guest PID1 shutdown when supplied.
+It uses only disposable registries/UUID-named user units and does not restart the
+user's login target. Fresh logout/login itself is not part of this acceptance.

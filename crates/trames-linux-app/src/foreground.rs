@@ -191,6 +191,7 @@ struct HostOptions {
     network_link: Option<std::path::PathBuf>,
     network_id: Option<u8>,
     network_nat: Option<bool>,
+    network_name: Option<String>,
     publish: Vec<trames_distro::environment::Publish>,
     trace: bool,
     display: bool,
@@ -283,6 +284,14 @@ fn host_options(args: Vec<String>) -> Result<(Vec<String>, HostOptions), String>
                         .ok_or("missing network link")?
                         .into(),
                 );
+            }
+            "--network-name" => {
+                if host.network_name.is_some() {
+                    return Err("duplicate --network-name".into());
+                }
+                let name = args.next().ok_or("missing network name")?;
+                trames_distro::registry::name(&name).map_err(|e| e.to_string())?;
+                host.network_name = Some(name);
             }
             "--network-id" => {
                 if host.network_id.is_some() {
@@ -429,7 +438,10 @@ fn host_options(args: Vec<String>) -> Result<(Vec<String>, HostOptions), String>
         return Err("host mode cannot use a private network link".into());
     }
     if host.network_link.is_none()
-        && (host.network_id.is_some() || host.network_nat.is_some() || !host.publish.is_empty())
+        && (host.network_id.is_some()
+            || host.network_nat.is_some()
+            || host.network_name.is_some()
+            || !host.publish.is_empty())
     {
         return Err("network id, NAT and publication require --network-link".into());
     }
@@ -507,7 +519,12 @@ fn run_inner(
     if let Some(directory) = &host.network_link {
         let id = host.network_id.unwrap_or(2);
         let fabric = trames_net::Fabric::new()?;
-        fabric.attach(directory, id, host.network_nat.unwrap_or(true))?;
+        fabric.attach_named(
+            directory,
+            id,
+            host.network_nat.unwrap_or(true),
+            host.network_name.as_deref(),
+        )?;
         for p in &host.publish {
             let address = if p.host.is_ipv4() {
                 std::net::Ipv4Addr::new(10, 0, 0, id).into()
