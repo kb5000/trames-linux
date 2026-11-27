@@ -1,4 +1,5 @@
 name: Native Linux presentation references
+# Scoped ARM64 WSI retry for the 2026-11-27 cold Xvfb startup.
 on:
   push:
     branches: [main, ci/presentation-arm-wsi]
