@@ -1,0 +1,13 @@
+2026-11-27T04:43:17.7171943Z cases=()
+2026-11-27T04:43:17.7172342Z if [[ "$GITHUB_REF" == refs/heads/ci/presentation-arm-windows ]]; then cases=(--case native-wayland); fi
+2026-11-27T04:43:17.7173159Z python3 scripts/validate-windows.py --native-only --unit-binary "$unit" --output target/validation/windows-native "${cases[@]}"
+2026-11-27T04:43:23.4341392Z native-wayland: passed
+2026-11-27T04:43:23.4344448Z {"passed": true, "cases": 1}
+2026-11-27T04:43:24.0109690Z native-x11: passed
+2026-11-27T04:43:24.0776788Z native-wayland: passed
+2026-11-27T04:43:24.0783033Z {"passed": true, "cases": 2, "baseline_reproduced": false}
+2026-11-27T04:43:25.9377291Z reference-wayland: passed
+2026-11-27T04:43:27.5724118Z native-wayland-software: passed
+2026-11-27T04:43:30.8237191Z native-wayland-vulkan: passed
+2026-11-27T04:43:30.9592613Z native-x11-software: passed
+2026-11-27T04:43:31.1400601Z native-x11-vulkan: passed

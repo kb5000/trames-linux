@@ -1,0 +1,40 @@
+2026-11-27T04:33:46.3530984Z ##[group]Run unit=$(python3 -c 'import json; a=[json.loads(x) for x in open("target/wsi-unit.jsonl")]; a=[x["executable"] for x in a if x.get("reason")=="compiler-artifact" and x.get("profile",{}).get("test") and x.get("target",{}).get("kind")==["bin"] and x.get("executable")]; assert len(a)==1,a; print(a[0])')
+2026-11-27T04:33:46.3532846Z unit=$(python3 -c 'import json; a=[json.loads(x) for x in open("target/wsi-unit.jsonl")]; a=[x["executable"] for x in a if x.get("reason")=="compiler-artifact" and x.get("profile",{}).get("test") and x.get("target",{}).get("kind")==["bin"] and x.get("executable")]; assert len(a)==1,a; print(a[0])')
+2026-11-27T04:33:46.3534117Z python3 scripts/validate-keyboard.py --native-only --unit-binary "$unit" --output target/validation/keyboard-native
+2026-11-27T04:33:46.3554803Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-27T04:33:46.3555107Z env:
+2026-11-27T04:33:46.3555280Z   CARGO_HOME: /home/runner/.cargo
+2026-11-27T04:33:46.3555571Z   CARGO_INCREMENTAL: 0
+2026-11-27T04:33:46.3555767Z   CARGO_TERM_COLOR: always
+2026-11-27T04:33:46.3555960Z ##[endgroup]
+2026-11-27T04:33:48.0128647Z reference-x11: passed
+2026-11-27T04:33:48.6953851Z native-x11: passed
+2026-11-27T04:33:49.3892732Z reference-wayland: passed
+2026-11-27T04:33:50.0872541Z native-wayland: passed
+2026-11-27T04:33:50.0877397Z {"passed": true, "cases": 4}
+2026-11-27T04:33:50.1013264Z ##[group]Run unit=$(python3 -c 'import json; a=[json.loads(x) for x in open("target/wsi-unit.jsonl")]; a=[x["executable"] for x in a if x.get("reason")=="compiler-artifact" and x.get("profile",{}).get("test") and x.get("target",{}).get("kind")==["bin"] and x.get("executable")]; assert len(a)==1,a; print(a[0])')
+2026-11-27T04:33:50.1015430Z unit=$(python3 -c 'import json; a=[json.loads(x) for x in open("target/wsi-unit.jsonl")]; a=[x["executable"] for x in a if x.get("reason")=="compiler-artifact" and x.get("profile",{}).get("test") and x.get("target",{}).get("kind")==["bin"] and x.get("executable")]; assert len(a)==1,a; print(a[0])')
+2026-11-27T04:33:50.1016708Z python3 scripts/validate-windows.py --native-only --unit-binary "$unit" --output target/validation/windows-native
+2026-11-27T04:33:50.1037909Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-27T04:33:50.1038217Z env:
+2026-11-27T04:33:50.1038477Z   CARGO_HOME: /home/runner/.cargo
+2026-11-27T04:33:50.1038757Z   CARGO_INCREMENTAL: 0
+2026-11-27T04:33:50.1038957Z   CARGO_TERM_COLOR: always
+2026-11-27T04:33:50.1039634Z ##[endgroup]
+2026-11-27T04:33:51.1532297Z reference-x11: passed
+2026-11-27T04:33:51.4771210Z native-x11: passed
+2026-11-27T04:33:52.7386847Z reference-wayland: passed
+2026-11-27T04:34:02.3020028Z Traceback (most recent call last):
+2026-11-27T04:34:02.3020538Z   File "/home/runner/work/trames-linux/trames-linux/scripts/validate-windows.py", line 166, in <module>
+2026-11-27T04:34:02.3029725Z     main(a)
+2026-11-27T04:34:02.3030126Z   File "/home/runner/work/trames-linux/trames-linux/scripts/validate-windows.py", line 152, in main
+2026-11-27T04:34:02.3030855Z     label='wayland' if wayland else 'x11';case('reference-'+label,wayland,'reference');case('native-'+label,wayland,'wayland')
+2026-11-27T04:34:02.3031440Z                                                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-27T04:34:02.3031973Z   File "/home/runner/work/trames-linux/trames-linux/scripts/validate-windows.py", line 142, in case
+2026-11-27T04:34:02.3032671Z     send('s');eventually(lambda:geometry()[2:]==(pixel_size[0]+60,pixel_size[1]+40),'guest initiated resize did not reach native window')
+2026-11-27T04:34:02.3033277Z               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-27T04:34:02.3033833Z   File "/home/runner/work/trames-linux/trames-linux/scripts/validate-windows.py", line 101, in eventually
+2026-11-27T04:34:02.3034460Z     if process.child.poll() is not None or time.monotonic()>deadline:raise RuntimeError(description)
+2026-11-27T04:34:02.3035431Z                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-27T04:34:02.3035810Z RuntimeError: guest initiated resize did not reach native window
+2026-11-27T04:34:02.3229407Z ##[error]Process completed with exit code 1.

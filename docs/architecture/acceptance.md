@@ -54,5 +54,9 @@ Use `--network off|loopback|outbound|full` to opt into the existing per-runtime
 virtual fabric and its host-access policy. Without this option the original
 disabled policy is retained. Network/services profiles select `outbound`;
 published Docker ports in these tests are exercised inside the guest network,
-not exposed as host services. Named networks/host port publication remain separate
-product configuration work.
+not exposed as host services. The product now separately supports named networks
+and authorized host publication; see [usage](../guides/environments.md) and the
+[372-operation KVM matrix](../validation/networks-20261127.md). The additional
+managed Docker probe currently fails at original runc bootstrap, including on
+the previous accepted environment runner; it is recorded separately and does
+not count as a container-to-host publication pass.

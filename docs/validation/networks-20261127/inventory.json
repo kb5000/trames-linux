@@ -8,6 +8,9 @@
   "checks/trames-networks-clippy-apple.log": "b1d1f63ac7a217092f64e9c952ddb2e7f300fe8abccabf39574a4de771432207",
   "checks/trames-networks-shared-clippy-apple.log": "c31c1cce1c30b7397116f3e053efb9bebd6b67e5940020f4ca50c08ff7209194",
   "checks/trames-networks-shared-tests-apple.log": "9abca177a924e11216d0a63d50315558fd38e9407d78c84b05bd5f4297dc7926",
+  "ci-arm-window-initial.log": "ba5ca9e9aae4a32043dd703b1f3f011e1a20db34ff961b1fdbb2447b74042f1e",
+  "ci-arm-window-retry.log": "64987433b3286f487ac4e8a82d5941c5c25af658fcda7382726cc139055bb996",
+  "ci.json": "b449928303ed286fdf81a92ddc35d80b14101e0b7c4d67c6d0406870a68a19c6",
   "cold-apple.json": "9b3256a535e83a0b22beb792c2fde4598fdc89edc451470a90e5f7117b3b9eac",
   "docker-diagnostics/docker-debug/build-receipt.json": "6e24d44b4d309eba8f67b6553ba059e1f0acbc44256bddf34eea99c5cde380cb",
   "docker-diagnostics/docker-debug/harness.py": "70d74c38cedcb31d842640ca4d9f264631a90ef3f2fba8d21856df78e8fd45d6",
@@ -46,6 +49,7 @@
   "rootfs-inputs.json": "ef0092be3f149e7ab0323a723a30747c40ced2e5f24002674fb11f30a7ed0a2d",
   "smccc-1-idle.json": "4a0dddfa688511bec5b536aae3237327a17578a05363b9abd23c80907d624df1",
   "smccc-4-idle.json": "4a0dddfa688511bec5b536aae3237327a17578a05363b9abd23c80907d624df1",
+  "source-closure.json": "cd823bbf894f0a9d95ce0d53d764edc2c559c33b6f3395e28517e4301226363e",
   "standalone-mmio.json": "064957b8fc9a2c9238951b4477c3cb539a3fe80401c02f5b7ca9ba15ef62c4ba",
   "standalone-smccc.json": "48425602a23fd7eff35091199f3c7431ccda6579bcee5ea8fac854e5508feb87",
   "summary.json": "720660bd29c5430c8e423b35a86d3d086972fcc467beb1a655671880aa19e062"

@@ -1,0 +1,17 @@
+{
+  "production_matches_final_receipt": true,
+  "verified_at_commit": "543e080791a602465b66b2a8506ae2aef6aacaf1",
+  "sources": {
+    "product": {
+      "commit": "543e080791a602465b66b2a8506ae2aef6aacaf1",
+      "dirty": true,
+      "inputs_sha256": "53238a11f0635cebc4b904ed64ae35188861850a43d2e2fdefe682c20a6a2afb"
+    },
+    "runtime": {
+      "commit": "e9a5757c9bcc028cce93a32910e832e166ca952c",
+      "dirty": false,
+      "inputs_sha256": "5512529501060bb98118bcb8eae1bc3b8a8480b0462eb07e8f49de7c1a9a31ec"
+    }
+  },
+  "accepted_runner": "c65e891b5021cb36025568ead1b064b5ee2d2aafaf96e89b174ea80a889e57c7"
+}
