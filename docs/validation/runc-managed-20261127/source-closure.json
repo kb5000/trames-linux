@@ -1,0 +1,16 @@
+{
+  "matches_accepted_runner": true,
+  "verified_commit": "1ae41d9f5ba1696386760e4e3a867bb3db9a98c4",
+  "sources": {
+    "product": {
+      "commit": "1ae41d9f5ba1696386760e4e3a867bb3db9a98c4",
+      "dirty": true,
+      "inputs_sha256": "ecbc018b7ec151634510a4429fcf0cb19eb25569dde8706ba6468a17b7edb8b9"
+    },
+    "runtime": {
+      "commit": "5cc2476bea28f44af095752811c026868f1e442b",
+      "dirty": false,
+      "inputs_sha256": "400a79c26ea6e3d05cd2f5436aaf098444b91f40db9e7002d248f58efe4bfc47"
+    }
+  }
+}

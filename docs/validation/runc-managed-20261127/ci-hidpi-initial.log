@@ -1,0 +1,33 @@
+2026-11-27T07:21:18.3163232Z   CARGO_HOME: /home/runner/.cargo
+2026-11-27T07:21:18.3163455Z   CARGO_INCREMENTAL: 0
+2026-11-27T07:21:18.3163648Z   CARGO_TERM_COLOR: always
+2026-11-27T07:21:18.3163839Z ##[endgroup]
+2026-11-27T07:21:20.0839124Z reference-wayland: passed
+2026-11-27T07:21:21.7244648Z native-wayland-software: passed
+2026-11-27T07:21:24.4788022Z native-wayland-vulkan: passed
+2026-11-27T07:21:34.6370299Z Traceback (most recent call last):
+2026-11-27T07:21:34.6370849Z   File "/home/runner/work/trames-linux/trames-linux/scripts/validate-hidpi.py", line 168, in <module>
+2026-11-27T07:21:34.6372124Z     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--unit-binary',type=Path,required=True);p.add_argument('--runner',type=Path);p.add_argument('--receipt',type=Path);p.add_argument('--output',type=Path,required=True);p.add_argument('--case',action='append');main(p.parse_args())
+2026-11-27T07:21:34.6373519Z                                                                                                                                                                                                                                                                                   ^^^^^^^^^^^^^^^^^^^^
+2026-11-27T07:21:34.6374241Z   File "/home/runner/work/trames-linux/trames-linux/scripts/validate-hidpi.py", line 157, in main
+2026-11-27T07:21:34.6374830Z     for renderer in ['software','vulkan']:case('native-'+kind+'-'+renderer,kind,renderer)
+2026-11-27T07:21:34.6375249Z                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-27T07:21:34.6375888Z   File "/home/runner/work/trames-linux/trames-linux/scripts/validate-hidpi.py", line 139, in case
+2026-11-27T07:21:34.6376512Z     eventually(lambda:tuple(map(int,probe('stripes').split()))==(240,160,240),'1x native pixels wrong',p)
+2026-11-27T07:21:34.6377154Z   File "/home/runner/work/trames-linux/trames-linux/scripts/validate-hidpi.py", line 21, in eventually
+2026-11-27T07:21:34.6377656Z     if time.monotonic()>end:raise RuntimeError(description)
+2026-11-27T07:21:34.6377965Z                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-27T07:21:34.6378230Z RuntimeError: 1x native pixels wrong
+2026-11-27T07:21:34.6579261Z ##[error]Process completed with exit code 1.
+2026-11-27T07:21:34.6663982Z ##[group]Run actions/upload-artifact@v4
+2026-11-27T07:21:34.6664304Z with:
+2026-11-27T07:21:34.6664510Z   name: presentation-native-ubuntu-24.04-arm
+2026-11-27T07:21:34.6665857Z   path: target/validation/presentation-native/
+target/validation/desktop-native/
+target/validation/desktop-interop-native/
+target/validation/keyboard-native/
+target/validation/windows-native/
+target/validation/window-parent-native/
+target/validation/hidpi-native/
+
+2026-11-27T07:21:34.6666905Z   if-no-files-found: error

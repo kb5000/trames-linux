@@ -1,0 +1,751 @@
+[
+  {
+    "label": "runtime",
+    "repository": "project-trames/trames-runtime",
+    "run_id": 45956151742,
+    "head_sha": "bb2748532f7ea56d658d819f8afdfd114b7a01df",
+    "url": "https://github.com/project-trames/trames-runtime/actions/runs/45956151742",
+    "jobs": [
+      {
+        "id": 140362971755,
+        "name": "verify (macos-15)",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": [
+          {
+            "name": "Set up job",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "conclusion": "success"
+          },
+          {
+            "name": "Install native PCM test headers (Linux only)",
+            "conclusion": "skipped"
+          },
+          {
+            "name": "Compile ALSA ABI oracle",
+            "conclusion": "skipped"
+          },
+          {
+            "name": "Run rustup show",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run python3 scripts/check-execution-boundaries.py",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run python3 scripts/build-guest-cli.py",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run cargo fmt --all --check",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run cargo clippy --workspace --all-targets --all-features --locked -- -D warnings",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run cargo test --workspace --all-features --locked",
+            "conclusion": "success"
+          },
+          {
+            "name": "Verify musl DNS ABI with a GNU C frontend",
+            "conclusion": "skipped"
+          },
+          {
+            "name": "Run cargo build --workspace --all-features --release --locked",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run cargo run --release -p trames-memory --example reclaim-footprint --locked",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "conclusion": "success"
+          },
+          {
+            "name": "Complete job",
+            "conclusion": "success"
+          }
+        ]
+      },
+      {
+        "id": 140362972011,
+        "name": "verify (ubuntu-24.04)",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": [
+          {
+            "name": "Set up job",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "conclusion": "success"
+          },
+          {
+            "name": "Install native PCM test headers (Linux only)",
+            "conclusion": "success"
+          },
+          {
+            "name": "Compile ALSA ABI oracle",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run rustup show",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run python3 scripts/check-execution-boundaries.py",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run python3 scripts/build-guest-cli.py",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run cargo fmt --all --check",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run cargo clippy --workspace --all-targets --all-features --locked -- -D warnings",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run cargo test --workspace --all-features --locked",
+            "conclusion": "success"
+          },
+          {
+            "name": "Verify musl DNS ABI with a GNU C frontend",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run cargo build --workspace --all-features --release --locked",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run cargo run --release -p trames-memory --example reclaim-footprint --locked",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "conclusion": "success"
+          },
+          {
+            "name": "Complete job",
+            "conclusion": "success"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "label": "linux-build",
+    "repository": "project-trames/trames-linux",
+    "run_id": 45956284120,
+    "head_sha": "7a9b1c71d236c1ac76181a23e1ecb402661411c7",
+    "url": "https://github.com/project-trames/trames-linux/actions/runs/45956284120",
+    "jobs": [
+      {
+        "id": 140363388043,
+        "name": "Build/unit (ubuntu-24.04-arm) — no hardware claim",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": [
+          {
+            "name": "Set up job",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run dtolnay/rust-toolchain@master",
+            "conclusion": "success"
+          },
+          {
+            "name": "Install PCM test headers",
+            "conclusion": "success"
+          },
+          {
+            "name": "Compile PCM ABI oracle",
+            "conclusion": "success"
+          },
+          {
+            "name": "Software PCM integration tests",
+            "conclusion": "success"
+          },
+          {
+            "name": "Build source-checked guest CLI",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run python3 -m py_compile scripts/validate-applications.py scripts/validate-desktop-interop.py scripts/validate-xwayland-ime.py scripts/validate-keyboard.py scripts/validate-windows.py scripts/validate-window-parent.py scripts/validate-hidpi.py scripts/validate-environments.py scripts/validate-networks.py scripts/validate-network-services.py scripts/validate-memfd-exec.py",
+            "conclusion": "success"
+          },
+          {
+            "name": "Native reference for sealed executable self-reexec",
+            "conclusion": "success"
+          },
+          {
+            "name": "Native reference for original 4KiB memory ELF",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run python3 scripts/check-boundaries.py",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run cargo fmt --all --check",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run cargo clippy --workspace --all-targets --locked -- -D warnings",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run cargo test --workspace --locked",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run cargo build --workspace --release --locked",
+            "conclusion": "success"
+          },
+          {
+            "name": "Cold environment registry acceptance (no KVM claim)",
+            "conclusion": "success"
+          },
+          {
+            "name": "Cold named network and port configuration (no KVM claim)",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run target/release/trames doctor --json",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "conclusion": "success"
+          },
+          {
+            "name": "Complete job",
+            "conclusion": "success"
+          }
+        ]
+      },
+      {
+        "id": 140363388297,
+        "name": "Build/unit (macos-15) — no hardware claim",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": [
+          {
+            "name": "Set up job",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run dtolnay/rust-toolchain@master",
+            "conclusion": "success"
+          },
+          {
+            "name": "Install PCM test headers",
+            "conclusion": "skipped"
+          },
+          {
+            "name": "Compile PCM ABI oracle",
+            "conclusion": "skipped"
+          },
+          {
+            "name": "Software PCM integration tests",
+            "conclusion": "skipped"
+          },
+          {
+            "name": "Build source-checked guest CLI",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run python3 -m py_compile scripts/validate-applications.py scripts/validate-desktop-interop.py scripts/validate-xwayland-ime.py scripts/validate-keyboard.py scripts/validate-windows.py scripts/validate-window-parent.py scripts/validate-hidpi.py scripts/validate-environments.py scripts/validate-networks.py scripts/validate-network-services.py scripts/validate-memfd-exec.py",
+            "conclusion": "success"
+          },
+          {
+            "name": "Native reference for sealed executable self-reexec",
+            "conclusion": "skipped"
+          },
+          {
+            "name": "Native reference for original 4KiB memory ELF",
+            "conclusion": "skipped"
+          },
+          {
+            "name": "Run python3 scripts/check-boundaries.py",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run cargo fmt --all --check",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run cargo clippy --workspace --all-targets --locked -- -D warnings",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run cargo test --workspace --locked",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run cargo build --workspace --release --locked",
+            "conclusion": "success"
+          },
+          {
+            "name": "Cold environment registry acceptance (no KVM claim)",
+            "conclusion": "success"
+          },
+          {
+            "name": "Cold named network and port configuration (no KVM claim)",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run target/release/trames doctor --json",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "conclusion": "success"
+          },
+          {
+            "name": "Complete job",
+            "conclusion": "success"
+          }
+        ]
+      },
+      {
+        "id": 140363388328,
+        "name": "Build/unit (ubuntu-24.04) — no hardware claim",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": [
+          {
+            "name": "Set up job",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run dtolnay/rust-toolchain@master",
+            "conclusion": "success"
+          },
+          {
+            "name": "Install PCM test headers",
+            "conclusion": "success"
+          },
+          {
+            "name": "Compile PCM ABI oracle",
+            "conclusion": "success"
+          },
+          {
+            "name": "Software PCM integration tests",
+            "conclusion": "success"
+          },
+          {
+            "name": "Build source-checked guest CLI",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run python3 -m py_compile scripts/validate-applications.py scripts/validate-desktop-interop.py scripts/validate-xwayland-ime.py scripts/validate-keyboard.py scripts/validate-windows.py scripts/validate-window-parent.py scripts/validate-hidpi.py scripts/validate-environments.py scripts/validate-networks.py scripts/validate-network-services.py scripts/validate-memfd-exec.py",
+            "conclusion": "success"
+          },
+          {
+            "name": "Native reference for sealed executable self-reexec",
+            "conclusion": "success"
+          },
+          {
+            "name": "Native reference for original 4KiB memory ELF",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run python3 scripts/check-boundaries.py",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run cargo fmt --all --check",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run cargo clippy --workspace --all-targets --locked -- -D warnings",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run cargo test --workspace --locked",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run cargo build --workspace --release --locked",
+            "conclusion": "success"
+          },
+          {
+            "name": "Cold environment registry acceptance (no KVM claim)",
+            "conclusion": "success"
+          },
+          {
+            "name": "Cold named network and port configuration (no KVM claim)",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run target/release/trames doctor --json",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "conclusion": "success"
+          },
+          {
+            "name": "Complete job",
+            "conclusion": "success"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "label": "presentation-initial",
+    "repository": "project-trames/trames-linux",
+    "run_id": 45956284245,
+    "head_sha": "7a9b1c71d236c1ac76181a23e1ecb402661411c7",
+    "url": "https://github.com/project-trames/trames-linux/actions/runs/45956284245",
+    "jobs": [
+      {
+        "id": 140363388478,
+        "name": "Native software WSI (ubuntu-24.04-arm) — no KVM or physical GPU claim",
+        "status": "completed",
+        "conclusion": "failure",
+        "steps": [
+          {
+            "name": "Set up job",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run dtolnay/rust-toolchain@master",
+            "conclusion": "success"
+          },
+          {
+            "name": "Install software display prerequisites",
+            "conclusion": "success"
+          },
+          {
+            "name": "Compile original XTEST sequence peer",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run python3 runtime/scripts/build-guest-cli.py",
+            "conclusion": "success"
+          },
+          {
+            "name": "Build original native target regression binary",
+            "conclusion": "success"
+          },
+          {
+            "name": "Exercise actual X11 pixels and Wayland target lifetimes",
+            "conclusion": "success"
+          },
+          {
+            "name": "Exercise native SHM desktop pixels and keyboard/pointer input",
+            "conclusion": "success"
+          },
+          {
+            "name": "Exercise native clipboard, IME, Wayland and Vulkan desktop",
+            "conclusion": "success"
+          },
+          {
+            "name": "Exercise actual host XKB layouts, groups, locks and repeat",
+            "conclusion": "success"
+          },
+          {
+            "name": "Exercise native window states, parent focus and move/resize",
+            "conclusion": "failure"
+          },
+          {
+            "name": "Exercise standard cyclic-parent protocol errors",
+            "conclusion": "skipped"
+          },
+          {
+            "name": "Exercise HiDPI, fractional pixels, multiple displays and hotplug",
+            "conclusion": "skipped"
+          },
+          {
+            "name": "Run actions/upload-artifact@v4",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "conclusion": "success"
+          },
+          {
+            "name": "Complete job",
+            "conclusion": "success"
+          }
+        ]
+      },
+      {
+        "id": 140363388628,
+        "name": "Native software WSI (ubuntu-24.04) — no KVM or physical GPU claim",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": [
+          {
+            "name": "Set up job",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run dtolnay/rust-toolchain@master",
+            "conclusion": "success"
+          },
+          {
+            "name": "Install software display prerequisites",
+            "conclusion": "success"
+          },
+          {
+            "name": "Compile original XTEST sequence peer",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run python3 runtime/scripts/build-guest-cli.py",
+            "conclusion": "success"
+          },
+          {
+            "name": "Build original native target regression binary",
+            "conclusion": "success"
+          },
+          {
+            "name": "Exercise actual X11 pixels and Wayland target lifetimes",
+            "conclusion": "success"
+          },
+          {
+            "name": "Exercise native SHM desktop pixels and keyboard/pointer input",
+            "conclusion": "success"
+          },
+          {
+            "name": "Exercise native clipboard, IME, Wayland and Vulkan desktop",
+            "conclusion": "success"
+          },
+          {
+            "name": "Exercise actual host XKB layouts, groups, locks and repeat",
+            "conclusion": "success"
+          },
+          {
+            "name": "Exercise native window states, parent focus and move/resize",
+            "conclusion": "success"
+          },
+          {
+            "name": "Exercise standard cyclic-parent protocol errors",
+            "conclusion": "success"
+          },
+          {
+            "name": "Exercise HiDPI, fractional pixels, multiple displays and hotplug",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/upload-artifact@v4",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "conclusion": "success"
+          },
+          {
+            "name": "Complete job",
+            "conclusion": "success"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "label": "presentation-wayland-recovery",
+    "repository": "project-trames/trames-linux",
+    "run_id": 45957270869,
+    "head_sha": "3b59a24485c6e08d6c11f490cf075462acdeea0f",
+    "url": "https://github.com/project-trames/trames-linux/actions/runs/45957270869",
+    "jobs": [
+      {
+        "id": 140366531457,
+        "name": "Native software WSI (ubuntu-24.04-arm) — no KVM or physical GPU claim",
+        "status": "completed",
+        "conclusion": "failure",
+        "steps": [
+          {
+            "name": "Set up job",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run dtolnay/rust-toolchain@master",
+            "conclusion": "success"
+          },
+          {
+            "name": "Install software display prerequisites",
+            "conclusion": "success"
+          },
+          {
+            "name": "Compile original XTEST sequence peer",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run python3 runtime/scripts/build-guest-cli.py",
+            "conclusion": "success"
+          },
+          {
+            "name": "Build original native target regression binary",
+            "conclusion": "success"
+          },
+          {
+            "name": "Exercise actual X11 pixels and Wayland target lifetimes",
+            "conclusion": "skipped"
+          },
+          {
+            "name": "Exercise native SHM desktop pixels and keyboard/pointer input",
+            "conclusion": "skipped"
+          },
+          {
+            "name": "Exercise native clipboard, IME, Wayland and Vulkan desktop",
+            "conclusion": "skipped"
+          },
+          {
+            "name": "Exercise actual host XKB layouts, groups, locks and repeat",
+            "conclusion": "skipped"
+          },
+          {
+            "name": "Exercise native window states, parent focus and move/resize",
+            "conclusion": "success"
+          },
+          {
+            "name": "Exercise standard cyclic-parent protocol errors",
+            "conclusion": "success"
+          },
+          {
+            "name": "Exercise HiDPI, fractional pixels, multiple displays and hotplug",
+            "conclusion": "failure"
+          },
+          {
+            "name": "Run actions/upload-artifact@v4",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "conclusion": "success"
+          },
+          {
+            "name": "Complete job",
+            "conclusion": "success"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "label": "presentation-x11-hidpi-recovery",
+    "repository": "project-trames/trames-linux",
+    "run_id": 45958385557,
+    "head_sha": "1ae41d9f5ba1696386760e4e3a867bb3db9a98c4",
+    "url": "https://github.com/project-trames/trames-linux/actions/runs/45958385557",
+    "jobs": [
+      {
+        "id": 140370103061,
+        "name": "Native software WSI (ubuntu-24.04-arm) — no KVM or physical GPU claim",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": [
+          {
+            "name": "Set up job",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run dtolnay/rust-toolchain@master",
+            "conclusion": "success"
+          },
+          {
+            "name": "Install software display prerequisites",
+            "conclusion": "success"
+          },
+          {
+            "name": "Compile original XTEST sequence peer",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run python3 runtime/scripts/build-guest-cli.py",
+            "conclusion": "success"
+          },
+          {
+            "name": "Build original native target regression binary",
+            "conclusion": "success"
+          },
+          {
+            "name": "Exercise actual X11 pixels and Wayland target lifetimes",
+            "conclusion": "skipped"
+          },
+          {
+            "name": "Exercise native SHM desktop pixels and keyboard/pointer input",
+            "conclusion": "skipped"
+          },
+          {
+            "name": "Exercise native clipboard, IME, Wayland and Vulkan desktop",
+            "conclusion": "skipped"
+          },
+          {
+            "name": "Exercise actual host XKB layouts, groups, locks and repeat",
+            "conclusion": "skipped"
+          },
+          {
+            "name": "Exercise native window states, parent focus and move/resize",
+            "conclusion": "skipped"
+          },
+          {
+            "name": "Exercise standard cyclic-parent protocol errors",
+            "conclusion": "skipped"
+          },
+          {
+            "name": "Exercise HiDPI, fractional pixels, multiple displays and hotplug",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/upload-artifact@v4",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "conclusion": "success"
+          },
+          {
+            "name": "Complete job",
+            "conclusion": "success"
+          }
+        ]
+      }
+    ]
+  }
+]

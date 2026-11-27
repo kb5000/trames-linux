@@ -1,0 +1,5 @@
+2026-11-27T07:30:40.2762042Z cases=()
+2026-11-27T07:30:40.2762554Z if [[ "$GITHUB_REF" == refs/heads/ci/presentation-arm-hidpi ]]; then cases=(--case native-x11-software --case native-x11-vulkan); fi
+2026-11-27T07:30:40.2764065Z python3 scripts/validate-hidpi.py --unit-binary "$unit" --output target/validation/hidpi-native "${cases[@]}"
+2026-11-27T07:30:41.2895089Z native-x11-software: passed
+2026-11-27T07:30:41.5897058Z native-x11-vulkan: passed

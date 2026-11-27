@@ -1,0 +1,33 @@
+2026-11-27T07:12:59.5337183Z env:
+2026-11-27T07:12:59.5337362Z   CARGO_HOME: /home/runner/.cargo
+2026-11-27T07:12:59.5337585Z   CARGO_INCREMENTAL: 0
+2026-11-27T07:12:59.5337777Z   CARGO_TERM_COLOR: always
+2026-11-27T07:12:59.5337970Z ##[endgroup]
+2026-11-27T07:13:00.4125959Z reference-x11: passed
+2026-11-27T07:13:00.7605256Z native-x11: passed
+2026-11-27T07:13:31.8308228Z Traceback (most recent call last):
+2026-11-27T07:13:31.8308975Z   File "/home/runner/work/trames-linux/trames-linux/scripts/validate-windows.py", line 166, in <module>
+2026-11-27T07:13:31.8309536Z     main(a)
+2026-11-27T07:13:31.8310203Z   File "/home/runner/work/trames-linux/trames-linux/scripts/validate-windows.py", line 152, in main
+2026-11-27T07:13:31.8310916Z     label='wayland' if wayland else 'x11';case('reference-'+label,wayland,'reference');case('native-'+label,wayland,'wayland')
+2026-11-27T07:13:31.8311481Z                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-27T07:13:31.8311971Z   File "/home/runner/work/trames-linux/trames-linux/scripts/validate-windows.py", line 123, in case
+2026-11-27T07:13:31.8312430Z     move=drag('v',False);resize=drag('r',True)
+2026-11-27T07:13:31.8312674Z          ^^^^^^^^^^^^^^^
+2026-11-27T07:13:31.8313055Z   File "/home/runner/work/trames-linux/trames-linux/scripts/validate-windows.py", line 113, in drag
+2026-11-27T07:13:31.8313955Z     before=eventually(geometry,'visible pre-gesture geometry');x,y,w,h=before;at=send(command);probe('point',x+w//2,y+h//2);probe('button',1,1);process.expect(('gesture '+command).encode(),after=at)
+2026-11-27T07:13:31.8314824Z                                                                                                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-27T07:13:31.8315446Z   File "/home/runner/work/trames-linux/trames-linux/scripts/validate-desktop.py", line 57, in expect
+2026-11-27T07:13:31.8316034Z     self.drain();raise RuntimeError('missing '+repr(marker)+'; '+repr(self.data[-300:]))
+2026-11-27T07:13:31.8316457Z                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-27T07:13:31.8317653Z RuntimeError: missing b'gesture v'; b' max=1 full=1 resizing=0 active=1\ncommand u\nconfigured parent 800 600 max=1 full=1 resizing=0 active=1\nconfigured parent 800 568 max=1 full=0 resizing=0 active=1\ncommand n\nconfigured parent 800 568 max=1 full=0 resizing=0 active=1\nconfigured parent 240 160 max=0 full=0 resizing=0 active=1\ncommand v\n'
+2026-11-27T07:13:31.8550896Z ##[error]Process completed with exit code 1.
+2026-11-27T07:13:31.8650890Z ##[group]Run actions/upload-artifact@v4
+2026-11-27T07:13:31.8651244Z with:
+2026-11-27T07:13:31.8651446Z   name: presentation-native-ubuntu-24.04-arm
+2026-11-27T07:13:31.8652494Z   path: target/validation/presentation-native/
+target/validation/desktop-native/
+target/validation/desktop-interop-native/
+target/validation/keyboard-native/
+target/validation/windows-native/
+target/validation/window-parent-native/

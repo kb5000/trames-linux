@@ -77,3 +77,28 @@ separator); acceptance above requires the complete corrected workflows.
 CPU/4 KiB/graphics implementations are unchanged. Their prior hardware results
 are reused; the exact original application workflow and affected VFS/platform
 paths were validated for this change.
+
+## CI closure
+
+[Recorded jobs/steps](runc-managed-20261127/ci.json): shared Runtime
+[Linux/macOS full CI](https://github.com/project-trames/trames-runtime/actions/runs/45956151742)
+and Linux product [AMD64/ARM64/macOS build CI](https://github.com/project-trames/trames-linux/actions/runs/45956284120)
+passed, including the new native sealed-executable reference. Runtime's initial
+formatting failure in the independently integrated memory lifecycle was closed
+with formatting only; the tested VFS feature commit is preserved.
+
+The initial [presentation run](https://github.com/project-trames/trames-linux/actions/runs/45956284245)
+passed AMD64 and ARM64 WSI/desktop/interop/keyboard, then ARM64's original native
+Wayland reference missed a gesture event. [Targeted recovery](https://github.com/project-trames/trames-linux/actions/runs/45957270869)
+passed both Wayland window cohorts and parent protocol cases, plus all three
+Wayland HiDPI cohorts; its native X11 pixel check then failed. The final
+[X11-only recovery](https://github.com/project-trames/trames-linux/actions/runs/45958385557)
+passed the failed software and previously unrun Vulkan X11 cohorts.
+[Original failures](runc-managed-20261127/ci-native-reference-initial.log),
+[original pixel failure](runc-managed-20261127/ci-hidpi-initial.log) and
+[final recovery output](runc-managed-20261127/ci-hidpi-recovery.log) are retained.
+
+These references used identical product/Runtime sources. No graphics code,
+assertion or timeout was changed; passed cohorts and platforms were reused.
+A successful retry does not establish the intermittent reference failures'
+root cause or claim them fixed. Temporary refs are deleted after integration.
