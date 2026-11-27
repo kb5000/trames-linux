@@ -23,6 +23,10 @@ custom rootfs. Custom archives may specify `--sha256 HASH`. Directories are
 imported into a new store; the source is not used as writable guest storage.
 A required shell or `/sbin/init` must exist before creation is published.
 
+For a CPU-only host without a native Vulkan provider, select
+`trames config --global set defaults.components.vulkan false` before creating
+environments, or set `components.vulkan false` on an existing environment.
+
 The default registry is `$XDG_DATA_HOME/trames` or `$HOME/.local/share/trames`.
 `TRAMES_HOME` selects an absolute alternate registry. Every environment has a
 stable UUID directory, profile, host grants and `store/`; names and UUIDs both

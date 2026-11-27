@@ -135,12 +135,18 @@ def main():
     runtime=Path(runtime_directory.name)
     env=os.environ|{'XDG_RUNTIME_DIR':str(runtime),'WAYLAND_DISPLAY':'trames-wsi-validation','TRAMES_WAYLAND_FIXTURE':str(out/'wayland-target.so')}
     rows=[];read_fd,write_fd=os.pipe()
-    with runtime_directory,compositor(['Xvfb','-displayfd',str(write_fd),'-screen','0','1024x768x24','-nolisten','tcp','-noreset'],out/'xvfb.log',env,(write_fd,)):
+    with runtime_directory,compositor(['Xvfb','-displayfd',str(write_fd),'-screen','0','1024x768x24','-nolisten','tcp','-noreset'],out/'xvfb.log',env,(write_fd,)) as xvfb:
         os.close(write_fd)
         with os.fdopen(read_fd,'rb',buffering=0) as stream,selectors.DefaultSelector() as selector:
             selector.register(stream,selectors.EVENT_READ)
-            if not selector.select(10):raise TimeoutError('Xvfb startup')
-            env['DISPLAY']=':'+stream.readline().decode().strip()
+            # A cold CI host may still be compiling its XKB map at 10 seconds.
+            # Keep the readiness pipe open; the compositor owns the actual signal.
+            if not selector.select(30):
+                raise TimeoutError(f'Xvfb startup; exit={xvfb.poll()}; '+(out/'xvfb.log').read_text(errors='replace')[-4096:])
+            display=stream.readline().decode().strip()
+            if not display.isdecimal():
+                raise RuntimeError(f'Xvfb closed its readiness pipe; exit={xvfb.poll()}; '+(out/'xvfb.log').read_text(errors='replace')[-4096:])
+            env['DISPLAY']=':'+display
         with compositor(['weston','--backend=headless','--renderer=pixman','--socket='+env['WAYLAND_DISPLAY'],'--idle-time=0'],out/'weston.log',env) as weston:
             deadline=time.monotonic()+10
             while not (runtime/env['WAYLAND_DISPLAY']).exists():

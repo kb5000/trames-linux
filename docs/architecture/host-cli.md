@@ -10,6 +10,8 @@ flowchart LR
   Mac[Mac product] --> CLI[trames-cli-common]
   Linux[Linux product] --> CLI
   Runner[Interpreter runner] --> CLI
+  Mac --> Host[Runtime host transports]
+  Linux --> Host
   Mac --> HVF
   Linux --> KVM
   Runner --> Interpreter
@@ -18,12 +20,15 @@ flowchart LR
   Interpreter --> Runtime
 ```
 
-The first extraction shares environment/argv selection, foreground options,
-storage-size helpers, Unix terminal setup/restoration and the original session
-and exec protocol clients. Mac retains environment management, its registry,
-server side of those protocols, GUI and lifecycle. Linux gains explicit rootfs
-shell/exec and portable socket clients. Named environment management on Linux
-remains a separate implementation batch.
+The independent CLI shares environment/argv selection, foreground options,
+storage-size helpers, Unix terminal setup/restoration and the session/exec
+protocol clients. Mac and Linux now use the Runtime `trames-host` servers on
+their existing foreground wait. Manifest and guest terminal semantics remain
+shared in `trames-distro`. Product CPU backends, GUI and lifecycle stay separate.
+Linux's named registry and cold storage operations use the new Runtime helpers;
+Mac retains its product registry and lifecycle. See the
+[named environment guide](../guides/environments.md) and
+[acceptance record](../validation/environments-20261127.md).
 
 Project dependency boundaries, exact source pins and fixed target ABI selection are checked at build/test time. Release execution does not scan source trees or invoke Git to recheck these invariants.
 
@@ -48,5 +53,7 @@ trames exec --socket /path/to/console -- /bin/echo hello
 trames session ls --socket /path/to/console --json
 ```
 
-Socket commands connect to an already available compatible service. They do not
-claim that Linux environment persistence or a daemon has been implemented.
+Explicit socket commands connect to an already available compatible service.
+Named `-e NAME shell/exec` starts an existing environment on demand, with its own
+background worker and persistent store. Commands never implicitly create or
+download an image. Lifecycle control remains outside the CLI library.
