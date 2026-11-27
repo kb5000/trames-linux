@@ -30,5 +30,11 @@
     "passed": false,
     "previous_runner_sha256": "1c023b788bc3bbfb04cffaad162e000739744ebd376b1b1090f85d677a18c314",
     "finding": "Original runc bootstrap pipe failure reproduced under managed systemd/bridge, shell/bridge, shell/host, and the previous accepted managed environment runner shell/host. Container-to-host HTTP is not accepted."
+  },
+  "ci": {
+    "linux_three_platforms": "passed",
+    "runtime_linux_apple": "passed",
+    "mac_dev_stable": "passed",
+    "presentation": "initial AMD64 passed; initial ARM64 partial failure retained; targeted unchanged ARM64 cohort and unfinished checks passed"
   }
 }
