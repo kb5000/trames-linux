@@ -1,0 +1,13 @@
+2026-11-27T08:53:24.4400891Z [36;1mpython3 scripts/validate-desktop.py --native-only --unit-binary "$unit" --output target/validation/desktop-native[0m
+2026-11-27T08:53:30.8414016Z reference-x11: passed
+2026-11-27T08:53:31.5027159Z native-x11: passed
+2026-11-27T08:53:32.8706067Z [36;1mpython3 scripts/validate-windows.py --native-only --unit-binary "$unit" --output target/validation/windows-native "${cases[@]}"[0m
+2026-11-27T08:53:33.7129568Z reference-x11: passed
+2026-11-27T08:53:34.0209008Z native-x11: passed
+2026-11-27T08:54:05.0628411Z Traceback (most recent call last):
+2026-11-27T08:54:05.0629139Z   File "/home/runner/work/trames-linux/trames-linux/scripts/validate-windows.py", line 166, in <module>
+2026-11-27T08:54:05.0630077Z   File "/home/runner/work/trames-linux/trames-linux/scripts/validate-windows.py", line 152, in main
+2026-11-27T08:54:05.0631920Z   File "/home/runner/work/trames-linux/trames-linux/scripts/validate-windows.py", line 123, in case
+2026-11-27T08:54:05.0633015Z   File "/home/runner/work/trames-linux/trames-linux/scripts/validate-windows.py", line 113, in drag
+2026-11-27T08:54:05.0635576Z   File "/home/runner/work/trames-linux/trames-linux/scripts/validate-desktop.py", line 57, in expect
+2026-11-27T08:54:05.0637816Z RuntimeError: missing b'gesture v'; b' max=1 full=1 resizing=0 active=1\ncommand u\nconfigured parent 800 600 max=1 full=1 resizing=0 active=1\nconfigured parent 800 568 max=1 full=0 resizing=0 active=1\ncommand n\nconfigured parent 800 568 max=1 full=0 resizing=0 active=1\nconfigured parent 240 160 max=0 full=0 resizing=0 active=1\ncommand v\n'

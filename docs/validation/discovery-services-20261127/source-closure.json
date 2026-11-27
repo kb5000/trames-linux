@@ -1,0 +1,21 @@
+{
+  "passed": true,
+  "feature_commit": "126d589cb4579bb7a49ab3765b0a11d370d92763",
+  "final_code_sources": {
+    "commit": "cfdb538d948a4414881fd56afe001e7e63598f18",
+    "dirty": false,
+    "inputs_sha256": "1f2606ec42a07f7917b2334f07f1ec058548e1f00cf802d153a0bb89885ab220"
+  },
+  "runtime": {
+    "commit": "8bd058556ffb35be8e127afbaf7c1c26dae998d9",
+    "dirty": false,
+    "inputs_sha256": "8addfd0777da33e1b6ffef2d3c2442c3e5ab3aa14d5d41965af4e232e1cdead4"
+  },
+  "accepted_and_final_runner_sha256": "c732aec5969523d96d11ad8b2926c148f9779650213e24339f4977516be0158c",
+  "changes_after_acceptance": [
+    "third-party/inputs.json"
+  ],
+  "hardware_tests_reused_for_identical_binary": true,
+  "ci_only_commit": "f3ceaa3f2fc75a104111e383e7a8f96ca99e3786",
+  "workflow_comment_changes_production_inputs": false
+}

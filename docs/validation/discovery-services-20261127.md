@@ -79,3 +79,28 @@ excludes user content, authentication files, SSH, machine identities, logs, cach
 and the unrelated Docker payload. Input SHA256 and audit are retained; the original
 fixture was not changed, and no new image was downloaded. Guest identity is created
 by the existing managed environment path. No rootfs/binary archive is checked in.
+
+## CI closure and separate native reference failure
+
+The final [Linux three-platform build/unit CI](https://github.com/project-trames/trames-linux/actions/runs/45968859481), [Runtime Linux/macOS CI](https://github.com/project-trames/trames-runtime/actions/runs/45966807752), and [Mac Dev/Stable CI](https://github.com/project-trames/trames-mac/actions/runs/45967467914) passed.
+The first dependency-record check found an outdated lockfile fingerprint;
+regenerating the reviewed inputs corrected it, and [license CI](https://github.com/project-trames/trames-linux/actions/runs/45968859602) passed. No new third-party coordinates were introduced.
+The [source closure](discovery-services-20261127/source-closure.json) and clean
+closing build receipt prove the final runner is byte-identical to the accepted
+628-operation runner. Documentation and a CI-trigger comment reuse those results.
+
+The unrelated [native presentation run](https://github.com/project-trames/trames-linux/actions/runs/45968465203) passed AMD64 but ARM64 stopped in the standalone Wayland reference before reaching Trames Wayland execution: gesture v was absent.
+The [scoped window recovery](https://github.com/project-trames/trames-linux/actions/runs/45970309953) reproduced it. It is **not counted as passed**; subsequent ARM64 parent/HiDPI stages were not reached in that retry.
+Both failures, their tested commit identities and exact failed/skipped stages
+are retained in the [CI ledger](discovery-services-20261127/ci.json).
+No graphics assertions, deadlines or production display code were changed.
+
+Follow-up: reproduce pointer focus/enter/button delivery in the original
+Weston/Xvfb reference and repair its input synchronization before repeating only
+the failed and unfinished cohorts. This remains separate from this delivery's
+DNS/native-service acceptance and the owner's deferred Linux GUI work.
+
+The native-user-manager audit confirms all 35 test unit identities have no
+remaining unit, drop-in, enablement link or MainPID. The audited temporary image
+and duplicate input trees were removed, reclaiming 193,357,961 bytes. The original
+offline fixture and existing shared build caches remain intact.

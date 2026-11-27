@@ -1,0 +1,252 @@
+{
+  "passed": true,
+  "test_units": [
+    {
+      "unit": "trames-00cc2444-19c8-47dc-a4cc-540c49a1e43a-fd0689f13071.service",
+      "unit_file": false,
+      "dropin": false,
+      "enabled": false,
+      "main_pid": 0
+    },
+    {
+      "unit": "trames-86e042e1-5994-498a-936d-d447ca24d034-fbef8a218d1c.service",
+      "unit_file": false,
+      "dropin": false,
+      "enabled": false,
+      "main_pid": 0
+    },
+    {
+      "unit": "trames-8d2f6e0d-d095-4ae3-9728-965325cdaae0-939adb021bbf.service",
+      "unit_file": false,
+      "dropin": false,
+      "enabled": false,
+      "main_pid": 0
+    },
+    {
+      "unit": "trames-2c38401f-8d3f-450c-80d4-df487e46de9b-de8cbed4ed04.service",
+      "unit_file": false,
+      "dropin": false,
+      "enabled": false,
+      "main_pid": 0
+    },
+    {
+      "unit": "trames-fabffd5e-f30a-4165-88c5-c2e7f74f9234-b5e2da8dd9d7.service",
+      "unit_file": false,
+      "dropin": false,
+      "enabled": false,
+      "main_pid": 0
+    },
+    {
+      "unit": "trames-9ae27746-3264-49a7-a46d-95a97a37cf17-ce6f2f51e0fe.service",
+      "unit_file": false,
+      "dropin": false,
+      "enabled": false,
+      "main_pid": 0
+    },
+    {
+      "unit": "trames-8cd1cde7-c9d3-4810-a7b4-ca65ed3ff98e-1c05883d5e7c.service",
+      "unit_file": false,
+      "dropin": false,
+      "enabled": false,
+      "main_pid": 0
+    },
+    {
+      "unit": "trames-e0954437-3564-48df-896e-b85e47308fa7-c0c22110060f.service",
+      "unit_file": false,
+      "dropin": false,
+      "enabled": false,
+      "main_pid": 0
+    },
+    {
+      "unit": "trames-db7f017f-1030-42d4-b952-99c4a4ba5c6d-96d561cbe4ca.service",
+      "unit_file": false,
+      "dropin": false,
+      "enabled": false,
+      "main_pid": 0
+    },
+    {
+      "unit": "trames-3b00ada8-fb12-4e31-bef3-6cd337c1c038-bb0907c6355d.service",
+      "unit_file": false,
+      "dropin": false,
+      "enabled": false,
+      "main_pid": 0
+    },
+    {
+      "unit": "trames-1be33446-ba04-4b46-abe4-16683498a28d-003c1c3c2356.service",
+      "unit_file": false,
+      "dropin": false,
+      "enabled": false,
+      "main_pid": 0
+    },
+    {
+      "unit": "trames-64de017e-37af-4538-932b-4b1cb5997506-f6751c369784.service",
+      "unit_file": false,
+      "dropin": false,
+      "enabled": false,
+      "main_pid": 0
+    },
+    {
+      "unit": "trames-9faeb4ab-cf8e-4c09-9ca6-aae931e011da-520e851894a1.service",
+      "unit_file": false,
+      "dropin": false,
+      "enabled": false,
+      "main_pid": 0
+    },
+    {
+      "unit": "trames-c0f0247e-f9ff-4282-8cbe-856e8ecb5663-486cb6c75d5b.service",
+      "unit_file": false,
+      "dropin": false,
+      "enabled": false,
+      "main_pid": 0
+    },
+    {
+      "unit": "trames-58237d30-d3e1-49c2-be70-cdcc984e4530-971a1785cf97.service",
+      "unit_file": false,
+      "dropin": false,
+      "enabled": false,
+      "main_pid": 0
+    },
+    {
+      "unit": "trames-f184dcae-3958-4b90-b71f-4f94ff94813a-d5ecd77f2d21.service",
+      "unit_file": false,
+      "dropin": false,
+      "enabled": false,
+      "main_pid": 0
+    },
+    {
+      "unit": "trames-d809d1ef-5594-4574-b622-4fa10ca94f69-1af7348d96cd.service",
+      "unit_file": false,
+      "dropin": false,
+      "enabled": false,
+      "main_pid": 0
+    },
+    {
+      "unit": "trames-d456a2c6-2243-450a-99e5-4f936b8b6db7-a1b7152e9648.service",
+      "unit_file": false,
+      "dropin": false,
+      "enabled": false,
+      "main_pid": 0
+    },
+    {
+      "unit": "trames-46f9a78c-4816-44e5-8694-e7cef912742e-500033f39490.service",
+      "unit_file": false,
+      "dropin": false,
+      "enabled": false,
+      "main_pid": 0
+    },
+    {
+      "unit": "trames-bc81a068-7aec-44d7-81d5-afa07544b45d-33234759d04c.service",
+      "unit_file": false,
+      "dropin": false,
+      "enabled": false,
+      "main_pid": 0
+    },
+    {
+      "unit": "trames-56796a97-1965-4757-bd81-6f63de5c37ea-74cde466131a.service",
+      "unit_file": false,
+      "dropin": false,
+      "enabled": false,
+      "main_pid": 0
+    },
+    {
+      "unit": "trames-7ec778d6-2660-40c1-8d8c-578464c83eb1-7012763dae14.service",
+      "unit_file": false,
+      "dropin": false,
+      "enabled": false,
+      "main_pid": 0
+    },
+    {
+      "unit": "trames-d3521e40-2790-40bd-bfad-33d15de061ce-057a13433675.service",
+      "unit_file": false,
+      "dropin": false,
+      "enabled": false,
+      "main_pid": 0
+    },
+    {
+      "unit": "trames-2ecf0b83-0fde-4f71-9540-b076624455ca-e833aa77e00b.service",
+      "unit_file": false,
+      "dropin": false,
+      "enabled": false,
+      "main_pid": 0
+    },
+    {
+      "unit": "trames-6f377105-63e5-45f9-9c0f-537886d2a4d1-d9171bc14e4e.service",
+      "unit_file": false,
+      "dropin": false,
+      "enabled": false,
+      "main_pid": 0
+    },
+    {
+      "unit": "trames-c069b962-3d2a-49c7-b8c5-23423a263d3f-b92a1ddfae01.service",
+      "unit_file": false,
+      "dropin": false,
+      "enabled": false,
+      "main_pid": 0
+    },
+    {
+      "unit": "trames-c38bf0f0-c028-400f-ae83-c8425e8454b7-1887b148039a.service",
+      "unit_file": false,
+      "dropin": false,
+      "enabled": false,
+      "main_pid": 0
+    },
+    {
+      "unit": "trames-7474c393-bd1a-4fb8-a142-601adfb4b89d-a8b379d546c1.service",
+      "unit_file": false,
+      "dropin": false,
+      "enabled": false,
+      "main_pid": 0
+    },
+    {
+      "unit": "trames-a8d7b967-46bd-4bc7-a1b8-f3a075daa640-b8cfe843d265.service",
+      "unit_file": false,
+      "dropin": false,
+      "enabled": false,
+      "main_pid": 0
+    },
+    {
+      "unit": "trames-ba0305f0-0c33-41de-b7f8-e4bcb0b88c5b-2f4b0a9d0d78.service",
+      "unit_file": false,
+      "dropin": false,
+      "enabled": false,
+      "main_pid": 0
+    },
+    {
+      "unit": "trames-77714d37-e1e6-4836-800b-3a32bd889090-10b8c0fae894.service",
+      "unit_file": false,
+      "dropin": false,
+      "enabled": false,
+      "main_pid": 0
+    },
+    {
+      "unit": "trames-d9b2029c-2a0f-4423-9716-5a443ab068fa-c3d62dc00ccb.service",
+      "unit_file": false,
+      "dropin": false,
+      "enabled": false,
+      "main_pid": 0
+    },
+    {
+      "unit": "trames-4f6225a5-cead-418a-977c-1ab1eb8d02a4-32fca05186da.service",
+      "unit_file": false,
+      "dropin": false,
+      "enabled": false,
+      "main_pid": 0
+    },
+    {
+      "unit": "trames-4e44df21-a890-427c-a9db-f7c70aad3c77-c472fce44399.service",
+      "unit_file": false,
+      "dropin": false,
+      "enabled": false,
+      "main_pid": 0
+    },
+    {
+      "unit": "trames-60519d54-de14-46cc-85cd-086649c732a5-5dfa7d93c2c2.service",
+      "unit_file": false,
+      "dropin": false,
+      "enabled": false,
+      "main_pid": 0
+    }
+  ],
+  "removed_duplicate_input_bytes": 193357961,
+  "original_fixture_untouched": true
+}
