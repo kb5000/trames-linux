@@ -1,5 +1,7 @@
 name: Native Linux presentation references
 # Scoped ARM64 retries reuse passed platforms and presentation cohorts.
+# Trigger a scoped retry with a fresh CI-only workflow change; pushes reusing
+# existing commits can be skipped by the push path filter.
 on:
   push:
     branches: [main, ci/presentation-arm-wsi, ci/presentation-arm-windows, ci/presentation-arm-hidpi]
