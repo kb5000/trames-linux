@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "samples": {
+    "worker": 4645,
+    "worker-private": 4343
+  },
+  "profile_processes": 48,
+  "unprofiled_controls": 24,
+  "symbol_maps": 48,
+  "scope": "offline sample aggregation / actual admission / exact payload result / median / patch binding"
+}

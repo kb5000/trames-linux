@@ -1,0 +1,197 @@
+{
+  "worker": {
+    "samples": 4645,
+    "symbols": [
+      {
+        "symbol": "<trames_jit::memory_ops::Operation>::execute::<trames_memory::parallel::View>",
+        "samples": 598,
+        "percent": 12.8740581270183
+      },
+      {
+        "symbol": "<trames_memory::parallel::View>::reached",
+        "samples": 592,
+        "percent": 12.744886975242196
+      },
+      {
+        "symbol": "trames_jit::native::memory_access::<trames_memory::parallel::View>",
+        "samples": 448,
+        "percent": 9.644779332615716
+      },
+      {
+        "symbol": "<trames_memory::parallel::page::MutablePage>::lock",
+        "samples": 427,
+        "percent": 9.192680301399355
+      },
+      {
+        "symbol": "<trames_memory::parallel::page::Guard>::covers",
+        "samples": 376,
+        "percent": 8.094725511302476
+      },
+      {
+        "symbol": "<trames_memory::parallel::View as trames_memory::cpu_memory::CpuMemory>::cpu_read_chunk::<u64, <trames_jit::memory_ops::Operation>::execute<trames_memory::parallel::View>::{closure#1}>",
+        "samples": 364,
+        "percent": 7.836383207750269
+      },
+      {
+        "symbol": "<trames_memory::parallel::ConcurrentPage>::load",
+        "samples": 307,
+        "percent": 6.609257265877288
+      },
+      {
+        "symbol": "<trames_memory::parallel::View>::ensure_resident",
+        "samples": 237,
+        "percent": 5.102260495156082
+      },
+      {
+        "symbol": "trames_jit_generated_block",
+        "samples": 237,
+        "percent": 5.102260495156082
+      },
+      {
+        "symbol": "<trames_memory::parallel::View as trames_memory::cpu_memory::CpuMemory>::cpu_store_chunk::<(), <trames_jit::memory_ops::Operation>::execute<trames_memory::parallel::View>::{closure#2}>",
+        "samples": 221,
+        "percent": 4.757804090419806
+      },
+      {
+        "symbol": "<trames_memory::parallel::ConcurrentPage>::changed",
+        "samples": 188,
+        "percent": 4.047362755651238
+      },
+      {
+        "symbol": "__aarch64_ldclr8_rel",
+        "samples": 147,
+        "percent": 3.1646932185145316
+      },
+      {
+        "symbol": "__aarch64_cas8_acq",
+        "samples": 144,
+        "percent": 3.10010764262648
+      },
+      {
+        "symbol": "<trames_memory::parallel::page::Guard>::write",
+        "samples": 112,
+        "percent": 2.411194833153929
+      },
+      {
+        "symbol": "<trames_memory::residency::Charge>::note_zero_read",
+        "samples": 67,
+        "percent": 1.442411194833154
+      },
+      {
+        "symbol": "__aarch64_ldadd8_rel",
+        "samples": 62,
+        "percent": 1.334768568353068
+      },
+      {
+        "symbol": "trames_jit_memory_leaf",
+        "samples": 60,
+        "percent": 1.2917115177610334
+      },
+      {
+        "symbol": "<trames_memory::parallel::page::Guard>::invalidate",
+        "samples": 55,
+        "percent": 1.1840688912809472
+      },
+      {
+        "symbol": "0x0000000000004dd0",
+        "samples": 1,
+        "percent": 0.021528525296017224
+      },
+      {
+        "symbol": "0x000000000004f490",
+        "samples": 1,
+        "percent": 0.021528525296017224
+      },
+      {
+        "symbol": "0x0000000000095d6c",
+        "samples": 1,
+        "percent": 0.021528525296017224
+      }
+    ]
+  },
+  "worker-private": {
+    "samples": 4343,
+    "symbols": [
+      {
+        "symbol": "<trames_memory::parallel::View>::reached",
+        "samples": 647,
+        "percent": 14.897536265254432
+      },
+      {
+        "symbol": "<trames_jit::memory_ops::Operation>::execute::<trames_memory::parallel::View>",
+        "samples": 567,
+        "percent": 13.055491595671196
+      },
+      {
+        "symbol": "trames_jit::native::memory_access::<trames_memory::parallel::View>",
+        "samples": 435,
+        "percent": 10.016117890858853
+      },
+      {
+        "symbol": "<trames_memory::parallel::page::Guard>::covers",
+        "samples": 418,
+        "percent": 9.624683398572415
+      },
+      {
+        "symbol": "<trames_memory::parallel::View as trames_memory::cpu_memory::CpuMemory>::cpu_read_chunk::<u64, <trames_jit::memory_ops::Operation>::execute<trames_memory::parallel::View>::{closure#1}>",
+        "samples": 392,
+        "percent": 9.026018880957864
+      },
+      {
+        "symbol": "<trames_memory::parallel::page::MutablePage>::unlocked",
+        "samples": 348,
+        "percent": 8.012894312687083
+      },
+      {
+        "symbol": "<trames_memory::parallel::ConcurrentPage>::load",
+        "samples": 328,
+        "percent": 7.552383145291273
+      },
+      {
+        "symbol": "trames_jit_generated_block",
+        "samples": 270,
+        "percent": 6.216900759843426
+      },
+      {
+        "symbol": "<trames_memory::parallel::View as trames_memory::cpu_memory::CpuMemory>::cpu_store_chunk::<(), <trames_jit::memory_ops::Operation>::execute<trames_memory::parallel::View>::{closure#2}>",
+        "samples": 247,
+        "percent": 5.687312917338246
+      },
+      {
+        "symbol": "<trames_memory::parallel::View>::ensure_resident",
+        "samples": 188,
+        "percent": 4.328804973520608
+      },
+      {
+        "symbol": "<trames_memory::parallel::ConcurrentPage>::changed",
+        "samples": 181,
+        "percent": 4.167626064932074
+      },
+      {
+        "symbol": "<trames_memory::parallel::page::Guard>::write",
+        "samples": 106,
+        "percent": 2.4407091871977897
+      },
+      {
+        "symbol": "<trames_memory::residency::Charge>::note_zero_read",
+        "samples": 77,
+        "percent": 1.7729679944738659
+      },
+      {
+        "symbol": "trames_jit_memory_leaf",
+        "samples": 73,
+        "percent": 1.6808657609947042
+      },
+      {
+        "symbol": "<trames_memory::parallel::page::Guard>::invalidate",
+        "samples": 65,
+        "percent": 1.4966612940363804
+      },
+      {
+        "symbol": "__sysconf",
+        "samples": 1,
+        "percent": 0.023025558369790467
+      }
+    ]
+  }
+}

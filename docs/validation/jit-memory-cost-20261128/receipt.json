@@ -1,0 +1,20 @@
+{
+  "base_linux": "fe7044ead098c2d6fac699d30d62dff1b5636985",
+  "base_runtime": "89c5abd57ce5cc8341f17fcea35a339b0f991595",
+  "patch_sha256": "e2ed2bfe0d0cda00944839d73413a6b1ae449155032446666f88c91bee6cdca1",
+  "binary_sha256": "a729a532d0b2382c9d8ab4875a931aa7d9e4988037cdc9e45e9918a1837465d7",
+  "source_sha256": {
+    "tools/cpu-backends/src/main.rs": "05f8678a45a5877d5e460271b56c70544f27f18bfdb849513ba9c28951e0f18c",
+    "tools/cpu-backends/Cargo.toml": "c0a76a1ca6c5a7b4970d2e0faa24080a6dd68d4f377c01e3a6ff3bcb1a8b3b37",
+    "tools/cpu-backends/Cargo.lock": "5811f764c04328f13a0422b6061f67d2e0fef3b2774f6fb4840febde61e1b128",
+    "runtime/crates/trames-jit/src/native.rs": "9a382261377122228262ed7ba2b366fff55dc14b07bddade2af5a4aeb244f2be",
+    "runtime/crates/trames-memory/src/parallel.rs": "e1f158b1e5f6e7420b22c02fa468f8b06cd1e1bc7b4f6c291462645b3c319772"
+  },
+  "profile": "perf cpu-clock:u, 997Hz, no callgraph; leaf/self samples; no lost samples in reports",
+  "execution": "24 new non-root benchmark processes per profile, each 1 warm-up + 5 timed 1M-iteration memory passes; entire process is sampled",
+  "cold_instrumentation": "register anonymous RX code in perf-PID.map and query private-page eligibility before execution; no per-memory diagnostic counters added",
+  "control": "data explicitly materialized before snapshot for both modes; sole actor owns all coordinator handles and View; private admission and eligible data flag asserted",
+  "latency": "separate unprofiled six alternating pairs for each software engine; not timings collected under perf",
+  "scope": "single eligible resident private data page; cannot merge with previous default guarded demand-populated cohort; sampling percentages are diagnostic symbol attribution, not exact removable cycle fractions",
+  "patch_file": "diagnostic.patch.gz"
+}

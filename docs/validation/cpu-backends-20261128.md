@@ -1,9 +1,9 @@
 # Interpreter / JIT / KVM CPU comparison — 2026-11-28
 
-Result: in the matched production-worker CPU microbenchmarks, **JIT and KVM are
+Result: in the matched default guarded worker-View CPU microbenchmarks, **JIT and KVM are
 in the same range on the integer accumulator loop**. KVM is **21.6–36.3x faster
 than JIT on the measured scalar-memory loops**. JIT is **1.21–1.29x faster than
-the interpreter on those worker memory paths**. The nested-KVM SVC boundary is
+the interpreter on that guarded/demand-populated memory setup**. The nested-KVM SVC boundary is
 much slower than either software boundary. These are different workload regimes,
 not one overall application-speed ranking or a bare-metal performance ceiling.
 
@@ -19,6 +19,10 @@ not one overall application-speed ranking or a bare-metal performance ceiling.
   supplied only to an isolated benchmark checkout. The Linux product's actual
   Runtime pin `8bd058556ffb35be8e127afbaf7c1c26dae998d9` remains unchanged.
 - All three use `Cpu::run_parallel` with one retained canonical Memory/View.
+  The software View uses its default guarded mode, without session private-epoch
+  admission; the data page is first populated by the guest during warm-up. This
+  does not cover the session's eligible resident/private-page fast path. See the
+  [follow-up cost/admission diagnosis](jit-memory-cost-20261128.md).
   Backend-specific hardware admission is outside timing; KVM VM/vCPU creation,
   initial mapping faults and JIT translation are covered by the excluded warm-up.
   Ordinary instructions retain original guest bytes. Explicit SMCCC transport is
