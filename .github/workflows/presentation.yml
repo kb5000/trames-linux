@@ -71,7 +71,7 @@ jobs:
         run: |
           unit=$(python3 -c 'import json; a=[json.loads(x) for x in open("target/wsi-unit.jsonl")]; a=[x["executable"] for x in a if x.get("reason")=="compiler-artifact" and x.get("profile",{}).get("test") and x.get("target",{}).get("kind")==["bin"] and x.get("executable")]; assert len(a)==1,a; print(a[0])')
           cases=()
-          if [[ "$GITHUB_REF" == refs/heads/ci/presentation-arm-windows ]]; then cases=(--case native-wayland); fi
+          if [[ "$GITHUB_REF" == refs/heads/ci/presentation-arm-windows ]]; then cases=(--case reference-wayland --case native-wayland); fi
           python3 scripts/validate-windows.py --native-only --unit-binary "$unit" --output target/validation/windows-native "${cases[@]}"
       - name: Exercise standard cyclic-parent protocol errors
         if: github.ref != 'refs/heads/ci/presentation-arm-wsi'
