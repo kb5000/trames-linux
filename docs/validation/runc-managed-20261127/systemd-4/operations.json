@@ -1,0 +1,488 @@
+[
+  {
+    "transport": "smccc",
+    "argv": [
+      "config",
+      "--global",
+      "set",
+      "defaults.components.vulkan",
+      "false",
+      "defaults.display.windows",
+      "false"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.009506413000053726
+  },
+  {
+    "transport": "smccc",
+    "argv": [
+      "network",
+      "create",
+      "services"
+    ],
+    "code": 0,
+    "stdout": "Created Trames network services\n",
+    "stderr": "",
+    "seconds": 0.005502963002072647
+  },
+  {
+    "transport": "smccc",
+    "argv": [
+      "env",
+      "create",
+      "services",
+      "--rootfs",
+      "/home/main.guest/trames-services-bundle/rootfs",
+      "--init",
+      "systemd",
+      "--cpus",
+      "4",
+      "--memory",
+      "auto"
+    ],
+    "code": 0,
+    "stdout": "Created services (custom)\n",
+    "stderr": "",
+    "seconds": 11.443727368998225
+  },
+  {
+    "transport": "smccc",
+    "argv": [
+      "-e",
+      "services",
+      "config",
+      "set",
+      "network.mode",
+      "bridge",
+      "network.bridge",
+      "services"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.008020401000976562
+  },
+  {
+    "transport": "smccc",
+    "argv": [
+      "env",
+      "publish",
+      "services",
+      "45075",
+      "18080"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.007448229000146966
+  },
+  {
+    "transport": "smccc",
+    "argv": [
+      "env",
+      "start",
+      "services"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.17848426399723394
+  },
+  {
+    "transport": "smccc",
+    "argv": [
+      "-e",
+      "services",
+      "exec",
+      "--",
+      "/bin/sh",
+      "-ec",
+      "for n in $(seq 1 100); do test -S /run/systemd/private && break; sleep .1; done\nsystemctl start docker\nfor n in $(seq 1 100); do docker info >/dev/null 2>&1 && break; sleep .1; done\ntest \"$(docker info --format '{{.DefaultRuntime}} {{.Driver}}')\" = 'runc overlay2'\ndocker import /acceptance/container.tar trames-acceptance:local\ndocker network create acceptance-net\ndocker volume create acceptance-data\ndocker run -d --name web --network acceptance-net -v acceptance-data:/data -p 18080:8080 trames-acceptance:local /bin/sh -ec 'test \"$$\" = 1; grep -Eq \"^Seccomp:[[:space:]]+2$\" /proc/self/status; printf persistent >/data/value; printf \"named-network-docker\\n\" >/www/index.html; exec /bin/httpd -f -p 8080 -h /www'\nfor n in $(seq 1 100); do curl -fsS http://127.0.0.1:18080/ && exit 0; sleep .1; done\nexit 1"
+    ],
+    "code": 0,
+    "stdout": "sha256:538df487b7795e934b97d91efe12ac9bb8f1e70327b2e7baea04e43893b3302b\nc9433e41fc0c428a6f3c05ea26aad8fa0888e5ff5ae310bca425c118ad2a53df\nacceptance-data\n98a1fdbb65b8766ff6ef96c2a1bba14501806fe60e5c6859c7906e1c888d2059\nnamed-network-docker\n",
+    "stderr": "",
+    "seconds": 40.510719764002715
+  },
+  {
+    "transport": "smccc",
+    "argv": [
+      "-e",
+      "services",
+      "exec",
+      "--",
+      "/bin/sh",
+      "-ec",
+      "docker exec web /bin/cat /data/value"
+    ],
+    "code": 0,
+    "stdout": "persistent",
+    "stderr": "",
+    "seconds": 2.4702825040003518
+  },
+  {
+    "transport": "smccc",
+    "argv": [
+      "-e",
+      "services",
+      "exec",
+      "--",
+      "/bin/sh",
+      "-ec",
+      "docker run --rm --network acceptance-net trames-acceptance:local /bin/wget -qO- http://web:8080/"
+    ],
+    "code": 0,
+    "stdout": "named-network-docker\n",
+    "stderr": "",
+    "seconds": 9.38499005400081
+  },
+  {
+    "transport": "smccc",
+    "argv": [
+      "-e",
+      "services",
+      "exec",
+      "--",
+      "/bin/sh",
+      "-ec",
+      "docker stop -t 2 web"
+    ],
+    "code": 0,
+    "stdout": "web\n",
+    "stderr": "",
+    "seconds": 6.124509476998355
+  },
+  {
+    "transport": "smccc",
+    "argv": [
+      "-e",
+      "services",
+      "exec",
+      "--",
+      "/bin/sh",
+      "-ec",
+      "systemctl restart docker; for n in $(seq 1 100); do docker info >/dev/null 2>&1 && break; sleep .1; done; test \"$(docker inspect --format '{{.State.Running}}' web)\" = false"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 15.683180512001854
+  },
+  {
+    "transport": "smccc",
+    "argv": [
+      "-e",
+      "services",
+      "exec",
+      "--",
+      "/bin/sh",
+      "-ec",
+      "docker start web; for n in $(seq 1 100); do curl -fsS http://127.0.0.1:18080/ && exit 0; sleep .1; done; exit 1"
+    ],
+    "code": 0,
+    "stdout": "web\nnamed-network-docker\n",
+    "stderr": "",
+    "seconds": 8.461127208000107
+  },
+  {
+    "transport": "smccc",
+    "argv": [
+      "-e",
+      "services",
+      "exec",
+      "--",
+      "/bin/sh",
+      "-ec",
+      "docker exec web /bin/cat /data/value"
+    ],
+    "code": 0,
+    "stdout": "persistent",
+    "stderr": "",
+    "seconds": 2.52520398300112
+  },
+  {
+    "transport": "smccc",
+    "argv": [
+      "-e",
+      "services",
+      "exec",
+      "--",
+      "/bin/sh",
+      "-ec",
+      "docker stop -t 2 web; docker rm web; docker volume rm acceptance-data; docker network rm acceptance-net; docker image rm trames-acceptance:local"
+    ],
+    "code": 0,
+    "stdout": "web\nweb\nacceptance-data\nacceptance-net\nUntagged: trames-acceptance:local\nDeleted: sha256:538df487b7795e934b97d91efe12ac9bb8f1e70327b2e7baea04e43893b3302b\nDeleted: sha256:179a9db65b3a497189ae92aa7462f098713f9e8aaff7aeb7192a95d58c1b2b2c\n",
+    "stderr": "",
+    "seconds": 11.926652831003594
+  },
+  {
+    "transport": "smccc",
+    "argv": [
+      "env",
+      "stop",
+      "services"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 3.9358116860021255
+  },
+  {
+    "transport": "smccc",
+    "argv": [
+      "network",
+      "remove",
+      "services"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.008109009999316186
+  },
+  {
+    "transport": "mmio",
+    "argv": [
+      "config",
+      "--global",
+      "set",
+      "defaults.components.vulkan",
+      "false",
+      "defaults.display.windows",
+      "false"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.007099829999788199
+  },
+  {
+    "transport": "mmio",
+    "argv": [
+      "network",
+      "create",
+      "services"
+    ],
+    "code": 0,
+    "stdout": "Created Trames network services\n",
+    "stderr": "",
+    "seconds": 0.0056888710023486055
+  },
+  {
+    "transport": "mmio",
+    "argv": [
+      "env",
+      "create",
+      "services",
+      "--rootfs",
+      "/home/main.guest/trames-services-bundle/rootfs",
+      "--init",
+      "systemd",
+      "--cpus",
+      "4",
+      "--memory",
+      "auto"
+    ],
+    "code": 0,
+    "stdout": "Created services (custom)\n",
+    "stderr": "",
+    "seconds": 11.667703594997874
+  },
+  {
+    "transport": "mmio",
+    "argv": [
+      "-e",
+      "services",
+      "config",
+      "set",
+      "network.mode",
+      "bridge",
+      "network.bridge",
+      "services"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.009038959004101343
+  },
+  {
+    "transport": "mmio",
+    "argv": [
+      "env",
+      "publish",
+      "services",
+      "56589",
+      "18080"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.009196131002681796
+  },
+  {
+    "transport": "mmio",
+    "argv": [
+      "env",
+      "start",
+      "services"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.18222246199729852
+  },
+  {
+    "transport": "mmio",
+    "argv": [
+      "-e",
+      "services",
+      "exec",
+      "--",
+      "/bin/sh",
+      "-ec",
+      "for n in $(seq 1 100); do test -S /run/systemd/private && break; sleep .1; done\nsystemctl start docker\nfor n in $(seq 1 100); do docker info >/dev/null 2>&1 && break; sleep .1; done\ntest \"$(docker info --format '{{.DefaultRuntime}} {{.Driver}}')\" = 'runc overlay2'\ndocker import /acceptance/container.tar trames-acceptance:local\ndocker network create acceptance-net\ndocker volume create acceptance-data\ndocker run -d --name web --network acceptance-net -v acceptance-data:/data -p 18080:8080 trames-acceptance:local /bin/sh -ec 'test \"$$\" = 1; grep -Eq \"^Seccomp:[[:space:]]+2$\" /proc/self/status; printf persistent >/data/value; printf \"named-network-docker\\n\" >/www/index.html; exec /bin/httpd -f -p 8080 -h /www'\nfor n in $(seq 1 100); do curl -fsS http://127.0.0.1:18080/ && exit 0; sleep .1; done\nexit 1"
+    ],
+    "code": 0,
+    "stdout": "sha256:96a5639f02868bd12aaef2b47fb96c505956e0b4f1af87abfebb7044f53dd518\n73c33a47c4209dc6c7a6d5fd2cae6fe75c7ca651d765ff6589f0a9b806c2661c\nacceptance-data\naf8c0029faa3344047ca8fd3d2dddbe8a57c907c95c0e81336df7dbdb1165bd0\nnamed-network-docker\n",
+    "stderr": "",
+    "seconds": 45.333306806998735
+  },
+  {
+    "transport": "mmio",
+    "argv": [
+      "-e",
+      "services",
+      "exec",
+      "--",
+      "/bin/sh",
+      "-ec",
+      "docker exec web /bin/cat /data/value"
+    ],
+    "code": 0,
+    "stdout": "persistent",
+    "stderr": "",
+    "seconds": 2.704495099998894
+  },
+  {
+    "transport": "mmio",
+    "argv": [
+      "-e",
+      "services",
+      "exec",
+      "--",
+      "/bin/sh",
+      "-ec",
+      "docker run --rm --network acceptance-net trames-acceptance:local /bin/wget -qO- http://web:8080/"
+    ],
+    "code": 0,
+    "stdout": "named-network-docker\n",
+    "stderr": "",
+    "seconds": 10.396976503005135
+  },
+  {
+    "transport": "mmio",
+    "argv": [
+      "-e",
+      "services",
+      "exec",
+      "--",
+      "/bin/sh",
+      "-ec",
+      "docker stop -t 2 web"
+    ],
+    "code": 0,
+    "stdout": "web\n",
+    "stderr": "",
+    "seconds": 6.680525512005261
+  },
+  {
+    "transport": "mmio",
+    "argv": [
+      "-e",
+      "services",
+      "exec",
+      "--",
+      "/bin/sh",
+      "-ec",
+      "systemctl restart docker; for n in $(seq 1 100); do docker info >/dev/null 2>&1 && break; sleep .1; done; test \"$(docker inspect --format '{{.State.Running}}' web)\" = false"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 17.72333447800338
+  },
+  {
+    "transport": "mmio",
+    "argv": [
+      "-e",
+      "services",
+      "exec",
+      "--",
+      "/bin/sh",
+      "-ec",
+      "docker start web; for n in $(seq 1 100); do curl -fsS http://127.0.0.1:18080/ && exit 0; sleep .1; done; exit 1"
+    ],
+    "code": 0,
+    "stdout": "web\nnamed-network-docker\n",
+    "stderr": "",
+    "seconds": 9.57893723199959
+  },
+  {
+    "transport": "mmio",
+    "argv": [
+      "-e",
+      "services",
+      "exec",
+      "--",
+      "/bin/sh",
+      "-ec",
+      "docker exec web /bin/cat /data/value"
+    ],
+    "code": 0,
+    "stdout": "persistent",
+    "stderr": "",
+    "seconds": 2.8919448540036683
+  },
+  {
+    "transport": "mmio",
+    "argv": [
+      "-e",
+      "services",
+      "exec",
+      "--",
+      "/bin/sh",
+      "-ec",
+      "docker stop -t 2 web; docker rm web; docker volume rm acceptance-data; docker network rm acceptance-net; docker image rm trames-acceptance:local"
+    ],
+    "code": 0,
+    "stdout": "web\nweb\nacceptance-data\nacceptance-net\nUntagged: trames-acceptance:local\nDeleted: sha256:96a5639f02868bd12aaef2b47fb96c505956e0b4f1af87abfebb7044f53dd518\nDeleted: sha256:179a9db65b3a497189ae92aa7462f098713f9e8aaff7aeb7192a95d58c1b2b2c\n",
+    "stderr": "",
+    "seconds": 13.083406785000989
+  },
+  {
+    "transport": "mmio",
+    "argv": [
+      "env",
+      "stop",
+      "services"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 4.106669736000185
+  },
+  {
+    "transport": "mmio",
+    "argv": [
+      "network",
+      "remove",
+      "services"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.007942315001855604
+  }
+]

@@ -1,0 +1,4 @@
+smccc-1: sealed memfd exec passed
+smccc-4: sealed memfd exec passed
+mmio-1: sealed memfd exec passed
+mmio-4: sealed memfd exec passed

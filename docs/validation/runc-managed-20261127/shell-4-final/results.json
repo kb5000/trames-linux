@@ -1,0 +1,8 @@
+{
+  "passed": true,
+  "cpus": 4,
+  "init": "shell",
+  "topology": "bridge",
+  "runner_sha256": "8d6c28bfd6d5d9886d3e6ffb3c23a62323cfabe66b4f9fee5cca7b8d26ff0078",
+  "operations": 32
+}

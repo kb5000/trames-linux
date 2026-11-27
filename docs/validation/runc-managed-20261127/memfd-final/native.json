@@ -1,0 +1,16 @@
+{
+  "command": [
+    "cc",
+    "-O2",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "/mnt/trames-output/linux-keyboard-source/tests/fixtures/memfd-exec.c",
+    "-o",
+    "/mnt/trames-output/linux-runc-fix/memfd-final/tools/memfd-exec"
+  ],
+  "binary_sha256": "b597d3fae0740bf356622e7d8ca12a07680342e4a1be93d676ebf367c8e3e46f",
+  "stdout": "MEMFD_EXEC_OK\n",
+  "stderr": "",
+  "passed": true
+}

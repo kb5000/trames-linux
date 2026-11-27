@@ -104,7 +104,7 @@ exit 1""".replace("18080", str(port) if a.topology == "host" else "18080"))
                 finally:
                     c.close()
                 restart = 'systemctl restart docker' if a.init == 'systemd' else "pkill -TERM -x dockerd; for n in $(seq 1 100); do pgrep -x dockerd >/dev/null || break; sleep .1; done; /usr/sbin/dockerd >/root/dockerd.log 2>&1 &"
-                execute(restart + "; for n in $(seq 1 100); do docker info >/dev/null 2>&1 && break; sleep .1; done; test \"$(docker inspect --format '{{.State.Running}}' web)\" = false")
+                execute(restart + "\nfor n in $(seq 1 100); do docker info >/dev/null 2>&1 && break; sleep .1; done; test \"$(docker inspect --format '{{.State.Running}}' web)\" = false")
                 execute('docker start web; for n in $(seq 1 100); do curl -fsS http://127.0.0.1:18080/ && exit 0; sleep .1; done; exit 1'.replace('18080', str(port) if a.topology == 'host' else '18080'))
                 host_http()
                 assert execute('docker exec web /bin/cat /data/value').strip() == 'persistent'

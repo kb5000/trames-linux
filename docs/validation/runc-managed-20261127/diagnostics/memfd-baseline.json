@@ -1,0 +1,38 @@
+[
+  {
+    "args": [
+      "-e",
+      "test",
+      "exec",
+      "--",
+      "/bin/sh",
+      "-c",
+      "cat > /root/memfd-exec; chmod +x /root/memfd-exec"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "-e",
+      "test",
+      "exec",
+      "--",
+      "/root/memfd-exec"
+    ],
+    "code": 1,
+    "stdout": "",
+    "stderr": "reopen memfd exe: Input/output error\n"
+  },
+  {
+    "args": [
+      "env",
+      "stop",
+      "test"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": ""
+  }
+]

@@ -1,0 +1,7 @@
+{
+  "runner_sha256": "c65e891b5021cb36025568ead1b064b5ee2d2aafaf96e89b174ea80a889e57c7",
+  "code": 1,
+  "stdout": "",
+  "stderr": "reopen memfd exe: Input/output error\n",
+  "expected_failure": true
+}

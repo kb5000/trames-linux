@@ -1,0 +1,34 @@
+{
+  "passed": true,
+  "linux_runtime": "5cc2476bea28f44af095752811c026868f1e442b",
+  "integrated_runtime": "bb2748532f7ea56d658d819f8afdfd114b7a01df",
+  "runner_sha256": "8d6c28bfd6d5d9886d3e6ffb3c23a62323cfabe66b4f9fee5cca7b8d26ff0078",
+  "docker_cohorts": 6,
+  "docker_operations": 96,
+  "systemd_cpus": [
+    1,
+    4
+  ],
+  "shell_cpus": [
+    4
+  ],
+  "transports": [
+    "smccc",
+    "mmio"
+  ],
+  "sealed_reexecs": 16,
+  "memfd_operations": 32,
+  "vfs_tests": {
+    "linux": 1186,
+    "apple": 1178,
+    "ignored_each": 1
+  },
+  "fixes": [
+    "retain the original executable inode when reopening sealed memfd via proc magic links",
+    "O_PATH opens retain only inode/mount identity without opening volatile device bodies"
+  ],
+  "application_binaries": "original distro runc 1.1.15, Docker default runc/overlay2, offline original BusyBox image",
+  "runtime_hot_path_checks_added": false,
+  "service_threads_added": false,
+  "mac_hvf_self_reexecs": 6
+}

@@ -148,4 +148,8 @@ startup and graceful shutdown verification using an existing image.
 With a source-bound receipt it checks real KVM, both transports and one/four
 CPUs, original IPv4/IPv6 TCP/UDP, isolation/NAT, actual host ports, rollback and
 restart. `scripts/validate-network-services.py --rootfs DIR` additionally probes
-an existing offline systemd/Docker image through real host HTTP.
+an existing offline systemd/Docker image through real host HTTP, container DNS,
+exec, seccomp, persistent volumes and daemon restart. Use `--cpus 1` or `4`;
+`--init shell` also checks shell-managed daemons.
+`scripts/validate-memfd-exec.py` checks original sealed executable self-reexec
+on native Linux and both KVM transports.

@@ -1,0 +1,450 @@
+[
+  {
+    "transport": "smccc",
+    "cpus": 1,
+    "args": [
+      "config",
+      "--global",
+      "set",
+      "defaults.components.vulkan",
+      "false",
+      "defaults.display.windows",
+      "false"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "transport": "smccc",
+    "cpus": 1,
+    "args": [
+      "env",
+      "create",
+      "test",
+      "--rootfs",
+      "/mnt/trames-output/linux-runc-fix/memfd-final/rootfs",
+      "--cpus",
+      "1"
+    ],
+    "code": 0,
+    "stdout": "Created test (custom)\n",
+    "stderr": ""
+  },
+  {
+    "transport": "smccc",
+    "cpus": 1,
+    "args": [
+      "-e",
+      "test",
+      "exec",
+      "--",
+      "/bin/memfd-exec"
+    ],
+    "code": 0,
+    "stdout": "MEMFD_EXEC_OK\n",
+    "stderr": ""
+  },
+  {
+    "transport": "smccc",
+    "cpus": 1,
+    "args": [
+      "-e",
+      "test",
+      "exec",
+      "--",
+      "/bin/memfd-exec"
+    ],
+    "code": 0,
+    "stdout": "MEMFD_EXEC_OK\n",
+    "stderr": ""
+  },
+  {
+    "transport": "smccc",
+    "cpus": 1,
+    "args": [
+      "-e",
+      "test",
+      "exec",
+      "--",
+      "/bin/memfd-exec"
+    ],
+    "code": 0,
+    "stdout": "MEMFD_EXEC_OK\n",
+    "stderr": ""
+  },
+  {
+    "transport": "smccc",
+    "cpus": 1,
+    "args": [
+      "env",
+      "restart",
+      "test"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "transport": "smccc",
+    "cpus": 1,
+    "args": [
+      "-e",
+      "test",
+      "exec",
+      "--",
+      "/bin/memfd-exec"
+    ],
+    "code": 0,
+    "stdout": "MEMFD_EXEC_OK\n",
+    "stderr": ""
+  },
+  {
+    "transport": "smccc",
+    "cpus": 1,
+    "args": [
+      "env",
+      "stop",
+      "test"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "transport": "smccc",
+    "cpus": 4,
+    "args": [
+      "config",
+      "--global",
+      "set",
+      "defaults.components.vulkan",
+      "false",
+      "defaults.display.windows",
+      "false"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "transport": "smccc",
+    "cpus": 4,
+    "args": [
+      "env",
+      "create",
+      "test",
+      "--rootfs",
+      "/mnt/trames-output/linux-runc-fix/memfd-final/rootfs",
+      "--cpus",
+      "4"
+    ],
+    "code": 0,
+    "stdout": "Created test (custom)\n",
+    "stderr": ""
+  },
+  {
+    "transport": "smccc",
+    "cpus": 4,
+    "args": [
+      "-e",
+      "test",
+      "exec",
+      "--",
+      "/bin/memfd-exec"
+    ],
+    "code": 0,
+    "stdout": "MEMFD_EXEC_OK\n",
+    "stderr": ""
+  },
+  {
+    "transport": "smccc",
+    "cpus": 4,
+    "args": [
+      "-e",
+      "test",
+      "exec",
+      "--",
+      "/bin/memfd-exec"
+    ],
+    "code": 0,
+    "stdout": "MEMFD_EXEC_OK\n",
+    "stderr": ""
+  },
+  {
+    "transport": "smccc",
+    "cpus": 4,
+    "args": [
+      "-e",
+      "test",
+      "exec",
+      "--",
+      "/bin/memfd-exec"
+    ],
+    "code": 0,
+    "stdout": "MEMFD_EXEC_OK\n",
+    "stderr": ""
+  },
+  {
+    "transport": "smccc",
+    "cpus": 4,
+    "args": [
+      "env",
+      "restart",
+      "test"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "transport": "smccc",
+    "cpus": 4,
+    "args": [
+      "-e",
+      "test",
+      "exec",
+      "--",
+      "/bin/memfd-exec"
+    ],
+    "code": 0,
+    "stdout": "MEMFD_EXEC_OK\n",
+    "stderr": ""
+  },
+  {
+    "transport": "smccc",
+    "cpus": 4,
+    "args": [
+      "env",
+      "stop",
+      "test"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "transport": "mmio",
+    "cpus": 1,
+    "args": [
+      "config",
+      "--global",
+      "set",
+      "defaults.components.vulkan",
+      "false",
+      "defaults.display.windows",
+      "false"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "transport": "mmio",
+    "cpus": 1,
+    "args": [
+      "env",
+      "create",
+      "test",
+      "--rootfs",
+      "/mnt/trames-output/linux-runc-fix/memfd-final/rootfs",
+      "--cpus",
+      "1"
+    ],
+    "code": 0,
+    "stdout": "Created test (custom)\n",
+    "stderr": ""
+  },
+  {
+    "transport": "mmio",
+    "cpus": 1,
+    "args": [
+      "-e",
+      "test",
+      "exec",
+      "--",
+      "/bin/memfd-exec"
+    ],
+    "code": 0,
+    "stdout": "MEMFD_EXEC_OK\n",
+    "stderr": ""
+  },
+  {
+    "transport": "mmio",
+    "cpus": 1,
+    "args": [
+      "-e",
+      "test",
+      "exec",
+      "--",
+      "/bin/memfd-exec"
+    ],
+    "code": 0,
+    "stdout": "MEMFD_EXEC_OK\n",
+    "stderr": ""
+  },
+  {
+    "transport": "mmio",
+    "cpus": 1,
+    "args": [
+      "-e",
+      "test",
+      "exec",
+      "--",
+      "/bin/memfd-exec"
+    ],
+    "code": 0,
+    "stdout": "MEMFD_EXEC_OK\n",
+    "stderr": ""
+  },
+  {
+    "transport": "mmio",
+    "cpus": 1,
+    "args": [
+      "env",
+      "restart",
+      "test"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "transport": "mmio",
+    "cpus": 1,
+    "args": [
+      "-e",
+      "test",
+      "exec",
+      "--",
+      "/bin/memfd-exec"
+    ],
+    "code": 0,
+    "stdout": "MEMFD_EXEC_OK\n",
+    "stderr": ""
+  },
+  {
+    "transport": "mmio",
+    "cpus": 1,
+    "args": [
+      "env",
+      "stop",
+      "test"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "transport": "mmio",
+    "cpus": 4,
+    "args": [
+      "config",
+      "--global",
+      "set",
+      "defaults.components.vulkan",
+      "false",
+      "defaults.display.windows",
+      "false"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "transport": "mmio",
+    "cpus": 4,
+    "args": [
+      "env",
+      "create",
+      "test",
+      "--rootfs",
+      "/mnt/trames-output/linux-runc-fix/memfd-final/rootfs",
+      "--cpus",
+      "4"
+    ],
+    "code": 0,
+    "stdout": "Created test (custom)\n",
+    "stderr": ""
+  },
+  {
+    "transport": "mmio",
+    "cpus": 4,
+    "args": [
+      "-e",
+      "test",
+      "exec",
+      "--",
+      "/bin/memfd-exec"
+    ],
+    "code": 0,
+    "stdout": "MEMFD_EXEC_OK\n",
+    "stderr": ""
+  },
+  {
+    "transport": "mmio",
+    "cpus": 4,
+    "args": [
+      "-e",
+      "test",
+      "exec",
+      "--",
+      "/bin/memfd-exec"
+    ],
+    "code": 0,
+    "stdout": "MEMFD_EXEC_OK\n",
+    "stderr": ""
+  },
+  {
+    "transport": "mmio",
+    "cpus": 4,
+    "args": [
+      "-e",
+      "test",
+      "exec",
+      "--",
+      "/bin/memfd-exec"
+    ],
+    "code": 0,
+    "stdout": "MEMFD_EXEC_OK\n",
+    "stderr": ""
+  },
+  {
+    "transport": "mmio",
+    "cpus": 4,
+    "args": [
+      "env",
+      "restart",
+      "test"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "transport": "mmio",
+    "cpus": 4,
+    "args": [
+      "-e",
+      "test",
+      "exec",
+      "--",
+      "/bin/memfd-exec"
+    ],
+    "code": 0,
+    "stdout": "MEMFD_EXEC_OK\n",
+    "stderr": ""
+  },
+  {
+    "transport": "mmio",
+    "cpus": 4,
+    "args": [
+      "env",
+      "stop",
+      "test"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": ""
+  }
+]

@@ -1,0 +1,43 @@
+[
+  {
+    "argv": [
+      "-e",
+      "test",
+      "exec",
+      "--",
+      "/usr/bin/python3",
+      "-c",
+      "import os,errno,fcntl\np=\"/proc/self/exe\"\nprint(\"readlink\",os.readlink(p))\ntry:\n f=os.open(p,os.O_RDONLY|os.O_CLOEXEC); print(\"OPEN\",f,os.fstat(f),os.read(f,4));os.close(f)\nexcept OSError as e: print(\"OPEN-ERROR\",e)\n"
+    ],
+    "code": 0
+  },
+  {
+    "argv": [
+      "env",
+      "stop",
+      "test"
+    ],
+    "code": 0
+  },
+  {
+    "argv": [
+      "run",
+      "--store",
+      "/mnt/trames-output/linux-runc-fix/direct-store",
+      "--rootfs",
+      "/home/main.guest/trames-services-bundle/rootfs",
+      "--cpus",
+      "4",
+      "--network",
+      "outbound",
+      "--trace-syscalls",
+      "--timeout-ms",
+      "90000",
+      "--",
+      "/bin/sh",
+      "-ec",
+      "set -eu\nmkdir -p /work/runc-bundle/rootfs /run/runc\ncd /work/runc-bundle\ntar -xf /acceptance/container.tar -C rootfs\nrunc spec\npython3 -c 'import json; p=\"config.json\"; c=json.load(open(p)); c[\"process\"][\"terminal\"]=False; c[\"process\"][\"args\"]=[\"/bin/sh\",\"-c\",\"echo RUNC_OK\"]; json.dump(c,open(p,\"w\"))'\nrunc --debug --log /work/runc-debug.json --root /run/runc run test\n"
+    ],
+    "code": 1
+  }
+]

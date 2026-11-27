@@ -1,0 +1,68 @@
+[
+  {
+    "args": [
+      "config",
+      "--global",
+      "set",
+      "defaults.components.vulkan",
+      "false",
+      "defaults.display.windows",
+      "false"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "env",
+      "create",
+      "test",
+      "--rootfs",
+      "/home/main.guest/trames-services-bundle/rootfs",
+      "--cpus",
+      "4"
+    ],
+    "code": 0,
+    "stdout": "Created test (custom)\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "-e",
+      "test",
+      "exec",
+      "--",
+      "/bin/sh",
+      "-ec",
+      "set -eu\nmkdir -p /work/runc-bundle/rootfs /run/runc\ncd /work/runc-bundle\ntar -xf /acceptance/container.tar -C rootfs\nrunc spec\npython3 -c 'import json; p=\"config.json\"; c=json.load(open(p)); c[\"process\"][\"terminal\"]=False; c[\"process\"][\"args\"]=[\"/bin/sh\",\"-c\",\"echo RUNC_OK\"]; json.dump(c,open(p,\"w\"))'\nrunc --debug --log /work/runc-debug.json --root /run/runc run test\n"
+    ],
+    "code": 1,
+    "stdout": "",
+    "stderr": "you have no read access to runc binary file\nrunc run failed: unable to start container process: waiting for init preliminary setup: read init-p: connection reset by peer\n"
+  },
+  {
+    "args": [
+      "-e",
+      "test",
+      "exec",
+      "--",
+      "/bin/sh",
+      "-ec",
+      "cat /work/runc-debug.json; cat /proc/self/status; ls -l /proc/self/fd"
+    ],
+    "code": 0,
+    "stdout": "time=\"2026-11-27T06:40:53Z\" level=fatal msg=\"nsexec[25]: could not ensure we are a cloned binary: Input/output error\"\ntime=\"2026-11-27T06:40:53Z\" level=error msg=\"runc run failed: unable to start container process: waiting for init preliminary setup: read init-p: connection reset by peer\" func=\"main.fatalWithCode()\" file=\"utils.go:61\"\nName:\tcat\nCpus_allowed:\tffffffffffffffff\nCpus_allowed_list:\t0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31\nCapInh:\t0000000000000000\nCapPrm:\t000001ffffffffff\nCapEff:\t000001ffffffffff\nCapBnd:\t000001ffffffffff\nCapAmb:\t0000000000000000\nNoNewPrivs:\t0\nSeccomp:\t0\nSeccomp_filters:\t0\nNStgid:\t28\nNSpid:\t28\nNSpgid:\t26\nNSsid:\t26\nState:\tR (running)\nTgid:\t28\nPid:\t28\nPPid:\t26\nTracerPid:\t0\nUid:\t0\t0\t0\t0\nGid:\t0\t0\t0\t0\nFDSize:\t64\nGroups:\t\nVmSize:\t3896 kB\nVmData:\t484 kB\nVmStk:\t1024 kB\nVmExe:\t44 kB\nVmLib:\t1816 kB\nVmHWM:\t1024 kB\nVmRSS:\t1024 kB\nThreads:\t1\nSigPnd:\t0000000000000000\nShdPnd:\t0000000000000000\nSigBlk:\t0000000000000000\nSigIgn:\t0000000000000000\nSigCgt:\t0000000000000000\ntotal 0\nlrwxrwxrwx 1 root root 0 Jan  1  1970 0 -> pipe:[4611686018427388080]\nlrwxrwxrwx 1 root root 0 Jan  1  1970 1 -> pipe:[4611686018427388083]\nlrwxrwxrwx 1 root root 0 Jan  1  1970 2 -> pipe:[4611686018427388086]\nlrwxrwxrwx 1 root root 0 Jan  1  1970 3 -> /proc/29/fd\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "env",
+      "stop",
+      "test"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": ""
+  }
+]

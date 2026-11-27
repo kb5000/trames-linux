@@ -1,0 +1,488 @@
+[
+  {
+    "transport": "smccc",
+    "argv": [
+      "config",
+      "--global",
+      "set",
+      "defaults.components.vulkan",
+      "false",
+      "defaults.display.windows",
+      "false"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.00783365099778166
+  },
+  {
+    "transport": "smccc",
+    "argv": [
+      "network",
+      "create",
+      "services"
+    ],
+    "code": 0,
+    "stdout": "Created Trames network services\n",
+    "stderr": "",
+    "seconds": 0.005158152001968119
+  },
+  {
+    "transport": "smccc",
+    "argv": [
+      "env",
+      "create",
+      "services",
+      "--rootfs",
+      "/home/main.guest/trames-services-bundle/rootfs",
+      "--init",
+      "shell",
+      "--cpus",
+      "4",
+      "--memory",
+      "auto"
+    ],
+    "code": 0,
+    "stdout": "Created services (custom)\n",
+    "stderr": "",
+    "seconds": 12.244015366995882
+  },
+  {
+    "transport": "smccc",
+    "argv": [
+      "-e",
+      "services",
+      "config",
+      "set",
+      "network.mode",
+      "bridge",
+      "network.bridge",
+      "services"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.009531729003356304
+  },
+  {
+    "transport": "smccc",
+    "argv": [
+      "env",
+      "publish",
+      "services",
+      "35237",
+      "18080"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.00949452600616496
+  },
+  {
+    "transport": "smccc",
+    "argv": [
+      "env",
+      "start",
+      "services"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.20419880000554258
+  },
+  {
+    "transport": "smccc",
+    "argv": [
+      "-e",
+      "services",
+      "exec",
+      "--",
+      "/bin/sh",
+      "-ec",
+      "mount -t tmpfs -o mode=755 tmpfs /run\nmkdir -p /dev/shm\nmount -t tmpfs -o size=64m,mode=1777 tmpfs /dev/shm\n/usr/sbin/dockerd >/root/dockerd.log 2>&1 &\nfor n in $(seq 1 100); do docker info >/dev/null 2>&1 && break; sleep .1; done\ntest \"$(docker info --format '{{.DefaultRuntime}} {{.Driver}}')\" = 'runc overlay2'\ndocker import /acceptance/container.tar trames-acceptance:local\ndocker network create acceptance-net\ndocker volume create acceptance-data\ndocker run -d --name web --network acceptance-net -v acceptance-data:/data -p 18080:8080 trames-acceptance:local /bin/sh -ec 'test \"$$\" = 1; grep -Eq \"^Seccomp:[[:space:]]+2$\" /proc/self/status; printf persistent >/data/value; printf \"named-network-docker\\n\" >/www/index.html; exec /bin/httpd -f -p 8080 -h /www'\nfor n in $(seq 1 100); do curl -fsS http://127.0.0.1:18080/ && exit 0; sleep .1; done\nexit 1"
+    ],
+    "code": 0,
+    "stdout": "sha256:7fcc4fe6879ee30e68846a50c43e8b6120f60465d19a54ee6d32ad6ac20b582b\n302f6699476cdfdbed29e8142ae9bf9a8d0eea1e2071affd921dc572ece408e3\nacceptance-data\n1531eb82e2c425ff88d879fbb2a7b33d72833cd6519f280ff1bdb5cf18be0298\nnamed-network-docker\n",
+    "stderr": "",
+    "seconds": 36.042065485999046
+  },
+  {
+    "transport": "smccc",
+    "argv": [
+      "-e",
+      "services",
+      "exec",
+      "--",
+      "/bin/sh",
+      "-ec",
+      "docker exec web /bin/cat /data/value"
+    ],
+    "code": 0,
+    "stdout": "persistent",
+    "stderr": "",
+    "seconds": 3.0947468750018743
+  },
+  {
+    "transport": "smccc",
+    "argv": [
+      "-e",
+      "services",
+      "exec",
+      "--",
+      "/bin/sh",
+      "-ec",
+      "docker run --rm --network acceptance-net trames-acceptance:local /bin/wget -qO- http://web:8080/"
+    ],
+    "code": 0,
+    "stdout": "named-network-docker\n",
+    "stderr": "",
+    "seconds": 10.504995945004339
+  },
+  {
+    "transport": "smccc",
+    "argv": [
+      "-e",
+      "services",
+      "exec",
+      "--",
+      "/bin/sh",
+      "-ec",
+      "docker stop -t 2 web"
+    ],
+    "code": 0,
+    "stdout": "web\n",
+    "stderr": "",
+    "seconds": 6.64318173200445
+  },
+  {
+    "transport": "smccc",
+    "argv": [
+      "-e",
+      "services",
+      "exec",
+      "--",
+      "/bin/sh",
+      "-ec",
+      "pkill -TERM -x dockerd; for n in $(seq 1 100); do pgrep -x dockerd >/dev/null || break; sleep .1; done; /usr/sbin/dockerd >/root/dockerd.log 2>&1 &\nfor n in $(seq 1 100); do docker info >/dev/null 2>&1 && break; sleep .1; done; test \"$(docker inspect --format '{{.State.Running}}' web)\" = false"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 22.581700580005418
+  },
+  {
+    "transport": "smccc",
+    "argv": [
+      "-e",
+      "services",
+      "exec",
+      "--",
+      "/bin/sh",
+      "-ec",
+      "docker start web; for n in $(seq 1 100); do curl -fsS http://127.0.0.1:18080/ && exit 0; sleep .1; done; exit 1"
+    ],
+    "code": 0,
+    "stdout": "web\nnamed-network-docker\n",
+    "stderr": "",
+    "seconds": 9.698999366002681
+  },
+  {
+    "transport": "smccc",
+    "argv": [
+      "-e",
+      "services",
+      "exec",
+      "--",
+      "/bin/sh",
+      "-ec",
+      "docker exec web /bin/cat /data/value"
+    ],
+    "code": 0,
+    "stdout": "persistent",
+    "stderr": "",
+    "seconds": 3.3078849039957277
+  },
+  {
+    "transport": "smccc",
+    "argv": [
+      "-e",
+      "services",
+      "exec",
+      "--",
+      "/bin/sh",
+      "-ec",
+      "docker stop -t 2 web; docker rm web; docker volume rm acceptance-data; docker network rm acceptance-net; docker image rm trames-acceptance:local"
+    ],
+    "code": 0,
+    "stdout": "web\nweb\nacceptance-data\nacceptance-net\nUntagged: trames-acceptance:local\nDeleted: sha256:7fcc4fe6879ee30e68846a50c43e8b6120f60465d19a54ee6d32ad6ac20b582b\nDeleted: sha256:179a9db65b3a497189ae92aa7462f098713f9e8aaff7aeb7192a95d58c1b2b2c\n",
+    "stderr": "",
+    "seconds": 14.501514915995358
+  },
+  {
+    "transport": "smccc",
+    "argv": [
+      "env",
+      "stop",
+      "services"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.972305328999937
+  },
+  {
+    "transport": "smccc",
+    "argv": [
+      "network",
+      "remove",
+      "services"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.007772627999656834
+  },
+  {
+    "transport": "mmio",
+    "argv": [
+      "config",
+      "--global",
+      "set",
+      "defaults.components.vulkan",
+      "false",
+      "defaults.display.windows",
+      "false"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.009396396999363787
+  },
+  {
+    "transport": "mmio",
+    "argv": [
+      "network",
+      "create",
+      "services"
+    ],
+    "code": 0,
+    "stdout": "Created Trames network services\n",
+    "stderr": "",
+    "seconds": 0.005996170999424066
+  },
+  {
+    "transport": "mmio",
+    "argv": [
+      "env",
+      "create",
+      "services",
+      "--rootfs",
+      "/home/main.guest/trames-services-bundle/rootfs",
+      "--init",
+      "shell",
+      "--cpus",
+      "4",
+      "--memory",
+      "auto"
+    ],
+    "code": 0,
+    "stdout": "Created services (custom)\n",
+    "stderr": "",
+    "seconds": 12.44381010899815
+  },
+  {
+    "transport": "mmio",
+    "argv": [
+      "-e",
+      "services",
+      "config",
+      "set",
+      "network.mode",
+      "bridge",
+      "network.bridge",
+      "services"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.01019420099328272
+  },
+  {
+    "transport": "mmio",
+    "argv": [
+      "env",
+      "publish",
+      "services",
+      "42507",
+      "18080"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.010655854996002745
+  },
+  {
+    "transport": "mmio",
+    "argv": [
+      "env",
+      "start",
+      "services"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.20709613500366686
+  },
+  {
+    "transport": "mmio",
+    "argv": [
+      "-e",
+      "services",
+      "exec",
+      "--",
+      "/bin/sh",
+      "-ec",
+      "mount -t tmpfs -o mode=755 tmpfs /run\nmkdir -p /dev/shm\nmount -t tmpfs -o size=64m,mode=1777 tmpfs /dev/shm\n/usr/sbin/dockerd >/root/dockerd.log 2>&1 &\nfor n in $(seq 1 100); do docker info >/dev/null 2>&1 && break; sleep .1; done\ntest \"$(docker info --format '{{.DefaultRuntime}} {{.Driver}}')\" = 'runc overlay2'\ndocker import /acceptance/container.tar trames-acceptance:local\ndocker network create acceptance-net\ndocker volume create acceptance-data\ndocker run -d --name web --network acceptance-net -v acceptance-data:/data -p 18080:8080 trames-acceptance:local /bin/sh -ec 'test \"$$\" = 1; grep -Eq \"^Seccomp:[[:space:]]+2$\" /proc/self/status; printf persistent >/data/value; printf \"named-network-docker\\n\" >/www/index.html; exec /bin/httpd -f -p 8080 -h /www'\nfor n in $(seq 1 100); do curl -fsS http://127.0.0.1:18080/ && exit 0; sleep .1; done\nexit 1"
+    ],
+    "code": 0,
+    "stdout": "sha256:912b7795a32dd6eec1a0eb4705dcdda81e52e166f78502d2ae940ecc3059381e\nbfeba73aaeb55634651d8d1198a05b5bd8a5966a112550a0d3fab0f80cfd4807\nacceptance-data\n91813acd5521b7f6162262058c7bc2c5a8651d0a31159dba1044ec1d25f69c92\nnamed-network-docker\n",
+    "stderr": "",
+    "seconds": 34.10068983499514
+  },
+  {
+    "transport": "mmio",
+    "argv": [
+      "-e",
+      "services",
+      "exec",
+      "--",
+      "/bin/sh",
+      "-ec",
+      "docker exec web /bin/cat /data/value"
+    ],
+    "code": 0,
+    "stdout": "persistent",
+    "stderr": "",
+    "seconds": 2.8366770680004265
+  },
+  {
+    "transport": "mmio",
+    "argv": [
+      "-e",
+      "services",
+      "exec",
+      "--",
+      "/bin/sh",
+      "-ec",
+      "docker run --rm --network acceptance-net trames-acceptance:local /bin/wget -qO- http://web:8080/"
+    ],
+    "code": 0,
+    "stdout": "named-network-docker\n",
+    "stderr": "",
+    "seconds": 9.61531927800388
+  },
+  {
+    "transport": "mmio",
+    "argv": [
+      "-e",
+      "services",
+      "exec",
+      "--",
+      "/bin/sh",
+      "-ec",
+      "docker stop -t 2 web"
+    ],
+    "code": 0,
+    "stdout": "web\n",
+    "stderr": "",
+    "seconds": 6.64791917999537
+  },
+  {
+    "transport": "mmio",
+    "argv": [
+      "-e",
+      "services",
+      "exec",
+      "--",
+      "/bin/sh",
+      "-ec",
+      "pkill -TERM -x dockerd; for n in $(seq 1 100); do pgrep -x dockerd >/dev/null || break; sleep .1; done; /usr/sbin/dockerd >/root/dockerd.log 2>&1 &\nfor n in $(seq 1 100); do docker info >/dev/null 2>&1 && break; sleep .1; done; test \"$(docker inspect --format '{{.State.Running}}' web)\" = false"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 21.968724947997543
+  },
+  {
+    "transport": "mmio",
+    "argv": [
+      "-e",
+      "services",
+      "exec",
+      "--",
+      "/bin/sh",
+      "-ec",
+      "docker start web; for n in $(seq 1 100); do curl -fsS http://127.0.0.1:18080/ && exit 0; sleep .1; done; exit 1"
+    ],
+    "code": 0,
+    "stdout": "web\nnamed-network-docker\n",
+    "stderr": "",
+    "seconds": 8.933462986999075
+  },
+  {
+    "transport": "mmio",
+    "argv": [
+      "-e",
+      "services",
+      "exec",
+      "--",
+      "/bin/sh",
+      "-ec",
+      "docker exec web /bin/cat /data/value"
+    ],
+    "code": 0,
+    "stdout": "persistent",
+    "stderr": "",
+    "seconds": 2.8502690690002055
+  },
+  {
+    "transport": "mmio",
+    "argv": [
+      "-e",
+      "services",
+      "exec",
+      "--",
+      "/bin/sh",
+      "-ec",
+      "docker stop -t 2 web; docker rm web; docker volume rm acceptance-data; docker network rm acceptance-net; docker image rm trames-acceptance:local"
+    ],
+    "code": 0,
+    "stdout": "web\nweb\nacceptance-data\nacceptance-net\nUntagged: trames-acceptance:local\nDeleted: sha256:912b7795a32dd6eec1a0eb4705dcdda81e52e166f78502d2ae940ecc3059381e\nDeleted: sha256:179a9db65b3a497189ae92aa7462f098713f9e8aaff7aeb7192a95d58c1b2b2c\n",
+    "stderr": "",
+    "seconds": 12.406279697999707
+  },
+  {
+    "transport": "mmio",
+    "argv": [
+      "env",
+      "stop",
+      "services"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 1.3267332570030703
+  },
+  {
+    "transport": "mmio",
+    "argv": [
+      "network",
+      "remove",
+      "services"
+    ],
+    "code": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.006637381004111376
+  }
+]
