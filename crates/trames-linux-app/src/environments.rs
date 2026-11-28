@@ -418,9 +418,11 @@ fn create(r: &Registry, args: &[String]) -> Result<()> {
     trames_distro::install_resolver(&mut vfs, b"nameserver 169.254.0.53\n")?;
     trames_distro::systemd::ensure_machine_identity(&mut vfs)?;
     let command = if c.boot.mode == model::Init::Systemd {
-        "/sbin/init"
+        "/sbin/init".to_string()
+    } else if !c.session.shell.is_empty() {
+        c.session.shell[0].clone()
     } else {
-        &c.session.shell[0]
+        c.resolve_login(&mut vfs).shell
     };
     vfs.executable_file_at(trames_vfs::AT_FDCWD, command.as_bytes(), 0)?;
     vfs.sync()?;
@@ -872,7 +874,7 @@ fn serve(r: &Registry, n: &str, mut ready: Option<UnixStream>, systemd: bool) ->
             args.extend([
                 "/bin/sh".into(),
                 "-c".into(),
-                trames_distro::terminals::launcher_at(&c.session.shell, Some(&c.session.cwd)),
+                trames_distro::terminals::launcher_for_session(&c.session),
             ]);
         }
         service = Some(crate::managed_io::Service::open(

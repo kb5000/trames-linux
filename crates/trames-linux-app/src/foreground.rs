@@ -492,19 +492,23 @@ fn run_inner(
     let mut command = Foreground::parse(
         args,
         if shell {
-            Some(&["/bin/sh", "-l"])
+            Some(&["__trames_login_shell__"])
         } else {
             None
         },
     )?;
+    let auto_login_shell = shell && command.request.argv == ["__trames_login_shell__"];
     if shell {
         if command.rootfs.is_none() && store.is_none() {
             return Err("shell requires --rootfs DIR or --store DIR".into());
         }
         command.request.tty |= !no_pty && io::stdin().is_terminal();
     }
-    let program = command.request.argv.first().unwrap().clone();
-    if (store.is_some() || command.rootfs.is_some()) && !program.starts_with('/') {
+    let mut program = command.request.argv.first().unwrap().clone();
+    if !auto_login_shell
+        && (store.is_some() || command.rootfs.is_some())
+        && !program.starts_with('/')
+    {
         return Err("with --rootfs or --store the program must be an absolute guest path".into());
     }
     // Probe before reading an ELF or mounting a host directory on unsupported hosts.
@@ -581,7 +585,7 @@ fn run_inner(
     } else {
         None
     };
-    let (bytes, guest_name) = if store.is_some() || command.rootfs.is_some() || named.is_some() {
+    let (bytes, guest_name, resolved_login) = if store.is_some() || command.rootfs.is_some() || named.is_some() {
         if store.is_none() && named.is_none() {
             // Retain the runtime pseudo mounts before entering the host grant.
             // Replacing / directly hides their original attachment points.
@@ -633,14 +637,34 @@ fn run_inner(
             vfs.chroot(b"/guest")?;
             vfs.chdir(b"/")?;
         }
+        let resolved_login = if auto_login_shell {
+            let session = trames_distro::environment::Session {
+                user: command
+                    .request
+                    .user
+                    .clone()
+                    .unwrap_or_else(|| "root".into()),
+                shell: Vec::new(),
+                cwd: command.request.cwd.clone().unwrap_or_default(),
+            };
+            let info = trames_distro::environment::resolve_login(&mut vfs, &session);
+            command.request.argv = info.argv.clone();
+            program = info.argv[0].clone();
+            if command.request.cwd.is_none() {
+                command.request.cwd = Some(info.cwd.clone());
+            }
+            Some(info)
+        } else {
+            None
+        };
         let file = vfs.executable_file_at(trames_vfs::AT_FDCWD, program.as_bytes(), 0)?;
-        (file.bytes()?, program)
+        (file.bytes()?, program, resolved_login)
     } else {
         let bytes = std::fs::read(&program)?;
         vfs.import_executable(b"/program", bytes.clone())?;
-        (bytes, "/program".into())
+        (bytes, "/program".into(), None)
     };
-    if let Some(cwd) = command.request.cwd {
+    if let Some(cwd) = command.request.cwd.as_deref().filter(|s| !s.is_empty()) {
         vfs.chdir(cwd.as_bytes())?;
     }
     let argv: Vec<_> = std::iter::once(guest_name)
@@ -654,6 +678,14 @@ fn run_inner(
             "LANG=C".into()
         },
     ];
+    if let Some(info) = &resolved_login {
+        envp.extend([
+            format!("HOME={}", info.home),
+            format!("USER={}", info.user),
+            format!("LOGNAME={}", info.user),
+            format!("SHELL={}", info.shell),
+        ]);
+    }
     if named.is_some() {
         envp.extend([
             "HOME=/root".into(),
@@ -733,10 +765,7 @@ fn run_inner(
         trames_distro::systemd::file(&mut vfs,b"/run/systemd/system/console-getty.service.d/60-wayland.conf",b"[Service]\nEnvironment=XDG_RUNTIME_DIR=/run/user/0 WAYLAND_DISPLAY=wayland-0 GDK_BACKEND=wayland\n")?;
     }
     let terminals = if let Some(n) = &named {
-        let launcher = trames_distro::terminals::launcher_at(
-            &n.config.session.shell,
-            Some(&n.config.session.cwd),
-        );
+        let launcher = trames_distro::terminals::launcher_for_session(&n.config.session);
         Some(
             if init.is_some() {
                 trames_distro::terminals::NativeTerminals::for_systemd_launcher(&mut vfs, &launcher)
